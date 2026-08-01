@@ -19,11 +19,15 @@ Preview: [http://localhost:3000](http://localhost:3000)
 
 | Path | Purpose |
 | --- | --- |
-| `docs.json` | Site config, nav, i18n, OpenAPI |
-| `cn/` | Chinese pages (default locale) |
-| `en/` | English pages |
-| `openapi/relay.json` | Gateway OpenAPI snapshot for API reference |
+| `docs.json` | Site config, top tabs, i18n, OpenAPI |
+| `cn/` · `en/` | Locale pages |
+| `*/guides/` | User guide: auth, Base URL, models |
+| `*/api-reference/` | API manual overview (+ OpenAPI in nav) |
+| `*/integration-guide/` | Client / CLI / OpenClaw integrations |
+| `openapi/relay.json` | Gateway OpenAPI snapshot |
 | `logo/` | Brand logos |
+
+Top tabs: **用户指南 / User guide** · **API 手册 / API manual** · **集成指南 / Integration guide**.
 
 ## Publishing
 

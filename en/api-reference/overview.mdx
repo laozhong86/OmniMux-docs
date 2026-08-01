@@ -1,40 +1,82 @@
 ---
-title: "API reference overview"
-description: "OmniMux gateway OpenAPI — protocol entrypoints and auth."
+title: "API manual overview"
+description: "OmniMux gateway protocols, auth, and async task behavior."
 ---
 
-Call the gateway with a **Bearer token**. Default Base URL:
+Call the gateway with a **Bearer token**. Production Base URL:
 
 ```text
 https://api.geminix.cc
 ```
 
-## Main entrypoints
+Typical OpenAI-compatible SDK value:
 
-| Capability | Method | Path |
-| --- | --- | --- |
-| Chat Completions | `POST` | `/v1/chat/completions` |
-| Responses | `POST` | `/v1/responses` |
-| Claude Messages | `POST` | `/v1/messages` |
-| Gemini | `POST` | `/v1beta/models/{model}:generateContent` |
-| List models | `GET` | `/v1/models` |
-| Images | `POST` | `/v1/images/generations` |
-| Video (async) | `POST` / `GET` | `/v1/video/generations`, `/v1/videos`, … |
+```text
+https://api.geminix.cc/v1
+```
 
-Endpoint pages in the sidebar are generated from `openapi/relay.json` and support try-it playgrounds where enabled.
+Console: [geminix.cc/dashboard](https://geminix.cc/dashboard) · Docs: [docs.geminix.cc](https://docs.geminix.cc)
 
 ## Authentication
 
 ```http
 Authorization: Bearer sk-xxxxxxxx
+Content-Type: application/json
 ```
 
-See [Authentication](/en/guides/authentication).
+Create tokens under **Tokens / API Keys** in the console. See [Authentication](/en/guides/authentication).
 
-## Async tasks
+## Protocols and capabilities
 
-Image and video APIs often return a `task_id` first; poll for status and results. Field names follow each endpoint schema.
+| Capability | Method | Path | Notes |
+| --- | --- | --- | --- |
+| Chat Completions | `POST` | `/v1/chat/completions` | OpenAI Chat-compatible |
+| Responses | `POST` | `/v1/responses` | OpenAI Responses |
+| Claude Messages | `POST` | `/v1/messages` | Anthropic Messages-compatible |
+| Gemini | `POST` | `/v1beta/models/{model}:generateContent` | Gemini-native style |
+| List models | `GET` | `/v1/models` | OpenAI-style list |
+| Gemini model list | `GET` | `/v1beta/models` | Gemini-style list |
+| Images | `POST` | `/v1/images/generations` | Often async |
+| Video | `POST` / `GET` | `/v1/video/generations`, `/v1/videos`, … | Async create + query |
+
+Sidebar endpoint pages are generated from `openapi/relay.json` and support try-it when playground is enabled.
+
+## Sync vs async
+
+| Mode | Typical APIs | Behavior |
+| --- | --- | --- |
+| Sync | Chat, Messages, Responses, most text | Response body is the model result |
+| Async | Images, video, … | Returns `task_id` first; poll for status and results |
+
+Field names follow each endpoint schema. Image/video URLs may expire — download and store them promptly in production.
+
+## Model IDs
+
+Every request must use a `model` (or Gemini path `{model}`) enabled for your account:
+
+```bash
+curl https://api.geminix.cc/v1/models \
+  -H "Authorization: Bearer $OMNIMUX_API_KEY"
+```
+
+Example names in docs are not proof of availability. See [Models](/en/guides/models).
+
+## Errors
+
+| HTTP | Likely cause |
+| --- | --- |
+| `401` | Missing or invalid Bearer token |
+| `403` | Model not allowed on token, or IP restricted |
+| `404` | Wrong path, or extra/missing `/v1` relative to the client |
+| `429` | Rate limited |
+| Quota errors | Account or token quota exhausted |
+
+## Related
+
+- [Quickstart](/en/quickstart)  
+- [Configure Base URL](/en/guides/base-url)  
+- [Integration guide](/en/integration-guide/overview)  
 
 <Tip>
-  Unimplemented placeholder ops are stripped from the public spec. If a model appears in the console but not here, trust live `GET /v1/models` and channel config.
+  Unimplemented placeholder ops are omitted from the public OpenAPI. If a model appears in the console but not here, trust live `GET /v1/models` and channel config.
 </Tip>

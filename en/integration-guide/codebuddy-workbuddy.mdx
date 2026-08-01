@@ -1,0 +1,187 @@
+---
+title: "CodeBuddy / WorkBuddy"
+description: "Connect CodeBuddy and WorkBuddy to OmniMux"
+---
+
+## Overview
+
+<Note>
+OmniMux uses a single gateway Base URL: `https://api.geminix.cc` (OpenAI-compatible clients typically use `https://api.geminix.cc/v1`). Console: [geminix.cc/dashboard](https://geminix.cc/dashboard). Model IDs in this guide are examples — confirm with the console or `GET /v1/models`.
+</Note>
+
+
+CodeBuddy and WorkBuddy are AI tools launched by Tencent Cloud that support custom AI model integration through `models.json` configuration files.
+By integrating them with **OmniMux API**, you can directly use various AI model capabilities provided by OmniMux.
+
+CodeBuddy and WorkBuddy use the same configuration method. This document applies to both.
+
+## Prerequisites
+
+### Get OmniMux API Key
+
+* Log in to [OmniMux Console](https://geminix.cc/dashboard)
+* Find API Keys in the console, click "Create New Key" button, and copy the generated key
+* API Key usually starts with `sk-`, please keep it safe
+
+## Configuration Steps
+
+### 1. Open Configuration File
+
+**CodeBuddy:** `~/.codebuddy/models.json`
+
+**WorkBuddy:** `~/.workbuddy/models.json`
+
+### 2. Add OmniMux model configuration
+
+Edit the `models.json` file and add the following configuration:
+
+Currently only supports OpenAI SDK format API integration.
+
+```json
+{
+"models": [
+{
+"id": "claude-sonnet-4-5-20250929",
+"name": "OmniMux Gateway (Smart Routing)",
+"vendor": "OmniMux",
+"apiKey": "sk-your-api-key-here",
+"url": "https://api.geminix.cc/v1/chat/completions",
+"supportsToolCall": true,
+"supportsImages": true
+},
+{
+"id": "gpt-5.4",
+"name": "OmniMux GPT-5.4",
+"vendor": "OpenAI",
+"apiKey": "sk-your-api-key-here",
+"url": "https://api.geminix.cc/v1/chat/completions",
+"supportsToolCall": true,
+"supportsImages": true
+},
+{
+"id": "doubao-seed-2.0-mini",
+"name": "OmniMux Doubao Seed 2.0 Mini",
+"vendor": "ByteDance",
+"apiKey": "sk-your-api-key-here",
+"url": "https://api.geminix.cc/v1/chat/completions",
+"supportsToolCall": true,
+"supportsImages": true
+}
+]
+}
+```
+
+Please replace `sk-your-api-key-here` with your actual OmniMux API Key.
+
+### More Available Models
+
+In addition to the above examples, you can add the following models (same configuration format, add "OmniMux " prefix to name field):
+
+**GPT Series:**
+
+* `gpt-5.2` - OmniMux GPT-5.2
+* `gpt-5.1` - OmniMux GPT-5.1
+* `gpt-5.1-chat` - OmniMux GPT-5.1 Chat
+* `gpt-5.1-thinking` - OmniMux GPT-5.1 Thinking
+
+**Gemini Series:**
+
+* `gemini-2.5-pro` - OmniMux Gemini 2.5 Pro
+* `gemini-2.5-flash` - OmniMux Gemini 2.5 Flash
+* `gemini-3-pro-preview` - OmniMux Gemini 3.0 Pro
+* `gemini-3-flash-preview` - OmniMux Gemini 3.0 Flash
+
+**Doubao Seed 2.0 Series:**
+
+* `doubao-seed-2.0-pro` - OmniMux Doubao Seed 2.0 Pro
+* `doubao-seed-2.0-lite` - OmniMux Doubao Seed 2.0 Lite
+* `doubao-seed-2.0-code` - OmniMux Doubao Seed 2.0 Code
+
+**Kimi K2 Series:**
+
+* `kimi-k2-thinking` - OmniMux Kimi K2 Thinking
+* `kimi-k2-thinking-turbo` - OmniMux Kimi K2 Thinking Turbo
+
+### 3. Save and Restart
+
+After saving the configuration file, the tool will automatically detect configuration changes and reload (1 second debounce delay).
+
+After configuration is complete, you can see all configured OmniMux models in the model selection dropdown:
+
+## Using OmniMux Gateway Smart Routing
+
+### What is OmniMux Gateway?
+
+OmniMux Gateway is an intelligent model routing feature that automatically selects the most suitable AI model based on your request content.
+
+### Core Advantages
+
+* **Smart Matching**: Automatically analyzes request content and selects the most suitable model
+* **Cost Optimization**: Prioritizes cost-effective models while ensuring quality
+* **Load Balancing**: Automatically distributes requests among multiple models to improve system stability
+* **Transparent**: Returns the actual model name used in the response
+
+### Usage
+
+Select "OmniMux Gateway (Smart Routing)" in the model selection dropdown.
+
+## Limit Available Model List
+
+If you only want to display specific models in the dropdown, you can use the `availableModels` field:
+
+```json
+{
+"models": [
+// ... model configuration
+],
+"availableModels": [
+"claude-sonnet-4-5-20250929",
+"gpt-5.4",
+"doubao-seed-2.0-mini"
+]
+}
+```
+
+## FAQ
+
+### 1. Where is the configuration file?
+
+**CodeBuddy:**
+
+* macOS/Linux: `~/.codebuddy/models.json`
+* Windows: `C:\Users\\.codebuddy\models.json`
+
+**WorkBuddy:**
+
+* macOS/Linux: `~/.workbuddy/models.json`
+* Windows: `C:\Users\\.workbuddy\models.json`
+
+### 2. Does it support project-level configuration?
+
+Yes. In addition to user-level configuration, you can create configuration files in the project root directory:
+
+**CodeBuddy:** `/.codebuddy/models.json`
+
+**WorkBuddy:** `/.workbuddy/models.json`
+
+Project-level configuration has higher priority than user-level configuration. It is recommended to configure global models at the user level and project-specific models at the project level.
+
+### 3. What if the configuration doesn't work?
+
+1. Check if the JSON format is correct (use a JSON validator)
+2. Confirm the API Key is correct
+3. Try restarting the application
+
+### 4. Which models are supported?
+
+OmniMux supports models from OpenAI, Anthropic, Google and other vendors. See [Model List](https://docs.geminix.cc/en/guides/models) for details.
+
+### 5. Is the API Key secure?
+
+The API Key is stored in the local configuration file and will not be uploaded to the cloud. It is recommended to set file permissions to prevent unauthorized access.
+
+## Related Links
+
+* [OmniMux Console](https://geminix.cc/dashboard)
+* [CodeBuddy Official Documentation](https://www.codebuddy.cn/docs)
+* [OmniMux API Documentation](/docs/en/api-manual)

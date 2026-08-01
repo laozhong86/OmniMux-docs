@@ -24,6 +24,13 @@
 - **Base URL** — production API Base URL `https://api.geminix.cc`
 - Prefer **token** or **API key** for user docs; avoid internal admin jargon on public pages
 
+## Site navigation
+
+- Top tabs (both locales): **用户指南 / User guide** · **API 手册 / API manual** · **集成指南 / Integration guide**
+- User guide: intro, quickstart, auth, Base URL, models
+- API manual: overview + OpenAPI (`openapi/relay.json`)
+- Integration guide: CLI / desktop / OpenClaw client pages under `*/integration-guide/`
+
 ## Style
 
 - User-facing docs: Chinese under `cn/`, English under `en/`
@@ -31,7 +38,7 @@
 - Sentence case for English headings; Chinese headings keep natural phrasing
 - Bold UI labels: Click **Settings**
 - Code for paths, headers, model ids, and commands
-- Use real product domains (`geminix.cc`, `geminix.cc`); do not default to `docs.newapi.pro` or upstream branding in user-facing copy
+- Use real product domains (`geminix.cc`, `api.geminix.cc`); do not default to `docs.newapi.pro` or upstream branding in user-facing copy
 
 ## Content boundaries
 

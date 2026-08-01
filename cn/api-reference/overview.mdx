@@ -1,40 +1,82 @@
 ---
-title: "API 参考概览"
-description: "OmniMux 网关 OpenAPI：协议入口与鉴权约定。"
+title: "API 手册概览"
+description: "OmniMux 网关协议入口、鉴权约定与异步任务说明。"
 ---
 
-网关 API 以 **Bearer Token** 调用，默认 Base URL：
+网关以 **Bearer Token** 调用。生产 Base URL：
 
 ```text
 https://api.geminix.cc
 ```
 
-## 主要入口
+OpenAI 兼容 SDK 通常配置：
 
-| 能力 | 方法 | 路径 |
-| --- | --- | --- |
-| Chat Completions | `POST` | `/v1/chat/completions` |
-| Responses | `POST` | `/v1/responses` |
-| Claude Messages | `POST` | `/v1/messages` |
-| Gemini | `POST` | `/v1beta/models/{model}:generateContent` |
-| 模型列表 | `GET` | `/v1/models` |
-| 图像 | `POST` | `/v1/images/generations` |
-| 视频（异步） | `POST` / `GET` | `/v1/video/generations`、`/v1/videos` 等 |
+```text
+https://api.geminix.cc/v1
+```
 
-左侧（或 API 导航）中的端点由 `openapi/relay.json` 自动生成，可直接试调用。
+控制台：[geminix.cc/dashboard](https://geminix.cc/dashboard) · 文档：[docs.geminix.cc](https://docs.geminix.cc)
 
 ## 鉴权
 
 ```http
 Authorization: Bearer sk-xxxxxxxx
+Content-Type: application/json
 ```
 
-详见 [鉴权](/cn/guides/authentication)。
+令牌在控制台 **令牌 / API Keys** 创建。详见 [鉴权](/cn/guides/authentication)。
 
-## 异步任务
+## 协议与能力
 
-图像 / 视频类接口通常先返回 `task_id`，再查询状态与结果。具体字段以各端点 Schema 为准。
+| 能力 | 方法 | 路径 | 说明 |
+| --- | --- | --- | --- |
+| Chat Completions | `POST` | `/v1/chat/completions` | OpenAI Chat 兼容 |
+| Responses | `POST` | `/v1/responses` | OpenAI Responses |
+| Claude Messages | `POST` | `/v1/messages` | Anthropic Messages 兼容 |
+| Gemini | `POST` | `/v1beta/models/{model}:generateContent` | Gemini 原生风格 |
+| 模型列表 | `GET` | `/v1/models` | OpenAI 风格列表 |
+| Gemini 模型列表 | `GET` | `/v1beta/models` | Gemini 风格列表 |
+| 图像生成 | `POST` | `/v1/images/generations` | 多为异步任务 |
+| 视频 | `POST` / `GET` | `/v1/video/generations`、`/v1/videos` 等 | 异步创建与查询 |
+
+左侧端点页由 `openapi/relay.json` 生成，支持在线试调用（若已开启 playground）。
+
+## 同步 vs 异步
+
+| 类型 | 典型接口 | 行为 |
+| --- | --- | --- |
+| 同步 | Chat、Messages、Responses、部分文本 | 响应体直接返回模型结果 |
+| 异步 | 图像、视频等 | 先返回 `task_id`，再轮询状态与结果 |
+
+异步字段名以各端点 Schema 为准。图像 / 视频结果链接可能有时效，生产环境应尽快转存。
+
+## 模型 ID
+
+请求中的 `model`（或 Gemini 路径中的 `{model}`）必须是你账户当前可用的标识：
+
+```bash
+curl https://api.geminix.cc/v1/models \
+  -H "Authorization: Bearer $OMNIMUX_API_KEY"
+```
+
+不要依赖文档中的示例名作为可用性证明。详见 [模型列表](/cn/guides/models)。
+
+## 错误与排查
+
+| HTTP | 常见原因 |
+| --- | --- |
+| `401` | 缺少 / 错误的 Bearer Token |
+| `403` | 令牌未授权该模型或 IP 受限 |
+| `404` | 路径错误，或 Base URL 多写/少写 `/v1` |
+| `429` | 限流 |
+| 额度类错误 | 账户或令牌配额不足 |
+
+## 相关页面
+
+- [快速开始](/cn/quickstart)  
+- [配置 Base URL](/cn/guides/base-url)  
+- [集成指南](/cn/integration-guide/overview)  
 
 <Tip>
-  未实现的占位接口已从公开规格中移除。若控制台有模型但文档无端点，以线上 `GET /v1/models` 与渠道配置为准。
+  未实现的占位接口不会出现在公开 OpenAPI 中。若控制台有模型但文档无对应端点，以线上 `GET /v1/models` 与渠道配置为准。
 </Tip>

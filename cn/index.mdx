@@ -1,11 +1,21 @@
 ---
-title: "OmniMux 文档"
+title: "OmniMux 用户指南"
 description: "为 Agent 打造的社交媒体自动化运营基础设施；统一 API 网关接入 OpenAI 兼容、Claude、Gemini 等协议。"
 ---
 
 OmniMux 是为 Agent 打造的社交媒体自动化运营基础设施，并以**统一 AI 模型网关**交付调用能力：多上游聚合到同一入口，支持 **OpenAI 兼容**、**Claude Messages**、**Gemini** 等格式，并提供计费、令牌与渠道管理。
 
 生产入口：控制台 [geminix.cc](https://geminix.cc) · API `https://api.geminix.cc` · 文档 [docs.geminix.cc](https://docs.geminix.cc)。
+
+## 文档分区
+
+顶部三个 Tab 对应不同读者路径：
+
+| Tab | 适合谁 | 你会找到 |
+| --- | --- | --- |
+| **用户指南**（本区） | 第一次接入的开发者 | 快速开始、鉴权、Base URL、模型 |
+| **API 手册** | 直接调 HTTP / 读 Schema | OpenAPI 端点与协议说明 |
+| **集成指南** | 要接 CLI / Agent / OpenClaw | 逐步配置各客户端 |
 
 ## 从这里开始
 
@@ -16,11 +26,22 @@ OmniMux 是为 Agent 打造的社交媒体自动化运营基础设施，并以**
   <Card title="鉴权" icon="key" href="/cn/guides/authentication">
     Bearer Token 用法与安全建议。
   </Card>
+  <Card title="配置 Base URL" icon="link" href="/cn/guides/base-url">
+    SDK、CLI 与客户端该填哪个地址。
+  </Card>
   <Card title="模型列表" icon="layer-group" href="/cn/guides/models">
     如何查询可用模型与选择 model 字段。
   </Card>
-  <Card title="API 参考" icon="code" href="/cn/api-reference/overview">
-    网关 OpenAPI：Chat、Responses、Claude、Gemini、图像与视频等。
+</CardGroup>
+
+## 继续深入
+
+<CardGroup cols={2}>
+  <Card title="API 手册" icon="code" href="/cn/api-reference/overview">
+    Chat、Responses、Claude、Gemini、图像与视频等接口。
+  </Card>
+  <Card title="集成指南" icon="plug" href="/cn/integration-guide/overview">
+    Claude Code、Codex、Gemini CLI、OpenClaw、Pi 等。
   </Card>
 </CardGroup>
 
@@ -46,8 +67,8 @@ OmniMux 是为 Agent 打造的社交媒体自动化运营基础设施，并以**
 https://api.geminix.cc
 ```
 
-将现有 OpenAI SDK 的 `base_url` / `BASE_URL` 改为上述地址，并使用控制台创建的 API Key 即可迁移大部分 Chat 调用。
+将现有 OpenAI SDK 的 `base_url` / `BASE_URL` 改为 `https://api.geminix.cc/v1`，并使用控制台创建的 API Key，即可迁移大部分 Chat 调用。
 
 <Tip>
-  控制台：[geminix.cc/dashboard](https://geminix.cc/dashboard) · 状态页：[geminix.cc/status](https://geminix.cc/status)
+  控制台与 API 域名分离：控制台 [geminix.cc/dashboard](https://geminix.cc/dashboard)，API 使用 `api.geminix.cc`。
 </Tip>

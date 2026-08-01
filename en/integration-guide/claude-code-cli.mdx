@@ -1,0 +1,402 @@
+---
+title: "Claude Code CLI"
+description: "Connect Claude Code CLI to OmniMux"
+---
+
+## Overview
+
+<Note>
+OmniMux uses a single gateway Base URL: `https://api.geminix.cc` (OpenAI-compatible clients typically use `https://api.geminix.cc/v1`). Console: [geminix.cc/dashboard](https://geminix.cc/dashboard). Model IDs in this guide are examples — confirm with the console or `GET /v1/models`.
+</Note>
+
+
+Claude Code CLI is the official command-line tool from Anthropic for interacting with Claude models in the terminal.
+By integrating Claude Code CLI with **OmniMux API**, you can directly access Claude model capabilities through OmniMux.
+
+## Prerequisites
+
+Before configuring, make sure you have:
+
+### Get OmniMux API Key
+
+* Log in to [OmniMux Console](https://geminix.cc/dashboard)
+* Find API Keys in the dashboard, click "Create New Key" button, then copy the generated Key
+* API Key usually starts with `sk-`
+
+## Step 1: Install Claude Code CLI
+
+**Tip:** If you don't know how to open a command line terminal, see [FAQ - How to open command line terminal](#14-how-to-open-command-line-terminal)
+
+### 1. One-Command Installation
+
+```bash
+curl -fsSL https://claude.ai/install.sh | bash
+```
+
+**Expected result:** You'll see download and installation info, ending with a success message.
+
+**If error occurs:** `permission denied` means you need to add `sudo` before the command.
+
+### 1.1 Install Node.js and npm (Skip if installed)
+
+**First-time installation:**
+
+1. Visit [Node.js official website](https://nodejs.org/) to download and install (LTS version recommended)
+2. If you're unfamiliar with the installation process, refer to [Node.js Installation Guide](https://nodejs.org/en/download/package-manager)
+3. Node.js v20 or higher is recommended
+
+**Verify installation:**
+
+```bash
+node -v
+npm -v
+```
+
+### 1.2 Install Claude Code CLI
+
+Run in PowerShell or CMD:
+
+```bash
+npm install -g @anthropic-ai/claude-code
+```
+
+**Expected result:** You'll see download and installation info, ending with a success message.
+
+**If error occurs:**
+
+* `permission denied`: Run PowerShell or CMD as administrator
+* `npm command not found`: Node.js is not properly installed or not added to environment variables
+
+**Note:** macOS/Linux uses one-command installation script, Windows uses npm installation.
+
+### 2. Verify Installation
+
+```bash
+claude --version
+```
+
+**Success indicator:** Shows version number (e.g., `1.x.x`).
+
+## Step 2: Configure OmniMux API
+
+Claude Code CLI is configured via `settings.json`.
+
+[CC Switch](https://github.com/farion1231/cc-switch) is a desktop GUI tool for managing Claude Code provider configurations through a graphical interface, without manually editing config files.
+
+### 1. Install CC Switch
+
+Download the installer for your platform from [GitHub Releases](https://github.com/farion1231/cc-switch/releases).
+
+### 2. Configure OmniMux
+
+1. Open CC Switch
+2. Click the icon in the top-right corner to enter the configuration page
+
+3. Fill in the fields as shown in the image
+
+4. Click "Add"
+
+CC Switch will automatically write the configuration to `settings.json`, no manual operation needed.
+
+CC Switch also supports system tray quick switching, MCP server management, cloud config sync, and more.
+
+**Note:** If this is your first time using Claude Code CLI, we recommend starting with "Temporary" to test your configuration before using this method for permanent setup.
+
+### 1. Open config directory
+
+Press `Win + R`, paste the following, then press Enter:
+
+```
+%userprofile%\.claude
+```
+
+**If folder doesn't exist**: Manually create `.claude` folder (press `Win + R`, type `%userprofile%`, press Enter to open user directory, then create a new folder named `.claude`).
+
+In Finder, press `Command + Shift + G`, paste the following path, then press Enter:
+
+```
+~/.claude
+```
+
+**If folder doesn't exist**: Open Terminal and run `mkdir ~/.claude` to create the folder.
+
+Open file manager and navigate to:
+
+```
+~/.claude
+```
+
+**If folder doesn't exist**: Open Terminal and run `mkdir ~/.claude` to create the folder.
+
+### 2. Edit settings.json
+
+In the opened folder, if `settings.json` doesn't exist, right-click in empty space → New → Text Document → Rename to `settings.json` (remove `.txt` extension). Then double-click to open with an editor and add the following content:
+
+```json
+{
+"env": {
+"ANTHROPIC_AUTH_TOKEN": "your-omnimux-api-key",
+"ANTHROPIC_BASE_URL": "https://api.geminix.cc",
+"CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1"
+},
+"permissions": {
+"allow": [],
+"deny": []
+}
+}
+```
+
+**⚠️ Important:**
+
+* **Copy completely** without missing any symbols
+* Replace `"your-omnimux-api-key"` with actual API Key (keep quotes)
+* Don't use Chinese input method for punctuation
+
+**Configuration options:**
+
+* `ANTHROPIC_AUTH_TOKEN`: Your OmniMux API Key
+* `ANTHROPIC_BASE_URL`: `https://api.geminix.cc` (OmniMux API endpoint)
+* `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC`: Reduce non-essential network requests
+
+**GUI Setup:**
+
+1. Right-click "This PC" → "Properties" → "Advanced system settings" → "Environment Variables"
+2. In "User variables" or "System variables", create new:
+* Variable name: `ANTHROPIC_BASE_URL`
+* Variable value: `https://api.geminix.cc`
+3. Add `ANTHROPIC_AUTH_TOKEN` with your API Key as the value
+4. Click "OK" to save
+
+**PowerShell Command:**
+
+```powershell
+[System.Environment]::SetEnvironmentVariable('ANTHROPIC_BASE_URL', 'https://api.geminix.cc', 'User')
+[System.Environment]::SetEnvironmentVariable('ANTHROPIC_AUTH_TOKEN', 'your-omnimux-api-key', 'User')
+```
+
+**Note:** Restart terminal to take effect.
+
+Edit shell configuration file (choose based on your shell):
+
+**If using zsh (macOS default):**
+
+```bash
+echo 'export ANTHROPIC_BASE_URL="https://api.geminix.cc"' >> ~/.zshrc
+echo 'export ANTHROPIC_AUTH_TOKEN="your-omnimux-api-key"' >> ~/.zshrc
+```
+
+**If using bash:**
+
+```bash
+echo 'export ANTHROPIC_BASE_URL="https://api.geminix.cc"' >> ~/.bash_profile
+echo 'export ANTHROPIC_AUTH_TOKEN="your-omnimux-api-key"' >> ~/.bash_profile
+```
+
+**Apply immediately:**
+
+```bash
+source ~/.zshrc  # or source ~/.bash_profile
+```
+
+Edit shell configuration file (choose based on your shell):
+
+**If using bash (common on Linux):**
+
+```bash
+echo 'export ANTHROPIC_BASE_URL="https://api.geminix.cc"' >> ~/.bashrc
+echo 'export ANTHROPIC_AUTH_TOKEN="your-omnimux-api-key"' >> ~/.bashrc
+```
+
+**If using zsh:**
+
+```bash
+echo 'export ANTHROPIC_BASE_URL="https://api.geminix.cc"' >> ~/.zshrc
+echo 'export ANTHROPIC_AUTH_TOKEN="your-omnimux-api-key"' >> ~/.zshrc
+```
+
+**Apply immediately:**
+
+```bash
+source ~/.bashrc  # or source ~/.zshrc
+```
+
+**⚠️ Note**: Replace `your-omnimux-api-key` with your actual API Key.
+
+In PowerShell:
+
+```powershell
+$env:ANTHROPIC_BASE_URL="https://api.geminix.cc"
+$env:ANTHROPIC_AUTH_TOKEN="your-omnimux-api-key"
+```
+
+In CMD:
+
+```cmd
+set ANTHROPIC_BASE_URL=https://api.geminix.cc
+set ANTHROPIC_AUTH_TOKEN=your-omnimux-api-key
+```
+
+**Note:** Configuration expires after closing the terminal.
+
+In Terminal:
+
+```bash
+export ANTHROPIC_BASE_URL="https://api.geminix.cc"
+export ANTHROPIC_AUTH_TOKEN="your-omnimux-api-key"
+```
+
+**Note:** Configuration expires after closing the terminal.
+
+**⚠️ Note**: Replace `your-omnimux-api-key` with your actual API Key.
+
+## Step 3: Start Using Claude Code CLI
+
+### 1. Enter a safe working directory
+
+```bash
+cd your-working-directory
+```
+
+**Note:** Replace `your-working-directory` with actual path
+
+### 2. Interactive mode
+
+```shell
+claude
+```
+
+### 3. Verify configuration
+
+```shell
+claude "Who are you"
+```
+
+**Success indicators:**
+
+* See AI response text (several lines)
+* **No** errors like `401`, `403`, `API Key invalid`
+
+**If you see errors:**
+
+* `401 Unauthorized`: API Key not set or invalid → Check settings.json
+* `403 Forbidden`: Insufficient API Key permissions → Verify API Key
+* `Network error`: Network issue → Check connection
+
+## FAQ
+
+### 1. What is Claude Code CLI and what is it used for?
+
+Claude Code CLI is the official command-line tool from Anthropic that allows users to interact with Claude models in the terminal. It's primarily used for code assistance, text generation, Q\&A conversations, and file analysis—especially suited for developers who need quick AI capabilities in a command-line environment.
+
+### 2. How do I verify installation and configuration on first use?
+
+Run these commands in sequence:
+
+* `claude --version`: Confirm Claude Code CLI is installed
+* `claude "Who are you"`: Confirm API configuration is correct
+
+### 3. What's the difference between interactive mode and single command mode?
+
+* **Interactive mode**: Run `claude` to enter continuous conversation for multi-turn interactions, ideal for complex tasks
+* **Single command mode**: Run `claude "question"` to get a single response and exit, ideal for quick queries
+
+### 4. Will Claude Code CLI automatically read or upload my local files and code?
+
+No. Claude Code CLI only reads file content when you explicitly reference or authorize it, and will request confirmation before performing sensitive operations. It's recommended to use it in a dedicated project folder.
+
+### 5. How do I use Claude Code CLI to analyze or process local file content?
+
+In interactive mode, you can reference files by:
+
+* Typing the file path for Claude to read
+* Dragging files into the terminal window
+* Copy and pasting file content
+
+### 6. Does Claude Code CLI support Chinese input and output?
+
+Yes, fully supported. Claude Code CLI supports Chinese input and output—you can ask questions in Chinese and receive Chinese responses.
+
+### 7. No output after execution—what could be the cause?
+
+Common causes include:
+
+* Network connection issues preventing API server access
+* Invalid API Key or insufficient balance
+* Incorrect `ANTHROPIC_BASE_URL` configuration
+* Firewall or proxy blocking requests
+
+### 8. Why don't my config file or environment variable changes take effect?
+
+* Restart your terminal or command line window
+* Check that `settings.json` has valid JSON syntax
+* Verify the config file path:
+* Windows: `C:\Users\{username}\.claude\settings.json`
+* macOS / Linux: `~/.claude/settings.json`
+
+### 9. What causes 401/403 errors?
+
+* **401 error**: `ANTHROPIC_AUTH_TOKEN` not set or invalid API Key
+* **403 error**: Insufficient API Key permissions or expired key
+* Verify `ANTHROPIC_BASE_URL` is set to `https://api.geminix.cc`
+
+### 10. What scenarios is Claude Code CLI suited for? What is it not suited for?
+
+**Suited for:**
+
+* Code writing, debugging, and refactoring
+* Quick Q\&A in command-line environments
+* File content analysis and processing
+* Automation script integration
+
+**Not suited for:**
+
+* Complex interactions requiring a graphical interface
+* Real-time collaborative editing
+* Large-scale batch file processing
+
+### 11. How do I switch models?
+
+Type `/model` in interactive mode to switch models.
+
+### 12. What Claude models does OmniMux support?
+
+OmniMux supports the following Claude models:
+
+| Model Name                   | Description   |
+| ---------------------------- | ------------- |
+| `claude-haiku-4-5-20251001`  | Fast response |
+| `claude-sonnet-4-5-20250929` | Balanced      |
+| `claude-opus-4-5-20251101`   | Advanced      |
+| `claude-sonnet-4-6`          | Latest        |
+| `claude-sonnet-5`            | Latest        |
+| `claude-fable-5`             | Latest        |
+| `claude-opus-5`              | Latest        |
+| `claude-opus-4-8`            | Latest        |
+| `claude-opus-4-7`            | Latest        |
+| `claude-opus-4-6`            | Advanced      |
+
+### 13. How do I upload images?
+
+* Option 1: Reference the image path
+* Option 2: Drag and drop an image into the terminal
+* Option 3: Paste an image directly
+
+All methods require user action—Claude Code CLI will not automatically read or upload local images.
+
+### 14. How to open command line terminal?
+
+* Method 1: Press `Win + R`, type `cmd` or `powershell`, then press Enter
+* Method 2: Search for "Command Prompt" or "PowerShell" in the Start menu
+* Method 3: Hold Shift and right-click in a folder, select "Open PowerShell window here"
+
+* Method 1: Press `Command + Space` to open Spotlight, type `Terminal`, then press Enter
+* Method 2: Go to "Applications" → "Utilities" → "Terminal"
+
+* Method 1: Press `Ctrl + Alt + T` shortcut
+* Method 2: Search for "Terminal" in the application menu
+
+## Notes
+
+Run Claude Code CLI in a dedicated project folder. Avoid running it in sensitive directories (such as system folders or directories containing credentials). Claude Code CLI operates starting from the current working directory.
+
+If you previously logged in with an official account, clear the `ANTHROPIC_AUTH_TOKEN` environment variable or override it in `settings.json`.

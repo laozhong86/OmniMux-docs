@@ -1,0 +1,402 @@
+---
+title: "Claude Code CLI"
+description: "将 Claude Code CLI 连接到 OmniMux"
+---
+
+## 概述
+
+<Note>
+OmniMux 网关统一使用 Base URL：`https://api.geminix.cc`（OpenAI 兼容客户端通常填 `https://api.geminix.cc/v1`）。控制台为 [geminix.cc/dashboard](https://geminix.cc/dashboard)。文中的模型 ID 仅为示例，请以控制台或 `GET /v1/models` 为准。
+</Note>
+
+
+Claude Code CLI 是 Anthropic 官方推出的命令行工具，用于在终端环境中与 Claude 系列大模型进行交互。
+通过将 Claude Code CLI 与 **OmniMux API** 进行配置集成，您可以在命令行中直接调用 OmniMux 提供的 Claude 系列模型能力。
+
+## 使用前准备
+
+在开始配置之前，请确保已完成以下准备工作：
+
+### 获取 OmniMux API Key
+
+* 登录 [OmniMux 控制台](https://geminix.cc/dashboard)
+* 在控制台中找到 API Keys，点击"创建新Key"按钮，然后复制生成的 Key
+* API Key 通常以 `sk-` 开头，请妥善保存
+
+## 第一步：安装 Claude Code CLI
+
+**提示：** 如果不知道如何打开命令行终端，请查看 [常见问题 - 如何打开命令行终端](#14-如何打开命令行终端？)
+
+### 1. 一键安装
+
+```bash
+curl -fsSL https://claude.ai/install.sh | bash
+```
+
+**预期结果：** 会看到下载和安装信息，最后显示安装成功提示。
+
+**如果出错：** 提示 `permission denied` 时，在命令前加 `sudo`。
+
+### 1.1 安装 Node.js 与 npm（已安装可跳过）
+
+**首次安装：**
+
+1. 访问 [Node.js 官方网站](https://nodejs.org/) 下载并安装（推荐下载 LTS 长期支持版）
+2. 如果不熟悉安装流程，可参考 [菜鸟教程 - Node.js 安装配置](https://www.runoob.com/nodejs/nodejs-install-setup.html)
+3. 建议使用 Node.js v20 或更高版本
+
+**安装完成后验证：**
+
+```bash
+node -v
+npm -v
+```
+
+### 1.2 安装 Claude Code CLI
+
+在 PowerShell 或 CMD 中执行：
+
+```bash
+npm install -g @anthropic-ai/claude-code
+```
+
+**预期结果：** 会看到下载和安装信息，最后显示安装成功提示。
+
+**如果出错：**
+
+* 提示 `permission denied` 时，需要右键"以管理员身份运行" PowerShell 或 CMD
+* 如果提示 `npm command not found`，说明 Node.js 未正确安装或未添加到环境变量
+
+**说明：** macOS/Linux 使用一键安装脚本，Windows 使用 npm 安装。
+
+### 2. 检验安装
+
+```bash
+claude --version
+```
+
+**成功标志：** 显示版本号（如 `1.x.x`）。
+
+## 第二步：配置 OmniMux API
+
+Claude Code CLI 通过 `settings.json` 配置文件进行配置。
+
+[CC Switch](https://github.com/farion1231/cc-switch) 是一个桌面 GUI 工具，可以通过图形界面管理 Claude Code 的提供商配置，无需手动编辑配置文件。
+
+### 1. 安装 CC Switch
+
+从 [GitHub Releases](https://github.com/farion1231/cc-switch/releases) 下载对应平台的安装包并安装。
+
+### 2. 配置 OmniMux
+
+1. 打开 CC Switch
+2. 点击右上角的图标，进入配置页面
+
+3. 按照图片进行填入
+
+4. 点击"添加"
+
+CC Switch 会自动将配置写入 `settings.json`，无需手动操作。
+
+CC Switch 还支持系统托盘快捷切换、MCP 服务器管理、云端配置同步等功能。
+
+**注意：** 如果是第一次使用 Claude Code CLI，建议先使用"临时设置"进行测试，确认配置正确后再使用此方法进行永久配置。
+
+### 1. 打开配置目录
+
+按下 `Win + R` 键，输入以下内容后回车：
+
+```
+%userprofile%\.claude
+```
+
+**如果提示文件夹不存在**：需要先手动创建 `.claude` 文件夹（在 `%userprofile%` 目录下新建文件夹，命名为 `.claude`）。
+
+在访达界面按下 `Command + Shift + G`，输入以下路径后回车：
+
+```
+~/.claude
+```
+
+**如果提示文件夹不存在**：打开终端执行 `mkdir ~/.claude` 创建文件夹。
+
+打开文件管理器，进入以下目录：
+
+```
+~/.claude
+```
+
+**如果提示文件夹不存在**：打开终端执行 `mkdir ~/.claude` 创建文件夹。
+
+### 2. 编辑 settings.json
+
+在打开的文件夹中，如果没有 `settings.json` 文件，右键空白处 → 新建 → 文本文档 → 将文件名改为 `settings.json`（注意删除 `.txt` 后缀）。然后双击用编辑器打开，添加以下内容：
+
+```json
+{
+"env": {
+"ANTHROPIC_AUTH_TOKEN": "你的 OmniMux API Key",
+"ANTHROPIC_BASE_URL": "https://api.geminix.cc",
+"CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1"
+},
+"permissions": {
+"allow": [],
+"deny": []
+}
+}
+```
+
+**⚠️ 重要提示：**
+
+* 请**完整复制**上面内容，不要遗漏任何符号
+* 将 `"你的 OmniMux API Key"` 替换为实际的 API Key（保留引号）
+* 不要用中文输入法输入标点符号（如中文逗号 `，`）
+
+**配置项说明：**
+
+* `ANTHROPIC_AUTH_TOKEN`：你的 OmniMux API Key
+* `ANTHROPIC_BASE_URL`：`https://api.geminix.cc` （OmniMux API 接口地址）
+* `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC`：减少非必要网络请求
+
+**图形界面设置：**
+
+1. 右键「此电脑」→「属性」→「高级系统设置」→「环境变量」
+2. 在「用户变量」或「系统变量」中新建：
+* 变量名：`ANTHROPIC_BASE_URL`
+* 变量值：`https://api.geminix.cc`
+3. 同样方法添加 `ANTHROPIC_AUTH_TOKEN`，变量值为你的 API Key
+4. 点击「确定」保存
+
+**PowerShell 命令设置：**
+
+```powershell
+[System.Environment]::SetEnvironmentVariable('ANTHROPIC_BASE_URL', 'https://api.geminix.cc', 'User')
+[System.Environment]::SetEnvironmentVariable('ANTHROPIC_AUTH_TOKEN', '你的 OmniMux API Key', 'User')
+```
+
+**说明：** 重启终端后生效。
+
+编辑 shell 配置文件（根据使用的 shell 选择）：
+
+**如果是 zsh（macOS 默认）：**
+
+```bash
+echo 'export ANTHROPIC_BASE_URL="https://api.geminix.cc"' >> ~/.zshrc
+echo 'export ANTHROPIC_AUTH_TOKEN="你的 OmniMux API Key"' >> ~/.zshrc
+```
+
+**如果是 bash：**
+
+```bash
+echo 'export ANTHROPIC_BASE_URL="https://api.geminix.cc"' >> ~/.bash_profile
+echo 'export ANTHROPIC_AUTH_TOKEN="你的 OmniMux API Key"' >> ~/.bash_profile
+```
+
+**立即生效：**
+
+```bash
+source ~/.zshrc  # 或 source ~/.bash_profile
+```
+
+编辑 shell 配置文件（根据使用的 shell 选择）：
+
+**如果是 bash（Linux 常用）：**
+
+```bash
+echo 'export ANTHROPIC_BASE_URL="https://api.geminix.cc"' >> ~/.bashrc
+echo 'export ANTHROPIC_AUTH_TOKEN="你的 OmniMux API Key"' >> ~/.bashrc
+```
+
+**如果是 zsh：**
+
+```bash
+echo 'export ANTHROPIC_BASE_URL="https://api.geminix.cc"' >> ~/.zshrc
+echo 'export ANTHROPIC_AUTH_TOKEN="你的 OmniMux API Key"' >> ~/.zshrc
+```
+
+**立即生效：**
+
+```bash
+source ~/.bashrc  # 或 source ~/.zshrc
+```
+
+**⚠️ 注意**：将 `你的 OmniMux API Key` 替换为实际的 API Key。
+
+在 PowerShell 中执行：
+
+```powershell
+$env:ANTHROPIC_BASE_URL="https://api.geminix.cc"
+$env:ANTHROPIC_AUTH_TOKEN="你的 OmniMux API Key"
+```
+
+在 CMD 中执行：
+
+```cmd
+set ANTHROPIC_BASE_URL=https://api.geminix.cc
+set ANTHROPIC_AUTH_TOKEN=你的 OmniMux API Key
+```
+
+**说明：** 关闭终端后配置失效，需要重新设置。
+
+在终端中执行：
+
+```bash
+export ANTHROPIC_BASE_URL="https://api.geminix.cc"
+export ANTHROPIC_AUTH_TOKEN="你的 OmniMux API Key"
+```
+
+**说明：** 关闭终端后配置失效，需要重新设置。
+
+**⚠️ 注意**：将 `你的 OmniMux API Key` 替换为实际的 API Key。
+
+## 第三步：开始使用 Claude Code CLI
+
+### 1. 进入安全的工作目录
+
+```bash
+cd 你的工作目录
+```
+
+**说明：** 将 `你的工作目录` 替换为实际路径
+
+### 2. 启动交互模式
+
+```shell
+claude
+```
+
+### 3. 验证配置
+
+```shell
+claude "你是谁"
+```
+
+**成功标志：**
+
+* 看到 AI 的回复内容（几行文字）
+* **没有**出现 `401`、`403`、`API Key invalid` 等错误
+
+**如果看到错误：**
+
+* `401 Unauthorized`：API Key 未设置或无效 → 检查 settings.json
+* `403 Forbidden`：API Key 权限不足 → 检查 API Key 是否正确
+* `Network error`：网络问题 → 检查网络连接
+
+## 常见问题
+
+### 1. Claude Code CLI 是什么？主要用来做什么？
+
+Claude Code CLI 是 Anthropic 官方推出的命令行工具，允许用户在终端中与 Claude 模型进行交互。主要用于代码辅助、文本生成、问答对话、文件分析等场景，特别适合开发者在命令行环境中快速调用 AI 能力。
+
+### 2. 第一次使用时，如何确认是否已经安装并配置成功？
+
+依次执行以下命令验证：
+
+* `claude --version`：确认 Claude Code CLI 已安装
+* `claude "你是谁"`：确认 API 配置正确，能正常返回响应
+
+### 3. 交互模式和单次命令模式有什么区别？
+
+* **交互模式**：执行 `claude` 进入持续对话，可多轮交互，适合复杂任务
+* **单次命令模式**：执行 `claude "问题"` 获取单次响应后退出，适合快速查询
+
+### 4. Claude Code CLI 会不会自动读取或上传我本地的文件和代码？
+
+不会自动读取或上传。Claude Code CLI 需要用户主动引用或授权才会读取文件内容，且会在执行敏感操作前请求确认。建议在专门的项目文件夹中使用。
+
+### 5. 如何使用 Claude Code CLI 分析或处理本地文件内容？
+
+在交互模式中，可以通过以下方式引用文件：
+
+* 直接输入文件路径让 Claude 读取
+* 拖拽文件到终端窗口
+* 复制粘贴文件内容
+
+### 6. Claude Code CLI 是否支持中文输入和中文输出？
+
+完全支持。Claude Code CLI 支持中文输入和输出，可以直接用中文提问并获得中文回答。
+
+### 7. 执行后没有任何输出，可能是什么原因？
+
+常见原因包括：
+
+* 网络连接问题，无法访问 API 服务器
+* API Key 无效或余额不足
+* `ANTHROPIC_BASE_URL` 配置错误
+* 防火墙或代理阻止了请求
+
+### 8. 修改了配置文件或环境变量后，为什么没有生效？
+
+* 需要重新启动终端或命令行窗口
+* 检查 `settings.json` 文件格式是否正确（JSON 语法）
+* 确认配置文件路径正确：
+* Windows: `C:\Users\{用户名}\.claude\settings.json`（将 `{用户名}` 替换为你的 Windows 用户名，如 `C:\Users\Zhang\.claude\settings.json`）
+* macOS / Linux: `~/.claude/settings.json`
+
+### 9. 使用时出现 401/403 错误一般是什么原因？
+
+* **401 错误**：`ANTHROPIC_AUTH_TOKEN` 未设置或 API Key 无效
+* **403 错误**：API Key 权限不足或已过期
+* 请检查 `ANTHROPIC_BASE_URL` 是否为 `https://api.geminix.cc`
+
+### 10. Claude Code CLI 适合哪些使用场景？又不适合哪些场景？
+
+**适合的场景：**
+
+* 代码编写、调试和重构
+* 命令行环境下的快速问答
+* 文件内容分析和处理
+* 自动化脚本集成
+
+**不适合的场景：**
+
+* 需要图形界面的复杂交互
+* 实时协作编辑
+* 大规模文件批量处理
+
+### 11. 如何切换模型？
+
+在交互模式中输入 `/model` 命令即可切换模型。
+
+### 12. OmniMux 支持哪些 Claude 模型？
+
+OmniMux 支持以下 Claude 模型：
+
+| 模型名称                         | 说明   |
+| ---------------------------- | ---- |
+| `claude-haiku-4-5-20251001`  | 快速响应 |
+| `claude-sonnet-4-5-20250929` | 平衡性能 |
+| `claude-opus-4-5-20251101`   | 高级版本 |
+| `claude-sonnet-4-6`          | 最新版本 |
+| `claude-sonnet-5`            | 最新版本 |
+| `claude-fable-5`             | 最新版本 |
+| `claude-opus-5`              | 最新版本 |
+| `claude-opus-4-8`            | 最新版本 |
+| `claude-opus-4-7`            | 最新版本 |
+| `claude-opus-4-6`            | 高级版本 |
+
+### 13. 怎么上传图片？
+
+* 方法一：直接引用图片路径
+* 方法二：拖拽图片进终端
+* 方法三：直接粘贴
+
+以上方式均需用户主动操作，Claude Code CLI 不会自动读取或上传本地图片。
+
+### 14. 如何打开命令行终端？
+
+* 方法一：按 `Win + R` 键，输入 `cmd` 或 `powershell`，按回车
+* 方法二：在开始菜单搜索"命令提示符"或"PowerShell"
+* 方法三：在文件夹中按住 Shift 键，右键点击空白处，选择"在此处打开 PowerShell 窗口"
+
+* 方法一：按 `Command + 空格` 打开 Spotlight，输入 `Terminal`，按回车
+* 方法二：在"应用程序" → "实用工具" → "终端"
+
+* 方法一：按 `Ctrl + Alt + T` 快捷键
+* 方法二：在应用程序菜单中搜索"终端"或"Terminal"
+
+## 注意
+
+建议在专门的项目文件夹内启动 Claude Code CLI，避免在敏感目录（如系统目录、包含密钥的目录）中运行。Claude Code CLI 会以当前工作目录为起点进行文件操作。
+
+如果之前登录过官方账号，需要先清除 `ANTHROPIC_AUTH_TOKEN` 环境变量或在 `settings.json` 中覆盖。

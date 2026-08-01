@@ -37,73 +37,161 @@
       {
         "language": "cn",
         "default": true,
-        "groups": [
+        "tabs": [
           {
-            "group": "开始使用",
-            "pages": [
-              "cn/index",
-              "cn/quickstart"
+            "tab": "用户指南",
+            "groups": [
+              {
+                "group": "开始使用",
+                "pages": [
+                  "cn/index",
+                  "cn/quickstart"
+                ]
+              },
+              {
+                "group": "基础配置",
+                "pages": [
+                  "cn/guides/authentication",
+                  "cn/guides/base-url",
+                  "cn/guides/models"
+                ]
+              }
             ]
           },
           {
-            "group": "指南",
-            "pages": [
-              "cn/guides/authentication",
-              "cn/guides/base-url",
-              "cn/guides/models"
+            "tab": "API 手册",
+            "groups": [
+              {
+                "group": "概览",
+                "pages": [
+                  "cn/api-reference/overview"
+                ]
+              },
+              {
+                "group": "接口参考",
+                "openapi": "openapi/relay.json"
+              }
             ]
           },
           {
-            "group": "API 参考",
-            "openapi": "openapi/relay.json",
-            "pages": [
-              "cn/api-reference/overview"
+            "tab": "集成指南",
+            "groups": [
+              {
+                "group": "概览",
+                "pages": [
+                  "cn/integration-guide/overview"
+                ]
+              },
+              {
+                "group": "Coding CLI",
+                "pages": [
+                  "cn/integration-guide/claude-code-cli",
+                  "cn/integration-guide/codex-cli",
+                  "cn/integration-guide/gemini-cli",
+                  "cn/integration-guide/opencode",
+                  "cn/integration-guide/pi",
+                  "cn/integration-guide/hermes"
+                ]
+              },
+              {
+                "group": "桌面与 IDE",
+                "pages": [
+                  "cn/integration-guide/claude-desktop",
+                  "cn/integration-guide/codebuddy-workbuddy"
+                ]
+              },
+              {
+                "group": "OpenClaw",
+                "pages": [
+                  "cn/integration-guide/openclaw",
+                  "cn/integration-guide/openclaw-auto",
+                  "cn/integration-guide/openclaw-feishu",
+                  "cn/integration-guide/openclaw-telegram"
+                ]
+              }
             ]
           }
         ]
       },
       {
         "language": "en",
-        "groups": [
+        "tabs": [
           {
-            "group": "Getting started",
-            "pages": [
-              "en/index",
-              "en/quickstart"
+            "tab": "User guide",
+            "groups": [
+              {
+                "group": "Getting started",
+                "pages": [
+                  "en/index",
+                  "en/quickstart"
+                ]
+              },
+              {
+                "group": "Setup",
+                "pages": [
+                  "en/guides/authentication",
+                  "en/guides/base-url",
+                  "en/guides/models"
+                ]
+              }
             ]
           },
           {
-            "group": "Guides",
-            "pages": [
-              "en/guides/authentication",
-              "en/guides/base-url",
-              "en/guides/models"
+            "tab": "API manual",
+            "groups": [
+              {
+                "group": "Overview",
+                "pages": [
+                  "en/api-reference/overview"
+                ]
+              },
+              {
+                "group": "API reference",
+                "openapi": "openapi/relay.json"
+              }
             ]
           },
           {
-            "group": "API reference",
-            "openapi": "openapi/relay.json",
-            "pages": [
-              "en/api-reference/overview"
+            "tab": "Integration guide",
+            "groups": [
+              {
+                "group": "Overview",
+                "pages": [
+                  "en/integration-guide/overview"
+                ]
+              },
+              {
+                "group": "Coding CLIs",
+                "pages": [
+                  "en/integration-guide/claude-code-cli",
+                  "en/integration-guide/codex-cli",
+                  "en/integration-guide/gemini-cli",
+                  "en/integration-guide/opencode",
+                  "en/integration-guide/pi",
+                  "en/integration-guide/hermes"
+                ]
+              },
+              {
+                "group": "Desktop and IDE",
+                "pages": [
+                  "en/integration-guide/claude-desktop",
+                  "en/integration-guide/codebuddy-workbuddy"
+                ]
+              },
+              {
+                "group": "OpenClaw",
+                "pages": [
+                  "en/integration-guide/openclaw",
+                  "en/integration-guide/openclaw-auto",
+                  "en/integration-guide/openclaw-feishu",
+                  "en/integration-guide/openclaw-telegram"
+                ]
+              }
             ]
           }
         ]
       }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Console",
-          "href": "https://geminix.cc/dashboard",
-          "icon": "gauge-high"
-        },
-        {
-          "anchor": "Status",
-          "href": "https://geminix.cc/status",
-          "icon": "heart-pulse"
-        }
-      ]
-    }
+    ]
   },
   "navbar": {
     "links": [

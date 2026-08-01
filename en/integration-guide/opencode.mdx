@@ -1,0 +1,372 @@
+---
+title: "OpenCode"
+description: "Connect OpenCode to OmniMux"
+---
+
+## Overview
+
+<Note>
+OmniMux uses a single gateway Base URL: `https://api.geminix.cc` (OpenAI-compatible clients typically use `https://api.geminix.cc/v1`). Console: [geminix.cc/dashboard](https://geminix.cc/dashboard). Model IDs in this guide are examples — confirm with the console or `GET /v1/models`.
+</Note>
+
+
+OpenCode is a Go-based open-source command-line programming tool (CLI) that provides powerful AI assistance for developers. It offers an intuitive Terminal User Interface (TUI) and supports multiple LLM providers including OpenAI, Anthropic, Gemini, and more.
+
+By integrating OpenCode with **OmniMux API**, you can access top-tier AI models including **Claude**, **GPT**, and **Gemini** series, enabling unified key multi-model access.
+
+## Prerequisites
+
+Before configuring, make sure you have:
+
+### 1. Terminal Emulator
+
+OpenCode requires a modern terminal emulator. Recommended options:
+
+* **WezTerm** (cross-platform)
+* **Alacritty** (cross-platform)
+* **Ghostty** (Linux and macOS)
+* **Kitty** (Linux and macOS)
+
+Windows users can also use PowerShell or Windows Terminal.
+
+macOS users can use the built-in Terminal.app or iTerm2.
+
+Linux users can use the built-in terminal or GNOME Terminal, Konsole, etc.
+
+### 2. Get OmniMux API Key
+
+* Log in to [OmniMux Console](https://geminix.cc/dashboard)
+* Find API Keys in the dashboard, click 'Create New Key' button, then copy the generated Key
+* API Key usually starts with `sk-`
+
+## Step 1: Install OpenCode
+
+**Tip:** If you don't know how to open a command line terminal, see [FAQ - How to open command line terminal](#11-how-to-open-command-line-terminal)
+
+The easiest way is through the install script:
+
+```bash
+curl -fsSL https://opencode.ai/install | bash
+```
+
+Or using Homebrew:
+
+```bash
+brew install anomalyco/tap/opencode
+```
+
+Windows users should first install [Node.js](https://nodejs.org/en/download), then install via NPM:
+
+```bash
+npm i -g opencode-ai@latest
+```
+
+Or using Chocolatey:
+
+```bash
+choco install opencode
+```
+
+Or using Scoop:
+
+```bash
+scoop bucket add extras
+scoop install extras/opencode
+```
+
+### Verify Installation
+
+```bash
+opencode --version
+```
+
+**Success indicator:** Shows version information.
+
+If you prefer a graphical interface, OpenCode also offers a desktop app available at [OpenCode Download Page](https://opencode.ai/download).
+
+## Step 2: Configure OmniMux API
+
+### 1. Initialize Provider
+
+After installation, run the following command in your terminal before launching OpenCode:
+
+```bash
+opencode auth login
+```
+
+1. In the provider list, select **other** (at the bottom, you can search for it)
+
+2. Enter **Provider ID**: type `omnimux-anthropic`
+
+3. Enter **API Key token**: you can enter any value (e.g., `admin`), the actual key is referenced via config file
+
+This step registers a custom provider in OpenCode's local credential manager.
+
+### 2. Edit Config File
+
+Open the OpenCode config directory:
+
+Press `Win + R`, paste the following, then press Enter:
+
+```
+%userprofile%\.config\opencode
+```
+
+In terminal, run:
+
+```bash
+cd ~/.config/opencode
+```
+
+Or access `~/.config/opencode/` in Finder/file manager
+
+Create or edit `opencode.json` in this directory:
+
+```json
+{
+"$schema": "https://opencode.ai/config.json",
+"provider": {
+"omnimux-anthropic": {
+"npm": "@ai-sdk/anthropic",
+"name": "OmniMux Claude",
+"options": {
+"baseURL": "https://api.geminix.cc/v1",
+"apiKey": "Your OmniMux API Key"
+},
+"models": {
+"claude-fable-5": {
+"name": "Claude Fable 5",
+"modalities": { "input": ["text", "image"], "output": ["text"] }
+},
+"claude-opus-5": {
+"name": "Claude Opus 5",
+"modalities": { "input": ["text", "image"], "output": ["text"] }
+},
+"claude-opus-4-8": {
+"name": "Claude Opus 4.8",
+"modalities": { "input": ["text", "image"], "output": ["text"] }
+},
+"claude-opus-4-7": {
+"name": "Claude Opus 4.7",
+"modalities": { "input": ["text", "image"], "output": ["text"] }
+},
+"claude-opus-4-6": {
+"name": "Claude Opus 4.6",
+"modalities": { "input": ["text", "image"], "output": ["text"] }
+},
+"claude-sonnet-4-6": {
+"name": "Claude Sonnet 4.6",
+"modalities": { "input": ["text", "image"], "output": ["text"] }
+},
+"claude-sonnet-5": {
+"name": "Claude Sonnet 5",
+"modalities": { "input": ["text", "image"], "output": ["text"] }
+},
+"claude-opus-4-5-20251101": {
+"name": "Claude 4.5 Opus",
+"modalities": { "input": ["text", "image"], "output": ["text"] }
+},
+"claude-sonnet-4-5-20250929": {
+"name": "Claude 4.5 Sonnet",
+"modalities": { "input": ["text", "image"], "output": ["text"] }
+},
+"claude-haiku-4-5-20251001": {
+"name": "Claude 4.5 Haiku",
+"modalities": { "input": ["text", "image"], "output": ["text"] }
+}
+}
+},
+"omnimux-google": {
+"npm": "@ai-sdk/google",
+"name": "OmniMux Gemini",
+"options": {
+"baseURL": "https://api.geminix.cc/v1beta",
+"apiKey": "Your OmniMux API Key"
+},
+"models": {
+"gemini-2.5-flash": {
+"name": "Gemini 2.5 Flash",
+"modalities": { "input": ["text", "image"], "output": ["text"] }
+},
+"gemini-2.5-pro": {
+"name": "Gemini 2.5 Pro",
+"modalities": { "input": ["text", "image"], "output": ["text"] }
+},
+"gemini-3-flash-preview": {
+"name": "Gemini 3.0 Flash",
+"modalities": { "input": ["text", "image"], "output": ["text"] }
+},
+"gemini-3-pro-preview": {
+"name": "Gemini 3.0 Pro",
+"modalities": { "input": ["text", "image"], "output": ["text"] }
+},
+"gemini-3.1-flash-lite-preview": {
+"name": "Gemini 3.1 Flash Lite",
+"modalities": { "input": ["text", "image"], "output": ["text"] }
+},
+"gemini-3.1-pro-preview": {
+"name": "Gemini 3.1 Pro",
+"modalities": { "input": ["text", "image"], "output": ["text"] }
+}
+}
+},
+"omnimux-openai": {
+"npm": "@ai-sdk/openai",
+"name": "OmniMux GPT",
+"options": {
+"baseURL": "https://api.geminix.cc/v1",
+"apiKey": "Your OmniMux API Key"
+},
+"models": {
+"gpt-5.1": {
+"name": "GPT-5.1",
+"modalities": { "input": ["text", "image"], "output": ["text"] }
+},
+"gpt-5.2": {
+"name": "GPT-5.2",
+"modalities": { "input": ["text", "image"], "output": ["text"] }
+},
+"gpt-5.4": {
+"name": "GPT-5.4",
+"modalities": { "input": ["text", "image"], "output": ["text"] }
+},
+"gpt-5.5": {
+"name": "GPT-5.5",
+"modalities": { "input": ["text", "image"], "output": ["text"] }
+},
+"MiniMax-M2.5": {
+"name": "MiniMax M2.5",
+"modalities": { "input": ["text"], "output": ["text"] }
+}
+}
+}
+}
+}
+```
+
+**⚠️ Important:**
+
+* Replace `"Your OmniMux API Key"` with your actual API Key
+* JSON format is sensitive to symbols
+
+## Step 3: Start Using OpenCode
+
+### 1. Launch OpenCode
+
+After saving the config file, restart your terminal, then navigate to your working directory:
+
+```shell
+cd your-working-directory
+```
+
+Launch OpenCode:
+
+```shell
+opencode
+```
+
+### 2. Verify Configuration
+
+In the chat interface, enter the command:
+
+```
+/models
+```
+
+You should see **OmniMux Claude**, **OmniMux Gemini**, and **OmniMux GPT** in the model list. Select one and you're ready to go!
+
+## FAQ
+
+### 1. What is OpenCode and what is it used for?
+
+OpenCode is an open-source terminal AI coding assistant with a modern TUI interface. It supports code editing, file operations, and command execution, ideal for AI-assisted programming in terminal environments.
+
+### 2. How do I verify installation and configuration on first use?
+
+Run these steps in sequence:
+
+* `opencode --version`: Confirm OpenCode is installed
+* Launch OpenCode and enter `/models`: Confirm you can see the configured models
+
+### 3. Where should the config file be placed?
+
+The `opencode.json` config file should be placed at:
+
+* Windows: `C:\Users\{username}\.config\opencode\opencode.json`
+* macOS / Linux: `~/.config/opencode/opencode.json`
+
+### 4. What models does OpenCode support?
+
+Through OmniMux API, OpenCode supports the following models:
+
+**Claude series:**
+
+* **Claude Opus 4.6 / Sonnet 4.6**: Latest generation models
+* **Claude 4.5 Opus / Sonnet / Haiku**: High-performance model family
+
+**Gemini series:**
+
+* **Gemini 2.5 Flash / Pro**: Latest generation balanced models
+* **Gemini 3.0 Flash / Pro**: Next-generation high-performance models
+* **Gemini 3.1 Flash Lite / Pro**: Newest generation models with enhanced capabilities
+
+**GPT series:**
+
+* **GPT-5.1 / 5.2 / 5.4 / 5.5**: OpenAI latest models
+* **MiniMax M2.5**: MiniMax high-performance model
+
+### 5. How do I switch models?
+
+In the OpenCode interface, enter the `/models` command, then select your desired model from the list.
+
+### 6. Why don't my config changes take effect?
+
+* Restart OpenCode
+* Check `opencode.json` syntax (JSON format)
+* Verify config file path is correct
+
+### 7. What causes 401/403 errors?
+
+* **401 error**: API Key not set or invalid
+* **403 error**: Insufficient permissions or expired key
+* Check the `apiKey` in your config file
+
+### 8. Will OpenCode automatically read or upload my local files and code?
+
+OpenCode only reads file content when you explicitly authorize it. It's recommended to use it in a dedicated project folder.
+
+### 9. Does OpenCode support Chinese input and output?
+
+Yes, fully supported.
+
+### 10. What scenarios is OpenCode suited for?
+
+**Suited for:**
+
+* Code writing, debugging, and refactoring
+* AI-assisted programming in terminal environments
+* File content analysis and processing
+* Users who prefer modern TUI interfaces
+
+**Not suited for:**
+
+* Complex GUI interactions
+* Users unfamiliar with terminal operations
+
+### 11. How to open command line terminal?
+
+* Method 1: Press `Win + R`, type `cmd` or `powershell`, then press Enter
+* Method 2: Search for "Command Prompt" or "PowerShell" in the Start menu
+* Method 3: Hold Shift and right-click in a folder, select "Open PowerShell window here"
+
+* Method 1: Press `Command + Space` to open Spotlight, type `Terminal`, then press Enter
+* Method 2: Go to "Applications" → "Utilities" → "Terminal"
+
+* Method 1: Press `Ctrl + Alt + T` shortcut
+* Method 2: Search for "Terminal" in the application menu
+
+## Notes
+
+Run OpenCode in a dedicated project folder. Avoid running it in sensitive directories (such as system folders or directories containing credentials). OpenCode operates starting from the current working directory.
+
+OpenCode uses JSON format config files. Ensure your config file syntax is correct. You can use online JSON validators to check the format.

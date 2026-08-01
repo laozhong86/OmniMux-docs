@@ -1,11 +1,21 @@
 ---
-title: "OmniMux Docs"
+title: "OmniMux user guide"
 description: "Social media operations infrastructure for agents — unified API gateway for OpenAI-compatible, Claude, and Gemini."
 ---
 
 OmniMux is social media operations infrastructure for agents, delivered as a **unified AI model gateway**. It aggregates many upstream providers behind one endpoint, with **OpenAI-compatible**, **Claude Messages**, and **Gemini** formats, plus billing, tokens, and channel management.
 
 Production: console [geminix.cc](https://geminix.cc) · API `https://api.geminix.cc` · docs [docs.geminix.cc](https://docs.geminix.cc).
+
+## Documentation areas
+
+Top tabs map to three reader paths:
+
+| Tab | Who it is for | What you get |
+| --- | --- | --- |
+| **User guide** (this area) | First-time integrators | Quickstart, auth, Base URL, models |
+| **API manual** | HTTP / schema consumers | OpenAPI endpoints and protocol notes |
+| **Integration guide** | CLI / agent / OpenClaw setup | Step-by-step client configs |
 
 ## Start here
 
@@ -16,11 +26,22 @@ Production: console [geminix.cc](https://geminix.cc) · API `https://api.geminix
   <Card title="Authentication" icon="key" href="/en/guides/authentication">
     Bearer token usage and security practices.
   </Card>
-  <Card title="Models" icon="layer-group" href="/en/guides/models">
-    List available models and choose the right `model` value.
+  <Card title="Configure Base URL" icon="link" href="/en/guides/base-url">
+    Which host to paste into SDKs, CLIs, and clients.
   </Card>
-  <Card title="API reference" icon="code" href="/en/api-reference/overview">
-    Gateway OpenAPI for chat, responses, Claude, Gemini, images, and video.
+  <Card title="Models" icon="layer-group" href="/en/guides/models">
+    List available models and set the right `model` value.
+  </Card>
+</CardGroup>
+
+## Go deeper
+
+<CardGroup cols={2}>
+  <Card title="API manual" icon="code" href="/en/api-reference/overview">
+    Chat, Responses, Claude, Gemini, images, and video.
+  </Card>
+  <Card title="Integration guide" icon="plug" href="/en/integration-guide/overview">
+    Claude Code, Codex, Gemini CLI, OpenClaw, Pi, and more.
   </Card>
 </CardGroup>
 
@@ -46,8 +67,8 @@ Production gateway:
 https://api.geminix.cc
 ```
 
-Point your OpenAI SDK `base_url` / `BASE_URL` at that host and use a console API key to migrate most chat workloads.
+Point your OpenAI SDK at `https://api.geminix.cc/v1` and use a console API key to migrate most chat workloads.
 
 <Tip>
-  Console: [geminix.cc/dashboard](https://geminix.cc/dashboard) · Status: [geminix.cc/status](https://geminix.cc/status)
+  Console and API hosts are separate: console [geminix.cc/dashboard](https://geminix.cc/dashboard), API on `api.geminix.cc`.
 </Tip>

@@ -1,0 +1,145 @@
+---
+title: "Claude Desktop Integration"
+description: "Connect Claude Desktop to OmniMux"
+---
+
+## Overview
+
+<Note>
+OmniMux uses a single gateway Base URL: `https://api.geminix.cc` (OpenAI-compatible clients typically use `https://api.geminix.cc/v1`). Console: [geminix.cc/dashboard](https://geminix.cc/dashboard). Model IDs in this guide are examples — confirm with the console or `GET /v1/models`.
+</Note>
+
+
+Claude Desktop is Anthropic's official desktop app for using Claude locally.
+
+This guide explains how to connect Claude Desktop to **OmniMux API** and use OmniMux to access models compatible with the Anthropic Messages API.
+
+**This guide covers:**
+
+* Installing Claude Desktop
+* Enabling Developer Mode
+* Configuring the OmniMux connection
+* Restarting and selecting a model
+
+## Prerequisites
+
+Before you start, prepare your OmniMux API Key.
+
+### Get an OmniMux API Key
+
+* Log in to the [OmniMux Console](https://geminix.cc/dashboard)
+* Find API Keys in the console, click **Create New Key**, then copy the generated key
+* API keys usually start with `sk-`; keep them safe
+
+## Step 1: Download Claude Desktop
+
+Visit the [Claude Desktop download page](https://claude.com/download) and install the version for your operating system.
+
+**Tip:** If Claude Desktop is not installed yet, complete the installation before continuing.
+
+### After installation
+
+After installation, confirm that Claude Desktop starts normally.
+
+## Step 2: Enable Developer Mode
+
+After launching Claude Desktop, click **Help → Troubleshooting** and enable Developer Mode in the dialog.
+
+Once enabled, a **Developer** menu entry appears for third-party inference configuration.
+
+**Tip:** If you do not see the Developer entry, confirm that your Claude Desktop version supports Developer Mode and third-party inference settings.
+
+Before using Gateway / Cowork mode, enable the Windows virtual machine platform feature:
+
+1. Press `Win + R`
+2. Enter `optionalfeatures`, then press `Enter`
+3. In **Windows Features**, check **Virtual Machine Platform**
+4. Click **OK**
+5. Restart your computer if Windows prompts you to do so
+
+After that, launch Claude Desktop, click **Help → Troubleshooting**, and enable Developer Mode in the dialog.
+
+Once enabled, a **Developer** menu entry appears for third-party inference configuration.
+
+**Tip:** If you do not see the Developer entry, confirm that your Claude Desktop version supports Developer Mode and third-party inference settings.
+
+## Step 3: Open Third-Party Inference Settings
+
+In the Developer menu, open the third-party inference panel and fill it in as shown below:
+
+| Field               | Description                                                                                                                                                          |
+| ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Gateway base URL    | OmniMux gateway address, recommended value: `https://api.geminix.cc`                                                                                              |
+| Gateway API key     | Enter your OmniMux API Key directly, without the `Bearer` prefix                                                                                                     |
+| Gateway auth scheme | `bearer`                                                                                                                                                             |
+| Model list          | Recommended. Add only text/chat model IDs that support the Anthropic Messages API. You can also jump to the [supported models](#supported-claude-models) table below |
+
+**Note:** If the field names in your Claude Desktop version are slightly different, use the actual interface labels, but keep the meaning the same.
+
+## Step 4: Save and Restart
+
+After saving the configuration, fully quit Claude Desktop, then launch it again.
+
+After restarting, Claude Desktop should use the new third-party inference configuration.
+
+**Expected result:** After launch, you should see the available model list and requests should be routed through OmniMux.
+
+## Step 5: Choose a Model
+
+After restarting, check the model selector to confirm that the available models appear correctly.
+
+## How It Works
+
+Claude Desktop communicates with OmniMux through an Anthropic-compatible gateway:
+
+1. Claude Desktop sends requests to the gateway address you configured.
+2. OmniMux receives the request and forwards it to the corresponding model service.
+3. After the response returns, Claude Desktop continues showing the conversation locally.
+
+No extra local proxy is required.
+
+## Supported Models
+
+If you want to restrict the visible models in `Model list`, you can use the following model IDs.
+
+| Model ID                     |
+| ---------------------------- |
+| `claude-haiku-4-5-20251001`  |
+| `claude-sonnet-4-5-20250929` |
+| `claude-opus-4-5-20251101`   |
+| `claude-sonnet-4-6`          |
+| `claude-sonnet-5`            |
+| `claude-opus-4-6`            |
+| `claude-fable-5`             |
+| `claude-opus-5`              |
+| `claude-opus-4-8`            |
+| `claude-opus-4-7`            |
+| `deepseek-v4-flash`          |
+| `deepseek-v4-pro`            |
+
+## FAQ
+
+### Developer menu does not appear
+
+Confirm that Developer Mode is enabled and that Claude Desktop has been fully restarted.
+
+### I cannot connect after configuring it
+
+Check the following:
+
+* Whether the base URL is correct
+* Whether the API key is valid
+* Whether the authentication scheme is `bearer`
+* Whether Claude Desktop has been fully closed and reopened
+
+### I cannot see any models
+
+Confirm that your account and network are working normally, then check whether the third-party inference settings were saved successfully.
+
+### Do I need to fill in `Model list`?
+
+Yes, it is recommended. Add only text/chat model IDs that support the Anthropic Messages API.
+
+### What should I enter if I want to specify models manually?
+
+Use the model IDs in the "Supported Models" table above and format them as required by Claude Desktop.

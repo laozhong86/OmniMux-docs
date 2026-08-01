@@ -1,0 +1,79 @@
+---
+title: "集成指南概览"
+description: "将 Claude Code、Codex、Gemini CLI、OpenClaw、Pi 等客户端接到 OmniMux 网关。"
+---
+
+把常用 **Coding CLI / Agent / 桌面客户端** 的 Base URL 与 API Key 指向 OmniMux，即可在本地工具链中使用控制台已开通的模型。
+
+## 通用配置
+
+| 项 | 值 |
+| --- | --- |
+| 控制台 | [geminix.cc/dashboard](https://geminix.cc/dashboard) |
+| API Base URL | `https://api.geminix.cc` |
+| OpenAI 兼容（多数 SDK / CLI） | `https://api.geminix.cc/v1` |
+| Claude / Anthropic 兼容根地址 | `https://api.geminix.cc` |
+| Gemini 兼容 | `https://api.geminix.cc/v1beta` |
+| API Key | 控制台创建的 `sk-...` |
+
+鉴权与模型选择见 [鉴权](/cn/guides/authentication)、[模型列表](/cn/guides/models)。
+
+## Coding CLI
+
+<CardGroup cols={2}>
+  <Card title="Claude Code CLI" icon="terminal" href="/cn/integration-guide/claude-code-cli">
+    Anthropic 官方 CLI，走 Anthropic 兼容网关。
+  </Card>
+  <Card title="Codex CLI" icon="code" href="/cn/integration-guide/codex-cli">
+    OpenAI 官方 CLI，OpenAI 兼容 Provider。
+  </Card>
+  <Card title="Gemini CLI" icon="sparkles" href="/cn/integration-guide/gemini-cli">
+    Google Gemini 命令行工具。
+  </Card>
+  <Card title="OpenCode" icon="laptop-code" href="/cn/integration-guide/opencode">
+    开源 Coding Agent，自定义 Provider。
+  </Card>
+  <Card title="Pi Coding Agent" icon="robot" href="/cn/integration-guide/pi">
+    Anthropic Messages 兼容接入。
+  </Card>
+  <Card title="Hermes Agent" icon="comments" href="/cn/integration-guide/hermes">
+    OpenAI 兼容自定义 endpoint。
+  </Card>
+</CardGroup>
+
+## 桌面与 IDE
+
+<CardGroup cols={2}>
+  <Card title="Claude Desktop" icon="desktop" href="/cn/integration-guide/claude-desktop">
+    桌面端网关配置。
+  </Card>
+  <Card title="CodeBuddy / WorkBuddy" icon="puzzle-piece" href="/cn/integration-guide/codebuddy-workbuddy">
+    国内 IDE / 插件类工具。
+  </Card>
+</CardGroup>
+
+## OpenClaw（聊天渠道网关）
+
+<CardGroup cols={2}>
+  <Card title="手动安装" icon="gears" href="/cn/integration-guide/openclaw">
+    安装 OpenClaw Gateway 并配置 OmniMux 多协议 Provider。
+  </Card>
+  <Card title="自动安装" icon="wand-magic-sparkles" href="/cn/integration-guide/openclaw-auto">
+    使用 OpenClaw Manager 一键部署。
+  </Card>
+  <Card title="OpenClaw + 飞书" icon="message" href="/cn/integration-guide/openclaw-feishu">
+    飞书 / Lark 机器人接入。
+  </Card>
+  <Card title="OpenClaw + Telegram" icon="paper-plane" href="/cn/integration-guide/openclaw-telegram">
+    Telegram Bot 接入。
+  </Card>
+</CardGroup>
+
+## 接入检查清单
+
+1. 在控制台创建令牌，并确认模型范围  
+2. 客户端 Base URL 使用 `api.geminix.cc`（不要填控制台域名）  
+3. 用 `GET /v1/models` 或控制台核对真实 `model` ID  
+4. 先发一条极短对话验证，再挂到 Agent / 渠道  
+
+完整 HTTP 接口见 [API 手册](/cn/api-reference/overview)。
