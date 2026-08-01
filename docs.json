@@ -12,7 +12,7 @@
   "logo": {
     "light": "/logo/light.svg",
     "dark": "/logo/dark.svg",
-    "href": "https://omnimux.ai"
+    "href": "https://geminix.cc"
   },
   "api": {
     "openapi": ["openapi/relay.json"],
@@ -69,12 +69,12 @@
       "anchors": [
         {
           "anchor": "Console",
-          "href": "https://omnimux.ai",
+          "href": "https://geminix.cc",
           "icon": "gauge-high"
         },
         {
           "anchor": "Status",
-          "href": "https://status.omnimux.ai",
+          "href": "https://geminix.cc/status",
           "icon": "heart-pulse"
         }
       ]
@@ -84,19 +84,19 @@
     "links": [
       {
         "label": "Support",
-        "href": "mailto:hello@omnimux.ai"
+        "href": "mailto:hello.cc"
       }
     ],
     "primary": {
       "type": "button",
       "label": "Dashboard",
-      "href": "https://omnimux.ai"
+      "href": "https://geminix.cc"
     }
   },
   "footer": {
     "socials": {
       "github": "https://github.com/laozhong86/OmniMux",
-      "website": "https://omnimux.ai"
+      "website": "https://geminix.cc"
     }
   },
   "contextual": {

@@ -21,7 +21,7 @@
 - **Gateway / relay API** — user-facing AI endpoints (`/v1/...`)
 - **Token / API key** — `sk-...` Bearer credential for gateway calls
 - **Channel** — upstream provider connection configured by admins
-- **Base URL** — production default `https://api.omnimux.ai`
+- **Base URL** — production default `https://geminix.cc`
 - Prefer **token** or **API key** for user docs; avoid internal admin jargon on public pages
 
 ## Style
@@ -31,7 +31,7 @@
 - Sentence case for English headings; Chinese headings keep natural phrasing
 - Bold UI labels: Click **Settings**
 - Code for paths, headers, model ids, and commands
-- Use real product domains (`omnimux.ai`, `api.omnimux.ai`); do not default to `docs.newapi.pro` or upstream branding in user-facing copy
+- Use real product domains (`geminix.cc`, `geminix.cc`); do not default to `docs.newapi.pro` or upstream branding in user-facing copy
 
 ## Content boundaries
 

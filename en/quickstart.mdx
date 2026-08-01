@@ -7,14 +7,14 @@ This guide covers: create an API key → set the Base URL → send a request.
 
 ## Prerequisites
 
-- Access to the [OmniMux console](https://omnimux.ai)
+- Access to the [OmniMux console](https://geminix.cc)
 - Available quota (or a token provisioned by an admin)
 
 ## Steps
 
 <Steps>
   <Step title="Create an API key">
-    Sign in to the [console](https://omnimux.ai), open **Tokens / API Keys**, and create a key.
+    Sign in to the [console](https://geminix.cc), open **Tokens / API Keys**, and create a key.
 
     Keys look like `sk-...`. Store them only on the server or in private environment variables — never in frontend code or public repos.
   </Step>
@@ -23,17 +23,17 @@ This guide covers: create an API key → set the Base URL → send a request.
     Gateway Base URL:
 
     ```text
-    https://api.omnimux.ai
+    https://geminix.cc
     ```
 
-    For OpenAI-compatible SDKs, use `https://api.omnimux.ai/v1` (the SDK appends `/chat/completions`, etc.).
+    For OpenAI-compatible SDKs, use `https://geminix.cc/v1` (the SDK appends `/chat/completions`, etc.).
   </Step>
 
   <Step title="Send your first request">
     With curl:
 
     ```bash
-    curl https://api.omnimux.ai/v1/chat/completions \
+    curl https://geminix.cc/v1/chat/completions \
       -H "Authorization: Bearer $OMNIMUX_API_KEY" \
       -H "Content-Type: application/json" \
       -d '{
@@ -57,7 +57,7 @@ from openai import OpenAI
 
 client = OpenAI(
     api_key="sk-...",  # OmniMux token
-    base_url="https://api.omnimux.ai/v1",
+    base_url="https://geminix.cc/v1",
 )
 
 resp = client.chat.completions.create(
@@ -74,7 +74,7 @@ import OpenAI from "openai";
 
 const client = new OpenAI({
   apiKey: process.env.OMNIMUX_API_KEY,
-  baseURL: "https://api.omnimux.ai/v1",
+  baseURL: "https://geminix.cc/v1",
 });
 
 const resp = await client.chat.completions.create({

@@ -19,9 +19,9 @@
 4. 推送后确认 Deployment 成功
 5. 记下临时域名：`https://<subdomain>.mintlify.app`（以面板为准）
 
-### 2. 自定义域名 `docs.omnimux.ai`
+### 2. 自定义域名 `docs.geminix.cc`
 
-1. Dashboard → Custom domain → 添加 `docs.omnimux.ai`
+1. Dashboard → Custom domain → 添加 `docs.geminix.cc`
 2. Cloudflare（或其它 DNS）添加：
    - 类型：`CNAME`
    - 名称：`docs`
@@ -37,7 +37,7 @@
 控制台 → 系统设置 → 通用：
 
 ```text
-docs_link = https://docs.omnimux.ai
+docs_link = https://docs.geminix.cc
 ```
 
 域名未就绪时，可先填 Mintlify 临时域名。
@@ -58,5 +58,5 @@ docs_link = https://docs.omnimux.ai
 1. `mint dev` 本地中/英首页与 Quickstart 可打开
 2. push 后 Mintlify 部署成功
 3. API 参考 Tab 能展开 endpoints
-4. `docs.omnimux.ai` HTTPS 正常（域名步骤完成后）
+4. `docs.geminix.cc` HTTPS 正常（域名步骤完成后）
 5. 控制台顶栏 Docs 指向新站
