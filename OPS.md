@@ -72,3 +72,44 @@ Railway 已添加自定义域 `api.geminix.cc`。在 Cloudflare（geminix.cc 区
 
 验收：`curl -sS https://api.geminix.cc/api/status` 返回 JSON；`curl -sS https://api.geminix.cc/v1/models -H "Authorization: Bearer $KEY"` 可鉴权。
 
+## Production P0 harden (2026-08-01)
+
+Applied on live OmniMux:
+
+| Control | Value |
+| --- | --- |
+| RegisterEnabled | false |
+| PasswordRegisterEnabled | false |
+| PasswordLoginEnabled | true |
+| passkey.enabled | false |
+| passkey.rp_id | geminix.cc |
+| passkey.origins | https://geminix.cc,https://geminix.cc/dashboard |
+| docs_link | https://docs.geminix.cc |
+| server_address | https://geminix.cc |
+| API domain | https://api.geminix.cc |
+
+Secrets (local Keychain only, not in git):
+
+- Admin password: service `omnimux/production/admin_password`, account `omnimux-production-admin`
+- Session secret: service `omnimux/production/session_secret`, account `omnimux-production`
+
+```bash
+security find-generic-password -s 'omnimux/production/admin_password' -a 'omnimux-production-admin' -w
+```
+
+Backup:
+
+```bash
+# from OmniMux repo
+python3 scripts/ops/mysql-backup.py
+# output: ~/Desktop/Project/OmniMux-backups/new_api_*.sql.gz
+```
+
+Residual risks (not closed in P0):
+
+- Railway MySQL/Redis still expose TCP proxy URLs (plugin default); prefer private network for routine ops
+- MySQL/Redis passwords not rotated in this pass (shared plugin risk; schedule with downtime)
+- Sibling `tokens` service deploy still failing (independent of OmniMux)
+- No Turnstile keys yet (registration closed instead)
+- Continuous monitoring: run `scripts/ops/prod-healthcheck.sh` via cron/launchd
+
