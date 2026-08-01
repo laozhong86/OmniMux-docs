@@ -1,0 +1,49 @@
+---
+title: "鉴权"
+description: "使用 Bearer Token 调用 OmniMux 网关 API。"
+---
+
+网关用户 API 使用 **HTTP Bearer** 鉴权。控制台登录态（JWT / PAT）与网关令牌用途不同，请勿混用。
+
+## 请求头
+
+```http
+Authorization: Bearer sk-xxxxxxxx
+Content-Type: application/json
+```
+
+| 部分 | 说明 |
+| --- | --- |
+| `Bearer` | 固定 scheme |
+| `sk-...` | 控制台创建的 API 令牌 |
+
+示例：
+
+```bash
+curl https://api.omnimux.ai/v1/models \
+  -H "Authorization: Bearer $OMNIMUX_API_KEY"
+```
+
+## 在哪里创建令牌
+
+1. 打开 [OmniMux 控制台](https://omnimux.ai)
+2. 进入 **令牌 / API Keys**
+3. 创建令牌，按需限制模型、额度或 IP（以控制台实际字段为准）
+4. 复制密钥并妥善保存（通常只展示一次）
+
+## 安全建议
+
+- 仅在服务端、CI 密钥库或本机环境变量中保存 Key
+- 不要把 Key 写进前端打包产物、截图或公开 Issue
+- 泄露后立即在控制台 **禁用 / 删除** 并新建
+- 按环境拆分令牌（开发 / 生产），便于轮换与审计
+
+## 常见错误
+
+| 现象 | 可能原因 |
+| --- | --- |
+| `401` / 鉴权失败 | 缺少 Header、Key 错误、令牌已禁用 |
+| `403` / 无权限 | 令牌未授权该模型或 IP 不在白名单 |
+| 额度不足 | 账户或令牌配额耗尽 |
+
+更多接口见 [API 参考](/cn/api-reference/overview)。

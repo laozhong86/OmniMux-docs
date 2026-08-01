@@ -1,0 +1,51 @@
+---
+title: "OmniMux 文档"
+description: "统一 AI 网关：一套 Base URL 接入 OpenAI 兼容、Claude、Gemini 等多协议接口。"
+---
+
+OmniMux 是统一 AI 模型网关。把多个上游供应商聚合到同一入口，支持 **OpenAI 兼容**、**Claude Messages**、**Gemini** 等格式，并提供计费、令牌与渠道管理。
+
+## 从这里开始
+
+<CardGroup cols={2}>
+  <Card title="快速开始" icon="rocket" href="/cn/quickstart">
+    获取 API Key，配置 Base URL，发出第一条 Chat 请求。
+  </Card>
+  <Card title="鉴权" icon="key" href="/cn/guides/authentication">
+    Bearer Token 用法与安全建议。
+  </Card>
+  <Card title="模型列表" icon="layer-group" href="/cn/guides/models">
+    如何查询可用模型与选择 model 字段。
+  </Card>
+  <Card title="API 参考" icon="code" href="/cn/api-reference/overview">
+    网关 OpenAPI：Chat、Responses、Claude、Gemini、图像与视频等。
+  </Card>
+</CardGroup>
+
+## 核心能力
+
+<CardGroup cols={3}>
+  <Card title="统一入口" icon="plug">
+    文本、图像、音频、视频走同一网关与同一套鉴权。
+  </Card>
+  <Card title="多协议" icon="code-branch">
+    OpenAI Chat / Responses、Claude Messages、Gemini generateContent 等。
+  </Card>
+  <Card title="可运营" icon="gauge-high">
+    令牌、额度、渠道与日志在控制台统一管理。
+  </Card>
+</CardGroup>
+
+## Base URL
+
+生产环境网关默认：
+
+```text
+https://api.omnimux.ai
+```
+
+将现有 OpenAI SDK 的 `base_url` / `BASE_URL` 改为上述地址，并使用控制台创建的 API Key 即可迁移大部分 Chat 调用。
+
+<Tip>
+  控制台：[omnimux.ai](https://omnimux.ai) · 状态页：[status.omnimux.ai](https://status.omnimux.ai)
+</Tip>

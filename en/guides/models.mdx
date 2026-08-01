@@ -1,0 +1,56 @@
+---
+title: "Models"
+description: "List available models and set the correct model field on requests."
+---
+
+Every gateway request must use a `model` (or path model id) that your account can access. Availability depends on channels and groups configured by admins.
+
+## List models
+
+```bash
+curl https://api.omnimux.ai/v1/models \
+  -H "Authorization: Bearer $OMNIMUX_API_KEY"
+```
+
+The response follows the OpenAI models list shape. You can also browse models in the console under **Models / Channels** (menu labels vary by deployment).
+
+Gemini-style list:
+
+```bash
+curl https://api.omnimux.ai/v1beta/models \
+  -H "Authorization: Bearer $OMNIMUX_API_KEY"
+```
+
+## Use a model in a request
+
+Chat example:
+
+```bash
+curl https://api.omnimux.ai/v1/chat/completions \
+  -H "Authorization: Bearer $OMNIMUX_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "gpt-4o-mini",
+    "messages": [{"role": "user", "content": "ping"}]
+  }'
+```
+
+Replace `gpt-4o-mini` with a real `id` from your list.
+
+## Protocol notes
+
+| Protocol | Example path | Where model is set |
+| --- | --- | --- |
+| OpenAI Chat | `POST /v1/chat/completions` | JSON `model` |
+| OpenAI Responses | `POST /v1/responses` | JSON `model` |
+| Claude Messages | `POST /v1/messages` | JSON `model` |
+| Gemini | `POST /v1beta/models/{model}:generateContent` | Path `{model}` |
+
+Full schemas live in the [API reference](/en/api-reference/overview).
+
+## When a model fails
+
+1. Token model allowlist too narrow  
+2. Account group does not include the model  
+3. Upstream channel disabled  
+4. Exact id mismatch (case-sensitive)  

@@ -1,53 +1,102 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mintlify Starter Kit",
+  "name": "OmniMux",
+  "description": "Unified AI gateway documentation — OpenAI-compatible APIs for chat, images, video, and more.",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#C8F135",
+    "light": "#D4F75A",
+    "dark": "#9BC422"
   },
   "favicon": "/favicon.svg",
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg",
+    "href": "https://omnimux.ai"
+  },
+  "api": {
+    "openapi": ["openapi/relay.json"],
+    "playground": {
+      "display": "interactive"
+    },
+    "examples": {
+      "languages": ["curl", "python", "javascript", "go"],
+      "defaults": "required",
+      "autogenerate": true
+    }
+  },
   "navigation": {
-    "pages": [
+    "languages": [
       {
-        "group": "Getting Started",
-        "pages": [
-          "index",
-          "quickstart"
+        "language": "cn",
+        "default": true,
+        "groups": [
+          {
+            "group": "开始使用",
+            "pages": ["cn/index", "cn/quickstart"]
+          },
+          {
+            "group": "指南",
+            "pages": ["cn/guides/authentication", "cn/guides/models"]
+          },
+          {
+            "group": "API 参考",
+            "openapi": "openapi/relay.json",
+            "pages": ["cn/api-reference/overview"]
+          }
+        ]
+      },
+      {
+        "language": "en",
+        "groups": [
+          {
+            "group": "Getting started",
+            "pages": ["en/index", "en/quickstart"]
+          },
+          {
+            "group": "Guides",
+            "pages": ["en/guides/authentication", "en/guides/models"]
+          },
+          {
+            "group": "API reference",
+            "openapi": "openapi/relay.json",
+            "pages": ["en/api-reference/overview"]
+          }
         ]
       }
     ],
     "global": {
       "anchors": [
         {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
+          "anchor": "Console",
+          "href": "https://omnimux.ai",
+          "icon": "gauge-high"
         },
         {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
+          "anchor": "Status",
+          "href": "https://status.omnimux.ai",
+          "icon": "heart-pulse"
         }
       ]
     }
-  },
-  "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
   },
   "navbar": {
     "links": [
       {
         "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "href": "mailto:hello@omnimux.ai"
       }
     ],
     "primary": {
       "type": "button",
       "label": "Dashboard",
-      "href": "https://app.mintlify.com"
+      "href": "https://omnimux.ai"
+    }
+  },
+  "footer": {
+    "socials": {
+      "github": "https://github.com/laozhong86/OmniMux",
+      "website": "https://omnimux.ai"
     }
   },
   "contextual": {
@@ -62,11 +111,9 @@
       "vscode"
     ]
   },
-  "footer": {
-    "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+  "seo": {
+    "metatags": {
+      "og:site_name": "OmniMux Docs"
     }
   }
 }

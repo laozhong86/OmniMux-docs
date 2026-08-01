@@ -1,0 +1,49 @@
+---
+title: "Authentication"
+description: "Call the OmniMux gateway API with a Bearer token."
+---
+
+Gateway user APIs use **HTTP Bearer** authentication. Console session credentials (JWT / PAT) are separate from gateway tokens — do not mix them.
+
+## Request header
+
+```http
+Authorization: Bearer sk-xxxxxxxx
+Content-Type: application/json
+```
+
+| Part | Meaning |
+| --- | --- |
+| `Bearer` | Fixed scheme |
+| `sk-...` | API token created in the console |
+
+Example:
+
+```bash
+curl https://api.omnimux.ai/v1/models \
+  -H "Authorization: Bearer $OMNIMUX_API_KEY"
+```
+
+## Where to create a token
+
+1. Open the [OmniMux console](https://omnimux.ai)
+2. Go to **Tokens / API Keys**
+3. Create a token; optionally limit models, quota, or IP (fields depend on your deployment)
+4. Copy the secret and store it securely (often shown only once)
+
+## Security practices
+
+- Keep keys on the server, in a secrets manager, or local env vars
+- Never embed keys in frontend bundles, screenshots, or public issues
+- If exposed, **disable / delete** the token in the console and create a new one
+- Use separate tokens per environment (dev / prod) for rotation and audit
+
+## Common errors
+
+| Symptom | Likely cause |
+| --- | --- |
+| `401` / auth failed | Missing header, wrong key, or disabled token |
+| `403` / forbidden | Model not allowed on the token, or IP not allowlisted |
+| Insufficient quota | Account or token quota exhausted |
+
+See the [API reference](/en/api-reference/overview) for full endpoint details.

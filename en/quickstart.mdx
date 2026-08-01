@@ -1,0 +1,97 @@
+---
+title: "Quickstart"
+description: "Send your first OmniMux Chat Completions request in a few minutes."
+---
+
+This guide covers: create an API key → set the Base URL → send a request.
+
+## Prerequisites
+
+- Access to the [OmniMux console](https://omnimux.ai)
+- Available quota (or a token provisioned by an admin)
+
+## Steps
+
+<Steps>
+  <Step title="Create an API key">
+    Sign in to the [console](https://omnimux.ai), open **Tokens / API Keys**, and create a key.
+
+    Keys look like `sk-...`. Store them only on the server or in private environment variables — never in frontend code or public repos.
+  </Step>
+
+  <Step title="Set the Base URL">
+    Gateway Base URL:
+
+    ```text
+    https://api.omnimux.ai
+    ```
+
+    For OpenAI-compatible SDKs, use `https://api.omnimux.ai/v1` (the SDK appends `/chat/completions`, etc.).
+  </Step>
+
+  <Step title="Send your first request">
+    With curl:
+
+    ```bash
+    curl https://api.omnimux.ai/v1/chat/completions \
+      -H "Authorization: Bearer $OMNIMUX_API_KEY" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "model": "gpt-4o-mini",
+        "messages": [
+          {"role": "user", "content": "Hello — introduce yourself in one sentence"}
+        ]
+      }'
+    ```
+
+    `model` must be enabled for your account. Check the console or call `GET /v1/models`. See [Models](/en/guides/models).
+  </Step>
+</Steps>
+
+## Official OpenAI SDKs
+
+### Python
+
+```python
+from openai import OpenAI
+
+client = OpenAI(
+    api_key="sk-...",  # OmniMux token
+    base_url="https://api.omnimux.ai/v1",
+)
+
+resp = client.chat.completions.create(
+    model="gpt-4o-mini",
+    messages=[{"role": "user", "content": "Hello"}],
+)
+print(resp.choices[0].message.content)
+```
+
+### Node.js
+
+```javascript
+import OpenAI from "openai";
+
+const client = new OpenAI({
+  apiKey: process.env.OMNIMUX_API_KEY,
+  baseURL: "https://api.omnimux.ai/v1",
+});
+
+const resp = await client.chat.completions.create({
+  model: "gpt-4o-mini",
+  messages: [{ role: "user", content: "Hello" }],
+});
+console.log(resp.choices[0].message.content);
+```
+
+## Next steps
+
+| Topic | What you get |
+| --- | --- |
+| [Authentication](/en/guides/authentication) | Header format and security notes |
+| [Models](/en/guides/models) | How to list and pick a model |
+| [API reference](/en/api-reference/overview) | Chat, Claude, Gemini, images, video, and more |
+
+<Warning>
+  API keys can spend account quota. Keep them server-side only. Rotate immediately if exposed.
+</Warning>

@@ -1,0 +1,40 @@
+---
+title: "API 参考概览"
+description: "OmniMux 网关 OpenAPI：协议入口与鉴权约定。"
+---
+
+网关 API 以 **Bearer Token** 调用，默认 Base URL：
+
+```text
+https://api.omnimux.ai
+```
+
+## 主要入口
+
+| 能力 | 方法 | 路径 |
+| --- | --- | --- |
+| Chat Completions | `POST` | `/v1/chat/completions` |
+| Responses | `POST` | `/v1/responses` |
+| Claude Messages | `POST` | `/v1/messages` |
+| Gemini | `POST` | `/v1beta/models/{model}:generateContent` |
+| 模型列表 | `GET` | `/v1/models` |
+| 图像 | `POST` | `/v1/images/generations` |
+| 视频（异步） | `POST` / `GET` | `/v1/video/generations`、`/v1/videos` 等 |
+
+左侧（或 API 导航）中的端点由 `openapi/relay.json` 自动生成，可直接试调用。
+
+## 鉴权
+
+```http
+Authorization: Bearer sk-xxxxxxxx
+```
+
+详见 [鉴权](/cn/guides/authentication)。
+
+## 异步任务
+
+图像 / 视频类接口通常先返回 `task_id`，再查询状态与结果。具体字段以各端点 Schema 为准。
+
+<Tip>
+  未实现的占位接口已从公开规格中移除。若控制台有模型但文档无端点，以线上 `GET /v1/models` 与渠道配置为准。
+</Tip>

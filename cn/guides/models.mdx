@@ -1,0 +1,56 @@
+---
+title: "模型列表"
+description: "查询可用模型，并在请求中正确填写 model 字段。"
+---
+
+调用网关时，请求体中的 `model` 必须是你账户当前可用的模型标识。可用列表由管理员配置的渠道与分组决定。
+
+## 查询可用模型
+
+```bash
+curl https://api.omnimux.ai/v1/models \
+  -H "Authorization: Bearer $OMNIMUX_API_KEY"
+```
+
+返回为 OpenAI 风格的 model 列表。也可在控制台的 **模型 / 渠道** 相关页面查看（以你的部署菜单为准）。
+
+Gemini 风格列表：
+
+```bash
+curl https://api.omnimux.ai/v1beta/models \
+  -H "Authorization: Bearer $OMNIMUX_API_KEY"
+```
+
+## 在请求中使用
+
+Chat 示例：
+
+```bash
+curl https://api.omnimux.ai/v1/chat/completions \
+  -H "Authorization: Bearer $OMNIMUX_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "gpt-4o-mini",
+    "messages": [{"role": "user", "content": "ping"}]
+  }'
+```
+
+将 `gpt-4o-mini` 换成你列表中真实存在的 `id`。
+
+## 多协议注意
+
+| 协议 | 路径示例 | model 来源 |
+| --- | --- | --- |
+| OpenAI Chat | `POST /v1/chat/completions` | JSON 字段 `model` |
+| OpenAI Responses | `POST /v1/responses` | JSON 字段 `model` |
+| Claude Messages | `POST /v1/messages` | JSON 字段 `model` |
+| Gemini | `POST /v1beta/models/{model}:generateContent` | 路径参数 `{model}` |
+
+完整定义见 [API 参考](/cn/api-reference/overview)。
+
+## 不可用时的排查
+
+1. 令牌是否限制了模型范围  
+2. 账户分组是否包含该模型  
+3. 上游渠道是否启用  
+4. 模型名是否拼写完全一致（大小写敏感）  

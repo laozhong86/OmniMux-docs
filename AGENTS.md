@@ -1,33 +1,50 @@
-> **First-time setup**: Customize this file for your project. Prompt the user to customize this file for their project.
-> For Mintlify product knowledge (components, configuration, writing standards),
-> install the Mintlify skill: `npx skills add https://mintlify.com/docs`
-
-# Documentation project instructions
+# OmniMux Docs — Agent instructions
 
 ## About this project
 
-- This is a documentation site built on [Mintlify](https://mintlify.com)
-- Pages are MDX files with YAML frontmatter
-- Configuration lives in `docs.json`
-- Use the Mintlify MCP server, `https://mcp.mintlify.com`, to edit content and settings via MCP
-- Use the Mintlify docs MCP server, `https://www.mintlify.com/docs/mcp`, to query information about using Mintlify via MCP
+- Documentation site for **OmniMux**, built on [Mintlify](https://mintlify.com)
+- Pages are MDX with YAML frontmatter
+- Site config: `docs.json`
+- Gateway OpenAPI snapshot: `openapi/relay.json` (synced from the product repo `docs/openapi/relay.json`)
+- Do **not** publish admin OpenAPI (`api.json`) on this public site
+
+## Repo boundary
+
+- This repository is **isolated** from the OmniMux product monorepo
+- Local clone should live as a **sibling** directory, e.g. `~/Desktop/Project/OmniMux-docs`
+- Product code, Docker, and fork-sync stay in the OmniMux product repo
+- Only bridge from product → docs: OpenAPI file sync + console `docs_link` setting
 
 ## Terminology
 
-{/* Add product-specific terms and preferred usage */}
-{/* Example: Use "workspace" not "project", "member" not "user" */}
+- **OmniMux** — product name (gateway + console)
+- **Gateway / relay API** — user-facing AI endpoints (`/v1/...`)
+- **Token / API key** — `sk-...` Bearer credential for gateway calls
+- **Channel** — upstream provider connection configured by admins
+- **Base URL** — production default `https://api.omnimux.ai`
+- Prefer **token** or **API key** for user docs; avoid internal admin jargon on public pages
 
-## Style preferences
+## Style
 
-{/* Add any project-specific style rules below */}
-
-- Use active voice and second person ("you")
-- Keep sentences concise — one idea per sentence
-- Use sentence case for headings
-- Bold for UI elements: Click **Settings**
-- Code formatting for file names, commands, paths, and code references
+- User-facing docs: Chinese under `cn/`, English under `en/`
+- Active voice, second person ("you" / "你")
+- Sentence case for English headings; Chinese headings keep natural phrasing
+- Bold UI labels: Click **Settings**
+- Code for paths, headers, model ids, and commands
+- Use real product domains (`omnimux.ai`, `api.omnimux.ai`); do not default to `docs.newapi.pro` or upstream branding in user-facing copy
 
 ## Content boundaries
 
-{/* Define what should and shouldn't be documented */}
-{/* Example: Don't document internal admin features */}
+- Document gateway usage for developers and integrators
+- Do not document internal admin/back-office APIs on this site
+- Do not invent model availability; point to `GET /v1/models` and the console
+- When OpenAPI changes in the product repo, refresh `openapi/relay.json` (manual or CI)
+
+## Local preview
+
+```bash
+npm i -g mint   # or: npx mint dev
+mint dev
+```
+
+Open `http://localhost:3000`.

@@ -1,0 +1,97 @@
+---
+title: "快速开始"
+description: "5 分钟内用 OmniMux 发出第一条 Chat Completions 请求。"
+---
+
+本指南带你完成：创建 API Key → 配置 Base URL → 发送请求。
+
+## 前置条件
+
+- 可访问 [OmniMux 控制台](https://omnimux.ai)
+- 账户有可用额度（或管理员已分配令牌）
+
+## 步骤
+
+<Steps>
+  <Step title="创建 API Key">
+    登录 [控制台](https://omnimux.ai)，打开 **令牌 / API Keys**，创建新密钥。
+
+    密钥形如 `sk-...`。只在服务端或私密环境变量中保存，不要写入前端或公开仓库。
+  </Step>
+
+  <Step title="确认 Base URL">
+    网关 Base URL：
+
+    ```text
+    https://api.omnimux.ai
+    ```
+
+    OpenAI 兼容路径通常为 `https://api.omnimux.ai/v1`（SDK 会再拼 `/chat/completions` 等）。
+  </Step>
+
+  <Step title="发送第一条请求">
+    使用 curl：
+
+    ```bash
+    curl https://api.omnimux.ai/v1/chat/completions \
+      -H "Authorization: Bearer $OMNIMUX_API_KEY" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "model": "gpt-4o-mini",
+        "messages": [
+          {"role": "user", "content": "你好，用一句话介绍你自己"}
+        ]
+      }'
+    ```
+
+    `model` 必须是你账户可用的模型名。可在控制台查看，或调用 `GET /v1/models`。详见 [模型列表](/cn/guides/models)。
+  </Step>
+</Steps>
+
+## 使用官方 OpenAI SDK
+
+### Python
+
+```python
+from openai import OpenAI
+
+client = OpenAI(
+    api_key="sk-...",  # OmniMux token
+    base_url="https://api.omnimux.ai/v1",
+)
+
+resp = client.chat.completions.create(
+    model="gpt-4o-mini",
+    messages=[{"role": "user", "content": "Hello"}],
+)
+print(resp.choices[0].message.content)
+```
+
+### Node.js
+
+```javascript
+import OpenAI from "openai";
+
+const client = new OpenAI({
+  apiKey: process.env.OMNIMUX_API_KEY,
+  baseURL: "https://api.omnimux.ai/v1",
+});
+
+const resp = await client.chat.completions.create({
+  model: "gpt-4o-mini",
+  messages: [{ role: "user", content: "Hello" }],
+});
+console.log(resp.choices[0].message.content);
+```
+
+## 下一步
+
+| 主题 | 说明 |
+| --- | --- |
+| [鉴权](/cn/guides/authentication) | Header 格式与安全注意 |
+| [模型](/cn/guides/models) | 如何枚举与选择 model |
+| [API 参考](/cn/api-reference/overview) | Chat、Claude、Gemini、图像、视频等完整接口 |
+
+<Warning>
+  API Key 可消费账户额度。仅放在服务端；泄露后立即在控制台吊销并轮换。
+</Warning>

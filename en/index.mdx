@@ -1,0 +1,51 @@
+---
+title: "OmniMux Docs"
+description: "Unified AI gateway — one Base URL for OpenAI-compatible, Claude, and Gemini APIs."
+---
+
+OmniMux is a unified AI model gateway. It aggregates many upstream providers behind one endpoint, with **OpenAI-compatible**, **Claude Messages**, and **Gemini** formats, plus billing, tokens, and channel management.
+
+## Start here
+
+<CardGroup cols={2}>
+  <Card title="Quickstart" icon="rocket" href="/en/quickstart">
+    Create an API key, set the Base URL, and send your first chat request.
+  </Card>
+  <Card title="Authentication" icon="key" href="/en/guides/authentication">
+    Bearer token usage and security practices.
+  </Card>
+  <Card title="Models" icon="layer-group" href="/en/guides/models">
+    List available models and choose the right `model` value.
+  </Card>
+  <Card title="API reference" icon="code" href="/en/api-reference/overview">
+    Gateway OpenAPI for chat, responses, Claude, Gemini, images, and video.
+  </Card>
+</CardGroup>
+
+## Capabilities
+
+<CardGroup cols={3}>
+  <Card title="One gateway" icon="plug">
+    Text, image, audio, and video share the same auth and entrypoint.
+  </Card>
+  <Card title="Multi-protocol" icon="code-branch">
+    OpenAI Chat / Responses, Claude Messages, Gemini generateContent, and more.
+  </Card>
+  <Card title="Operable" icon="gauge-high">
+    Manage tokens, quota, channels, and logs from the console.
+  </Card>
+</CardGroup>
+
+## Base URL
+
+Production gateway:
+
+```text
+https://api.omnimux.ai
+```
+
+Point your OpenAI SDK `base_url` / `BASE_URL` at that host and use a console API key to migrate most chat workloads.
+
+<Tip>
+  Console: [omnimux.ai](https://omnimux.ai) · Status: [status.omnimux.ai](https://status.omnimux.ai)
+</Tip>

@@ -1,0 +1,40 @@
+---
+title: "API reference overview"
+description: "OmniMux gateway OpenAPI — protocol entrypoints and auth."
+---
+
+Call the gateway with a **Bearer token**. Default Base URL:
+
+```text
+https://api.omnimux.ai
+```
+
+## Main entrypoints
+
+| Capability | Method | Path |
+| --- | --- | --- |
+| Chat Completions | `POST` | `/v1/chat/completions` |
+| Responses | `POST` | `/v1/responses` |
+| Claude Messages | `POST` | `/v1/messages` |
+| Gemini | `POST` | `/v1beta/models/{model}:generateContent` |
+| List models | `GET` | `/v1/models` |
+| Images | `POST` | `/v1/images/generations` |
+| Video (async) | `POST` / `GET` | `/v1/video/generations`, `/v1/videos`, … |
+
+Endpoint pages in the sidebar are generated from `openapi/relay.json` and support try-it playgrounds where enabled.
+
+## Authentication
+
+```http
+Authorization: Bearer sk-xxxxxxxx
+```
+
+See [Authentication](/en/guides/authentication).
+
+## Async tasks
+
+Image and video APIs often return a `task_id` first; poll for status and results. Field names follow each endpoint schema.
+
+<Tip>
+  Unimplemented placeholder ops are stripped from the public spec. If a model appears in the console but not here, trust live `GET /v1/models` and channel config.
+</Tip>
