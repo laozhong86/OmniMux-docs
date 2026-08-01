@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "OmniMux Gateway API",
-    "description": "OpenAI-compatible unified AI gateway. Authenticate with Authorization: Bearer <token>.",
+    "description": "OpenAI-compatible relay API for OmniMux (geminix.cc). Use Authorization: Bearer sk-... and base URL https://api.geminix.cc/v1 for SDKs.",
     "version": "1.0.0"
   },
   "tags": [
@@ -4218,7 +4218,7 @@
   "servers": [
     {
       "url": "https://api.geminix.cc",
-      "description": "OmniMux production gateway"
+      "description": "OmniMux production API"
     }
   ],
   "security": [
