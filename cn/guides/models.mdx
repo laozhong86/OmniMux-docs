@@ -8,7 +8,7 @@ description: "查询可用模型，并在请求中正确填写 model 字段。"
 ## 查询可用模型
 
 ```bash
-curl https://geminix.cc/v1/models \
+curl https://api.geminix.cc/v1/models \
   -H "Authorization: Bearer $OMNIMUX_API_KEY"
 ```
 
@@ -17,7 +17,7 @@ curl https://geminix.cc/v1/models \
 Gemini 风格列表：
 
 ```bash
-curl https://geminix.cc/v1beta/models \
+curl https://api.geminix.cc/v1beta/models \
   -H "Authorization: Bearer $OMNIMUX_API_KEY"
 ```
 
@@ -26,7 +26,7 @@ curl https://geminix.cc/v1beta/models \
 Chat 示例：
 
 ```bash
-curl https://geminix.cc/v1/chat/completions \
+curl https://api.geminix.cc/v1/chat/completions \
   -H "Authorization: Bearer $OMNIMUX_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{

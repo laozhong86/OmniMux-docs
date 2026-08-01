@@ -59,7 +59,7 @@ def transform(src: dict) -> dict:
     }
     d["servers"] = [
         {
-            "url": "https://geminix.cc",
+            "url": "https://api.geminix.cc",
             "description": "OmniMux production gateway",
         }
     ]

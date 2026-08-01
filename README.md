@@ -1,6 +1,6 @@
 # OmniMux Docs
 
-Public documentation for [OmniMux](https://geminix.cc) — unified AI gateway.
+Public documentation for [OmniMux](https://geminix.cc/dashboard) — unified AI gateway.
 
 Built with [Mintlify](https://mintlify.com). Content lives in this repository only (not in the product monorepo).
 

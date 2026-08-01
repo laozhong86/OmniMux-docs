@@ -60,3 +60,15 @@ docs_link = https://docs.geminix.cc
 3. API 参考 Tab 能展开 endpoints
 4. `docs.geminix.cc` HTTPS 正常（域名步骤完成后）
 5. 控制台顶栏 Docs 指向新站
+
+## API 域名 `api.geminix.cc`
+
+Railway 已添加自定义域 `api.geminix.cc`。在 Cloudflare（geminix.cc 区）添加：
+
+| Type | Name | Target | Proxy |
+| --- | --- | --- | --- |
+| CNAME | `api` | `s36b9wzi.up.railway.app` | 可橙云或灰云（按你现有 `geminix.cc` 习惯） |
+| TXT | `_railway-verify.api` | `railway-verify=7d8c0937664f021129067ded9b243bd2e9cf1756df25d5ad20a10097220f014b` | 仅 DNS |
+
+验收：`curl -sS https://api.geminix.cc/api/status` 返回 JSON；`curl -sS https://api.geminix.cc/v1/models -H "Authorization: Bearer $KEY"` 可鉴权。
+

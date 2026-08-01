@@ -12,15 +12,22 @@
   "logo": {
     "light": "/logo/light.svg",
     "dark": "/logo/dark.svg",
-    "href": "https://geminix.cc"
+    "href": "https://geminix.cc/dashboard"
   },
   "api": {
-    "openapi": ["openapi/relay.json"],
+    "openapi": [
+      "openapi/relay.json"
+    ],
     "playground": {
       "display": "interactive"
     },
     "examples": {
-      "languages": ["curl", "python", "javascript", "go"],
+      "languages": [
+        "curl",
+        "python",
+        "javascript",
+        "go"
+      ],
       "defaults": "required",
       "autogenerate": true
     }
@@ -33,16 +40,25 @@
         "groups": [
           {
             "group": "开始使用",
-            "pages": ["cn/index", "cn/quickstart"]
+            "pages": [
+              "cn/index",
+              "cn/quickstart"
+            ]
           },
           {
             "group": "指南",
-            "pages": ["cn/guides/authentication", "cn/guides/models"]
+            "pages": [
+              "cn/guides/authentication",
+              "cn/guides/base-url",
+              "cn/guides/models"
+            ]
           },
           {
             "group": "API 参考",
             "openapi": "openapi/relay.json",
-            "pages": ["cn/api-reference/overview"]
+            "pages": [
+              "cn/api-reference/overview"
+            ]
           }
         ]
       },
@@ -51,16 +67,25 @@
         "groups": [
           {
             "group": "Getting started",
-            "pages": ["en/index", "en/quickstart"]
+            "pages": [
+              "en/index",
+              "en/quickstart"
+            ]
           },
           {
             "group": "Guides",
-            "pages": ["en/guides/authentication", "en/guides/models"]
+            "pages": [
+              "en/guides/authentication",
+              "en/guides/base-url",
+              "en/guides/models"
+            ]
           },
           {
             "group": "API reference",
             "openapi": "openapi/relay.json",
-            "pages": ["en/api-reference/overview"]
+            "pages": [
+              "en/api-reference/overview"
+            ]
           }
         ]
       }
@@ -69,7 +94,7 @@
       "anchors": [
         {
           "anchor": "Console",
-          "href": "https://geminix.cc",
+          "href": "https://geminix.cc/dashboard",
           "icon": "gauge-high"
         },
         {
@@ -84,19 +109,19 @@
     "links": [
       {
         "label": "Support",
-        "href": "mailto:hello.cc"
+        "href": "mailto:hello@geminix.cc"
       }
     ],
     "primary": {
       "type": "button",
       "label": "Dashboard",
-      "href": "https://geminix.cc"
+      "href": "https://geminix.cc/dashboard"
     }
   },
   "footer": {
     "socials": {
       "github": "https://github.com/laozhong86/OmniMux",
-      "website": "https://geminix.cc"
+      "website": "https://geminix.cc/dashboard"
     }
   },
   "contextual": {

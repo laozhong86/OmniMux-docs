@@ -1,0 +1,106 @@
+---
+title: "Configure Base URL"
+description: "Set the OmniMux API Base URL in clients, SDKs, and CLIs."
+---
+
+## Production endpoints
+
+| Purpose | URL |
+| --- | --- |
+| Console | [https://geminix.cc/dashboard](https://geminix.cc/dashboard) |
+| API Base URL | `https://api.geminix.cc` |
+| OpenAI-compatible (typical SDK value) | `https://api.geminix.cc/v1` |
+| Docs | [https://docs.geminix.cc](https://docs.geminix.cc) |
+
+Auth header:
+
+```http
+Authorization: Bearer sk-xxxxxxxx
+```
+
+## Which value to paste?
+
+| Context | Value |
+| --- | --- |
+| Official OpenAI SDK / most compatible clients | `https://api.geminix.cc/v1` |
+| Full path you build yourself (curl) | `https://api.geminix.cc/v1/chat/completions` |
+| “Gateway root only” | `https://api.geminix.cc` |
+
+**Do not** use the console host `https://geminix.cc` as the API Base URL when the API is served on `api.geminix.cc`.
+
+## Common clients
+
+### 1) Environment variables
+
+```bash
+export OMNIMUX_API_KEY="sk-xxxxxxxx"
+export OPENAI_API_KEY="$OMNIMUX_API_KEY"
+export OPENAI_BASE_URL="https://api.geminix.cc/v1"
+```
+
+### 2) Python (openai)
+
+```python
+from openai import OpenAI
+
+client = OpenAI(
+    api_key="sk-xxxxxxxx",
+    base_url="https://api.geminix.cc/v1",
+)
+```
+
+### 3) Node.js (openai)
+
+```javascript
+import OpenAI from "openai";
+
+const client = new OpenAI({
+  apiKey: process.env.OMNIMUX_API_KEY,
+  baseURL: "https://api.geminix.cc/v1",
+});
+```
+
+### 4) curl
+
+```bash
+curl https://api.geminix.cc/v1/models \
+  -H "Authorization: Bearer $OMNIMUX_API_KEY"
+```
+
+### 5) Cherry Studio / OpenAI-compatible GUIs
+
+1. Settings → Model provider / API  
+2. **API base / Base URL**: `https://api.geminix.cc/v1`  
+3. **API Key**: token from the console (`sk-...`)  
+4. Save, then list models or send a chat
+
+### 6) Cursor / Continue
+
+In the provider config:
+
+- Base URL: `https://api.geminix.cc/v1`  
+- API Key: your token  
+
+Field labels vary (`OpenAI Base URL`, `Override Base URL`); the value is the same.
+
+## Self-check
+
+```bash
+curl -sS https://api.geminix.cc/api/status | head -c 200
+
+curl -sS https://api.geminix.cc/v1/models \
+  -H "Authorization: Bearer $OMNIMUX_API_KEY"
+```
+
+| Symptom | Fix |
+| --- | --- |
+| DNS / not resolved | Add CNAME for `api` (see DNS ops) |
+| 401 | Bad key or missing `Authorization` |
+| 404 on `/v1/...` | Extra or missing `/v1` relative to how the client builds paths |
+| Console works, API fails | Console is `geminix.cc`; API should be `api.geminix.cc` |
+
+## Related
+
+- [Quickstart](/en/quickstart)  
+- [Authentication](/en/guides/authentication)  
+- [Models](/en/guides/models)  

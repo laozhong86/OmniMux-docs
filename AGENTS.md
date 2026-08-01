@@ -21,7 +21,7 @@
 - **Gateway / relay API** — user-facing AI endpoints (`/v1/...`)
 - **Token / API key** — `sk-...` Bearer credential for gateway calls
 - **Channel** — upstream provider connection configured by admins
-- **Base URL** — production default `https://geminix.cc`
+- **Base URL** — production API Base URL `https://api.geminix.cc`
 - Prefer **token** or **API key** for user docs; avoid internal admin jargon on public pages
 
 ## Style
