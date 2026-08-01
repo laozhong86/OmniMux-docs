@@ -1,74 +1,83 @@
 ---
-title: "OmniMux user guide"
-description: "Social media operations infrastructure for agents — unified API gateway for OpenAI-compatible, Claude, and Gemini."
+title: "OmniMux"
+description: "Social media operations infrastructure for agents — help creators, developers, brands, and teams run automated multi-platform accounts."
 ---
 
-OmniMux is social media operations infrastructure for agents, delivered as a **unified AI model gateway**. It aggregates many upstream providers behind one endpoint, with **OpenAI-compatible**, **Claude Messages**, and **Gemini** formats, plus billing, tokens, and channel management.
+OmniMux is social media operations infrastructure built for agents. It helps creators, developers, brands, and companies build an automated social-account operating system. **Built for agents**: delivered as API, local CLI, Agent Skill, and MCP Server so any agent can plug in with minimal friction. **Global and China coverage**: one abstraction and one auth model across worldwide and Chinese platforms — connect once, reach the network. **Agent-first delivery**: send the product URL to your agent; install, init, and platform authorization are completed by the agent.
 
-Production: console [geminix.cc](https://geminix.cc) · API `https://api.geminix.cc` · docs [docs.geminix.cc](https://docs.geminix.cc).
+Production: console [geminix.cc/dashboard](https://geminix.cc/dashboard) · API `https://api.geminix.cc` · docs [docs.geminix.cc](https://docs.geminix.cc).
 
-## Documentation areas
-
-Top tabs map to three reader paths:
-
-| Tab | Who it is for | What you get |
-| --- | --- | --- |
-| **User guide** (this area) | First-time integrators | Quickstart, auth, Base URL, models |
-| **API manual** | HTTP / schema consumers | OpenAPI endpoints and protocol notes |
-| **Integration guide** | CLI / agent / OpenClaw setup | Step-by-step client configs |
-
-## Start here
+## Platform advantages
 
 <CardGroup cols={2}>
-  <Card title="Quickstart" icon="rocket" href="/en/quickstart">
-    Create an API key, set the Base URL, and send your first chat request.
+  <Card title="Agent-native access" icon="robot">
+    One capability surface as API, CLI, Skill, and MCP — meet your agent wherever it runs.
   </Card>
-  <Card title="Authentication" icon="key" href="/en/guides/authentication">
-    Bearer token usage and security practices.
+  <Card title="Global and China rails" icon="globe">
+    X, LinkedIn, YouTube plus Xiaohongshu, Douyin, and WeChat Official Accounts share one call surface; OmniMux handles platform auth and rules.
   </Card>
-  <Card title="Configure Base URL" icon="link" href="/en/guides/base-url">
-    Which host to paste into SDKs, CLIs, and clients.
+  <Card title="Agent-first delivery" icon="handshake">
+    The product URL is the entrypoint. Agents fetch install and init steps; Skills include authorization guidance — zero UI onboarding.
   </Card>
-  <Card title="Models" icon="layer-group" href="/en/guides/models">
-    List available models and set the right `model` value.
-  </Card>
-</CardGroup>
-
-## Go deeper
-
-<CardGroup cols={2}>
-  <Card title="API manual" icon="code" href="/en/api-reference/overview">
-    Chat, Responses, Claude, Gemini, images, and video.
-  </Card>
-  <Card title="Integration guide" icon="plug" href="/en/integration-guide/overview">
-    Claude Code, Codex, Gemini CLI, OpenClaw, Pi, and more.
+  <Card title="Transparent billing" icon="receipt">
+    Free to install, pay per call. Each action has a credit unit price, estimates before invoke, and usage returned with the response.
   </Card>
 </CardGroup>
 
 ## Capabilities
 
-<CardGroup cols={3}>
-  <Card title="One gateway" icon="plug">
-    Text, image, audio, and video share the same auth and entrypoint.
+**Analytics** Pull performance and engagement from each platform into one view for topic selection, spend, and review.
+
+**Content planning** Plan themes and publishing cadence from data insights. Exposed as API and Skill for your agent to call.
+
+**Auto-posting** Multi-platform publish and scheduling with format, specs, and tone adapted per network.
+
+**Engagement ops** Day-to-day matrix actions with human-like pacing, fully logged and auditable.
+
+These cover publish, adapt, distribute, and recycle on one call surface — analytics, planning, posting, and engagement through one API, driven by your agent.
+
+## Core features
+
+<CardGroup cols={2}>
+  <Card title="Unified auth" icon="key">
+    One key for all capabilities. Credentials for cross-platform publish, data pull, and account ops stay in one place.
   </Card>
-  <Card title="Multi-protocol" icon="code-branch">
-    OpenAI Chat / Responses, Claude Messages, Gemini generateContent, and more.
+  <Card title="Auditable execution" icon="clipboard-list">
+    Idempotent publish. Request, response, latency, and cost are retained by default for observability.
   </Card>
-  <Card title="Operable" icon="gauge-high">
-    Manage tokens, quota, channels, and logs from the console.
+  <Card title="Human-like pacing" icon="wave-pulse">
+    Execution policy is paced, configurable, and rule-aware to reduce rate limits and account risk.
+  </Card>
+  <Card title="Stable routing" icon="route">
+    When upstreams degrade, smart routing fails over to healthy channels without changing contracts or metering.
   </Card>
 </CardGroup>
 
-## Base URL
+## Use cases
 
-Production gateway:
+| Scenario | What you get |
+| --- | --- |
+| **Personal brand** | Creators and one-person companies hand distribution to an agent — publish network-wide, review nightly, feed data back into topics. |
+| **Product marketing** | Developers and indie hackers get multi-platform social execution from one endpoint, or embed it in their own product. |
+| **Brand matrices** | Marketing teams and agencies run matrix ops with systems and agents, with permissions, audit, and optional human review gates. |
 
-```text
-https://api.geminix.cc
-```
+## Start here
 
-Point your OpenAI SDK at `https://api.geminix.cc/v1` and use a console API key to migrate most chat workloads.
+<CardGroup cols={2}>
+  <Card title="Quickstart" icon="rocket" href="/en/quickstart">
+    Create an API key, set the Base URL, and send your first request.
+  </Card>
+  <Card title="Auth and Base URL" icon="link" href="/en/guides/base-url">
+    Production hosts, SDK values, and security notes.
+  </Card>
+  <Card title="API manual" icon="code" href="/en/api-reference/overview">
+    Gateway protocol entrypoints and OpenAPI.
+  </Card>
+  <Card title="Integration guide" icon="plug" href="/en/integration-guide/overview">
+    Claude Code, Codex, OpenClaw, Pi, and more.
+  </Card>
+</CardGroup>
 
 <Tip>
-  Console and API hosts are separate: console [geminix.cc/dashboard](https://geminix.cc/dashboard), API on `api.geminix.cc`.
+  Console and API hosts are separate: console [geminix.cc/dashboard](https://geminix.cc/dashboard), API `https://api.geminix.cc`.
 </Tip>
