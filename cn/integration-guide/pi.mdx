@@ -6,7 +6,7 @@ description: "将 Pi Coding Agent 连接到 OmniMux"
 ## 概述
 
 <Note>
-OmniMux 网关统一使用 Base URL：`https://api.geminix.cc`（OpenAI 兼容客户端通常填 `https://api.geminix.cc/v1`）。控制台为 [geminix.cc/dashboard](https://geminix.cc/dashboard)。文中的模型 ID 仅为示例，请以控制台或 `GET /v1/models` 为准。
+OmniMux 网关统一使用 Base URL：`https://api.omnimux.ai`（OpenAI 兼容客户端通常填 `https://api.omnimux.ai/v1`）。控制台为 [omnimux.ai/dashboard](https://omnimux.ai/dashboard)。文中的模型 ID 仅为示例，请以控制台或 `GET /v1/models` 为准。
 </Note>
 
 
@@ -50,7 +50,7 @@ pi --version
 
 ### 2. 获取 OmniMux API Key
 
-* 登录 [OmniMux 控制台](https://geminix.cc/dashboard)
+* 登录 [OmniMux 控制台](https://omnimux.ai/dashboard)
 * 在控制台中找到 API Keys，点击"创建新Key"按钮，然后复制生成的 Key
 * API Key 通常以 `sk-` 开头，请妥善保存
 
@@ -88,7 +88,7 @@ mkdir -Force "$HOME\.pi\agent"; notepad "$HOME\.pi\agent\models.json"
 "providers": {
 "omnimux": {
 "name": "OmniMux",
-"baseUrl": "https://api.geminix.cc",
+"baseUrl": "https://api.omnimux.ai",
 "apiKey": "$OMNIMUX_API_KEY",
 "authHeader": true,
 "api": "anthropic-messages",
@@ -113,7 +113,7 @@ mkdir -Force "$HOME\.pi\agent"; notepad "$HOME\.pi\agent\models.json"
 **关键字段说明（每一项都别漏）：**
 
 * **`api: "anthropic-messages"`** —— 走 OmniMux 的 Anthropic Messages 兼容线，Pi 会使用 Claude 原生的 `tool_use` / `tool_result` 工具协议。
-* **`baseUrl` 只填域名根** `https://api.geminix.cc`，**不要**手动加 `/v1` 或 `/v1/messages`。Pi 会自动拼接 `/v1/messages`；手动多拼会造成路径重复并返回 `404 Invalid URL`。
+* **`baseUrl` 只填域名根** `https://api.omnimux.ai`，**不要**手动加 `/v1` 或 `/v1/messages`。Pi 会自动拼接 `/v1/messages`；手动多拼会造成路径重复并返回 `404 Invalid URL`。
 * **`authHeader: true` 不能省略**。这个字段会让 Pi 自动附加 `Authorization: Bearer <你的Key>` 请求头。OmniMux 的 `/v1/messages` 只认 Bearer 认证，而 Pi 内置的 Anthropic SDK 默认只发 `x-api-key`，漏掉该字段会返回 `401`。
 * **`apiKey` 有两种填法，任选其一：**
 * **方式一 · 明文直填（最简单，适合本地自用）**：把配置里的 `"$OMNIMUX_API_KEY"` 直接换成你真实的 Key，例如 `"apiKey": "sk-你的真实Key"`。一步到位、无需设环境变量；缺点是 Key 会**明文**存在配置文件里，别把这个文件分享给别人或提交到 Git。
@@ -215,7 +215,7 @@ pi
 * 环境变量没生效（最常见）：在当前终端执行 `test -n "$OMNIMUX_API_KEY" && echo "Key 已加载" || echo "Key 未加载"`；Windows 用 `setx` 后需**重启终端**。
 * `apiKey` 字段写错：确认 `models.json` 里写的是 `"$OMNIMUX_API_KEY"`（引用环境变量），而不是把变量名当成了字面 Key。
 * 漏了 `"authHeader": true`：OmniMux 的 `/v1/messages` 需要 Bearer Token，请确认该字段与 `apiKey` 处于同一供应商配置内。
-* Key 本身无效或已被禁用：到 [OmniMux 控制台](https://geminix.cc/dashboard) 核对。
+* Key 本身无效或已被禁用：到 [OmniMux 控制台](https://omnimux.ai/dashboard) 核对。
 
 ### 返回 `404 Invalid URL`
 
@@ -223,7 +223,7 @@ pi
 {"message":"Invalid URL (POST /v1/v1/messages)","type":"invalid_request_error"}
 ```
 
-原因：`baseUrl` 里**手动多拼了路径**。Pi 会自动拼接 `/v1/messages`，把 `baseUrl` 改回域名根 `https://api.geminix.cc` 即可。
+原因：`baseUrl` 里**手动多拼了路径**。Pi 会自动拼接 `/v1/messages`，把 `baseUrl` 改回域名根 `https://api.omnimux.ai` 即可。
 
 ### 返回 `404 model_not_found`
 
@@ -245,7 +245,7 @@ pi
 
 ```json
 {
-"baseUrl": "https://api.geminix.cc",
+"baseUrl": "https://api.omnimux.ai",
 "authHeader": true,
 "api": "anthropic-messages"
 }
@@ -279,7 +279,7 @@ Cache Read 为命中缓存时的价格（约为 Input 的 0.1×）。实际节�
 
 ### 1. 为什么 `baseUrl` 只填域名根？
 
-因为 Pi 的 `anthropic-messages` 会自动在 `baseUrl` 后拼接 `/v1/messages`。手动加 `/v1` 或 `/v1/messages` 会导致路径重复并返回 `404 Invalid URL`。只填 `https://api.geminix.cc` 即可。
+因为 Pi 的 `anthropic-messages` 会自动在 `baseUrl` 后拼接 `/v1/messages`。手动加 `/v1` 或 `/v1/messages` 会导致路径重复并返回 `404 Invalid URL`。只填 `https://api.omnimux.ai` 即可。
 
 ### 2. 需要设 `authHeader: true` 吗？
 
@@ -299,6 +299,6 @@ OmniMux 支持 Claude 全系列（也支持 GPT、Gemini 等，可在控制台�
 
 ### 6. 如何查看用量？
 
-登录 [OmniMux 控制台](https://geminix.cc/dashboard) 即可查看请求量、消耗与 Token 使用情况。
+登录 [OmniMux 控制台](https://omnimux.ai/dashboard) 即可查看请求量、消耗与 Token 使用情况。
 
 更多用法与配置可参考 [Pi 官方仓库](https://github.com/earendil-works/pi)。

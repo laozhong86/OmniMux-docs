@@ -6,7 +6,7 @@ description: "将 Hermes Agent 连接到 OmniMux"
 ## 概述
 
 <Note>
-OmniMux 网关统一使用 Base URL：`https://api.geminix.cc`（OpenAI 兼容客户端通常填 `https://api.geminix.cc/v1`）。控制台为 [geminix.cc/dashboard](https://geminix.cc/dashboard)。文中的模型 ID 仅为示例，请以控制台或 `GET /v1/models` 为准。
+OmniMux 网关统一使用 Base URL：`https://api.omnimux.ai`（OpenAI 兼容客户端通常填 `https://api.omnimux.ai/v1`）。控制台为 [omnimux.ai/dashboard](https://omnimux.ai/dashboard)。文中的模型 ID 仅为示例，请以控制台或 `GET /v1/models` 为准。
 </Note>
 
 
@@ -27,7 +27,7 @@ Hermes Agent 支持多种大模型供应商，并且支持**自定义 OpenAI 兼
 
 ### 2. 获取 OmniMux API Key
 
-* 登录 [OmniMux 控制台](https://geminix.cc/dashboard)
+* 登录 [OmniMux 控制台](https://omnimux.ai/dashboard)
 * 在控制台中找到 API Keys，点击"创建新Key"按钮，然后复制生成的 Key
 * API Key 通常以 `sk-` 开头，请妥善保存
 
@@ -62,10 +62,10 @@ source ~/.zshrc   # 或 source ~/.bashrc
 
 向导会依次提示输入端点信息：
 
-* **API base URL** 填入：`https://api.geminix.cc/v1`
+* **API base URL** 填入：`https://api.omnimux.ai/v1`
 * **API key** 填入你的 OmniMux API Key（以 `sk-` 开头）
 
-填写后向导会自动校验端点。若看到类似 `Verified endpoint via https://api.geminix.cc/v1/models (154 model(s) visible)` 的提示，说明接口连通、Key 有效。随后按提示继续选择默认模型与工具即可。
+填写后向导会自动校验端点。若看到类似 `Verified endpoint via https://api.omnimux.ai/v1/models (154 model(s) visible)` 的提示，说明接口连通、Key 有效。随后按提示继续选择默认模型与工具即可。
 
 **预期结果：** 完成向导后会显示 **Installation Complete（安装完成）** 页面，并列出配置文件位置与常用命令。
 
@@ -99,11 +99,11 @@ iex (irm https://hermes-agent.nousresearch.com/install.ps1)
 
 向导会依次提示输入端点信息：
 
-* **API base URL** 填入：`https://api.geminix.cc/v1`
+* **API base URL** 填入：`https://api.omnimux.ai/v1`
 * **API key** 填入你的 OmniMux API Key（以 `sk-` 开头，输入时以 `*` 掩码显示）
 * **API compatibility mode** 选择 **Chat Completions** 或保持 **Auto-detect \[current]**（直接回车即可）
 
-填写后向导会自动校验端点。若看到类似 `Verified endpoint via https://api.geminix.cc/v1/models (169 model(s) visible)` 的提示，说明接口连通、Key 有效。
+填写后向导会自动校验端点。若看到类似 `Verified endpoint via https://api.omnimux.ai/v1/models (169 model(s) visible)` 的提示，说明接口连通、Key 有效。
 
 在模型列表底部的 `Select model [1-N] or type name:` 处，直接键入要作为默认模型的模型名（如 `claude-opus-5`）并回车。`Context length` 与 `Display name` 可直接回车使用默认值。
 
@@ -134,7 +134,7 @@ Hermes Agent 通过 `~/.hermes/` 目录下的配置文件进行配置，其中�
 * `~/.hermes/.env` —— 存放 API Key 等密钥
 * `~/.hermes/config.yaml` —— 存放模型、供应商等非密钥配置
 
-由于 OmniMux 提供 **OpenAI 兼容接口**，我们将 Hermes 的供应商设置为 `custom`（自定义端点），接口地址指向 `https://api.geminix.cc/v1`。
+由于 OmniMux 提供 **OpenAI 兼容接口**，我们将 Hermes 的供应商设置为 `custom`（自定义端点），接口地址指向 `https://api.omnimux.ai/v1`。
 
 Hermes 提供交互式配置向导，适合新用户（尤其是选择了 Quick Setup 的用户）。在终端执行：
 
@@ -146,11 +146,11 @@ hermes model
 
 依次填入端点信息，并在校验通过后选择 API 兼容模式：
 
-* **API base URL** 填入：`https://api.geminix.cc/v1`
+* **API base URL** 填入：`https://api.omnimux.ai/v1`
 * **API key** 填入你的 OmniMux API Key（以 `sk-` 开头）
 * **API compatibility mode** 选择 **Chat Completions（standard OpenAI-compatible endpoints）**
 
-看到类似 `Verified endpoint via https://api.geminix.cc/v1/models (163 model(s) visible)` 即表示接口连通、Key 有效。
+看到类似 `Verified endpoint via https://api.omnimux.ai/v1/models (163 model(s) visible)` 即表示接口连通、Key 有效。
 
 最后填入要作为默认模型的模型名（如 `claude-opus-5`），按回车确认。
 
@@ -169,7 +169,7 @@ hermes config set OPENAI_API_KEY 你的OmniMux_API_Key
 ### 2. 设置接口地址与模型（写入 config.yaml）
 
 ```bash
-hermes config set OPENAI_BASE_URL https://api.geminix.cc/v1
+hermes config set OPENAI_BASE_URL https://api.omnimux.ai/v1
 hermes config set model claude-opus-5
 ```
 
@@ -185,7 +185,7 @@ hermes config set model claude-opus-5
 
 ```bash
 OPENAI_API_KEY=你的OmniMux_API_Key
-OPENAI_BASE_URL=https://api.geminix.cc/v1
+OPENAI_BASE_URL=https://api.omnimux.ai/v1
 ```
 
 ### 2. 编辑 \~/.hermes/config.yaml
@@ -196,14 +196,14 @@ OPENAI_BASE_URL=https://api.geminix.cc/v1
 model:
 provider: custom
 default: claude-opus-5
-base_url: https://api.geminix.cc/v1
+base_url: https://api.omnimux.ai/v1
 api_mode: chat_completions
 ```
 
 **⚠️ 重要提示：**
 
 * 将 `你的OmniMux_API_Key` 替换为实际的 API Key
-* `base_url` 必须为 `https://api.geminix.cc/v1`（OmniMux 的 OpenAI 兼容接口地址）
+* `base_url` 必须为 `https://api.omnimux.ai/v1`（OmniMux 的 OpenAI 兼容接口地址）
 * 不要用中文输入法输入标点符号（如中文冒号 `：`）
 
 **配置项说明：**
@@ -266,10 +266,10 @@ hermes -c            # 简写形式
 fallback_providers:
 - provider: custom
 model: claude-sonnet-4-6
-base_url: https://api.geminix.cc/v1
+base_url: https://api.omnimux.ai/v1
 - provider: custom
 model: claude-haiku-4-5-20251001
-base_url: https://api.geminix.cc/v1
+base_url: https://api.omnimux.ai/v1
 ```
 
 ### 辅助模型（Auxiliary）
@@ -281,12 +281,12 @@ auxiliary:
 title_generation:
 provider: custom
 model: claude-haiku-4-5-20251001
-base_url: https://api.geminix.cc/v1
+base_url: https://api.omnimux.ai/v1
 api_key: 你的OmniMux_API_Key
 compression:
 provider: custom
 model: claude-haiku-4-5-20251001
-base_url: https://api.geminix.cc/v1
+base_url: https://api.omnimux.ai/v1
 api_key: 你的OmniMux_API_Key
 ```
 
@@ -304,7 +304,7 @@ Hermes Agent 是 Nous Research 推出的开源、终端原生的自主式 AI Age
 
 ### 3. 为什么要使用 `provider: custom` 接入 OmniMux？
 
-因为 OmniMux 提供标准的 **OpenAI 兼容接口**。Hermes 支持多种供应商，其中 `custom`（自定义 OpenAI 兼容端点）正是用于接入这类兼容接口的方式。因此在 Hermes 中以 `provider: custom` 接入 OmniMux，接口地址填写为 `https://api.geminix.cc/v1` 即可。
+因为 OmniMux 提供标准的 **OpenAI 兼容接口**。Hermes 支持多种供应商，其中 `custom`（自定义 OpenAI 兼容端点）正是用于接入这类兼容接口的方式。因此在 Hermes 中以 `provider: custom` 接入 OmniMux，接口地址填写为 `https://api.omnimux.ai/v1` 即可。
 
 ### 4. 启动时提示上下文长度（context length）不足怎么办？
 
@@ -314,7 +314,7 @@ Hermes Agent 建议使用至少具备 64K tokens 上下文的模型。因为系�
 
 * **401 错误**：`OPENAI_API_KEY` 未设置或 API Key 无效
 * **403 错误**：API Key 权限不足或已过期
-* 请检查 `~/.hermes/.env` 中的 Key，以及 `base_url` 是否为 `https://api.geminix.cc/v1`
+* 请检查 `~/.hermes/.env` 中的 Key，以及 `base_url` 是否为 `https://api.omnimux.ai/v1`
 
 ### 6. 修改了配置后为什么没有生效？
 
@@ -346,7 +346,7 @@ OmniMux 支持以下 Claude 模型（同时也支持 GPT、Gemini 等系列，�
 
 ### 9. 如何查看用量？
 
-登录 [OmniMux 控制台](https://geminix.cc/dashboard) 即可查看请求量、消耗与 Token 使用情况。
+登录 [OmniMux 控制台](https://omnimux.ai/dashboard) 即可查看请求量、消耗与 Token 使用情况。
 
 ### 10. 配置文件和密钥文件分别在哪里？
 

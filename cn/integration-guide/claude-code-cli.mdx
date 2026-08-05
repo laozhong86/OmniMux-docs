@@ -6,7 +6,7 @@ description: "将 Claude Code CLI 连接到 OmniMux"
 ## 概述
 
 <Note>
-OmniMux 网关统一使用 Base URL：`https://api.geminix.cc`（OpenAI 兼容客户端通常填 `https://api.geminix.cc/v1`）。控制台为 [geminix.cc/dashboard](https://geminix.cc/dashboard)。文中的模型 ID 仅为示例，请以控制台或 `GET /v1/models` 为准。
+OmniMux 网关统一使用 Base URL：`https://api.omnimux.ai`（OpenAI 兼容客户端通常填 `https://api.omnimux.ai/v1`）。控制台为 [omnimux.ai/dashboard](https://omnimux.ai/dashboard)。文中的模型 ID 仅为示例，请以控制台或 `GET /v1/models` 为准。
 </Note>
 
 
@@ -19,7 +19,7 @@ Claude Code CLI 是 Anthropic 官方推出的命令行工具，用于在终端�
 
 ### 获取 OmniMux API Key
 
-* 登录 [OmniMux 控制台](https://geminix.cc/dashboard)
+* 登录 [OmniMux 控制台](https://omnimux.ai/dashboard)
 * 在控制台中找到 API Keys，点击"创建新Key"按钮，然后复制生成的 Key
 * API Key 通常以 `sk-` 开头，请妥善保存
 
@@ -136,7 +136,7 @@ CC Switch 还支持系统托盘快捷切换、MCP 服务器管理、云端配置
 {
 "env": {
 "ANTHROPIC_AUTH_TOKEN": "你的 OmniMux API Key",
-"ANTHROPIC_BASE_URL": "https://api.geminix.cc",
+"ANTHROPIC_BASE_URL": "https://api.omnimux.ai",
 "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1"
 },
 "permissions": {
@@ -155,7 +155,7 @@ CC Switch 还支持系统托盘快捷切换、MCP 服务器管理、云端配置
 **配置项说明：**
 
 * `ANTHROPIC_AUTH_TOKEN`：你的 OmniMux API Key
-* `ANTHROPIC_BASE_URL`：`https://api.geminix.cc` （OmniMux API 接口地址）
+* `ANTHROPIC_BASE_URL`：`https://api.omnimux.ai` （OmniMux API 接口地址）
 * `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC`：减少非必要网络请求
 
 **图形界面设置：**
@@ -163,14 +163,14 @@ CC Switch 还支持系统托盘快捷切换、MCP 服务器管理、云端配置
 1. 右键「此电脑」→「属性」→「高级系统设置」→「环境变量」
 2. 在「用户变量」或「系统变量」中新建：
 * 变量名：`ANTHROPIC_BASE_URL`
-* 变量值：`https://api.geminix.cc`
+* 变量值：`https://api.omnimux.ai`
 3. 同样方法添加 `ANTHROPIC_AUTH_TOKEN`，变量值为你的 API Key
 4. 点击「确定」保存
 
 **PowerShell 命令设置：**
 
 ```powershell
-[System.Environment]::SetEnvironmentVariable('ANTHROPIC_BASE_URL', 'https://api.geminix.cc', 'User')
+[System.Environment]::SetEnvironmentVariable('ANTHROPIC_BASE_URL', 'https://api.omnimux.ai', 'User')
 [System.Environment]::SetEnvironmentVariable('ANTHROPIC_AUTH_TOKEN', '你的 OmniMux API Key', 'User')
 ```
 
@@ -181,14 +181,14 @@ CC Switch 还支持系统托盘快捷切换、MCP 服务器管理、云端配置
 **如果是 zsh（macOS 默认）：**
 
 ```bash
-echo 'export ANTHROPIC_BASE_URL="https://api.geminix.cc"' >> ~/.zshrc
+echo 'export ANTHROPIC_BASE_URL="https://api.omnimux.ai"' >> ~/.zshrc
 echo 'export ANTHROPIC_AUTH_TOKEN="你的 OmniMux API Key"' >> ~/.zshrc
 ```
 
 **如果是 bash：**
 
 ```bash
-echo 'export ANTHROPIC_BASE_URL="https://api.geminix.cc"' >> ~/.bash_profile
+echo 'export ANTHROPIC_BASE_URL="https://api.omnimux.ai"' >> ~/.bash_profile
 echo 'export ANTHROPIC_AUTH_TOKEN="你的 OmniMux API Key"' >> ~/.bash_profile
 ```
 
@@ -203,14 +203,14 @@ source ~/.zshrc  # 或 source ~/.bash_profile
 **如果是 bash（Linux 常用）：**
 
 ```bash
-echo 'export ANTHROPIC_BASE_URL="https://api.geminix.cc"' >> ~/.bashrc
+echo 'export ANTHROPIC_BASE_URL="https://api.omnimux.ai"' >> ~/.bashrc
 echo 'export ANTHROPIC_AUTH_TOKEN="你的 OmniMux API Key"' >> ~/.bashrc
 ```
 
 **如果是 zsh：**
 
 ```bash
-echo 'export ANTHROPIC_BASE_URL="https://api.geminix.cc"' >> ~/.zshrc
+echo 'export ANTHROPIC_BASE_URL="https://api.omnimux.ai"' >> ~/.zshrc
 echo 'export ANTHROPIC_AUTH_TOKEN="你的 OmniMux API Key"' >> ~/.zshrc
 ```
 
@@ -225,14 +225,14 @@ source ~/.bashrc  # 或 source ~/.zshrc
 在 PowerShell 中执行：
 
 ```powershell
-$env:ANTHROPIC_BASE_URL="https://api.geminix.cc"
+$env:ANTHROPIC_BASE_URL="https://api.omnimux.ai"
 $env:ANTHROPIC_AUTH_TOKEN="你的 OmniMux API Key"
 ```
 
 在 CMD 中执行：
 
 ```cmd
-set ANTHROPIC_BASE_URL=https://api.geminix.cc
+set ANTHROPIC_BASE_URL=https://api.omnimux.ai
 set ANTHROPIC_AUTH_TOKEN=你的 OmniMux API Key
 ```
 
@@ -241,7 +241,7 @@ set ANTHROPIC_AUTH_TOKEN=你的 OmniMux API Key
 在终端中执行：
 
 ```bash
-export ANTHROPIC_BASE_URL="https://api.geminix.cc"
+export ANTHROPIC_BASE_URL="https://api.omnimux.ai"
 export ANTHROPIC_AUTH_TOKEN="你的 OmniMux API Key"
 ```
 
@@ -337,7 +337,7 @@ Claude Code CLI 是 Anthropic 官方推出的命令行工具，允许用户在�
 
 * **401 错误**：`ANTHROPIC_AUTH_TOKEN` 未设置或 API Key 无效
 * **403 错误**：API Key 权限不足或已过期
-* 请检查 `ANTHROPIC_BASE_URL` 是否为 `https://api.geminix.cc`
+* 请检查 `ANTHROPIC_BASE_URL` 是否为 `https://api.omnimux.ai`
 
 ### 10. Claude Code CLI 适合哪些使用场景？又不适合哪些场景？
 

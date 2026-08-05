@@ -6,7 +6,7 @@ description: "将 Claude Desktop 连接到 OmniMux"
 ## 概述
 
 <Note>
-OmniMux 网关统一使用 Base URL：`https://api.geminix.cc`（OpenAI 兼容客户端通常填 `https://api.geminix.cc/v1`）。控制台为 [geminix.cc/dashboard](https://geminix.cc/dashboard)。文中的模型 ID 仅为示例，请以控制台或 `GET /v1/models` 为准。
+OmniMux 网关统一使用 Base URL：`https://api.omnimux.ai`（OpenAI 兼容客户端通常填 `https://api.omnimux.ai/v1`）。控制台为 [omnimux.ai/dashboard](https://omnimux.ai/dashboard)。文中的模型 ID 仅为示例，请以控制台或 `GET /v1/models` 为准。
 </Note>
 
 
@@ -27,7 +27,7 @@ Claude Desktop 是 Anthropic 官方桌面客户端，适合在本地电脑上直
 
 ### 获取 OmniMux API Key
 
-* 登录 [OmniMux 控制台](https://geminix.cc/dashboard)
+* 登录 [OmniMux 控制台](https://omnimux.ai/dashboard)
 * 在控制台中找到 API Keys，点击"创建新Key"按钮，然后复制生成的 Key
 * API Key 通常以 `sk-` 开头，请妥善保存
 
@@ -69,7 +69,7 @@ Claude Desktop 是 Anthropic 官方桌面客户端，适合在本地电脑上直
 
 | 字段                  | 说明                                                                                              |
 | ------------------- | ----------------------------------------------------------------------------------------------- |
-| Gateway base URL    | OmniMux 的网关地址，建议填写 `https://api.geminix.cc`                                                  |
+| Gateway base URL    | OmniMux 的网关地址，建议填写 `https://api.omnimux.ai`                                                  |
 | Gateway API key     | 直接填写您的 OmniMux API Key 本身，不需要加 `Bearer` 前缀                                                      |
 | Gateway auth scheme | `bearer`                                                                                        |
 | Model list          | 建议填写。请只添加支持 Anthropic Messages API 的文本/聊天模型 ID。您也可以直接跳到文末的 [支持的模型](#supported-claude-models) 表格 |

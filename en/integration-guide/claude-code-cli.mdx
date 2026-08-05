@@ -6,7 +6,7 @@ description: "Connect Claude Code CLI to OmniMux"
 ## Overview
 
 <Note>
-OmniMux uses a single gateway Base URL: `https://api.geminix.cc` (OpenAI-compatible clients typically use `https://api.geminix.cc/v1`). Console: [geminix.cc/dashboard](https://geminix.cc/dashboard). Model IDs in this guide are examples — confirm with the console or `GET /v1/models`.
+OmniMux uses a single gateway Base URL: `https://api.omnimux.ai` (OpenAI-compatible clients typically use `https://api.omnimux.ai/v1`). Console: [omnimux.ai/dashboard](https://omnimux.ai/dashboard). Model IDs in this guide are examples — confirm with the console or `GET /v1/models`.
 </Note>
 
 
@@ -19,7 +19,7 @@ Before configuring, make sure you have:
 
 ### Get OmniMux API Key
 
-* Log in to [OmniMux Console](https://geminix.cc/dashboard)
+* Log in to [OmniMux Console](https://omnimux.ai/dashboard)
 * Find API Keys in the dashboard, click "Create New Key" button, then copy the generated Key
 * API Key usually starts with `sk-`
 
@@ -136,7 +136,7 @@ In the opened folder, if `settings.json` doesn't exist, right-click in empty spa
 {
 "env": {
 "ANTHROPIC_AUTH_TOKEN": "your-omnimux-api-key",
-"ANTHROPIC_BASE_URL": "https://api.geminix.cc",
+"ANTHROPIC_BASE_URL": "https://api.omnimux.ai",
 "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1"
 },
 "permissions": {
@@ -155,7 +155,7 @@ In the opened folder, if `settings.json` doesn't exist, right-click in empty spa
 **Configuration options:**
 
 * `ANTHROPIC_AUTH_TOKEN`: Your OmniMux API Key
-* `ANTHROPIC_BASE_URL`: `https://api.geminix.cc` (OmniMux API endpoint)
+* `ANTHROPIC_BASE_URL`: `https://api.omnimux.ai` (OmniMux API endpoint)
 * `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC`: Reduce non-essential network requests
 
 **GUI Setup:**
@@ -163,14 +163,14 @@ In the opened folder, if `settings.json` doesn't exist, right-click in empty spa
 1. Right-click "This PC" → "Properties" → "Advanced system settings" → "Environment Variables"
 2. In "User variables" or "System variables", create new:
 * Variable name: `ANTHROPIC_BASE_URL`
-* Variable value: `https://api.geminix.cc`
+* Variable value: `https://api.omnimux.ai`
 3. Add `ANTHROPIC_AUTH_TOKEN` with your API Key as the value
 4. Click "OK" to save
 
 **PowerShell Command:**
 
 ```powershell
-[System.Environment]::SetEnvironmentVariable('ANTHROPIC_BASE_URL', 'https://api.geminix.cc', 'User')
+[System.Environment]::SetEnvironmentVariable('ANTHROPIC_BASE_URL', 'https://api.omnimux.ai', 'User')
 [System.Environment]::SetEnvironmentVariable('ANTHROPIC_AUTH_TOKEN', 'your-omnimux-api-key', 'User')
 ```
 
@@ -181,14 +181,14 @@ Edit shell configuration file (choose based on your shell):
 **If using zsh (macOS default):**
 
 ```bash
-echo 'export ANTHROPIC_BASE_URL="https://api.geminix.cc"' >> ~/.zshrc
+echo 'export ANTHROPIC_BASE_URL="https://api.omnimux.ai"' >> ~/.zshrc
 echo 'export ANTHROPIC_AUTH_TOKEN="your-omnimux-api-key"' >> ~/.zshrc
 ```
 
 **If using bash:**
 
 ```bash
-echo 'export ANTHROPIC_BASE_URL="https://api.geminix.cc"' >> ~/.bash_profile
+echo 'export ANTHROPIC_BASE_URL="https://api.omnimux.ai"' >> ~/.bash_profile
 echo 'export ANTHROPIC_AUTH_TOKEN="your-omnimux-api-key"' >> ~/.bash_profile
 ```
 
@@ -203,14 +203,14 @@ Edit shell configuration file (choose based on your shell):
 **If using bash (common on Linux):**
 
 ```bash
-echo 'export ANTHROPIC_BASE_URL="https://api.geminix.cc"' >> ~/.bashrc
+echo 'export ANTHROPIC_BASE_URL="https://api.omnimux.ai"' >> ~/.bashrc
 echo 'export ANTHROPIC_AUTH_TOKEN="your-omnimux-api-key"' >> ~/.bashrc
 ```
 
 **If using zsh:**
 
 ```bash
-echo 'export ANTHROPIC_BASE_URL="https://api.geminix.cc"' >> ~/.zshrc
+echo 'export ANTHROPIC_BASE_URL="https://api.omnimux.ai"' >> ~/.zshrc
 echo 'export ANTHROPIC_AUTH_TOKEN="your-omnimux-api-key"' >> ~/.zshrc
 ```
 
@@ -225,14 +225,14 @@ source ~/.bashrc  # or source ~/.zshrc
 In PowerShell:
 
 ```powershell
-$env:ANTHROPIC_BASE_URL="https://api.geminix.cc"
+$env:ANTHROPIC_BASE_URL="https://api.omnimux.ai"
 $env:ANTHROPIC_AUTH_TOKEN="your-omnimux-api-key"
 ```
 
 In CMD:
 
 ```cmd
-set ANTHROPIC_BASE_URL=https://api.geminix.cc
+set ANTHROPIC_BASE_URL=https://api.omnimux.ai
 set ANTHROPIC_AUTH_TOKEN=your-omnimux-api-key
 ```
 
@@ -241,7 +241,7 @@ set ANTHROPIC_AUTH_TOKEN=your-omnimux-api-key
 In Terminal:
 
 ```bash
-export ANTHROPIC_BASE_URL="https://api.geminix.cc"
+export ANTHROPIC_BASE_URL="https://api.omnimux.ai"
 export ANTHROPIC_AUTH_TOKEN="your-omnimux-api-key"
 ```
 
@@ -337,7 +337,7 @@ Common causes include:
 
 * **401 error**: `ANTHROPIC_AUTH_TOKEN` not set or invalid API Key
 * **403 error**: Insufficient API Key permissions or expired key
-* Verify `ANTHROPIC_BASE_URL` is set to `https://api.geminix.cc`
+* Verify `ANTHROPIC_BASE_URL` is set to `https://api.omnimux.ai`
 
 ### 10. What scenarios is Claude Code CLI suited for? What is it not suited for?
 

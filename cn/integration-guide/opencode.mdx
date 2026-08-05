@@ -6,7 +6,7 @@ description: "将 OpenCode 连接到 OmniMux"
 ## 概述
 
 <Note>
-OmniMux 网关统一使用 Base URL：`https://api.geminix.cc`（OpenAI 兼容客户端通常填 `https://api.geminix.cc/v1`）。控制台为 [geminix.cc/dashboard](https://geminix.cc/dashboard)。文中的模型 ID 仅为示例，请以控制台或 `GET /v1/models` 为准。
+OmniMux 网关统一使用 Base URL：`https://api.omnimux.ai`（OpenAI 兼容客户端通常填 `https://api.omnimux.ai/v1`）。控制台为 [omnimux.ai/dashboard](https://omnimux.ai/dashboard)。文中的模型 ID 仅为示例，请以控制台或 `GET /v1/models` 为准。
 </Note>
 
 
@@ -35,7 +35,7 @@ Linux 用户可以使用系统自带的终端或 GNOME Terminal、Konsole 等。
 
 ### 2. 获取 OmniMux API Key
 
-* 登录 [OmniMux 控制台](https://geminix.cc/dashboard)
+* 登录 [OmniMux 控制台](https://omnimux.ai/dashboard)
 * 在控制台中找到 API Keys，点击"创建新Key"按钮，然后复制生成的 Key
 * API Key 通常以 `sk-` 开头，请妥善保存
 
@@ -130,7 +130,7 @@ cd ~/.config/opencode
 "npm": "@ai-sdk/anthropic",
 "name": "OmniMux Claude",
 "options": {
-"baseURL": "https://api.geminix.cc/v1",
+"baseURL": "https://api.omnimux.ai/v1",
 "apiKey": "你的 OmniMux API Key"
 },
 "models": {
@@ -180,7 +180,7 @@ cd ~/.config/opencode
 "npm": "@ai-sdk/google",
 "name": "OmniMux Gemini",
 "options": {
-"baseURL": "https://api.geminix.cc/v1beta",
+"baseURL": "https://api.omnimux.ai/v1beta",
 "apiKey": "你的 OmniMux API Key"
 },
 "models": {
@@ -214,7 +214,7 @@ cd ~/.config/opencode
 "npm": "@ai-sdk/openai",
 "name": "OmniMux GPT",
 "options": {
-"baseURL": "https://api.geminix.cc/v1",
+"baseURL": "https://api.omnimux.ai/v1",
 "apiKey": "你的 OmniMux API Key"
 },
 "models": {

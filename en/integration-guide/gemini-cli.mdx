@@ -6,7 +6,7 @@ description: "Connect Gemini CLI to OmniMux"
 ## Overview
 
 <Note>
-OmniMux uses a single gateway Base URL: `https://api.geminix.cc` (OpenAI-compatible clients typically use `https://api.geminix.cc/v1`). Console: [geminix.cc/dashboard](https://geminix.cc/dashboard). Model IDs in this guide are examples — confirm with the console or `GET /v1/models`.
+OmniMux uses a single gateway Base URL: `https://api.omnimux.ai` (OpenAI-compatible clients typically use `https://api.omnimux.ai/v1`). Console: [omnimux.ai/dashboard](https://omnimux.ai/dashboard). Model IDs in this guide are examples — confirm with the console or `GET /v1/models`.
 </Note>
 
 
@@ -37,7 +37,7 @@ npm -v
 
 ### 2. Get OmniMux API Key
 
-* Log in to [OmniMux Console](https://geminix.cc/dashboard)
+* Log in to [OmniMux Console](https://omnimux.ai/dashboard)
 * Find API Keys in the dashboard, click 'Create New Key' button, then copy the generated Key
 * API Key usually starts with `sk-`
 
@@ -92,7 +92,7 @@ Find line **\~11222**:
 initHttpOptions.baseUrl = `https://generativelanguage.googleapis.com/`;
 
 // After
-initHttpOptions.baseUrl = `https://api.geminix.cc/`;
+initHttpOptions.baseUrl = `https://api.omnimux.ai/`;
 ```
 
 **File 2:** `{install_dir}\@google\gemini-cli\node_modules\@google\genai\dist\node\index.cjs`
@@ -232,7 +232,7 @@ Common causes include:
 
 * **401 error**: `GEMINI_API_KEY` not set or invalid
 * **403 error**: Insufficient permissions or expired key
-* Verify API endpoint is `https://api.geminix.cc/`
+* Verify API endpoint is `https://api.omnimux.ai/`
 
 ### 10. What scenarios is Gemini CLI suited for?
 

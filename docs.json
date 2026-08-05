@@ -2,7 +2,7 @@
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
   "name": "OmniMux",
-  "description": "Social media operations infrastructure for agents — API, CLI, Skill, and MCP. Console geminix.cc · API api.geminix.cc",
+  "description": "Social media operations infrastructure for agents — API, CLI, Skill, and MCP. Console omnimux.ai · API api.omnimux.ai",
   "colors": {
     "primary": "#C8F135",
     "light": "#D4F75A",
@@ -12,7 +12,7 @@
   "logo": {
     "light": "/logo/light.svg",
     "dark": "/logo/dark.svg",
-    "href": "https://geminix.cc/dashboard"
+    "href": "https://omnimux.ai/dashboard"
   },
   "api": {
     "openapi": [
@@ -197,19 +197,19 @@
     "links": [
       {
         "label": "Support",
-        "href": "mailto:hello@geminix.cc"
+        "href": "mailto:hello@omnimux.ai"
       }
     ],
     "primary": {
       "type": "button",
       "label": "Dashboard",
-      "href": "https://geminix.cc/dashboard"
+      "href": "https://omnimux.ai/dashboard"
     }
   },
   "footer": {
     "socials": {
       "github": "https://github.com/laozhong86/OmniMux",
-      "website": "https://geminix.cc/dashboard"
+      "website": "https://omnimux.ai/dashboard"
     }
   },
   "contextual": {

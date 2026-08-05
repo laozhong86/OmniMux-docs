@@ -7,10 +7,10 @@ description: "Set the OmniMux API Base URL in clients, SDKs, and CLIs."
 
 | Purpose | URL |
 | --- | --- |
-| Console | [https://geminix.cc/dashboard](https://geminix.cc/dashboard) |
-| API Base URL | `https://api.geminix.cc` |
-| OpenAI-compatible (typical SDK value) | `https://api.geminix.cc/v1` |
-| Docs | [https://docs.geminix.cc](https://docs.geminix.cc) |
+| Console | [https://omnimux.ai/dashboard](https://omnimux.ai/dashboard) |
+| API Base URL | `https://api.omnimux.ai` |
+| OpenAI-compatible (typical SDK value) | `https://api.omnimux.ai/v1` |
+| Docs | [https://docs.omnimux.ai](https://docs.omnimux.ai) |
 
 Auth header:
 
@@ -22,11 +22,11 @@ Authorization: Bearer sk-xxxxxxxx
 
 | Context | Value |
 | --- | --- |
-| Official OpenAI SDK / most compatible clients | `https://api.geminix.cc/v1` |
-| Full path you build yourself (curl) | `https://api.geminix.cc/v1/chat/completions` |
-| “Gateway root only” | `https://api.geminix.cc` |
+| Official OpenAI SDK / most compatible clients | `https://api.omnimux.ai/v1` |
+| Full path you build yourself (curl) | `https://api.omnimux.ai/v1/chat/completions` |
+| “Gateway root only” | `https://api.omnimux.ai` |
 
-**Do not** use the console host `https://geminix.cc` as the API Base URL when the API is served on `api.geminix.cc`.
+**Do not** use the console host `https://omnimux.ai` as the API Base URL when the API is served on `api.omnimux.ai`.
 
 ## Common clients
 
@@ -35,7 +35,7 @@ Authorization: Bearer sk-xxxxxxxx
 ```bash
 export OMNIMUX_API_KEY="sk-xxxxxxxx"
 export OPENAI_API_KEY="$OMNIMUX_API_KEY"
-export OPENAI_BASE_URL="https://api.geminix.cc/v1"
+export OPENAI_BASE_URL="https://api.omnimux.ai/v1"
 ```
 
 ### 2) Python (openai)
@@ -45,7 +45,7 @@ from openai import OpenAI
 
 client = OpenAI(
     api_key="sk-xxxxxxxx",
-    base_url="https://api.geminix.cc/v1",
+    base_url="https://api.omnimux.ai/v1",
 )
 ```
 
@@ -56,21 +56,21 @@ import OpenAI from "openai";
 
 const client = new OpenAI({
   apiKey: process.env.OMNIMUX_API_KEY,
-  baseURL: "https://api.geminix.cc/v1",
+  baseURL: "https://api.omnimux.ai/v1",
 });
 ```
 
 ### 4) curl
 
 ```bash
-curl https://api.geminix.cc/v1/models \
+curl https://api.omnimux.ai/v1/models \
   -H "Authorization: Bearer $OMNIMUX_API_KEY"
 ```
 
 ### 5) Cherry Studio / OpenAI-compatible GUIs
 
 1. Settings → Model provider / API  
-2. **API base / Base URL**: `https://api.geminix.cc/v1`  
+2. **API base / Base URL**: `https://api.omnimux.ai/v1`  
 3. **API Key**: token from the console (`sk-...`)  
 4. Save, then list models or send a chat
 
@@ -78,7 +78,7 @@ curl https://api.geminix.cc/v1/models \
 
 In the provider config:
 
-- Base URL: `https://api.geminix.cc/v1`  
+- Base URL: `https://api.omnimux.ai/v1`  
 - API Key: your token  
 
 Field labels vary (`OpenAI Base URL`, `Override Base URL`); the value is the same.
@@ -86,9 +86,9 @@ Field labels vary (`OpenAI Base URL`, `Override Base URL`); the value is the sam
 ## Self-check
 
 ```bash
-curl -sS https://api.geminix.cc/api/status | head -c 200
+curl -sS https://api.omnimux.ai/api/status | head -c 200
 
-curl -sS https://api.geminix.cc/v1/models \
+curl -sS https://api.omnimux.ai/v1/models \
   -H "Authorization: Bearer $OMNIMUX_API_KEY"
 ```
 
@@ -97,7 +97,7 @@ curl -sS https://api.geminix.cc/v1/models \
 | DNS / not resolved | Add CNAME for `api` (see DNS ops) |
 | 401 | Bad key or missing `Authorization` |
 | 404 on `/v1/...` | Extra or missing `/v1` relative to how the client builds paths |
-| Console works, API fails | Console is `geminix.cc`; API should be `api.geminix.cc` |
+| Console works, API fails | Console is `omnimux.ai`; API should be `api.omnimux.ai` |
 
 ## Related
 

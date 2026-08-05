@@ -6,7 +6,7 @@ description: "Connect Hermes Agent to OmniMux"
 ## Overview
 
 <Note>
-OmniMux uses a single gateway Base URL: `https://api.geminix.cc` (OpenAI-compatible clients typically use `https://api.geminix.cc/v1`). Console: [geminix.cc/dashboard](https://geminix.cc/dashboard). Model IDs in this guide are examples — confirm with the console or `GET /v1/models`.
+OmniMux uses a single gateway Base URL: `https://api.omnimux.ai` (OpenAI-compatible clients typically use `https://api.omnimux.ai/v1`). Console: [omnimux.ai/dashboard](https://omnimux.ai/dashboard). Model IDs in this guide are examples — confirm with the console or `GET /v1/models`.
 </Note>
 
 
@@ -27,7 +27,7 @@ Before starting the configuration, make sure you have completed the following pr
 
 ### 2. Get an OmniMux API Key
 
-* Log in to the [OmniMux console](https://geminix.cc/dashboard)
+* Log in to the [OmniMux console](https://omnimux.ai/dashboard)
 * Find API Keys in the console, click the "Create New Key" button, then copy the generated key
 * The API Key usually starts with `sk-`. Please keep it safe.
 
@@ -62,10 +62,10 @@ In the provider list, scroll down and select **custom endpoint (enter URL manual
 
 The wizard will prompt you for the endpoint details in turn:
 
-* **API base URL**: enter `https://api.geminix.cc/v1`
+* **API base URL**: enter `https://api.omnimux.ai/v1`
 * **API key**: enter your OmniMux API Key (starting with `sk-`)
 
-After you enter them, the wizard automatically validates the endpoint. If you see a message like `Verified endpoint via https://api.geminix.cc/v1/models (154 model(s) visible)`, the endpoint is connected and the key is valid. Then follow the prompts to continue selecting a default model and tools.
+After you enter them, the wizard automatically validates the endpoint. If you see a message like `Verified endpoint via https://api.omnimux.ai/v1/models (154 model(s) visible)`, the endpoint is connected and the key is valid. Then follow the prompts to continue selecting a default model and tools.
 
 **Expected result:** After completing the wizard, an **Installation Complete** page is displayed, listing the configuration file locations and common commands.
 
@@ -99,11 +99,11 @@ In the provider list, scroll down to find **custom endpoint (enter URL manually)
 
 The wizard will prompt you for the endpoint details in turn:
 
-* **API base URL**: enter `https://api.geminix.cc/v1`
+* **API base URL**: enter `https://api.omnimux.ai/v1`
 * **API key**: enter your OmniMux API Key (starting with `sk-`, masked with `*` as you type)
 * **API compatibility mode**: select **Chat Completions** or keep **Auto-detect \[current]** (just press Enter)
 
-After you enter them, the wizard automatically validates the endpoint. If you see a message like `Verified endpoint via https://api.geminix.cc/v1/models (169 model(s) visible)`, the endpoint is connected and the key is valid.
+After you enter them, the wizard automatically validates the endpoint. If you see a message like `Verified endpoint via https://api.omnimux.ai/v1/models (169 model(s) visible)`, the endpoint is connected and the key is valid.
 
 At the `Select model [1-N] or type name:` prompt at the bottom of the model list, type the name of the model you want as the default (such as `claude-opus-5`) and press Enter. You can press Enter to accept the defaults for `Context length` and `Display name`.
 
@@ -134,7 +134,7 @@ Hermes Agent is configured through files in the `~/.hermes/` directory, where:
 * `~/.hermes/.env` — stores secrets such as API keys
 * `~/.hermes/config.yaml` — stores non-secret configuration such as models and providers
 
-Because OmniMux provides an **OpenAI-compatible endpoint**, we set Hermes' provider to `custom` (custom endpoint) with the endpoint URL pointing to `https://api.geminix.cc/v1`.
+Because OmniMux provides an **OpenAI-compatible endpoint**, we set Hermes' provider to `custom` (custom endpoint) with the endpoint URL pointing to `https://api.omnimux.ai/v1`.
 
 Hermes provides an interactive setup wizard, suitable for new users (especially those who chose Quick Setup). Run in your terminal:
 
@@ -146,11 +146,11 @@ In the provider list, scroll down and select **custom endpoint (enter URL manual
 
 Enter the endpoint details in turn, and after validation passes, select the API compatibility mode:
 
-* **API base URL**: enter `https://api.geminix.cc/v1`
+* **API base URL**: enter `https://api.omnimux.ai/v1`
 * **API key**: enter your OmniMux API Key (starting with `sk-`)
 * **API compatibility mode**: select **Chat Completions (standard OpenAI-compatible endpoints)**
 
-Seeing a message like `Verified endpoint via https://api.geminix.cc/v1/models (163 model(s) visible)` means the endpoint is connected and the key is valid.
+Seeing a message like `Verified endpoint via https://api.omnimux.ai/v1/models (163 model(s) visible)` means the endpoint is connected and the key is valid.
 
 Finally, enter the name of the model you want as the default (such as `claude-opus-5`) and press Enter to confirm.
 
@@ -169,7 +169,7 @@ hermes config set OPENAI_API_KEY your_OmniMux_API_Key
 ### 2. Set the endpoint URL and model (writes to config.yaml)
 
 ```bash
-hermes config set OPENAI_BASE_URL https://api.geminix.cc/v1
+hermes config set OPENAI_BASE_URL https://api.omnimux.ai/v1
 hermes config set model claude-opus-5
 ```
 
@@ -185,7 +185,7 @@ Open (or create) `~/.hermes/.env` and write in the API Key and endpoint URL:
 
 ```bash
 OPENAI_API_KEY=your_OmniMux_API_Key
-OPENAI_BASE_URL=https://api.geminix.cc/v1
+OPENAI_BASE_URL=https://api.omnimux.ai/v1
 ```
 
 ### 2. Edit \~/.hermes/config.yaml
@@ -196,14 +196,14 @@ Open (or create) `~/.hermes/config.yaml` and configure the main model as a custo
 model:
 provider: custom
 default: claude-opus-5
-base_url: https://api.geminix.cc/v1
+base_url: https://api.omnimux.ai/v1
 api_mode: chat_completions
 ```
 
 **⚠️ Important notes:**
 
 * Replace `your_OmniMux_API_Key` with your actual API Key
-* `base_url` must be `https://api.geminix.cc/v1` (OmniMux's OpenAI-compatible endpoint URL)
+* `base_url` must be `https://api.omnimux.ai/v1` (OmniMux's OpenAI-compatible endpoint URL)
 * Do not enter punctuation using a Chinese input method (such as the full-width colon `：`)
 
 **Configuration item descriptions:**
@@ -266,10 +266,10 @@ When a request to the main model fails, Hermes can automatically switch to a fal
 fallback_providers:
 - provider: custom
 model: claude-sonnet-4-6
-base_url: https://api.geminix.cc/v1
+base_url: https://api.omnimux.ai/v1
 - provider: custom
 model: claude-haiku-4-5-20251001
-base_url: https://api.geminix.cc/v1
+base_url: https://api.omnimux.ai/v1
 ```
 
 ### Auxiliary Models
@@ -281,12 +281,12 @@ auxiliary:
 title_generation:
 provider: custom
 model: claude-haiku-4-5-20251001
-base_url: https://api.geminix.cc/v1
+base_url: https://api.omnimux.ai/v1
 api_key: your_OmniMux_API_Key
 compression:
 provider: custom
 model: claude-haiku-4-5-20251001
-base_url: https://api.geminix.cc/v1
+base_url: https://api.omnimux.ai/v1
 api_key: your_OmniMux_API_Key
 ```
 
@@ -304,7 +304,7 @@ No. Hermes **Agent** is an open-source command-line tool; Hermes 3 / Hermes 4 ar
 
 ### 3. Why use `provider: custom` to connect OmniMux?
 
-Because OmniMux provides a standard **OpenAI-compatible endpoint**. Hermes supports a variety of providers, and `custom` (custom OpenAI-compatible endpoint) is exactly the way to connect to this type of compatible interface. So in Hermes, connect OmniMux with `provider: custom` and set the endpoint URL to `https://api.geminix.cc/v1`.
+Because OmniMux provides a standard **OpenAI-compatible endpoint**. Hermes supports a variety of providers, and `custom` (custom OpenAI-compatible endpoint) is exactly the way to connect to this type of compatible interface. So in Hermes, connect OmniMux with `provider: custom` and set the endpoint URL to `https://api.omnimux.ai/v1`.
 
 ### 4. What should I do if I get a context length error at startup?
 
@@ -314,7 +314,7 @@ Hermes Agent recommends using a model with at least 64K tokens of context. Becau
 
 * **401 error**: `OPENAI_API_KEY` is not set or the API Key is invalid
 * **403 error**: the API Key has insufficient permissions or has expired
-* Please check the key in `~/.hermes/.env`, and whether `base_url` is `https://api.geminix.cc/v1`
+* Please check the key in `~/.hermes/.env`, and whether `base_url` is `https://api.omnimux.ai/v1`
 
 ### 6. Why didn't my configuration changes take effect?
 
@@ -346,7 +346,7 @@ OmniMux supports the following Claude models (it also supports GPT, Gemini, and 
 
 ### 9. How do I check usage?
 
-Log in to the [OmniMux console](https://geminix.cc/dashboard) to view request volume, consumption, and token usage.
+Log in to the [OmniMux console](https://omnimux.ai/dashboard) to view request volume, consumption, and token usage.
 
 ### 10. Where are the configuration file and secret file located?
 

@@ -2,6 +2,16 @@
 
 面向人类与 Agent 的落地操作清单。文档站与产品仓隔离。
 
+## 域名（唯一主域，无旧域兼容）
+
+| 角色 | 主机 |
+| --- | --- |
+| 控制台 / 站点 | `https://omnimux.ai` |
+| API 网关 | `https://api.omnimux.ai` |
+| 文档 | `https://docs.omnimux.ai` |
+
+用户文档、OpenAPI `servers`、控制台 `docs_link` / `server_address` 只写上表。不双写、不引导已退役主机。
+
 ## 已完成（Phase 1 内容）
 
 - [x] 独立仓 `OmniMux-docs` + 本地兄弟目录
@@ -19,9 +29,9 @@
 4. 推送后确认 Deployment 成功
 5. 记下临时域名：`https://<subdomain>.mintlify.app`（以面板为准）
 
-### 2. 自定义域名 `docs.geminix.cc`
+### 2. 自定义域名 `docs.omnimux.ai`
 
-1. Dashboard → Custom domain → 添加 `docs.geminix.cc`
+1. Dashboard → Custom domain → 添加 `docs.omnimux.ai`
 2. Cloudflare（或其它 DNS）添加：
    - 类型：`CNAME`
    - 名称：`docs`
@@ -37,12 +47,8 @@
 控制台 → 系统设置 → 通用：
 
 ```text
-docs_link = https://docs.geminix.cc
+docs_link = https://docs.omnimux.ai
 ```
-
-域名未就绪时，可先填 Mintlify 临时域名。
-
-可选：产品仓默认值仍是 `https://docs.newapi.pro`；改代码默认值另开产品 PR，与文档仓无关。
 
 ## 日常维护
 
@@ -58,19 +64,19 @@ docs_link = https://docs.geminix.cc
 1. `mint dev` 本地中/英首页与 Quickstart 可打开
 2. push 后 Mintlify 部署成功
 3. API 参考 Tab 能展开 endpoints
-4. `docs.geminix.cc` HTTPS 正常（域名步骤完成后）
+4. `docs.omnimux.ai` HTTPS 正常（域名步骤完成后）
 5. 控制台顶栏 Docs 指向新站
 
-## API 域名 `api.geminix.cc`
+## API 域名 `api.omnimux.ai`
 
-Railway 已添加自定义域 `api.geminix.cc`。在 Cloudflare（geminix.cc 区）添加：
+Railway 已添加自定义域 `api.omnimux.ai`。在 Cloudflare（omnimux.ai 区）添加：
 
 | Type | Name | Target | Proxy |
 | --- | --- | --- | --- |
-| CNAME | `api` | `s36b9wzi.up.railway.app` | 可橙云或灰云（按你现有 `geminix.cc` 习惯） |
+| CNAME | `api` | `s36b9wzi.up.railway.app` | 可橙云或灰云（按你现有 `omnimux.ai` 习惯） |
 | TXT | `_railway-verify.api` | `railway-verify=7d8c0937664f021129067ded9b243bd2e9cf1756df25d5ad20a10097220f014b` | 仅 DNS |
 
-验收：`curl -sS https://api.geminix.cc/api/status` 返回 JSON；`curl -sS https://api.geminix.cc/v1/models -H "Authorization: Bearer $KEY"` 可鉴权。
+验收：`curl -sS https://api.omnimux.ai/api/status` 返回 JSON；`curl -sS https://api.omnimux.ai/v1/models -H "Authorization: Bearer $KEY"` 可鉴权。
 
 ## Production P0 harden (2026-08-01)
 
@@ -82,11 +88,11 @@ Applied on live OmniMux:
 | PasswordRegisterEnabled | false |
 | PasswordLoginEnabled | true |
 | passkey.enabled | false |
-| passkey.rp_id | geminix.cc |
-| passkey.origins | https://geminix.cc,https://geminix.cc/dashboard |
-| docs_link | https://docs.geminix.cc |
-| server_address | https://geminix.cc |
-| API domain | https://api.geminix.cc |
+| passkey.rp_id | omnimux.ai |
+| passkey.origins | https://omnimux.ai,https://omnimux.ai/dashboard |
+| docs_link | https://docs.omnimux.ai |
+| server_address | https://omnimux.ai |
+| API domain | https://api.omnimux.ai |
 
 Secrets (local Keychain only, not in git):
 

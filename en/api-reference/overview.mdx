@@ -6,16 +6,16 @@ description: "OmniMux gateway protocols, auth, and async task behavior."
 Call the gateway with a **Bearer token**. Production Base URL:
 
 ```text
-https://api.geminix.cc
+https://api.omnimux.ai
 ```
 
 Typical OpenAI-compatible SDK value:
 
 ```text
-https://api.geminix.cc/v1
+https://api.omnimux.ai/v1
 ```
 
-Console: [geminix.cc/dashboard](https://geminix.cc/dashboard) · Docs: [docs.geminix.cc](https://docs.geminix.cc)
+Console: [omnimux.ai/dashboard](https://omnimux.ai/dashboard) · Docs: [docs.omnimux.ai](https://docs.omnimux.ai)
 
 ## Authentication
 
@@ -55,7 +55,7 @@ Field names follow each endpoint schema. Image/video URLs may expire — downloa
 Every request must use a `model` (or Gemini path `{model}`) enabled for your account:
 
 ```bash
-curl https://api.geminix.cc/v1/models \
+curl https://api.omnimux.ai/v1/models \
   -H "Authorization: Bearer $OMNIMUX_API_KEY"
 ```
 
