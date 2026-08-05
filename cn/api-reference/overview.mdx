@@ -6,16 +6,16 @@ description: "OmniMux 网关协议入口、鉴权约定与异步任务说明。"
 网关以 **Bearer Token** 调用。生产 Base URL：
 
 ```text
-https://api.geminix.cc
+https://api.omnimux.ai
 ```
 
 OpenAI 兼容 SDK 通常配置：
 
 ```text
-https://api.geminix.cc/v1
+https://api.omnimux.ai/v1
 ```
 
-控制台：[geminix.cc/dashboard](https://geminix.cc/dashboard) · 文档：[docs.geminix.cc](https://docs.geminix.cc)
+控制台：[omnimux.ai/dashboard](https://omnimux.ai/dashboard) · 文档：[docs.omnimux.ai](https://docs.omnimux.ai)
 
 ## 鉴权
 
@@ -55,7 +55,7 @@ Content-Type: application/json
 请求中的 `model`（或 Gemini 路径中的 `{model}`）必须是你账户当前可用的标识：
 
 ```bash
-curl https://api.geminix.cc/v1/models \
+curl https://api.omnimux.ai/v1/models \
   -H "Authorization: Bearer $OMNIMUX_API_KEY"
 ```
 

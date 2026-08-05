@@ -6,7 +6,7 @@ description: "Connect Claude Desktop to OmniMux"
 ## Overview
 
 <Note>
-OmniMux uses a single gateway Base URL: `https://api.geminix.cc` (OpenAI-compatible clients typically use `https://api.geminix.cc/v1`). Console: [geminix.cc/dashboard](https://geminix.cc/dashboard). Model IDs in this guide are examples — confirm with the console or `GET /v1/models`.
+OmniMux uses a single gateway Base URL: `https://api.omnimux.ai` (OpenAI-compatible clients typically use `https://api.omnimux.ai/v1`). Console: [omnimux.ai/dashboard](https://omnimux.ai/dashboard). Model IDs in this guide are examples — confirm with the console or `GET /v1/models`.
 </Note>
 
 
@@ -27,7 +27,7 @@ Before you start, prepare your OmniMux API Key.
 
 ### Get an OmniMux API Key
 
-* Log in to the [OmniMux Console](https://geminix.cc/dashboard)
+* Log in to the [OmniMux Console](https://omnimux.ai/dashboard)
 * Find API Keys in the console, click **Create New Key**, then copy the generated key
 * API keys usually start with `sk-`; keep them safe
 
@@ -69,7 +69,7 @@ In the Developer menu, open the third-party inference panel and fill it in as sh
 
 | Field               | Description                                                                                                                                                          |
 | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Gateway base URL    | OmniMux gateway address, recommended value: `https://api.geminix.cc`                                                                                              |
+| Gateway base URL    | OmniMux gateway address, recommended value: `https://api.omnimux.ai`                                                                                              |
 | Gateway API key     | Enter your OmniMux API Key directly, without the `Bearer` prefix                                                                                                     |
 | Gateway auth scheme | `bearer`                                                                                                                                                             |
 | Model list          | Recommended. Add only text/chat model IDs that support the Anthropic Messages API. You can also jump to the [supported models](#supported-claude-models) table below |

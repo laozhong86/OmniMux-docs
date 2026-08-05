@@ -6,7 +6,7 @@ description: "手动安装和配置 OpenClaw Gateway，接入 OmniMux 多协议�
 ## 概述
 
 <Note>
-OmniMux 网关统一使用 Base URL：`https://api.geminix.cc`（OpenAI 兼容客户端通常填 `https://api.geminix.cc/v1`）。控制台为 [geminix.cc/dashboard](https://geminix.cc/dashboard)。文中的模型 ID 仅为示例，请以控制台或 `GET /v1/models` 为准。
+OmniMux 网关统一使用 Base URL：`https://api.omnimux.ai`（OpenAI 兼容客户端通常填 `https://api.omnimux.ai/v1`）。控制台为 [omnimux.ai/dashboard](https://omnimux.ai/dashboard)。文中的模型 ID 仅为示例，请以控制台或 `GET /v1/models` 为准。
 </Note>
 
 
@@ -42,7 +42,7 @@ OpenClaw 是一个开源的 AI 智能体 Gateway 网关,充当聊天应用与 AI
 * ✅ Node.js 版本(需要 >= 22.12.0)
 * ✅ npm 可用
 * ✅ Git 可用
-* ✅ 网络连通性(github.com、npmjs.org、geminix.cc)
+* ✅ 网络连通性(github.com、npmjs.org、omnimux.ai)
 
 如果检查未通过,工具会给出具体的修复建议。
 
@@ -86,7 +86,7 @@ npm --version
 
 ### 2. 获取 OmniMux API Key
 
-* 登录 [OmniMux 控制台](https://geminix.cc/dashboard)
+* 登录 [OmniMux 控制台](https://omnimux.ai/dashboard)
 * 在控制台中找到 API Keys,点击"创建新Key"按钮,然后复制生成的 Key
 * API Key 通常以 `sk-` 开头,请妥善保存
 
@@ -182,7 +182,7 @@ open ~/.openclaw/agents/main/agent/models.json
 "providers": {
 "omnimux-anthropic": {
 "api": "anthropic-messages",
-"baseUrl": "https://api.geminix.cc",
+"baseUrl": "https://api.omnimux.ai",
 "apiKey": "你的 OmniMux API Key",
 "models": [
 { "id": "claude-sonnet-4-5-20250929", "name": "OmniMux 网关" },
@@ -200,7 +200,7 @@ open ~/.openclaw/agents/main/agent/models.json
 },
 "omnimux-google": {
 "api": "google-generative-ai",
-"baseUrl": "https://api.geminix.cc/v1beta",
+"baseUrl": "https://api.omnimux.ai/v1beta",
 "apiKey": "你的 OmniMux API Key",
 "models": [
 { "id": "claude-sonnet-4-5-20250929", "name": "OmniMux 网关" },
@@ -214,7 +214,7 @@ open ~/.openclaw/agents/main/agent/models.json
 },
 "omnimux-openai": {
 "api": "openai-completions",
-"baseUrl": "https://api.geminix.cc/v1",
+"baseUrl": "https://api.omnimux.ai/v1",
 "apiKey": "你的 OmniMux API Key",
 "models": [
 { "id": "gpt-5.4", "name": "GPT-5.4" },
@@ -240,7 +240,7 @@ open ~/.openclaw/agents/main/agent/models.json
 
 以上模型 ID 为示例。请以你的 OmniMux 账户实际开通模型为准。
 
-Gemini 场景下 `omnimux-google.baseUrl` 必须带 `/v1beta`，即 `https://api.geminix.cc/v1beta`。若缺少该后缀,常见报错为 `Forbidden (403)`。
+Gemini 场景下 `omnimux-google.baseUrl` 必须带 `/v1beta`，即 `https://api.omnimux.ai/v1beta`。若缺少该后缀,常见报错为 `Forbidden (403)`。
 
 ### 3. 配置默认模型（支持快速切换）
 
@@ -323,7 +323,7 @@ openclaw agent --agent main -m "hi" --json
 | 网关启动失败                      | 检查端口是否被占用,使用 `openclaw gateway status` 查看详细错误                                                      |
 | API Key 无效                  | 确认 API Key 正确复制,检查是否有多余空格或引号                                                                       |
 | 模型配置不生效                     | 同时检查 `openclaw.json` 与 `models.json` 是否一致（`models.json` 可能覆盖）                                      |
-| Gemini 返回 `Forbidden (403)` | 检查 `models.providers.omnimux-google.baseUrl` 是否为 `https://api.geminix.cc/v1beta`（必须带 `/v1beta`） |
+| Gemini 返回 `Forbidden (403)` | 检查 `models.providers.omnimux-google.baseUrl` 是否为 `https://api.omnimux.ai/v1beta`（必须带 `/v1beta`） |
 | 切换模型后仍使用旧模型                 | 执行 `openclaw models status --plain` 确认当前模型,必要时 `openclaw gateway restart`                          |
 
 ## 下一步

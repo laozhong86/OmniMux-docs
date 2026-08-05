@@ -6,7 +6,7 @@ description: "将 OpenClaw 连接到 OmniMux"
 ## 概述
 
 <Note>
-OmniMux 网关统一使用 Base URL：`https://api.geminix.cc`（OpenAI 兼容客户端通常填 `https://api.geminix.cc/v1`）。控制台为 [geminix.cc/dashboard](https://geminix.cc/dashboard)。文中的模型 ID 仅为示例，请以控制台或 `GET /v1/models` 为准。
+OmniMux 网关统一使用 Base URL：`https://api.omnimux.ai`（OpenAI 兼容客户端通常填 `https://api.omnimux.ai/v1`）。控制台为 [omnimux.ai/dashboard](https://omnimux.ai/dashboard)。文中的模型 ID 仅为示例，请以控制台或 `GET /v1/models` 为准。
 </Note>
 
 
@@ -43,7 +43,7 @@ OpenClaw 是一个开源的 AI 智能体 Gateway 网关，充当聊天应用与 
 * ✅ Node.js 版本（需要 >= 22.12.0）
 * ✅ npm 可用
 * ✅ Git 可用
-* ✅ 网络连通性（github.com、npmjs.org、geminix.cc）
+* ✅ 网络连通性（github.com、npmjs.org、omnimux.ai）
 
 如果检查未通过，工具会给出具体的修复建议。
 
@@ -87,7 +87,7 @@ npm --version
 
 ### 2. 获取 OmniMux API Key
 
-* 登录 [OmniMux 控制台](https://geminix.cc/dashboard)
+* 登录 [OmniMux 控制台](https://omnimux.ai/dashboard)
 * 在控制台中找到 API Keys，点击"创建新Key"按钮，然后复制生成的 Key
 * API Key 通常以 `sk-` 开头，请妥善保存
 
@@ -176,7 +176,7 @@ Token 填入完成后，重启 Gateway 网关使配置生效：
 "providers": {
 "omnimux-anthropic": {
 "api": "anthropic-messages",
-"baseUrl": "https://api.geminix.cc",
+"baseUrl": "https://api.omnimux.ai",
 "apiKey": "你的 OmniMux API Key",
 "models": [
 { "id": "claude-fable-5", "name": "Claude Fable 5" },
@@ -193,7 +193,7 @@ Token 填入完成后，重启 Gateway 网关使配置生效：
 },
 "omnimux-google": {
 "api": "google-generative-ai",
-"baseUrl": "https://api.geminix.cc/v1beta",
+"baseUrl": "https://api.omnimux.ai/v1beta",
 "apiKey": "你的 OmniMux API Key",
 "models": [
 { "id": "gemini-3.1-flash-lite-preview", "name": "Gemini 3.1 Flash Lite" },
@@ -206,7 +206,7 @@ Token 填入完成后，重启 Gateway 网关使配置生效：
 },
 "omnimux-openai": {
 "api": "openai-completions",
-"baseUrl": "https://api.geminix.cc/v1",
+"baseUrl": "https://api.omnimux.ai/v1",
 "apiKey": "你的 OmniMux API Key",
 "models": [
 { "id": "gpt-5.4", "name": "GPT-5.4" },
@@ -230,7 +230,7 @@ Token 填入完成后，重启 Gateway 网关使配置生效：
 }
 ```
 
-将 `"你的 OmniMux API Key"` 替换为你在 [OmniMux 控制台](https://geminix.cc/dashboard) 获取的实际 API Key。
+将 `"你的 OmniMux API Key"` 替换为你在 [OmniMux 控制台](https://omnimux.ai/dashboard) 获取的实际 API Key。
 
 ### 3. 配置默认模型
 

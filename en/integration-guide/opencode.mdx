@@ -6,7 +6,7 @@ description: "Connect OpenCode to OmniMux"
 ## Overview
 
 <Note>
-OmniMux uses a single gateway Base URL: `https://api.geminix.cc` (OpenAI-compatible clients typically use `https://api.geminix.cc/v1`). Console: [geminix.cc/dashboard](https://geminix.cc/dashboard). Model IDs in this guide are examples — confirm with the console or `GET /v1/models`.
+OmniMux uses a single gateway Base URL: `https://api.omnimux.ai` (OpenAI-compatible clients typically use `https://api.omnimux.ai/v1`). Console: [omnimux.ai/dashboard](https://omnimux.ai/dashboard). Model IDs in this guide are examples — confirm with the console or `GET /v1/models`.
 </Note>
 
 
@@ -35,7 +35,7 @@ Linux users can use the built-in terminal or GNOME Terminal, Konsole, etc.
 
 ### 2. Get OmniMux API Key
 
-* Log in to [OmniMux Console](https://geminix.cc/dashboard)
+* Log in to [OmniMux Console](https://omnimux.ai/dashboard)
 * Find API Keys in the dashboard, click 'Create New Key' button, then copy the generated Key
 * API Key usually starts with `sk-`
 
@@ -130,7 +130,7 @@ Create or edit `opencode.json` in this directory:
 "npm": "@ai-sdk/anthropic",
 "name": "OmniMux Claude",
 "options": {
-"baseURL": "https://api.geminix.cc/v1",
+"baseURL": "https://api.omnimux.ai/v1",
 "apiKey": "Your OmniMux API Key"
 },
 "models": {
@@ -180,7 +180,7 @@ Create or edit `opencode.json` in this directory:
 "npm": "@ai-sdk/google",
 "name": "OmniMux Gemini",
 "options": {
-"baseURL": "https://api.geminix.cc/v1beta",
+"baseURL": "https://api.omnimux.ai/v1beta",
 "apiKey": "Your OmniMux API Key"
 },
 "models": {
@@ -214,7 +214,7 @@ Create or edit `opencode.json` in this directory:
 "npm": "@ai-sdk/openai",
 "name": "OmniMux GPT",
 "options": {
-"baseURL": "https://api.geminix.cc/v1",
+"baseURL": "https://api.omnimux.ai/v1",
 "apiKey": "Your OmniMux API Key"
 },
 "models": {

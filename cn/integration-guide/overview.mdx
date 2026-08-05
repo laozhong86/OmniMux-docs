@@ -9,11 +9,11 @@ description: "将 Claude Code、Codex、Gemini CLI、OpenClaw、Pi 等客户端�
 
 | 项 | 值 |
 | --- | --- |
-| 控制台 | [geminix.cc/dashboard](https://geminix.cc/dashboard) |
-| API Base URL | `https://api.geminix.cc` |
-| OpenAI 兼容（多数 SDK / CLI） | `https://api.geminix.cc/v1` |
-| Claude / Anthropic 兼容根地址 | `https://api.geminix.cc` |
-| Gemini 兼容 | `https://api.geminix.cc/v1beta` |
+| 控制台 | [omnimux.ai/dashboard](https://omnimux.ai/dashboard) |
+| API Base URL | `https://api.omnimux.ai` |
+| OpenAI 兼容（多数 SDK / CLI） | `https://api.omnimux.ai/v1` |
+| Claude / Anthropic 兼容根地址 | `https://api.omnimux.ai` |
+| Gemini 兼容 | `https://api.omnimux.ai/v1beta` |
 | API Key | 控制台创建的 `sk-...` |
 
 鉴权与模型选择见 [鉴权](/cn/guides/authentication)、[模型列表](/cn/guides/models)。
@@ -72,7 +72,7 @@ description: "将 Claude Code、Codex、Gemini CLI、OpenClaw、Pi 等客户端�
 ## 接入检查清单
 
 1. 在控制台创建令牌，并确认模型范围  
-2. 客户端 Base URL 使用 `api.geminix.cc`（不要填控制台域名）  
+2. 客户端 Base URL 使用 `api.omnimux.ai`（不要填控制台域名）  
 3. 用 `GET /v1/models` 或控制台核对真实 `model` ID  
 4. 先发一条极短对话验证，再挂到 Agent / 渠道  
 

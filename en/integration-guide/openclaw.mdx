@@ -6,7 +6,7 @@ description: "Manually install and configure OpenClaw Gateway with OmniMux multi
 ## Overview
 
 <Note>
-OmniMux uses a single gateway Base URL: `https://api.geminix.cc` (OpenAI-compatible clients typically use `https://api.geminix.cc/v1`). Console: [geminix.cc/dashboard](https://geminix.cc/dashboard). Model IDs in this guide are examples — confirm with the console or `GET /v1/models`.
+OmniMux uses a single gateway Base URL: `https://api.omnimux.ai` (OpenAI-compatible clients typically use `https://api.omnimux.ai/v1`). Console: [omnimux.ai/dashboard](https://omnimux.ai/dashboard). Model IDs in this guide are examples — confirm with the console or `GET /v1/models`.
 </Note>
 
 
@@ -42,7 +42,7 @@ The tool will automatically check the following:
 * ✅ Node.js version (requires >= 22.12.0)
 * ✅ npm available
 * ✅ Git available
-* ✅ Network connectivity (github.com, npmjs.org, geminix.cc)
+* ✅ Network connectivity (github.com, npmjs.org, omnimux.ai)
 
 If the check fails, the tool will provide specific fix suggestions.
 
@@ -86,7 +86,7 @@ If you encounter permission issues during installation, you may need to add `sud
 
 ### 2. Get OmniMux API Key
 
-* Log in to [OmniMux Console](https://geminix.cc/dashboard)
+* Log in to [OmniMux Console](https://omnimux.ai/dashboard)
 * Find API Keys in the console, click "Create New Key", then copy the generated Key
 * API Key usually starts with `sk-`, please keep it safe
 
@@ -182,7 +182,7 @@ It's recommended to configure the following providers in `openclaw.json` (and sy
 "providers": {
 "omnimux-anthropic": {
 "api": "anthropic-messages",
-"baseUrl": "https://api.geminix.cc",
+"baseUrl": "https://api.omnimux.ai",
 "apiKey": "Your OmniMux API Key",
 "models": [
 { "id": "claude-sonnet-4-5-20250929", "name": "OmniMux 网关" },
@@ -200,7 +200,7 @@ It's recommended to configure the following providers in `openclaw.json` (and sy
 },
 "omnimux-google": {
 "api": "google-generative-ai",
-"baseUrl": "https://api.geminix.cc/v1beta",
+"baseUrl": "https://api.omnimux.ai/v1beta",
 "apiKey": "Your OmniMux API Key",
 "models": [
 { "id": "claude-sonnet-4-5-20250929", "name": "OmniMux 网关" },
@@ -214,7 +214,7 @@ It's recommended to configure the following providers in `openclaw.json` (and sy
 },
 "omnimux-openai": {
 "api": "openai-completions",
-"baseUrl": "https://api.geminix.cc/v1",
+"baseUrl": "https://api.omnimux.ai/v1",
 "apiKey": "Your OmniMux API Key",
 "models": [
 { "id": "gpt-5.4", "name": "GPT-5.4" },
@@ -240,7 +240,7 @@ It's recommended to configure the following providers in `openclaw.json` (and sy
 
 The model IDs above are examples. Please use the models actually available in your OmniMux account.
 
-For Gemini scenarios, `omnimux-google.baseUrl` must include `/v1beta`, i.e., `https://api.geminix.cc/v1beta`. Without this suffix, you may encounter `Forbidden (403)` errors.
+For Gemini scenarios, `omnimux-google.baseUrl` must include `/v1beta`, i.e., `https://api.omnimux.ai/v1beta`. Without this suffix, you may encounter `Forbidden (403)` errors.
 
 ### 3. Configure Default Model (Supports Quick Switching)
 
@@ -323,7 +323,7 @@ openclaw agent --agent main -m "hi" --json
 | Gateway fails to start               | Check if port is occupied, use `openclaw gateway status` to view detailed errors                                    |
 | Invalid API Key                      | Confirm API Key is copied correctly, check for extra spaces or quotes                                               |
 | Model configuration not effective    | Check both `openclaw.json` and `models.json` for consistency (`models.json` may override)                           |
-| Gemini returns `Forbidden (403)`     | Check if `models.providers.omnimux-google.baseUrl` is `https://api.geminix.cc/v1beta` (must include `/v1beta`)   |
+| Gemini returns `Forbidden (403)`     | Check if `models.providers.omnimux-google.baseUrl` is `https://api.omnimux.ai/v1beta` (must include `/v1beta`)   |
 | Old model still used after switching | Run `openclaw models status --plain` to confirm current model, restart with `openclaw gateway restart` if necessary |
 
 ## Next Steps

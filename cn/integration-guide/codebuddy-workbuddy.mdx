@@ -6,7 +6,7 @@ description: "将 CodeBuddy 和 WorkBuddy 连接到 OmniMux"
 ## 概述
 
 <Note>
-OmniMux 网关统一使用 Base URL：`https://api.geminix.cc`（OpenAI 兼容客户端通常填 `https://api.geminix.cc/v1`）。控制台为 [geminix.cc/dashboard](https://geminix.cc/dashboard)。文中的模型 ID 仅为示例，请以控制台或 `GET /v1/models` 为准。
+OmniMux 网关统一使用 Base URL：`https://api.omnimux.ai`（OpenAI 兼容客户端通常填 `https://api.omnimux.ai/v1`）。控制台为 [omnimux.ai/dashboard](https://omnimux.ai/dashboard)。文中的模型 ID 仅为示例，请以控制台或 `GET /v1/models` 为准。
 </Note>
 
 
@@ -19,7 +19,7 @@ CodeBuddy 和 WorkBuddy 使用相同的配置方式，本文档同时适用于�
 
 ### 获取 OmniMux API Key
 
-* 登录 [OmniMux 控制台](https://geminix.cc/dashboard)
+* 登录 [OmniMux 控制台](https://omnimux.ai/dashboard)
 * 在控制台中找到 API Keys，点击"创建新Key"按钮，然后复制生成的 Key
 * API Key 通常以 `sk-` 开头，请妥善保存
 
@@ -45,7 +45,7 @@ CodeBuddy 和 WorkBuddy 使用相同的配置方式，本文档同时适用于�
 "name": "OmniMux Gateway (智能路由)",
 "vendor": "OmniMux",
 "apiKey": "sk-your-api-key-here",
-"url": "https://api.geminix.cc/v1/chat/completions",
+"url": "https://api.omnimux.ai/v1/chat/completions",
 "supportsToolCall": true,
 "supportsImages": true
 },
@@ -54,7 +54,7 @@ CodeBuddy 和 WorkBuddy 使用相同的配置方式，本文档同时适用于�
 "name": "OmniMux GPT-5.4",
 "vendor": "OpenAI",
 "apiKey": "sk-your-api-key-here",
-"url": "https://api.geminix.cc/v1/chat/completions",
+"url": "https://api.omnimux.ai/v1/chat/completions",
 "supportsToolCall": true,
 "supportsImages": true
 },
@@ -63,7 +63,7 @@ CodeBuddy 和 WorkBuddy 使用相同的配置方式，本文档同时适用于�
 "name": "OmniMux Doubao Seed 2.0 Mini",
 "vendor": "ByteDance",
 "apiKey": "sk-your-api-key-here",
-"url": "https://api.geminix.cc/v1/chat/completions",
+"url": "https://api.omnimux.ai/v1/chat/completions",
 "supportsToolCall": true,
 "supportsImages": true
 }
@@ -174,7 +174,7 @@ OmniMux Gateway 是智能模型路由功能，系统会根据您的请求内容�
 
 ### 4. 支持哪些模型？
 
-OmniMux 支持 OpenAI、Anthropic、Google 等多家厂商的模型。详见 [模型列表](https://docs.geminix.cc/cn/guides/models)。
+OmniMux 支持 OpenAI、Anthropic、Google 等多家厂商的模型。详见 [模型列表](https://docs.omnimux.ai/cn/guides/models)。
 
 ### 5. API Key 安全吗？
 
@@ -182,6 +182,6 @@ API Key 存储在本地配置文件中，不会上传到云端。建议设置文
 
 ## 相关链接
 
-* [OmniMux 控制台](https://geminix.cc/dashboard)
+* [OmniMux 控制台](https://omnimux.ai/dashboard)
 * [CodeBuddy 官方文档](https://www.codebuddy.cn/docs)
 * [OmniMux API 文档](/docs/cn/api-manual)

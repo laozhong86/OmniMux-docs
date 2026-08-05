@@ -6,7 +6,7 @@ description: "Connect OpenClaw to OmniMux via Feishu (Lark)"
 ## Overview
 
 <Note>
-OmniMux uses a single gateway Base URL: `https://api.geminix.cc` (OpenAI-compatible clients typically use `https://api.geminix.cc/v1`). Console: [geminix.cc/dashboard](https://geminix.cc/dashboard). Model IDs in this guide are examples — confirm with the console or `GET /v1/models`.
+OmniMux uses a single gateway Base URL: `https://api.omnimux.ai` (OpenAI-compatible clients typically use `https://api.omnimux.ai/v1`). Console: [omnimux.ai/dashboard](https://omnimux.ai/dashboard). Model IDs in this guide are examples — confirm with the console or `GET /v1/models`.
 </Note>
 
 
@@ -45,7 +45,7 @@ The tool automatically checks the following:
 * ✅ Node.js version (requires >= 22.12.0)
 * ✅ npm available
 * ✅ Git available
-* ✅ Network connectivity (github.com, npmjs.org, geminix.cc)
+* ✅ Network connectivity (github.com, npmjs.org, omnimux.ai)
 
 If the check fails, the tool will provide specific fix suggestions.
 
@@ -89,7 +89,7 @@ If you encounter permission issues during installation, you may need to add `sud
 
 ### 2. Get OmniMux API Key
 
-* Log in to [OmniMux Console](https://geminix.cc/dashboard)
+* Log in to [OmniMux Console](https://omnimux.ai/dashboard)
 * Find API Keys in the dashboard, click 'Create New Key' button, then copy the generated Key
 * API Key usually starts with `sk-`
 
@@ -291,7 +291,7 @@ In the same `openclaw.json`, find the `models` field and add OmniMux as a custom
 "providers": {
 "omnimux-anthropic": {
 "api": "anthropic-messages",
-"baseUrl": "https://api.geminix.cc",
+"baseUrl": "https://api.omnimux.ai",
 "apiKey": "your-omnimux-api-key",
 "models": [
 { "id": "claude-fable-5", "name": "Claude Fable 5" },
@@ -308,7 +308,7 @@ In the same `openclaw.json`, find the `models` field and add OmniMux as a custom
 },
 "omnimux-google": {
 "api": "google-generative-ai",
-"baseUrl": "https://api.geminix.cc/v1beta",
+"baseUrl": "https://api.omnimux.ai/v1beta",
 "apiKey": "your-omnimux-api-key",
 "models": [
 { "id": "gemini-3.1-flash-lite-preview", "name": "Gemini 3.1 Flash Lite" },
@@ -321,7 +321,7 @@ In the same `openclaw.json`, find the `models` field and add OmniMux as a custom
 },
 "omnimux-openai": {
 "api": "openai-completions",
-"baseUrl": "https://api.geminix.cc/v1",
+"baseUrl": "https://api.omnimux.ai/v1",
 "apiKey": "your-omnimux-api-key",
 "models": [
 { "id": "gpt-5.4", "name": "GPT-5.4" },
@@ -345,7 +345,7 @@ In the same `openclaw.json`, find the `models` field and add OmniMux as a custom
 }
 ```
 
-Replace `"your-omnimux-api-key"` with the actual API Key from your [OmniMux Console](https://geminix.cc/dashboard).
+Replace `"your-omnimux-api-key"` with the actual API Key from your [OmniMux Console](https://omnimux.ai/dashboard).
 
 ### 3. Configure Default Model
 

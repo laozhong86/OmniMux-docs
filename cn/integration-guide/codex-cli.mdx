@@ -6,7 +6,7 @@ description: "将 Codex CLI 连接到 OmniMux"
 ## 概述
 
 <Note>
-OmniMux 网关统一使用 Base URL：`https://api.geminix.cc`（OpenAI 兼容客户端通常填 `https://api.geminix.cc/v1`）。控制台为 [geminix.cc/dashboard](https://geminix.cc/dashboard)。文中的模型 ID 仅为示例，请以控制台或 `GET /v1/models` 为准。
+OmniMux 网关统一使用 Base URL：`https://api.omnimux.ai`（OpenAI 兼容客户端通常填 `https://api.omnimux.ai/v1`）。控制台为 [omnimux.ai/dashboard](https://omnimux.ai/dashboard)。文中的模型 ID 仅为示例，请以控制台或 `GET /v1/models` 为准。
 </Note>
 
 
@@ -37,7 +37,7 @@ npm -v
 
 ### 2. 获取 OmniMux API Key
 
-* 登录 [OmniMux 控制台](https://geminix.cc/dashboard)
+* 登录 [OmniMux 控制台](https://omnimux.ai/dashboard)
 * 在控制台中找到 API Keys，点击"创建新Key"按钮，然后复制生成的 Key
 * API Key 通常以 `sk-` 开头，请妥善保存
 
@@ -98,7 +98,7 @@ model_provider = "omnimux"
 
 [model_providers.omnimux]
 name = "OmniMux API"
-base_url = "https://api.geminix.cc/v1"
+base_url = "https://api.omnimux.ai/v1"
 env_key = "OPENAI_API_KEY"
 wire_api = "responses"
 ```
@@ -117,7 +117,7 @@ model_provider = "omnimux"
 
 [model_providers.omnimux]
 name = "OmniMux API"
-base_url = "https://api.geminix.cc/v1"
+base_url = "https://api.omnimux.ai/v1"
 env_key = "OPENAI_API_KEY"
 wire_api = "responses"
 "@ | Out-File -FilePath "$env:USERPROFILE\.codex\config.toml" -Encoding utf8
@@ -131,7 +131,7 @@ model_provider = "omnimux"
 
 [model_providers.omnimux]
 name = "OmniMux API"
-base_url = "https://api.geminix.cc/v1"
+base_url = "https://api.omnimux.ai/v1"
 env_key = "OPENAI_API_KEY"
 wire_api = "responses"
 EOF
@@ -146,7 +146,7 @@ model_provider = "omnimux"
 
 [model_providers.omnimux]
 name = "OmniMux API"
-base_url = "https://api.geminix.cc/v1"
+base_url = "https://api.omnimux.ai/v1"
 env_key = "OPENAI_API_KEY"
 wire_api = "responses"
 ```

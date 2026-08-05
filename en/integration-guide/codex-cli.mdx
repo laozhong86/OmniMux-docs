@@ -6,7 +6,7 @@ description: "Connect Codex CLI to OmniMux"
 ## Overview
 
 <Note>
-OmniMux uses a single gateway Base URL: `https://api.geminix.cc` (OpenAI-compatible clients typically use `https://api.geminix.cc/v1`). Console: [geminix.cc/dashboard](https://geminix.cc/dashboard). Model IDs in this guide are examples — confirm with the console or `GET /v1/models`.
+OmniMux uses a single gateway Base URL: `https://api.omnimux.ai` (OpenAI-compatible clients typically use `https://api.omnimux.ai/v1`). Console: [omnimux.ai/dashboard](https://omnimux.ai/dashboard). Model IDs in this guide are examples — confirm with the console or `GET /v1/models`.
 </Note>
 
 
@@ -37,7 +37,7 @@ npm -v
 
 ### 2. Get OmniMux API Key
 
-* Log in to [OmniMux Console](https://geminix.cc/dashboard)
+* Log in to [OmniMux Console](https://omnimux.ai/dashboard)
 * Find API Keys in the dashboard, click 'Create New Key' button, then copy the generated Key
 * API Key usually starts with `sk-`
 
@@ -98,7 +98,7 @@ model_provider = "omnimux"
 
 [model_providers.omnimux]
 name = "OmniMux API"
-base_url = "https://api.geminix.cc/v1"
+base_url = "https://api.omnimux.ai/v1"
 env_key = "OPENAI_API_KEY"
 wire_api = "responses"
 ```
@@ -117,7 +117,7 @@ model_provider = "omnimux"
 
 [model_providers.omnimux]
 name = "OmniMux API"
-base_url = "https://api.geminix.cc/v1"
+base_url = "https://api.omnimux.ai/v1"
 env_key = "OPENAI_API_KEY"
 wire_api = "responses"
 "@ | Out-File -FilePath "$env:USERPROFILE\.codex\config.toml" -Encoding utf8
@@ -131,7 +131,7 @@ model_provider = "omnimux"
 
 [model_providers.omnimux]
 name = "OmniMux API"
-base_url = "https://api.geminix.cc/v1"
+base_url = "https://api.omnimux.ai/v1"
 env_key = "OPENAI_API_KEY"
 wire_api = "responses"
 EOF
@@ -146,7 +146,7 @@ model_provider = "omnimux"
 
 [model_providers.omnimux]
 name = "OmniMux API"
-base_url = "https://api.geminix.cc/v1"
+base_url = "https://api.omnimux.ai/v1"
 env_key = "OPENAI_API_KEY"
 wire_api = "responses"
 ```

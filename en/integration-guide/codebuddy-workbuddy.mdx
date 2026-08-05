@@ -6,7 +6,7 @@ description: "Connect CodeBuddy and WorkBuddy to OmniMux"
 ## Overview
 
 <Note>
-OmniMux uses a single gateway Base URL: `https://api.geminix.cc` (OpenAI-compatible clients typically use `https://api.geminix.cc/v1`). Console: [geminix.cc/dashboard](https://geminix.cc/dashboard). Model IDs in this guide are examples — confirm with the console or `GET /v1/models`.
+OmniMux uses a single gateway Base URL: `https://api.omnimux.ai` (OpenAI-compatible clients typically use `https://api.omnimux.ai/v1`). Console: [omnimux.ai/dashboard](https://omnimux.ai/dashboard). Model IDs in this guide are examples — confirm with the console or `GET /v1/models`.
 </Note>
 
 
@@ -19,7 +19,7 @@ CodeBuddy and WorkBuddy use the same configuration method. This document applies
 
 ### Get OmniMux API Key
 
-* Log in to [OmniMux Console](https://geminix.cc/dashboard)
+* Log in to [OmniMux Console](https://omnimux.ai/dashboard)
 * Find API Keys in the console, click "Create New Key" button, and copy the generated key
 * API Key usually starts with `sk-`, please keep it safe
 
@@ -45,7 +45,7 @@ Currently only supports OpenAI SDK format API integration.
 "name": "OmniMux Gateway (Smart Routing)",
 "vendor": "OmniMux",
 "apiKey": "sk-your-api-key-here",
-"url": "https://api.geminix.cc/v1/chat/completions",
+"url": "https://api.omnimux.ai/v1/chat/completions",
 "supportsToolCall": true,
 "supportsImages": true
 },
@@ -54,7 +54,7 @@ Currently only supports OpenAI SDK format API integration.
 "name": "OmniMux GPT-5.4",
 "vendor": "OpenAI",
 "apiKey": "sk-your-api-key-here",
-"url": "https://api.geminix.cc/v1/chat/completions",
+"url": "https://api.omnimux.ai/v1/chat/completions",
 "supportsToolCall": true,
 "supportsImages": true
 },
@@ -63,7 +63,7 @@ Currently only supports OpenAI SDK format API integration.
 "name": "OmniMux Doubao Seed 2.0 Mini",
 "vendor": "ByteDance",
 "apiKey": "sk-your-api-key-here",
-"url": "https://api.geminix.cc/v1/chat/completions",
+"url": "https://api.omnimux.ai/v1/chat/completions",
 "supportsToolCall": true,
 "supportsImages": true
 }
@@ -174,7 +174,7 @@ Project-level configuration has higher priority than user-level configuration. I
 
 ### 4. Which models are supported?
 
-OmniMux supports models from OpenAI, Anthropic, Google and other vendors. See [Model List](https://docs.geminix.cc/en/guides/models) for details.
+OmniMux supports models from OpenAI, Anthropic, Google and other vendors. See [Model List](https://docs.omnimux.ai/en/guides/models) for details.
 
 ### 5. Is the API Key secure?
 
@@ -182,6 +182,6 @@ The API Key is stored in the local configuration file and will not be uploaded t
 
 ## Related Links
 
-* [OmniMux Console](https://geminix.cc/dashboard)
+* [OmniMux Console](https://omnimux.ai/dashboard)
 * [CodeBuddy Official Documentation](https://www.codebuddy.cn/docs)
 * [OmniMux API Documentation](/docs/en/api-manual)

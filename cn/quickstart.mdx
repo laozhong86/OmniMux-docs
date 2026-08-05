@@ -7,14 +7,14 @@ description: "5 分钟内用 OmniMux 发出第一条 Chat Completions 请求。"
 
 ## 前置条件
 
-- 可访问 [OmniMux 控制台](https://geminix.cc/dashboard)
+- 可访问 [OmniMux 控制台](https://omnimux.ai/dashboard)
 - 账户有可用额度（或管理员已分配令牌）
 
 ## 步骤
 
 <Steps>
   <Step title="创建 API Key">
-    登录 [控制台](https://geminix.cc/dashboard)，打开 **令牌 / API Keys**，创建新密钥。
+    登录 [控制台](https://omnimux.ai/dashboard)，打开 **令牌 / API Keys**，创建新密钥。
 
     密钥形如 `sk-...`。只在服务端或私密环境变量中保存，不要写入前端或公开仓库。
   </Step>
@@ -23,23 +23,23 @@ description: "5 分钟内用 OmniMux 发出第一条 Chat Completions 请求。"
     网关 Base URL（API 专用域名）：
 
     ```text
-    https://api.geminix.cc
+    https://api.omnimux.ai
     ```
 
     使用 OpenAI 兼容 SDK 时，一般填：
 
     ```text
-    https://api.geminix.cc/v1
+    https://api.omnimux.ai/v1
     ```
 
-    SDK 会再拼 `/chat/completions` 等路径。控制台在 [geminix.cc/dashboard](https://geminix.cc/dashboard)，与 API 域名分开。
+    SDK 会再拼 `/chat/completions` 等路径。控制台在 [omnimux.ai/dashboard](https://omnimux.ai/dashboard)，与 API 域名分开。
   </Step>
 
   <Step title="发送第一条请求">
     使用 curl：
 
     ```bash
-    curl https://api.geminix.cc/v1/chat/completions \
+    curl https://api.omnimux.ai/v1/chat/completions \
       -H "Authorization: Bearer $OMNIMUX_API_KEY" \
       -H "Content-Type: application/json" \
       -d '{
@@ -63,7 +63,7 @@ from openai import OpenAI
 
 client = OpenAI(
     api_key="sk-...",  # OmniMux token
-    base_url="https://api.geminix.cc/v1",
+    base_url="https://api.omnimux.ai/v1",
 )
 
 resp = client.chat.completions.create(
@@ -80,7 +80,7 @@ import OpenAI from "openai";
 
 const client = new OpenAI({
   apiKey: process.env.OMNIMUX_API_KEY,
-  baseURL: "https://api.geminix.cc/v1",
+  baseURL: "https://api.omnimux.ai/v1",
 });
 
 const resp = await client.chat.completions.create({

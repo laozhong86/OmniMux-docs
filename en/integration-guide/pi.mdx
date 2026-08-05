@@ -6,7 +6,7 @@ description: "Connect Pi Coding Agent to OmniMux"
 ## Overview
 
 <Note>
-OmniMux uses a single gateway Base URL: `https://api.geminix.cc` (OpenAI-compatible clients typically use `https://api.geminix.cc/v1`). Console: [geminix.cc/dashboard](https://geminix.cc/dashboard). Model IDs in this guide are examples — confirm with the console or `GET /v1/models`.
+OmniMux uses a single gateway Base URL: `https://api.omnimux.ai` (OpenAI-compatible clients typically use `https://api.omnimux.ai/v1`). Console: [omnimux.ai/dashboard](https://omnimux.ai/dashboard). Model IDs in this guide are examples — confirm with the console or `GET /v1/models`.
 </Note>
 
 
@@ -50,7 +50,7 @@ For more installation methods (PowerShell, pnpm, bun, etc.), see the [Pi website
 
 ### 2. Get an OmniMux API Key
 
-* Log in to the [OmniMux console](https://geminix.cc/dashboard)
+* Log in to the [OmniMux console](https://omnimux.ai/dashboard)
 * Find API Keys in the console, click the "Create New Key" button, then copy the generated key
 * The API Key usually starts with `sk-`. Please keep it safe.
 
@@ -88,7 +88,7 @@ Copy the **complete configuration** below and paste it into the editor you just 
 "providers": {
 "omnimux": {
 "name": "OmniMux",
-"baseUrl": "https://api.geminix.cc",
+"baseUrl": "https://api.omnimux.ai",
 "apiKey": "$OMNIMUX_API_KEY",
 "authHeader": true,
 "api": "anthropic-messages",
@@ -113,7 +113,7 @@ Then save:
 **Key field descriptions (don't skip any):**
 
 * **`api: "anthropic-messages"`** — uses OmniMux's Anthropic Messages-compatible route, so Pi uses Claude's native `tool_use` / `tool_result` protocol.
-* **Set `baseUrl` only to the domain root** `https://api.geminix.cc` — do **not** manually add `/v1` or `/v1/messages`. Pi appends `/v1/messages` automatically; adding it manually duplicates the path and causes a `404 Invalid URL`.
+* **Set `baseUrl` only to the domain root** `https://api.omnimux.ai` — do **not** manually add `/v1` or `/v1/messages`. Pi appends `/v1/messages` automatically; adding it manually duplicates the path and causes a `404 Invalid URL`.
 * **`authHeader: true` is required.** This field makes Pi attach an `Authorization: Bearer ` request header. OmniMux's `/v1/messages` only accepts Bearer authentication, while Pi's built-in Anthropic SDK only sends `x-api-key` by default — omitting this field returns a `401`.
 * **`apiKey` has two forms — pick one:**
 * **Option 1 · Paste the key directly (simplest, good for local personal use)**: replace `"$OMNIMUX_API_KEY"` in the config with your real key, e.g. `"apiKey": "sk-your-real-key"`. Done in one step, no environment variable needed; the downside is the key sits in **plaintext** in the config file, so don't share this file or commit it to Git.
@@ -215,7 +215,7 @@ Possible causes:
 * The environment variable didn't take effect (most common): run `test -n "$OMNIMUX_API_KEY" && echo "Key loaded" || echo "Key not loaded"` in the current terminal; on Windows, you need to **restart the terminal** after using `setx`.
 * The `apiKey` field is wrong: confirm that `models.json` contains `"$OMNIMUX_API_KEY"` (referencing the environment variable), rather than treating the variable name as a literal key.
 * `"authHeader": true` is missing: OmniMux's `/v1/messages` requires a Bearer token, so confirm this field is inside the same provider configuration as `apiKey`.
-* The key itself is invalid or has been disabled: check it in the [OmniMux console](https://geminix.cc/dashboard).
+* The key itself is invalid or has been disabled: check it in the [OmniMux console](https://omnimux.ai/dashboard).
 
 ### Returns `404 Invalid URL`
 
@@ -223,7 +223,7 @@ Possible causes:
 {"message":"Invalid URL (POST /v1/v1/messages)","type":"invalid_request_error"}
 ```
 
-Cause: you **manually added an extra path** in `baseUrl`. Pi automatically appends `/v1/messages`, so change `baseUrl` back to the domain root: `https://api.geminix.cc`.
+Cause: you **manually added an extra path** in `baseUrl`. Pi automatically appends `/v1/messages`, so change `baseUrl` back to the domain root: `https://api.omnimux.ai`.
 
 ### Returns `404 model_not_found`
 
@@ -245,7 +245,7 @@ Cause: the model ID is misspelled or the model is not enabled. Check that the `i
 
 ```json
 {
-"baseUrl": "https://api.geminix.cc",
+"baseUrl": "https://api.omnimux.ai",
 "authHeader": true,
 "api": "anthropic-messages"
 }
@@ -279,7 +279,7 @@ Cache Read is the price when the cache is hit (about 0.1× of Input). Actual sav
 
 ### 1. Why set `baseUrl` only to the domain root?
 
-Because Pi's `anthropic-messages` provider automatically appends `/v1/messages` after `baseUrl`. Adding `/v1` or `/v1/messages` manually duplicates the path and returns `404 Invalid URL`. Use only `https://api.geminix.cc`.
+Because Pi's `anthropic-messages` provider automatically appends `/v1/messages` after `baseUrl`. Adding `/v1` or `/v1/messages` manually duplicates the path and returns `404 Invalid URL`. Use only `https://api.omnimux.ai`.
 
 ### 2. Do I need to set `authHeader: true`?
 
@@ -299,6 +299,6 @@ OmniMux supports the full Claude family (it also supports GPT, Gemini, and more,
 
 ### 6. How do I check usage?
 
-Log in to the [OmniMux console](https://geminix.cc/dashboard) to view request volume, consumption, and token usage.
+Log in to the [OmniMux console](https://omnimux.ai/dashboard) to view request volume, consumption, and token usage.
 
 For more usage and configuration, refer to the [Pi official repository](https://github.com/earendil-works/pi).
