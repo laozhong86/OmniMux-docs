@@ -41,8 +41,12 @@ Product monorepo may soft-link this skill under `.agents/skills/omnimux-docs-ia`
 5. **连接账户** (CN) = **Connecting Accounts** (EN, Zernio official). Not “Social Ops”, not “已连接账号 Accounts”.  
 6. **No duplicate L2 name under L2**: group label is the brand/platform; children are only L3 (no second “YouTube” hub row).  
 7. **Right rail examples**: wrap in `<Panel>` + `<RequestExample>` + `<ResponseExample>`; prefer `api:` frontmatter on capability pages.  
-8. **Public docs gate**: after successful smoke of a user-facing HTTP API, update OmniMux-docs (cn+en + `docs.json`) before calling work done.  
-9. **Domains only**: `omnimux.ai` / `api.omnimux.ai` / `docs.omnimux.ai`.
+8. **Left contract layers (P0)**: callable L3 pages MUST document **鉴权 / Authorizations**, **请求体 Body 和/或 Path**, and **响应 Response (200 fields)** — not identity + path only.  
+9. **Capability bullets (P1)**: 2–4 bullets under H1 (protocol/mode, sync-async, auth surface, cross-links).  
+10. **402 quota (P2)**: billed gateway ResponseExample and `errors.mdx` MUST include **402** `insufficient_quota`.  
+11. **Public docs gate**: after successful smoke of a user-facing HTTP API, update OmniMux-docs (cn+en + `docs.json`) before calling work done.  
+12. **Domains only**: `omnimux.ai` / `api.omnimux.ai` / `docs.omnimux.ai`.  
+13. **Detail optimization loop**: any accepted docs micro-fix updates **this skill first**, then MDX content (never content-only drift).
 
 ## Default procedure (short)
 
@@ -50,9 +54,10 @@ Product monorepo may soft-link this skill under `.agents/skills/omnimux-docs-ia`
 2. Load **L1–L4 references** as needed.  
 3. Diff live catalog if adding models (`GET /api/pricing`).  
 4. Add/update MDX under the correct tree; register **only** L3 pages under L2 groups in `docs.json` (no brand hub child).  
-5. Include right-panel request + multi-status responses.  
-6. `mint dev` or post-merge smoke key URLs (200).  
-7. Do not leave product PR “done” without docs when the gate applies.
+5. Include **P0 contract tables + P1 bullets + Panel examples with 402**.  
+6. `mint dev` or post-merge smoke key URLs (200); desktop curl in right rail.  
+7. Do not leave product PR “done” without docs when the gate applies.  
+8. If norms change: edit skill references **before** bulk MDX.
 
 ## Out of scope
 

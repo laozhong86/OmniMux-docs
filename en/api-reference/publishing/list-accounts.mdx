@@ -4,13 +4,46 @@ description: "GET /api/social/v1/accounts"
 api: "GET https://omnimux.ai/api/social/v1/accounts"
 ---
 
+- Social **publishing** user API (not `sk-` social-data read)
+- Base: `https://omnimux.ai`; auth access token + `New-Api-User`
+- Connecting Accounts naming matches Zernio
+
+## Identity
+
 | Field | Value |
 | --- | --- |
-| Method | `GET` |
-| URL | `https://omnimux.ai/api/social/v1/accounts` |
-| Auth | access token + `New-Api-User` |
+| Series | Publishing |
+| Capability | List accounts |
 
+## Endpoint
 
+| Method | Path |
+| --- | --- |
+| `GET` | `/api/social/v1/accounts` |
+
+Base URL: `https://omnimux.ai`
+
+## Authorizations
+
+| Name | In | Type | Required | Description |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | yes | `Bearer <access_token>` |
+| `New-Api-User` | header | string | yes | Current user id |
+
+## Body / parameters
+
+Follow the right-rail cURL. Fields differ by resource (connect / posts / media).
+
+## Response
+
+### 200
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `success` | boolean | Success flag |
+| `data` | object | Payload |
+
+Errors: right rail and [Error codes](/en/api-reference/errors).
 
 <Panel>
 
@@ -36,6 +69,13 @@ curl --request GET \
 {
   "success": false,
   "message": "Unauthorized"
+}
+```
+
+```json 402
+{
+  "success": false,
+  "message": "Insufficient quota. Please top up your account."
 }
 ```
 

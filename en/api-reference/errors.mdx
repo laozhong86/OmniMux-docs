@@ -11,7 +11,8 @@ AI gateway (`sk-`) and most user APIs share these HTTP semantics.
 | --- | --- |
 | `200` | Success |
 | `400` | Bad request |
-| `401` | Unauthorized |
+| `401` | Unauthorized / invalid token |
+| `402` | Insufficient quota |
 | `403` | Forbidden |
 | `404` | Not found |
 | `429` | Rate limited |
