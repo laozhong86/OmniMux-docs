@@ -23,16 +23,17 @@ L1  系列 / 管理面          （发现主轴）
 | 社媒发布 | Publishing | 连接账户 / 帖子 / 媒体 | 发起连接、列出账户… | access token + `New-Api-User` |
 | 账户管理 | Account | 登录鉴权 / 账户信息 | 设备码登录、余额、定价 | 多为 access token |
 | 任务管理 | Tasks | AI 异步任务 | 查询视频/图像任务… | `sk-` |
-| 概览 | Overview | — | 覆盖说明、错误码 | — |
 | 附录 | Appendix | OpenAPI 说明 + relay try-it | OpenAPI ops | `sk-` |
 
 **Not L1 (do not reintroduce without product+docs decision):**
 
+- **概览 meta 组**（API 手册概览 / 文档覆盖说明 / 错误码独立栏目）— 侧栏不展示；错误样例在各 capability 页 Response  
 - 音频系列（无 live Audio Generation models）  
 - 文件管理（无独立通用文件 API；媒体归社媒发布）  
 - Social Ops 命名  
-- 空品牌（Kling/Sora/即梦 path 壳无 model）
+- 空品牌（Kling/Sora/即梦 path 壳无 model）  
 
+**Nav lean rule:** 侧栏只保留可调用能力路径；禁止说明性、覆盖矩阵、重复错误码目录加厚导航。
 ## Directory map (repo)
 
 ```text
