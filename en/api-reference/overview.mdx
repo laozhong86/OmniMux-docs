@@ -14,23 +14,25 @@ Console: [omnimux.ai/dashboard](https://omnimux.ai/dashboard) · Docs: [docs.omn
 
 ## How to read this manual
 
-The **API manual** uses a hybrid IA (series discovery + protocol map):
+The **API manual** sidebar groups by capability: **guide MDX + OpenAPI try-it endpoints under the same group** (no second flat dump of Models/Chat/Images at the bottom):
 
-1. **Series guides** — start from “I need image / video / audio / social publish”  
-2. **Cross-cutting** — device login, async `task_id` polling  
-3. **Protocol** — map paths when you already have OpenAI / Claude / Gemini SDKs  
-4. **OpenAPI appendix** — AI gateway schemas and try-it (Social Ops is separate MDX)
+1. **Image / Video / Audio** — guide + nested try-it  
+2. **Text & models** — Chat / Claude / Gemini + try-it  
+3. **Social Ops** — social user APIs (access token, not `sk-`)  
+4. **Cross-cutting** — device login, async polling  
+5. **Appendix** — OpenAPI snapshot notes only (no endpoint list)
 
 Coverage boundaries: [Documentation coverage](/en/api-reference/coverage).
 
-## Series guides (recommended start)
+## Capability entry points
 
-| Series | Notes |
+| Group | Notes |
 | --- | --- |
-| [Image series](/en/api-reference/image-series/overview) | Text-to-image, edits |
-| [Video series](/en/api-reference/video-series/overview) | Unified tasks, Sora-style, Kling, Jimeng |
-| [Audio series](/en/api-reference/audio-series/overview) | TTS, transcription, translation |
-| [Social Ops](/en/api-reference/social-ops) | Connect accounts, media, publish (not Model Square) |
+| [Image](/en/api-reference/image-series/overview) | Text-to-image, edits + sidebar ops |
+| [Video](/en/api-reference/video-series/overview) | Unified tasks, Videos style, Kling, Jimeng |
+| [Audio](/en/api-reference/audio-series/overview) | TTS, transcription, translation |
+| [Text & models](/en/api-reference/protocol/overview) | Chat / Responses / Claude / Gemini / models |
+| [Social Ops](/en/api-reference/social-ops) | Connect, media, publish (not Model Square) |
 
 ## Cross-cutting
 
@@ -39,12 +41,11 @@ Coverage boundaries: [Documentation coverage](/en/api-reference/coverage).
 | Device code → access token | [Device login](/en/api-reference/cross-cutting/device-login) |
 | Async task polling | [Async tasks](/en/api-reference/cross-cutting/async-tasks) |
 
-## Protocol and try-it
+## Appendix
 
 | Topic | Page |
 | --- | --- |
-| Path map by protocol | [Protocol integration](/en/api-reference/protocol/overview) |
-| OpenAPI try-it | [Appendix · OpenAPI](/en/api-reference/appendix/openapi) |
+| OpenAPI snapshot notes | [Appendix · OpenAPI](/en/api-reference/appendix/openapi) |
 
 ## AI gateway auth (quick)
 

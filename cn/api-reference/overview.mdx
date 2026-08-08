@@ -14,22 +14,24 @@ OmniMux 对外集成有 **两条主入口**：
 
 ## 怎么读本手册
 
-本站 **API 手册** 采用混合信息架构（系列发现 + 协议对接）：
+本站 **API 手册** 侧栏按能力分组，**导读 MDX + 该组下 OpenAPI 试调用端点** 挂在一起（不再底部再挂一整包 Models/Chat/Images…）：
 
-1. **系列导读** — 按「我要出图 / 出视频 / 出音频 / 发社媒」进入  
-2. **通用约定** — 设备码登录、异步 `task_id` 轮询  
-3. **协议集成** — 已有 OpenAI / Claude / Gemini SDK 时按路径对照  
-4. **附录 OpenAPI** — AI 网关 schema 与 try-it（不含 Social Ops）
+1. **图像 / 视频 / 音频** — 导读 + 对应 try-it  
+2. **文本与模型** — Chat / Claude / Gemini 等 + try-it  
+3. **Social Ops** — 社媒用户 API（access token，非 `sk-`）  
+4. **通用约定** — 设备码登录、异步轮询  
+5. **附录** — OpenAPI 快照说明（不含端点列表）
 
 收录边界见 [文档覆盖说明](/cn/api-reference/coverage)。
 
-## 系列导读（推荐起点）
+## 能力入口（推荐起点）
 
-| 系列 | 说明 |
+| 分组 | 说明 |
 | --- | --- |
-| [图像系列](/cn/api-reference/image-series/overview) | 文生图、图编辑 |
-| [视频系列](/cn/api-reference/video-series/overview) | 统一任务、Sora 风格、Kling、即梦 |
-| [音频系列](/cn/api-reference/audio-series/overview) | TTS、转录、翻译 |
+| [图像](/cn/api-reference/image-series/overview) | 文生图、图编辑 + 侧栏端点 |
+| [视频](/cn/api-reference/video-series/overview) | 统一任务、Videos 风格、Kling、即梦 |
+| [音频](/cn/api-reference/audio-series/overview) | TTS、转录、翻译 |
+| [文本与模型](/cn/api-reference/protocol/overview) | Chat / Responses / Claude / Gemini / 模型列表 |
 | [Social Ops](/cn/api-reference/social-ops) | 绑号、媒体、发帖（非模型广场） |
 
 ## 通用约定
@@ -39,12 +41,11 @@ OmniMux 对外集成有 **两条主入口**：
 | 设备码换 access token | [设备码登录](/cn/api-reference/cross-cutting/device-login) |
 | 异步任务轮询 | [异步任务](/cn/api-reference/cross-cutting/async-tasks) |
 
-## 协议与试调用
+## 附录
 
 | 主题 | 页面 |
 | --- | --- |
-| 按协议查路径 | [协议集成](/cn/api-reference/protocol/overview) |
-| OpenAPI try-it | [附录 · OpenAPI](/cn/api-reference/appendix/openapi) |
+| OpenAPI 快照说明 | [附录 · OpenAPI](/cn/api-reference/appendix/openapi) |
 
 ## AI 网关快速鉴权
 

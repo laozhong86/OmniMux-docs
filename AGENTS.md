@@ -34,14 +34,15 @@
 
 - Top tabs (both locales): **用户指南 / User guide** · **API 手册 / API manual** · **集成指南 / Integration guide**
 - User guide: intro, quickstart, auth, Base URL, models
-- **API manual hybrid IA** (series-first discovery + protocol + OpenAPI appendix):
-  1. **Overview** — hub + `*/api-reference/coverage` (tiers A/B/C)
+- **API manual IA** — capability groups with **MDX root + nested OpenAPI ops** (no separate bottom dump of Models/Chat/Images…):
+  1. **Overview** — hub + coverage (A/B/C)
   2. **Cross-cutting** — device login, async tasks
-  3. **Series** — image / video / audio overviews + **Social Ops** (first-class, not buried under OpenAPI)
-  4. **Protocol** — OpenAI / Anthropic / Gemini path map for SDK integrators
-  5. **Appendix** — OpenAPI notes + generated try-it from `openapi/relay.json`
-- Integration guide: CLI / desktop / OpenClaw client pages under `*/integration-guide/`
-- Agents MUST preserve this hybrid shape when adding pages: new **capability** → series (or Social) MDX; new **protocol endpoint** → OpenAPI sync + optional protocol table row; do **not** default to dumping only raw OpenAPI sidebar without a series or Social entry when the surface is user-facing.
+  3. **Image / Video / Audio** — series `root` MDX + selective `METHOD /path` pages from `openapi/relay.json`
+  4. **Text & models** — protocol root MDX + Chat/Claude/Gemini/models try-it
+  5. **Social Ops** — first-class MDX (not in relay OpenAPI)
+  6. **Appendix** — OpenAPI snapshot notes only (must **not** re-attach full `"openapi": "openapi/relay.json"` as a sibling group)
+- Integration guide: CLI / desktop / OpenClaw under `*/integration-guide/`
+- Agents MUST nest new relay endpoints under the matching capability group in `docs.json` (`POST /v1/...` form). Do **not** add a top-level OpenAPI-only group that re-lists the whole catalog.
 
 ## Style
 
