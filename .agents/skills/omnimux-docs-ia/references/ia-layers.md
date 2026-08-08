@@ -33,7 +33,7 @@ L1  系列 / 管理面          （发现主轴）
 | --- | --- | --- | --- | --- |
 | 语言系列 | Language series | Claude, Gemini, GPT, Grok, Kimi, DeepSeek, MiniMax, GLM | **完整参数**（合同页，非 per-model） | `sk-` |
 | 图像系列 | Image series | Nano Banana, GPT Image, Z Image | model id | `sk-` |
-| 视频系列 | Video series | MiniMax, Veo / Omni Flash, LTX, Grok Imagine（**仅有 model 的品牌**） | model id | `sk-` |
+| 视频系列 | Video series | MiniMax, **Veo 3.1**, **Omni Flash**（分栏，勿合并）, LTX, Grok Imagine | model id（合同轴后续可收敛） | `sk-` |
 | 社交数据 | Social data | TikTok, Instagram, YouTube, X | 中文能力名（作品详情…） | `sk-` Chat 形态 |
 | 社媒发布 | Publishing | 连接账户 / 帖子 / 媒体 | 发起连接、列出账户… | access token + `New-Api-User` |
 | 账户管理 | Account | 登录鉴权 / 账户信息 | 设备码登录、余额、定价 | 多为 access token |

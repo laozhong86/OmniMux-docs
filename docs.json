@@ -157,15 +157,21 @@
                     "icon": "video"
                   },
                   {
-                    "group": "Veo / Omni Flash",
+                    "group": "Veo 3.1",
+                    "icon": "video",
+                    "pages": [
+                      "cn/api-reference/video-series/models/veo_3_1"
+                    ]
+                  },
+                  {
+                    "group": "Omni Flash",
+                    "icon": "video",
                     "pages": [
                       "cn/api-reference/video-series/models/omni_flash",
                       "cn/api-reference/video-series/models/omni_flash-10s",
                       "cn/api-reference/video-series/models/omni_flash-4s",
-                      "cn/api-reference/video-series/models/omni_flash-6s",
-                      "cn/api-reference/video-series/models/veo_3_1"
-                    ],
-                    "icon": "video"
+                      "cn/api-reference/video-series/models/omni_flash-6s"
+                    ]
                   },
                   {
                     "group": "LTX",
@@ -486,15 +492,21 @@
                     "icon": "video"
                   },
                   {
-                    "group": "Veo / Omni Flash",
+                    "group": "Veo 3.1",
+                    "icon": "video",
+                    "pages": [
+                      "en/api-reference/video-series/models/veo_3_1"
+                    ]
+                  },
+                  {
+                    "group": "Omni Flash",
+                    "icon": "video",
                     "pages": [
                       "en/api-reference/video-series/models/omni_flash",
                       "en/api-reference/video-series/models/omni_flash-10s",
                       "en/api-reference/video-series/models/omni_flash-4s",
-                      "en/api-reference/video-series/models/omni_flash-6s",
-                      "en/api-reference/video-series/models/veo_3_1"
-                    ],
-                    "icon": "video"
+                      "en/api-reference/video-series/models/omni_flash-6s"
+                    ]
                   },
                   {
                     "group": "LTX",
