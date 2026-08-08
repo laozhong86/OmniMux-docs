@@ -10,7 +10,7 @@ description: "社交数据 · YouTube · `youtube-user`"
 | 平台 | YouTube |
 | 能力 | 频道信息 |
 | model | `youtube-user` |
-| 主要业务字段 | `channel_id`（channel_id） |
+| 主要业务字段 | `channel_id` |
 
 ## 接口
 
@@ -52,7 +52,7 @@ curl --request POST \
       "index": 0,
       "message": {
         "role": "assistant",
-        "content": "{ /* 上游平台 JSON 数据，结构因接口而异 */ }"
+        "content": "{ /* 上游平台 JSON，结构因接口而异 */ }"
       },
       "finish_reason": "stop"
     }

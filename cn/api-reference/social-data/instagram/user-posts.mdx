@@ -1,16 +1,16 @@
 ---
-title: "作品详情"
-sidebarTitle: "作品详情"
-description: "社交数据 · Instagram · `instagram-post`"
+title: "用户作品列表"
+sidebarTitle: "用户作品列表"
+description: "社交数据 · Instagram · `instagram-posts`"
 ---
 
 | 字段 | 值 |
 | --- | --- |
 | 系列 | 社交数据 |
 | 平台 | Instagram |
-| 能力 | 作品详情 |
-| model | `instagram-post` |
-| 主要业务字段 | `url`（media_id 或 url） |
+| 能力 | 用户作品列表 |
+| model | `instagram-posts` |
+| 主要业务字段 | `username` |
 
 ## 接口
 
@@ -29,11 +29,11 @@ curl --request POST \
   --header 'Authorization: Bearer <token>' \
   --header 'Content-Type: application/json' \
   --data '{
-  "model": "instagram-post",
+  "model": "instagram-posts",
   "messages": [
     { "role": "user", "content": "." }
   ],
-  "url": "https://www.instagram.com/p/EXAMPLE/"
+  "username": "instagram"
 }'
 ```
 </CodeGroup>
@@ -46,13 +46,13 @@ curl --request POST \
 {
   "id": "chatcmpl-social-data-example",
   "object": "chat.completion",
-  "model": "instagram-post",
+  "model": "instagram-posts",
   "choices": [
     {
       "index": 0,
       "message": {
         "role": "assistant",
-        "content": "{ /* 上游平台 JSON 数据，结构因接口而异 */ }"
+        "content": "{ /* 上游平台 JSON，结构因接口而异 */ }"
       },
       "finish_reason": "stop"
     }
@@ -64,7 +64,7 @@ curl --request POST \
 ```json
 {
   "error": {
-    "message": "Invalid request: missing url or invalid parameter",
+    "message": "Invalid request: missing username or invalid parameter",
     "type": "invalid_request_error",
     "code": "bad_request"
   }
