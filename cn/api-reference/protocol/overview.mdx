@@ -1,0 +1,74 @@
+---
+title: "协议集成"
+description: "按 OpenAI / Anthropic / Gemini 等协议入口查找文本与模型接口。"
+---
+
+本页按 **协议 / 兼容面** 组织 AI 网关路径，适合已有 SDK、需要对照 Base URL 与路径的集成方。  
+若你更关心「出图 / 出视频 / 出音频 / 发社媒」，请从 **系列导读** 进入：
+
+- [图像系列](/cn/api-reference/image-series/overview)  
+- [视频系列](/cn/api-reference/video-series/overview)  
+- [音频系列](/cn/api-reference/audio-series/overview)  
+- [Social Ops](/cn/api-reference/social-ops)  
+
+## Base URL
+
+```text
+https://api.omnimux.ai
+```
+
+OpenAI 兼容 SDK 常填：
+
+```text
+https://api.omnimux.ai/v1
+```
+
+鉴权：`Authorization: Bearer sk-...`。详见 [鉴权](/cn/guides/authentication)。
+
+## OpenAI 兼容
+
+| 能力 | 方法 | 路径 |
+| --- | --- | --- |
+| Chat Completions | `POST` | `/v1/chat/completions` |
+| Completions | `POST` | `/v1/completions` |
+| Responses | `POST` | `/v1/responses` |
+| Responses compact | `POST` | `/v1/responses/compact` |
+| Embeddings | `POST` | `/v1/embeddings` |
+| Moderations | `POST` | `/v1/moderations` |
+| Rerank | `POST` | `/v1/rerank` |
+| 模型列表 | `GET` | `/v1/models` |
+| Realtime | `GET` | `/v1/realtime`（WebSocket 升级，以线上为准） |
+| 图像 | `POST` | `/v1/images/generations` · `/v1/images/edits` |
+| 音频 | `POST` | `/v1/audio/*` |
+| 视频（统一 / Sora 风格） | `POST`/`GET` | `/v1/video/generations` · `/v1/videos` |
+
+## Anthropic 兼容
+
+| 能力 | 方法 | 路径 |
+| --- | --- | --- |
+| Messages | `POST` | `/v1/messages` |
+
+## Gemini 风格
+
+| 能力 | 方法 | 路径 |
+| --- | --- | --- |
+| 模型列表 | `GET` | `/v1beta/models` |
+| generateContent | `POST` | `/v1beta/models/{model}:generateContent` |
+| Embeddings（引擎路径） | `POST` | `/v1/engines/{model}/embeddings` |
+
+## 非协议：用户 API
+
+| 能力 | Base | 凭证 | 文档 |
+| --- | --- | --- | --- |
+| Social Ops | `https://omnimux.ai` | access token + `New-Api-User` | [Social Ops](/cn/api-reference/social-ops) |
+| 设备码登录 | `https://omnimux.ai` | 申请阶段无鉴权 | [设备码登录](/cn/api-reference/cross-cutting/device-login) |
+
+## 试调用与 Schema
+
+侧栏 **附录** 中的 OpenAPI 由 `openapi/relay.json` 生成，可对 AI 网关路径做 try-it。见 [附录 OpenAPI](/cn/api-reference/appendix/openapi)。
+
+## 相关
+
+- [API 手册概览](/cn/api-reference/overview)  
+- [文档覆盖说明](/cn/api-reference/coverage)  
+- [异步任务](/cn/api-reference/cross-cutting/async-tasks)  

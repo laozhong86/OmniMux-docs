@@ -64,7 +64,33 @@
               {
                 "group": "概览",
                 "pages": [
-                  "cn/api-reference/overview"
+                  "cn/api-reference/overview",
+                  "cn/api-reference/coverage"
+                ]
+              },
+              {
+                "group": "通用约定",
+                "pages": [
+                  "cn/api-reference/cross-cutting/device-login",
+                  "cn/api-reference/cross-cutting/async-tasks"
+                ]
+              },
+              {
+                "group": "图像系列",
+                "pages": [
+                  "cn/api-reference/image-series/overview"
+                ]
+              },
+              {
+                "group": "视频系列",
+                "pages": [
+                  "cn/api-reference/video-series/overview"
+                ]
+              },
+              {
+                "group": "音频系列",
+                "pages": [
+                  "cn/api-reference/audio-series/overview"
                 ]
               },
               {
@@ -74,7 +100,19 @@
                 ]
               },
               {
-                "group": "接口参考",
+                "group": "协议集成",
+                "pages": [
+                  "cn/api-reference/protocol/overview"
+                ]
+              },
+              {
+                "group": "附录",
+                "pages": [
+                  "cn/api-reference/appendix/openapi"
+                ]
+              },
+              {
+                "group": "OpenAPI 试调用",
                 "openapi": "openapi/relay.json"
               }
             ]
@@ -148,7 +186,33 @@
               {
                 "group": "Overview",
                 "pages": [
-                  "en/api-reference/overview"
+                  "en/api-reference/overview",
+                  "en/api-reference/coverage"
+                ]
+              },
+              {
+                "group": "Cross-cutting",
+                "pages": [
+                  "en/api-reference/cross-cutting/device-login",
+                  "en/api-reference/cross-cutting/async-tasks"
+                ]
+              },
+              {
+                "group": "Image series",
+                "pages": [
+                  "en/api-reference/image-series/overview"
+                ]
+              },
+              {
+                "group": "Video series",
+                "pages": [
+                  "en/api-reference/video-series/overview"
+                ]
+              },
+              {
+                "group": "Audio series",
+                "pages": [
+                  "en/api-reference/audio-series/overview"
                 ]
               },
               {
@@ -158,7 +222,19 @@
                 ]
               },
               {
-                "group": "API reference",
+                "group": "Protocol",
+                "pages": [
+                  "en/api-reference/protocol/overview"
+                ]
+              },
+              {
+                "group": "Appendix",
+                "pages": [
+                  "en/api-reference/appendix/openapi"
+                ]
+              },
+              {
+                "group": "OpenAPI try-it",
                 "openapi": "openapi/relay.json"
               }
             ]

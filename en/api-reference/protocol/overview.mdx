@@ -1,0 +1,74 @@
+---
+title: "Protocol integration"
+description: "Find text and model endpoints by OpenAI / Anthropic / Gemini protocol surface."
+---
+
+This page organizes AI gateway paths by **protocol compatibility** — best when you already have an SDK and need Base URL + path mapping.  
+If you care more about “make an image / video / audio / post to social”, start from the **series guides**:
+
+- [Image series](/en/api-reference/image-series/overview)  
+- [Video series](/en/api-reference/video-series/overview)  
+- [Audio series](/en/api-reference/audio-series/overview)  
+- [Social Ops](/en/api-reference/social-ops)  
+
+## Base URL
+
+```text
+https://api.omnimux.ai
+```
+
+Typical OpenAI-compatible SDK value:
+
+```text
+https://api.omnimux.ai/v1
+```
+
+Auth: `Authorization: Bearer sk-...`. See [Authentication](/en/guides/authentication).
+
+## OpenAI-compatible
+
+| Capability | Method | Path |
+| --- | --- | --- |
+| Chat Completions | `POST` | `/v1/chat/completions` |
+| Completions | `POST` | `/v1/completions` |
+| Responses | `POST` | `/v1/responses` |
+| Responses compact | `POST` | `/v1/responses/compact` |
+| Embeddings | `POST` | `/v1/embeddings` |
+| Moderations | `POST` | `/v1/moderations` |
+| Rerank | `POST` | `/v1/rerank` |
+| List models | `GET` | `/v1/models` |
+| Realtime | `GET` | `/v1/realtime` (WebSocket upgrade; follow live behavior) |
+| Images | `POST` | `/v1/images/generations` · `/v1/images/edits` |
+| Audio | `POST` | `/v1/audio/*` |
+| Video (unified / Sora-style) | `POST`/`GET` | `/v1/video/generations` · `/v1/videos` |
+
+## Anthropic-compatible
+
+| Capability | Method | Path |
+| --- | --- | --- |
+| Messages | `POST` | `/v1/messages` |
+
+## Gemini-style
+
+| Capability | Method | Path |
+| --- | --- | --- |
+| List models | `GET` | `/v1beta/models` |
+| generateContent | `POST` | `/v1beta/models/{model}:generateContent` |
+| Embeddings (engine path) | `POST` | `/v1/engines/{model}/embeddings` |
+
+## Non-protocol user APIs
+
+| Surface | Base | Credential | Docs |
+| --- | --- | --- | --- |
+| Social Ops | `https://omnimux.ai` | access token + `New-Api-User` | [Social Ops](/en/api-reference/social-ops) |
+| Device login | `https://omnimux.ai` | unauthenticated until approve | [Device login](/en/api-reference/cross-cutting/device-login) |
+
+## Try-it and schemas
+
+The **Appendix** OpenAPI group is generated from `openapi/relay.json` for AI gateway try-it. See [OpenAPI appendix](/en/api-reference/appendix/openapi).
+
+## Related
+
+- [API manual overview](/en/api-reference/overview)  
+- [Documentation coverage](/en/api-reference/coverage)  
+- [Async tasks](/en/api-reference/cross-cutting/async-tasks)  

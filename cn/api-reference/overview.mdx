@@ -1,80 +1,87 @@
 ---
 title: "API 手册概览"
-description: "OmniMux 网关协议入口、鉴权约定与异步任务说明。"
+description: "按系列发现能力，按协议对接 SDK；Social Ops 与 AI 网关双入口。"
 ---
 
-网关以 **Bearer Token** 调用。生产 Base URL：
+OmniMux 对外集成有 **两条主入口**：
 
-```text
-https://api.omnimux.ai
-```
-
-OpenAI 兼容 SDK 通常配置：
-
-```text
-https://api.omnimux.ai/v1
-```
+| 入口 | Base URL | 凭证 | 典型用途 |
+| --- | --- | --- | --- |
+| **AI 网关** | `https://api.omnimux.ai` | `sk-` Bearer | Chat、图像、视频、音频、嵌入… |
+| **用户 API** | `https://omnimux.ai` | access token + `New-Api-User` | Social Ops、设备码登录等 |
 
 控制台：[omnimux.ai/dashboard](https://omnimux.ai/dashboard) · 文档：[docs.omnimux.ai](https://docs.omnimux.ai)
 
-## 鉴权
+## 怎么读本手册
+
+本站 **API 手册** 采用混合信息架构（系列发现 + 协议对接）：
+
+1. **系列导读** — 按「我要出图 / 出视频 / 出音频 / 发社媒」进入  
+2. **通用约定** — 设备码登录、异步 `task_id` 轮询  
+3. **协议集成** — 已有 OpenAI / Claude / Gemini SDK 时按路径对照  
+4. **附录 OpenAPI** — AI 网关 schema 与 try-it（不含 Social Ops）
+
+收录边界见 [文档覆盖说明](/cn/api-reference/coverage)。
+
+## 系列导读（推荐起点）
+
+| 系列 | 说明 |
+| --- | --- |
+| [图像系列](/cn/api-reference/image-series/overview) | 文生图、图编辑 |
+| [视频系列](/cn/api-reference/video-series/overview) | 统一任务、Sora 风格、Kling、即梦 |
+| [音频系列](/cn/api-reference/audio-series/overview) | TTS、转录、翻译 |
+| [Social Ops](/cn/api-reference/social-ops) | 绑号、媒体、发帖（非模型广场） |
+
+## 通用约定
+
+| 主题 | 页面 |
+| --- | --- |
+| 设备码换 access token | [设备码登录](/cn/api-reference/cross-cutting/device-login) |
+| 异步任务轮询 | [异步任务](/cn/api-reference/cross-cutting/async-tasks) |
+
+## 协议与试调用
+
+| 主题 | 页面 |
+| --- | --- |
+| 按协议查路径 | [协议集成](/cn/api-reference/protocol/overview) |
+| OpenAPI try-it | [附录 · OpenAPI](/cn/api-reference/appendix/openapi) |
+
+## AI 网关快速鉴权
 
 ```http
 Authorization: Bearer sk-xxxxxxxx
 Content-Type: application/json
 ```
 
-令牌在控制台 **令牌 / API Keys** 创建。详见 [鉴权](/cn/guides/authentication)。
+令牌在控制台 **令牌 / API Keys** 创建。OpenAI 兼容 SDK 的 Base URL 通常为：
 
-## 协议与能力
-
-| 能力 | 方法 | 路径 | 说明 |
-| --- | --- | --- | --- |
-| Chat Completions | `POST` | `/v1/chat/completions` | OpenAI Chat 兼容 |
-| Responses | `POST` | `/v1/responses` | OpenAI Responses |
-| Claude Messages | `POST` | `/v1/messages` | Anthropic Messages 兼容 |
-| Gemini | `POST` | `/v1beta/models/{model}:generateContent` | Gemini 原生风格 |
-| 模型列表 | `GET` | `/v1/models` | OpenAI 风格列表 |
-| Gemini 模型列表 | `GET` | `/v1beta/models` | Gemini 风格列表 |
-| 图像生成 | `POST` | `/v1/images/generations` | 多为异步任务 |
-| 视频 | `POST` / `GET` | `/v1/video/generations`、`/v1/videos` 等 | 异步创建与查询 |
-| **Social Ops（社媒）** | `GET` / `POST` / `DELETE` | `/api/social/v1/...` | 绑号、媒体、发帖；**非** `/v1` 网关，见 [Social Ops](/cn/api-reference/social-ops) |
-
-左侧「接口参考」中的 AI 端点由 `openapi/relay.json` 生成。Social Ops 为独立用户 API 文档页，不经过 OpenAPI 中继文件。
-
-## 同步 vs 异步
-
-| 类型 | 典型接口 | 行为 |
-| --- | --- | --- |
-| 同步 | Chat、Messages、Responses、部分文本 | 响应体直接返回模型结果 |
-| 异步 | 图像、视频等 | 先返回 `task_id`，再轮询状态与结果 |
-
-异步字段名以各端点 Schema 为准。图像 / 视频结果链接可能有时效，生产环境应尽快转存。
+```text
+https://api.omnimux.ai/v1
+```
 
 ## 模型 ID
 
-请求中的 `model`（或 Gemini 路径中的 `{model}`）必须是你账户当前可用的标识：
+请求中的 `model` 必须是你账户当前可用的标识：
 
 ```bash
 curl https://api.omnimux.ai/v1/models \
   -H "Authorization: Bearer $OMNIMUX_API_KEY"
 ```
 
-不要依赖文档中的示例名作为可用性证明。详见 [模型列表](/cn/guides/models)。
+不要把文档示例名当成可用性证明。详见 [模型列表](/cn/guides/models)。
 
-## 错误与排查
+## 错误速查
 
 | HTTP | 常见原因 |
 | --- | --- |
-| `401` | 缺少 / 错误的 Bearer Token |
+| `401` | 缺少 / 错误的 Bearer Token，或混用了 access token 与 `sk-` |
 | `403` | 令牌未授权该模型或 IP 受限 |
 | `404` | 路径错误，或 Base URL 多写/少写 `/v1` |
 | `429` | 限流 |
 | 额度类错误 | 账户或令牌配额不足 |
 
-## 相关页面
+## 相关
 
-- [Social Ops（社媒绑号 / 发帖）](/cn/api-reference/social-ops)  
 - [快速开始](/cn/quickstart)  
 - [配置 Base URL](/cn/guides/base-url)  
 - [集成指南](/cn/integration-guide/overview)  

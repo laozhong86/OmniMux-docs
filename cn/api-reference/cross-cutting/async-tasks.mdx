@@ -1,0 +1,50 @@
+---
+title: "异步任务"
+description: "图像 / 视频等异步接口的 task_id 轮询约定。"
+---
+
+部分生成能力 **不在同一次 HTTP 响应里返回最终文件**，而是先返回任务 ID，再查询状态与结果。
+
+## 何时是异步
+
+| 能力 | 创建 | 查询（常见） |
+| --- | --- | --- |
+| 视频 | `POST /v1/video/generations`、`POST /v1/videos` | `GET /v1/video/generations/{task_id}`、`GET /v1/videos/{task_id}` |
+| 图像（异步通道） | `POST /v1/images/generations`（视渠道） | `GET /v1/images/generations/{task_id}` 或 `GET /v1/images/tasks/{task_id}` |
+| Social 发帖 | `POST /api/social/v1/posts` | `GET /api/social/v1/posts/{id}`（OmniMux 侧 id） |
+
+具体字段名（`task_id` / `id` / `status`）以各端点响应为准；完整 schema 见 [附录 OpenAPI](/cn/api-reference/appendix/openapi)。
+
+## 通用轮询模式
+
+```text
+1. 创建任务 → 保存 task_id
+2. 每隔数秒 GET 查询（避免过密）
+3. status 为成功 → 取 URL / 结果并转存
+4. status 为失败 → 读错误信息，勿死循环
+```
+
+```bash
+# 示例：视频任务（路径以你创建接口返回为准）
+curl -sS "https://api.omnimux.ai/v1/videos/$TASK_ID" \
+  -H "Authorization: Bearer $OMNIMUX_API_KEY"
+```
+
+## 鉴权
+
+| 任务类型 | Base | 凭证 |
+| --- | --- | --- |
+| AI 图像 / 视频 | `https://api.omnimux.ai` | `sk-` Bearer |
+| Social 帖子状态 | `https://omnimux.ai` | access token + `New-Api-User` |
+
+## 注意
+
+- 结果 URL 可能有时效，生产环境应尽快下载转存  
+- 不同渠道状态枚举可能不同（`queued` / `in_progress` / `completed` / `failed` 等）  
+- 图像是否异步取决于上游渠道；同步渠道可能直接返回 URL  
+
+## 系列导读
+
+- [图像系列](/cn/api-reference/image-series/overview)  
+- [视频系列](/cn/api-reference/video-series/overview)  
+- [Social Ops 发帖](/cn/api-reference/social-ops)  

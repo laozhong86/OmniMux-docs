@@ -1,59 +1,67 @@
 ---
 title: "API manual overview"
-description: "OmniMux gateway protocols, auth, and async task behavior."
+description: "Discover capabilities by series, integrate by protocol; dual entry for Social Ops and the AI gateway."
 ---
 
-Call the gateway with a **Bearer token**. Production Base URL:
+OmniMux exposes **two primary surfaces** for integrators:
 
-```text
-https://api.omnimux.ai
-```
-
-Typical OpenAI-compatible SDK value:
-
-```text
-https://api.omnimux.ai/v1
-```
+| Surface | Base URL | Credential | Typical use |
+| --- | --- | --- | --- |
+| **AI gateway** | `https://api.omnimux.ai` | `sk-` Bearer | Chat, image, video, audio, embeddings… |
+| **User APIs** | `https://omnimux.ai` | access token + `New-Api-User` | Social Ops, device login, … |
 
 Console: [omnimux.ai/dashboard](https://omnimux.ai/dashboard) · Docs: [docs.omnimux.ai](https://docs.omnimux.ai)
 
-## Authentication
+## How to read this manual
+
+The **API manual** uses a hybrid IA (series discovery + protocol map):
+
+1. **Series guides** — start from “I need image / video / audio / social publish”  
+2. **Cross-cutting** — device login, async `task_id` polling  
+3. **Protocol** — map paths when you already have OpenAI / Claude / Gemini SDKs  
+4. **OpenAPI appendix** — AI gateway schemas and try-it (Social Ops is separate MDX)
+
+Coverage boundaries: [Documentation coverage](/en/api-reference/coverage).
+
+## Series guides (recommended start)
+
+| Series | Notes |
+| --- | --- |
+| [Image series](/en/api-reference/image-series/overview) | Text-to-image, edits |
+| [Video series](/en/api-reference/video-series/overview) | Unified tasks, Sora-style, Kling, Jimeng |
+| [Audio series](/en/api-reference/audio-series/overview) | TTS, transcription, translation |
+| [Social Ops](/en/api-reference/social-ops) | Connect accounts, media, publish (not Model Square) |
+
+## Cross-cutting
+
+| Topic | Page |
+| --- | --- |
+| Device code → access token | [Device login](/en/api-reference/cross-cutting/device-login) |
+| Async task polling | [Async tasks](/en/api-reference/cross-cutting/async-tasks) |
+
+## Protocol and try-it
+
+| Topic | Page |
+| --- | --- |
+| Path map by protocol | [Protocol integration](/en/api-reference/protocol/overview) |
+| OpenAPI try-it | [Appendix · OpenAPI](/en/api-reference/appendix/openapi) |
+
+## AI gateway auth (quick)
 
 ```http
 Authorization: Bearer sk-xxxxxxxx
 Content-Type: application/json
 ```
 
-Create tokens under **Tokens / API Keys** in the console. See [Authentication](/en/guides/authentication).
+Create keys under **Tokens / API Keys**. OpenAI-compatible SDKs usually use:
 
-## Protocols and capabilities
-
-| Capability | Method | Path | Notes |
-| --- | --- | --- | --- |
-| Chat Completions | `POST` | `/v1/chat/completions` | OpenAI Chat-compatible |
-| Responses | `POST` | `/v1/responses` | OpenAI Responses |
-| Claude Messages | `POST` | `/v1/messages` | Anthropic Messages-compatible |
-| Gemini | `POST` | `/v1beta/models/{model}:generateContent` | Gemini-native style |
-| List models | `GET` | `/v1/models` | OpenAI-style list |
-| Gemini model list | `GET` | `/v1beta/models` | Gemini-style list |
-| Images | `POST` | `/v1/images/generations` | Often async |
-| Video | `POST` / `GET` | `/v1/video/generations`, `/v1/videos`, … | Async create + query |
-| **Social Ops** | `GET` / `POST` / `DELETE` | `/api/social/v1/...` | Connect accounts, media, publish — **not** `/v1` gateway; see [Social Ops](/en/api-reference/social-ops) |
-
-AI endpoint pages in the sidebar are generated from `openapi/relay.json` (try-it when playground is enabled). Social Ops has a separate user-API page and is not part of the relay OpenAPI file.
-
-## Sync vs async
-
-| Mode | Typical APIs | Behavior |
-| --- | --- | --- |
-| Sync | Chat, Messages, Responses, most text | Response body is the model result |
-| Async | Images, video, … | Returns `task_id` first; poll for status and results |
-
-Field names follow each endpoint schema. Image/video URLs may expire — download and store them promptly in production.
+```text
+https://api.omnimux.ai/v1
+```
 
 ## Model IDs
 
-Every request must use a `model` (or Gemini path `{model}`) enabled for your account:
+Every request must use a `model` enabled for your account:
 
 ```bash
 curl https://api.omnimux.ai/v1/models \
@@ -66,7 +74,7 @@ Example names in docs are not proof of availability. See [Models](/en/guides/mod
 
 | HTTP | Likely cause |
 | --- | --- |
-| `401` | Missing or invalid Bearer token |
+| `401` | Missing/invalid Bearer, or mixing access token with `sk-` |
 | `403` | Model not allowed on token, or IP restricted |
 | `404` | Wrong path, or extra/missing `/v1` relative to the client |
 | `429` | Rate limited |
@@ -74,11 +82,10 @@ Example names in docs are not proof of availability. See [Models](/en/guides/mod
 
 ## Related
 
-- [Social Ops (connect / publish)](/en/api-reference/social-ops)  
 - [Quickstart](/en/quickstart)  
 - [Configure Base URL](/en/guides/base-url)  
 - [Integration guide](/en/integration-guide/overview)  
 
 <Tip>
-  Unimplemented placeholder ops are omitted from the public OpenAPI. If a model appears in the console but not here, trust live `GET /v1/models` and channel config.
+  Unimplemented placeholders are omitted from the public OpenAPI. If a model appears in the console but not here, trust live `GET /v1/models` and channel config.
 </Tip>

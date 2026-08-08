@@ -1,0 +1,56 @@
+---
+title: "图像系列"
+description: "文生图、图编辑与异步任务的产品导读；完整 schema 见附录 OpenAPI。"
+---
+
+图像能力走 **AI 网关**（`sk-` Bearer），Base URL：
+
+```text
+https://api.omnimux.ai
+```
+
+## 你能做什么
+
+| 能力 | 方法 | 路径 | 说明 |
+| --- | --- | --- | --- |
+| 文生图 | `POST` | `/v1/images/generations` | OpenAI 风格；部分渠道同步返回 URL，部分返回 `task_id` |
+| 图编辑 | `POST` | `/v1/images/edits` | 参考图 + 提示词编辑（渠道相关） |
+
+创建后若为异步，按 [异步任务](/cn/api-reference/cross-cutting/async-tasks) 轮询。公开 OpenAPI **可能尚未**列出全部任务查询路径；以线上响应中的 `task_id` / 状态字段为准。
+
+## 鉴权
+
+```http
+Authorization: Bearer sk-xxxxxxxx
+Content-Type: application/json
+```
+
+## 快速示例
+
+```bash
+curl -sS https://api.omnimux.ai/v1/images/generations \
+  -H "Authorization: Bearer $OMNIMUX_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "YOUR_IMAGE_MODEL",
+    "prompt": "a product photo on white background",
+    "n": 1
+  }'
+```
+
+`model` 必须是你账户可用的图像模型（`GET /v1/models` 或控制台模型广场）。文档中的示例名 **不代表** 线上一定可用。
+
+## 与其它系列的边界
+
+| 需求 | 去哪 |
+| --- | --- |
+| 图生视频 / 文生视频 | [视频系列](/cn/api-reference/video-series/overview) |
+| TTS / 转写 | [音频系列](/cn/api-reference/audio-series/overview) |
+| 发到 TikTok 等平台 | [Social Ops](/cn/api-reference/social-ops)（access token，不是 `sk-`） |
+| 按协议找 Chat / Responses 等 | [协议集成](/cn/api-reference/protocol/overview) |
+
+## 相关
+
+- [异步任务](/cn/api-reference/cross-cutting/async-tasks)  
+- [附录 · OpenAPI 试调用](/cn/api-reference/appendix/openapi)  
+- [模型列表](/cn/guides/models)  

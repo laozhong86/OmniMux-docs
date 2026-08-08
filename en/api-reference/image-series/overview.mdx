@@ -1,0 +1,56 @@
+---
+title: "Image series"
+description: "Text-to-image, edits, and async task notes. Full schemas live in the OpenAPI appendix."
+---
+
+Image APIs use the **AI gateway** (`sk-` Bearer). Base URL:
+
+```text
+https://api.omnimux.ai
+```
+
+## What you can do
+
+| Capability | Method | Path | Notes |
+| --- | --- | --- | --- |
+| Text-to-image | `POST` | `/v1/images/generations` | OpenAI-style; some channels return a URL, others a `task_id` |
+| Image edit | `POST` | `/v1/images/edits` | Reference image + prompt (channel-dependent) |
+
+If the create response is async, poll using [Async tasks](/en/api-reference/cross-cutting/async-tasks). Public OpenAPI may **not** list every task-query path yet — follow fields returned by the live create response.
+
+## Auth
+
+```http
+Authorization: Bearer sk-xxxxxxxx
+Content-Type: application/json
+```
+
+## Quick example
+
+```bash
+curl -sS https://api.omnimux.ai/v1/images/generations \
+  -H "Authorization: Bearer $OMNIMUX_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "YOUR_IMAGE_MODEL",
+    "prompt": "a product photo on white background",
+    "n": 1
+  }'
+```
+
+`model` must be enabled for your account (`GET /v1/models` or the console Model Square). Example names in docs are **not** availability guarantees.
+
+## Boundaries
+
+| Need | Go to |
+| --- | --- |
+| Image-to-video / text-to-video | [Video series](/en/api-reference/video-series/overview) |
+| TTS / transcription | [Audio series](/en/api-reference/audio-series/overview) |
+| Publish to TikTok etc. | [Social Ops](/en/api-reference/social-ops) (access token, not `sk-`) |
+| Protocol map (Chat, Responses, …) | [Protocol](/en/api-reference/protocol/overview) |
+
+## Related
+
+- [Async tasks](/en/api-reference/cross-cutting/async-tasks)  
+- [Appendix · OpenAPI try-it](/en/api-reference/appendix/openapi)  
+- [Models](/en/guides/models)  

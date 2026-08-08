@@ -1,0 +1,36 @@
+---
+title: "Appendix · OpenAPI"
+description: "Notes on the public AI-gateway OpenAPI snapshot; following sidebar items are try-it endpoints."
+---
+
+Interactive **AI gateway** ops on this site come from the in-repo snapshot:
+
+```text
+openapi/relay.json
+```
+
+It is synced from the product repo `docs/openapi/relay.json`. It does **not** include Admin OpenAPI, and it does **not** include non-relay user APIs such as Social Ops.
+
+## How to use
+
+1. Expand operations under this Appendix group (Mintlify generates them from OpenAPI)  
+2. Set `Authorization: Bearer sk-...` and the body, then try the call  
+3. Use Base URL `https://api.omnimux.ai` (playground host follows site config)
+
+## Relation to MDX guides
+
+| Content | Form |
+| --- | --- |
+| Capability guides (image / video / audio / Social) | MDX series pages |
+| Protocol map | [Protocol integration](/en/api-reference/protocol/overview) |
+| Schemas and try-it | Generated OpenAPI pages in this appendix |
+| Social Ops / device login | Separate MDX (not in this JSON) |
+
+## Sync
+
+When product OpenAPI changes, refresh `openapi/relay.json` in this repo before publishing. Placeholder or unimplemented paths should not ship in the public snapshot.
+
+## Related
+
+- [Documentation coverage](/en/api-reference/coverage)  
+- [Protocol integration](/en/api-reference/protocol/overview)  

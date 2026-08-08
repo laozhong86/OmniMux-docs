@@ -1,0 +1,56 @@
+---
+title: "Audio series"
+description: "TTS, transcription, and translation product guide."
+---
+
+Audio APIs use the **AI gateway** (`sk-` Bearer). Base URL:
+
+```text
+https://api.omnimux.ai
+```
+
+## What you can do
+
+| Capability | Method | Path | Notes |
+| --- | --- | --- | --- |
+| Text-to-speech (TTS) | `POST` | `/v1/audio/speech` | Audio stream/file (channel-dependent) |
+| Transcription | `POST` | `/v1/audio/transcriptions` | Speech → text (often multipart) |
+| Translation | `POST` | `/v1/audio/translations` | Speech → target-language text |
+
+Full fields and content types are under Audio ops in the [OpenAPI appendix](/en/api-reference/appendix/openapi).
+
+## Auth
+
+```http
+Authorization: Bearer sk-xxxxxxxx
+```
+
+## Quick example (TTS)
+
+```bash
+curl -sS https://api.omnimux.ai/v1/audio/speech \
+  -H "Authorization: Bearer $OMNIMUX_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "YOUR_TTS_MODEL",
+    "input": "Hello from OmniMux",
+    "voice": "alloy"
+  }' \
+  --output speech.mp3
+```
+
+`model` / `voice` depend on your enabled models and upstream support.
+
+## Boundaries
+
+| Need | Go to |
+| --- | --- |
+| Text-to-image / edits | [Image series](/en/api-reference/image-series/overview) |
+| Text-to-video | [Video series](/en/api-reference/video-series/overview) |
+| Chat completions | [Protocol](/en/api-reference/protocol/overview) |
+| Social publish | [Social Ops](/en/api-reference/social-ops) |
+
+## Related
+
+- [Appendix · OpenAPI try-it](/en/api-reference/appendix/openapi)  
+- [Models](/en/guides/models)  
