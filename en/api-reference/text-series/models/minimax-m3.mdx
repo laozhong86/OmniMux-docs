@@ -1,0 +1,34 @@
+---
+title: "minimax-m3"
+description: "MiniMax · model `minimax-m3` · Language series"
+---
+
+| Field | Value |
+| --- | --- |
+| Series | Language series |
+| Brand | MiniMax |
+| model | `minimax-m3` |
+
+## Call
+
+- Base URL: `https://api.omnimux.ai`
+- Auth: `Authorization: Bearer sk-...`
+- Availability: `GET /v1/models` and console (this page is a catalog snapshot)
+
+## Protocols
+
+| Method | Path | Notes |
+| --- | --- | --- |
+| `POST` | `/v1/chat/completions` | OpenAI Chat-compatible |
+| `POST` | `/v1/messages` | Claude Messages (prefer for Claude) |
+| `POST` | `/v1/responses` | OpenAI Responses |
+| `GET` | `/v1/models` | List models |
+
+```bash
+curl -sS https://api.omnimux.ai/v1/chat/completions \
+  -H "Authorization: Bearer $OMNIMUX_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"model":"minimax-m3","messages":[{"role":"user","content":"Hello"}]}'
+```
+
+> For image/video use `/v1/images/*` or `/v1/video/generations` with the fields those APIs require.

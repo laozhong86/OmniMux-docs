@@ -1,31 +1,6 @@
 ---
 title: "概述"
-description: "按品牌发现图像模型；协议接口默认折叠。"
+description: "图像系列：品牌 → model id。"
 ---
 
-图像能力按 **品牌/产品族** 发现，再落到 **共用协议接口**（`sk-` 网关）。
-
-## 品牌
-
-| 品牌 | 厂商 |
-| --- | --- |
-| [Nano Banana](/cn/api-reference/image-series/brands/nano-banana) | Google |
-| [GPT Image](/cn/api-reference/image-series/brands/gpt-image) | OpenAI |
-| [Z Image](/cn/api-reference/image-series/brands/z-image) | GxgenAI |
-
-品牌与 model 以 `GET /v1/models` / 控制台为准。未在上表出现的图像模型，仍走下方协议接口，在请求里填对应 `model`。
-
-## 协议接口（侧栏本组）
-
-| 方法 | 路径 | 说明 |
-| --- | --- | --- |
-| `POST` | `/v1/images/generations` | 文生图（同步或异步视渠道） |
-| `POST` | `/v1/images/edits` | 图编辑 |
-
-异步轮询见 [异步任务](/cn/api-reference/cross-cutting/async-tasks)。
-
-## 相关
-
-- [语言系列](/cn/api-reference/text-series/overview)  
-- [视频系列](/cn/api-reference/video-series/overview)  
-- [Social Ops](/cn/api-reference/social-ops)  
+仅展示线上已挂图像模型：Nano Banana、GPT Image、Z Image。

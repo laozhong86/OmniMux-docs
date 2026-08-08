@@ -1,34 +1,19 @@
 ---
 title: "概述"
-description: "按品牌发现文本模型；协议接口默认折叠在侧栏「协议接口」下。"
+description: "语言系列：按品牌发现，L3 为 model id。"
 ---
 
-语言能力按 **品牌/产品族** 发现，再落到 **共用协议接口**（`sk-` 网关）。
+语言能力按 **品牌 → model id** 组织。仅展示线上 pricing 已有模型。
 
-## 品牌
-
-| 品牌 | 厂商 |
+| 品牌 | 说明 |
 | --- | --- |
-| [Claude](/cn/api-reference/text-series/brands/claude) | Anthropic |
-| [Gemini](/cn/api-reference/text-series/brands/gemini) | Google |
-| [GPT](/cn/api-reference/text-series/brands/gpt) | OpenAI |
-| [Grok](/cn/api-reference/text-series/brands/grok) | xAI |
-| [Kimi](/cn/api-reference/text-series/brands/kimi) | Moonshot |
-| [DeepSeek](/cn/api-reference/text-series/brands/deepseek) | DeepSeek |
-| [MiniMax](/cn/api-reference/text-series/brands/minimax) | MiniMax |
-| [GLM](/cn/api-reference/text-series/brands/glm) | 智谱 |
+| Claude | Anthropic |
+| Gemini | Google |
+| GPT | OpenAI |
+| Grok | xAI |
+| Kimi | Moonshot |
+| DeepSeek | DeepSeek |
+| MiniMax | MiniMax 文本 |
+| GLM | 智谱 |
 
-品牌页中的 model 列表为快照示例；**以** `GET /v1/models` **与控制台为准**。
-
-## 协议 vs 品牌
-
-- **品牌页**：选模型族、看推荐协议与示例 id  
-- **协议接口**（侧栏本组下方）：Chat / Messages / Responses / 模型列表等 try-it  
-
-同一 `POST /v1/chat/completions` 可服务多个品牌，差在请求里的 `model`。
-
-## 相关
-
-- [图像系列](/cn/api-reference/image-series/overview)  
-- [视频系列](/cn/api-reference/video-series/overview)  
-- [异步任务](/cn/api-reference/cross-cutting/async-tasks)  
+协议（Chat / Messages / Responses）写在品牌与模型页正文，**不当侧栏栏目名**。

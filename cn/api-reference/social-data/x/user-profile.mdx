@@ -1,0 +1,28 @@
+---
+title: "用户资料"
+sidebarTitle: "用户资料"
+description: "社交数据 · X · model `x-user`"
+---
+
+| 字段 | 值 |
+| --- | --- |
+| 系列 | 社交数据 |
+| 平台 | X |
+| 能力 | 用户资料 |
+| model | `x-user` |
+
+## 调用
+
+- Base URL：`https://api.omnimux.ai`
+- 鉴权：`Authorization: Bearer sk-...`
+- 形态：`POST /v1/chat/completions`（需 dummy `messages` + 业务字段 top-level）
+- 上游：TikHub；对外 vendor = 平台品牌
+
+```bash
+curl -sS https://api.omnimux.ai/v1/chat/completions \
+  -H "Authorization: Bearer $OMNIMUX_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"model":"x-user","messages":[{"role":"user","content":"."}]}'
+```
+
+业务字段因 model 而异，见运维说明 `docs/ops/tikhub-social-models-zh.md`（产品仓）或本平台控制台模型说明。

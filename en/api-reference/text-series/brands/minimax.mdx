@@ -1,47 +1,25 @@
 ---
 title: "MiniMax"
-description: "MiniMax · Language series brand guide; shared gateway protocols and model field."
+description: "Language series · MiniMax"
 ---
 
-Brand：**MiniMax**（MiniMax）
+**MiniMax** under **Language series**.
 
-MiniMax text. Video Hailuo: [Video · MiniMax](/en/api-reference/video-series/brands/minimax).
-
-## Recommended protocols
-
-| Method | Path | Notes |
-| --- | --- | --- |
-| `POST` | `/v1/chat/completions` | Chat Completions |
-
-## Example models
+## Models
 
 | model |
 | --- |
-| `minimax-m3` |
-| `minimax-m2.7` |
-| `minimax-m2.5` |
+| [`minimax-m2.5`](../models/minimax-m2.5) |
+| [`minimax-m2.7`](../models/minimax-m2.7) |
+| [`minimax-m3`](../models/minimax-m3) |
 
-Snapshot examples only — **not** a guarantee of availability. Use `GET /v1/models` and the Model Square.
+## Protocols
 
-## Example call
+| Method | Path | Notes |
+| --- | --- | --- |
+| `POST` | `/v1/chat/completions` | OpenAI Chat-compatible |
+| `POST` | `/v1/messages` | Claude Messages (prefer for Claude) |
+| `POST` | `/v1/responses` | OpenAI Responses |
+| `GET` | `/v1/models` | List models |
 
-```bash
-curl -sS https://api.omnimux.ai/v1/chat/completions \
-  -H "Authorization: Bearer $OMNIMUX_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "model": "minimax-m3",
-    "messages": [{
-      "role": "user",
-      "content": "Hello"
-    }]
-  }'
-```
-
-## Related
-
-- [Series overview](/en/api-reference/text-series/overview)
-- Sibling **Protocol endpoints** in the sidebar
-- [Async tasks](/en/api-reference/cross-cutting/async-tasks)
-- [Models](/en/guides/models)
-
+Availability follows `GET /v1/models`.

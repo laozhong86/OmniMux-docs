@@ -1,0 +1,104 @@
+---
+title: "设备码登录"
+description: "CLI / 集成方通过 device_code 换取用户 access token（RFC 8628 风格）。"
+---
+
+设备码登录让 **OmniMux CLI**（`omnimux login`）或自建客户端在无法安全嵌入密码的环境中拿到 **用户 access token**。  
+该凭证用于 [Social Ops](/cn/api-reference/social-ops) 等用户 API，**不是** AI 网关的 `sk-` 令牌。
+
+## Base URL
+
+```text
+https://omnimux.ai
+```
+
+## 流程
+
+```text
+1. POST /api/user/device/code     → device_code + user_code + 验证链接
+2. 用户浏览器打开 verification_uri 并确认（需已登录控制台）
+3. 客户端轮询 POST /api/user/device/token
+4. 成功后得到 access_token + user_id
+```
+
+## POST /api/user/device/code
+
+申请一对 device/user code。**无需鉴权。**
+
+```bash
+curl -sS -X POST https://omnimux.ai/api/user/device/code \
+  -H "Content-Type: application/json" \
+  -d '{"client_name":"my-cli"}'
+```
+
+| 字段 | 说明 |
+| --- | --- |
+| `client_name` | 可选，设备展示名 |
+
+成功 `data`：
+
+| 字段 | 说明 |
+| --- | --- |
+| `device_code` | 客户端保密保存，用于轮询 |
+| `user_code` | 展示给用户（如 `ABCD-EFGH`） |
+| `verification_uri` | 用户打开的确认页 |
+| `verification_uri_complete` | 已带 `user_code` 的完整链接 |
+| `expires_in` | 有效秒数（通常 900） |
+| `interval` | 建议轮询间隔（秒，通常 5） |
+
+## POST /api/user/device/token
+
+用 `device_code` 换取 access token。**无需鉴权。** 在用户批准前会返回「pending」。
+
+```bash
+curl -sS -X POST https://omnimux.ai/api/user/device/token \
+  -H "Content-Type: application/json" \
+  -d '{
+    "device_code": "'"$DEVICE_CODE"'",
+    "grant_type": "urn:ietf:params:oauth:grant-type:device_code"
+  }'
+```
+
+| 字段 | 说明 |
+| --- | --- |
+| `device_code` | 必填 |
+| `grant_type` | 建议固定为 `urn:ietf:params:oauth:grant-type:device_code` |
+
+轮询时请遵守 `interval`，避免过频。
+
+批准后响应中包含用户 `access_token` 与 `user_id`（字段名以线上响应为准）。将该 token 用于：
+
+```http
+Authorization: Bearer <access_token>
+New-Api-User: <user_id>
+```
+
+## POST /api/user/device/approve · deny
+
+在 **已登录控制台的浏览器会话** 中确认或拒绝（页面 `https://omnimux.ai/cli/login` 内部调用）。  
+第三方一般 **不需要** 自己调 approve/deny，只需引导用户打开 `verification_uri`。
+
+| 路径 | 说明 |
+| --- | --- |
+| `POST /api/user/device/approve` | 批准（需用户登录态） |
+| `POST /api/user/device/deny` | 拒绝 |
+
+请求体通常含 `user_code`。
+
+## CLI 对照
+
+| 步骤 | CLI |
+| --- | --- |
+| 申请码并打开浏览器 | `omnimux login` |
+| 不自动打开 | `omnimux login --no-open` |
+
+## 安全注意
+
+- 勿把 `device_code` 写进日志或发给用户；只展示 `user_code` / 验证链接  
+- access token 与 `sk-` 权限不同，泄露后应在控制台轮换  
+- 超时未批准需重新 `device/code`
+
+## 相关
+
+- [Social Ops](/cn/api-reference/social-ops)  
+- [鉴权](/cn/guides/authentication)

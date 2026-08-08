@@ -86,3 +86,12 @@ mint dev
 ```
 
 Open `http://localhost:3000`.
+
+## API manual IA (confirmed)
+
+- L1: 语言系列 / 图像系列 / 视频系列 / 社交数据 / 社媒发布 / 账户管理 / 任务管理
+- L2: brand (AI/social-data platforms) or resource group (连接账户 / 帖子 / 媒体)
+- L3: model id (AI) or Chinese capability name (社交数据 / 社媒发布 / 任务)
+- EN L2 for connect: **Connecting Accounts** (Zernio official); CN: **连接账户**
+- Do **not** list empty brands, planned APIs, or use METHOD path as sidebar titles
+- Social data ≠ Publishing (TikHub read vs Zernio write)

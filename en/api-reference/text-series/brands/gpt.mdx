@@ -1,52 +1,28 @@
 ---
 title: "GPT"
-description: "OpenAI · Language series brand guide; shared gateway protocols and model field."
+description: "Language series · GPT"
 ---
 
-Brand：**GPT**（OpenAI）
+**GPT** under **Language series**.
 
-Primary OpenAI protocol family. Image models: [Image · GPT Image](/en/api-reference/image-series/brands/gpt-image).
-
-## Recommended protocols
-
-| Method | Path | Notes |
-| --- | --- | --- |
-| `POST` | `/v1/chat/completions` | Chat Completions |
-| `POST` | `/v1/responses` | Responses API |
-| `POST` | `/v1/responses/compact` | Responses compact |
-
-## Example models
+## Models
 
 | model |
 | --- |
-| `gpt-5.6-terra` |
-| `gpt-5.6-sol` |
-| `gpt-5.6-luna` |
-| `gpt-5.5` |
-| `gpt-5.4` |
-| `gpt-5.4-mini` |
+| [`gpt-5.4`](../models/gpt-5.4) |
+| [`gpt-5.4-mini`](../models/gpt-5.4-mini) |
+| [`gpt-5.5`](../models/gpt-5.5) |
+| [`gpt-5.6-luna`](../models/gpt-5.6-luna) |
+| [`gpt-5.6-sol`](../models/gpt-5.6-sol) |
+| [`gpt-5.6-terra`](../models/gpt-5.6-terra) |
 
-Snapshot examples only — **not** a guarantee of availability. Use `GET /v1/models` and the Model Square.
+## Protocols
 
-## Example call
+| Method | Path | Notes |
+| --- | --- | --- |
+| `POST` | `/v1/chat/completions` | OpenAI Chat-compatible |
+| `POST` | `/v1/messages` | Claude Messages (prefer for Claude) |
+| `POST` | `/v1/responses` | OpenAI Responses |
+| `GET` | `/v1/models` | List models |
 
-```bash
-curl -sS https://api.omnimux.ai/v1/chat/completions \
-  -H "Authorization: Bearer $OMNIMUX_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "model": "gpt-5.6-terra",
-    "messages": [{
-      "role": "user",
-      "content": "Hello"
-    }]
-  }'
-```
-
-## Related
-
-- [Series overview](/en/api-reference/text-series/overview)
-- Sibling **Protocol endpoints** in the sidebar
-- [Async tasks](/en/api-reference/cross-cutting/async-tasks)
-- [Models](/en/guides/models)
-
+Availability follows `GET /v1/models`.

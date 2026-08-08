@@ -1,43 +1,21 @@
 ---
 title: "Grok Imagine"
-description: "xAI · Video series brand guide; shared gateway protocols and model field."
+description: "Video series · Grok Imagine"
 ---
 
-Brand：**Grok Imagine**（xAI）
+**Grok Imagine** under **Video series**.
 
-xAI Grok Imagine video. Text Grok: [Language · Grok](/en/api-reference/text-series/brands/grok).
-
-## Recommended protocols
-
-| Method | Path | Notes |
-| --- | --- | --- |
-| `POST` | `/v1/video/generations` | Unified video task |
-| `GET` | `/v1/video/generations/{task_id}` | Task status |
-
-## Example models
+## Models
 
 | model |
 | --- |
-| `grok-imagine-video-1.5` |
+| [`grok-imagine-video-1.5`](../models/grok-imagine-video-1.5) |
 
-Snapshot examples only — **not** a guarantee of availability. Use `GET /v1/models` and the Model Square.
+## Protocols
 
-## Example call
+| Method | Path | Notes |
+| --- | --- | --- |
+| `POST` | `/v1/video/generations` | Create video task |
+| `GET` | `/v1/video/generations/{{task_id}}` | Get task |
 
-```bash
-curl -sS https://api.omnimux.ai/v1/video/generations \
-  -H "Authorization: Bearer $OMNIMUX_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "model": "grok-imagine-video-1.5",
-    "prompt": "slow pan across a product"
-  }'
-```
-
-## Related
-
-- [Series overview](/en/api-reference/video-series/overview)
-- Sibling **Protocol endpoints** in the sidebar
-- [Async tasks](/en/api-reference/cross-cutting/async-tasks)
-- [Models](/en/guides/models)
-
+Availability follows `GET /v1/models`.

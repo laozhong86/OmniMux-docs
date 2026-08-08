@@ -1,72 +1,28 @@
 ---
 title: "API manual overview"
-description: "Series → brand discovery, protocol try-it; dual entry for Social Ops and the AI gateway."
+description: "Series → brand → model/capability; publishing vs social data."
 ---
 
-OmniMux exposes **two primary surfaces**:
-
-| Surface | Base URL | Credential | Typical use |
-| --- | --- | --- | --- |
-| **AI gateway** | `https://api.omnimux.ai` | `sk-` Bearer | Text / image / video / audio |
-| **User APIs** | `https://omnimux.ai` | access token + `New-Api-User` | Social Ops, device login |
-
-Console: [omnimux.ai/dashboard](https://omnimux.ai/dashboard) · Docs: [docs.omnimux.ai](https://docs.omnimux.ai)
-
-## How to read this manual
-
-Sidebar IA (Evolink-style discovery, grounded in OmniMux as a gateway):
+## Directory standard
 
 ```text
-Series (language / image / video / audio)
-  ├─ Brand / product-family guides (Claude, Nano Banana, Kling…)
-  └─ Protocol try-it (shared /v1/* or channel-native paths)
-Social Ops (separate user API)
-Cross-cutting · Appendix
+L1 series / management
+  L2 brand or resource group
+    L3 model id or capability name
 ```
 
-- **Brand pages**: pick a family, sample `model` ids, recommended protocols  
-- **Protocol endpoints**: real HTTP contracts and try-it (many brands share one path; difference is `model`)  
-- **Do not invent** competitor brand names not on this instance; brands follow pricing / `GET /v1/models`  
+Sidebar labels are **not** raw `GET /v1/...` paths.
 
-Coverage: [Documentation coverage](/en/api-reference/coverage).
+## L1
 
-## Capability entry points
-
-| Series | Notes |
+| Section | Notes |
 | --- | --- |
-| [Language series](/en/api-reference/text-series/overview) | Claude / Gemini / GPT / Grok / Kimi / DeepSeek / MiniMax / GLM |
-| [Image series](/en/api-reference/image-series/overview) | Nano Banana / GPT Image / Z Image |
-| [Video series](/en/api-reference/video-series/overview) | Kling / Veo / Grok Imagine / MiniMax / LTX / Jimeng / Sora |
-| [Audio series](/en/api-reference/audio-series/overview) | TTS / transcription / translation |
-| [Social Ops](/en/api-reference/social-ops) | Connect, media, publish |
+| [Language series](/en/api-reference/text-series/overview) | Brand → model id |
+| [Image series](/en/api-reference/image-series/overview) | Brand → model id |
+| [Video series](/en/api-reference/video-series/overview) | Live models only |
+| [Social data](/en/api-reference/social-data/overview) | Platform → capability · TikHub |
+| [Publishing](/en/api-reference/publishing/overview) | Connecting Accounts / Posts / Media |
+| [Account](/en/api-reference/account/overview) | Device login · balance · pricing |
+| [Tasks](/en/api-reference/tasks/overview) | AI async polls |
 
-## Cross-cutting
-
-| Topic | Page |
-| --- | --- |
-| Device code → access token | [Device login](/en/api-reference/cross-cutting/device-login) |
-| Async task polling | [Async tasks](/en/api-reference/cross-cutting/async-tasks) |
-
-## AI gateway auth
-
-```http
-Authorization: Bearer sk-xxxxxxxx
-Content-Type: application/json
-```
-
-Typical OpenAI-compatible SDK Base URL: `https://api.omnimux.ai/v1`.
-
-## Model IDs
-
-```bash
-curl https://api.omnimux.ai/v1/models \
-  -H "Authorization: Bearer $OMNIMUX_API_KEY"
-```
-
-Example model names in docs are **not** availability guarantees.
-
-## Related
-
-- [Quickstart](/en/quickstart)  
-- [Configure Base URL](/en/guides/base-url)  
-- [Integration guide](/en/integration-guide/overview)  
+Only live models and APIs are listed.

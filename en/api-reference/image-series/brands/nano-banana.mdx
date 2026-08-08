@@ -1,45 +1,22 @@
 ---
 title: "Nano Banana"
-description: "Google · Image series brand guide; shared gateway protocols and model field."
+description: "Image series · Nano Banana"
 ---
 
-Brand：**Nano Banana**（Google）
+**Nano Banana** under **Image series**.
 
-Google image brand. Async depends on channel; see [Async tasks](/en/api-reference/cross-cutting/async-tasks).
-
-## Recommended protocols
-
-| Method | Path | Notes |
-| --- | --- | --- |
-| `POST` | `/v1/images/generations` | OpenAI Images (channel-dependent) |
-| `POST` | `/v1beta/models/{model}:generateContent` | Gemini-native image |
-
-## Example models
+## Models
 
 | model |
 | --- |
-| `nano_banana_pro` |
-| `nano_banana_2` |
+| [`nano_banana_2`](../models/nano_banana_2) |
+| [`nano_banana_pro`](../models/nano_banana_pro) |
 
-Snapshot examples only — **not** a guarantee of availability. Use `GET /v1/models` and the Model Square.
+## Protocols
 
-## Example call
+| Method | Path | Notes |
+| --- | --- | --- |
+| `POST` | `/v1/images/generations` | Text-to-image |
+| `POST` | `/v1/images/edits` | Image edit |
 
-```bash
-curl -sS https://api.omnimux.ai/v1/images/generations \
-  -H "Authorization: Bearer $OMNIMUX_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "model": "nano_banana_pro",
-    "prompt": "a product on white background",
-    "n": 1
-  }'
-```
-
-## Related
-
-- [Series overview](/en/api-reference/image-series/overview)
-- Sibling **Protocol endpoints** in the sidebar
-- [Async tasks](/en/api-reference/cross-cutting/async-tasks)
-- [Models](/en/guides/models)
-
+Availability follows `GET /v1/models`.

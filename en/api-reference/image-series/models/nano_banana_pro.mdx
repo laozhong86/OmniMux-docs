@@ -1,0 +1,25 @@
+---
+title: "nano_banana_pro"
+description: "Nano Banana · `nano_banana_pro`"
+---
+
+| Field | Value |
+| --- | --- |
+| Series | Image series |
+| Brand | Nano Banana |
+| model | `nano_banana_pro` |
+
+## Call
+
+- Base: `https://api.omnimux.ai`
+- Auth: `sk-` Bearer
+- `POST /v1/images/generations` or `/v1/images/edits`
+
+```bash
+curl -sS https://api.omnimux.ai/v1/images/generations \
+  -H "Authorization: Bearer $OMNIMUX_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"model":"nano_banana_pro","prompt":"a product on white background","n":1}'
+```
+
+If async, poll with `task_id` (see [Task management](/en/api-reference/tasks/overview)).
