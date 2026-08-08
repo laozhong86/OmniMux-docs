@@ -1,8 +1,52 @@
 ---
 title: "查询视频内容"
-description: "GET /v1/videos/{task_id}/content"
+description: "GET https://api.omnimux.ai/v1/videos/{task_id}/content"
 ---
 
-| 能力 | 方法 | 路径 |
-| --- | --- | --- |
-| 查询视频内容 | `GET` | `/v1/videos/{task_id}/content` |
+| 字段 | 值 |
+| --- | --- |
+| 方法 | `GET` |
+| URL | `https://api.omnimux.ai/v1/videos/{task_id}/content` |
+| 鉴权 | `sk-` Bearer |
+
+## 请求示例
+
+```bash
+curl --request GET \
+  --url https://api.omnimux.ai/v1/videos/$TASK_ID/content \
+  --header 'Authorization: Bearer <token>'
+```
+
+## 响应示例
+
+<Tabs>
+  <Tab title="200">
+```json
+{
+  "task_id": "task_01HXYZ",
+  "status": "completed",
+  "result": { "url": "https://example.com/out.mp4" }
+}
+```
+  </Tab>
+  <Tab title="401">
+```json
+{ "error": { "message": "Invalid token", "type": "authentication_error", "code": "unauthorized" } }
+```
+  </Tab>
+  <Tab title="404">
+```json
+{ "error": { "message": "Task not found", "type": "invalid_request_error", "code": "not_found" } }
+```
+  </Tab>
+  <Tab title="429">
+```json
+{ "error": { "message": "Rate limit exceeded", "type": "rate_limit_error", "code": "rate_limit_exceeded" } }
+```
+  </Tab>
+  <Tab title="500">
+```json
+{ "error": { "message": "Internal server error", "type": "server_error", "code": "internal_error" } }
+```
+  </Tab>
+</Tabs>

@@ -1,28 +1,32 @@
 ---
 title: "Search"
 sidebarTitle: "Search"
-description: "Social data · Instagram · model `instagram-search`"
+description: "Social data · `instagram-search`"
 ---
 
 | Field | Value |
 | --- | --- |
-| Series | Social data |
-| Platform | Instagram |
-| Capability | Search |
 | model | `instagram-search` |
+| Business field | `query` |
 
-## Call
+## Endpoint
 
-- Base URL: `https://api.omnimux.ai`
-- Auth: `Authorization: Bearer sk-...`
-- Shape: `POST /v1/chat/completions` (dummy `messages` + business fields top-level)
-- Upstream: TikHub; public vendor = platform brand
+`POST /v1/chat/completions` · `https://api.omnimux.ai` · `sk-`
+
+## Request example
 
 ```bash
-curl -sS https://api.omnimux.ai/v1/chat/completions \
-  -H "Authorization: Bearer $OMNIMUX_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{"model":"instagram-search","messages":[{"role":"user","content":"."}]}'
+curl --request POST \
+  --url https://api.omnimux.ai/v1/chat/completions \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "model": "instagram-search",
+  "messages": [{ "role": "user", "content": "." }],
+  "query": "openai"
+}'
 ```
 
-Required body fields depend on the model; see product ops notes and console model descriptions.
+## Response examples
+
+Status tabs: **200** (data in assistant content) · **400** · **401** · **403** · **429** · **500** · **502** — same shapes as Chinese pages.

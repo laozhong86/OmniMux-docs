@@ -1,24 +1,20 @@
 ---
 title: "ltx2.3-kj-async"
-description: "LTX · `ltx2.3-kj-async`"
+description: "Video · `ltx2.3-kj-async`"
 ---
 
-| Field | Value |
-| --- | --- |
-| Series | Video series |
-| Brand | LTX |
-| model | `ltx2.3-kj-async` |
+`POST /v1/video/generations` with model `ltx2.3-kj-async`. Poll `GET /v1/video/generations/{task_id}`.
 
-## Call
-
-- Base: `https://api.omnimux.ai`
-- Auth: `sk-` Bearer
-- Create: `POST /v1/video/generations`
-- Poll: `GET /v1/video/generations/{task_id}`
+## Request example
 
 ```bash
-curl -sS https://api.omnimux.ai/v1/video/generations \
-  -H "Authorization: Bearer $OMNIMUX_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{"model":"ltx2.3-kj-async","prompt":"slow pan across a product"}'
+curl --request POST \
+  --url https://api.omnimux.ai/v1/video/generations \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --data '{"model":"ltx2.3-kj-async","prompt":"slow pan across a product"}'
 ```
+
+## Response examples
+
+Use status tabs as on Chinese pages (200 queued task / 400 / 401 / 403 / 429 / 500).

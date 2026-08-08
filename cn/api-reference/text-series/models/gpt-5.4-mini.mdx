@@ -1,6 +1,6 @@
 ---
 title: "gpt-5.4-mini"
-description: "GPT · model `gpt-5.4-mini` · 语言系列"
+description: "GPT · model `gpt-5.4-mini`"
 ---
 
 | 字段 | 值 |
@@ -9,26 +9,139 @@ description: "GPT · model `gpt-5.4-mini` · 语言系列"
 | 品牌 | GPT |
 | model | `gpt-5.4-mini` |
 
-## 调用
+## 接口
 
-- Base URL：`https://api.omnimux.ai`
-- 鉴权：`Authorization: Bearer sk-...`
-- 可用性以 `GET /v1/models` 与控制台为准（本页为目录快照）
+| 方法 | 路径 |
+| --- | --- |
+| `POST` | `/v1/chat/completions` |
 
-## 协议
+Base URL：`https://api.omnimux.ai` · 鉴权：`Authorization: Bearer sk-...`
 
-| 方法 | 路径 | 说明 |
-| --- | --- | --- |
-| `POST` | `/v1/chat/completions` | OpenAI Chat 兼容 |
-| `POST` | `/v1/messages` | Claude Messages（Claude 品牌优先） |
-| `POST` | `/v1/responses` | OpenAI Responses |
-| `GET` | `/v1/models` | 模型列表 |
+## 请求示例
 
-```bash
-curl -sS https://api.omnimux.ai/v1/chat/completions \
-  -H "Authorization: Bearer $OMNIMUX_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{"model":"gpt-5.4-mini","messages":[{"role":"user","content":"Hello"}]}'
+<CodeGroup>
+```bash cURL
+curl --request POST \
+  --url https://api.omnimux.ai/v1/chat/completions \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "model": "gpt-5.4-mini",
+  "messages": [
+    {
+      "role": "user",
+      "content": "介绍一下人工智能的发展历史"
+    }
+  ]
+}'
 ```
+</CodeGroup>
 
-> 图像/视频请改用对应 `/v1/images/*` 或 `/v1/video/generations` 路径与字段。
+## 响应示例
+
+<Tabs>
+  <Tab title="200">
+```json
+{
+  "id": "chatcmpl-20260308112637503180122ABCD1234",
+  "object": "chat.completion",
+  "created": 1741428397,
+  "model": "gpt-5.4-mini",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "人工智能的发展历史可以追溯到20世纪50年代…"
+      },
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 18,
+    "completion_tokens": 120,
+    "total_tokens": 138
+  }
+}
+```
+  </Tab>
+  <Tab title="400">
+```json
+{
+  "error": {
+    "message": "Invalid request: missing required field or invalid parameter",
+    "type": "invalid_request_error",
+    "code": "bad_request"
+  }
+}
+```
+  </Tab>
+  <Tab title="401">
+```json
+{
+  "error": {
+    "message": "Invalid token or authentication failed",
+    "type": "authentication_error",
+    "code": "unauthorized"
+  }
+}
+```
+  </Tab>
+  <Tab title="403">
+```json
+{
+  "error": {
+    "message": "Model not allowed for this token, or access denied",
+    "type": "permission_error",
+    "code": "forbidden"
+  }
+}
+```
+  </Tab>
+  <Tab title="429">
+```json
+{
+  "error": {
+    "message": "Rate limit exceeded. Please retry later.",
+    "type": "rate_limit_error",
+    "code": "rate_limit_exceeded"
+  }
+}
+```
+  </Tab>
+  <Tab title="500">
+```json
+{
+  "error": {
+    "message": "Internal server error",
+    "type": "server_error",
+    "code": "internal_error"
+  }
+}
+```
+  </Tab>
+  <Tab title="502">
+```json
+{
+  "error": {
+    "message": "Upstream provider error or bad gateway",
+    "type": "server_error",
+    "code": "bad_gateway"
+  }
+}
+```
+  </Tab>
+  <Tab title="503">
+```json
+{
+  "error": {
+    "message": "Service temporarily unavailable",
+    "type": "server_error",
+    "code": "service_unavailable"
+  }
+}
+```
+  </Tab>
+</Tabs>
+
+> 网关 `sk-` 鉴权。实际字段以线上响应为准；额度类错误可能以业务 message 返回。

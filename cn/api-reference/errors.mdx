@@ -1,41 +1,23 @@
 ---
-title: "grok-4.20-multi-agent-0309"
-description: "Grok · model `grok-4.20-multi-agent-0309`"
+title: "错误码"
+description: "网关常见 HTTP 状态与响应示例"
 ---
 
-| 字段 | 值 |
+AI 网关（`sk-`）与多数用户 API 共用下列 HTTP 语义。具体业务 message 以线上为准。
+
+## 状态码一览
+
+| HTTP | 含义 |
 | --- | --- |
-| 系列 | 语言系列 |
-| 品牌 | Grok |
-| model | `grok-4.20-multi-agent-0309` |
-
-## 接口
-
-| 方法 | 路径 |
-| --- | --- |
-| `POST` | `/v1/chat/completions` |
-
-Base URL：`https://api.omnimux.ai` · 鉴权：`Authorization: Bearer sk-...`
-
-## 请求示例
-
-<CodeGroup>
-```bash cURL
-curl --request POST \
-  --url https://api.omnimux.ai/v1/chat/completions \
-  --header 'Authorization: Bearer <token>' \
-  --header 'Content-Type: application/json' \
-  --data '{
-  "model": "grok-4.20-multi-agent-0309",
-  "messages": [
-    {
-      "role": "user",
-      "content": "介绍一下人工智能的发展历史"
-    }
-  ]
-}'
-```
-</CodeGroup>
+| `200` | 成功 |
+| `400` | 请求参数错误 |
+| `401` | 未鉴权 / Token 无效 |
+| `403` | 无权限（模型未授权、IP 限制等） |
+| `404` | 路径或资源不存在 |
+| `429` | 限流 |
+| `500` | 服务内部错误 |
+| `502` | 上游错误 / Bad Gateway |
+| `503` | 服务暂不可用 |
 
 ## 响应示例
 
@@ -43,25 +25,16 @@ curl --request POST \
   <Tab title="200">
 ```json
 {
-  "id": "chatcmpl-20260308112637503180122ABCD1234",
+  "id": "chatcmpl-example",
   "object": "chat.completion",
-  "created": 1741428397,
-  "model": "grok-4.20-multi-agent-0309",
+  "model": "gpt-5.4",
   "choices": [
     {
       "index": 0,
-      "message": {
-        "role": "assistant",
-        "content": "人工智能的发展历史可以追溯到20世纪50年代…"
-      },
+      "message": { "role": "assistant", "content": "…" },
       "finish_reason": "stop"
     }
-  ],
-  "usage": {
-    "prompt_tokens": 18,
-    "completion_tokens": 120,
-    "total_tokens": 138
-  }
+  ]
 }
 ```
   </Tab>
@@ -144,4 +117,4 @@ curl --request POST \
   </Tab>
 </Tabs>
 
-> 网关 `sk-` 鉴权。实际字段以线上响应为准；额度类错误可能以业务 message 返回。
+模型与能力页的「响应示例」Tabs 与上表一致；成功体因接口而异。

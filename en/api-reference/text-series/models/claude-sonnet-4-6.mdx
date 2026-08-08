@@ -1,6 +1,6 @@
 ---
 title: "claude-sonnet-4-6"
-description: "Claude · model `claude-sonnet-4-6` · Language series"
+description: "Claude · model `claude-sonnet-4-6`"
 ---
 
 | Field | Value |
@@ -9,26 +9,139 @@ description: "Claude · model `claude-sonnet-4-6` · Language series"
 | Brand | Claude |
 | model | `claude-sonnet-4-6` |
 
-## Call
+## Endpoint
 
-- Base URL: `https://api.omnimux.ai`
-- Auth: `Authorization: Bearer sk-...`
-- Availability: `GET /v1/models` and console (this page is a catalog snapshot)
+| Method | Path |
+| --- | --- |
+| `POST` | `/v1/chat/completions` |
 
-## Protocols
+Base URL: `https://api.omnimux.ai` · Auth: `Authorization: Bearer sk-...`
 
-| Method | Path | Notes |
-| --- | --- | --- |
-| `POST` | `/v1/chat/completions` | OpenAI Chat-compatible |
-| `POST` | `/v1/messages` | Claude Messages (prefer for Claude) |
-| `POST` | `/v1/responses` | OpenAI Responses |
-| `GET` | `/v1/models` | List models |
+## Request example
 
-```bash
-curl -sS https://api.omnimux.ai/v1/chat/completions \
-  -H "Authorization: Bearer $OMNIMUX_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{"model":"claude-sonnet-4-6","messages":[{"role":"user","content":"Hello"}]}'
+<CodeGroup>
+```bash cURL
+curl --request POST \
+  --url https://api.omnimux.ai/v1/chat/completions \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "model": "claude-sonnet-4-6",
+  "messages": [
+    {
+      "role": "user",
+      "content": "介绍一下人工智能的发展历史"
+    }
+  ]
+}'
 ```
+</CodeGroup>
 
-> For image/video use `/v1/images/*` or `/v1/video/generations` with the fields those APIs require.
+## Response examples
+
+<Tabs>
+  <Tab title="200">
+```json
+{
+  "id": "chatcmpl-20260308112637503180122ABCD1234",
+  "object": "chat.completion",
+  "created": 1741428397,
+  "model": "claude-sonnet-4-6",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "人工智能的发展历史可以追溯到20世纪50年代…"
+      },
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 18,
+    "completion_tokens": 120,
+    "total_tokens": 138
+  }
+}
+```
+  </Tab>
+  <Tab title="400">
+```json
+{
+  "error": {
+    "message": "Invalid request: missing required field or invalid parameter",
+    "type": "invalid_request_error",
+    "code": "bad_request"
+  }
+}
+```
+  </Tab>
+  <Tab title="401">
+```json
+{
+  "error": {
+    "message": "Invalid token or authentication failed",
+    "type": "authentication_error",
+    "code": "unauthorized"
+  }
+}
+```
+  </Tab>
+  <Tab title="403">
+```json
+{
+  "error": {
+    "message": "Model not allowed for this token, or access denied",
+    "type": "permission_error",
+    "code": "forbidden"
+  }
+}
+```
+  </Tab>
+  <Tab title="429">
+```json
+{
+  "error": {
+    "message": "Rate limit exceeded. Please retry later.",
+    "type": "rate_limit_error",
+    "code": "rate_limit_exceeded"
+  }
+}
+```
+  </Tab>
+  <Tab title="500">
+```json
+{
+  "error": {
+    "message": "Internal server error",
+    "type": "server_error",
+    "code": "internal_error"
+  }
+}
+```
+  </Tab>
+  <Tab title="502">
+```json
+{
+  "error": {
+    "message": "Upstream provider error or bad gateway",
+    "type": "server_error",
+    "code": "bad_gateway"
+  }
+}
+```
+  </Tab>
+  <Tab title="503">
+```json
+{
+  "error": {
+    "message": "Service temporarily unavailable",
+    "type": "server_error",
+    "code": "service_unavailable"
+  }
+}
+```
+  </Tab>
+</Tabs>
+
+> Gateway `sk-` auth。Field names follow live responses; quota errors may appear in the error message.

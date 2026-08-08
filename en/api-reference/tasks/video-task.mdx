@@ -1,9 +1,52 @@
 ---
 title: "Get video task"
-description: "Poll video generation task_id"
+description: "GET https://api.omnimux.ai/v1/video/generations/{task_id}"
 ---
 
-| Capability | Method | Path |
-| --- | --- | --- |
-| Get video task | `GET` | `/v1/video/generations/{task_id}` |
-| Get video task (Videos style) | `GET` | `/v1/videos/{task_id}` |
+| Field | Value |
+| --- | --- |
+| Method | `GET` |
+| URL | `https://api.omnimux.ai/v1/video/generations/{task_id}` |
+| Auth | `sk-` Bearer |
+
+## Request example
+
+```bash
+curl --request GET \
+  --url https://api.omnimux.ai/v1/video/generations/$TASK_ID \
+  --header 'Authorization: Bearer <token>'
+```
+
+## Response examples
+
+<Tabs>
+  <Tab title="200">
+```json
+{
+  "task_id": "task_01HXYZ",
+  "status": "completed",
+  "result": { "url": "https://example.com/out.mp4" }
+}
+```
+  </Tab>
+  <Tab title="401">
+```json
+{ "error": { "message": "Invalid token", "type": "authentication_error", "code": "unauthorized" } }
+```
+  </Tab>
+  <Tab title="404">
+```json
+{ "error": { "message": "Task not found", "type": "invalid_request_error", "code": "not_found" } }
+```
+  </Tab>
+  <Tab title="429">
+```json
+{ "error": { "message": "Rate limit exceeded", "type": "rate_limit_error", "code": "rate_limit_exceeded" } }
+```
+  </Tab>
+  <Tab title="500">
+```json
+{ "error": { "message": "Internal server error", "type": "server_error", "code": "internal_error" } }
+```
+  </Tab>
+</Tabs>

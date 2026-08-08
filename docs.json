@@ -65,7 +65,8 @@
                 "group": "概览",
                 "pages": [
                   "cn/api-reference/overview",
-                  "cn/api-reference/coverage"
+                  "cn/api-reference/coverage",
+                  "cn/api-reference/errors"
                 ]
               },
               {
@@ -409,7 +410,8 @@
                 "group": "Overview",
                 "pages": [
                   "en/api-reference/overview",
-                  "en/api-reference/coverage"
+                  "en/api-reference/coverage",
+                  "en/api-reference/errors"
                 ]
               },
               {
