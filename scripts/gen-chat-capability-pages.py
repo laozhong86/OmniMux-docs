@@ -325,36 +325,23 @@ def build_op(relay: dict[str, Any], model: str) -> dict[str, Any]:
     }
 
 
-def to_yaml_ish(obj: Any, indent: int = 0) -> str:
-    """Minimal JSON→YAML for OpenAPI (stable enough for Mintlify). Prefer json if needed."""
-    # Use json dump for reliability inside yaml fence — Mintlify accepts JSON in yaml fence
-    # when content is valid OpenAPI. Evolink uses YAML; we emit YAML via a simple dump.
-    try:
-        import yaml  # type: ignore
+def render_mdx_cn(model: str, brand: str, op_rel: str) -> str:
+    """Mintlify renders Authorizations/Body/Response when openapi is in frontmatter.
 
-        return yaml.safe_dump(
-            obj,
-            sort_keys=False,
-            allow_unicode=True,
-            default_flow_style=False,
-            width=100,
-        )
-    except Exception:
-        # Fallback: JSON is valid YAML 1.2 subset for our structure if we use block carefully
-        return json.dumps(obj, indent=2, ensure_ascii=False) + "\n"
-
-
-def render_mdx_cn(model: str, brand: str, op_rel: str, yaml_body: str) -> str:
+    Do NOT embed raw OpenAPI YAML under ## OpenAPI — that dumps as a code block.
+    Format: openapi: \"path/to/spec.json METHOD /path\"
+    See: https://www.mintlify.com/docs/api-playground/openapi-setup
+    """
     return f"""---
 title: "{model}"
 description: "{brand} · model `{model}` · Chat Completions (Complete)"
-api: "POST https://api.omnimux.ai/v1/chat/completions"
+openapi: "{op_rel} POST /v1/chat/completions"
 ---
 
 > - OpenAI Chat Completions 兼容协议
 > - 通过请求体 `model` 选择本页模型（`{model}`）
 > - 默认同步返回；可设 `stream: true` 流式输出
-> - 完整参数见下方 OpenAPI 字段树（非精简表）
+> - 下方为 Mintlify 渲染的 Authorizations / Body / Response（对齐 Evolink 布局）
 
 ## 身份
 
@@ -365,26 +352,20 @@ api: "POST https://api.omnimux.ai/v1/chat/completions"
 | model | `{model}` |
 
 Base URL：`https://api.omnimux.ai`
-
-## OpenAPI
-
-````yaml {op_rel} POST /v1/chat/completions
-{yaml_body.rstrip()}
-````
 """
 
 
-def render_mdx_en(model: str, brand: str, op_rel: str, yaml_body: str) -> str:
+def render_mdx_en(model: str, brand: str, op_rel: str) -> str:
     return f"""---
 title: "{model}"
 description: "{brand} · model `{model}` · Chat Completions (Complete)"
-api: "POST https://api.omnimux.ai/v1/chat/completions"
+openapi: "{op_rel} POST /v1/chat/completions"
 ---
 
 > - OpenAI Chat Completions compatible
 > - Select this page's model via body `model` (`{model}`)
 > - Synchronous by default; set `stream: true` for SSE
-> - Full parameter tree below (OpenAPI — not a thin summary table)
+> - Below: Mintlify-rendered Authorizations / Body / Response (Evolink-class layout)
 
 ## Identity
 
@@ -395,12 +376,6 @@ api: "POST https://api.omnimux.ai/v1/chat/completions"
 | model | `{model}` |
 
 Base URL: `https://api.omnimux.ai`
-
-## OpenAPI
-
-````yaml {op_rel} POST /v1/chat/completions
-{yaml_body.rstrip()}
-````
 """
 
 
@@ -414,17 +389,15 @@ def write_model(model: str) -> None:
     op = build_op(relay, model)
     brand = brand_for(model)
     OPS_DIR.mkdir(parents=True, exist_ok=True)
-    # file name safe
     safe = model.replace("/", "_")
     op_path = OPS_DIR / f"{safe}.json"
     op_path.write_text(json.dumps(op, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     op_rel = f"openapi/ops/chat/{safe}.json"
-    yaml_body = to_yaml_ish(op)
 
     cn = ROOT / "cn" / "api-reference" / "text-series" / "models" / f"{safe}.mdx"
     en = ROOT / "en" / "api-reference" / "text-series" / "models" / f"{safe}.mdx"
-    cn.write_text(render_mdx_cn(model, brand, op_rel, yaml_body), encoding="utf-8")
-    en.write_text(render_mdx_en(model, brand, op_rel, yaml_body), encoding="utf-8")
+    cn.write_text(render_mdx_cn(model, brand, op_rel), encoding="utf-8")
+    en.write_text(render_mdx_en(model, brand, op_rel), encoding="utf-8")
     print(f"wrote {op_path.relative_to(ROOT)}")
     print(f"wrote {cn.relative_to(ROOT)}")
     print(f"wrote {en.relative_to(ROOT)}")

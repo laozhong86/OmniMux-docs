@@ -41,18 +41,19 @@ Do **not** invent parallel IA. Live site + `docs.json` + this skill are the sour
 4. **社交数据 ≠ 社媒发布**: TikHub **read** (`sk-` Chat) vs Zernio-path **publish** (access token + `New-Api-User`).  
 5. **连接账户** (CN) = **Connecting Accounts** (EN).  
 6. **No duplicate L2 name under L2**.  
-7. **Callable L3 contract source = single OpenAPI operation** (Evolink-class): page embeds `## OpenAPI` + one path/method. Mintlify renders Authorizations / Body field tree / Response + Try it.  
-8. **Forbidden as sole contract**: identity table + 5-row Markdown Body only (pre–Phase-0 thin pages). Thin Markdown tables are **not** Complete.  
-9. **Optional thin identity table** above OpenAPI (系列/品牌/model) — product discovery aid, not the field schema.  
-10. **Capability bullets (P1)** under H1: 2–6 bullets (protocol, model pin, sync/async, cross-links).  
-11. **402** `insufficient_quota` on billed gateway operations.  
-12. **model pin**: OpenAPI `model` enum/default/example = this page’s live model id only.  
-13. **Field honesty**: document gateway-exposed fields (from `openapi/relay.json` / live). Do not invent Evolink-only params. Prefer omit over fake.  
-14. **Domains only**: `omnimux.ai` / `api.omnimux.ai` / `docs.omnimux.ai`.  
-15. **Public docs gate** after user-facing HTTP smoke.  
-16. **Detail optimization loop**: update **this skill first**, then regenerate content.  
-17. **cn + en** for every callable page.  
-18. Do not copy competitor BaseURL, credits, or brand lists that are not live on OmniMux.
+7. **Callable L3 contract = Mintlify `openapi` frontmatter** pointing at `openapi/ops/**` single-operation file (`openapi: "path/to/op.json METHOD /path"`). Mintlify must render **Authorizations / Body field tree / Response** + right-rail Try it (Evolink layout).  
+8. **Forbidden**: embedding full OpenAPI YAML/JSON under `## OpenAPI` as a code fence (renders as source dump — “越改越乱”).  
+9. **Forbidden as sole contract**: identity + 5-row Markdown Body only.  
+10. **Optional thin identity table** above the auto API block.  
+11. **Capability bullets** under H1: 2–6.  
+12. **402** on billed ops.  
+13. **model pin** in ops JSON.  
+14. **Field honesty** from `openapi/relay.json` / live.  
+15. **Domains only**: `omnimux.ai` / `api.omnimux.ai` / `docs.omnimux.ai`.  
+16. **Public docs gate** after smoke.  
+17. **Skill first**, then regen.  
+18. **cn + en**.  
+19. **Task completion gate**: live ego must show Evolink-class layers (no raw openapi wall; Authorizations/Body UI). Until then the layout-align task is **not done**.
 
 ## Default procedure (short)
 
