@@ -295,14 +295,6 @@
                   "cn/api-reference/tasks/video-task"
                 ],
                 "icon": "list-checks"
-              },
-              {
-                "group": "附录",
-                "pages": [
-                  "cn/api-reference/appendix/openapi"
-                ],
-                "openapi": "openapi/relay.json",
-                "icon": "book-open"
               }
             ],
             "icon": "square-terminal"
@@ -622,14 +614,6 @@
                   "en/api-reference/tasks/video-task"
                 ],
                 "icon": "list-checks"
-              },
-              {
-                "group": "Appendix",
-                "pages": [
-                  "en/api-reference/appendix/openapi"
-                ],
-                "openapi": "openapi/relay.json",
-                "icon": "book-open"
               }
             ],
             "icon": "square-terminal"

@@ -38,7 +38,7 @@ L1  系列 / 管理面          （发现主轴）
 | 社媒发布 | Publishing | 连接账户 / 帖子 / 媒体 | 发起连接、列出账户… | access token + `New-Api-User` |
 | 账户管理 | Account | 登录鉴权 / 账户信息 | 设备码登录、余额、定价 | 多为 access token |
 | 任务管理 | Tasks | — | **仅** `查询视频任务` → `GET /v1/video/generations/{task_id}`；禁止把 `/v1/videos/{id}/content` 写成通用「查询视频内容」 | `sk-` |
-| 附录 | Appendix | OpenAPI 说明 + relay try-it | OpenAPI ops | `sk-` |
+| ~~附录~~ | — | **侧栏移除**；勿挂 openapi 自动分组（Models/Chat/Video…） |
 
 **Not L1 (do not reintroduce without product+docs decision):**
 
@@ -62,7 +62,7 @@ L1  系列 / 管理面          （发现主轴）
 | 社媒发布 | `send` |
 | 账户管理 | `user` |
 | 任务管理 | `list-checks` |
-| 附录 | `book-open` |
+
 ## Directory map (repo)
 
 ```text
@@ -116,8 +116,7 @@ Brand MDX under `brands/` may exist for deep links / series overview tables, but
 | Kind | Role |
 | --- | --- |
 | **L3 capability page** | **Single operation** OpenAPI embedded in MDX (`openapi/ops/**` + `## OpenAPI`) — Evolink-class detail |
-| **附录** | Full gateway dump `openapi/relay.json` for bulk try-it |
-| **Not** | Top-level OpenAPI groups re-listing Chat/Images next to series as primary discovery |
+| **Not in sidebar** | Full `openapi/relay.json` auto-groups (Models/Chat/Images/Video/Sora/Kling…) — noise; keep file for generators only |
 
 - Prefer series → brand → model MDX for discovery.  
 - L3 page type = **OpenAPI capability page** (see `content-templates.md`), not protocol-only dump.
