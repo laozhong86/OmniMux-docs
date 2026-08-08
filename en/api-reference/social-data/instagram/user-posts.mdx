@@ -1,0 +1,28 @@
+---
+title: "User posts"
+sidebarTitle: "User posts"
+description: "Social data · Instagram · model `instagram-posts`"
+---
+
+| Field | Value |
+| --- | --- |
+| Series | Social data |
+| Platform | Instagram |
+| Capability | User posts |
+| model | `instagram-posts` |
+
+## Call
+
+- Base URL: `https://api.omnimux.ai`
+- Auth: `Authorization: Bearer sk-...`
+- Shape: `POST /v1/chat/completions` (dummy `messages` + business fields top-level)
+- Upstream: TikHub; public vendor = platform brand
+
+```bash
+curl -sS https://api.omnimux.ai/v1/chat/completions \
+  -H "Authorization: Bearer $OMNIMUX_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"model":"instagram-posts","messages":[{"role":"user","content":"."}]}'
+```
+
+Required body fields depend on the model; see product ops notes and console model descriptions.

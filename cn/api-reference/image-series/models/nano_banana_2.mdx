@@ -1,0 +1,25 @@
+---
+title: "nano_banana_2"
+description: "Nano Banana · `nano_banana_2`"
+---
+
+| 字段 | 值 |
+| --- | --- |
+| 系列 | 图像系列 |
+| 品牌 | Nano Banana |
+| model | `nano_banana_2` |
+
+## 调用
+
+- Base：`https://api.omnimux.ai`
+- 鉴权：`sk-` Bearer
+- `POST /v1/images/generations` 或 `/v1/images/edits`
+
+```bash
+curl -sS https://api.omnimux.ai/v1/images/generations \
+  -H "Authorization: Bearer $OMNIMUX_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"model":"nano_banana_2","prompt":"a product on white background","n":1}'
+```
+
+异步渠道请按返回 `task_id` 轮询（见 [任务管理](/cn/api-reference/tasks/overview)）。

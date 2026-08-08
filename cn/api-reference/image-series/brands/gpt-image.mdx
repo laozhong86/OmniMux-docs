@@ -1,45 +1,22 @@
 ---
 title: "GPT Image"
-description: "OpenAI · 图像系列品牌导读；共用网关协议与 model 字段。"
+description: "图像系列 · GPT Image"
 ---
 
-品牌：**GPT Image**（OpenAI）
+**GPT Image** 隶属于 **图像系列**。
 
-OpenAI 图像系列。`model` 填 `gpt-image2` 或 `gpt-image2-hd`（以可用列表为准）。
+## 模型
 
-## 推荐协议
+| model |
+| --- |
+| [`gpt-image2`](../models/gpt-image2) |
+| [`gpt-image2-hd`](../models/gpt-image2-hd) |
 
-| 方法 | Path | 说明 |
+## 协议
+
+| 方法 | 路径 | 说明 |
 | --- | --- | --- |
 | `POST` | `/v1/images/generations` | 文生图 |
 | `POST` | `/v1/images/edits` | 图编辑 |
 
-## 示例 model
-
-| model |
-| --- |
-| `gpt-image2-hd` |
-| `gpt-image2` |
-
-以上为文档快照示例，**不代表**你的账户一定开通。请以 `GET /v1/models` 与控制台模型广场为准。
-
-## 调用示例
-
-```bash
-curl -sS https://api.omnimux.ai/v1/images/generations \
-  -H "Authorization: Bearer $OMNIMUX_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "model": "gpt-image2-hd",
-    "prompt": "a product on white background",
-    "n": 1
-  }'
-```
-
-## 相关
-
-- [系列导读](/cn/api-reference/image-series/overview)
-- 侧栏同组 **协议接口**
-- [异步任务](/cn/api-reference/cross-cutting/async-tasks)
-- [模型列表](/cn/guides/models)
-
+可用性以 `GET /v1/models` 为准。

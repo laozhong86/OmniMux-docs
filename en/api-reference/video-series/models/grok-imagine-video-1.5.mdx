@@ -1,0 +1,24 @@
+---
+title: "grok-imagine-video-1.5"
+description: "Grok Imagine · `grok-imagine-video-1.5`"
+---
+
+| Field | Value |
+| --- | --- |
+| Series | Video series |
+| Brand | Grok Imagine |
+| model | `grok-imagine-video-1.5` |
+
+## Call
+
+- Base: `https://api.omnimux.ai`
+- Auth: `sk-` Bearer
+- Create: `POST /v1/video/generations`
+- Poll: `GET /v1/video/generations/{task_id}`
+
+```bash
+curl -sS https://api.omnimux.ai/v1/video/generations \
+  -H "Authorization: Bearer $OMNIMUX_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"model":"grok-imagine-video-1.5","prompt":"slow pan across a product"}'
+```

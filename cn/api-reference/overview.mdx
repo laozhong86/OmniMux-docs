@@ -1,72 +1,28 @@
 ---
 title: "API 手册概览"
-description: "系列 → 品牌发现，协议 try-it；Social Ops 与 AI 网关双入口。"
+description: "系列→品牌→模型/能力；社媒发布与社交数据分离。"
 ---
 
-OmniMux 对外集成有 **两条主入口**：
-
-| 入口 | Base URL | 凭证 | 典型用途 |
-| --- | --- | --- | --- |
-| **AI 网关** | `https://api.omnimux.ai` | `sk-` Bearer | 文本 / 图像 / 视频 / 音频 |
-| **用户 API** | `https://omnimux.ai` | access token + `New-Api-User` | Social Ops、设备码登录 |
-
-控制台：[omnimux.ai/dashboard](https://omnimux.ai/dashboard) · 文档：[docs.omnimux.ai](https://docs.omnimux.ai)
-
-## 怎么读本手册
-
-侧栏信息架构（对齐 Evolink 式发现，落在 OmniMux 网关现实上）：
+## 目录标准
 
 ```text
-系列（语言 / 图像 / 视频 / 音频）
-  ├─ 品牌 / 产品族导读（Claude、Nano Banana、Kling…）
-  └─ 协议接口 try-it（共用 /v1/* 或渠道原生 path）
-Social Ops（独立用户 API）
-通用约定 · 附录
+L1 系列/管理面
+  L2 品牌 或 资源分组
+    L3 model id 或 中文能力名
 ```
 
-- **品牌页**：选模型族、示例 `model`、推荐协议  
-- **协议接口**：真正的 HTTP 契约与 try-it（多品牌共用同一 path，差在 `model`）  
-- **不抄** 线上不存在的竞品品牌名；品牌列表以本站定价 / `GET /v1/models` 为准  
+侧栏 **禁止** 用 `GET /v1/...` 当栏目名；path 写在正文。
 
-收录边界见 [文档覆盖说明](/cn/api-reference/coverage)。
+## L1
 
-## 能力入口
-
-| 系列 | 说明 |
+| 一级 | 说明 |
 | --- | --- |
-| [语言系列](/cn/api-reference/text-series/overview) | Claude / Gemini / GPT / Grok / Kimi / DeepSeek / MiniMax / GLM |
-| [图像系列](/cn/api-reference/image-series/overview) | Nano Banana / GPT Image / Z Image |
-| [视频系列](/cn/api-reference/video-series/overview) | Kling / Veo / Grok Imagine / MiniMax / LTX / 即梦 / Sora |
-| [音频系列](/cn/api-reference/audio-series/overview) | TTS / 转录 / 翻译 |
-| [Social Ops](/cn/api-reference/social-ops) | 绑号、媒体、发帖 |
+| [语言系列](/cn/api-reference/text-series/overview) | 品牌 → model id |
+| [图像系列](/cn/api-reference/image-series/overview) | 品牌 → model id |
+| [视频系列](/cn/api-reference/video-series/overview) | 仅已挂模型的品牌 |
+| [社交数据](/cn/api-reference/social-data/overview) | 平台 → 中文能力 · TikHub |
+| [社媒发布](/cn/api-reference/publishing/overview) | 连接账户 / 帖子 / 媒体 |
+| [账户管理](/cn/api-reference/account/overview) | 设备码 · 余额 · 定价 |
+| [任务管理](/cn/api-reference/tasks/overview) | AI 异步查询 |
 
-## 通用约定
-
-| 主题 | 页面 |
-| --- | --- |
-| 设备码换 access token | [设备码登录](/cn/api-reference/cross-cutting/device-login) |
-| 异步任务轮询 | [异步任务](/cn/api-reference/cross-cutting/async-tasks) |
-
-## AI 网关快速鉴权
-
-```http
-Authorization: Bearer sk-xxxxxxxx
-Content-Type: application/json
-```
-
-OpenAI 兼容 SDK Base URL 通常为 `https://api.omnimux.ai/v1`。
-
-## 模型 ID
-
-```bash
-curl https://api.omnimux.ai/v1/models \
-  -H "Authorization: Bearer $OMNIMUX_API_KEY"
-```
-
-文档里的示例 model **不是** 可用性证明。
-
-## 相关
-
-- [快速开始](/cn/quickstart)  
-- [配置 Base URL](/cn/guides/base-url)  
-- [集成指南](/cn/integration-guide/overview)  
+仅展示线上已有模型/接口。

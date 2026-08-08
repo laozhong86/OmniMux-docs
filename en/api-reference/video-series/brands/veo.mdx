@@ -1,47 +1,25 @@
 ---
 title: "Veo / Omni Flash"
-description: "Google · Video series brand guide; shared gateway protocols and model field."
+description: "Video series · Veo / Omni Flash"
 ---
 
-Brand：**Veo / Omni Flash**（Google）
+**Veo / Omni Flash** under **Video series**.
 
-Google video family (Veo / Omni Flash). Typically async.
-
-## Recommended protocols
-
-| Method | Path | Notes |
-| --- | --- | --- |
-| `POST` | `/v1/video/generations` | Unified video task |
-| `GET` | `/v1/video/generations/{task_id}` | Task status |
-
-## Example models
+## Models
 
 | model |
 | --- |
-| `veo_3_1` |
-| `omni_flash` |
-| `omni_flash-4s` |
-| `omni_flash-6s` |
-| `omni_flash-10s` |
+| [`omni_flash`](../models/omni_flash) |
+| [`omni_flash-10s`](../models/omni_flash-10s) |
+| [`omni_flash-4s`](../models/omni_flash-4s) |
+| [`omni_flash-6s`](../models/omni_flash-6s) |
+| [`veo_3_1`](../models/veo_3_1) |
 
-Snapshot examples only — **not** a guarantee of availability. Use `GET /v1/models` and the Model Square.
+## Protocols
 
-## Example call
+| Method | Path | Notes |
+| --- | --- | --- |
+| `POST` | `/v1/video/generations` | Create video task |
+| `GET` | `/v1/video/generations/{{task_id}}` | Get task |
 
-```bash
-curl -sS https://api.omnimux.ai/v1/video/generations \
-  -H "Authorization: Bearer $OMNIMUX_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "model": "veo_3_1",
-    "prompt": "slow pan across a product"
-  }'
-```
-
-## Related
-
-- [Series overview](/en/api-reference/video-series/overview)
-- Sibling **Protocol endpoints** in the sidebar
-- [Async tasks](/en/api-reference/cross-cutting/async-tasks)
-- [Models](/en/guides/models)
-
+Availability follows `GET /v1/models`.

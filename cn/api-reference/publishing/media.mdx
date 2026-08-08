@@ -1,0 +1,11 @@
+---
+title: "媒体"
+description: "预签名上传。"
+---
+
+| 能力 | 方法 | 路径 |
+| --- | --- | --- |
+| 申请上传 | `POST` | `/api/social/v1/media/presign` |
+| 上传文件 | `PUT` | 预签名 URL（客户端直传） |
+
+发帖时把 `public_url` 写入 `media_items`。

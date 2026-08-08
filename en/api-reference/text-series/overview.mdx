@@ -1,34 +1,8 @@
 ---
 title: "Overview"
-description: "Discover text models by brand; protocol endpoints are collapsed under Protocol endpoints."
+description: "Language series: discover by brand; L3 is model id."
 ---
 
-Discover language models by **brand / product family**, then call **shared protocol endpoints** (`sk-` gateway).
+Language models are organized **brand → model id**. Only models present in live pricing are listed.
 
-## Brands
-
-| Brand | Vendor |
-| --- | --- |
-| [Claude](/en/api-reference/text-series/brands/claude) | Anthropic |
-| [Gemini](/en/api-reference/text-series/brands/gemini) | Google |
-| [GPT](/en/api-reference/text-series/brands/gpt) | OpenAI |
-| [Grok](/en/api-reference/text-series/brands/grok) | xAI |
-| [Kimi](/en/api-reference/text-series/brands/kimi) | Moonshot |
-| [DeepSeek](/en/api-reference/text-series/brands/deepseek) | DeepSeek |
-| [MiniMax](/en/api-reference/text-series/brands/minimax) | MiniMax |
-| [GLM](/en/api-reference/text-series/brands/glm) | Zhipu |
-
-Model tables on brand pages are snapshots — trust **`GET /v1/models`** and the console.
-
-## Protocol vs brand
-
-- **Brand pages**: pick a family, see recommended protocols and example ids  
-- **Protocol endpoints** (below this group in the sidebar): Chat / Messages / Responses / model list try-it  
-
-One `POST /v1/chat/completions` serves many brands; the difference is the `model` field.
-
-## Related
-
-- [Image series](/en/api-reference/image-series/overview)  
-- [Video series](/en/api-reference/video-series/overview)  
-- [Async tasks](/en/api-reference/cross-cutting/async-tasks)  
+Protocols (Chat / Messages / Responses) appear in page bodies — **not** as sidebar path titles.

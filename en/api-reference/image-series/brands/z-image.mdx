@@ -1,44 +1,22 @@
 ---
 title: "Z Image"
-description: "GxgenAI · Image series brand guide; shared gateway protocols and model field."
+description: "Image series · Z Image"
 ---
 
-Brand：**Z Image**（GxgenAI）
+**Z Image** under **Image series**.
 
-GxgenAI Z Image apps; poll when using `*-async` models.
-
-## Recommended protocols
-
-| Method | Path | Notes |
-| --- | --- | --- |
-| `POST` | `/v1/images/generations` | Image generation / async task |
-
-## Example models
+## Models
 
 | model |
 | --- |
-| `zimage-makeup` |
-| `zimage-makeup-async` |
+| [`zimage-makeup`](../models/zimage-makeup) |
+| [`zimage-makeup-async`](../models/zimage-makeup-async) |
 
-Snapshot examples only — **not** a guarantee of availability. Use `GET /v1/models` and the Model Square.
+## Protocols
 
-## Example call
+| Method | Path | Notes |
+| --- | --- | --- |
+| `POST` | `/v1/images/generations` | Text-to-image |
+| `POST` | `/v1/images/edits` | Image edit |
 
-```bash
-curl -sS https://api.omnimux.ai/v1/images/generations \
-  -H "Authorization: Bearer $OMNIMUX_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "model": "zimage-makeup",
-    "prompt": "a product on white background",
-    "n": 1
-  }'
-```
-
-## Related
-
-- [Series overview](/en/api-reference/image-series/overview)
-- Sibling **Protocol endpoints** in the sidebar
-- [Async tasks](/en/api-reference/cross-cutting/async-tasks)
-- [Models](/en/guides/models)
-
+Availability follows `GET /v1/models`.

@@ -1,44 +1,22 @@
 ---
 title: "Z Image"
-description: "GxgenAI · 图像系列品牌导读；共用网关协议与 model 字段。"
+description: "图像系列 · Z Image"
 ---
 
-品牌：**Z Image**（GxgenAI）
+**Z Image** 隶属于 **图像系列**。
 
-GxgenAI Z Image 相关应用；`*-async` 为异步型号时按任务轮询。
-
-## 推荐协议
-
-| 方法 | Path | 说明 |
-| --- | --- | --- |
-| `POST` | `/v1/images/generations` | 图像生成 / 异步任务 |
-
-## 示例 model
+## 模型
 
 | model |
 | --- |
-| `zimage-makeup` |
-| `zimage-makeup-async` |
+| [`zimage-makeup`](../models/zimage-makeup) |
+| [`zimage-makeup-async`](../models/zimage-makeup-async) |
 
-以上为文档快照示例，**不代表**你的账户一定开通。请以 `GET /v1/models` 与控制台模型广场为准。
+## 协议
 
-## 调用示例
+| 方法 | 路径 | 说明 |
+| --- | --- | --- |
+| `POST` | `/v1/images/generations` | 文生图 |
+| `POST` | `/v1/images/edits` | 图编辑 |
 
-```bash
-curl -sS https://api.omnimux.ai/v1/images/generations \
-  -H "Authorization: Bearer $OMNIMUX_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "model": "zimage-makeup",
-    "prompt": "a product on white background",
-    "n": 1
-  }'
-```
-
-## 相关
-
-- [系列导读](/cn/api-reference/image-series/overview)
-- 侧栏同组 **协议接口**
-- [异步任务](/cn/api-reference/cross-cutting/async-tasks)
-- [模型列表](/cn/guides/models)
-
+可用性以 `GET /v1/models` 为准。

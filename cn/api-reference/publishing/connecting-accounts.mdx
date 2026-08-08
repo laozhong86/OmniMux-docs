@@ -1,0 +1,27 @@
+---
+title: "连接账户"
+sidebarTitle: "连接账户"
+description: "Connecting Accounts：OAuth 连接、列表、断开。"
+---
+
+英文官方名：**Connecting Accounts**（Zernio guide）。
+
+| 能力 | 方法 | 路径 |
+| --- | --- | --- |
+| 发起连接 | `POST` | `/api/social/v1/connect` |
+| 列出账户 | `GET` | `/api/social/v1/accounts` |
+| 断开账户 | `DELETE` | `/api/social/v1/accounts/{id}` |
+
+```bash
+# 发起连接
+curl -sS -X POST https://omnimux.ai/api/social/v1/connect \
+  -H "Authorization: Bearer $ACCESS_TOKEN" \
+  -H "New-Api-User: $USER_ID" \
+  -H "Content-Type: application/json" \
+  -d '{"platform":"tiktok"}'
+
+# 列表
+curl -sS https://omnimux.ai/api/social/v1/accounts \
+  -H "Authorization: Bearer $ACCESS_TOKEN" \
+  -H "New-Api-User: $USER_ID"
+```

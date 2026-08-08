@@ -1,47 +1,25 @@
 ---
 title: "Kimi"
-description: "Moonshot · Language series brand guide; shared gateway protocols and model field."
+description: "Language series · Kimi"
 ---
 
-Brand：**Kimi**（Moonshot）
+**Kimi** under **Language series**.
 
-Moonshot Kimi family via OpenAI-compatible Chat.
-
-## Recommended protocols
-
-| Method | Path | Notes |
-| --- | --- | --- |
-| `POST` | `/v1/chat/completions` | Chat Completions |
-
-## Example models
+## Models
 
 | model |
 | --- |
-| `kimi-k3` |
-| `kimi-k2.7-code` |
-| `kimi-k2.6` |
+| [`kimi-k2.6`](../models/kimi-k2.6) |
+| [`kimi-k2.7-code`](../models/kimi-k2.7-code) |
+| [`kimi-k3`](../models/kimi-k3) |
 
-Snapshot examples only — **not** a guarantee of availability. Use `GET /v1/models` and the Model Square.
+## Protocols
 
-## Example call
+| Method | Path | Notes |
+| --- | --- | --- |
+| `POST` | `/v1/chat/completions` | OpenAI Chat-compatible |
+| `POST` | `/v1/messages` | Claude Messages (prefer for Claude) |
+| `POST` | `/v1/responses` | OpenAI Responses |
+| `GET` | `/v1/models` | List models |
 
-```bash
-curl -sS https://api.omnimux.ai/v1/chat/completions \
-  -H "Authorization: Bearer $OMNIMUX_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "model": "kimi-k3",
-    "messages": [{
-      "role": "user",
-      "content": "Hello"
-    }]
-  }'
-```
-
-## Related
-
-- [Series overview](/en/api-reference/text-series/overview)
-- Sibling **Protocol endpoints** in the sidebar
-- [Async tasks](/en/api-reference/cross-cutting/async-tasks)
-- [Models](/en/guides/models)
-
+Availability follows `GET /v1/models`.

@@ -1,0 +1,24 @@
+---
+title: "veo_3_1"
+description: "Veo / Omni Flash · `veo_3_1`"
+---
+
+| Field | Value |
+| --- | --- |
+| Series | Video series |
+| Brand | Veo / Omni Flash |
+| model | `veo_3_1` |
+
+## Call
+
+- Base: `https://api.omnimux.ai`
+- Auth: `sk-` Bearer
+- Create: `POST /v1/video/generations`
+- Poll: `GET /v1/video/generations/{task_id}`
+
+```bash
+curl -sS https://api.omnimux.ai/v1/video/generations \
+  -H "Authorization: Bearer $OMNIMUX_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"model":"veo_3_1","prompt":"slow pan across a product"}'
+```

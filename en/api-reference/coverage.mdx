@@ -1,35 +1,12 @@
 ---
 title: "Documentation coverage"
-description: "Which user-facing APIs are documented publicly (tiers A/B/C) versus console-only or admin."
+description: "Tiers A/B/C and L1 boundaries."
 ---
 
-The public site [docs.omnimux.ai](https://docs.omnimux.ai) does **not** document every route in the product repository. Integrators should rely on pages marked as **committed (A)**.
+| Tier | Meaning |
+| --- | --- |
+| A | Committed public |
+| B | Limited |
+| C | Out of scope |
 
-## Tiers
-
-| Tier | Meaning | Form |
-| --- | --- | --- |
-| **A. Committed** | Primary third-party / Agent path | Dedicated page and/or OpenAPI try-it |
-| **B. Limited** | CLI/console helpers, occasionally needed | Short page or overview row |
-| **C. Out of scope** | Admin, internal webhooks, retired paths | Declared here only |
-
-## Current mapping
-
-| Surface | Tier | Entry |
-| --- | --- | --- |
-| AI gateway `/v1/*` | A | Sidebar **Language / Image / Video / Audio** (brand guides + protocol try-it) |
-| Language series (brands) | A | [Language series](/en/api-reference/text-series/overview) · Claude / Gemini / GPT / … |
-| Image / video / audio (brands) | A | [Image](/en/api-reference/image-series/overview) · [Video](/en/api-reference/video-series/overview) · [Audio](/en/api-reference/audio-series/overview) |
-| Social Ops `/api/social/v1/*` | A | [Social Ops](/en/api-reference/social-ops) |
-| Device login `/api/user/device/*` | A | [Device login](/en/api-reference/cross-cutting/device-login) |
-| Async task polling conventions | A | [Async tasks](/en/api-reference/cross-cutting/async-tasks) |
-| `GET /api/pricing`, `GET /api/user/self` | B | CLI for now; HTTP pages later |
-| User token CRUD `/api/token/*` | B | Console **Tokens** primary |
-| Register/login UI, 2FA, checkout webhooks, check-in | C | Console only |
-| Admin / channels / system options | C | Not public |
-
-## Notes
-
-- Missing from the sidebar does **not** always mean missing on the server; only tier A is a documentation commitment.
-- New user-facing HTTP surfaces require a real smoke test plus docs update (see repo `AGENTS.md`).
-- Social Ops uses an **access token**; the AI gateway uses **`sk-`**. See [Authentication](/en/guides/authentication).
+Empty brands and planned-only APIs are **not** shown in the sidebar.

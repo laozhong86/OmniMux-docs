@@ -1,31 +1,6 @@
 ---
 title: "Overview"
-description: "Discover image models by brand; protocol endpoints are collapsed by default."
+description: "Image series: brand → model id."
 ---
 
-Discover image models by **brand / product family**, then call **shared protocol endpoints** (`sk-` gateway).
-
-## Brands
-
-| Brand | Vendor |
-| --- | --- |
-| [Nano Banana](/en/api-reference/image-series/brands/nano-banana) | Google |
-| [GPT Image](/en/api-reference/image-series/brands/gpt-image) | OpenAI |
-| [Z Image](/en/api-reference/image-series/brands/z-image) | GxgenAI |
-
-Brands and model ids follow `GET /v1/models` / the console. Models not listed above still use the protocol endpoints with the right `model`.
-
-## Protocol endpoints (this sidebar group)
-
-| Method | Path | Notes |
-| --- | --- | --- |
-| `POST` | `/v1/images/generations` | Text-to-image (sync or async by channel) |
-| `POST` | `/v1/images/edits` | Image edit |
-
-Async polling: [Async tasks](/en/api-reference/cross-cutting/async-tasks).
-
-## Related
-
-- [Language series](/en/api-reference/text-series/overview)  
-- [Video series](/en/api-reference/video-series/overview)  
-- [Social Ops](/en/api-reference/social-ops)  
+Only live image models: Nano Banana, GPT Image, Z Image.
