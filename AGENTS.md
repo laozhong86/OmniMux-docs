@@ -37,7 +37,7 @@
 - **API manual IA** — Evolink-style **series → brand → protocol endpoints** (gateway reality: brands share paths, differ by `model`):
   1. **Overview** + coverage (A/B/C)
   2. **Cross-cutting** — device login, async tasks
-  3. **Language / Image / Video / Audio series** — series overview MDX → **brand** MDX under `*/{text,image,video}-series/brands/` → selective `METHOD /path` OpenAPI try-it in the same group
+  3. **Language / Image / Video / Audio series** — series overview MDX → **brand** MDX under `*/{text,image,video}-series/brands/` → brand MDX list first; OpenAPI try-it only inside a nested `协议接口` / `Protocol endpoints` group with `expanded: false` (never flat-list POST next to brands)
   4. **Social Ops** — first-class MDX (not in relay OpenAPI)
   5. **Appendix** — OpenAPI snapshot notes only (must **not** re-attach full openapi dump as a sibling group)
 - Brand lists MUST be grounded in live OmniMux catalog (`GET /api/pricing` / `GET /v1/models`), not competitor-only brand names.
