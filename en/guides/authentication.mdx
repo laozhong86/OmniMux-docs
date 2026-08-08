@@ -3,9 +3,14 @@ title: "Authentication"
 description: "Call the OmniMux gateway API with a Bearer token."
 ---
 
-Gateway user APIs use **HTTP Bearer** authentication. Console session credentials (JWT / PAT) are separate from gateway tokens — do not mix them.
+OmniMux uses two common credential types — **do not mix them**:
 
-## Request header
+| Credential | Typical paths | Use for |
+| --- | --- | --- |
+| `sk-...` gateway token | `https://api.omnimux.ai/v1/...` | Chat / image / video relay |
+| User access token + `New-Api-User` | `https://omnimux.ai/api/social/v1/...` | Social Ops bind/publish, CLI `omnimux login` |
+
+## Gateway request header (`sk-`)
 
 ```http
 Authorization: Bearer sk-xxxxxxxx
@@ -16,6 +21,16 @@ Content-Type: application/json
 | --- | --- |
 | `Bearer` | Fixed scheme |
 | `sk-...` | API token created in the console |
+
+## Social Ops / user API headers
+
+```http
+Authorization: Bearer <access_token>
+New-Api-User: <user_id>
+Content-Type: application/json
+```
+
+Get an access token via `omnimux login`. See [Social Ops](/en/api-reference/social-ops).
 
 Example:
 

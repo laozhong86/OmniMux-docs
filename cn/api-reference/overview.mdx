@@ -38,8 +38,9 @@ Content-Type: application/json
 | Gemini 模型列表 | `GET` | `/v1beta/models` | Gemini 风格列表 |
 | 图像生成 | `POST` | `/v1/images/generations` | 多为异步任务 |
 | 视频 | `POST` / `GET` | `/v1/video/generations`、`/v1/videos` 等 | 异步创建与查询 |
+| **Social Ops（社媒）** | `GET` / `POST` / `DELETE` | `/api/social/v1/...` | 绑号、媒体、发帖；**非** `/v1` 网关，见 [Social Ops](/cn/api-reference/social-ops) |
 
-左侧端点页由 `openapi/relay.json` 生成，支持在线试调用（若已开启 playground）。
+左侧「接口参考」中的 AI 端点由 `openapi/relay.json` 生成。Social Ops 为独立用户 API 文档页，不经过 OpenAPI 中继文件。
 
 ## 同步 vs 异步
 
@@ -73,6 +74,7 @@ curl https://api.omnimux.ai/v1/models \
 
 ## 相关页面
 
+- [Social Ops（社媒绑号 / 发帖）](/cn/api-reference/social-ops)  
 - [快速开始](/cn/quickstart)  
 - [配置 Base URL](/cn/guides/base-url)  
 - [集成指南](/cn/integration-guide/overview)  

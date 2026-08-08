@@ -38,8 +38,9 @@ Create tokens under **Tokens / API Keys** in the console. See [Authentication](/
 | Gemini model list | `GET` | `/v1beta/models` | Gemini-style list |
 | Images | `POST` | `/v1/images/generations` | Often async |
 | Video | `POST` / `GET` | `/v1/video/generations`, `/v1/videos`, … | Async create + query |
+| **Social Ops** | `GET` / `POST` / `DELETE` | `/api/social/v1/...` | Connect accounts, media, publish — **not** `/v1` gateway; see [Social Ops](/en/api-reference/social-ops) |
 
-Sidebar endpoint pages are generated from `openapi/relay.json` and support try-it when playground is enabled.
+AI endpoint pages in the sidebar are generated from `openapi/relay.json` (try-it when playground is enabled). Social Ops has a separate user-API page and is not part of the relay OpenAPI file.
 
 ## Sync vs async
 
@@ -73,6 +74,7 @@ Example names in docs are not proof of availability. See [Models](/en/guides/mod
 
 ## Related
 
+- [Social Ops (connect / publish)](/en/api-reference/social-ops)  
 - [Quickstart](/en/quickstart)  
 - [Configure Base URL](/en/guides/base-url)  
 - [Integration guide](/en/integration-guide/overview)  
