@@ -1,28 +1,7 @@
 ---
 title: "GPT"
-description: "语言系列 · GPT"
+description: "GPT · Chat Completions 完整参数"
 ---
 
-**GPT** 隶属于 **语言系列**。
+见 [完整参数](../gpt/complete)。
 
-## 模型
-
-| model |
-| --- |
-| [`gpt-5.4`](../models/gpt-5.4) |
-| [`gpt-5.4-mini`](../models/gpt-5.4-mini) |
-| [`gpt-5.5`](../models/gpt-5.5) |
-| [`gpt-5.6-luna`](../models/gpt-5.6-luna) |
-| [`gpt-5.6-sol`](../models/gpt-5.6-sol) |
-| [`gpt-5.6-terra`](../models/gpt-5.6-terra) |
-
-## 协议
-
-| 方法 | 路径 | 说明 |
-| --- | --- | --- |
-| `POST` | `/v1/chat/completions` | OpenAI Chat 兼容 |
-| `POST` | `/v1/messages` | Claude Messages（Claude 品牌优先） |
-| `POST` | `/v1/responses` | OpenAI Responses |
-| `GET` | `/v1/models` | 模型列表 |
-
-可用性以 `GET /v1/models` 为准。

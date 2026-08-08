@@ -5,18 +5,33 @@
 ```text
 L1  系列 / 管理面          （发现主轴）
  └── L2  品牌 或 资源组     （产品族 / 资源域）
-      └── L3  model id 或 能力名   （可调用单元）
+      └── L3  调用合同页     （协议 + 路径 + schema；非默认 per-model）
 ```
 
-- **AI 网关**（图/文/视频/社交数据读）：路径多为共用 `/v1/*`，差异在 `model` → L2=品牌，L3=`model` id（社交数据 L3 用**中文能力名**，正文写 model id）。  
-- **社媒发布**：路径是资源 REST → L2=资源组（连接账户/帖子/媒体），L3=中文能力名。  
-- **账户 / 任务**：管理面，不是模型广场。
+### Paging axis (confirmed)
+
+**Page = stable call contract** (auth + method + path + request/response schema).  
+**`model` is an enum inside the contract**, not the default nav leaf.
+
+| Split page when | Do **not** split page when |
+| --- | --- |
+| Different path/protocol (Chat vs Messages vs Responses) | Same Chat Completions shape, only model id differs |
+| Different modality endpoint (image/video) | Pricing / speed / marketing differences only |
+| Materially different required fields or response shape | Live catalog has many SKUs under one brand |
+
+**Language series:** one Complete page per brand × Chat Completions (`…/text-series/<brand>/complete`), with model table + OpenAPI `model` enum.  
+**Social data:** still L3 = capability name (business fields differ).  
+**社媒发布:** L3 = capability (resource REST).
+
+- **AI 网关语言：** L2=品牌，L3=「完整参数」合同页。  
+- **社媒发布**：路径是资源 REST → L2=资源组，L3=中文能力名。  
+- **账户 / 任务**：管理面。
 
 ## L1 catalog (current)
 
 | L1 (CN) | L1 (EN) | L2 | L3 | Auth |
 | --- | --- | --- | --- | --- |
-| 语言系列 | Language series | Claude, Gemini, GPT, Grok, Kimi, DeepSeek, MiniMax, GLM | model id | `sk-` |
+| 语言系列 | Language series | Claude, Gemini, GPT, Grok, Kimi, DeepSeek, MiniMax, GLM | **完整参数**（合同页，非 per-model） | `sk-` |
 | 图像系列 | Image series | Nano Banana, GPT Image, Z Image | model id | `sk-` |
 | 视频系列 | Video series | MiniMax, Veo / Omni Flash, LTX, Grok Imagine（**仅有 model 的品牌**） | model id | `sk-` |
 | 社交数据 | Social data | TikTok, Instagram, YouTube, X | 中文能力名（作品详情…） | `sk-` Chat 形态 |
@@ -38,19 +53,18 @@ L1  系列 / 管理面          （发现主轴）
 
 ```text
 cn|en/api-reference/
-  overview.mdx, coverage.mdx, errors.mdx
-  text-series/{overview,brands/*,models/*}
-  image-series/{overview,brands/*,models/*}
+  text-series/{overview, <brand>/complete.mdx}   # brand contract pages
+  image-series/{overview,brands/*,models/*}      # phase 2: prefer contract axis later
   video-series/{overview,brands/*,models/*}
   social-data/{overview,brands/*,tiktok|instagram|youtube|x/*}
   publishing/{overview,connecting-accounts,posts,media,start-connect,...}
   account/{overview,device-login,balance,pricing}
   tasks/{overview,video-task,video-content,image-task}
   appendix/openapi.mdx
-docs.json              # navigation only lists L3 under L2 groups (no brand hub child)
-openapi/relay.json     # AI gateway OpenAPI snapshot (附录)
-openapi/ops/**         # per-capability single-operation OpenAPI (L3 detail source)
-scripts/gen-*.py       # page generators
+docs.json
+openapi/relay.json
+openapi/ops/chat/<brand>.json    # brand × Chat Completions (model enum)
+scripts/gen-chat-capability-pages.py
 ```
 
 

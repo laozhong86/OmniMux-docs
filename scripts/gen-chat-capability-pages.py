@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
-"""Generate Evolink-class chat capability pages from openapi/relay.json.
+"""Generate language-series pages by **contract**, not by model id.
 
-Phase 0+: single-operation OpenAPI embedded in MDX (Mintlify renders
-Authorizations / Body field tree / Response + Try it + right-rail examples).
+Norm (confirmed): one Complete page per (brand × protocol) when request/response
+shape is shared; `model` is an enum of live ids. Separate pages only when
+method/path/schema differ.
 
-Usage (from OmniMux-docs root):
-  python3 scripts/gen-chat-capability-pages.py --models gpt-5.4
-  python3 scripts/gen-chat-capability-pages.py --all-text   # later: all text models
+Usage (OmniMux-docs root):
+  python3 scripts/gen-chat-capability-pages.py --all-brands
+  python3 scripts/gen-chat-capability-pages.py --brands claude gpt
 """
 from __future__ import annotations
 
@@ -20,18 +21,19 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 RELAY = ROOT / "openapi" / "relay.json"
 OPS_DIR = ROOT / "openapi" / "ops" / "chat"
+MODELS_DIR = ROOT / "cn" / "api-reference" / "text-series" / "models"
 
-BRAND_RULES = [
-    (r"^claude", "Claude"),
-    (r"^gpt-", "GPT"),
-    (r"^o[1-9]", "GPT"),
-    (r"^gemini", "Gemini"),
-    (r"^grok", "Grok"),
-    (r"^kimi|^moonshot", "Kimi"),
-    (r"^deepseek", "DeepSeek"),
-    (r"^minimax", "MiniMax"),
-    (r"^glm", "GLM"),
-]
+# brand key → (display CN, display EN, model-id prefix regex)
+BRANDS: dict[str, tuple[str, str, str]] = {
+    "claude": ("Claude", "Claude", r"^claude"),
+    "gemini": ("Gemini", "Gemini", r"^gemini"),
+    "gpt": ("GPT", "GPT", r"^gpt-"),
+    "grok": ("Grok", "Grok", r"^grok"),
+    "kimi": ("Kimi", "Kimi", r"^kimi"),
+    "deepseek": ("DeepSeek", "DeepSeek", r"^deepseek"),
+    "minimax": ("MiniMax", "MiniMax", r"^minimax"),
+    "glm": ("GLM", "GLM", r"^glm"),
+}
 
 ERROR_EXAMPLES = {
     "400": {
@@ -112,12 +114,48 @@ ERROR_DESCRIPTIONS = {
 }
 
 
-def brand_for(model: str) -> str:
-    for pat, name in BRAND_RULES:
-        if re.search(pat, model, re.I):
-            return name
-    return model.split("-")[0].title()
+CATALOG = OPS_DIR / "_brand_models.json"
 
+
+def load_catalog() -> dict[str, list[str]]:
+    if CATALOG.exists():
+        return json.loads(CATALOG.read_text(encoding="utf-8"))
+    return {}
+
+
+def save_catalog(catalog: dict[str, list[str]]) -> None:
+    OPS_DIR.mkdir(parents=True, exist_ok=True)
+    CATALOG.write_text(json.dumps(catalog, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+
+
+def discover_models(brand_key: str) -> list[str]:
+    _, _, pat = BRANDS[brand_key]
+    rx = re.compile(pat, re.I)
+    models: list[str] = []
+    if MODELS_DIR.exists():
+        for p in sorted(MODELS_DIR.glob("*.mdx")):
+            mid = p.stem
+            if rx.search(mid):
+                models.append(mid)
+    if not models:
+        cat = load_catalog()
+        if brand_key in cat:
+            return list(cat[brand_key])
+    if not models and OPS_DIR.exists():
+        brand_op = OPS_DIR / f"{brand_key}.json"
+        if brand_op.exists():
+            op = json.loads(brand_op.read_text(encoding="utf-8"))
+            enum = (
+                op.get("components", {})
+                .get("schemas", {})
+                .get("ChatCompletionRequest", {})
+                .get("properties", {})
+                .get("model", {})
+                .get("enum")
+            )
+            if enum:
+                return list(enum)
+    return models
 
 def collect_refs(node: Any, found: set[str]) -> None:
     if isinstance(node, dict):
@@ -143,49 +181,47 @@ def resolve_schema_closure(schemas: dict[str, Any], roots: list[str]) -> dict[st
             collect_refs(schemas[name], needed)
             if len(needed) > before:
                 changed = True
-    out = {}
-    for name in sorted(needed):
-        if name in schemas:
-            out[name] = copy.deepcopy(schemas[name])
-    return out
+    return {n: copy.deepcopy(schemas[n]) for n in sorted(needed) if n in schemas}
 
 
-def pin_model(schema: dict[str, Any], model: str) -> dict[str, Any]:
+def pin_models(schema: dict[str, Any], models: list[str]) -> dict[str, Any]:
     s = copy.deepcopy(schema)
     props = s.setdefault("properties", {})
+    example = models[0] if models else ""
     props["model"] = {
         "type": "string",
-        "description": f"Model id. This page pins `{model}`.",
-        "enum": [model],
-        "default": model,
-        "example": model,
+        "description": (
+            "Model id for this brand on OmniMux. Same request/response shape for all "
+            "ids below; only the `model` value changes."
+        ),
+        "enum": models,
+        "default": example,
+        "example": example,
     }
     return s
 
 
-def build_op(relay: dict[str, Any], model: str) -> dict[str, Any]:
+def build_op(relay: dict[str, Any], brand_key: str, models: list[str]) -> dict[str, Any]:
     schemas = relay["components"]["schemas"]
-    req = pin_model(schemas["ChatCompletionRequest"], model)
-    brand = brand_for(model)
-    title = f"{model} · Chat Completions"
+    req = pin_models(schemas["ChatCompletionRequest"], models)
+    brand_cn, brand_en, _ = BRANDS[brand_key]
+    title = f"{brand_en} · Chat Completions"
     closed = resolve_schema_closure(
         {**schemas, "ChatCompletionRequest": req},
         ["ChatCompletionRequest", "ChatCompletionResponse", "ErrorResponse"],
     )
     closed["ChatCompletionRequest"] = req
+    example_model = models[0]
 
     success_example = {
         "id": "chatcmpl-example",
         "object": "chat.completion",
         "created": 1741428397,
-        "model": model,
+        "model": example_model,
         "choices": [
             {
                 "index": 0,
-                "message": {
-                    "role": "assistant",
-                    "content": "…",
-                },
+                "message": {"role": "assistant", "content": "…"},
                 "finish_reason": "stop",
             }
         ],
@@ -218,12 +254,14 @@ def build_op(relay: dict[str, Any], model: str) -> dict[str, Any]:
             },
         }
 
+    model_list = ", ".join(f"`{m}`" for m in models)
     return {
         "openapi": "3.1.0",
         "info": {
             "title": title,
             "description": (
-                f"OpenAI-compatible Chat Completions for `{model}` ({brand}) on OmniMux gateway."
+                f"OpenAI-compatible Chat Completions for {brand_en} models on OmniMux. "
+                f"Supported model ids: {model_list}."
             ),
             "version": "1.0.0",
         },
@@ -244,14 +282,16 @@ def build_op(relay: dict[str, Any], model: str) -> dict[str, Any]:
             "/v1/chat/completions": {
                 "post": {
                     "tags": ["Chat Completion"],
-                    "summary": f"{model} Chat Completions",
+                    "summary": f"{brand_en} Chat Completions",
                     "description": (
-                        f"- OpenAI Chat Completions protocol\n"
-                        f"- Select model via body `model` = `{model}`\n"
-                        f"- Synchronous by default; set `stream: true` for SSE\n"
-                        f"- Multimodal / tools fields per gateway schema when supported"
+                        f"- Protocol: OpenAI Chat Completions\n"
+                        f"- Path: `POST /v1/chat/completions`\n"
+                        f"- Brand: {brand_en}\n"
+                        f"- Choose model via body `model` (enum below)\n"
+                        f"- Same request/response schema for all ids in this brand\n"
+                        f"- Synchronous by default; `stream: true` for SSE"
                     ),
-                    "operationId": f"createChatCompletion_{re.sub(r'[^a-zA-Z0-9_]', '_', model)}",
+                    "operationId": f"createChatCompletion_{brand_key}",
                     "requestBody": {
                         "required": True,
                         "content": {
@@ -263,7 +303,7 @@ def build_op(relay: dict[str, Any], model: str) -> dict[str, Any]:
                                     "simple_text": {
                                         "summary": "Single-turn text",
                                         "value": {
-                                            "model": model,
+                                            "model": example_model,
                                             "messages": [
                                                 {
                                                     "role": "user",
@@ -275,7 +315,7 @@ def build_op(relay: dict[str, Any], model: str) -> dict[str, Any]:
                                     "system_prompt": {
                                         "summary": "System + user",
                                         "value": {
-                                            "model": model,
+                                            "model": example_model,
                                             "messages": [
                                                 {
                                                     "role": "system",
@@ -291,7 +331,7 @@ def build_op(relay: dict[str, Any], model: str) -> dict[str, Any]:
                                     "streaming": {
                                         "summary": "Streaming",
                                         "value": {
-                                            "model": model,
+                                            "model": example_model,
                                             "stream": True,
                                             "messages": [
                                                 {
@@ -325,99 +365,172 @@ def build_op(relay: dict[str, Any], model: str) -> dict[str, Any]:
     }
 
 
-def render_mdx_cn(model: str, brand: str, op_rel: str) -> str:
-    """Mintlify renders Authorizations/Body/Response when openapi is in frontmatter.
+def model_table_cn(models: list[str]) -> str:
+    rows = "\n".join(f"| `{m}` |" for m in models)
+    return f"""| model id |
+| --- |
+{rows}
+"""
 
-    Do NOT embed raw OpenAPI YAML under ## OpenAPI — that dumps as a code block.
-    Format: openapi: \"path/to/spec.json METHOD /path\"
-    See: https://www.mintlify.com/docs/api-playground/openapi-setup
-    """
+
+def model_table_en(models: list[str]) -> str:
+    rows = "\n".join(f"| `{m}` |" for m in models)
+    return f"""| model id |
+| --- |
+{rows}
+"""
+
+
+def render_mdx_cn(brand_key: str, models: list[str], op_rel: str) -> str:
+    brand_cn, brand_en, _ = BRANDS[brand_key]
     return f"""---
-title: "{model}"
-description: "{brand} · model `{model}` · Chat Completions (Complete)"
+title: "{brand_cn} · 完整参数"
+sidebarTitle: "完整参数"
+description: "{brand_cn} · Chat Completions 完整参数（同合同，model 枚举）"
 openapi: "{op_rel} POST /v1/chat/completions"
 ---
 
-> - OpenAI Chat Completions 兼容协议
-> - 通过请求体 `model` 选择本页模型（`{model}`）
-> - 默认同步返回；可设 `stream: true` 流式输出
-> - 下方为 Mintlify 渲染的 Authorizations / Body / Response（对齐 Evolink 布局）
+> - 协议：OpenAI Chat Completions（`POST /v1/chat/completions`）
+> - 本页为 **{brand_cn} 共用合同**；换模型只改 body 的 `model`
+> - 默认同步；`stream: true` 流式
 
-## 身份
+## 可用 model
 
-| 字段 | 值 |
-| --- | --- |
-| 系列 | 语言系列 |
-| 品牌 | {brand} |
-| model | `{model}` |
+{model_table_cn(models)}
 
 Base URL：`https://api.omnimux.ai`
 """
 
 
-def render_mdx_en(model: str, brand: str, op_rel: str) -> str:
+def render_mdx_en(brand_key: str, models: list[str], op_rel: str) -> str:
+    brand_cn, brand_en, _ = BRANDS[brand_key]
     return f"""---
-title: "{model}"
-description: "{brand} · model `{model}` · Chat Completions (Complete)"
+title: "{brand_en} · Complete reference"
+sidebarTitle: "Complete reference"
+description: "{brand_en} · Chat Completions complete reference (shared contract, model enum)"
 openapi: "{op_rel} POST /v1/chat/completions"
 ---
 
-> - OpenAI Chat Completions compatible
-> - Select this page's model via body `model` (`{model}`)
-> - Synchronous by default; set `stream: true` for SSE
-> - Below: Mintlify-rendered Authorizations / Body / Response (Evolink-class layout)
+> - Protocol: OpenAI Chat Completions (`POST /v1/chat/completions`)
+> - **Shared contract** for all {brand_en} ids below; only body `model` changes
+> - Synchronous by default; `stream: true` for SSE
 
-## Identity
+## Available models
 
-| Field | Value |
-| --- | --- |
-| Series | Language series |
-| Brand | {brand} |
-| model | `{model}` |
+{model_table_en(models)}
 
 Base URL: `https://api.omnimux.ai`
 """
 
 
-def list_text_models() -> list[str]:
-    d = ROOT / "cn" / "api-reference" / "text-series" / "models"
-    return sorted(p.stem for p in d.glob("*.mdx"))
+def write_brand(brand_key: str, models: list[str] | None = None) -> None:
+    if brand_key not in BRANDS:
+        raise SystemExit(f"unknown brand {brand_key}")
+    models = models or discover_models(brand_key)
+    if not models:
+        raise SystemExit(f"no models for brand {brand_key}")
 
+    catalog = load_catalog()
+    catalog[brand_key] = models
+    save_catalog(catalog)
 
-def write_model(model: str) -> None:
     relay = json.loads(RELAY.read_text(encoding="utf-8"))
-    op = build_op(relay, model)
-    brand = brand_for(model)
+    op = build_op(relay, brand_key, models)
     OPS_DIR.mkdir(parents=True, exist_ok=True)
-    safe = model.replace("/", "_")
-    op_path = OPS_DIR / f"{safe}.json"
+    op_path = OPS_DIR / f"{brand_key}.json"
     op_path.write_text(json.dumps(op, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    op_rel = f"openapi/ops/chat/{safe}.json"
+    op_rel = f"openapi/ops/chat/{brand_key}.json"
 
-    cn = ROOT / "cn" / "api-reference" / "text-series" / "models" / f"{safe}.mdx"
-    en = ROOT / "en" / "api-reference" / "text-series" / "models" / f"{safe}.mdx"
-    cn.write_text(render_mdx_cn(model, brand, op_rel), encoding="utf-8")
-    en.write_text(render_mdx_en(model, brand, op_rel), encoding="utf-8")
-    print(f"wrote {op_path.relative_to(ROOT)}")
-    print(f"wrote {cn.relative_to(ROOT)}")
-    print(f"wrote {en.relative_to(ROOT)}")
+    for loc, render in (("cn", render_mdx_cn), ("en", render_mdx_en)):
+        d = ROOT / loc / "api-reference" / "text-series" / brand_key
+        d.mkdir(parents=True, exist_ok=True)
+        page = d / "complete.mdx"
+        page.write_text(render(brand_key, models, op_rel), encoding="utf-8")
+        print(f"wrote {page.relative_to(ROOT)}")
+    print(f"wrote {op_path.relative_to(ROOT)} models={models}")
+
+def remove_per_model_pages() -> None:
+    """Delete per-model MDX and ops; keep brand complete ops + catalog."""
+    for loc in ("cn", "en"):
+        mdir = ROOT / loc / "api-reference" / "text-series" / "models"
+        if not mdir.exists():
+            continue
+        for p in mdir.glob("*.mdx"):
+            p.unlink()
+            print(f"removed {p.relative_to(ROOT)}")
+    if OPS_DIR.exists():
+        for p in OPS_DIR.glob("*.json"):
+            # keep brand ops and internal catalog
+            if p.stem in BRANDS or p.name.startswith("_"):
+                continue
+            p.unlink()
+            print(f"removed {p.relative_to(ROOT)}")
+
+def update_docs_json() -> None:
+    path = ROOT / "docs.json"
+    d = json.loads(path.read_text(encoding="utf-8"))
+
+    def brand_pages(loc: str) -> list[dict[str, Any]]:
+        order = ["claude", "gemini", "gpt", "grok", "kimi", "deepseek", "minimax", "glm"]
+        out = []
+        labels = {
+            "cn": {k: v[0] for k, v in BRANDS.items()},
+            "en": {k: v[1] for k, v in BRANDS.items()},
+        }
+        for k in order:
+            out.append(
+                {
+                    "group": labels[loc][k],
+                    "pages": [f"{loc}/api-reference/text-series/{k}/complete"],
+                }
+            )
+        return out
+
+    for lang in d["navigation"]["languages"]:
+        loc = "cn" if lang.get("language") == "cn" else "en"
+        for tab in lang.get("tabs", []):
+            if tab.get("tab") not in ("API 手册", "API manual"):
+                continue
+            for g in tab.get("groups", []):
+                if g.get("group") not in ("语言系列", "Language series"):
+                    continue
+                overview = f"{loc}/api-reference/text-series/overview"
+                pages: list[Any] = []
+                # keep series overview if file exists
+                ov = ROOT / f"{overview}.mdx"
+                if ov.exists():
+                    pages.append(overview)
+                pages.extend(brand_pages(loc))
+                g["pages"] = pages
+                print(f"updated {loc} language series nav", len(pages))
+    path.write_text(json.dumps(d, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--models", nargs="*", help="model ids")
-    ap.add_argument("--all-text", action="store_true")
+    ap.add_argument("--brands", nargs="*", help="brand keys")
+    ap.add_argument("--all-brands", action="store_true")
+    ap.add_argument("--cleanup-per-model", action="store_true", help="delete old per-model pages/ops")
+    ap.add_argument("--update-nav", action="store_true", help="rewrite language series in docs.json")
     args = ap.parse_args()
-    if args.all_text:
-        models = list_text_models()
-    elif args.models:
-        models = args.models
-    else:
-        raise SystemExit("pass --models … or --all-text")
+
     if not RELAY.exists():
         raise SystemExit(f"missing {RELAY}")
-    for m in models:
-        write_model(m)
+
+    if args.all_brands:
+        brands = list(BRANDS.keys())
+    elif args.brands:
+        brands = args.brands
+    else:
+        brands = []
+
+    for b in brands:
+        write_brand(b)
+
+    if args.cleanup_per_model:
+        remove_per_model_pages()
+    if args.update_nav:
+        update_docs_json()
 
 
 if __name__ == "__main__":

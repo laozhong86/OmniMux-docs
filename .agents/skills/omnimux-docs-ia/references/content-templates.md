@@ -6,19 +6,22 @@
 - Right: sticky request examples + multi-status responses + Try it
 - **No** raw `openapi: 3.1.0` / full YAML source visible as the main content
 
-## Correct Mintlify wiring
+## Correct Mintlify wiring (language brand contract)
 
 ```yaml
 ---
-title: "<model-id>"
+title: "Claude · 完整参数"
+sidebarTitle: "完整参数"
 description: "…"
-openapi: "openapi/ops/chat/<model-id>.json POST /v1/chat/completions"
+openapi: "openapi/ops/chat/claude.json POST /v1/chat/completions"
 ---
 ```
 
-- Spec file path **must** be included when many ops share the same METHOD+path.  
-- Official docs: [OpenAPI setup — Create MDX pages](https://www.mintlify.com/docs/api-playground/openapi-setup)  
-- Optional prose above auto block: bullets + thin identity table only.
+- One page per **brand × protocol** (Chat Completions).  
+- Ops JSON pins `model.enum` to all live ids for that brand.  
+- Spec file path **must** be included (`openapi/ops/chat/<brand>.json`).  
+- Official docs: [OpenAPI setup](https://www.mintlify.com/docs/api-playground/openapi-setup)  
+- Prose: short bullets + **可用 model** table only — no per-model nav leaves.
 
 ## Forbidden (causes “越改越乱”)
 

@@ -74,85 +74,49 @@
                   {
                     "group": "Claude",
                     "pages": [
-                      "cn/api-reference/text-series/models/claude-fable-5",
-                      "cn/api-reference/text-series/models/claude-haiku-4-5",
-                      "cn/api-reference/text-series/models/claude-opus-4-6",
-                      "cn/api-reference/text-series/models/claude-opus-4-7",
-                      "cn/api-reference/text-series/models/claude-opus-4-8",
-                      "cn/api-reference/text-series/models/claude-opus-5",
-                      "cn/api-reference/text-series/models/claude-sonnet-4-6",
-                      "cn/api-reference/text-series/models/claude-sonnet-5"
+                      "cn/api-reference/text-series/claude/complete"
                     ]
                   },
                   {
                     "group": "Gemini",
                     "pages": [
-                      "cn/api-reference/text-series/models/gemini-2.5-flash",
-                      "cn/api-reference/text-series/models/gemini-2.5-flash-lite",
-                      "cn/api-reference/text-series/models/gemini-2.5-pro",
-                      "cn/api-reference/text-series/models/gemini-3-flash",
-                      "cn/api-reference/text-series/models/gemini-3-flash-preview",
-                      "cn/api-reference/text-series/models/gemini-3-pro",
-                      "cn/api-reference/text-series/models/gemini-3-pro-preview",
-                      "cn/api-reference/text-series/models/gemini-3.1-flash-lite",
-                      "cn/api-reference/text-series/models/gemini-3.1-flash-lite-preview",
-                      "cn/api-reference/text-series/models/gemini-3.1-pro",
-                      "cn/api-reference/text-series/models/gemini-3.1-pro-preview",
-                      "cn/api-reference/text-series/models/gemini-3.5-flash",
-                      "cn/api-reference/text-series/models/gemini-3.6-flash"
+                      "cn/api-reference/text-series/gemini/complete"
                     ]
                   },
                   {
                     "group": "GPT",
                     "pages": [
-                      "cn/api-reference/text-series/models/gpt-5.4",
-                      "cn/api-reference/text-series/models/gpt-5.4-mini",
-                      "cn/api-reference/text-series/models/gpt-5.5",
-                      "cn/api-reference/text-series/models/gpt-5.6-luna",
-                      "cn/api-reference/text-series/models/gpt-5.6-sol",
-                      "cn/api-reference/text-series/models/gpt-5.6-terra"
+                      "cn/api-reference/text-series/gpt/complete"
                     ]
                   },
                   {
                     "group": "Grok",
                     "pages": [
-                      "cn/api-reference/text-series/models/grok-4.20-0309-non-reasoning",
-                      "cn/api-reference/text-series/models/grok-4.20-0309-reasoning",
-                      "cn/api-reference/text-series/models/grok-4.20-multi-agent-0309",
-                      "cn/api-reference/text-series/models/grok-4.3",
-                      "cn/api-reference/text-series/models/grok-4.5",
-                      "cn/api-reference/text-series/models/grok-build-0.1",
-                      "cn/api-reference/text-series/models/grok-composer-2.5-fast"
+                      "cn/api-reference/text-series/grok/complete"
                     ]
                   },
                   {
                     "group": "Kimi",
                     "pages": [
-                      "cn/api-reference/text-series/models/kimi-k2.6",
-                      "cn/api-reference/text-series/models/kimi-k2.7-code",
-                      "cn/api-reference/text-series/models/kimi-k3"
+                      "cn/api-reference/text-series/kimi/complete"
                     ]
                   },
                   {
                     "group": "DeepSeek",
                     "pages": [
-                      "cn/api-reference/text-series/models/deepseek-v4-flash",
-                      "cn/api-reference/text-series/models/deepseek-v4-pro"
+                      "cn/api-reference/text-series/deepseek/complete"
                     ]
                   },
                   {
                     "group": "MiniMax",
                     "pages": [
-                      "cn/api-reference/text-series/models/minimax-m2.5",
-                      "cn/api-reference/text-series/models/minimax-m2.7",
-                      "cn/api-reference/text-series/models/minimax-m3"
+                      "cn/api-reference/text-series/minimax/complete"
                     ]
                   },
                   {
                     "group": "GLM",
                     "pages": [
-                      "cn/api-reference/text-series/models/glm-5.1",
-                      "cn/api-reference/text-series/models/glm-5.2"
+                      "cn/api-reference/text-series/glm/complete"
                     ]
                   }
                 ]
@@ -411,85 +375,49 @@
                   {
                     "group": "Claude",
                     "pages": [
-                      "en/api-reference/text-series/models/claude-fable-5",
-                      "en/api-reference/text-series/models/claude-haiku-4-5",
-                      "en/api-reference/text-series/models/claude-opus-4-6",
-                      "en/api-reference/text-series/models/claude-opus-4-7",
-                      "en/api-reference/text-series/models/claude-opus-4-8",
-                      "en/api-reference/text-series/models/claude-opus-5",
-                      "en/api-reference/text-series/models/claude-sonnet-4-6",
-                      "en/api-reference/text-series/models/claude-sonnet-5"
+                      "en/api-reference/text-series/claude/complete"
                     ]
                   },
                   {
                     "group": "Gemini",
                     "pages": [
-                      "en/api-reference/text-series/models/gemini-2.5-flash",
-                      "en/api-reference/text-series/models/gemini-2.5-flash-lite",
-                      "en/api-reference/text-series/models/gemini-2.5-pro",
-                      "en/api-reference/text-series/models/gemini-3-flash",
-                      "en/api-reference/text-series/models/gemini-3-flash-preview",
-                      "en/api-reference/text-series/models/gemini-3-pro",
-                      "en/api-reference/text-series/models/gemini-3-pro-preview",
-                      "en/api-reference/text-series/models/gemini-3.1-flash-lite",
-                      "en/api-reference/text-series/models/gemini-3.1-flash-lite-preview",
-                      "en/api-reference/text-series/models/gemini-3.1-pro",
-                      "en/api-reference/text-series/models/gemini-3.1-pro-preview",
-                      "en/api-reference/text-series/models/gemini-3.5-flash",
-                      "en/api-reference/text-series/models/gemini-3.6-flash"
+                      "en/api-reference/text-series/gemini/complete"
                     ]
                   },
                   {
                     "group": "GPT",
                     "pages": [
-                      "en/api-reference/text-series/models/gpt-5.4",
-                      "en/api-reference/text-series/models/gpt-5.4-mini",
-                      "en/api-reference/text-series/models/gpt-5.5",
-                      "en/api-reference/text-series/models/gpt-5.6-luna",
-                      "en/api-reference/text-series/models/gpt-5.6-sol",
-                      "en/api-reference/text-series/models/gpt-5.6-terra"
+                      "en/api-reference/text-series/gpt/complete"
                     ]
                   },
                   {
                     "group": "Grok",
                     "pages": [
-                      "en/api-reference/text-series/models/grok-4.20-0309-non-reasoning",
-                      "en/api-reference/text-series/models/grok-4.20-0309-reasoning",
-                      "en/api-reference/text-series/models/grok-4.20-multi-agent-0309",
-                      "en/api-reference/text-series/models/grok-4.3",
-                      "en/api-reference/text-series/models/grok-4.5",
-                      "en/api-reference/text-series/models/grok-build-0.1",
-                      "en/api-reference/text-series/models/grok-composer-2.5-fast"
+                      "en/api-reference/text-series/grok/complete"
                     ]
                   },
                   {
                     "group": "Kimi",
                     "pages": [
-                      "en/api-reference/text-series/models/kimi-k2.6",
-                      "en/api-reference/text-series/models/kimi-k2.7-code",
-                      "en/api-reference/text-series/models/kimi-k3"
+                      "en/api-reference/text-series/kimi/complete"
                     ]
                   },
                   {
                     "group": "DeepSeek",
                     "pages": [
-                      "en/api-reference/text-series/models/deepseek-v4-flash",
-                      "en/api-reference/text-series/models/deepseek-v4-pro"
+                      "en/api-reference/text-series/deepseek/complete"
                     ]
                   },
                   {
                     "group": "MiniMax",
                     "pages": [
-                      "en/api-reference/text-series/models/minimax-m2.5",
-                      "en/api-reference/text-series/models/minimax-m2.7",
-                      "en/api-reference/text-series/models/minimax-m3"
+                      "en/api-reference/text-series/minimax/complete"
                     ]
                   },
                   {
                     "group": "GLM",
                     "pages": [
-                      "en/api-reference/text-series/models/glm-5.1",
-                      "en/api-reference/text-series/models/glm-5.2"
+                      "en/api-reference/text-series/glm/complete"
                     ]
                   }
                 ]
