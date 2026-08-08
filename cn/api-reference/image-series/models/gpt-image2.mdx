@@ -1,25 +1,85 @@
 ---
 title: "gpt-image2"
-description: "GPT Image · `gpt-image2`"
+description: "图像 · `gpt-image2`"
 ---
 
 | 字段 | 值 |
 | --- | --- |
 | 系列 | 图像系列 |
-| 品牌 | GPT Image |
 | model | `gpt-image2` |
 
-## 调用
+## 接口
 
-- Base：`https://api.omnimux.ai`
-- 鉴权：`sk-` Bearer
-- `POST /v1/images/generations` 或 `/v1/images/edits`
+| 方法 | 路径 |
+| --- | --- |
+| `POST` | `/v1/images/generations` |
 
-```bash
-curl -sS https://api.omnimux.ai/v1/images/generations \
-  -H "Authorization: Bearer $OMNIMUX_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{"model":"gpt-image2","prompt":"a product on white background","n":1}'
+Base：`https://api.omnimux.ai` · `sk-` Bearer
+
+## 请求示例
+
+<CodeGroup>
+```bash cURL
+curl --request POST \
+  --url https://api.omnimux.ai/v1/images/generations \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "model": "gpt-image2",
+  "prompt": "a product photo on white background",
+  "n": 1
+}'
 ```
+</CodeGroup>
 
-异步渠道请按返回 `task_id` 轮询（见 [任务管理](/cn/api-reference/tasks/overview)）。
+## 响应示例
+
+<Tabs>
+  <Tab title="200">
+```json
+{
+  "created": 1741428397,
+  "data": [
+    { "url": "https://example.com/image.png" }
+  ]
+}
+```
+  </Tab>
+  <Tab title="400">
+```json
+{
+  "error": { "message": "Invalid request", "type": "invalid_request_error", "code": "bad_request" }
+}
+```
+  </Tab>
+  <Tab title="401">
+```json
+{
+  "error": { "message": "Invalid token", "type": "authentication_error", "code": "unauthorized" }
+}
+```
+  </Tab>
+  <Tab title="403">
+```json
+{
+  "error": { "message": "Model not allowed", "type": "permission_error", "code": "forbidden" }
+}
+```
+  </Tab>
+  <Tab title="429">
+```json
+{
+  "error": { "message": "Rate limit exceeded", "type": "rate_limit_error", "code": "rate_limit_exceeded" }
+}
+```
+  </Tab>
+  <Tab title="500">
+```json
+{
+  "error": { "message": "Internal server error", "type": "server_error", "code": "internal_error" }
+}
+```
+  </Tab>
+</Tabs>
+
+异步渠道可能先返回 `task_id`，再轮询任务接口。

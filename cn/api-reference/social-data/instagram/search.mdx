@@ -1,7 +1,7 @@
 ---
 title: "综合搜索"
 sidebarTitle: "综合搜索"
-description: "社交数据 · Instagram · model `instagram-search`"
+description: "社交数据 · Instagram · `instagram-search`"
 ---
 
 | 字段 | 值 |
@@ -10,19 +10,120 @@ description: "社交数据 · Instagram · model `instagram-search`"
 | 平台 | Instagram |
 | 能力 | 综合搜索 |
 | model | `instagram-search` |
+| 主要业务字段 | `query`（query） |
 
-## 调用
+## 接口
 
-- Base URL：`https://api.omnimux.ai`
-- 鉴权：`Authorization: Bearer sk-...`
-- 形态：`POST /v1/chat/completions`（需 dummy `messages` + 业务字段 top-level）
-- 上游：TikHub；对外 vendor = 平台品牌
+| 方法 | 路径 |
+| --- | --- |
+| `POST` | `/v1/chat/completions` |
 
-```bash
-curl -sS https://api.omnimux.ai/v1/chat/completions \
-  -H "Authorization: Bearer $OMNIMUX_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{"model":"instagram-search","messages":[{"role":"user","content":"."}]}'
+Base：`https://api.omnimux.ai` · 鉴权：`sk-` · dummy `messages` + 业务字段 top-level
+
+## 请求示例
+
+<CodeGroup>
+```bash cURL
+curl --request POST \
+  --url https://api.omnimux.ai/v1/chat/completions \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "model": "instagram-search",
+  "messages": [
+    { "role": "user", "content": "." }
+  ],
+  "query": "openai"
+}'
 ```
+</CodeGroup>
 
-业务字段因 model 而异，见运维说明 `docs/ops/tikhub-social-models-zh.md`（产品仓）或本平台控制台模型说明。
+## 响应示例
+
+<Tabs>
+  <Tab title="200">
+```json
+{
+  "id": "chatcmpl-social-data-example",
+  "object": "chat.completion",
+  "model": "instagram-search",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "{ /* 上游平台 JSON 数据，结构因接口而异 */ }"
+      },
+      "finish_reason": "stop"
+    }
+  ]
+}
+```
+  </Tab>
+  <Tab title="400">
+```json
+{
+  "error": {
+    "message": "Invalid request: missing query or invalid parameter",
+    "type": "invalid_request_error",
+    "code": "bad_request"
+  }
+}
+```
+  </Tab>
+  <Tab title="401">
+```json
+{
+  "error": {
+    "message": "Invalid token or authentication failed",
+    "type": "authentication_error",
+    "code": "unauthorized"
+  }
+}
+```
+  </Tab>
+  <Tab title="403">
+```json
+{
+  "error": {
+    "message": "Model not allowed for this token",
+    "type": "permission_error",
+    "code": "forbidden"
+  }
+}
+```
+  </Tab>
+  <Tab title="429">
+```json
+{
+  "error": {
+    "message": "Rate limit exceeded",
+    "type": "rate_limit_error",
+    "code": "rate_limit_exceeded"
+  }
+}
+```
+  </Tab>
+  <Tab title="500">
+```json
+{
+  "error": {
+    "message": "Internal server error",
+    "type": "server_error",
+    "code": "internal_error"
+  }
+}
+```
+  </Tab>
+  <Tab title="502">
+```json
+{
+  "error": {
+    "message": "Upstream provider error",
+    "type": "server_error",
+    "code": "bad_gateway"
+  }
+}
+```
+  </Tab>
+</Tabs>

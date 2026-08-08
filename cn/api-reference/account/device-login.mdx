@@ -102,3 +102,53 @@ New-Api-User: <user_id>
 
 - [Social Ops](/cn/api-reference/social-ops)  
 - [鉴权](/cn/guides/authentication)
+
+
+## 请求示例
+
+### 申请 device code
+
+```bash
+curl --request POST \
+  --url https://omnimux.ai/api/user/device/code \
+  --header 'Content-Type: application/json' \
+  --data '{"client_name":"my-cli"}'
+```
+
+### 轮询 token
+
+```bash
+curl --request POST \
+  --url https://omnimux.ai/api/user/device/token \
+  --header 'Content-Type: application/json' \
+  --data '{"device_code":"<device_code>","grant_type":"urn:ietf:params:oauth:grant-type:device_code"}'
+```
+
+## 响应示例
+
+<Tabs>
+  <Tab title="200">
+```json
+{
+  "success": true,
+  "data": {
+    "device_code": "...",
+    "user_code": "ABCD-EFGH",
+    "verification_uri": "https://omnimux.ai/cli/login",
+    "expires_in": 900,
+    "interval": 5
+  }
+}
+```
+  </Tab>
+  <Tab title="400">
+```json
+{ "success": false, "message": "invalid device_code or grant_type" }
+```
+  </Tab>
+  <Tab title="pending">
+```json
+{ "success": false, "message": "authorization_pending" }
+```
+  </Tab>
+</Tabs>

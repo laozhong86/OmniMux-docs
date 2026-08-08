@@ -1,12 +1,72 @@
 ---
 title: "List accounts"
-description: "List connected accounts"
+description: "GET /api/social/v1/accounts"
 ---
 
 | Field | Value |
 | --- | --- |
-| Capability | List accounts |
 | Method | `GET` |
-| Path | `/api/social/v1/accounts` |
+| URL | `https://omnimux.ai/api/social/v1/accounts` |
+| Auth | access token + `New-Api-User` |
 
-Base: `https://omnimux.ai` · Auth: access token + `New-Api-User`.
+## Request example
+
+<CodeGroup>
+```bash cURL
+curl --request GET \
+  --url https://omnimux.ai/api/social/v1/accounts \
+  --header 'Authorization: Bearer <access_token>' \
+  --header 'New-Api-User: <user_id>' \
+  --header 'Content-Type: application/json'
+```
+</CodeGroup>
+
+## Response examples
+
+<Tabs>
+  <Tab title="200">
+```json
+{"success":true,"data":{"accounts":[{"id":1,"platform":"tiktok","username":"demo"}]}}
+```
+  </Tab>
+  <Tab title="401">
+```json
+{
+  "success": false,
+  "message": "Unauthorized"
+}
+```
+  </Tab>
+  <Tab title="403">
+```json
+{
+  "success": false,
+  "message": "Forbidden"
+}
+```
+  </Tab>
+  <Tab title="404">
+```json
+{
+  "success": false,
+  "message": "Not found"
+}
+```
+  </Tab>
+  <Tab title="429">
+```json
+{
+  "success": false,
+  "message": "Rate limit exceeded"
+}
+```
+  </Tab>
+  <Tab title="500">
+```json
+{
+  "success": false,
+  "message": "Internal server error"
+}
+```
+  </Tab>
+</Tabs>

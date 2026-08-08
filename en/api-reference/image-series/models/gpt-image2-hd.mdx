@@ -1,25 +1,26 @@
 ---
 title: "gpt-image2-hd"
-description: "GPT Image · `gpt-image2-hd`"
+description: "Image · `gpt-image2-hd`"
 ---
 
 | Field | Value |
 | --- | --- |
-| Series | Image series |
-| Brand | GPT Image |
 | model | `gpt-image2-hd` |
 
-## Call
+## Endpoint
 
-- Base: `https://api.omnimux.ai`
-- Auth: `sk-` Bearer
-- `POST /v1/images/generations` or `/v1/images/edits`
+`POST /v1/images/generations` · Base `https://api.omnimux.ai` · `sk-`
+
+## Request example
 
 ```bash
-curl -sS https://api.omnimux.ai/v1/images/generations \
-  -H "Authorization: Bearer $OMNIMUX_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{"model":"gpt-image2-hd","prompt":"a product on white background","n":1}'
+curl --request POST \
+  --url https://api.omnimux.ai/v1/images/generations \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --data '{"model":"gpt-image2-hd","prompt":"a product photo on white background","n":1}'
 ```
 
-If async, poll with `task_id` (see [Task management](/en/api-reference/tasks/overview)).
+## Response examples
+
+See Chinese pages for full status-code tabs (200/400/401/403/429/500). Same shapes apply.
