@@ -46,9 +46,12 @@ cn|en/api-reference/
   account/{overview,device-login,balance,pricing}
   tasks/{overview,video-task,video-content,image-task}
   appendix/openapi.mdx
-docs.json          # navigation only lists L3 under L2 groups (no brand hub child)
-openapi/relay.json # AI gateway OpenAPI snapshot
+docs.json              # navigation only lists L3 under L2 groups (no brand hub child)
+openapi/relay.json     # AI gateway OpenAPI snapshot (附录)
+openapi/ops/**         # per-capability single-operation OpenAPI (L3 detail source)
+scripts/gen-*.py       # page generators
 ```
+
 
 Brand MDX under `brands/` may exist for deep links / series overview tables, but **`docs.json` must not nest a child page titled the same as the L2 group**.
 
@@ -80,9 +83,14 @@ Brand MDX under `brands/` may exist for deep links / series overview tables, but
 
 ## OpenAPI placement
 
-- Full try-it dump: **附录** only (`openapi/relay.json`).  
-- Do not re-attach full OpenAPI as a top-level sibling that re-lists Models/Chat/Images next to series.  
-- Prefer series → brand → model MDX for discovery; OpenAPI for schema/try-it.
+| Kind | Role |
+| --- | --- |
+| **L3 capability page** | **Single operation** OpenAPI embedded in MDX (`openapi/ops/**` + `## OpenAPI`) — Evolink-class detail |
+| **附录** | Full gateway dump `openapi/relay.json` for bulk try-it |
+| **Not** | Top-level OpenAPI groups re-listing Chat/Images next to series as primary discovery |
+
+- Prefer series → brand → model MDX for discovery.  
+- L3 page type = **OpenAPI capability page** (see `content-templates.md`), not protocol-only dump.
 
 ## Credentials map
 
