@@ -1,0 +1,28 @@
+---
+title: "ChatBox"
+sidebarTitle: "ChatBox"
+description: "在 ChatBox 中配置 OmniMux"
+---
+<Note>
+Base URL：`https://api.omnimux.ai`（OpenAI 兼容客户端通常填 `https://api.omnimux.ai/v1`）。在 [控制台](https://omnimux.ai/dashboard) 创建 `sk-` API Key。模型 ID 以控制台或 `GET /v1/models` 为准。
+</Note>
+
+
+## 准备
+
+1. 安装 [ChatBox](https://chatboxai.app/)
+2. 获取 OmniMux API Key
+
+## 配置
+
+1. 打开 ChatBox → **设置**（或首次向导选「使用自己的 API Key」）
+2. AI 提供商选 **OpenAI API**（或兼容 OpenAI 的自定义项）
+3. 填写：
+   - **API Key**：`sk-...`
+   - **API Host / Base URL**：`https://api.omnimux.ai/v1`
+4. 添加/选择模型 ID（如 `gpt-5.4`、`claude-opus-5`）后开始对话
+
+## 验证
+
+发送一条短消息；若 401 检查 Key，若连不上检查 Base URL 是否含 `/v1`。
+

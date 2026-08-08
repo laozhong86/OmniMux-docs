@@ -1,0 +1,33 @@
+---
+title: "n8n"
+sidebarTitle: "n8n"
+description: "Configure OmniMux in n8n"
+---
+<Note>
+Base URL: `https://api.omnimux.ai` (OpenAI-compatible clients usually use `https://api.omnimux.ai/v1`). Create a `sk-` key in the [console](https://omnimux.ai/dashboard). Model ids: console or `GET /v1/models`.
+</Note>
+
+
+## Prep
+
+1. Self-host or cloud [n8n](https://n8n.io/)
+2. OmniMux API key
+
+## Setup
+
+1. Use **OpenAI** node or **HTTP Request**
+2. Auth: `Authorization: Bearer sk-...`
+3. URL: `https://api.omnimux.ai/v1/chat/completions`
+4. Body:
+
+```json
+{
+  "model": "gpt-5.4",
+  "messages": [{"role": "user", "content": "hello"}]
+}
+```
+
+## Verify
+
+Run the node and inspect `choices[0].message`.
+

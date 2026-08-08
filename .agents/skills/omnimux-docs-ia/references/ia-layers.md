@@ -51,6 +51,16 @@ L1  系列 / 管理面          （发现主轴）
 
 **Nav lean rule:** 侧栏只保留可调用合同/能力路径；禁止概述、覆盖矩阵、重复说明页加厚导航。
 
+### 集成指南 L1（固定三类）
+
+| CN | EN | 内容 |
+| --- | --- | --- |
+| 聊天应用 | Chat apps | ChatBox、Cherry Studio、AnythingLLM、Claude Desktop… |
+| 开发工具 | Dev tools | Claude Code / Codex / Gemini / **Grok CLI** / **Kimi CLI** / **ZCode** / Cursor / Cline / OpenCode… |
+| 应用平台 | App platforms | **n8n**、Dify、沉浸式翻译、OpenClaw… |
+
+对照竞品（如 APIMart integrations）补缺口时：只加 OmniMux 可配置的 OpenAI 兼容客户端；文案用 `api.omnimux.ai`，不抄竞品截图。
+
 **Nav icons (Mintlify `icon` on groups):** L1 系列与其下 L2 品牌/资源组共用**系列统一图标**（对齐 Evolink：图像品牌皆 `image`，视频品牌皆 `video`）。
 
 | 系列 | icon |

@@ -1,0 +1,34 @@
+---
+title: "n8n"
+sidebarTitle: "n8n"
+description: "在 n8n 中配置 OmniMux"
+---
+<Note>
+Base URL：`https://api.omnimux.ai`（OpenAI 兼容客户端通常填 `https://api.omnimux.ai/v1`）。在 [控制台](https://omnimux.ai/dashboard) 创建 `sk-` API Key。模型 ID 以控制台或 `GET /v1/models` 为准。
+</Note>
+
+
+## 准备
+
+1. 自建或云端 [n8n](https://n8n.io/)
+2. OmniMux API Key
+
+## 配置（HTTP Request / OpenAI 节点）
+
+1. 使用 **OpenAI** 节点或 **HTTP Request** 调用 Chat Completions
+2. Credentials：
+   - Header `Authorization: Bearer sk-...`
+3. URL：`https://api.omnimux.ai/v1/chat/completions`
+4. Body 示例：
+
+```json
+{
+  "model": "gpt-5.4",
+  "messages": [{"role": "user", "content": "hello"}]
+}
+```
+
+## 验证
+
+执行工作流节点，检查返回 `choices[0].message`。
+

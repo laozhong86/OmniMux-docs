@@ -1,0 +1,27 @@
+---
+title: "Cursor"
+sidebarTitle: "Cursor"
+description: "在 Cursor 中配置 OmniMux"
+---
+<Note>
+Base URL：`https://api.omnimux.ai`（OpenAI 兼容客户端通常填 `https://api.omnimux.ai/v1`）。在 [控制台](https://omnimux.ai/dashboard) 创建 `sk-` API Key。模型 ID 以控制台或 `GET /v1/models` 为准。
+</Note>
+
+
+## 准备
+
+1. 安装 [Cursor](https://cursor.com/)
+2. OmniMux API Key
+
+## 配置
+
+1. **Settings → Models**
+2. 启用 **OpenAI API Key**，并 **Override OpenAI Base URL**
+3. Base URL：`https://api.omnimux.ai/v1`
+4. API Key：OmniMux `sk-...`
+5. 按需添加自定义模型名（与 OmniMux model id 一致）
+
+## 验证
+
+在 Chat / Composer 中发一条请求，确认走自定义 Base URL。
+

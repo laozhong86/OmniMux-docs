@@ -1,0 +1,27 @@
+---
+title: "Cursor"
+sidebarTitle: "Cursor"
+description: "Configure OmniMux in Cursor"
+---
+<Note>
+Base URL: `https://api.omnimux.ai` (OpenAI-compatible clients usually use `https://api.omnimux.ai/v1`). Create a `sk-` key in the [console](https://omnimux.ai/dashboard). Model ids: console or `GET /v1/models`.
+</Note>
+
+
+## Prep
+
+1. Install [Cursor](https://cursor.com/)
+2. OmniMux API key
+
+## Setup
+
+1. **Settings → Models**
+2. Enable **OpenAI API Key** and **Override OpenAI Base URL**
+3. Base URL: `https://api.omnimux.ai/v1`
+4. Key: OmniMux `sk-...`
+5. Add custom model names matching OmniMux ids
+
+## Verify
+
+Send a Chat/Composer request.
+
