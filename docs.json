@@ -74,8 +74,8 @@
                   "cn/api-reference/text-series/overview",
                   {
                     "group": "Claude",
+                    "root": "cn/api-reference/text-series/brands/claude",
                     "pages": [
-                      "cn/api-reference/text-series/brands/claude",
                       "cn/api-reference/text-series/models/claude-fable-5",
                       "cn/api-reference/text-series/models/claude-haiku-4-5",
                       "cn/api-reference/text-series/models/claude-opus-4-6",
@@ -88,8 +88,8 @@
                   },
                   {
                     "group": "Gemini",
+                    "root": "cn/api-reference/text-series/brands/gemini",
                     "pages": [
-                      "cn/api-reference/text-series/brands/gemini",
                       "cn/api-reference/text-series/models/gemini-2.5-flash",
                       "cn/api-reference/text-series/models/gemini-2.5-flash-lite",
                       "cn/api-reference/text-series/models/gemini-2.5-pro",
@@ -107,8 +107,8 @@
                   },
                   {
                     "group": "GPT",
+                    "root": "cn/api-reference/text-series/brands/gpt",
                     "pages": [
-                      "cn/api-reference/text-series/brands/gpt",
                       "cn/api-reference/text-series/models/gpt-5.4",
                       "cn/api-reference/text-series/models/gpt-5.4-mini",
                       "cn/api-reference/text-series/models/gpt-5.5",
@@ -119,8 +119,8 @@
                   },
                   {
                     "group": "Grok",
+                    "root": "cn/api-reference/text-series/brands/grok",
                     "pages": [
-                      "cn/api-reference/text-series/brands/grok",
                       "cn/api-reference/text-series/models/grok-4.20-0309-non-reasoning",
                       "cn/api-reference/text-series/models/grok-4.20-0309-reasoning",
                       "cn/api-reference/text-series/models/grok-4.20-multi-agent-0309",
@@ -132,8 +132,8 @@
                   },
                   {
                     "group": "Kimi",
+                    "root": "cn/api-reference/text-series/brands/kimi",
                     "pages": [
-                      "cn/api-reference/text-series/brands/kimi",
                       "cn/api-reference/text-series/models/kimi-k2.6",
                       "cn/api-reference/text-series/models/kimi-k2.7-code",
                       "cn/api-reference/text-series/models/kimi-k3"
@@ -141,16 +141,16 @@
                   },
                   {
                     "group": "DeepSeek",
+                    "root": "cn/api-reference/text-series/brands/deepseek",
                     "pages": [
-                      "cn/api-reference/text-series/brands/deepseek",
                       "cn/api-reference/text-series/models/deepseek-v4-flash",
                       "cn/api-reference/text-series/models/deepseek-v4-pro"
                     ]
                   },
                   {
                     "group": "MiniMax",
+                    "root": "cn/api-reference/text-series/brands/minimax",
                     "pages": [
-                      "cn/api-reference/text-series/brands/minimax",
                       "cn/api-reference/text-series/models/minimax-m2.5",
                       "cn/api-reference/text-series/models/minimax-m2.7",
                       "cn/api-reference/text-series/models/minimax-m3"
@@ -158,8 +158,8 @@
                   },
                   {
                     "group": "GLM",
+                    "root": "cn/api-reference/text-series/brands/glm",
                     "pages": [
-                      "cn/api-reference/text-series/brands/glm",
                       "cn/api-reference/text-series/models/glm-5.1",
                       "cn/api-reference/text-series/models/glm-5.2"
                     ]
@@ -172,24 +172,24 @@
                   "cn/api-reference/image-series/overview",
                   {
                     "group": "Nano Banana",
+                    "root": "cn/api-reference/image-series/brands/nano-banana",
                     "pages": [
-                      "cn/api-reference/image-series/brands/nano-banana",
                       "cn/api-reference/image-series/models/nano_banana_2",
                       "cn/api-reference/image-series/models/nano_banana_pro"
                     ]
                   },
                   {
                     "group": "GPT Image",
+                    "root": "cn/api-reference/image-series/brands/gpt-image",
                     "pages": [
-                      "cn/api-reference/image-series/brands/gpt-image",
                       "cn/api-reference/image-series/models/gpt-image2",
                       "cn/api-reference/image-series/models/gpt-image2-hd"
                     ]
                   },
                   {
                     "group": "Z Image",
+                    "root": "cn/api-reference/image-series/brands/z-image",
                     "pages": [
-                      "cn/api-reference/image-series/brands/z-image",
                       "cn/api-reference/image-series/models/zimage-makeup",
                       "cn/api-reference/image-series/models/zimage-makeup-async"
                     ]
@@ -202,8 +202,8 @@
                   "cn/api-reference/video-series/overview",
                   {
                     "group": "MiniMax",
+                    "root": "cn/api-reference/video-series/brands/minimax",
                     "pages": [
-                      "cn/api-reference/video-series/brands/minimax",
                       "cn/api-reference/video-series/models/minimax-h3-endframe",
                       "cn/api-reference/video-series/models/minimax-h3-endframe-async",
                       "cn/api-reference/video-series/models/minimax-h3-fl2va",
@@ -216,8 +216,8 @@
                   },
                   {
                     "group": "Veo / Omni Flash",
+                    "root": "cn/api-reference/video-series/brands/veo",
                     "pages": [
-                      "cn/api-reference/video-series/brands/veo",
                       "cn/api-reference/video-series/models/omni_flash",
                       "cn/api-reference/video-series/models/omni_flash-10s",
                       "cn/api-reference/video-series/models/omni_flash-4s",
@@ -227,16 +227,16 @@
                   },
                   {
                     "group": "LTX",
+                    "root": "cn/api-reference/video-series/brands/ltx",
                     "pages": [
-                      "cn/api-reference/video-series/brands/ltx",
                       "cn/api-reference/video-series/models/ltx2.3-kj",
                       "cn/api-reference/video-series/models/ltx2.3-kj-async"
                     ]
                   },
                   {
                     "group": "Grok Imagine",
+                    "root": "cn/api-reference/video-series/brands/grok-imagine",
                     "pages": [
-                      "cn/api-reference/video-series/brands/grok-imagine",
                       "cn/api-reference/video-series/models/grok-imagine-video-1.5"
                     ]
                   }
@@ -248,8 +248,8 @@
                   "cn/api-reference/social-data/overview",
                   {
                     "group": "TikTok",
+                    "root": "cn/api-reference/social-data/brands/tiktok",
                     "pages": [
-                      "cn/api-reference/social-data/brands/tiktok",
                       "cn/api-reference/social-data/tiktok/post-detail",
                       "cn/api-reference/social-data/tiktok/user-profile",
                       "cn/api-reference/social-data/tiktok/user-posts",
@@ -258,8 +258,8 @@
                   },
                   {
                     "group": "Instagram",
+                    "root": "cn/api-reference/social-data/brands/instagram",
                     "pages": [
-                      "cn/api-reference/social-data/brands/instagram",
                       "cn/api-reference/social-data/instagram/post-detail",
                       "cn/api-reference/social-data/instagram/user-profile",
                       "cn/api-reference/social-data/instagram/user-posts",
@@ -268,8 +268,8 @@
                   },
                   {
                     "group": "YouTube",
+                    "root": "cn/api-reference/social-data/brands/youtube",
                     "pages": [
-                      "cn/api-reference/social-data/brands/youtube",
                       "cn/api-reference/social-data/youtube/video-detail",
                       "cn/api-reference/social-data/youtube/channel-info",
                       "cn/api-reference/social-data/youtube/channel-videos",
@@ -278,8 +278,8 @@
                   },
                   {
                     "group": "X",
+                    "root": "cn/api-reference/social-data/brands/x",
                     "pages": [
-                      "cn/api-reference/social-data/brands/x",
                       "cn/api-reference/social-data/x/tweet-detail",
                       "cn/api-reference/social-data/x/user-profile",
                       "cn/api-reference/social-data/x/user-tweets",
@@ -294,8 +294,8 @@
                   "cn/api-reference/publishing/overview",
                   {
                     "group": "连接账户",
+                    "root": "cn/api-reference/publishing/connecting-accounts",
                     "pages": [
-                      "cn/api-reference/publishing/connecting-accounts",
                       "cn/api-reference/publishing/start-connect",
                       "cn/api-reference/publishing/list-accounts",
                       "cn/api-reference/publishing/disconnect"
@@ -303,16 +303,16 @@
                   },
                   {
                     "group": "帖子",
+                    "root": "cn/api-reference/publishing/posts",
                     "pages": [
-                      "cn/api-reference/publishing/posts",
                       "cn/api-reference/publishing/create-post",
                       "cn/api-reference/publishing/get-post"
                     ]
                   },
                   {
                     "group": "媒体",
+                    "root": "cn/api-reference/publishing/media",
                     "pages": [
-                      "cn/api-reference/publishing/media",
                       "cn/api-reference/publishing/presign",
                       "cn/api-reference/publishing/upload"
                     ]
@@ -440,8 +440,8 @@
                   "en/api-reference/text-series/overview",
                   {
                     "group": "Claude",
+                    "root": "en/api-reference/text-series/brands/claude",
                     "pages": [
-                      "en/api-reference/text-series/brands/claude",
                       "en/api-reference/text-series/models/claude-fable-5",
                       "en/api-reference/text-series/models/claude-haiku-4-5",
                       "en/api-reference/text-series/models/claude-opus-4-6",
@@ -454,8 +454,8 @@
                   },
                   {
                     "group": "Gemini",
+                    "root": "en/api-reference/text-series/brands/gemini",
                     "pages": [
-                      "en/api-reference/text-series/brands/gemini",
                       "en/api-reference/text-series/models/gemini-2.5-flash",
                       "en/api-reference/text-series/models/gemini-2.5-flash-lite",
                       "en/api-reference/text-series/models/gemini-2.5-pro",
@@ -473,8 +473,8 @@
                   },
                   {
                     "group": "GPT",
+                    "root": "en/api-reference/text-series/brands/gpt",
                     "pages": [
-                      "en/api-reference/text-series/brands/gpt",
                       "en/api-reference/text-series/models/gpt-5.4",
                       "en/api-reference/text-series/models/gpt-5.4-mini",
                       "en/api-reference/text-series/models/gpt-5.5",
@@ -485,8 +485,8 @@
                   },
                   {
                     "group": "Grok",
+                    "root": "en/api-reference/text-series/brands/grok",
                     "pages": [
-                      "en/api-reference/text-series/brands/grok",
                       "en/api-reference/text-series/models/grok-4.20-0309-non-reasoning",
                       "en/api-reference/text-series/models/grok-4.20-0309-reasoning",
                       "en/api-reference/text-series/models/grok-4.20-multi-agent-0309",
@@ -498,8 +498,8 @@
                   },
                   {
                     "group": "Kimi",
+                    "root": "en/api-reference/text-series/brands/kimi",
                     "pages": [
-                      "en/api-reference/text-series/brands/kimi",
                       "en/api-reference/text-series/models/kimi-k2.6",
                       "en/api-reference/text-series/models/kimi-k2.7-code",
                       "en/api-reference/text-series/models/kimi-k3"
@@ -507,16 +507,16 @@
                   },
                   {
                     "group": "DeepSeek",
+                    "root": "en/api-reference/text-series/brands/deepseek",
                     "pages": [
-                      "en/api-reference/text-series/brands/deepseek",
                       "en/api-reference/text-series/models/deepseek-v4-flash",
                       "en/api-reference/text-series/models/deepseek-v4-pro"
                     ]
                   },
                   {
                     "group": "MiniMax",
+                    "root": "en/api-reference/text-series/brands/minimax",
                     "pages": [
-                      "en/api-reference/text-series/brands/minimax",
                       "en/api-reference/text-series/models/minimax-m2.5",
                       "en/api-reference/text-series/models/minimax-m2.7",
                       "en/api-reference/text-series/models/minimax-m3"
@@ -524,8 +524,8 @@
                   },
                   {
                     "group": "GLM",
+                    "root": "en/api-reference/text-series/brands/glm",
                     "pages": [
-                      "en/api-reference/text-series/brands/glm",
                       "en/api-reference/text-series/models/glm-5.1",
                       "en/api-reference/text-series/models/glm-5.2"
                     ]
@@ -538,24 +538,24 @@
                   "en/api-reference/image-series/overview",
                   {
                     "group": "Nano Banana",
+                    "root": "en/api-reference/image-series/brands/nano-banana",
                     "pages": [
-                      "en/api-reference/image-series/brands/nano-banana",
                       "en/api-reference/image-series/models/nano_banana_2",
                       "en/api-reference/image-series/models/nano_banana_pro"
                     ]
                   },
                   {
                     "group": "GPT Image",
+                    "root": "en/api-reference/image-series/brands/gpt-image",
                     "pages": [
-                      "en/api-reference/image-series/brands/gpt-image",
                       "en/api-reference/image-series/models/gpt-image2",
                       "en/api-reference/image-series/models/gpt-image2-hd"
                     ]
                   },
                   {
                     "group": "Z Image",
+                    "root": "en/api-reference/image-series/brands/z-image",
                     "pages": [
-                      "en/api-reference/image-series/brands/z-image",
                       "en/api-reference/image-series/models/zimage-makeup",
                       "en/api-reference/image-series/models/zimage-makeup-async"
                     ]
@@ -568,8 +568,8 @@
                   "en/api-reference/video-series/overview",
                   {
                     "group": "MiniMax",
+                    "root": "en/api-reference/video-series/brands/minimax",
                     "pages": [
-                      "en/api-reference/video-series/brands/minimax",
                       "en/api-reference/video-series/models/minimax-h3-endframe",
                       "en/api-reference/video-series/models/minimax-h3-endframe-async",
                       "en/api-reference/video-series/models/minimax-h3-fl2va",
@@ -582,8 +582,8 @@
                   },
                   {
                     "group": "Veo / Omni Flash",
+                    "root": "en/api-reference/video-series/brands/veo",
                     "pages": [
-                      "en/api-reference/video-series/brands/veo",
                       "en/api-reference/video-series/models/omni_flash",
                       "en/api-reference/video-series/models/omni_flash-10s",
                       "en/api-reference/video-series/models/omni_flash-4s",
@@ -593,16 +593,16 @@
                   },
                   {
                     "group": "LTX",
+                    "root": "en/api-reference/video-series/brands/ltx",
                     "pages": [
-                      "en/api-reference/video-series/brands/ltx",
                       "en/api-reference/video-series/models/ltx2.3-kj",
                       "en/api-reference/video-series/models/ltx2.3-kj-async"
                     ]
                   },
                   {
                     "group": "Grok Imagine",
+                    "root": "en/api-reference/video-series/brands/grok-imagine",
                     "pages": [
-                      "en/api-reference/video-series/brands/grok-imagine",
                       "en/api-reference/video-series/models/grok-imagine-video-1.5"
                     ]
                   }
@@ -614,8 +614,8 @@
                   "en/api-reference/social-data/overview",
                   {
                     "group": "TikTok",
+                    "root": "en/api-reference/social-data/brands/tiktok",
                     "pages": [
-                      "en/api-reference/social-data/brands/tiktok",
                       "en/api-reference/social-data/tiktok/post-detail",
                       "en/api-reference/social-data/tiktok/user-profile",
                       "en/api-reference/social-data/tiktok/user-posts",
@@ -624,8 +624,8 @@
                   },
                   {
                     "group": "Instagram",
+                    "root": "en/api-reference/social-data/brands/instagram",
                     "pages": [
-                      "en/api-reference/social-data/brands/instagram",
                       "en/api-reference/social-data/instagram/post-detail",
                       "en/api-reference/social-data/instagram/user-profile",
                       "en/api-reference/social-data/instagram/user-posts",
@@ -634,8 +634,8 @@
                   },
                   {
                     "group": "YouTube",
+                    "root": "en/api-reference/social-data/brands/youtube",
                     "pages": [
-                      "en/api-reference/social-data/brands/youtube",
                       "en/api-reference/social-data/youtube/video-detail",
                       "en/api-reference/social-data/youtube/channel-info",
                       "en/api-reference/social-data/youtube/channel-videos",
@@ -644,8 +644,8 @@
                   },
                   {
                     "group": "X",
+                    "root": "en/api-reference/social-data/brands/x",
                     "pages": [
-                      "en/api-reference/social-data/brands/x",
                       "en/api-reference/social-data/x/tweet-detail",
                       "en/api-reference/social-data/x/user-profile",
                       "en/api-reference/social-data/x/user-tweets",
@@ -660,8 +660,8 @@
                   "en/api-reference/publishing/overview",
                   {
                     "group": "Connecting Accounts",
+                    "root": "en/api-reference/publishing/connecting-accounts",
                     "pages": [
-                      "en/api-reference/publishing/connecting-accounts",
                       "en/api-reference/publishing/start-connect",
                       "en/api-reference/publishing/list-accounts",
                       "en/api-reference/publishing/disconnect"
@@ -669,16 +669,16 @@
                   },
                   {
                     "group": "Posts",
+                    "root": "en/api-reference/publishing/posts",
                     "pages": [
-                      "en/api-reference/publishing/posts",
                       "en/api-reference/publishing/create-post",
                       "en/api-reference/publishing/get-post"
                     ]
                   },
                   {
                     "group": "Media",
+                    "root": "en/api-reference/publishing/media",
                     "pages": [
-                      "en/api-reference/publishing/media",
                       "en/api-reference/publishing/presign",
                       "en/api-reference/publishing/upload"
                     ]
