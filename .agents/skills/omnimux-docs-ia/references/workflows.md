@@ -14,16 +14,18 @@ Product monorepo `AGENTS.md` should point at this skill for the how.
 
 1. Confirm model on live `GET /api/pricing` (or models list).  
 2. Map brand → existing L2 or create brand (vendor-facing name).  
-3. Create `cn|en/api-reference/{text|image|video}-series/models/<model-id>.mdx` with Panel examples.  
+3. Create `cn|en/api-reference/{text|image|video}-series/models/<model-id>.mdx` with:
+   - P1 bullets · identity · endpoint · P0 Authorizations/Body/Response tables  
+   - `<Panel>` RequestExample + ResponseExample including **402**  
 4. Optionally refresh `brands/<brand>.mdx` model table (deep link OK).  
 5. `docs.json`: under brand **group**, append only the model path (no brand hub child).  
-6. Deploy / smoke URL 200.
+6. Deploy / smoke URL 200; verify right rail.
 
 ## W2. Add social-data capability
 
 1. Confirm model + vendor platform on pricing; tags include social-data.  
 2. CN L3 = capability name; EN L3 = English capability.  
-3. Page under `social-data/<platform>/<slug>.mdx`; body documents `model` id + business fields.  
+3. Page under `social-data/<platform>/<slug>.mdx`; identity + **Body field rows** for business keys.  
 4. RequestExample includes dummy messages + required field.  
 5. Register under platform group in `docs.json`.  
 6. Vendor meta on product side stays **platform brand**, not TikHub.
@@ -61,6 +63,16 @@ curl -sS -o /dev/null -w '%{http_code}\n' https://docs.omnimux.ai/cn/api-referen
 ```
 
 Desktop check: example curl `getBoundingClientRect().left` should be **> 50% viewport width** (right rail), not content column only.
+
+Callable L3 checklist: page text includes Authorizations/鉴权 + Body/请求体 (or Path) + 402 sample.
+
+## W8. Micro-optimization (detail loop)
+
+1. Ego or live compare vs Evolink / self when improving page shape.  
+2. List gaps → **human confirm**.  
+3. Update **skill** (`content-templates` / hard rules) first.  
+4. Then regenerate or edit MDX.  
+5. Never ship content that contradicts skill.
 
 ## W7. OpenAPI sync
 

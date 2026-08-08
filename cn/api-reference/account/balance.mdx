@@ -3,13 +3,40 @@ title: "查询余额与资料"
 description: "GET /api/user/self"
 ---
 
+- 账户管理用户 API
+- 鉴权多为 access token + `New-Api-User`（设备码流程见对应页）
+
+## 身份
+
 | 字段 | 值 |
 | --- | --- |
-| 方法 | `GET` |
-| 路径 | `https://omnimux.ai/api/user/self` |
-| 鉴权 | access token |
+| 系列 | 账户管理 |
+| 能力 | 查询余额与资料 |
 
+## 接口
 
+| 方法 | 路径 |
+| --- | --- |
+| `GET` | `/api/user/self` |
+
+Base URL：`https://omnimux.ai`
+
+## 鉴权
+
+| 名称 | 位置 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | 是 | `Bearer <access_token>`（用户 access token） |
+| `New-Api-User` | header | string | 是 | 当前用户 id |
+
+## 请求体 / 参数
+
+以右栏 cURL 与线上为准。
+
+## 响应
+
+### 200
+
+成功时返回账户相关字段（如 `quota` / `used_quota`）。错误见右栏与 [错误码](/cn/api-reference/errors)。
 
 <Panel>
 
@@ -39,6 +66,13 @@ description: "GET /api/user/self"
 
 ```json 401
 { "success": false, "message": "Unauthorized" }
+```
+
+```json 402
+{
+  "success": false,
+  "message": "Insufficient quota. Please top up your account."
+}
 ```
 
 </ResponseExample>

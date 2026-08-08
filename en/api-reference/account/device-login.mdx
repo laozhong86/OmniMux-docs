@@ -3,84 +3,90 @@ title: "Device login"
 description: "Exchange a device_code for a user access token (RFC 8628-style) for CLI and integrators."
 ---
 
-Device login lets the **OmniMux CLI** (`omnimux login`) or your own client obtain a **user access token** without embedding passwords.  
-Use that token for [Social Ops](/en/api-reference/social-ops) and other user APIs — **not** as an AI gateway `sk-` key.
+- Account management user API
+- Usually access token + `New-Api-User` (see device-login for bootstrap)
 
-## Base URL
+## Identity
 
-```text
-https://omnimux.ai
-```
-
-## Flow
-
-```text
-1. POST /api/user/device/code     → device_code + user_code + verification URL
-2. User opens verification_uri in a browser (must be signed in to the console)
-3. Client polls POST /api/user/device/token
-4. On approval: access_token + user_id
-```
-
-## POST /api/user/device/code
-
-Create a device/user code pair. **No auth required.**
-
-```bash
-curl -sS -X POST https://omnimux.ai/api/user/device/code \
-  -H "Content-Type: application/json" \
-  -d '{"client_name":"my-cli"}'
-```
-
-| Field | Notes |
+| Field | Value |
 | --- | --- |
-| `client_name` | Optional device label |
+| Series | Account |
+| Capability | Device login |
 
-Success `data` includes `device_code`, `user_code`, `verification_uri`, `verification_uri_complete`, `expires_in`, `interval`.
+## Endpoint
 
-## POST /api/user/device/token
-
-Exchange `device_code` for an access token. **No auth.** Returns pending until the user approves.
-
-```bash
-curl -sS -X POST https://omnimux.ai/api/user/device/token \
-  -H "Content-Type: application/json" \
-  -d '{
-    "device_code": "'"$DEVICE_CODE"'",
-    "grant_type": "urn:ietf:params:oauth:grant-type:device_code"
-  }'
-```
-
-Respect `interval` when polling. On success, call user APIs with:
-
-```http
-Authorization: Bearer <access_token>
-New-Api-User: <user_id>
-```
-
-## POST /api/user/device/approve · deny
-
-Used by the **signed-in browser** confirmation page (`https://omnimux.ai/cli/login`).  
-Integrators usually only need to open `verification_uri` for the user.
-
-## CLI
-
-| Step | CLI |
+| Method | Path |
 | --- | --- |
-| Full flow | `omnimux login` |
-| Print URL only | `omnimux login --no-open` |
+| `GET` | `` |
 
-## Security
+Base URL: `https://omnimux.ai`
 
-- Never log or display `device_code` to end users; show `user_code` / verification link only  
-- Access tokens are not `sk-` keys; rotate if leaked  
-- Restart from `device/code` after expiry
+## Authorizations
 
-## Related
+| Name | In | Type | Required | Description |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | yes | `Bearer <access_token>` |
+| `New-Api-User` | header | string | yes | Current user id |
 
-- [Social Ops](/en/api-reference/social-ops)  
-- [Authentication](/en/guides/authentication)
+## Body / parameters
+
+Follow the right-rail cURL.
+
+## Response
+
+### 200
+
+Account fields such as `quota` / `used_quota` when applicable. Errors: right rail and [Error codes](/en/api-reference/errors).
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url https://api.omnimux.ai/v1/video/generations/$TASK_ID \
+  --header 'Authorization: Bearer <token>'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200
+{ "ok": true }
+```
+
+```json 400
+{ "error": { "message": "Invalid request", "type": "invalid_request_error", "code": "bad_request" } }
+```
+
+```json 401
+{ "error": { "message": "Invalid token", "type": "authentication_error", "code": "unauthorized" } }
+```
+
+```json 402
+{
+  "error": {
+    "message": "Insufficient quota. Please top up your account.",
+    "type": "insufficient_quota",
+    "code": "insufficient_quota"
+  }
+}
+```
+
+```json 403
+{ "error": { "message": "Forbidden", "type": "permission_error", "code": "forbidden" } }
+```
+
+```json 429
+{ "error": { "message": "Rate limit exceeded", "type": "rate_limit_error", "code": "rate_limit_exceeded" } }
+```
+
+```json 500
+{ "error": { "message": "Internal server error", "type": "server_error", "code": "internal_error" } }
+```
 
 
-## Request / response examples
+</ResponseExample>
 
-See Chinese page for full curl and status examples (device code + poll token).
+</Panel>

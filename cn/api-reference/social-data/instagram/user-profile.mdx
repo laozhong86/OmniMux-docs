@@ -5,13 +5,19 @@ description: "社交数据 · Instagram · `instagram-user`"
 api: "POST https://api.omnimux.ai/v1/chat/completions"
 ---
 
+- 社交数据 **读取** 能力：OpenAI Chat Completions 形态，鉴权 `sk-`
+- `model` 为 `instagram-user`；`messages` 可传 dummy（如 `"."`）
+- 业务参数放在请求体 **top-level**（如 `username`），不要塞进 system prompt
+- 与 **社媒发布** 无关（发布见连接账户 / 帖子）
+
+## 身份
+
 | 字段 | 值 |
 | --- | --- |
 | 系列 | 社交数据 |
 | 平台 | Instagram |
 | 能力 | 用户资料 |
 | model | `instagram-user` |
-| 主要业务字段 | `username` |
 
 ## 接口
 
@@ -19,9 +25,34 @@ api: "POST https://api.omnimux.ai/v1/chat/completions"
 | --- | --- |
 | `POST` | `/v1/chat/completions` |
 
-Base：`https://api.omnimux.ai` · 鉴权：`sk-` · dummy `messages` + 业务字段 top-level
+Base URL：`https://api.omnimux.ai`
 
+## 鉴权
 
+| 名称 | 位置 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | 是 | `Bearer sk-...`（API Key） |
+
+## 请求体
+
+| 字段 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| `model` | string | 是 | 固定为 `instagram-user` |
+| `messages` | array | 是 | 可传 dummy user message |
+| `username` | string | 是 | 平台用户名 |
+
+## 响应
+
+### 200
+
+| 字段 | 类型 | 说明 |
+| --- | --- | --- |
+| `id` | string | 完成 id |
+| `object` | string | `chat.completion` |
+| `model` | string | `instagram-user` |
+| `choices[].message.content` | string | 上游平台 JSON 字符串（结构因接口而异） |
+
+错误形态见右栏示例与 [错误码](/cn/api-reference/errors)。
 
 <Panel>
 
@@ -79,6 +110,16 @@ curl --request POST \
     "message": "Invalid token or authentication failed",
     "type": "authentication_error",
     "code": "unauthorized"
+  }
+}
+```
+
+```json 402
+{
+  "error": {
+    "message": "Insufficient quota. Please top up your account.",
+    "type": "insufficient_quota",
+    "code": "insufficient_quota"
   }
 }
 ```

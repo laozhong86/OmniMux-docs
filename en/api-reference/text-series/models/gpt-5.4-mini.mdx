@@ -4,6 +4,12 @@ description: "GPT · model `gpt-5.4-mini`"
 api: "POST https://api.omnimux.ai/v1/chat/completions"
 ---
 
+- OpenAI Chat Completions compatible
+- Select this page's model via body `model` (`gpt-5.4-mini`)
+- Synchronous by default; set `stream: true` for SSE
+
+## Identity
+
 | Field | Value |
 | --- | --- |
 | Series | Language series |
@@ -16,9 +22,37 @@ api: "POST https://api.omnimux.ai/v1/chat/completions"
 | --- | --- |
 | `POST` | `/v1/chat/completions` |
 
-Base URL: `https://api.omnimux.ai` · Auth: `Authorization: Bearer sk-...`
+Base URL: `https://api.omnimux.ai`
 
+## Authorizations
 
+| Name | In | Type | Required | Description |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | yes | `Bearer sk-...` (API key) |
+
+## Body
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `model` | string | yes | Must be `gpt-5.4-mini` |
+| `messages` | array | yes | OpenAI messages (`role` + `content`) |
+| `stream` | boolean | no | SSE when `true` |
+| `temperature` | number | no | Sampling temperature |
+| `max_tokens` | integer | no | Max completion tokens |
+
+## Response
+
+### 200
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | string | Completion id |
+| `object` | string | Usually `chat.completion` |
+| `model` | string | Model used |
+| `choices` | array | Results (includes `message`) |
+| `usage` | object | Token usage |
+
+Errors: right-rail samples and [Error codes](/en/api-reference/errors).
 
 <Panel>
 
@@ -84,6 +118,16 @@ curl --request POST \
     "message": "Invalid token or authentication failed",
     "type": "authentication_error",
     "code": "unauthorized"
+  }
+}
+```
+
+```json 402
+{
+  "error": {
+    "message": "Insufficient quota. Please top up your account.",
+    "type": "insufficient_quota",
+    "code": "insufficient_quota"
   }
 }
 ```

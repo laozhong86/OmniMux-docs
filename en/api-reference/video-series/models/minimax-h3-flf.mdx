@@ -4,9 +4,53 @@ description: "Video · `minimax-h3-flf`"
 api: "POST https://api.omnimux.ai/v1/video/generations"
 ---
 
-`POST /v1/video/generations` with model `minimax-h3-flf`. Poll `GET /v1/video/generations/{task_id}`.
+- Create: `POST /v1/video/generations` with `model` `minimax-h3-flf`
+- Async: poll [Video task](/en/api-reference/tasks/video-task) with returned `task_id`
+- Persist result URLs promptly (upstream links may expire)
 
+## Identity
 
+| Field | Value |
+| --- | --- |
+| Series | Video series |
+| Brand | MiniMax |
+| model | `minimax-h3-flf` |
+
+## Endpoint
+
+| Method | Path |
+| --- | --- |
+| `POST` | `/v1/video/generations` |
+| `GET` | `/v1/video/generations/{task_id}` |
+
+Base URL: `https://api.omnimux.ai`
+
+## Authorizations
+
+| Name | In | Type | Required | Description |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | yes | `Bearer sk-...` (API key) |
+
+## Body
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `model` | string | yes | Must be `minimax-h3-flf` |
+| `prompt` | string | conditional | Required for text-to-video |
+| `seconds` / `duration` | number | no | Duration in seconds (bounded) |
+| `size` / `resolution` | string | no | Resolution (model-specific) |
+| `image` / `images` | string/array | no | Image-to-video references |
+
+## Response
+
+### 200 (create)
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `task_id` | string | Task id for polling |
+| `status` | string | e.g. `pending` / `processing` / `completed` |
+
+See [Video task](/en/api-reference/tasks/video-task). Errors: right rail and [Error codes](/en/api-reference/errors).
 
 <Panel>
 
@@ -21,5 +65,54 @@ api: "POST https://api.omnimux.ai/v1/video/generations"
 
 </RequestExample>
 
-</Panel>
 
+<ResponseExample>
+
+```json 200
+{
+  "id": "chatcmpl-example",
+  "object": "chat.completion",
+  "model": "minimax-h3-flf",
+  "choices": [
+    {
+      "index": 0,
+      "message": { "role": "assistant", "content": "…" },
+      "finish_reason": "stop"
+    }
+  ]
+}
+```
+
+```json 400
+{ "error": { "message": "Invalid request", "type": "invalid_request_error", "code": "bad_request" } }
+```
+
+```json 401
+{ "error": { "message": "Invalid token", "type": "authentication_error", "code": "unauthorized" } }
+```
+
+```json 402
+{
+  "error": {
+    "message": "Insufficient quota. Please top up your account.",
+    "type": "insufficient_quota",
+    "code": "insufficient_quota"
+  }
+}
+```
+
+```json 403
+{ "error": { "message": "Forbidden", "type": "permission_error", "code": "forbidden" } }
+```
+
+```json 429
+{ "error": { "message": "Rate limit exceeded", "type": "rate_limit_error", "code": "rate_limit_exceeded" } }
+```
+
+```json 500
+{ "error": { "message": "Internal server error", "type": "server_error", "code": "internal_error" } }
+```
+
+</ResponseExample>
+
+</Panel>

@@ -4,13 +4,50 @@ description: "POST /api/social/v1/connect"
 api: "POST https://omnimux.ai/api/social/v1/connect"
 ---
 
+- 社媒 **发布** 用户 API（非 `sk-` 社交数据读）
+- Base：`https://omnimux.ai`；鉴权 access token + `New-Api-User`
+- 连接账户命名对齐 Zernio **Connecting Accounts**
+
+## 身份
+
 | 字段 | 值 |
 | --- | --- |
-| 方法 | `POST` |
-| 路径 | `https://omnimux.ai/api/social/v1/connect` |
-| 鉴权 | access token + `New-Api-User` |
+| 系列 | 社媒发布 |
+| 能力 | 发起连接 |
 
+## 接口
 
+| 方法 | 路径 |
+| --- | --- |
+| `POST` | `/api/social/v1/connect` |
+
+Base URL：`https://omnimux.ai`
+
+## 鉴权
+
+| 名称 | 位置 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | 是 | `Bearer <access_token>`（用户 access token） |
+| `New-Api-User` | header | string | 是 | 当前用户 id |
+
+## 请求体 / 参数
+
+以右栏 cURL 为准。常见字段：
+
+| 字段 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| （见示例） | — | — | 不同资源（连接 / 帖子 / 媒体）字段不同 |
+
+## 响应
+
+### 200
+
+| 字段 | 类型 | 说明 |
+| --- | --- | --- |
+| `success` | boolean | 是否成功 |
+| `data` | object | 业务数据 |
+
+错误见右栏与 [错误码](/cn/api-reference/errors)。
 
 <Panel>
 
@@ -37,6 +74,13 @@ curl --request POST \
 {
   "success": false,
   "message": "Unauthorized"
+}
+```
+
+```json 402
+{
+  "success": false,
+  "message": "Insufficient quota. Please top up your account."
 }
 ```
 

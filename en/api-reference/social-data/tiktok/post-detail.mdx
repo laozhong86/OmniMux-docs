@@ -5,16 +5,54 @@ description: "Social data · `tiktok-video`"
 api: "POST https://api.omnimux.ai/v1/chat/completions"
 ---
 
+- Social **data read** via OpenAI Chat Completions shape; auth `sk-`
+- `model` is `tiktok-video`; `messages` may be a dummy (e.g. `"."`)
+- Business params are **top-level** body fields (e.g. `aweme_id`)
+- Not publishing (see Connecting Accounts / Posts)
+
+## Identity
+
 | Field | Value |
 | --- | --- |
+| Series | Social data |
+| Platform | TikTok |
+| Capability | Video detail |
 | model | `tiktok-video` |
-| Business field | `aweme_id` |
 
 ## Endpoint
 
-`POST /v1/chat/completions` · `https://api.omnimux.ai` · `sk-`
+| Method | Path |
+| --- | --- |
+| `POST` | `/v1/chat/completions` |
 
+Base URL: `https://api.omnimux.ai`
 
+## Authorizations
+
+| Name | In | Type | Required | Description |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | yes | `Bearer sk-...` (API key) |
+
+## Body
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `model` | string | yes | Must be `tiktok-video` |
+| `messages` | array | yes | Dummy user message allowed |
+| `aweme_id` | string | yes | Primary business key for this capability |
+
+## Response
+
+### 200
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | string | Completion id |
+| `object` | string | `chat.completion` |
+| `model` | string | `tiktok-video` |
+| `choices[].message.content` | string | Upstream platform JSON as string |
+
+Errors: right rail and [Error codes](/en/api-reference/errors).
 
 <Panel>
 
@@ -33,5 +71,54 @@ api: "POST https://api.omnimux.ai/v1/chat/completions"
 
 </RequestExample>
 
-</Panel>
 
+<ResponseExample>
+
+```json 200
+{
+  "id": "chatcmpl-example",
+  "object": "chat.completion",
+  "model": "tiktok-video",
+  "choices": [
+    {
+      "index": 0,
+      "message": { "role": "assistant", "content": "…" },
+      "finish_reason": "stop"
+    }
+  ]
+}
+```
+
+```json 400
+{ "error": { "message": "Invalid request", "type": "invalid_request_error", "code": "bad_request" } }
+```
+
+```json 401
+{ "error": { "message": "Invalid token", "type": "authentication_error", "code": "unauthorized" } }
+```
+
+```json 402
+{
+  "error": {
+    "message": "Insufficient quota. Please top up your account.",
+    "type": "insufficient_quota",
+    "code": "insufficient_quota"
+  }
+}
+```
+
+```json 403
+{ "error": { "message": "Forbidden", "type": "permission_error", "code": "forbidden" } }
+```
+
+```json 429
+{ "error": { "message": "Rate limit exceeded", "type": "rate_limit_error", "code": "rate_limit_exceeded" } }
+```
+
+```json 500
+{ "error": { "message": "Internal server error", "type": "server_error", "code": "internal_error" } }
+```
+
+</ResponseExample>
+
+</Panel>

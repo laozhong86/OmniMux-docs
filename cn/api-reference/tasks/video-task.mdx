@@ -4,13 +4,48 @@ description: "GET https://api.omnimux.ai/v1/video/generations/{task_id}"
 api: "GET https://api.omnimux.ai/v1/video/generations/{task_id}"
 ---
 
+- 查询 AI 异步视频任务状态与结果
+- `task_id` 来自对应创建接口响应，不是社媒帖子 id
+- 完成后请及时保存产物 URL
+
+## 身份
+
 | 字段 | 值 |
 | --- | --- |
-| 方法 | `GET` |
-| URL | `https://api.omnimux.ai/v1/video/generations/{task_id}` |
-| 鉴权 | `sk-` Bearer |
+| 系列 | 任务管理 |
+| 能力 | 查询视频任务 |
 
+## 接口
 
+| 方法 | 路径 |
+| --- | --- |
+| `GET` | `/v1/video/generations/{task_id}` |
+
+Base URL：`https://api.omnimux.ai`
+
+## 鉴权
+
+| 名称 | 位置 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | 是 | `Bearer sk-...`（API Key） |
+
+## 路径参数
+
+| 字段 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| `task_id` | string | 是 | 创建任务响应中的 id；替换 path 中的 `{task_id}` |
+
+## 响应
+
+### 200
+
+| 字段 | 类型 | 说明 |
+| --- | --- | --- |
+| `task_id` / `id` | string | 任务 id |
+| `status` | string | 如 `pending` / `processing` / `completed` / `failed` |
+| `result` / `data` | object | 完成后的产物信息（结构因模型而异） |
+
+错误见右栏与 [错误码](/cn/api-reference/errors)。创建见视频创建页（对应系列 model 页）。
 
 <Panel>
 
@@ -35,6 +70,16 @@ api: "GET https://api.omnimux.ai/v1/video/generations/{task_id}"
 
 ```json 401
 { "error": { "message": "Invalid token", "type": "authentication_error", "code": "unauthorized" } }
+```
+
+```json 402
+{
+  "error": {
+    "message": "Insufficient quota. Please top up your account.",
+    "type": "insufficient_quota",
+    "code": "insufficient_quota"
+  }
+}
 ```
 
 ```json 404

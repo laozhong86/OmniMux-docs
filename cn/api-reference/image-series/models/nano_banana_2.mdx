@@ -4,9 +4,16 @@ description: "图像 · `nano_banana_2`"
 api: "POST https://api.omnimux.ai/v1/images/generations"
 ---
 
+- 调用 `POST /v1/images/generations`，`model` 为 `nano_banana_2`
+- 请求体至少包含 `model` 与 `prompt`
+- 同步或异步以线上响应为准；若返回 task id，请用任务查询接口轮询
+
+## 身份
+
 | 字段 | 值 |
 | --- | --- |
 | 系列 | 图像系列 |
+| 品牌 | Nano Banana |
 | model | `nano_banana_2` |
 
 ## 接口
@@ -15,9 +22,35 @@ api: "POST https://api.omnimux.ai/v1/images/generations"
 | --- | --- |
 | `POST` | `/v1/images/generations` |
 
-Base：`https://api.omnimux.ai` · `sk-` Bearer
+Base URL：`https://api.omnimux.ai`
 
+## 鉴权
 
+| 名称 | 位置 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | 是 | `Bearer sk-...`（API Key） |
+
+## 请求体
+
+| 字段 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| `model` | string | 是 | 固定为 `nano_banana_2` |
+| `prompt` | string | 是 | 图像描述 / 编辑说明 |
+| `n` | integer | 否 | 生成张数（受网关上限约束） |
+| `size` | string | 否 | 尺寸或宽高比（模型相关） |
+| `quality` | string | 否 | 质量档位（模型相关） |
+
+## 响应
+
+### 200
+
+| 字段 | 类型 | 说明 |
+| --- | --- | --- |
+| `created` | integer | 创建时间戳（若返回） |
+| `data` | array | 图像结果（`url` 或 `b64_json`） |
+| `task_id` / `id` | string | 异步时的任务 id（若返回） |
+
+错误形态见右栏示例与 [错误码](/cn/api-reference/errors)。异步查询见 [查询图像任务](/cn/api-reference/tasks/image-task)。
 
 <Panel>
 
@@ -57,6 +90,16 @@ curl --request POST \
 ```json 401
 {
   "error": { "message": "Invalid token", "type": "authentication_error", "code": "unauthorized" }
+}
+```
+
+```json 402
+{
+  "error": {
+    "message": "Insufficient quota. Please top up your account.",
+    "type": "insufficient_quota",
+    "code": "insufficient_quota"
+  }
 }
 ```
 

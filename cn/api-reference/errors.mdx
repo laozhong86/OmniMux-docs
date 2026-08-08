@@ -12,6 +12,7 @@ AI 网关（`sk-`）与多数用户 API 共用下列 HTTP 语义。具体业务 
 | `200` | 成功 |
 | `400` | 请求参数错误 |
 | `401` | 未鉴权 / Token 无效 |
+| `402` | 额度不足（需充值） |
 | `403` | 无权限（模型未授权、IP 限制等） |
 | `404` | 路径或资源不存在 |
 | `429` | 限流 |
@@ -52,6 +53,16 @@ AI 网关（`sk-`）与多数用户 API 共用下列 HTTP 语义。具体业务 
     "message": "Invalid token or authentication failed",
     "type": "authentication_error",
     "code": "unauthorized"
+  }
+}
+```
+
+```json 402
+{
+  "error": {
+    "message": "Insufficient quota. Please top up your account.",
+    "type": "insufficient_quota",
+    "code": "insufficient_quota"
   }
 }
 ```
