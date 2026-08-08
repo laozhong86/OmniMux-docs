@@ -41,6 +41,7 @@ Do **not** invent parallel IA. Live site + `docs.json` + this skill are the sour
 4. **社交数据 ≠ 社媒发布**: TikHub **read** (`sk-` Chat) vs Zernio-path **publish** (access token + `New-Api-User`).  
 5. **连接账户** (CN) = **Connecting Accounts** (EN).  
 6. **No duplicate L2 name under L2**.  
+6b. **Lean nav**: do not show meta 概览 (API 手册概览 / 文档覆盖说明 / 错误码 group). Errors live on capability Response tabs. Prefer thin, callable paths only.  
 7. **Callable L3 contract = Mintlify `openapi` frontmatter** pointing at `openapi/ops/**` single-operation file (`openapi: "path/to/op.json METHOD /path"`). Mintlify must render **Authorizations / Body field tree / Response** + right-rail Try it (Evolink layout).  
 8. **Forbidden**: embedding full OpenAPI YAML/JSON under `## OpenAPI` as a code fence (renders as source dump — “越改越乱”).  
 9. **Forbidden as sole contract**: identity + 5-row Markdown Body only.  

@@ -68,14 +68,6 @@
             "tab": "API 手册",
             "groups": [
               {
-                "group": "概览",
-                "pages": [
-                  "cn/api-reference/overview",
-                  "cn/api-reference/coverage",
-                  "cn/api-reference/errors"
-                ]
-              },
-              {
                 "group": "语言系列",
                 "pages": [
                   "cn/api-reference/text-series/overview",
@@ -412,14 +404,6 @@
           {
             "tab": "API manual",
             "groups": [
-              {
-                "group": "Overview",
-                "pages": [
-                  "en/api-reference/overview",
-                  "en/api-reference/coverage",
-                  "en/api-reference/errors"
-                ]
-              },
               {
                 "group": "Language series",
                 "pages": [
