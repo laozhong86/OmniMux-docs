@@ -1,0 +1,56 @@
+---
+title: "音频系列"
+description: "TTS、转录与翻译的产品导读。"
+---
+
+音频能力走 **AI 网关**（`sk-` Bearer），Base URL：
+
+```text
+https://api.omnimux.ai
+```
+
+## 你能做什么
+
+| 能力 | 方法 | 路径 | 说明 |
+| --- | --- | --- | --- |
+| 文本转语音 (TTS) | `POST` | `/v1/audio/speech` | 返回音频流/文件（以渠道为准） |
+| 音频转录 | `POST` | `/v1/audio/transcriptions` | 语音 → 文本（multipart 常见） |
+| 音频翻译 | `POST` | `/v1/audio/translations` | 语音 → 目标语言文本 |
+
+完整请求字段与 content-type 见 [附录 OpenAPI](/cn/api-reference/appendix/openapi) 中 Audio 相关操作。
+
+## 鉴权
+
+```http
+Authorization: Bearer sk-xxxxxxxx
+```
+
+## 快速示例（TTS）
+
+```bash
+curl -sS https://api.omnimux.ai/v1/audio/speech \
+  -H "Authorization: Bearer $OMNIMUX_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "YOUR_TTS_MODEL",
+    "input": "Hello from OmniMux",
+    "voice": "alloy"
+  }' \
+  --output speech.mp3
+```
+
+`model` / `voice` 以你账户可用模型与上游支持为准。
+
+## 与其它系列的边界
+
+| 需求 | 去哪 |
+| --- | --- |
+| 文生图 / 图编辑 | [图像系列](/cn/api-reference/image-series/overview) |
+| 文生视频 | [视频系列](/cn/api-reference/video-series/overview) |
+| Chat 文本对话 | [协议集成](/cn/api-reference/protocol/overview) |
+| 社媒发帖 | [Social Ops](/cn/api-reference/social-ops) |
+
+## 相关
+
+- [附录 · OpenAPI 试调用](/cn/api-reference/appendix/openapi)  
+- [模型列表](/cn/guides/models)  

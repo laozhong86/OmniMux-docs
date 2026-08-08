@@ -1,0 +1,68 @@
+---
+title: "Video series"
+description: "Unified video tasks, OpenAI-style /v1/videos, Kling, and Jimeng path guide."
+---
+
+Video generation uses the **AI gateway** (`sk-` Bearer). Base URL:
+
+```text
+https://api.omnimux.ai
+```
+
+Most video APIs are **async**: create → `task_id` → poll → result URL. See [Async tasks](/en/api-reference/cross-cutting/async-tasks).
+
+## Primary paths (prefer these)
+
+| Capability | Method | Path | Notes |
+| --- | --- | --- | --- |
+| Create task | `POST` | `/v1/video/generations` | Unified async video entry (multi-channel) |
+| Get task | `GET` | `/v1/video/generations/{task_id}` | Status and result |
+| OpenAI Videos-style create | `POST` | `/v1/videos` | Compatible with some Sora-style clients |
+| Status / content | `GET` | `/v1/videos/{task_id}` · `/v1/videos/{task_id}/content` | Status and binary/content |
+
+## Channel-native paths
+
+| Family | Create | Query |
+| --- | --- | --- |
+| Kling text-to-video | `POST /kling/v1/videos/text2video` | `GET .../text2video/{task_id}` |
+| Kling image-to-video | `POST /kling/v1/videos/image2video` | `GET .../image2video/{task_id}` |
+| Jimeng | `POST /jimeng/` | Follow the create response |
+
+Enabled models and paths depend on channel config. When unsure, call `GET /v1/models` and prefer `/v1/video/generations` if the model is on the unified task adapter.
+
+## Auth
+
+```http
+Authorization: Bearer sk-xxxxxxxx
+Content-Type: application/json
+```
+
+## Quick example
+
+```bash
+curl -sS https://api.omnimux.ai/v1/video/generations \
+  -H "Authorization: Bearer $OMNIMUX_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "YOUR_VIDEO_MODEL",
+    "prompt": "slow pan across a product on a table"
+  }'
+
+curl -sS "https://api.omnimux.ai/v1/video/generations/$TASK_ID" \
+  -H "Authorization: Bearer $OMNIMUX_API_KEY"
+```
+
+## Boundaries
+
+| Need | Go to |
+| --- | --- |
+| Still image only | [Image series](/en/api-reference/image-series/overview) |
+| TTS / speech | [Audio series](/en/api-reference/audio-series/overview) |
+| Publish to social platforms | [Social Ops](/en/api-reference/social-ops) |
+| Chat / Claude / Gemini map | [Protocol](/en/api-reference/protocol/overview) |
+
+## Related
+
+- [Async tasks](/en/api-reference/cross-cutting/async-tasks)  
+- [Appendix · OpenAPI try-it](/en/api-reference/appendix/openapi)  
+- [Models](/en/guides/models)  

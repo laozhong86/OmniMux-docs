@@ -1,0 +1,36 @@
+---
+title: "附录 · OpenAPI"
+description: "AI 网关公开 OpenAPI 快照说明；侧栏后续条目为可试调用的端点。"
+---
+
+公开站点的 **AI 网关** 接口试调用来自仓库内快照：
+
+```text
+openapi/relay.json
+```
+
+该文件从产品仓库 `docs/openapi/relay.json` 同步，**不包含** Admin OpenAPI，也 **不包含** Social Ops 等非中继用户 API。
+
+## 使用方式
+
+1. 在本「附录」分组下方展开各路径（由 Mintlify 从 OpenAPI 生成）  
+2. 填写 `Authorization: Bearer sk-...` 与请求体后试调用  
+3. Base URL 使用 `https://api.omnimux.ai`（Playground 配置以站点为准）
+
+## 与 MDX 文档的关系
+
+| 内容 | 形态 |
+| --- | --- |
+| 能力导读（图 / 视频 / 音频 / Social） | MDX 系列页 |
+| 协议对照表 | [协议集成](/cn/api-reference/protocol/overview) |
+| 请求字段、Schema、try-it | 本附录 OpenAPI 生成页 |
+| Social Ops / 设备码登录 | 独立 MDX（不在本 JSON 内） |
+
+## 同步
+
+产品 OpenAPI 变更后，应在本仓库刷新 `openapi/relay.json` 再发布。占位或未实现路径不应进入公开快照。
+
+## 相关
+
+- [文档覆盖说明](/cn/api-reference/coverage)  
+- [协议集成](/cn/api-reference/protocol/overview)  

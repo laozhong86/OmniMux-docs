@@ -30,12 +30,18 @@
 - **Domains (sole primary)** — console `https://omnimux.ai`, API `https://api.omnimux.ai`, docs `https://docs.omnimux.ai`. Never document retired hosts (`*.geminix.cc`) or upstream defaults (`docs.newapi.pro`)
 - Prefer **token** or **API key** for gateway docs; name **access token** when documenting Social Ops / CLI login
 
-## Site navigation
+## Site navigation (API manual IA)
 
 - Top tabs (both locales): **用户指南 / User guide** · **API 手册 / API manual** · **集成指南 / Integration guide**
 - User guide: intro, quickstart, auth, Base URL, models
-- API manual: overview · **Social Ops** · OpenAPI (`openapi/relay.json`)
+- **API manual hybrid IA** (series-first discovery + protocol + OpenAPI appendix):
+  1. **Overview** — hub + `*/api-reference/coverage` (tiers A/B/C)
+  2. **Cross-cutting** — device login, async tasks
+  3. **Series** — image / video / audio overviews + **Social Ops** (first-class, not buried under OpenAPI)
+  4. **Protocol** — OpenAI / Anthropic / Gemini path map for SDK integrators
+  5. **Appendix** — OpenAPI notes + generated try-it from `openapi/relay.json`
 - Integration guide: CLI / desktop / OpenClaw client pages under `*/integration-guide/`
+- Agents MUST preserve this hybrid shape when adding pages: new **capability** → series (or Social) MDX; new **protocol endpoint** → OpenAPI sync + optional protocol table row; do **not** default to dumping only raw OpenAPI sidebar without a series or Social entry when the surface is user-facing.
 
 ## Style
 
@@ -54,6 +60,7 @@
 - Do not invent model availability; point to `GET /v1/models` and the console
 - When OpenAPI changes in the product repo, refresh `openapi/relay.json` (manual or CI)
 - When product adds/changes **non-OpenAPI user APIs** (Social Ops, device login user endpoints used by CLI, etc.), update the matching MDX pages in **both** `cn/` and `en/` and register them in `docs.json` in the **same** docs change set
+- When adding a major modality or product family, add or extend the matching **series overview** under `*/api-reference/{image,video,audio}-series/` (or Social Ops) — do not leave discovery only under OpenAPI try-it
 
 ## Public API documentation gate (mandatory)
 
@@ -64,9 +71,11 @@ Agents working on **OmniMux product** user-facing HTTP APIs MUST treat Mintlify 
    - User-facing description (cn + en when both locales exist)
    - Auth mode (gateway `sk-` vs user access token)
    - Request/response fields that callers need
+   - Series / Social / cross-cutting MDX when the surface is capability-shaped
    - `docs.json` navigation entry if a new page is added
+   - OpenAPI sync when the path is part of the relay public surface
 3. Product monorepo norms also require this close-out (see OmniMux root `AGENTS.md` → Public docs sync). Shipping code + CLI only, without docs, is **not** done.
-4. Prefer linking from `api-reference/overview` when adding a major surface (as with Social Ops).
+4. Prefer linking from `api-reference/overview` and the matching series page when adding a major surface (as with Social Ops).
 
 ## Local preview
 
