@@ -345,15 +345,6 @@
                   "cn/quickstart"
                 ],
                 "icon": "rocket"
-              },
-              {
-                "group": "基础配置",
-                "pages": [
-                  "cn/guides/authentication",
-                  "cn/guides/base-url",
-                  "cn/guides/models"
-                ],
-                "icon": "settings"
               }
             ],
             "icon": "book-user"
@@ -664,15 +655,6 @@
                   "en/quickstart"
                 ],
                 "icon": "rocket"
-              },
-              {
-                "group": "Setup",
-                "pages": [
-                  "en/guides/authentication",
-                  "en/guides/base-url",
-                  "en/guides/models"
-                ],
-                "icon": "settings"
               }
             ],
             "icon": "book-user"
