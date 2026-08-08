@@ -10,7 +10,7 @@ description: "社交数据 · YouTube · `youtube-search`"
 | 平台 | YouTube |
 | 能力 | 视频搜索 |
 | model | `youtube-search` |
-| 主要业务字段 | `search_query`（search_query） |
+| 主要业务字段 | `search_query` |
 
 ## 接口
 
@@ -52,7 +52,7 @@ curl --request POST \
       "index": 0,
       "message": {
         "role": "assistant",
-        "content": "{ /* 上游平台 JSON 数据，结构因接口而异 */ }"
+        "content": "{ /* 上游平台 JSON，结构因接口而异 */ }"
       },
       "finish_reason": "stop"
     }

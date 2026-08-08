@@ -10,7 +10,7 @@ description: "社交数据 · X · `x-search`"
 | 平台 | X |
 | 能力 | 时间线搜索 |
 | model | `x-search` |
-| 主要业务字段 | `keyword`（keyword） |
+| 主要业务字段 | `keyword` |
 
 ## 接口
 
@@ -52,7 +52,7 @@ curl --request POST \
       "index": 0,
       "message": {
         "role": "assistant",
-        "content": "{ /* 上游平台 JSON 数据，结构因接口而异 */ }"
+        "content": "{ /* 上游平台 JSON，结构因接口而异 */ }"
       },
       "finish_reason": "stop"
     }

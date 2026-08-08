@@ -10,7 +10,7 @@ description: "社交数据 · Instagram · `instagram-search`"
 | 平台 | Instagram |
 | 能力 | 综合搜索 |
 | model | `instagram-search` |
-| 主要业务字段 | `query`（query） |
+| 主要业务字段 | `query` |
 
 ## 接口
 
@@ -52,7 +52,7 @@ curl --request POST \
       "index": 0,
       "message": {
         "role": "assistant",
-        "content": "{ /* 上游平台 JSON 数据，结构因接口而异 */ }"
+        "content": "{ /* 上游平台 JSON，结构因接口而异 */ }"
       },
       "finish_reason": "stop"
     }
