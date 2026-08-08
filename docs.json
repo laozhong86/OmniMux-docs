@@ -76,21 +76,94 @@
                 ]
               },
               {
-                "group": "图像系列",
+                "group": "图像",
+                "openapi": "openapi/relay.json",
+                "root": "cn/api-reference/image-series/overview",
                 "pages": [
-                  "cn/api-reference/image-series/overview"
+                  "POST /v1/images/generations",
+                  "POST /v1/images/edits"
                 ]
               },
               {
-                "group": "视频系列",
+                "group": "视频",
+                "openapi": "openapi/relay.json",
+                "root": "cn/api-reference/video-series/overview",
                 "pages": [
-                  "cn/api-reference/video-series/overview"
+                  {
+                    "group": "统一任务",
+                    "pages": [
+                      "POST /v1/video/generations",
+                      "GET /v1/video/generations/{task_id}"
+                    ]
+                  },
+                  {
+                    "group": "OpenAI Videos 风格",
+                    "pages": [
+                      "POST /v1/videos",
+                      "GET /v1/videos/{task_id}",
+                      "GET /v1/videos/{task_id}/content"
+                    ]
+                  },
+                  {
+                    "group": "Kling",
+                    "pages": [
+                      "POST /kling/v1/videos/text2video",
+                      "GET /kling/v1/videos/text2video/{task_id}",
+                      "POST /kling/v1/videos/image2video",
+                      "GET /kling/v1/videos/image2video/{task_id}"
+                    ]
+                  },
+                  {
+                    "group": "即梦",
+                    "pages": [
+                      "POST /jimeng/"
+                    ]
+                  }
                 ]
               },
               {
-                "group": "音频系列",
+                "group": "音频",
+                "openapi": "openapi/relay.json",
+                "root": "cn/api-reference/audio-series/overview",
                 "pages": [
-                  "cn/api-reference/audio-series/overview"
+                  "POST /v1/audio/speech",
+                  "POST /v1/audio/transcriptions",
+                  "POST /v1/audio/translations"
+                ]
+              },
+              {
+                "group": "文本与模型",
+                "openapi": "openapi/relay.json",
+                "root": "cn/api-reference/protocol/overview",
+                "pages": [
+                  {
+                    "group": "OpenAI 兼容",
+                    "pages": [
+                      "POST /v1/chat/completions",
+                      "POST /v1/completions",
+                      "POST /v1/responses",
+                      "POST /v1/responses/compact",
+                      "POST /v1/embeddings",
+                      "POST /v1/moderations",
+                      "POST /v1/rerank",
+                      "GET /v1/models",
+                      "GET /v1/realtime"
+                    ]
+                  },
+                  {
+                    "group": "Claude",
+                    "pages": [
+                      "POST /v1/messages"
+                    ]
+                  },
+                  {
+                    "group": "Gemini",
+                    "pages": [
+                      "GET /v1beta/models",
+                      "POST /v1beta/models/{model}:generateContent",
+                      "POST /v1/engines/{model}/embeddings"
+                    ]
+                  }
                 ]
               },
               {
@@ -100,20 +173,10 @@
                 ]
               },
               {
-                "group": "协议集成",
-                "pages": [
-                  "cn/api-reference/protocol/overview"
-                ]
-              },
-              {
                 "group": "附录",
                 "pages": [
                   "cn/api-reference/appendix/openapi"
                 ]
-              },
-              {
-                "group": "OpenAPI 试调用",
-                "openapi": "openapi/relay.json"
               }
             ]
           },
@@ -198,21 +261,94 @@
                 ]
               },
               {
-                "group": "Image series",
+                "group": "Image",
+                "openapi": "openapi/relay.json",
+                "root": "en/api-reference/image-series/overview",
                 "pages": [
-                  "en/api-reference/image-series/overview"
+                  "POST /v1/images/generations",
+                  "POST /v1/images/edits"
                 ]
               },
               {
-                "group": "Video series",
+                "group": "Video",
+                "openapi": "openapi/relay.json",
+                "root": "en/api-reference/video-series/overview",
                 "pages": [
-                  "en/api-reference/video-series/overview"
+                  {
+                    "group": "Unified tasks",
+                    "pages": [
+                      "POST /v1/video/generations",
+                      "GET /v1/video/generations/{task_id}"
+                    ]
+                  },
+                  {
+                    "group": "OpenAI Videos style",
+                    "pages": [
+                      "POST /v1/videos",
+                      "GET /v1/videos/{task_id}",
+                      "GET /v1/videos/{task_id}/content"
+                    ]
+                  },
+                  {
+                    "group": "Kling",
+                    "pages": [
+                      "POST /kling/v1/videos/text2video",
+                      "GET /kling/v1/videos/text2video/{task_id}",
+                      "POST /kling/v1/videos/image2video",
+                      "GET /kling/v1/videos/image2video/{task_id}"
+                    ]
+                  },
+                  {
+                    "group": "Jimeng",
+                    "pages": [
+                      "POST /jimeng/"
+                    ]
+                  }
                 ]
               },
               {
-                "group": "Audio series",
+                "group": "Audio",
+                "openapi": "openapi/relay.json",
+                "root": "en/api-reference/audio-series/overview",
                 "pages": [
-                  "en/api-reference/audio-series/overview"
+                  "POST /v1/audio/speech",
+                  "POST /v1/audio/transcriptions",
+                  "POST /v1/audio/translations"
+                ]
+              },
+              {
+                "group": "Text & models",
+                "openapi": "openapi/relay.json",
+                "root": "en/api-reference/protocol/overview",
+                "pages": [
+                  {
+                    "group": "OpenAI-compatible",
+                    "pages": [
+                      "POST /v1/chat/completions",
+                      "POST /v1/completions",
+                      "POST /v1/responses",
+                      "POST /v1/responses/compact",
+                      "POST /v1/embeddings",
+                      "POST /v1/moderations",
+                      "POST /v1/rerank",
+                      "GET /v1/models",
+                      "GET /v1/realtime"
+                    ]
+                  },
+                  {
+                    "group": "Claude",
+                    "pages": [
+                      "POST /v1/messages"
+                    ]
+                  },
+                  {
+                    "group": "Gemini",
+                    "pages": [
+                      "GET /v1beta/models",
+                      "POST /v1beta/models/{model}:generateContent",
+                      "POST /v1/engines/{model}/embeddings"
+                    ]
+                  }
                 ]
               },
               {
@@ -222,20 +358,10 @@
                 ]
               },
               {
-                "group": "Protocol",
-                "pages": [
-                  "en/api-reference/protocol/overview"
-                ]
-              },
-              {
                 "group": "Appendix",
                 "pages": [
                   "en/api-reference/appendix/openapi"
                 ]
-              },
-              {
-                "group": "OpenAPI try-it",
-                "openapi": "openapi/relay.json"
               }
             ]
           },
