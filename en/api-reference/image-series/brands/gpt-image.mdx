@@ -1,0 +1,45 @@
+---
+title: "GPT Image"
+description: "OpenAI · Image series brand guide; shared gateway protocols and model field."
+---
+
+Brand：**GPT Image**（OpenAI）
+
+OpenAI image family. Use `gpt-image2` or `gpt-image2-hd` when enabled.
+
+## Recommended protocols
+
+| Method | Path | Notes |
+| --- | --- | --- |
+| `POST` | `/v1/images/generations` | Text-to-image |
+| `POST` | `/v1/images/edits` | Image edit |
+
+## Example models
+
+| model |
+| --- |
+| `gpt-image2-hd` |
+| `gpt-image2` |
+
+Snapshot examples only — **not** a guarantee of availability. Use `GET /v1/models` and the Model Square.
+
+## Example call
+
+```bash
+curl -sS https://api.omnimux.ai/v1/images/generations \
+  -H "Authorization: Bearer $OMNIMUX_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "gpt-image2-hd",
+    "prompt": "a product on white background",
+    "n": 1
+  }'
+```
+
+## Related
+
+- [Series overview](/en/api-reference/image-series/overview)
+- Sibling **Protocol endpoints** in the sidebar
+- [Async tasks](/en/api-reference/cross-cutting/async-tasks)
+- [Models](/en/guides/models)
+

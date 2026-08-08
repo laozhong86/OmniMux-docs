@@ -1,0 +1,52 @@
+---
+title: "Grok"
+description: "xAI · 语言系列品牌导读；共用网关协议与 model 字段。"
+---
+
+品牌：**Grok**（xAI）
+
+视频能力见 [视频 · Grok Imagine](/cn/api-reference/video-series/brands/grok-imagine)。
+
+## 推荐协议
+
+| 方法 | Path | 说明 |
+| --- | --- | --- |
+| `POST` | `/v1/chat/completions` | Chat Completions |
+| `POST` | `/v1/responses` | Responses（如支持） |
+
+## 示例 model
+
+| model |
+| --- |
+| `grok-4.5` |
+| `grok-4.3` |
+| `grok-4.20-0309-reasoning` |
+| `grok-4.20-0309-non-reasoning` |
+| `grok-4.20-multi-agent-0309` |
+| `grok-composer-2.5-fast` |
+| `grok-build-0.1` |
+
+以上为文档快照示例，**不代表**你的账户一定开通。请以 `GET /v1/models` 与控制台模型广场为准。
+
+## 调用示例
+
+```bash
+curl -sS https://api.omnimux.ai/v1/chat/completions \
+  -H "Authorization: Bearer $OMNIMUX_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "grok-4.5",
+    "messages": [{
+      "role": "user",
+      "content": "Hello"
+    }]
+  }'
+```
+
+## 相关
+
+- [系列导读](/cn/api-reference/text-series/overview)
+- 侧栏同组 **协议接口**
+- [异步任务](/cn/api-reference/cross-cutting/async-tasks)
+- [模型列表](/cn/guides/models)
+

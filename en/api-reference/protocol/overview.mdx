@@ -1,15 +1,11 @@
 ---
-title: "Text & models"
-description: "Chat, Completions, Responses, Claude, Gemini, and model list — try-it endpoints nest under this group."
+title: "Protocol endpoints (text)"
+description: "Shared language-protocol index; brand discovery lives under Language series."
 ---
 
-This group covers **text chat, completions, embeddings, and model listing** (organized by protocol surface).  
-For image / video / audio / social publish, use the other sidebar groups:
+This page indexes **shared language protocols**. For brand discovery start here:
 
-- [Image](/en/api-reference/image-series/overview)  
-- [Video](/en/api-reference/video-series/overview)  
-- [Audio](/en/api-reference/audio-series/overview)  
-- [Social Ops](/en/api-reference/social-ops)  
+**[Language series](/en/api-reference/text-series/overview)** → Claude / Gemini / GPT / Grok / …
 
 ## Base URL
 
@@ -17,15 +13,9 @@ For image / video / audio / social publish, use the other sidebar groups:
 https://api.omnimux.ai
 ```
 
-Typical OpenAI-compatible SDK value:
+Auth: `Authorization: Bearer sk-...`.
 
-```text
-https://api.omnimux.ai/v1
-```
-
-Auth: `Authorization: Bearer sk-...`. See [Authentication](/en/guides/authentication).
-
-## OpenAI-compatible
+## Common protocols
 
 | Capability | Method | Path |
 | --- | --- | --- |
@@ -33,42 +23,18 @@ Auth: `Authorization: Bearer sk-...`. See [Authentication](/en/guides/authentica
 | Completions | `POST` | `/v1/completions` |
 | Responses | `POST` | `/v1/responses` |
 | Responses compact | `POST` | `/v1/responses/compact` |
+| Claude Messages | `POST` | `/v1/messages` |
+| List models | `GET` | `/v1/models` |
+| Gemini model list | `GET` | `/v1beta/models` |
+| Gemini generateContent | `POST` | `/v1beta/models/{model}:generateContent` |
 | Embeddings | `POST` | `/v1/embeddings` |
 | Moderations | `POST` | `/v1/moderations` |
 | Rerank | `POST` | `/v1/rerank` |
-| List models | `GET` | `/v1/models` |
-| Realtime | `GET` | `/v1/realtime` (WebSocket upgrade; follow live behavior) |
-| Images | `POST` | `/v1/images/generations` · `/v1/images/edits` |
-| Audio | `POST` | `/v1/audio/*` |
-| Video (unified / Sora-style) | `POST`/`GET` | `/v1/video/generations` · `/v1/videos` |
+| Realtime | `GET` | `/v1/realtime` |
 
-## Anthropic-compatible
-
-| Capability | Method | Path |
-| --- | --- | --- |
-| Messages | `POST` | `/v1/messages` |
-
-## Gemini-style
-
-| Capability | Method | Path |
-| --- | --- | --- |
-| List models | `GET` | `/v1beta/models` |
-| generateContent | `POST` | `/v1beta/models/{model}:generateContent` |
-| Embeddings (engine path) | `POST` | `/v1/engines/{model}/embeddings` |
-
-## Non-protocol user APIs
-
-| Surface | Base | Credential | Docs |
-| --- | --- | --- | --- |
-| Social Ops | `https://omnimux.ai` | access token + `New-Api-User` | [Social Ops](/en/api-reference/social-ops) |
-| Device login | `https://omnimux.ai` | unauthenticated until approve | [Device login](/en/api-reference/cross-cutting/device-login) |
-
-## Try-it and schemas
-
-The **Appendix** OpenAPI group is generated from `openapi/relay.json` for AI gateway try-it. See [OpenAPI appendix](/en/api-reference/appendix/openapi).
+Try-it for these paths lives under **Language series → Protocol endpoints** in the sidebar.
 
 ## Related
 
-- [API manual overview](/en/api-reference/overview)  
+- [Language series](/en/api-reference/text-series/overview)  
 - [Documentation coverage](/en/api-reference/coverage)  
-- [Async tasks](/en/api-reference/cross-cutting/async-tasks)  

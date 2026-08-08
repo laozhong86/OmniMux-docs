@@ -1,0 +1,40 @@
+---
+title: "Sora / Videos"
+description: "OpenAI-style · 视频系列品牌导读；共用网关协议与 model 字段。"
+---
+
+品牌：**Sora / Videos**（OpenAI-style）
+
+OpenAI Videos 风格路径。具体模型以账户可用列表为准。
+
+## 推荐协议
+
+| 方法 | Path | 说明 |
+| --- | --- | --- |
+| `POST` | `/v1/videos` | 创建视频 |
+| `GET` | `/v1/videos/{task_id}` | 任务状态 |
+| `GET` | `/v1/videos/{task_id}/content` | 视频内容 |
+
+## 示例 model
+
+此品牌以**路径/渠道**为主；请用 `GET /v1/models` 查当前可用 model id。
+
+## 调用示例
+
+```bash
+curl -sS https://api.omnimux.ai/v1/videos \
+  -H "Authorization: Bearer $OMNIMUX_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "YOUR_MODEL",
+    "prompt": "slow pan across a product"
+  }'
+```
+
+## 相关
+
+- [系列导读](/cn/api-reference/video-series/overview)
+- 侧栏同组 **协议接口**
+- [异步任务](/cn/api-reference/cross-cutting/async-tasks)
+- [模型列表](/cn/guides/models)
+

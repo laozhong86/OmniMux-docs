@@ -1,0 +1,46 @@
+---
+title: "GLM"
+description: "智谱 · Language series brand guide; shared gateway protocols and model field."
+---
+
+Brand：**GLM**（智谱）
+
+Zhipu GLM family via Chat Completions.
+
+## Recommended protocols
+
+| Method | Path | Notes |
+| --- | --- | --- |
+| `POST` | `/v1/chat/completions` | Chat Completions |
+
+## Example models
+
+| model |
+| --- |
+| `glm-5.2` |
+| `glm-5.1` |
+
+Snapshot examples only — **not** a guarantee of availability. Use `GET /v1/models` and the Model Square.
+
+## Example call
+
+```bash
+curl -sS https://api.omnimux.ai/v1/chat/completions \
+  -H "Authorization: Bearer $OMNIMUX_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "glm-5.2",
+    "messages": [{
+      "role": "user",
+      "content": "Hello"
+    }]
+  }'
+```
+
+## Related
+
+- [Series overview](/en/api-reference/text-series/overview)
+- Sibling **Protocol endpoints** in the sidebar
+- [Async tasks](/en/api-reference/cross-cutting/async-tasks)
+- [Models](/en/guides/models)
+

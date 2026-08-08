@@ -1,0 +1,56 @@
+---
+title: "Gemini"
+description: "Google · 语言系列品牌导读；共用网关协议与 model 字段。"
+---
+
+品牌：**Gemini**（Google）
+
+文本对话常用 Chat Completions。出图能力（如 Nano Banana）见 [图像 · Nano Banana](/cn/api-reference/image-series/brands/nano-banana)。
+
+## 推荐协议
+
+| 方法 | Path | 说明 |
+| --- | --- | --- |
+| `POST` | `/v1/chat/completions` | OpenAI Chat 兼容 |
+| `POST` | `/v1beta/models/{model}:generateContent` | Gemini 原生（含部分多模态） |
+| `GET` | `/v1beta/models` | Gemini 格式模型列表 |
+
+## 示例 model
+
+| model |
+| --- |
+| `gemini-3.6-flash` |
+| `gemini-3.5-flash` |
+| `gemini-3.1-pro` |
+| `gemini-3.1-pro-preview` |
+| `gemini-3.1-flash-lite` |
+| `gemini-3-pro` |
+| `gemini-3-flash` |
+| `gemini-2.5-pro` |
+| `gemini-2.5-flash` |
+| `gemini-2.5-flash-lite` |
+
+以上为文档快照示例，**不代表**你的账户一定开通。请以 `GET /v1/models` 与控制台模型广场为准。
+
+## 调用示例
+
+```bash
+curl -sS https://api.omnimux.ai/v1/chat/completions \
+  -H "Authorization: Bearer $OMNIMUX_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "gemini-3.6-flash",
+    "messages": [{
+      "role": "user",
+      "content": "Hello"
+    }]
+  }'
+```
+
+## 相关
+
+- [系列导读](/cn/api-reference/text-series/overview)
+- 侧栏同组 **协议接口**
+- [异步任务](/cn/api-reference/cross-cutting/async-tasks)
+- [模型列表](/cn/guides/models)
+

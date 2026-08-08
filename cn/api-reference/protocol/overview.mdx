@@ -1,15 +1,11 @@
 ---
-title: "文本与模型"
-description: "Chat / Completions / Responses / Claude / Gemini 与模型列表；侧栏下列出可试调用端点。"
+title: "协议接口（文本）"
+description: "语言系列的共用协议端点索引；品牌发现请看语言系列。"
 ---
 
-本分组覆盖 **文本对话、补全、嵌入、模型列表** 等网关路径（按协议兼容面组织）。  
-出图 / 出视频 / 出音频 / 发社媒请用侧栏其它分组：
+本页是 **语言系列** 下的协议索引。品牌发现请先看：
 
-- [图像](/cn/api-reference/image-series/overview)  
-- [视频](/cn/api-reference/video-series/overview)  
-- [音频](/cn/api-reference/audio-series/overview)  
-- [Social Ops](/cn/api-reference/social-ops)  
+**[语言系列](/cn/api-reference/text-series/overview)** → Claude / Gemini / GPT / Grok / …
 
 ## Base URL
 
@@ -17,15 +13,9 @@ description: "Chat / Completions / Responses / Claude / Gemini 与模型列表�
 https://api.omnimux.ai
 ```
 
-OpenAI 兼容 SDK 常填：
+鉴权：`Authorization: Bearer sk-...`。
 
-```text
-https://api.omnimux.ai/v1
-```
-
-鉴权：`Authorization: Bearer sk-...`。详见 [鉴权](/cn/guides/authentication)。
-
-## OpenAI 兼容
+## 常用协议
 
 | 能力 | 方法 | 路径 |
 | --- | --- | --- |
@@ -33,42 +23,18 @@ https://api.omnimux.ai/v1
 | Completions | `POST` | `/v1/completions` |
 | Responses | `POST` | `/v1/responses` |
 | Responses compact | `POST` | `/v1/responses/compact` |
+| Claude Messages | `POST` | `/v1/messages` |
+| 模型列表 | `GET` | `/v1/models` |
+| Gemini 模型列表 | `GET` | `/v1beta/models` |
+| Gemini generateContent | `POST` | `/v1beta/models/{model}:generateContent` |
 | Embeddings | `POST` | `/v1/embeddings` |
 | Moderations | `POST` | `/v1/moderations` |
 | Rerank | `POST` | `/v1/rerank` |
-| 模型列表 | `GET` | `/v1/models` |
-| Realtime | `GET` | `/v1/realtime`（WebSocket 升级，以线上为准） |
-| 图像 | `POST` | `/v1/images/generations` · `/v1/images/edits` |
-| 音频 | `POST` | `/v1/audio/*` |
-| 视频（统一 / Sora 风格） | `POST`/`GET` | `/v1/video/generations` · `/v1/videos` |
+| Realtime | `GET` | `/v1/realtime` |
 
-## Anthropic 兼容
-
-| 能力 | 方法 | 路径 |
-| --- | --- | --- |
-| Messages | `POST` | `/v1/messages` |
-
-## Gemini 风格
-
-| 能力 | 方法 | 路径 |
-| --- | --- | --- |
-| 模型列表 | `GET` | `/v1beta/models` |
-| generateContent | `POST` | `/v1beta/models/{model}:generateContent` |
-| Embeddings（引擎路径） | `POST` | `/v1/engines/{model}/embeddings` |
-
-## 非协议：用户 API
-
-| 能力 | Base | 凭证 | 文档 |
-| --- | --- | --- | --- |
-| Social Ops | `https://omnimux.ai` | access token + `New-Api-User` | [Social Ops](/cn/api-reference/social-ops) |
-| 设备码登录 | `https://omnimux.ai` | 申请阶段无鉴权 | [设备码登录](/cn/api-reference/cross-cutting/device-login) |
-
-## 试调用与 Schema
-
-侧栏 **附录** 中的 OpenAPI 由 `openapi/relay.json` 生成，可对 AI 网关路径做 try-it。见 [附录 OpenAPI](/cn/api-reference/appendix/openapi)。
+侧栏 **语言系列 → 协议接口** 下可对上述路径 try-it。
 
 ## 相关
 
-- [API 手册概览](/cn/api-reference/overview)  
+- [语言系列](/cn/api-reference/text-series/overview)  
 - [文档覆盖说明](/cn/api-reference/coverage)  
-- [异步任务](/cn/api-reference/cross-cutting/async-tasks)  

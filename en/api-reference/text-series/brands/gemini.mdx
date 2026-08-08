@@ -1,0 +1,56 @@
+---
+title: "Gemini"
+description: "Google · Language series brand guide; shared gateway protocols and model field."
+---
+
+Brand：**Gemini**（Google）
+
+Use Chat Completions for text. Image models (Nano Banana) live under [Image · Nano Banana](/en/api-reference/image-series/brands/nano-banana).
+
+## Recommended protocols
+
+| Method | Path | Notes |
+| --- | --- | --- |
+| `POST` | `/v1/chat/completions` | OpenAI Chat-compatible |
+| `POST` | `/v1beta/models/{model}:generateContent` | Gemini-native (incl. some multimodal) |
+| `GET` | `/v1beta/models` | Gemini-style model list |
+
+## Example models
+
+| model |
+| --- |
+| `gemini-3.6-flash` |
+| `gemini-3.5-flash` |
+| `gemini-3.1-pro` |
+| `gemini-3.1-pro-preview` |
+| `gemini-3.1-flash-lite` |
+| `gemini-3-pro` |
+| `gemini-3-flash` |
+| `gemini-2.5-pro` |
+| `gemini-2.5-flash` |
+| `gemini-2.5-flash-lite` |
+
+Snapshot examples only — **not** a guarantee of availability. Use `GET /v1/models` and the Model Square.
+
+## Example call
+
+```bash
+curl -sS https://api.omnimux.ai/v1/chat/completions \
+  -H "Authorization: Bearer $OMNIMUX_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "gemini-3.6-flash",
+    "messages": [{
+      "role": "user",
+      "content": "Hello"
+    }]
+  }'
+```
+
+## Related
+
+- [Series overview](/en/api-reference/text-series/overview)
+- Sibling **Protocol endpoints** in the sidebar
+- [Async tasks](/en/api-reference/cross-cutting/async-tasks)
+- [Models](/en/guides/models)
+

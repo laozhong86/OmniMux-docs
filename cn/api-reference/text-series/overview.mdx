@@ -1,0 +1,34 @@
+---
+title: "语言系列"
+description: "按品牌发现文本模型；协议接口共用 /v1/chat、/v1/messages 等。"
+---
+
+语言能力按 **品牌/产品族** 发现，再落到 **共用协议接口**（`sk-` 网关）。
+
+## 品牌
+
+| 品牌 | 厂商 |
+| --- | --- |
+| [Claude](/cn/api-reference/text-series/brands/claude) | Anthropic |
+| [Gemini](/cn/api-reference/text-series/brands/gemini) | Google |
+| [GPT](/cn/api-reference/text-series/brands/gpt) | OpenAI |
+| [Grok](/cn/api-reference/text-series/brands/grok) | xAI |
+| [Kimi](/cn/api-reference/text-series/brands/kimi) | Moonshot |
+| [DeepSeek](/cn/api-reference/text-series/brands/deepseek) | DeepSeek |
+| [MiniMax](/cn/api-reference/text-series/brands/minimax) | MiniMax |
+| [GLM](/cn/api-reference/text-series/brands/glm) | 智谱 |
+
+品牌页中的 model 列表为快照示例；**以** `GET /v1/models` **与控制台为准**。
+
+## 协议 vs 品牌
+
+- **品牌页**：选模型族、看推荐协议与示例 id  
+- **协议接口**（侧栏本组下方）：Chat / Messages / Responses / 模型列表等 try-it  
+
+同一 `POST /v1/chat/completions` 可服务多个品牌，差在请求里的 `model`。
+
+## 相关
+
+- [图像系列](/cn/api-reference/image-series/overview)  
+- [视频系列](/cn/api-reference/video-series/overview)  
+- [异步任务](/cn/api-reference/cross-cutting/async-tasks)  

@@ -34,15 +34,15 @@
 
 - Top tabs (both locales): **用户指南 / User guide** · **API 手册 / API manual** · **集成指南 / Integration guide**
 - User guide: intro, quickstart, auth, Base URL, models
-- **API manual IA** — capability groups with **MDX root + nested OpenAPI ops** (no separate bottom dump of Models/Chat/Images…):
-  1. **Overview** — hub + coverage (A/B/C)
+- **API manual IA** — Evolink-style **series → brand → protocol endpoints** (gateway reality: brands share paths, differ by `model`):
+  1. **Overview** + coverage (A/B/C)
   2. **Cross-cutting** — device login, async tasks
-  3. **Image / Video / Audio** — series `root` MDX + selective `METHOD /path` pages from `openapi/relay.json`
-  4. **Text & models** — protocol root MDX + Chat/Claude/Gemini/models try-it
-  5. **Social Ops** — first-class MDX (not in relay OpenAPI)
-  6. **Appendix** — OpenAPI snapshot notes only (must **not** re-attach full `"openapi": "openapi/relay.json"` as a sibling group)
+  3. **Language / Image / Video / Audio series** — series overview MDX → **brand** MDX under `*/{text,image,video}-series/brands/` → selective `METHOD /path` OpenAPI try-it in the same group
+  4. **Social Ops** — first-class MDX (not in relay OpenAPI)
+  5. **Appendix** — OpenAPI snapshot notes only (must **not** re-attach full openapi dump as a sibling group)
+- Brand lists MUST be grounded in live OmniMux catalog (`GET /api/pricing` / `GET /v1/models`), not competitor-only brand names.
 - Integration guide: CLI / desktop / OpenClaw under `*/integration-guide/`
-- Agents MUST nest new relay endpoints under the matching capability group in `docs.json` (`POST /v1/...` form). Do **not** add a top-level OpenAPI-only group that re-lists the whole catalog.
+- Agents MUST add a brand page when onboarding a new product family users discover by name; nest new relay paths under the matching series group (`POST /v1/...` form).
 
 ## Style
 

@@ -1,0 +1,47 @@
+---
+title: "Veo / Omni Flash"
+description: "Google · 视频系列品牌导读；共用网关协议与 model 字段。"
+---
+
+品牌：**Veo / Omni Flash**（Google）
+
+Google 视频家族（Veo / Omni Flash）。多为异步任务。
+
+## 推荐协议
+
+| 方法 | Path | 说明 |
+| --- | --- | --- |
+| `POST` | `/v1/video/generations` | 统一视频任务 |
+| `GET` | `/v1/video/generations/{task_id}` | 任务状态 |
+
+## 示例 model
+
+| model |
+| --- |
+| `veo_3_1` |
+| `omni_flash` |
+| `omni_flash-4s` |
+| `omni_flash-6s` |
+| `omni_flash-10s` |
+
+以上为文档快照示例，**不代表**你的账户一定开通。请以 `GET /v1/models` 与控制台模型广场为准。
+
+## 调用示例
+
+```bash
+curl -sS https://api.omnimux.ai/v1/video/generations \
+  -H "Authorization: Bearer $OMNIMUX_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "veo_3_1",
+    "prompt": "slow pan across a product"
+  }'
+```
+
+## 相关
+
+- [系列导读](/cn/api-reference/video-series/overview)
+- 侧栏同组 **协议接口**
+- [异步任务](/cn/api-reference/cross-cutting/async-tasks)
+- [模型列表](/cn/guides/models)
+

@@ -1,0 +1,47 @@
+---
+title: "Kimi"
+description: "Moonshot · Language series brand guide; shared gateway protocols and model field."
+---
+
+Brand：**Kimi**（Moonshot）
+
+Moonshot Kimi family via OpenAI-compatible Chat.
+
+## Recommended protocols
+
+| Method | Path | Notes |
+| --- | --- | --- |
+| `POST` | `/v1/chat/completions` | Chat Completions |
+
+## Example models
+
+| model |
+| --- |
+| `kimi-k3` |
+| `kimi-k2.7-code` |
+| `kimi-k2.6` |
+
+Snapshot examples only — **not** a guarantee of availability. Use `GET /v1/models` and the Model Square.
+
+## Example call
+
+```bash
+curl -sS https://api.omnimux.ai/v1/chat/completions \
+  -H "Authorization: Bearer $OMNIMUX_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "kimi-k3",
+    "messages": [{
+      "role": "user",
+      "content": "Hello"
+    }]
+  }'
+```
+
+## Related
+
+- [Series overview](/en/api-reference/text-series/overview)
+- Sibling **Protocol endpoints** in the sidebar
+- [Async tasks](/en/api-reference/cross-cutting/async-tasks)
+- [Models](/en/guides/models)
+

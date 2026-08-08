@@ -1,68 +1,30 @@
 ---
 title: "Video series"
-description: "Unified video tasks, OpenAI-style /v1/videos, Kling, and Jimeng path guide."
+description: "Discover video models by brand; unified tasks plus Kling / Jimeng paths."
 ---
 
-Video generation uses the **AI gateway** (`sk-` Bearer). Base URL:
+Discover video models by **brand / product family**, then call **shared or channel-native protocols** (`sk-` gateway). Most flows are **async**.
 
-```text
-https://api.omnimux.ai
-```
+## Brands
 
-Most video APIs are **async**: create → `task_id` → poll → result URL. See [Async tasks](/en/api-reference/cross-cutting/async-tasks).
-
-## Primary paths (prefer these)
-
-| Capability | Method | Path | Notes |
-| --- | --- | --- | --- |
-| Create task | `POST` | `/v1/video/generations` | Unified async video entry (multi-channel) |
-| Get task | `GET` | `/v1/video/generations/{task_id}` | Status and result |
-| OpenAI Videos-style create | `POST` | `/v1/videos` | Compatible with some Sora-style clients |
-| Status / content | `GET` | `/v1/videos/{task_id}` · `/v1/videos/{task_id}/content` | Status and binary/content |
-
-## Channel-native paths
-
-| Family | Create | Query |
-| --- | --- | --- |
-| Kling text-to-video | `POST /kling/v1/videos/text2video` | `GET .../text2video/{task_id}` |
-| Kling image-to-video | `POST /kling/v1/videos/image2video` | `GET .../image2video/{task_id}` |
-| Jimeng | `POST /jimeng/` | Follow the create response |
-
-Enabled models and paths depend on channel config. When unsure, call `GET /v1/models` and prefer `/v1/video/generations` if the model is on the unified task adapter.
-
-## Auth
-
-```http
-Authorization: Bearer sk-xxxxxxxx
-Content-Type: application/json
-```
-
-## Quick example
-
-```bash
-curl -sS https://api.omnimux.ai/v1/video/generations \
-  -H "Authorization: Bearer $OMNIMUX_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "model": "YOUR_VIDEO_MODEL",
-    "prompt": "slow pan across a product on a table"
-  }'
-
-curl -sS "https://api.omnimux.ai/v1/video/generations/$TASK_ID" \
-  -H "Authorization: Bearer $OMNIMUX_API_KEY"
-```
-
-## Boundaries
-
-| Need | Go to |
+| Brand | Notes |
 | --- | --- |
-| Still image only | [Image series](/en/api-reference/image-series/overview) |
-| TTS / speech | [Audio series](/en/api-reference/audio-series/overview) |
-| Publish to social platforms | [Social Ops](/en/api-reference/social-ops) |
-| Chat / Claude / Gemini map | [Protocol](/en/api-reference/protocol/overview) |
+| [Kling](/en/api-reference/video-series/brands/kling) | Native text2video / image2video paths |
+| [Veo / Omni Flash](/en/api-reference/video-series/brands/veo) | Google video family |
+| [Grok Imagine](/en/api-reference/video-series/brands/grok-imagine) | xAI video |
+| [MiniMax](/en/api-reference/video-series/brands/minimax) | Hailuo / h3 tasks (incl. async) |
+| [LTX](/en/api-reference/video-series/brands/ltx) | LTX apps |
+| [Jimeng](/en/api-reference/video-series/brands/jimeng) | Jimeng-native `/jimeng/` |
+| [Sora / Videos](/en/api-reference/video-series/brands/sora) | OpenAI Videos-style `/v1/videos` |
+
+Model ids follow `GET /v1/models`. When unsure, prefer `POST /v1/video/generations` (unified tasks).
+
+## Protocol endpoints (this sidebar group)
+
+Unified tasks, Videos-style, Kling, and Jimeng try-it ops nest under this group.
 
 ## Related
 
 - [Async tasks](/en/api-reference/cross-cutting/async-tasks)  
-- [Appendix · OpenAPI try-it](/en/api-reference/appendix/openapi)  
-- [Models](/en/guides/models)  
+- [Image series](/en/api-reference/image-series/overview)  
+- [Language series](/en/api-reference/text-series/overview)  

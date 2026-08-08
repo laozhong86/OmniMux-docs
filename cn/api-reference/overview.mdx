@@ -1,38 +1,44 @@
 ---
 title: "API 手册概览"
-description: "按系列发现能力，按协议对接 SDK；Social Ops 与 AI 网关双入口。"
+description: "系列 → 品牌发现，协议 try-it；Social Ops 与 AI 网关双入口。"
 ---
 
 OmniMux 对外集成有 **两条主入口**：
 
 | 入口 | Base URL | 凭证 | 典型用途 |
 | --- | --- | --- | --- |
-| **AI 网关** | `https://api.omnimux.ai` | `sk-` Bearer | Chat、图像、视频、音频、嵌入… |
-| **用户 API** | `https://omnimux.ai` | access token + `New-Api-User` | Social Ops、设备码登录等 |
+| **AI 网关** | `https://api.omnimux.ai` | `sk-` Bearer | 文本 / 图像 / 视频 / 音频 |
+| **用户 API** | `https://omnimux.ai` | access token + `New-Api-User` | Social Ops、设备码登录 |
 
 控制台：[omnimux.ai/dashboard](https://omnimux.ai/dashboard) · 文档：[docs.omnimux.ai](https://docs.omnimux.ai)
 
 ## 怎么读本手册
 
-本站 **API 手册** 侧栏按能力分组，**导读 MDX + 该组下 OpenAPI 试调用端点** 挂在一起（不再底部再挂一整包 Models/Chat/Images…）：
+侧栏信息架构（对齐 Evolink 式发现，落在 OmniMux 网关现实上）：
 
-1. **图像 / 视频 / 音频** — 导读 + 对应 try-it  
-2. **文本与模型** — Chat / Claude / Gemini 等 + try-it  
-3. **Social Ops** — 社媒用户 API（access token，非 `sk-`）  
-4. **通用约定** — 设备码登录、异步轮询  
-5. **附录** — OpenAPI 快照说明（不含端点列表）
+```text
+系列（语言 / 图像 / 视频 / 音频）
+  ├─ 品牌 / 产品族导读（Claude、Nano Banana、Kling…）
+  └─ 协议接口 try-it（共用 /v1/* 或渠道原生 path）
+Social Ops（独立用户 API）
+通用约定 · 附录
+```
+
+- **品牌页**：选模型族、示例 `model`、推荐协议  
+- **协议接口**：真正的 HTTP 契约与 try-it（多品牌共用同一 path，差在 `model`）  
+- **不抄** 线上不存在的竞品品牌名；品牌列表以本站定价 / `GET /v1/models` 为准  
 
 收录边界见 [文档覆盖说明](/cn/api-reference/coverage)。
 
-## 能力入口（推荐起点）
+## 能力入口
 
-| 分组 | 说明 |
+| 系列 | 说明 |
 | --- | --- |
-| [图像](/cn/api-reference/image-series/overview) | 文生图、图编辑 + 侧栏端点 |
-| [视频](/cn/api-reference/video-series/overview) | 统一任务、Videos 风格、Kling、即梦 |
-| [音频](/cn/api-reference/audio-series/overview) | TTS、转录、翻译 |
-| [文本与模型](/cn/api-reference/protocol/overview) | Chat / Responses / Claude / Gemini / 模型列表 |
-| [Social Ops](/cn/api-reference/social-ops) | 绑号、媒体、发帖（非模型广场） |
+| [语言系列](/cn/api-reference/text-series/overview) | Claude / Gemini / GPT / Grok / Kimi / DeepSeek / MiniMax / GLM |
+| [图像系列](/cn/api-reference/image-series/overview) | Nano Banana / GPT Image / Z Image |
+| [视频系列](/cn/api-reference/video-series/overview) | Kling / Veo / Grok Imagine / MiniMax / LTX / 即梦 / Sora |
+| [音频系列](/cn/api-reference/audio-series/overview) | TTS / 转录 / 翻译 |
+| [Social Ops](/cn/api-reference/social-ops) | 绑号、媒体、发帖 |
 
 ## 通用约定
 
@@ -41,12 +47,6 @@ OmniMux 对外集成有 **两条主入口**：
 | 设备码换 access token | [设备码登录](/cn/api-reference/cross-cutting/device-login) |
 | 异步任务轮询 | [异步任务](/cn/api-reference/cross-cutting/async-tasks) |
 
-## 附录
-
-| 主题 | 页面 |
-| --- | --- |
-| OpenAPI 快照说明 | [附录 · OpenAPI](/cn/api-reference/appendix/openapi) |
-
 ## AI 网关快速鉴权
 
 ```http
@@ -54,39 +54,19 @@ Authorization: Bearer sk-xxxxxxxx
 Content-Type: application/json
 ```
 
-令牌在控制台 **令牌 / API Keys** 创建。OpenAI 兼容 SDK 的 Base URL 通常为：
-
-```text
-https://api.omnimux.ai/v1
-```
+OpenAI 兼容 SDK Base URL 通常为 `https://api.omnimux.ai/v1`。
 
 ## 模型 ID
-
-请求中的 `model` 必须是你账户当前可用的标识：
 
 ```bash
 curl https://api.omnimux.ai/v1/models \
   -H "Authorization: Bearer $OMNIMUX_API_KEY"
 ```
 
-不要把文档示例名当成可用性证明。详见 [模型列表](/cn/guides/models)。
-
-## 错误速查
-
-| HTTP | 常见原因 |
-| --- | --- |
-| `401` | 缺少 / 错误的 Bearer Token，或混用了 access token 与 `sk-` |
-| `403` | 令牌未授权该模型或 IP 受限 |
-| `404` | 路径错误，或 Base URL 多写/少写 `/v1` |
-| `429` | 限流 |
-| 额度类错误 | 账户或令牌配额不足 |
+文档里的示例 model **不是** 可用性证明。
 
 ## 相关
 
 - [快速开始](/cn/quickstart)  
 - [配置 Base URL](/cn/guides/base-url)  
 - [集成指南](/cn/integration-guide/overview)  
-
-<Tip>
-  未实现的占位接口不会出现在公开 OpenAPI 中。若控制台有模型但文档无对应端点，以线上 `GET /v1/models` 与渠道配置为准。
-</Tip>

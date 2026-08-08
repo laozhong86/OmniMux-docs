@@ -1,0 +1,47 @@
+---
+title: "MiniMax"
+description: "MiniMax · Language series brand guide; shared gateway protocols and model field."
+---
+
+Brand：**MiniMax**（MiniMax）
+
+MiniMax text. Video Hailuo: [Video · MiniMax](/en/api-reference/video-series/brands/minimax).
+
+## Recommended protocols
+
+| Method | Path | Notes |
+| --- | --- | --- |
+| `POST` | `/v1/chat/completions` | Chat Completions |
+
+## Example models
+
+| model |
+| --- |
+| `minimax-m3` |
+| `minimax-m2.7` |
+| `minimax-m2.5` |
+
+Snapshot examples only — **not** a guarantee of availability. Use `GET /v1/models` and the Model Square.
+
+## Example call
+
+```bash
+curl -sS https://api.omnimux.ai/v1/chat/completions \
+  -H "Authorization: Bearer $OMNIMUX_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "minimax-m3",
+    "messages": [{
+      "role": "user",
+      "content": "Hello"
+    }]
+  }'
+```
+
+## Related
+
+- [Series overview](/en/api-reference/text-series/overview)
+- Sibling **Protocol endpoints** in the sidebar
+- [Async tasks](/en/api-reference/cross-cutting/async-tasks)
+- [Models](/en/guides/models)
+

@@ -1,0 +1,50 @@
+---
+title: "MiniMax"
+description: "MiniMax / GxgenAI · Video series brand guide; shared gateway protocols and model field."
+---
+
+Brand：**MiniMax**（MiniMax / GxgenAI）
+
+MiniMax video (incl. async variants). Text: [Language · MiniMax](/en/api-reference/text-series/brands/minimax).
+
+## Recommended protocols
+
+| Method | Path | Notes |
+| --- | --- | --- |
+| `POST` | `/v1/video/generations` | Unified video / AI App task |
+| `GET` | `/v1/video/generations/{task_id}` | Task status |
+
+## Example models
+
+| model |
+| --- |
+| `minimax-h3-t2v` |
+| `minimax-h3-t2v-async` |
+| `minimax-h3-flf` |
+| `minimax-h3-flf-async` |
+| `minimax-h3-fl2va` |
+| `minimax-h3-fl2va-async` |
+| `minimax-h3-endframe` |
+| `minimax-h3-endframe-async` |
+
+Snapshot examples only — **not** a guarantee of availability. Use `GET /v1/models` and the Model Square.
+
+## Example call
+
+```bash
+curl -sS https://api.omnimux.ai/v1/video/generations \
+  -H "Authorization: Bearer $OMNIMUX_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "minimax-h3-t2v",
+    "prompt": "slow pan across a product"
+  }'
+```
+
+## Related
+
+- [Series overview](/en/api-reference/video-series/overview)
+- Sibling **Protocol endpoints** in the sidebar
+- [Async tasks](/en/api-reference/cross-cutting/async-tasks)
+- [Models](/en/guides/models)
+
