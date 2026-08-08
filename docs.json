@@ -45,29 +45,6 @@
         "default": true,
         "tabs": [
           {
-            "tab": "用户指南",
-            "groups": [
-              {
-                "group": "开始使用",
-                "pages": [
-                  "cn/index",
-                  "cn/quickstart"
-                ],
-                "icon": "rocket"
-              },
-              {
-                "group": "基础配置",
-                "pages": [
-                  "cn/guides/authentication",
-                  "cn/guides/base-url",
-                  "cn/guides/models"
-                ],
-                "icon": "settings"
-              }
-            ],
-            "icon": "book-user"
-          },
-          {
             "tab": "API 手册",
             "groups": [
               {
@@ -367,35 +344,35 @@
               }
             ],
             "icon": "plug"
+          },
+          {
+            "tab": "用户指南",
+            "groups": [
+              {
+                "group": "开始使用",
+                "pages": [
+                  "cn/index",
+                  "cn/quickstart"
+                ],
+                "icon": "rocket"
+              },
+              {
+                "group": "基础配置",
+                "pages": [
+                  "cn/guides/authentication",
+                  "cn/guides/base-url",
+                  "cn/guides/models"
+                ],
+                "icon": "settings"
+              }
+            ],
+            "icon": "book-user"
           }
         ]
       },
       {
         "language": "en",
         "tabs": [
-          {
-            "tab": "User guide",
-            "groups": [
-              {
-                "group": "Getting started",
-                "pages": [
-                  "en/index",
-                  "en/quickstart"
-                ],
-                "icon": "rocket"
-              },
-              {
-                "group": "Setup",
-                "pages": [
-                  "en/guides/authentication",
-                  "en/guides/base-url",
-                  "en/guides/models"
-                ],
-                "icon": "settings"
-              }
-            ],
-            "icon": "book-user"
-          },
           {
             "tab": "API manual",
             "groups": [
@@ -696,6 +673,29 @@
               }
             ],
             "icon": "plug"
+          },
+          {
+            "tab": "User guide",
+            "groups": [
+              {
+                "group": "Getting started",
+                "pages": [
+                  "en/index",
+                  "en/quickstart"
+                ],
+                "icon": "rocket"
+              },
+              {
+                "group": "Setup",
+                "pages": [
+                  "en/guides/authentication",
+                  "en/guides/base-url",
+                  "en/guides/models"
+                ],
+                "icon": "settings"
+              }
+            ],
+            "icon": "book-user"
           }
         ]
       }
