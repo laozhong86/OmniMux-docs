@@ -1,0 +1,31 @@
+---
+title: "Kimi CLI"
+sidebarTitle: "Kimi CLI"
+description: "在 Kimi CLI 中配置 OmniMux"
+---
+<Note>
+Base URL：`https://api.omnimux.ai`（OpenAI 兼容客户端通常填 `https://api.omnimux.ai/v1`）。在 [控制台](https://omnimux.ai/dashboard) 创建 `sk-` API Key。模型 ID 以控制台或 `GET /v1/models` 为准。
+</Note>
+
+
+## 准备
+
+1. 安装 Kimi / Moonshot CLI（支持自定义 API 地址的版本）
+2. OmniMux API Key
+
+## 配置
+
+```bash
+export OPENAI_API_KEY="sk-..."
+export OPENAI_BASE_URL="https://api.omnimux.ai/v1"
+# 部分 CLI 使用：
+export MOONSHOT_API_KEY="$OPENAI_API_KEY"
+export MOONSHOT_BASE_URL="$OPENAI_BASE_URL"
+```
+
+模型使用 OmniMux 上的 Kimi id（如 `kimi-k3`）。
+
+## 验证
+
+发起一次 chat completions 或 CLI 内置对话命令。
+

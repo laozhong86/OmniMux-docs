@@ -1,0 +1,34 @@
+---
+title: "Cost optimization"
+sidebarTitle: "Cost optimization"
+description: "Control spend under OmniMux quota, precharge, and settlement"
+---
+
+## How billing is shown
+
+User-facing balance uses **积分 (points)**. Internal raw quota converts as:
+
+- `raw_quota ÷ 500000 = USD`
+- **1 USD = 10 积分**
+
+Use the [console](https://omnimux.ai/dashboard) for balance and usage. Account APIs (access token) expose profile/quota fields.
+
+## How to reduce cost
+
+1. **Pick the right model** — cheaper/smaller models for simple jobs; enum lists capability, not equal price.  
+2. **Cap generation** — set sensible `max_tokens` / `max_completion_tokens`.  
+3. **Bound multipliers** — image `n`, video duration, resolution affect precharge/settlement; out-of-range values return 400.  
+4. **Async video** — create often **precharges**, then **settles** on completion/refund path. Use realistic duration/specs.  
+5. **Cache** — cache identical chat or social-data reads on the client.  
+6. **Streaming** — `stream: true` can improve UX; abort early only if your product allows and you understand billing still follows live settlement.  
+7. **Watch 402** — insufficient balance fails pre-consume with **402** `insufficient_quota`.
+
+## Avoid
+
+- Load-testing expensive video/image models with production keys  
+- Calling raw_quota “积分” in product UI  
+- Guessing non-live model ids
+
+<Card title="Console" icon="dollar-sign" href="https://omnimux.ai/dashboard">
+  Balance, logs, and model access
+</Card>

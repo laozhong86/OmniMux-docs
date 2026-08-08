@@ -33,40 +33,75 @@ L1  系列 / 管理面          （发现主轴）
 | --- | --- | --- | --- | --- |
 | 语言系列 | Language series | Claude, Gemini, GPT, Grok, Kimi, DeepSeek, MiniMax, GLM | **完整参数**（合同页，非 per-model） | `sk-` |
 | 图像系列 | Image series | Nano Banana, GPT Image, Z Image | model id | `sk-` |
-| 视频系列 | Video series | MiniMax, Veo / Omni Flash, LTX, Grok Imagine（**仅有 model 的品牌**） | model id | `sk-` |
+| 视频系列 | Video series | MiniMax, **Veo 3.1**, **Omni Flash**（分栏，勿合并）, LTX, Grok Imagine | model id（合同轴后续可收敛） | `sk-` |
 | 社交数据 | Social data | TikTok, Instagram, YouTube, X | 中文能力名（作品详情…） | `sk-` Chat 形态 |
 | 社媒发布 | Publishing | 连接账户 / 帖子 / 媒体 | 发起连接、列出账户… | access token + `New-Api-User` |
 | 账户管理 | Account | 登录鉴权 / 账户信息 | 设备码登录、余额、定价 | 多为 access token |
-| 任务管理 | Tasks | AI 异步任务 | 查询视频/图像任务… | `sk-` |
-| 附录 | Appendix | OpenAPI 说明 + relay try-it | OpenAPI ops | `sk-` |
+| 任务管理 | Tasks | — | **仅** `查询视频任务` → `GET /v1/video/generations/{task_id}`；禁止把 `/v1/videos/{id}/content` 写成通用「查询视频内容」 | `sk-` |
+| ~~附录~~ | — | **侧栏移除**；勿挂 openapi 自动分组（Models/Chat/Video…） |
 
 **Not L1 (do not reintroduce without product+docs decision):**
 
-- **概览 meta 组**（API 手册概览 / 文档覆盖说明 / 错误码独立栏目）— 侧栏不展示；错误样例在各 capability 页 Response  
+- **任何 `overview` / 概述 栏目页**（系列概述、API 手册概览、覆盖说明、集成指南概览等）— **删除文件且不进 `docs.json`**  
+- **概览 meta 组**（错误码独立栏目等）— 错误样例在 capability Response  
 - 音频系列（无 live Audio Generation models）  
 - 文件管理（无独立通用文件 API；媒体归社媒发布）  
 - Social Ops 命名  
 - 空品牌（Kling/Sora/即梦 path 壳无 model）  
 
-**Nav lean rule:** 侧栏只保留可调用能力路径；禁止说明性、覆盖矩阵、重复错误码目录加厚导航。
+**Nav lean rule:** 侧栏只保留可调用合同/能力路径；禁止概述、覆盖矩阵、重复说明页加厚导航。
+
+### 常见问题（API 手册末组）
+
+| 页 | 内容必须对齐系统 |
+| --- | --- |
+| 成本优化 | 积分/USD 换算、预扣结算、402、参数边界；**不**照搬竞品文案 |
+| 连接与使用 | 双 Base（`api.omnimux.ai` vs `omnimux.ai`）、双凭证、401/403/402/429 |
+| 安全与密钥 | `sk-` 保管；勿混发布 access token |
+| 账户与账单 | 控制台余额；raw_quota ≠ 积分 |
+| 能力与兼容性 | OpenAI 兼容边界；视频轮询路径 |
+
+### 集成指南 L1（固定三类）
+
+| CN | EN | 内容 |
+| --- | --- | --- |
+| 聊天应用 | Chat apps | ChatBox、Cherry Studio、AnythingLLM、Claude Desktop… |
+| 开发工具 | Dev tools | Claude Code / Codex / Gemini / **Grok CLI** / **Kimi CLI** / **ZCode** / Cursor / Cline / OpenCode… |
+| 应用平台 | App platforms | **n8n**、Dify、沉浸式翻译、OpenClaw… |
+
+对照竞品（如 APIMart integrations）补缺口时：只加 OmniMux 可配置的 OpenAI 兼容客户端；文案用 `api.omnimux.ai`，不抄竞品截图。
+
+**Nav icons (Mintlify `icon` on groups):** L1 系列与其下 L2 品牌/资源组共用**系列统一图标**（对齐 Evolink：图像品牌皆 `image`，视频品牌皆 `video`）。
+
+| 系列 | icon |
+| --- | --- |
+| 语言系列 | `message-square` |
+| 图像系列 | `image` |
+| 视频系列 | `video` |
+| 社交数据 | `share-2` |
+| 社媒发布 | `send` |
+| 账户管理 | `user` |
+| 任务管理 | `list-checks` |
+
 ## Directory map (repo)
 
 ```text
 cn|en/api-reference/
-  text-series/{overview, <brand>/complete.mdx}   # brand contract pages
-  image-series/{overview,brands/*,models/*}      # phase 2: prefer contract axis later
-  video-series/{overview,brands/*,models/*}
-  social-data/{overview,brands/*,tiktok|instagram|youtube|x/*}
-  publishing/{overview,connecting-accounts,posts,media,start-connect,...}
-  account/{overview,device-login,balance,pricing}
-  tasks/{overview,video-task,video-content,image-task}
+  text-series/<brand>/complete.mdx    # brand contract pages (no overview)
+  image-series/{brands/*,models/*}
+  video-series/{brands/*,models/*}
+  social-data/{brands/*,tiktok|instagram|youtube|x/*}
+  publishing/{connecting-accounts,posts,media,start-connect,...}
+  account/{device-login,balance,pricing}
+  tasks/{video-task,video-content,image-task}
   appendix/openapi.mdx
 docs.json
 openapi/relay.json
-openapi/ops/chat/<brand>.json    # brand × Chat Completions (model enum)
+openapi/ops/chat/<brand>.json
 scripts/gen-chat-capability-pages.py
 ```
 
+Do **not** create `**/overview.mdx` for series or guides.
 
 Brand MDX under `brands/` may exist for deep links / series overview tables, but **`docs.json` must not nest a child page titled the same as the L2 group**.
 
@@ -101,8 +136,7 @@ Brand MDX under `brands/` may exist for deep links / series overview tables, but
 | Kind | Role |
 | --- | --- |
 | **L3 capability page** | **Single operation** OpenAPI embedded in MDX (`openapi/ops/**` + `## OpenAPI`) — Evolink-class detail |
-| **附录** | Full gateway dump `openapi/relay.json` for bulk try-it |
-| **Not** | Top-level OpenAPI groups re-listing Chat/Images next to series as primary discovery |
+| **Not in sidebar** | Full `openapi/relay.json` auto-groups (Models/Chat/Images/Video/Sora/Kling…) — noise; keep file for generators only |
 
 - Prefer series → brand → model MDX for discovery.  
 - L3 page type = **OpenAPI capability page** (see `content-templates.md`), not protocol-only dump.

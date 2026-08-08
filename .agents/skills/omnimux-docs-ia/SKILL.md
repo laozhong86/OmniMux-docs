@@ -29,7 +29,7 @@ Do **not** invent parallel IA. Live site + `docs.json` + this skill are the sour
 | Docs repo (edit here) | sibling `OmniMux-docs` |
 | Nav | `docs.json` |
 | Locales | `cn/**`, `en/**` |
-| Gateway OpenAPI snapshot | `openapi/relay.json` (附录 try-it) |
+| Gateway OpenAPI snapshot | `openapi/relay.json` (generator source only; **not** sidebar dump) |
 | Per-capability ops | `openapi/ops/**` (single operation docs) |
 | Generators | `scripts/gen-chat-capability-pages.py` (more surfaces later) |
 
@@ -38,12 +38,12 @@ Do **not** invent parallel IA. Live site + `docs.json` + this skill are the sour
 1. **IA**: L1 series → L2 brand/resource → L3 **call contract** (not default per-model).  
 2. **Paging axis**: page = auth + method + path + schema. **`model` is enum inside the page.** Same brand + same Chat Completions shape → **one** Complete page. Split only for different protocol/path/shape.  
 3. **Language series**: `text-series/<brand>/complete` + `openapi/ops/chat/<brand>.json` (model enum). No per-model Complete leaves in nav.  
-4. **No METHOD paths as sidebar titles**.  
+4. **No METHOD paths as sidebar titles**. Callable L3 titles = **品牌 + 能力简称** (e.g. `Omni Flash 文生视频` / `Omni Flash 4 秒`), never raw model id alone — see `references/naming.md`.  
 5. **No empty brands / planned-only APIs**. Ground models in live pricing for enums.  
 6. **社交数据 ≠ 社媒发布**.  
 7. **连接账户** = **Connecting Accounts**.  
 8. **No duplicate L2 name under L2**.  
-9. **Lean nav**: no meta 概览 group; no per-model spam when contract is shared.  
+9. **Lean nav**: no OpenAPI **附录** dump groups (Models/Chat/Images/Video…);  no meta 概览 group; **no series/account/task `overview` pages** in sidebar or repo (delete, do not leave orphan leaves); no per-model spam when contract is shared.  
 10. **Callable page = Mintlify `openapi` frontmatter** → ops JSON (`openapi: "…json METHOD /path"`). Renders Authorizations/Body/Response (Evolink layout).  
 11. **Forbidden**: raw OpenAPI YAML fence dump under `## OpenAPI`.  
 12. **402** on billed ops.  

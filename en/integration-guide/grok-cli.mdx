@@ -1,0 +1,31 @@
+---
+title: "Grok CLI"
+sidebarTitle: "Grok CLI"
+description: "Configure OmniMux in Grok CLI"
+---
+<Note>
+Base URL: `https://api.omnimux.ai` (OpenAI-compatible clients usually use `https://api.omnimux.ai/v1`). Create a `sk-` key in the [console](https://omnimux.ai/dashboard). Model ids: console or `GET /v1/models`.
+</Note>
+
+
+## Prep
+
+1. Install Grok/xAI CLI (OpenAI-compatible or configurable base URL)
+2. OmniMux API key
+
+## Setup
+
+```bash
+export OPENAI_API_KEY="sk-..."
+export OPENAI_BASE_URL="https://api.omnimux.ai/v1"
+```
+
+Use OmniMux model ids (e.g. `grok-4.5`).
+
+## Verify
+
+```bash
+curl -sS https://api.omnimux.ai/v1/models \
+  -H "Authorization: Bearer $OPENAI_API_KEY" | head
+```
+

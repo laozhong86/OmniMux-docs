@@ -1,0 +1,27 @@
+---
+title: "Dify"
+sidebarTitle: "Dify"
+description: "在 Dify 中配置 OmniMux"
+---
+<Note>
+Base URL：`https://api.omnimux.ai`（OpenAI 兼容客户端通常填 `https://api.omnimux.ai/v1`）。在 [控制台](https://omnimux.ai/dashboard) 创建 `sk-` API Key。模型 ID 以控制台或 `GET /v1/models` 为准。
+</Note>
+
+
+## 准备
+
+1. [Dify](https://dify.ai/) 云端或自托管
+2. OmniMux API Key
+
+## 配置
+
+1. 右上角头像 → **设置** → **模型供应商**
+2. 使用 **OpenAI** 供应商的自定义 API，或 OpenAI-API-compatible
+3. API Key：OmniMux `sk-...`
+4. API Endpoint / Base URL：`https://api.omnimux.ai/v1`
+5. 添加模型名称（与 OmniMux model id 一致）
+
+## 验证
+
+在应用中选择该模型，发送测试消息。
+

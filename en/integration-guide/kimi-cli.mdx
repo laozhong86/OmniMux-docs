@@ -1,0 +1,28 @@
+---
+title: "Kimi CLI"
+sidebarTitle: "Kimi CLI"
+description: "Configure OmniMux in Kimi CLI"
+---
+<Note>
+Base URL: `https://api.omnimux.ai` (OpenAI-compatible clients usually use `https://api.omnimux.ai/v1`). Create a `sk-` key in the [console](https://omnimux.ai/dashboard). Model ids: console or `GET /v1/models`.
+</Note>
+
+
+## Prep
+
+1. Install Kimi/Moonshot CLI with custom base URL support
+2. OmniMux API key
+
+## Setup
+
+```bash
+export OPENAI_API_KEY="sk-..."
+export OPENAI_BASE_URL="https://api.omnimux.ai/v1"
+```
+
+Model ids such as `kimi-k3`.
+
+## Verify
+
+Run one chat completion via the CLI.
+

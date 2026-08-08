@@ -1,0 +1,28 @@
+---
+title: "ChatBox"
+sidebarTitle: "ChatBox"
+description: "Configure OmniMux in ChatBox"
+---
+<Note>
+Base URL: `https://api.omnimux.ai` (OpenAI-compatible clients usually use `https://api.omnimux.ai/v1`). Create a `sk-` key in the [console](https://omnimux.ai/dashboard). Model ids: console or `GET /v1/models`.
+</Note>
+
+
+## Prep
+
+1. Install [ChatBox](https://chatboxai.app/)
+2. Get an OmniMux API key
+
+## Setup
+
+1. ChatBox → **Settings** (or first-run “use your own API key”)
+2. Provider: **OpenAI API** (or OpenAI-compatible custom)
+3. Set:
+   - **API Key**: `sk-...`
+   - **API Host / Base URL**: `https://api.omnimux.ai/v1`
+4. Add a model id (e.g. `gpt-5.4`) and chat
+
+## Verify
+
+Send a short message. 401 → bad key; connection errors → check Base URL includes `/v1`.
+

@@ -1,0 +1,26 @@
+---
+title: "Cherry Studio"
+sidebarTitle: "Cherry Studio"
+description: "在 Cherry Studio 中配置 OmniMux"
+---
+<Note>
+Base URL：`https://api.omnimux.ai`（OpenAI 兼容客户端通常填 `https://api.omnimux.ai/v1`）。在 [控制台](https://omnimux.ai/dashboard) 创建 `sk-` API Key。模型 ID 以控制台或 `GET /v1/models` 为准。
+</Note>
+
+
+## 准备
+
+1. 安装 [Cherry Studio](https://cherry-ai.com/)
+2. 获取 OmniMux API Key
+
+## 配置
+
+1. 设置 → **模型服务** → **添加**
+2. 提供商类型选 **OpenAI**（兼容）
+3. 填写 API Key 与 API 地址 `https://api.omnimux.ai/v1`
+4. 添加模型 ID 并启用
+
+## 验证
+
+新建对话，选择刚添加的模型，发送测试消息。
+
