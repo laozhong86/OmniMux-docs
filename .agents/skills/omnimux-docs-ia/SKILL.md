@@ -67,8 +67,8 @@ Do **not** invent parallel IA. Live site + `docs.json` + this skill are the sour
 
 | Phase | Scope |
 | --- | --- |
-| **0** | Skill + chat generator + probe model(s) OpenAPI pages |
-| **1** | All language models Complete |
+| **0** | Skill + chat generator + probe model(s) OpenAPI pages — **done** |
+| **1** | All language models Complete — **done** (gen-chat `--all-text`) |
 | **2** | Image / video / tasks |
 | **3** | Social data / publishing / account |
 | **4** | Quickstart optional; retire thin-table generators |
