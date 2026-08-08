@@ -68,6 +68,12 @@
                 ]
               },
               {
+                "group": "Social Ops",
+                "pages": [
+                  "cn/api-reference/social-ops"
+                ]
+              },
+              {
                 "group": "接口参考",
                 "openapi": "openapi/relay.json"
               }
@@ -143,6 +149,12 @@
                 "group": "Overview",
                 "pages": [
                   "en/api-reference/overview"
+                ]
+              },
+              {
+                "group": "Social Ops",
+                "pages": [
+                  "en/api-reference/social-ops"
                 ]
               },
               {
