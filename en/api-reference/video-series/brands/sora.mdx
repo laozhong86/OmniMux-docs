@@ -1,0 +1,40 @@
+---
+title: "Sora / Videos"
+description: "OpenAI-style · Video series brand guide; shared gateway protocols and model field."
+---
+
+Brand：**Sora / Videos**（OpenAI-style）
+
+OpenAI Videos-style paths. Model ids follow your account list.
+
+## Recommended protocols
+
+| Method | Path | Notes |
+| --- | --- | --- |
+| `POST` | `/v1/videos` | Create video |
+| `GET` | `/v1/videos/{task_id}` | Task status |
+| `GET` | `/v1/videos/{task_id}/content` | Video content |
+
+## Example models
+
+This brand is path/channel-oriented; list model ids with `GET /v1/models`.
+
+## Example call
+
+```bash
+curl -sS https://api.omnimux.ai/v1/videos \
+  -H "Authorization: Bearer $OMNIMUX_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "YOUR_MODEL",
+    "prompt": "slow pan across a product"
+  }'
+```
+
+## Related
+
+- [Series overview](/en/api-reference/video-series/overview)
+- Sibling **Protocol endpoints** in the sidebar
+- [Async tasks](/en/api-reference/cross-cutting/async-tasks)
+- [Models](/en/guides/models)
+

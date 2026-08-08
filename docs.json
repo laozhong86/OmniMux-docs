@@ -76,45 +76,18 @@
                 ]
               },
               {
-                "group": "图像",
+                "group": "语言系列",
                 "openapi": "openapi/relay.json",
                 "pages": [
-                  "cn/api-reference/image-series/overview",
-                  "POST /v1/images/generations",
-                  "POST /v1/images/edits"
-                ]
-              },
-              {
-                "group": "视频",
-                "openapi": "openapi/relay.json",
-                "pages": [
-                  "cn/api-reference/video-series/overview",
-                  "POST /v1/video/generations",
-                  "GET /v1/video/generations/{task_id}",
-                  "POST /v1/videos",
-                  "GET /v1/videos/{task_id}",
-                  "GET /v1/videos/{task_id}/content",
-                  "POST /kling/v1/videos/text2video",
-                  "GET /kling/v1/videos/text2video/{task_id}",
-                  "POST /kling/v1/videos/image2video",
-                  "GET /kling/v1/videos/image2video/{task_id}",
-                  "POST /jimeng/"
-                ]
-              },
-              {
-                "group": "音频",
-                "openapi": "openapi/relay.json",
-                "pages": [
-                  "cn/api-reference/audio-series/overview",
-                  "POST /v1/audio/speech",
-                  "POST /v1/audio/transcriptions",
-                  "POST /v1/audio/translations"
-                ]
-              },
-              {
-                "group": "文本与模型",
-                "openapi": "openapi/relay.json",
-                "pages": [
+                  "cn/api-reference/text-series/overview",
+                  "cn/api-reference/text-series/brands/claude",
+                  "cn/api-reference/text-series/brands/gemini",
+                  "cn/api-reference/text-series/brands/gpt",
+                  "cn/api-reference/text-series/brands/grok",
+                  "cn/api-reference/text-series/brands/kimi",
+                  "cn/api-reference/text-series/brands/deepseek",
+                  "cn/api-reference/text-series/brands/minimax",
+                  "cn/api-reference/text-series/brands/glm",
                   "cn/api-reference/protocol/overview",
                   "POST /v1/chat/completions",
                   "POST /v1/completions",
@@ -129,6 +102,52 @@
                   "POST /v1/moderations",
                   "POST /v1/rerank",
                   "GET /v1/realtime"
+                ]
+              },
+              {
+                "group": "图像系列",
+                "openapi": "openapi/relay.json",
+                "pages": [
+                  "cn/api-reference/image-series/overview",
+                  "cn/api-reference/image-series/brands/nano-banana",
+                  "cn/api-reference/image-series/brands/gpt-image",
+                  "cn/api-reference/image-series/brands/z-image",
+                  "POST /v1/images/generations",
+                  "POST /v1/images/edits"
+                ]
+              },
+              {
+                "group": "视频系列",
+                "openapi": "openapi/relay.json",
+                "pages": [
+                  "cn/api-reference/video-series/overview",
+                  "cn/api-reference/video-series/brands/kling",
+                  "cn/api-reference/video-series/brands/veo",
+                  "cn/api-reference/video-series/brands/grok-imagine",
+                  "cn/api-reference/video-series/brands/minimax",
+                  "cn/api-reference/video-series/brands/ltx",
+                  "cn/api-reference/video-series/brands/jimeng",
+                  "cn/api-reference/video-series/brands/sora",
+                  "POST /v1/video/generations",
+                  "GET /v1/video/generations/{task_id}",
+                  "POST /v1/videos",
+                  "GET /v1/videos/{task_id}",
+                  "GET /v1/videos/{task_id}/content",
+                  "POST /kling/v1/videos/text2video",
+                  "GET /kling/v1/videos/text2video/{task_id}",
+                  "POST /kling/v1/videos/image2video",
+                  "GET /kling/v1/videos/image2video/{task_id}",
+                  "POST /jimeng/"
+                ]
+              },
+              {
+                "group": "音频系列",
+                "openapi": "openapi/relay.json",
+                "pages": [
+                  "cn/api-reference/audio-series/overview",
+                  "POST /v1/audio/speech",
+                  "POST /v1/audio/transcriptions",
+                  "POST /v1/audio/translations"
                 ]
               },
               {
@@ -226,45 +245,18 @@
                 ]
               },
               {
-                "group": "Image",
+                "group": "Language series",
                 "openapi": "openapi/relay.json",
                 "pages": [
-                  "en/api-reference/image-series/overview",
-                  "POST /v1/images/generations",
-                  "POST /v1/images/edits"
-                ]
-              },
-              {
-                "group": "Video",
-                "openapi": "openapi/relay.json",
-                "pages": [
-                  "en/api-reference/video-series/overview",
-                  "POST /v1/video/generations",
-                  "GET /v1/video/generations/{task_id}",
-                  "POST /v1/videos",
-                  "GET /v1/videos/{task_id}",
-                  "GET /v1/videos/{task_id}/content",
-                  "POST /kling/v1/videos/text2video",
-                  "GET /kling/v1/videos/text2video/{task_id}",
-                  "POST /kling/v1/videos/image2video",
-                  "GET /kling/v1/videos/image2video/{task_id}",
-                  "POST /jimeng/"
-                ]
-              },
-              {
-                "group": "Audio",
-                "openapi": "openapi/relay.json",
-                "pages": [
-                  "en/api-reference/audio-series/overview",
-                  "POST /v1/audio/speech",
-                  "POST /v1/audio/transcriptions",
-                  "POST /v1/audio/translations"
-                ]
-              },
-              {
-                "group": "Text & models",
-                "openapi": "openapi/relay.json",
-                "pages": [
+                  "en/api-reference/text-series/overview",
+                  "en/api-reference/text-series/brands/claude",
+                  "en/api-reference/text-series/brands/gemini",
+                  "en/api-reference/text-series/brands/gpt",
+                  "en/api-reference/text-series/brands/grok",
+                  "en/api-reference/text-series/brands/kimi",
+                  "en/api-reference/text-series/brands/deepseek",
+                  "en/api-reference/text-series/brands/minimax",
+                  "en/api-reference/text-series/brands/glm",
                   "en/api-reference/protocol/overview",
                   "POST /v1/chat/completions",
                   "POST /v1/completions",
@@ -279,6 +271,52 @@
                   "POST /v1/moderations",
                   "POST /v1/rerank",
                   "GET /v1/realtime"
+                ]
+              },
+              {
+                "group": "Image series",
+                "openapi": "openapi/relay.json",
+                "pages": [
+                  "en/api-reference/image-series/overview",
+                  "en/api-reference/image-series/brands/nano-banana",
+                  "en/api-reference/image-series/brands/gpt-image",
+                  "en/api-reference/image-series/brands/z-image",
+                  "POST /v1/images/generations",
+                  "POST /v1/images/edits"
+                ]
+              },
+              {
+                "group": "Video series",
+                "openapi": "openapi/relay.json",
+                "pages": [
+                  "en/api-reference/video-series/overview",
+                  "en/api-reference/video-series/brands/kling",
+                  "en/api-reference/video-series/brands/veo",
+                  "en/api-reference/video-series/brands/grok-imagine",
+                  "en/api-reference/video-series/brands/minimax",
+                  "en/api-reference/video-series/brands/ltx",
+                  "en/api-reference/video-series/brands/jimeng",
+                  "en/api-reference/video-series/brands/sora",
+                  "POST /v1/video/generations",
+                  "GET /v1/video/generations/{task_id}",
+                  "POST /v1/videos",
+                  "GET /v1/videos/{task_id}",
+                  "GET /v1/videos/{task_id}/content",
+                  "POST /kling/v1/videos/text2video",
+                  "GET /kling/v1/videos/text2video/{task_id}",
+                  "POST /kling/v1/videos/image2video",
+                  "GET /kling/v1/videos/image2video/{task_id}",
+                  "POST /jimeng/"
+                ]
+              },
+              {
+                "group": "Audio series",
+                "openapi": "openapi/relay.json",
+                "pages": [
+                  "en/api-reference/audio-series/overview",
+                  "POST /v1/audio/speech",
+                  "POST /v1/audio/transcriptions",
+                  "POST /v1/audio/translations"
                 ]
               },
               {

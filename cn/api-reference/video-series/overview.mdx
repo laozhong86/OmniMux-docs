@@ -1,70 +1,30 @@
 ---
 title: "视频系列"
-description: "统一视频任务、Sora 风格 /v1/videos、Kling 与即梦等路径的产品导读。"
+description: "按品牌发现视频模型；统一任务与 Kling / 即梦等路径。"
 ---
 
-视频生成走 **AI 网关**（`sk-` Bearer），Base URL：
+视频能力按 **品牌/产品族** 发现，再落到 **共用或渠道原生协议接口**（`sk-` 网关）。多数为 **异步** 任务。
 
-```text
-https://api.omnimux.ai
-```
+## 品牌
 
-多数视频接口是 **异步**：创建 → `task_id` → 轮询状态 → 取结果 URL。见 [异步任务](/cn/api-reference/cross-cutting/async-tasks)。
-
-## 主路径（推荐优先）
-
-| 能力 | 方法 | 路径 | 说明 |
-| --- | --- | --- | --- |
-| 创建任务 | `POST` | `/v1/video/generations` | 统一异步视频入口（多渠道 / 模型） |
-| 查询任务 | `GET` | `/v1/video/generations/{task_id}` | 状态与结果 |
-| OpenAI Videos 风格创建 | `POST` | `/v1/videos` | 兼容部分 Sora 风格客户端 |
-| 查询 / 内容 | `GET` | `/v1/videos/{task_id}` · `/v1/videos/{task_id}/content` | 状态与内容 |
-
-## 渠道原生路径（按模型 / 上游）
-
-| 系列 | 创建 | 查询 |
-| --- | --- | --- |
-| Kling 文生视频 | `POST /kling/v1/videos/text2video` | `GET .../text2video/{task_id}` |
-| Kling 图生视频 | `POST /kling/v1/videos/image2video` | `GET .../image2video/{task_id}` |
-| 即梦 | `POST /jimeng/` | 以响应约定为准 |
-
-同一账号上 **可用模型与路径以渠道配置为准**。不确定时先 `GET /v1/models`，并优先用 `/v1/video/generations`（若该模型挂在统一任务适配器上）。
-
-## 鉴权
-
-```http
-Authorization: Bearer sk-xxxxxxxx
-Content-Type: application/json
-```
-
-## 快速示例
-
-```bash
-# 创建
-curl -sS https://api.omnimux.ai/v1/video/generations \
-  -H "Authorization: Bearer $OMNIMUX_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "model": "YOUR_VIDEO_MODEL",
-    "prompt": "slow pan across a product on a table"
-  }'
-
-# 查询（task_id 来自创建响应）
-curl -sS "https://api.omnimux.ai/v1/video/generations/$TASK_ID" \
-  -H "Authorization: Bearer $OMNIMUX_API_KEY"
-```
-
-## 与其它系列的边界
-
-| 需求 | 去哪 |
+| 品牌 | 说明 |
 | --- | --- |
-| 仅出图 | [图像系列](/cn/api-reference/image-series/overview) |
-| 配音 / TTS | [音频系列](/cn/api-reference/audio-series/overview) |
-| 发布到社媒 | [Social Ops](/cn/api-reference/social-ops) |
-| Chat / Claude / Gemini 协议表 | [协议集成](/cn/api-reference/protocol/overview) |
+| [Kling](/cn/api-reference/video-series/brands/kling) | 原生 text2video / image2video 路径 |
+| [Veo / Omni Flash](/cn/api-reference/video-series/brands/veo) | Google 视频家族 |
+| [Grok Imagine](/cn/api-reference/video-series/brands/grok-imagine) | xAI 视频 |
+| [MiniMax](/cn/api-reference/video-series/brands/minimax) | Hailuo / h3 任务（含 async） |
+| [LTX](/cn/api-reference/video-series/brands/ltx) | LTX 应用 |
+| [即梦](/cn/api-reference/video-series/brands/jimeng) | 即梦原生 `/jimeng/` |
+| [Sora / Videos](/cn/api-reference/video-series/brands/sora) | OpenAI Videos 风格 `/v1/videos` |
+
+model id 以 `GET /v1/models` 为准。不确定时优先 `POST /v1/video/generations`（统一任务）。
+
+## 协议接口（侧栏本组）
+
+统一任务、Videos 风格、Kling、即梦等 try-it 挂在本组下方。
 
 ## 相关
 
 - [异步任务](/cn/api-reference/cross-cutting/async-tasks)  
-- [附录 · OpenAPI 试调用](/cn/api-reference/appendix/openapi)  
-- [模型列表](/cn/guides/models)  
+- [图像系列](/cn/api-reference/image-series/overview)  
+- [语言系列](/cn/api-reference/text-series/overview)  

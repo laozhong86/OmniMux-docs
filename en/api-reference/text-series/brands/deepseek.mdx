@@ -1,0 +1,46 @@
+---
+title: "DeepSeek"
+description: "DeepSeek · Language series brand guide; shared gateway protocols and model field."
+---
+
+Brand：**DeepSeek**（DeepSeek）
+
+DeepSeek text models via Chat Completions.
+
+## Recommended protocols
+
+| Method | Path | Notes |
+| --- | --- | --- |
+| `POST` | `/v1/chat/completions` | Chat Completions |
+
+## Example models
+
+| model |
+| --- |
+| `deepseek-v4-pro` |
+| `deepseek-v4-flash` |
+
+Snapshot examples only — **not** a guarantee of availability. Use `GET /v1/models` and the Model Square.
+
+## Example call
+
+```bash
+curl -sS https://api.omnimux.ai/v1/chat/completions \
+  -H "Authorization: Bearer $OMNIMUX_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "deepseek-v4-pro",
+    "messages": [{
+      "role": "user",
+      "content": "Hello"
+    }]
+  }'
+```
+
+## Related
+
+- [Series overview](/en/api-reference/text-series/overview)
+- Sibling **Protocol endpoints** in the sidebar
+- [Async tasks](/en/api-reference/cross-cutting/async-tasks)
+- [Models](/en/guides/models)
+

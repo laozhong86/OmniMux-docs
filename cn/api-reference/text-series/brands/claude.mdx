@@ -1,0 +1,52 @@
+---
+title: "Claude"
+description: "Anthropic · 语言系列品牌导读；共用网关协议与 model 字段。"
+---
+
+品牌：**Claude**（Anthropic）
+
+优先用 `/v1/messages` 走 Claude 原生协议；也可用 Chat Completions。`model` 以账户可用列表为准。
+
+## 推荐协议
+
+| 方法 | Path | 说明 |
+| --- | --- | --- |
+| `POST` | `/v1/messages` | Anthropic Messages 原生 |
+| `POST` | `/v1/chat/completions` | OpenAI Chat 兼容 |
+
+## 示例 model
+
+| model |
+| --- |
+| `claude-opus-5` |
+| `claude-opus-4-8` |
+| `claude-opus-4-7` |
+| `claude-opus-4-6` |
+| `claude-sonnet-5` |
+| `claude-sonnet-4-6` |
+| `claude-haiku-4-5` |
+| `claude-fable-5` |
+
+以上为文档快照示例，**不代表**你的账户一定开通。请以 `GET /v1/models` 与控制台模型广场为准。
+
+## 调用示例
+
+```bash
+curl -sS https://api.omnimux.ai/v1/messages \
+  -H "Authorization: Bearer $OMNIMUX_API_KEY" \
+  -H "Content-Type: application/json" \
+  -H "anthropic-version: 2023-06-01" \
+  -d '{
+    "model": "claude-opus-5",
+    "max_tokens": 256,
+    "messages": [{"role": "user", "content": "Hello"}]
+  }'
+```
+
+## 相关
+
+- [系列导读](/cn/api-reference/text-series/overview)
+- 侧栏同组 **协议接口**
+- [异步任务](/cn/api-reference/cross-cutting/async-tasks)
+- [模型列表](/cn/guides/models)
+
