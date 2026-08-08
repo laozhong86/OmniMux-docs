@@ -16,17 +16,18 @@ Embedding a full OpenAPI document under `## OpenAPI` as a code fence **fails** (
 openapi/
   relay.json                 # appendix / full snapshot
   ops/
-    chat/<model-id>.json     # single POST /v1/chat/completions, model pinned
+    chat/<brand>.json        # brand × Chat Completions; model.enum = live ids
 ```
 
-## Chat generator
+## Chat generator (contract axis)
 
 ```bash
-python3 scripts/gen-chat-capability-pages.py --models <id>
-python3 scripts/gen-chat-capability-pages.py --all-text
+python3 scripts/gen-chat-capability-pages.py --all-brands --cleanup-per-model --update-nav
+python3 scripts/gen-chat-capability-pages.py --brands claude
 ```
 
-MDX body is short (bullets + identity). Contract UI is 100% from the ops JSON via frontmatter.
+MDX: `text-series/<brand>/complete.mdx` (bullets + model table).  
+UI: frontmatter `openapi:` → ops JSON.
 
 ## Field sources
 

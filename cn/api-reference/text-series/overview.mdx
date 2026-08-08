@@ -1,19 +1,19 @@
 ---
 title: "概述"
-description: "语言系列：按品牌发现，L3 为 model id。"
+description: "语言系列：按品牌进入完整参数（共用 Chat Completions 合同）"
 ---
 
-语言能力按 **品牌 → model id** 组织。仅展示线上 pricing 已有模型。
+语言能力按 **品牌 → 完整参数（合同）** 组织。同一品牌下 model id 共用请求/响应形状，仅 `model` 取值不同。
 
-| 品牌 | 说明 |
+| 品牌 | 文档 |
 | --- | --- |
-| Claude | Anthropic |
-| Gemini | Google |
-| GPT | OpenAI |
-| Grok | xAI |
-| Kimi | Moonshot |
-| DeepSeek | DeepSeek |
-| MiniMax | MiniMax 文本 |
-| GLM | 智谱 |
+| Claude | [完整参数](./claude/complete) |
+| Gemini | [完整参数](./gemini/complete) |
+| GPT | [完整参数](./gpt/complete) |
+| Grok | [完整参数](./grok/complete) |
+| Kimi | [完整参数](./kimi/complete) |
+| DeepSeek | [完整参数](./deepseek/complete) |
+| MiniMax | [完整参数](./minimax/complete) |
+| GLM | [完整参数](./glm/complete) |
 
-协议（Chat / Messages / Responses）写在品牌与模型页正文，**不当侧栏栏目名**。
+不同协议（如未来 Messages / Responses）才单独加页，不按 model id 复制合同。

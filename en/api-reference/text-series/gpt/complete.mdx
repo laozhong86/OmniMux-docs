@@ -1,0 +1,24 @@
+---
+title: "GPT · Complete reference"
+sidebarTitle: "Complete reference"
+description: "GPT · Chat Completions complete reference (shared contract, model enum)"
+openapi: "openapi/ops/chat/gpt.json POST /v1/chat/completions"
+---
+
+> - Protocol: OpenAI Chat Completions (`POST /v1/chat/completions`)
+> - **Shared contract** for all GPT ids below; only body `model` changes
+> - Synchronous by default; `stream: true` for SSE
+
+## Available models
+
+| model id |
+| --- |
+| `gpt-5.4-mini` |
+| `gpt-5.4` |
+| `gpt-5.5` |
+| `gpt-5.6-luna` |
+| `gpt-5.6-sol` |
+| `gpt-5.6-terra` |
+
+
+Base URL: `https://api.omnimux.ai`

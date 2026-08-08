@@ -8,25 +8,25 @@ When product ships/changes **user-facing HTTP**:
 2. Update **OmniMux-docs** (cn + en + `docs.json` if new).  
 3. Callable L3 uses **OpenAPI operation** page shape (not thin tables only).
 
-## W1. Add AI language model
+## W1. Add AI language model (same Chat contract)
 
 1. Confirm live on `GET /api/pricing`.  
-2. Map brand → L2 group.  
-3. Run:
+2. Add model id to brand enum by ensuring discovery list (filename under models archive **or** update brand catalog in generator) then:
    ```bash
-   python3 scripts/gen-chat-capability-pages.py --models <model-id>
+   python3 scripts/gen-chat-capability-pages.py --brands <brand>
    ```
-4. `docs.json`: append model path under brand group (no brand hub child).  
-5. Optional: brand overview table link.  
-6. Smoke URL 200; ego: left OpenAPI Body field tree + 402.
+3. Do **not** add a new nav leaf per model.  
+4. Smoke brand complete URL; ego: Authorizations/Body + model enum includes new id.
 
-## W1b. Bulk language Complete (Phase 1)
+## W1b. Regen all language brand contracts
 
 ```bash
-python3 scripts/gen-chat-capability-pages.py --all-text
+python3 scripts/gen-chat-capability-pages.py --all-brands --cleanup-per-model --update-nav
 ```
 
-Only after Phase 0 probe accepted on production.
+## W1c. New protocol under same brand
+
+If path/schema differs (e.g. `/v1/messages`), add a **second** contract page under the brand — not a per-model page.
 
 ## W2. Add social-data capability
 

@@ -1,8 +1,19 @@
 ---
 title: "Overview"
-description: "Language series: discover by brand; L3 is model id."
+description: "Language series: brand → complete contract (shared Chat Completions)"
 ---
 
-Language models are organized **brand → model id**. Only models present in live pricing are listed.
+Language APIs are organized by **brand → complete reference (contract)**. Model ids under a brand share the same request/response shape; only the `model` value changes.
 
-Protocols (Chat / Messages / Responses) appear in page bodies — **not** as sidebar path titles.
+| Brand | Docs |
+| --- | --- |
+| Claude | [Complete reference](./claude/complete) |
+| Gemini | [Complete reference](./gemini/complete) |
+| GPT | [Complete reference](./gpt/complete) |
+| Grok | [Complete reference](./grok/complete) |
+| Kimi | [Complete reference](./kimi/complete) |
+| DeepSeek | [Complete reference](./deepseek/complete) |
+| MiniMax | [Complete reference](./minimax/complete) |
+| GLM | [Complete reference](./glm/complete) |
+
+Add a separate page only for a different protocol (e.g. Messages / Responses), not for each model id.
