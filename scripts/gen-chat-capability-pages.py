@@ -494,15 +494,9 @@ def update_docs_json() -> None:
             for g in tab.get("groups", []):
                 if g.get("group") not in ("语言系列", "Language series"):
                     continue
-                overview = f"{loc}/api-reference/text-series/overview"
-                pages: list[Any] = []
-                # keep series overview if file exists
-                ov = ROOT / f"{overview}.mdx"
-                if ov.exists():
-                    pages.append(overview)
-                pages.extend(brand_pages(loc))
-                g["pages"] = pages
-                print(f"updated {loc} language series nav", len(pages))
+                # no series overview pages — lean nav (contract leaves only)
+                g["pages"] = brand_pages(loc)
+                print(f"updated {loc} language series nav", len(g["pages"]))
     path.write_text(json.dumps(d, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 

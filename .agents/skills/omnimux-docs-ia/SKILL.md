@@ -43,7 +43,7 @@ Do **not** invent parallel IA. Live site + `docs.json` + this skill are the sour
 6. **社交数据 ≠ 社媒发布**.  
 7. **连接账户** = **Connecting Accounts**.  
 8. **No duplicate L2 name under L2**.  
-9. **Lean nav**: no meta 概览 group; no per-model spam when contract is shared.  
+9. **Lean nav**: no meta 概览 group; **no series/account/task `overview` pages** in sidebar or repo (delete, do not leave orphan leaves); no per-model spam when contract is shared.  
 10. **Callable page = Mintlify `openapi` frontmatter** → ops JSON (`openapi: "…json METHOD /path"`). Renders Authorizations/Body/Response (Evolink layout).  
 11. **Forbidden**: raw OpenAPI YAML fence dump under `## OpenAPI`.  
 12. **402** on billed ops.  

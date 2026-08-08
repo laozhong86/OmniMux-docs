@@ -70,7 +70,6 @@
               {
                 "group": "语言系列",
                 "pages": [
-                  "cn/api-reference/text-series/overview",
                   {
                     "group": "Claude",
                     "pages": [
@@ -124,7 +123,6 @@
               {
                 "group": "图像系列",
                 "pages": [
-                  "cn/api-reference/image-series/overview",
                   {
                     "group": "Nano Banana",
                     "pages": [
@@ -151,7 +149,6 @@
               {
                 "group": "视频系列",
                 "pages": [
-                  "cn/api-reference/video-series/overview",
                   {
                     "group": "MiniMax",
                     "pages": [
@@ -193,7 +190,6 @@
               {
                 "group": "社交数据",
                 "pages": [
-                  "cn/api-reference/social-data/overview",
                   {
                     "group": "TikTok",
                     "pages": [
@@ -235,7 +231,6 @@
               {
                 "group": "社媒发布",
                 "pages": [
-                  "cn/api-reference/publishing/overview",
                   {
                     "group": "连接账户",
                     "pages": [
@@ -263,7 +258,6 @@
               {
                 "group": "账户管理",
                 "pages": [
-                  "cn/api-reference/account/overview",
                   {
                     "group": "登录鉴权",
                     "pages": [
@@ -282,7 +276,6 @@
               {
                 "group": "任务管理",
                 "pages": [
-                  "cn/api-reference/tasks/overview",
                   {
                     "group": "AI 异步任务",
                     "pages": [
@@ -305,12 +298,6 @@
           {
             "tab": "集成指南",
             "groups": [
-              {
-                "group": "概览",
-                "pages": [
-                  "cn/integration-guide/overview"
-                ]
-              },
               {
                 "group": "Coding CLI",
                 "pages": [
@@ -371,7 +358,6 @@
               {
                 "group": "Language series",
                 "pages": [
-                  "en/api-reference/text-series/overview",
                   {
                     "group": "Claude",
                     "pages": [
@@ -425,7 +411,6 @@
               {
                 "group": "Image series",
                 "pages": [
-                  "en/api-reference/image-series/overview",
                   {
                     "group": "Nano Banana",
                     "pages": [
@@ -452,7 +437,6 @@
               {
                 "group": "Video series",
                 "pages": [
-                  "en/api-reference/video-series/overview",
                   {
                     "group": "MiniMax",
                     "pages": [
@@ -494,7 +478,6 @@
               {
                 "group": "Social data",
                 "pages": [
-                  "en/api-reference/social-data/overview",
                   {
                     "group": "TikTok",
                     "pages": [
@@ -536,7 +519,6 @@
               {
                 "group": "Publishing",
                 "pages": [
-                  "en/api-reference/publishing/overview",
                   {
                     "group": "Connecting Accounts",
                     "pages": [
@@ -564,7 +546,6 @@
               {
                 "group": "Account",
                 "pages": [
-                  "en/api-reference/account/overview",
                   {
                     "group": "Auth",
                     "pages": [
@@ -583,7 +564,6 @@
               {
                 "group": "Tasks",
                 "pages": [
-                  "en/api-reference/tasks/overview",
                   {
                     "group": "AI async tasks",
                     "pages": [
@@ -606,12 +586,6 @@
           {
             "tab": "Integration guide",
             "groups": [
-              {
-                "group": "Overview",
-                "pages": [
-                  "en/integration-guide/overview"
-                ]
-              },
               {
                 "group": "Coding CLIs",
                 "pages": [

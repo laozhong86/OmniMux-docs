@@ -42,31 +42,33 @@ L1  系列 / 管理面          （发现主轴）
 
 **Not L1 (do not reintroduce without product+docs decision):**
 
-- **概览 meta 组**（API 手册概览 / 文档覆盖说明 / 错误码独立栏目）— 侧栏不展示；错误样例在各 capability 页 Response  
+- **任何 `overview` / 概述 栏目页**（系列概述、API 手册概览、覆盖说明、集成指南概览等）— **删除文件且不进 `docs.json`**  
+- **概览 meta 组**（错误码独立栏目等）— 错误样例在 capability Response  
 - 音频系列（无 live Audio Generation models）  
 - 文件管理（无独立通用文件 API；媒体归社媒发布）  
 - Social Ops 命名  
 - 空品牌（Kling/Sora/即梦 path 壳无 model）  
 
-**Nav lean rule:** 侧栏只保留可调用能力路径；禁止说明性、覆盖矩阵、重复错误码目录加厚导航。
+**Nav lean rule:** 侧栏只保留可调用合同/能力路径；禁止概述、覆盖矩阵、重复说明页加厚导航。
 ## Directory map (repo)
 
 ```text
 cn|en/api-reference/
-  text-series/{overview, <brand>/complete.mdx}   # brand contract pages
-  image-series/{overview,brands/*,models/*}      # phase 2: prefer contract axis later
-  video-series/{overview,brands/*,models/*}
-  social-data/{overview,brands/*,tiktok|instagram|youtube|x/*}
-  publishing/{overview,connecting-accounts,posts,media,start-connect,...}
-  account/{overview,device-login,balance,pricing}
-  tasks/{overview,video-task,video-content,image-task}
+  text-series/<brand>/complete.mdx    # brand contract pages (no overview)
+  image-series/{brands/*,models/*}
+  video-series/{brands/*,models/*}
+  social-data/{brands/*,tiktok|instagram|youtube|x/*}
+  publishing/{connecting-accounts,posts,media,start-connect,...}
+  account/{device-login,balance,pricing}
+  tasks/{video-task,video-content,image-task}
   appendix/openapi.mdx
 docs.json
 openapi/relay.json
-openapi/ops/chat/<brand>.json    # brand × Chat Completions (model enum)
+openapi/ops/chat/<brand>.json
 scripts/gen-chat-capability-pages.py
 ```
 
+Do **not** create `**/overview.mdx` for series or guides.
 
 Brand MDX under `brands/` may exist for deep links / series overview tables, but **`docs.json` must not nest a child page titled the same as the L2 group**.
 
