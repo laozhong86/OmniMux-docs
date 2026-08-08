@@ -1,6 +1,7 @@
 ---
 title: "zimage-makeup-async"
 description: "图像 · `zimage-makeup-async`"
+api: "POST https://api.omnimux.ai/v1/images/generations"
 ---
 
 | 字段 | 值 |
@@ -16,9 +17,10 @@ description: "图像 · `zimage-makeup-async`"
 
 Base：`https://api.omnimux.ai` · `sk-` Bearer
 
-## 请求示例
 
-<CodeGroup>
+
+<RequestExample>
+
 ```bash cURL
 curl --request POST \
   --url https://api.omnimux.ai/v1/images/generations \
@@ -30,13 +32,12 @@ curl --request POST \
   "n": 1
 }'
 ```
-</CodeGroup>
 
-## 响应示例
+</RequestExample>
 
-<Tabs>
-  <Tab title="200">
-```json
+<ResponseExample>
+
+```json 200
 {
   "created": 1741428397,
   "data": [
@@ -44,42 +45,35 @@ curl --request POST \
   ]
 }
 ```
-  </Tab>
-  <Tab title="400">
-```json
+
+```json 400
 {
   "error": { "message": "Invalid request", "type": "invalid_request_error", "code": "bad_request" }
 }
 ```
-  </Tab>
-  <Tab title="401">
-```json
+
+```json 401
 {
   "error": { "message": "Invalid token", "type": "authentication_error", "code": "unauthorized" }
 }
 ```
-  </Tab>
-  <Tab title="403">
-```json
+
+```json 403
 {
   "error": { "message": "Model not allowed", "type": "permission_error", "code": "forbidden" }
 }
 ```
-  </Tab>
-  <Tab title="429">
-```json
+
+```json 429
 {
   "error": { "message": "Rate limit exceeded", "type": "rate_limit_error", "code": "rate_limit_exceeded" }
 }
 ```
-  </Tab>
-  <Tab title="500">
-```json
+
+```json 500
 {
   "error": { "message": "Internal server error", "type": "server_error", "code": "internal_error" }
 }
 ```
-  </Tab>
-</Tabs>
 
-异步渠道可能先返回 `task_id`，再轮询任务接口。
+</ResponseExample>

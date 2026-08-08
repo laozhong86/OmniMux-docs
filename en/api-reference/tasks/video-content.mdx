@@ -9,44 +9,41 @@ description: "GET https://api.omnimux.ai/v1/videos/{task_id}/content"
 | URL | `https://api.omnimux.ai/v1/videos/{task_id}/content` |
 | Auth | `sk-` Bearer |
 
-## Request example
 
-```bash
-curl --request GET \
+
+<RequestExample>
+
+```bash curl --request GET \
   --url https://api.omnimux.ai/v1/videos/$TASK_ID/content \
   --header 'Authorization: Bearer <token>'
 ```
 
-## Response examples
+</RequestExample>
 
-<Tabs>
-  <Tab title="200">
-```json
+<ResponseExample>
+
+```json 200
 {
   "task_id": "task_01HXYZ",
   "status": "completed",
   "result": { "url": "https://example.com/out.mp4" }
 }
 ```
-  </Tab>
-  <Tab title="401">
-```json
+
+```json 401
 { "error": { "message": "Invalid token", "type": "authentication_error", "code": "unauthorized" } }
 ```
-  </Tab>
-  <Tab title="404">
-```json
+
+```json 404
 { "error": { "message": "Task not found", "type": "invalid_request_error", "code": "not_found" } }
 ```
-  </Tab>
-  <Tab title="429">
-```json
+
+```json 429
 { "error": { "message": "Rate limit exceeded", "type": "rate_limit_error", "code": "rate_limit_exceeded" } }
 ```
-  </Tab>
-  <Tab title="500">
-```json
+
+```json 500
 { "error": { "message": "Internal server error", "type": "server_error", "code": "internal_error" } }
 ```
-  </Tab>
-</Tabs>
+
+</ResponseExample>

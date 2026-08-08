@@ -19,11 +19,9 @@ AI 网关（`sk-`）与多数用户 API 共用下列 HTTP 语义。具体业务 
 | `502` | 上游错误 / Bad Gateway |
 | `503` | 服务暂不可用 |
 
-## 响应示例
+<ResponseExample>
 
-<Tabs>
-  <Tab title="200">
-```json
+```json 200
 {
   "id": "chatcmpl-example",
   "object": "chat.completion",
@@ -37,9 +35,8 @@ AI 网关（`sk-`）与多数用户 API 共用下列 HTTP 语义。具体业务 
   ]
 }
 ```
-  </Tab>
-  <Tab title="400">
-```json
+
+```json 400
 {
   "error": {
     "message": "Invalid request: missing required field or invalid parameter",
@@ -48,9 +45,8 @@ AI 网关（`sk-`）与多数用户 API 共用下列 HTTP 语义。具体业务 
   }
 }
 ```
-  </Tab>
-  <Tab title="401">
-```json
+
+```json 401
 {
   "error": {
     "message": "Invalid token or authentication failed",
@@ -59,9 +55,8 @@ AI 网关（`sk-`）与多数用户 API 共用下列 HTTP 语义。具体业务 
   }
 }
 ```
-  </Tab>
-  <Tab title="403">
-```json
+
+```json 403
 {
   "error": {
     "message": "Model not allowed for this token, or access denied",
@@ -70,9 +65,8 @@ AI 网关（`sk-`）与多数用户 API 共用下列 HTTP 语义。具体业务 
   }
 }
 ```
-  </Tab>
-  <Tab title="429">
-```json
+
+```json 429
 {
   "error": {
     "message": "Rate limit exceeded. Please retry later.",
@@ -81,9 +75,8 @@ AI 网关（`sk-`）与多数用户 API 共用下列 HTTP 语义。具体业务 
   }
 }
 ```
-  </Tab>
-  <Tab title="500">
-```json
+
+```json 500
 {
   "error": {
     "message": "Internal server error",
@@ -92,9 +85,8 @@ AI 网关（`sk-`）与多数用户 API 共用下列 HTTP 语义。具体业务 
   }
 }
 ```
-  </Tab>
-  <Tab title="502">
-```json
+
+```json 502
 {
   "error": {
     "message": "Upstream provider error or bad gateway",
@@ -103,9 +95,8 @@ AI 网关（`sk-`）与多数用户 API 共用下列 HTTP 语义。具体业务 
   }
 }
 ```
-  </Tab>
-  <Tab title="503">
-```json
+
+```json 503
 {
   "error": {
     "message": "Service temporarily unavailable",
@@ -114,7 +105,7 @@ AI 网关（`sk-`）与多数用户 API 共用下列 HTTP 语义。具体业务 
   }
 }
 ```
-  </Tab>
-</Tabs>
+
+</ResponseExample>
 
 模型与能力页的「响应示例」Tabs 与上表一致；成功体因接口而异。

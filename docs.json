@@ -30,6 +30,12 @@
       ],
       "defaults": "required",
       "autogenerate": true
+    },
+    "mdx": {
+      "server": "https://api.omnimux.ai",
+      "auth": {
+        "method": "bearer"
+      }
     }
   },
   "navigation": {

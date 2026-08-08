@@ -9,9 +9,10 @@ description: "GET /api/social/v1/posts/{id}"
 | 路径 | `https://omnimux.ai/api/social/v1/posts/{id}` |
 | 鉴权 | access token + `New-Api-User` |
 
-## 请求示例
 
-<CodeGroup>
+
+<RequestExample>
+
 ```bash cURL
 curl --request GET \
   --url https://omnimux.ai/api/social/v1/posts/{id} \
@@ -19,54 +20,48 @@ curl --request GET \
   --header 'New-Api-User: <user_id>' \
   --header 'Content-Type: application/json'
 ```
-</CodeGroup>
 
-## 响应示例
+</RequestExample>
 
-<Tabs>
-  <Tab title="200">
-```json
+<ResponseExample>
+
+```json 200
 {"success":true,"data":{"id":1,"status":"published"}}
 ```
-  </Tab>
-  <Tab title="401">
-```json
+
+```json 401
 {
   "success": false,
   "message": "Unauthorized"
 }
 ```
-  </Tab>
-  <Tab title="403">
-```json
+
+```json 403
 {
   "success": false,
   "message": "Forbidden"
 }
 ```
-  </Tab>
-  <Tab title="404">
-```json
+
+```json 404
 {
   "success": false,
   "message": "Not found"
 }
 ```
-  </Tab>
-  <Tab title="429">
-```json
+
+```json 429
 {
   "success": false,
   "message": "Rate limit exceeded"
 }
 ```
-  </Tab>
-  <Tab title="500">
-```json
+
+```json 500
 {
   "success": false,
   "message": "Internal server error"
 }
 ```
-  </Tab>
-</Tabs>
+
+</ResponseExample>
