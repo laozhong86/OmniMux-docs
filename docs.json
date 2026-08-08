@@ -74,7 +74,6 @@
                   "cn/api-reference/text-series/overview",
                   {
                     "group": "Claude",
-                    "root": "cn/api-reference/text-series/brands/claude",
                     "pages": [
                       "cn/api-reference/text-series/models/claude-fable-5",
                       "cn/api-reference/text-series/models/claude-haiku-4-5",
@@ -88,7 +87,6 @@
                   },
                   {
                     "group": "Gemini",
-                    "root": "cn/api-reference/text-series/brands/gemini",
                     "pages": [
                       "cn/api-reference/text-series/models/gemini-2.5-flash",
                       "cn/api-reference/text-series/models/gemini-2.5-flash-lite",
@@ -107,7 +105,6 @@
                   },
                   {
                     "group": "GPT",
-                    "root": "cn/api-reference/text-series/brands/gpt",
                     "pages": [
                       "cn/api-reference/text-series/models/gpt-5.4",
                       "cn/api-reference/text-series/models/gpt-5.4-mini",
@@ -119,7 +116,6 @@
                   },
                   {
                     "group": "Grok",
-                    "root": "cn/api-reference/text-series/brands/grok",
                     "pages": [
                       "cn/api-reference/text-series/models/grok-4.20-0309-non-reasoning",
                       "cn/api-reference/text-series/models/grok-4.20-0309-reasoning",
@@ -132,7 +128,6 @@
                   },
                   {
                     "group": "Kimi",
-                    "root": "cn/api-reference/text-series/brands/kimi",
                     "pages": [
                       "cn/api-reference/text-series/models/kimi-k2.6",
                       "cn/api-reference/text-series/models/kimi-k2.7-code",
@@ -141,7 +136,6 @@
                   },
                   {
                     "group": "DeepSeek",
-                    "root": "cn/api-reference/text-series/brands/deepseek",
                     "pages": [
                       "cn/api-reference/text-series/models/deepseek-v4-flash",
                       "cn/api-reference/text-series/models/deepseek-v4-pro"
@@ -149,7 +143,6 @@
                   },
                   {
                     "group": "MiniMax",
-                    "root": "cn/api-reference/text-series/brands/minimax",
                     "pages": [
                       "cn/api-reference/text-series/models/minimax-m2.5",
                       "cn/api-reference/text-series/models/minimax-m2.7",
@@ -158,7 +151,6 @@
                   },
                   {
                     "group": "GLM",
-                    "root": "cn/api-reference/text-series/brands/glm",
                     "pages": [
                       "cn/api-reference/text-series/models/glm-5.1",
                       "cn/api-reference/text-series/models/glm-5.2"
@@ -172,7 +164,6 @@
                   "cn/api-reference/image-series/overview",
                   {
                     "group": "Nano Banana",
-                    "root": "cn/api-reference/image-series/brands/nano-banana",
                     "pages": [
                       "cn/api-reference/image-series/models/nano_banana_2",
                       "cn/api-reference/image-series/models/nano_banana_pro"
@@ -180,7 +171,6 @@
                   },
                   {
                     "group": "GPT Image",
-                    "root": "cn/api-reference/image-series/brands/gpt-image",
                     "pages": [
                       "cn/api-reference/image-series/models/gpt-image2",
                       "cn/api-reference/image-series/models/gpt-image2-hd"
@@ -188,7 +178,6 @@
                   },
                   {
                     "group": "Z Image",
-                    "root": "cn/api-reference/image-series/brands/z-image",
                     "pages": [
                       "cn/api-reference/image-series/models/zimage-makeup",
                       "cn/api-reference/image-series/models/zimage-makeup-async"
@@ -202,7 +191,6 @@
                   "cn/api-reference/video-series/overview",
                   {
                     "group": "MiniMax",
-                    "root": "cn/api-reference/video-series/brands/minimax",
                     "pages": [
                       "cn/api-reference/video-series/models/minimax-h3-endframe",
                       "cn/api-reference/video-series/models/minimax-h3-endframe-async",
@@ -216,7 +204,6 @@
                   },
                   {
                     "group": "Veo / Omni Flash",
-                    "root": "cn/api-reference/video-series/brands/veo",
                     "pages": [
                       "cn/api-reference/video-series/models/omni_flash",
                       "cn/api-reference/video-series/models/omni_flash-10s",
@@ -227,7 +214,6 @@
                   },
                   {
                     "group": "LTX",
-                    "root": "cn/api-reference/video-series/brands/ltx",
                     "pages": [
                       "cn/api-reference/video-series/models/ltx2.3-kj",
                       "cn/api-reference/video-series/models/ltx2.3-kj-async"
@@ -235,7 +221,6 @@
                   },
                   {
                     "group": "Grok Imagine",
-                    "root": "cn/api-reference/video-series/brands/grok-imagine",
                     "pages": [
                       "cn/api-reference/video-series/models/grok-imagine-video-1.5"
                     ]
@@ -248,7 +233,6 @@
                   "cn/api-reference/social-data/overview",
                   {
                     "group": "TikTok",
-                    "root": "cn/api-reference/social-data/brands/tiktok",
                     "pages": [
                       "cn/api-reference/social-data/tiktok/post-detail",
                       "cn/api-reference/social-data/tiktok/user-profile",
@@ -258,7 +242,6 @@
                   },
                   {
                     "group": "Instagram",
-                    "root": "cn/api-reference/social-data/brands/instagram",
                     "pages": [
                       "cn/api-reference/social-data/instagram/post-detail",
                       "cn/api-reference/social-data/instagram/user-profile",
@@ -268,7 +251,6 @@
                   },
                   {
                     "group": "YouTube",
-                    "root": "cn/api-reference/social-data/brands/youtube",
                     "pages": [
                       "cn/api-reference/social-data/youtube/video-detail",
                       "cn/api-reference/social-data/youtube/channel-info",
@@ -278,7 +260,6 @@
                   },
                   {
                     "group": "X",
-                    "root": "cn/api-reference/social-data/brands/x",
                     "pages": [
                       "cn/api-reference/social-data/x/tweet-detail",
                       "cn/api-reference/social-data/x/user-profile",
@@ -294,7 +275,6 @@
                   "cn/api-reference/publishing/overview",
                   {
                     "group": "连接账户",
-                    "root": "cn/api-reference/publishing/connecting-accounts",
                     "pages": [
                       "cn/api-reference/publishing/start-connect",
                       "cn/api-reference/publishing/list-accounts",
@@ -303,7 +283,6 @@
                   },
                   {
                     "group": "帖子",
-                    "root": "cn/api-reference/publishing/posts",
                     "pages": [
                       "cn/api-reference/publishing/create-post",
                       "cn/api-reference/publishing/get-post"
@@ -311,7 +290,6 @@
                   },
                   {
                     "group": "媒体",
-                    "root": "cn/api-reference/publishing/media",
                     "pages": [
                       "cn/api-reference/publishing/presign",
                       "cn/api-reference/publishing/upload"
@@ -440,7 +418,6 @@
                   "en/api-reference/text-series/overview",
                   {
                     "group": "Claude",
-                    "root": "en/api-reference/text-series/brands/claude",
                     "pages": [
                       "en/api-reference/text-series/models/claude-fable-5",
                       "en/api-reference/text-series/models/claude-haiku-4-5",
@@ -454,7 +431,6 @@
                   },
                   {
                     "group": "Gemini",
-                    "root": "en/api-reference/text-series/brands/gemini",
                     "pages": [
                       "en/api-reference/text-series/models/gemini-2.5-flash",
                       "en/api-reference/text-series/models/gemini-2.5-flash-lite",
@@ -473,7 +449,6 @@
                   },
                   {
                     "group": "GPT",
-                    "root": "en/api-reference/text-series/brands/gpt",
                     "pages": [
                       "en/api-reference/text-series/models/gpt-5.4",
                       "en/api-reference/text-series/models/gpt-5.4-mini",
@@ -485,7 +460,6 @@
                   },
                   {
                     "group": "Grok",
-                    "root": "en/api-reference/text-series/brands/grok",
                     "pages": [
                       "en/api-reference/text-series/models/grok-4.20-0309-non-reasoning",
                       "en/api-reference/text-series/models/grok-4.20-0309-reasoning",
@@ -498,7 +472,6 @@
                   },
                   {
                     "group": "Kimi",
-                    "root": "en/api-reference/text-series/brands/kimi",
                     "pages": [
                       "en/api-reference/text-series/models/kimi-k2.6",
                       "en/api-reference/text-series/models/kimi-k2.7-code",
@@ -507,7 +480,6 @@
                   },
                   {
                     "group": "DeepSeek",
-                    "root": "en/api-reference/text-series/brands/deepseek",
                     "pages": [
                       "en/api-reference/text-series/models/deepseek-v4-flash",
                       "en/api-reference/text-series/models/deepseek-v4-pro"
@@ -515,7 +487,6 @@
                   },
                   {
                     "group": "MiniMax",
-                    "root": "en/api-reference/text-series/brands/minimax",
                     "pages": [
                       "en/api-reference/text-series/models/minimax-m2.5",
                       "en/api-reference/text-series/models/minimax-m2.7",
@@ -524,7 +495,6 @@
                   },
                   {
                     "group": "GLM",
-                    "root": "en/api-reference/text-series/brands/glm",
                     "pages": [
                       "en/api-reference/text-series/models/glm-5.1",
                       "en/api-reference/text-series/models/glm-5.2"
@@ -538,7 +508,6 @@
                   "en/api-reference/image-series/overview",
                   {
                     "group": "Nano Banana",
-                    "root": "en/api-reference/image-series/brands/nano-banana",
                     "pages": [
                       "en/api-reference/image-series/models/nano_banana_2",
                       "en/api-reference/image-series/models/nano_banana_pro"
@@ -546,7 +515,6 @@
                   },
                   {
                     "group": "GPT Image",
-                    "root": "en/api-reference/image-series/brands/gpt-image",
                     "pages": [
                       "en/api-reference/image-series/models/gpt-image2",
                       "en/api-reference/image-series/models/gpt-image2-hd"
@@ -554,7 +522,6 @@
                   },
                   {
                     "group": "Z Image",
-                    "root": "en/api-reference/image-series/brands/z-image",
                     "pages": [
                       "en/api-reference/image-series/models/zimage-makeup",
                       "en/api-reference/image-series/models/zimage-makeup-async"
@@ -568,7 +535,6 @@
                   "en/api-reference/video-series/overview",
                   {
                     "group": "MiniMax",
-                    "root": "en/api-reference/video-series/brands/minimax",
                     "pages": [
                       "en/api-reference/video-series/models/minimax-h3-endframe",
                       "en/api-reference/video-series/models/minimax-h3-endframe-async",
@@ -582,7 +548,6 @@
                   },
                   {
                     "group": "Veo / Omni Flash",
-                    "root": "en/api-reference/video-series/brands/veo",
                     "pages": [
                       "en/api-reference/video-series/models/omni_flash",
                       "en/api-reference/video-series/models/omni_flash-10s",
@@ -593,7 +558,6 @@
                   },
                   {
                     "group": "LTX",
-                    "root": "en/api-reference/video-series/brands/ltx",
                     "pages": [
                       "en/api-reference/video-series/models/ltx2.3-kj",
                       "en/api-reference/video-series/models/ltx2.3-kj-async"
@@ -601,7 +565,6 @@
                   },
                   {
                     "group": "Grok Imagine",
-                    "root": "en/api-reference/video-series/brands/grok-imagine",
                     "pages": [
                       "en/api-reference/video-series/models/grok-imagine-video-1.5"
                     ]
@@ -614,7 +577,6 @@
                   "en/api-reference/social-data/overview",
                   {
                     "group": "TikTok",
-                    "root": "en/api-reference/social-data/brands/tiktok",
                     "pages": [
                       "en/api-reference/social-data/tiktok/post-detail",
                       "en/api-reference/social-data/tiktok/user-profile",
@@ -624,7 +586,6 @@
                   },
                   {
                     "group": "Instagram",
-                    "root": "en/api-reference/social-data/brands/instagram",
                     "pages": [
                       "en/api-reference/social-data/instagram/post-detail",
                       "en/api-reference/social-data/instagram/user-profile",
@@ -634,7 +595,6 @@
                   },
                   {
                     "group": "YouTube",
-                    "root": "en/api-reference/social-data/brands/youtube",
                     "pages": [
                       "en/api-reference/social-data/youtube/video-detail",
                       "en/api-reference/social-data/youtube/channel-info",
@@ -644,7 +604,6 @@
                   },
                   {
                     "group": "X",
-                    "root": "en/api-reference/social-data/brands/x",
                     "pages": [
                       "en/api-reference/social-data/x/tweet-detail",
                       "en/api-reference/social-data/x/user-profile",
@@ -660,7 +619,6 @@
                   "en/api-reference/publishing/overview",
                   {
                     "group": "Connecting Accounts",
-                    "root": "en/api-reference/publishing/connecting-accounts",
                     "pages": [
                       "en/api-reference/publishing/start-connect",
                       "en/api-reference/publishing/list-accounts",
@@ -669,7 +627,6 @@
                   },
                   {
                     "group": "Posts",
-                    "root": "en/api-reference/publishing/posts",
                     "pages": [
                       "en/api-reference/publishing/create-post",
                       "en/api-reference/publishing/get-post"
@@ -677,7 +634,6 @@
                   },
                   {
                     "group": "Media",
-                    "root": "en/api-reference/publishing/media",
                     "pages": [
                       "en/api-reference/publishing/presign",
                       "en/api-reference/publishing/upload"
