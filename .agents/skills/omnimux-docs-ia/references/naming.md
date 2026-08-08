@@ -88,3 +88,13 @@ Post **status** lives under **帖子**, never under **任务管理**.
 
 Only: `omnimux.ai`, `api.omnimux.ai`, `docs.omnimux.ai`.  
 Never: `*.geminix.cc`, `docs.newapi.pro` as primary.
+
+
+## Tasks (hard)
+
+| Keep in nav | Path | Notes |
+| --- | --- | --- |
+| 查询视频任务 | `GET /v1/video/generations/{task_id}` | Primary poll for video series creates |
+| **Do not** list as generic task helpers | `GET /v1/videos/{task_id}/content` | OpenAI Videos **file download**, not status poll; not MiniMax/Veo/Omni Flash path |
+| **Do not** invent | `GET /v1/images/generations/{task_id}` | Not in public relay OpenAPI |
+

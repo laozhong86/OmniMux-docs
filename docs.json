@@ -292,15 +292,7 @@
               {
                 "group": "任务管理",
                 "pages": [
-                  {
-                    "group": "AI 异步任务",
-                    "pages": [
-                      "cn/api-reference/tasks/video-task",
-                      "cn/api-reference/tasks/video-content",
-                      "cn/api-reference/tasks/image-task"
-                    ],
-                    "icon": "list-checks"
-                  }
+                  "cn/api-reference/tasks/video-task"
                 ],
                 "icon": "list-checks"
               },
@@ -627,15 +619,7 @@
               {
                 "group": "Tasks",
                 "pages": [
-                  {
-                    "group": "AI async tasks",
-                    "pages": [
-                      "en/api-reference/tasks/video-task",
-                      "en/api-reference/tasks/video-content",
-                      "en/api-reference/tasks/image-task"
-                    ],
-                    "icon": "list-checks"
-                  }
+                  "en/api-reference/tasks/video-task"
                 ],
                 "icon": "list-checks"
               },

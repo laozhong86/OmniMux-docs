@@ -1,100 +1,12 @@
 ---
 title: "查询视频任务"
 sidebarTitle: "查询视频任务"
-description: "查询视频任务"
+description: "GET /v1/video/generations/{task_id} · 轮询视频生成任务状态"
 api: "GET https://api.omnimux.ai/v1/video/generations/{task_id}"
 ---
 
-- 查询 AI 异步视频任务状态与结果
-- `task_id` 来自对应创建接口响应，不是社媒帖子 id
-- 完成后请及时保存产物 URL
+> - 用于 **视频系列** 创建接口返回的 `task_id`（`POST /v1/video/generations`）
+> - 与 OpenAI 兼容路径 `/v1/videos/*` **不是同一套接口**
+> - 状态：`queued` / `in_progress` / `completed` / `failed`（以线上为准）
 
-## 身份
-
-| 字段 | 值 |
-| --- | --- |
-| 系列 | 任务管理 |
-| 能力 | 查询视频任务 |
-
-## 接口
-
-| 方法 | 路径 |
-| --- | --- |
-| `GET` | `/v1/video/generations/{task_id}` |
-
-Base URL：`https://api.omnimux.ai`
-
-## 鉴权
-
-| 名称 | 位置 | 类型 | 必填 | 说明 |
-| --- | --- | --- | --- | --- |
-| `Authorization` | header | string | 是 | `Bearer sk-...`（API Key） |
-
-## 路径参数
-
-| 字段 | 类型 | 必填 | 说明 |
-| --- | --- | --- | --- |
-| `task_id` | string | 是 | 创建任务响应中的 id；替换 path 中的 `{task_id}` |
-
-## 响应
-
-### 200
-
-| 字段 | 类型 | 说明 |
-| --- | --- | --- |
-| `task_id` / `id` | string | 任务 id |
-| `status` | string | 如 `pending` / `processing` / `completed` / `failed` |
-| `result` / `data` | object | 完成后的产物信息（结构因模型而异） |
-
-错误见右栏与 [错误码](/cn/api-reference/errors)。创建见视频创建页（对应系列 model 页）。
-
-<Panel>
-
-<RequestExample>
-
-```bash curl --request GET \
-  --url https://api.omnimux.ai/v1/video/generations/$TASK_ID \
-  --header 'Authorization: Bearer <token>'
-```
-
-</RequestExample>
-
-<ResponseExample>
-
-```json 200
-{
-  "task_id": "task_01HXYZ",
-  "status": "completed",
-  "result": { "url": "https://example.com/out.mp4" }
-}
-```
-
-```json 401
-{ "error": { "message": "Invalid token", "type": "authentication_error", "code": "unauthorized" } }
-```
-
-```json 402
-{
-  "error": {
-    "message": "Insufficient quota. Please top up your account.",
-    "type": "insufficient_quota",
-    "code": "insufficient_quota"
-  }
-}
-```
-
-```json 404
-{ "error": { "message": "Task not found", "type": "invalid_request_error", "code": "not_found" } }
-```
-
-```json 429
-{ "error": { "message": "Rate limit exceeded", "type": "rate_limit_error", "code": "rate_limit_exceeded" } }
-```
-
-```json 500
-{ "error": { "message": "Internal server error", "type": "server_error", "code": "internal_error" } }
-```
-
-</ResponseExample>
-
-</Panel>
+Base URL：`https://api.omnimux.ai` · 鉴权：`Authorization: Bearer sk-...`

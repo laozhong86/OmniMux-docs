@@ -37,7 +37,7 @@ L1  系列 / 管理面          （发现主轴）
 | 社交数据 | Social data | TikTok, Instagram, YouTube, X | 中文能力名（作品详情…） | `sk-` Chat 形态 |
 | 社媒发布 | Publishing | 连接账户 / 帖子 / 媒体 | 发起连接、列出账户… | access token + `New-Api-User` |
 | 账户管理 | Account | 登录鉴权 / 账户信息 | 设备码登录、余额、定价 | 多为 access token |
-| 任务管理 | Tasks | AI 异步任务 | 查询视频/图像任务… | `sk-` |
+| 任务管理 | Tasks | — | **仅** `查询视频任务` → `GET /v1/video/generations/{task_id}`；禁止把 `/v1/videos/{id}/content` 写成通用「查询视频内容」 | `sk-` |
 | 附录 | Appendix | OpenAPI 说明 + relay try-it | OpenAPI ops | `sk-` |
 
 **Not L1 (do not reintroduce without product+docs decision):**
