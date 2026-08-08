@@ -4,85 +4,89 @@
 
 When product ships/changes **user-facing HTTP**:
 
-1. Smoke succeeds (status + response shape evidence).  
-2. Same delivery updates **OmniMux-docs** (cn + en + `docs.json` if new pages).  
-3. Do not call product work “done” on code/CLI alone.
+1. Smoke succeeds.  
+2. Update **OmniMux-docs** (cn + en + `docs.json` if new).  
+3. Callable L3 uses **OpenAPI operation** page shape (not thin tables only).
 
-Product monorepo `AGENTS.md` should point at this skill for the how.
+## W1. Add AI language model
 
-## W1. Add AI model (language / image / video)
+1. Confirm live on `GET /api/pricing`.  
+2. Map brand → L2 group.  
+3. Run:
+   ```bash
+   python3 scripts/gen-chat-capability-pages.py --models <model-id>
+   ```
+4. `docs.json`: append model path under brand group (no brand hub child).  
+5. Optional: brand overview table link.  
+6. Smoke URL 200; ego: left OpenAPI Body field tree + 402.
 
-1. Confirm model on live `GET /api/pricing` (or models list).  
-2. Map brand → existing L2 or create brand (vendor-facing name).  
-3. Create `cn|en/api-reference/{text|image|video}-series/models/<model-id>.mdx` with:
-   - P1 bullets · identity · endpoint · P0 Authorizations/Body/Response tables  
-   - `<Panel>` RequestExample + ResponseExample including **402**  
-4. Optionally refresh `brands/<brand>.mdx` model table (deep link OK).  
-5. `docs.json`: under brand **group**, append only the model path (no brand hub child).  
-6. Deploy / smoke URL 200; verify right rail.
+## W1b. Bulk language Complete (Phase 1)
+
+```bash
+python3 scripts/gen-chat-capability-pages.py --all-text
+```
+
+Only after Phase 0 probe accepted on production.
 
 ## W2. Add social-data capability
 
-1. Confirm model + vendor platform on pricing; tags include social-data.  
-2. CN L3 = capability name; EN L3 = English capability.  
-3. Page under `social-data/<platform>/<slug>.mdx`; identity + **Body field rows** for business keys.  
-4. RequestExample includes dummy messages + required field.  
-5. Register under platform group in `docs.json`.  
-6. Vendor meta on product side stays **platform brand**, not TikHub.
+1. Live model + platform vendor.  
+2. CN capability title / EN title.  
+3. OpenAPI op (chat-wrapper + business fields) — Phase 3 generator; until then temporary Panel is technical debt.  
+4. Register under platform group.
 
-## W3. Add publishing endpoint
+## W3. Publishing endpoint
 
-1. Path under `/api/social/v1`.  
-2. Place under 连接账户 / 帖子 / 媒体 by resource.  
-3. CN capability title; EN capability title; `api:` full URL on `omnimux.ai`.  
-4. Auth: access token + `New-Api-User`.  
-5. Panel request/response; post status **not** under 任务管理.
+User API on `omnimux.ai`; access token + `New-Api-User`. OpenAPI op Phase 3.
 
-## W4. Add task poll helper
+## W4. Task poll
 
-1. Only AI async (image/video task_id).  
-2. L3 Chinese/EN capability name (查询视频任务…), paths in body.  
-3. Link from image/video model pages.
+Path-param OpenAPI for `task_id`. Link from image/video create pages.
 
 ## W5. Remove / hide
 
-- Empty brand groups  
-- Planned APIs without live routes  
-- Stale Social Ops nav entries  
-- Duplicate L2-named children  
+Empty brands, planned APIs, Social Ops names, L2-duplicate children.
 
 ## W6. Verify
 
 ```bash
-# from OmniMux-docs
 python3 -c "import json; json.load(open('docs.json'))"
-# optional
-npx mint dev   # or mint dev
+python3 -c "import json; json.load(open('openapi/ops/chat/gpt-5.4.json'))"
 # after deploy
-curl -sS -o /dev/null -w '%{http_code}\n' https://docs.omnimux.ai/cn/api-reference/overview
+curl -sS -o /dev/null -w '%{http_code}\n' \
+  https://docs.omnimux.ai/cn/api-reference/text-series/models/gpt-5.4
 ```
 
-Desktop check: example curl `getBoundingClientRect().left` should be **> 50% viewport width** (right rail), not content column only.
+Ego checklist:
 
-Callable L3 checklist: page text includes Authorizations/鉴权 + Body/请求体 (or Path) + 402 sample.
+- [ ] Authorizations section  
+- [ ] Body fields expandable (model, messages, stream, …)  
+- [ ] Response statuses include 402  
+- [ ] Right sticky request example  
+- [ ] Not “only 5-row Markdown Body”
 
-## W8. Micro-optimization (detail loop)
-
-1. Ego or live compare vs Evolink / self when improving page shape.  
-2. List gaps → **human confirm**.  
-3. Update **skill** (`content-templates` / hard rules) first.  
-4. Then regenerate or edit MDX.  
-5. Never ship content that contradicts skill.
-
-## W7. OpenAPI sync
+## W7. OpenAPI relay sync
 
 ```bash
-python3 scripts/sync-openapi.py   # from OmniMux-docs if present
+python3 scripts/sync-openapi.py
+# then regenerate affected ops
+python3 scripts/gen-chat-capability-pages.py --models …
 ```
 
-Source: product `docs/openapi/relay.json` → drop 未实现 tags → set servers to api.omnimux.ai.
+## W8. Micro-optimization loop
+
+1. Compare Evolink / live.  
+2. Human confirm.  
+3. **Skill first**.  
+4. Regen content.  
+
+## W9. Family overlay / field matrix change
+
+1. Update `references/field-matrix.md` + generator.  
+2. Regen all models in family.  
+3. Do not hand-patch one MDX OpenAPI block.
 
 ## Branching
 
-- Docs-only: branch on OmniMux-docs; PR to `main`; Mintlify auto-deploy.  
-- Do not edit product monorepo for pure docs IA unless linking skills/AGENTS pointers.
+- Docs: feature branch → PR → Mintlify deploy.  
+- Phase branches: `docs/evolink-detail-align-phaseN`.
