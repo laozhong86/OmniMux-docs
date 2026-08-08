@@ -1,6 +1,7 @@
 ---
 title: "nano_banana_2"
 description: "Image · `nano_banana_2`"
+api: "POST https://api.omnimux.ai/v1/images/generations"
 ---
 
 | Field | Value |
@@ -11,16 +12,16 @@ description: "Image · `nano_banana_2`"
 
 `POST /v1/images/generations` · Base `https://api.omnimux.ai` · `sk-`
 
-## Request example
 
-```bash
-curl --request POST \
+
+<RequestExample>
+
+```bash curl --request POST \
   --url https://api.omnimux.ai/v1/images/generations \
   --header 'Authorization: Bearer <token>' \
   --header 'Content-Type: application/json' \
   --data '{"model":"nano_banana_2","prompt":"a product photo on white background","n":1}'
 ```
 
-## Response examples
+</RequestExample>
 
-See Chinese pages for full status-code tabs (200/400/401/403/429/500). Same shapes apply.

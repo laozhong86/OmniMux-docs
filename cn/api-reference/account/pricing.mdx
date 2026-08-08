@@ -8,18 +8,19 @@ description: "GET /api/pricing"
 | 方法 | `GET` |
 | 路径 | `https://omnimux.ai/api/pricing` |
 
-## 请求示例
 
-```bash
-curl --request GET \
+
+<RequestExample>
+
+```bash curl --request GET \
   --url https://omnimux.ai/api/pricing
 ```
 
-## 响应示例
+</RequestExample>
 
-<Tabs>
-  <Tab title="200">
-```json
+<ResponseExample>
+
+```json 200
 {
   "success": true,
   "data": [
@@ -27,10 +28,9 @@ curl --request GET \
   ]
 }
 ```
-  </Tab>
-  <Tab title="500">
-```json
+
+```json 500
 { "success": false, "message": "Internal server error" }
 ```
-  </Tab>
-</Tabs>
+
+</ResponseExample>

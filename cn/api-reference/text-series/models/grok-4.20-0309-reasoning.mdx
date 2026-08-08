@@ -1,6 +1,7 @@
 ---
 title: "grok-4.20-0309-reasoning"
 description: "Grok · model `grok-4.20-0309-reasoning`"
+api: "POST https://api.omnimux.ai/v1/chat/completions"
 ---
 
 | 字段 | 值 |
@@ -17,9 +18,10 @@ description: "Grok · model `grok-4.20-0309-reasoning`"
 
 Base URL：`https://api.omnimux.ai` · 鉴权：`Authorization: Bearer sk-...`
 
-## 请求示例
 
-<CodeGroup>
+
+<RequestExample>
+
 ```bash cURL
 curl --request POST \
   --url https://api.omnimux.ai/v1/chat/completions \
@@ -35,13 +37,12 @@ curl --request POST \
   ]
 }'
 ```
-</CodeGroup>
 
-## 响应示例
+</RequestExample>
 
-<Tabs>
-  <Tab title="200">
-```json
+<ResponseExample>
+
+```json 200
 {
   "id": "chatcmpl-20260308112637503180122ABCD1234",
   "object": "chat.completion",
@@ -64,9 +65,8 @@ curl --request POST \
   }
 }
 ```
-  </Tab>
-  <Tab title="400">
-```json
+
+```json 400
 {
   "error": {
     "message": "Invalid request: missing required field or invalid parameter",
@@ -75,9 +75,8 @@ curl --request POST \
   }
 }
 ```
-  </Tab>
-  <Tab title="401">
-```json
+
+```json 401
 {
   "error": {
     "message": "Invalid token or authentication failed",
@@ -86,9 +85,8 @@ curl --request POST \
   }
 }
 ```
-  </Tab>
-  <Tab title="403">
-```json
+
+```json 403
 {
   "error": {
     "message": "Model not allowed for this token, or access denied",
@@ -97,9 +95,8 @@ curl --request POST \
   }
 }
 ```
-  </Tab>
-  <Tab title="429">
-```json
+
+```json 429
 {
   "error": {
     "message": "Rate limit exceeded. Please retry later.",
@@ -108,9 +105,8 @@ curl --request POST \
   }
 }
 ```
-  </Tab>
-  <Tab title="500">
-```json
+
+```json 500
 {
   "error": {
     "message": "Internal server error",
@@ -119,9 +115,8 @@ curl --request POST \
   }
 }
 ```
-  </Tab>
-  <Tab title="502">
-```json
+
+```json 502
 {
   "error": {
     "message": "Upstream provider error or bad gateway",
@@ -130,9 +125,8 @@ curl --request POST \
   }
 }
 ```
-  </Tab>
-  <Tab title="503">
-```json
+
+```json 503
 {
   "error": {
     "message": "Service temporarily unavailable",
@@ -141,7 +135,7 @@ curl --request POST \
   }
 }
 ```
-  </Tab>
-</Tabs>
+
+</ResponseExample>
 
 > 网关 `sk-` 鉴权。实际字段以线上响应为准；额度类错误可能以业务 message 返回。

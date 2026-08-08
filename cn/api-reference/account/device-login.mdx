@@ -104,31 +104,27 @@ New-Api-User: <user_id>
 - [鉴权](/cn/guides/authentication)
 
 
-## 请求示例
 
-### 申请 device code
 
-```bash
-curl --request POST \
+<RequestExample>
+
+```bash curl --request POST \
   --url https://omnimux.ai/api/user/device/code \
   --header 'Content-Type: application/json' \
   --data '{"client_name":"my-cli"}'
 ```
 
-### 轮询 token
-
-```bash
-curl --request POST \
+```bash curl --request POST \
   --url https://omnimux.ai/api/user/device/token \
   --header 'Content-Type: application/json' \
   --data '{"device_code":"<device_code>","grant_type":"urn:ietf:params:oauth:grant-type:device_code"}'
 ```
 
-## 响应示例
+</RequestExample>
 
-<Tabs>
-  <Tab title="200">
-```json
+<ResponseExample>
+
+```json 200
 {
   "success": true,
   "data": {
@@ -140,15 +136,13 @@ curl --request POST \
   }
 }
 ```
-  </Tab>
-  <Tab title="400">
-```json
+
+```json 400
 { "success": false, "message": "invalid device_code or grant_type" }
 ```
-  </Tab>
-  <Tab title="pending">
-```json
+
+```json pending
 { "success": false, "message": "authorization_pending" }
 ```
-  </Tab>
-</Tabs>
+
+</ResponseExample>

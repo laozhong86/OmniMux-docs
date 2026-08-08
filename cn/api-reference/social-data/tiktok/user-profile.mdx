@@ -2,6 +2,7 @@
 title: "用户资料"
 sidebarTitle: "用户资料"
 description: "社交数据 · TikTok · `tiktok-user`"
+api: "POST https://api.omnimux.ai/v1/chat/completions"
 ---
 
 | 字段 | 值 |
@@ -20,9 +21,10 @@ description: "社交数据 · TikTok · `tiktok-user`"
 
 Base：`https://api.omnimux.ai` · 鉴权：`sk-` · dummy `messages` + 业务字段 top-level
 
-## 请求示例
 
-<CodeGroup>
+
+<RequestExample>
+
 ```bash cURL
 curl --request POST \
   --url https://api.omnimux.ai/v1/chat/completions \
@@ -36,13 +38,12 @@ curl --request POST \
   "uniqueId": "tiktok"
 }'
 ```
-</CodeGroup>
 
-## 响应示例
+</RequestExample>
 
-<Tabs>
-  <Tab title="200">
-```json
+<ResponseExample>
+
+```json 200
 {
   "id": "chatcmpl-social-data-example",
   "object": "chat.completion",
@@ -59,9 +60,8 @@ curl --request POST \
   ]
 }
 ```
-  </Tab>
-  <Tab title="400">
-```json
+
+```json 400
 {
   "error": {
     "message": "Invalid request: missing uniqueId or invalid parameter",
@@ -70,9 +70,8 @@ curl --request POST \
   }
 }
 ```
-  </Tab>
-  <Tab title="401">
-```json
+
+```json 401
 {
   "error": {
     "message": "Invalid token or authentication failed",
@@ -81,9 +80,8 @@ curl --request POST \
   }
 }
 ```
-  </Tab>
-  <Tab title="403">
-```json
+
+```json 403
 {
   "error": {
     "message": "Model not allowed for this token",
@@ -92,9 +90,8 @@ curl --request POST \
   }
 }
 ```
-  </Tab>
-  <Tab title="429">
-```json
+
+```json 429
 {
   "error": {
     "message": "Rate limit exceeded",
@@ -103,9 +100,8 @@ curl --request POST \
   }
 }
 ```
-  </Tab>
-  <Tab title="500">
-```json
+
+```json 500
 {
   "error": {
     "message": "Internal server error",
@@ -114,9 +110,8 @@ curl --request POST \
   }
 }
 ```
-  </Tab>
-  <Tab title="502">
-```json
+
+```json 502
 {
   "error": {
     "message": "Upstream provider error",
@@ -125,5 +120,5 @@ curl --request POST \
   }
 }
 ```
-  </Tab>
-</Tabs>
+
+</ResponseExample>

@@ -5,16 +5,16 @@ description: "Video · `minimax-h3-fl2va`"
 
 `POST /v1/video/generations` with model `minimax-h3-fl2va`. Poll `GET /v1/video/generations/{task_id}`.
 
-## Request example
 
-```bash
-curl --request POST \
+
+<RequestExample>
+
+```bash curl --request POST \
   --url https://api.omnimux.ai/v1/video/generations \
   --header 'Authorization: Bearer <token>' \
   --header 'Content-Type: application/json' \
   --data '{"model":"minimax-h3-fl2va","prompt":"slow pan across a product"}'
 ```
 
-## Response examples
+</RequestExample>
 
-Use status tabs as on Chinese pages (200 queued task / 400 / 401 / 403 / 429 / 500).

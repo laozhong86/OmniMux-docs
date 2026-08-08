@@ -1,6 +1,7 @@
 ---
 title: "minimax-h3-flf-async"
 description: "视频 · `minimax-h3-flf-async`"
+api: "POST https://api.omnimux.ai/v1/video/generations"
 ---
 
 | 字段 | 值 |
@@ -17,9 +18,10 @@ description: "视频 · `minimax-h3-flf-async`"
 
 Base：`https://api.omnimux.ai` · `sk-` Bearer
 
-## 请求示例
 
-<CodeGroup>
+
+<RequestExample>
+
 ```bash cURL
 curl --request POST \
   --url https://api.omnimux.ai/v1/video/generations \
@@ -30,54 +32,46 @@ curl --request POST \
   "prompt": "slow pan across a product on a table"
 }'
 ```
-</CodeGroup>
 
-## 响应示例
+</RequestExample>
 
-<Tabs>
-  <Tab title="200">
-```json
+<ResponseExample>
+
+```json 200
 {
   "task_id": "task_01HXYZABCDEF",
   "status": "queued"
 }
 ```
-  </Tab>
-  <Tab title="400">
-```json
+
+```json 400
 {
   "error": { "message": "Invalid request", "type": "invalid_request_error", "code": "bad_request" }
 }
 ```
-  </Tab>
-  <Tab title="401">
-```json
+
+```json 401
 {
   "error": { "message": "Invalid token", "type": "authentication_error", "code": "unauthorized" }
 }
 ```
-  </Tab>
-  <Tab title="403">
-```json
+
+```json 403
 {
   "error": { "message": "Model not allowed", "type": "permission_error", "code": "forbidden" }
 }
 ```
-  </Tab>
-  <Tab title="429">
-```json
+
+```json 429
 {
   "error": { "message": "Rate limit exceeded", "type": "rate_limit_error", "code": "rate_limit_exceeded" }
 }
 ```
-  </Tab>
-  <Tab title="500">
-```json
+
+```json 500
 {
   "error": { "message": "Internal server error", "type": "server_error", "code": "internal_error" }
 }
 ```
-  </Tab>
-</Tabs>
 
-成功创建后请轮询 `GET /v1/video/generations/{task_id}`（见 [查询视频任务](/cn/api-reference/tasks/video-task)）。
+</ResponseExample>

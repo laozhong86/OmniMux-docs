@@ -2,6 +2,7 @@
 title: "Video detail"
 sidebarTitle: "Video detail"
 description: "Social data · `youtube-video`"
+api: "POST https://api.omnimux.ai/v1/chat/completions"
 ---
 
 | Field | Value |
@@ -13,10 +14,11 @@ description: "Social data · `youtube-video`"
 
 `POST /v1/chat/completions` · `https://api.omnimux.ai` · `sk-`
 
-## Request example
 
-```bash
-curl --request POST \
+
+<RequestExample>
+
+```bash curl --request POST \
   --url https://api.omnimux.ai/v1/chat/completions \
   --header 'Authorization: Bearer <token>' \
   --header 'Content-Type: application/json' \
@@ -27,6 +29,5 @@ curl --request POST \
 }'
 ```
 
-## Response examples
+</RequestExample>
 
-Status tabs: **200** (data in assistant content) · **400** · **401** · **403** · **429** · **500** · **502** — same shapes as Chinese pages.

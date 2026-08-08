@@ -9,20 +9,21 @@ description: "GET /api/user/self"
 | 路径 | `https://omnimux.ai/api/user/self` |
 | 鉴权 | access token |
 
-## 请求示例
 
-```bash
-curl --request GET \
+
+<RequestExample>
+
+```bash curl --request GET \
   --url https://omnimux.ai/api/user/self \
   --header 'Authorization: Bearer <access_token>' \
   --header 'New-Api-User: <user_id>'
 ```
 
-## 响应示例
+</RequestExample>
 
-<Tabs>
-  <Tab title="200">
-```json
+<ResponseExample>
+
+```json 200
 {
   "success": true,
   "data": {
@@ -33,10 +34,9 @@ curl --request GET \
   }
 }
 ```
-  </Tab>
-  <Tab title="401">
-```json
+
+```json 401
 { "success": false, "message": "Unauthorized" }
 ```
-  </Tab>
-</Tabs>
+
+</ResponseExample>
