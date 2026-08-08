@@ -52,7 +52,8 @@
                 "pages": [
                   "cn/index",
                   "cn/quickstart"
-                ]
+                ],
+                "icon": "rocket"
               },
               {
                 "group": "基础配置",
@@ -60,9 +61,11 @@
                   "cn/guides/authentication",
                   "cn/guides/base-url",
                   "cn/guides/models"
-                ]
+                ],
+                "icon": "settings"
               }
-            ]
+            ],
+            "icon": "book-user"
           },
           {
             "tab": "API 手册",
@@ -74,51 +77,60 @@
                     "group": "Claude",
                     "pages": [
                       "cn/api-reference/text-series/claude/complete"
-                    ]
+                    ],
+                    "icon": "message-square"
                   },
                   {
                     "group": "Gemini",
                     "pages": [
                       "cn/api-reference/text-series/gemini/complete"
-                    ]
+                    ],
+                    "icon": "message-square"
                   },
                   {
                     "group": "GPT",
                     "pages": [
                       "cn/api-reference/text-series/gpt/complete"
-                    ]
+                    ],
+                    "icon": "message-square"
                   },
                   {
                     "group": "Grok",
                     "pages": [
                       "cn/api-reference/text-series/grok/complete"
-                    ]
+                    ],
+                    "icon": "message-square"
                   },
                   {
                     "group": "Kimi",
                     "pages": [
                       "cn/api-reference/text-series/kimi/complete"
-                    ]
+                    ],
+                    "icon": "message-square"
                   },
                   {
                     "group": "DeepSeek",
                     "pages": [
                       "cn/api-reference/text-series/deepseek/complete"
-                    ]
+                    ],
+                    "icon": "message-square"
                   },
                   {
                     "group": "MiniMax",
                     "pages": [
                       "cn/api-reference/text-series/minimax/complete"
-                    ]
+                    ],
+                    "icon": "message-square"
                   },
                   {
                     "group": "GLM",
                     "pages": [
                       "cn/api-reference/text-series/glm/complete"
-                    ]
+                    ],
+                    "icon": "message-square"
                   }
-                ]
+                ],
+                "icon": "message-square"
               },
               {
                 "group": "图像系列",
@@ -128,23 +140,27 @@
                     "pages": [
                       "cn/api-reference/image-series/models/nano_banana_2",
                       "cn/api-reference/image-series/models/nano_banana_pro"
-                    ]
+                    ],
+                    "icon": "image"
                   },
                   {
                     "group": "GPT Image",
                     "pages": [
                       "cn/api-reference/image-series/models/gpt-image2",
                       "cn/api-reference/image-series/models/gpt-image2-hd"
-                    ]
+                    ],
+                    "icon": "image"
                   },
                   {
                     "group": "Z Image",
                     "pages": [
                       "cn/api-reference/image-series/models/zimage-makeup",
                       "cn/api-reference/image-series/models/zimage-makeup-async"
-                    ]
+                    ],
+                    "icon": "image"
                   }
-                ]
+                ],
+                "icon": "image"
               },
               {
                 "group": "视频系列",
@@ -160,7 +176,8 @@
                       "cn/api-reference/video-series/models/minimax-h3-flf-async",
                       "cn/api-reference/video-series/models/minimax-h3-t2v",
                       "cn/api-reference/video-series/models/minimax-h3-t2v-async"
-                    ]
+                    ],
+                    "icon": "video"
                   },
                   {
                     "group": "Veo / Omni Flash",
@@ -170,22 +187,26 @@
                       "cn/api-reference/video-series/models/omni_flash-4s",
                       "cn/api-reference/video-series/models/omni_flash-6s",
                       "cn/api-reference/video-series/models/veo_3_1"
-                    ]
+                    ],
+                    "icon": "video"
                   },
                   {
                     "group": "LTX",
                     "pages": [
                       "cn/api-reference/video-series/models/ltx2.3-kj",
                       "cn/api-reference/video-series/models/ltx2.3-kj-async"
-                    ]
+                    ],
+                    "icon": "video"
                   },
                   {
                     "group": "Grok Imagine",
                     "pages": [
                       "cn/api-reference/video-series/models/grok-imagine-video-1.5"
-                    ]
+                    ],
+                    "icon": "video"
                   }
-                ]
+                ],
+                "icon": "video"
               },
               {
                 "group": "社交数据",
@@ -197,7 +218,8 @@
                       "cn/api-reference/social-data/tiktok/user-profile",
                       "cn/api-reference/social-data/tiktok/user-posts",
                       "cn/api-reference/social-data/tiktok/video-search"
-                    ]
+                    ],
+                    "icon": "share-2"
                   },
                   {
                     "group": "Instagram",
@@ -206,7 +228,8 @@
                       "cn/api-reference/social-data/instagram/user-profile",
                       "cn/api-reference/social-data/instagram/user-posts",
                       "cn/api-reference/social-data/instagram/search"
-                    ]
+                    ],
+                    "icon": "share-2"
                   },
                   {
                     "group": "YouTube",
@@ -215,7 +238,8 @@
                       "cn/api-reference/social-data/youtube/channel-info",
                       "cn/api-reference/social-data/youtube/channel-videos",
                       "cn/api-reference/social-data/youtube/video-search"
-                    ]
+                    ],
+                    "icon": "share-2"
                   },
                   {
                     "group": "X",
@@ -224,9 +248,11 @@
                       "cn/api-reference/social-data/x/user-profile",
                       "cn/api-reference/social-data/x/user-tweets",
                       "cn/api-reference/social-data/x/timeline-search"
-                    ]
+                    ],
+                    "icon": "share-2"
                   }
-                ]
+                ],
+                "icon": "share-2"
               },
               {
                 "group": "社媒发布",
@@ -237,23 +263,27 @@
                       "cn/api-reference/publishing/start-connect",
                       "cn/api-reference/publishing/list-accounts",
                       "cn/api-reference/publishing/disconnect"
-                    ]
+                    ],
+                    "icon": "send"
                   },
                   {
                     "group": "帖子",
                     "pages": [
                       "cn/api-reference/publishing/create-post",
                       "cn/api-reference/publishing/get-post"
-                    ]
+                    ],
+                    "icon": "send"
                   },
                   {
                     "group": "媒体",
                     "pages": [
                       "cn/api-reference/publishing/presign",
                       "cn/api-reference/publishing/upload"
-                    ]
+                    ],
+                    "icon": "send"
                   }
-                ]
+                ],
+                "icon": "send"
               },
               {
                 "group": "账户管理",
@@ -262,16 +292,19 @@
                     "group": "登录鉴权",
                     "pages": [
                       "cn/api-reference/account/device-login"
-                    ]
+                    ],
+                    "icon": "user"
                   },
                   {
                     "group": "账户信息",
                     "pages": [
                       "cn/api-reference/account/balance",
                       "cn/api-reference/account/pricing"
-                    ]
+                    ],
+                    "icon": "user"
                   }
-                ]
+                ],
+                "icon": "user"
               },
               {
                 "group": "任务管理",
@@ -282,18 +315,22 @@
                       "cn/api-reference/tasks/video-task",
                       "cn/api-reference/tasks/video-content",
                       "cn/api-reference/tasks/image-task"
-                    ]
+                    ],
+                    "icon": "list-checks"
                   }
-                ]
+                ],
+                "icon": "list-checks"
               },
               {
                 "group": "附录",
                 "pages": [
                   "cn/api-reference/appendix/openapi"
                 ],
-                "openapi": "openapi/relay.json"
+                "openapi": "openapi/relay.json",
+                "icon": "book-open"
               }
-            ]
+            ],
+            "icon": "square-terminal"
           },
           {
             "tab": "集成指南",
@@ -307,14 +344,16 @@
                   "cn/integration-guide/opencode",
                   "cn/integration-guide/pi",
                   "cn/integration-guide/hermes"
-                ]
+                ],
+                "icon": "terminal"
               },
               {
                 "group": "桌面与 IDE",
                 "pages": [
                   "cn/integration-guide/claude-desktop",
                   "cn/integration-guide/codebuddy-workbuddy"
-                ]
+                ],
+                "icon": "monitor"
               },
               {
                 "group": "OpenClaw",
@@ -323,9 +362,11 @@
                   "cn/integration-guide/openclaw-auto",
                   "cn/integration-guide/openclaw-feishu",
                   "cn/integration-guide/openclaw-telegram"
-                ]
+                ],
+                "icon": "bot"
               }
-            ]
+            ],
+            "icon": "plug"
           }
         ]
       },
@@ -340,7 +381,8 @@
                 "pages": [
                   "en/index",
                   "en/quickstart"
-                ]
+                ],
+                "icon": "rocket"
               },
               {
                 "group": "Setup",
@@ -348,9 +390,11 @@
                   "en/guides/authentication",
                   "en/guides/base-url",
                   "en/guides/models"
-                ]
+                ],
+                "icon": "settings"
               }
-            ]
+            ],
+            "icon": "book-user"
           },
           {
             "tab": "API manual",
@@ -362,51 +406,60 @@
                     "group": "Claude",
                     "pages": [
                       "en/api-reference/text-series/claude/complete"
-                    ]
+                    ],
+                    "icon": "message-square"
                   },
                   {
                     "group": "Gemini",
                     "pages": [
                       "en/api-reference/text-series/gemini/complete"
-                    ]
+                    ],
+                    "icon": "message-square"
                   },
                   {
                     "group": "GPT",
                     "pages": [
                       "en/api-reference/text-series/gpt/complete"
-                    ]
+                    ],
+                    "icon": "message-square"
                   },
                   {
                     "group": "Grok",
                     "pages": [
                       "en/api-reference/text-series/grok/complete"
-                    ]
+                    ],
+                    "icon": "message-square"
                   },
                   {
                     "group": "Kimi",
                     "pages": [
                       "en/api-reference/text-series/kimi/complete"
-                    ]
+                    ],
+                    "icon": "message-square"
                   },
                   {
                     "group": "DeepSeek",
                     "pages": [
                       "en/api-reference/text-series/deepseek/complete"
-                    ]
+                    ],
+                    "icon": "message-square"
                   },
                   {
                     "group": "MiniMax",
                     "pages": [
                       "en/api-reference/text-series/minimax/complete"
-                    ]
+                    ],
+                    "icon": "message-square"
                   },
                   {
                     "group": "GLM",
                     "pages": [
                       "en/api-reference/text-series/glm/complete"
-                    ]
+                    ],
+                    "icon": "message-square"
                   }
-                ]
+                ],
+                "icon": "message-square"
               },
               {
                 "group": "Image series",
@@ -416,23 +469,27 @@
                     "pages": [
                       "en/api-reference/image-series/models/nano_banana_2",
                       "en/api-reference/image-series/models/nano_banana_pro"
-                    ]
+                    ],
+                    "icon": "image"
                   },
                   {
                     "group": "GPT Image",
                     "pages": [
                       "en/api-reference/image-series/models/gpt-image2",
                       "en/api-reference/image-series/models/gpt-image2-hd"
-                    ]
+                    ],
+                    "icon": "image"
                   },
                   {
                     "group": "Z Image",
                     "pages": [
                       "en/api-reference/image-series/models/zimage-makeup",
                       "en/api-reference/image-series/models/zimage-makeup-async"
-                    ]
+                    ],
+                    "icon": "image"
                   }
-                ]
+                ],
+                "icon": "image"
               },
               {
                 "group": "Video series",
@@ -448,7 +505,8 @@
                       "en/api-reference/video-series/models/minimax-h3-flf-async",
                       "en/api-reference/video-series/models/minimax-h3-t2v",
                       "en/api-reference/video-series/models/minimax-h3-t2v-async"
-                    ]
+                    ],
+                    "icon": "video"
                   },
                   {
                     "group": "Veo / Omni Flash",
@@ -458,22 +516,26 @@
                       "en/api-reference/video-series/models/omni_flash-4s",
                       "en/api-reference/video-series/models/omni_flash-6s",
                       "en/api-reference/video-series/models/veo_3_1"
-                    ]
+                    ],
+                    "icon": "video"
                   },
                   {
                     "group": "LTX",
                     "pages": [
                       "en/api-reference/video-series/models/ltx2.3-kj",
                       "en/api-reference/video-series/models/ltx2.3-kj-async"
-                    ]
+                    ],
+                    "icon": "video"
                   },
                   {
                     "group": "Grok Imagine",
                     "pages": [
                       "en/api-reference/video-series/models/grok-imagine-video-1.5"
-                    ]
+                    ],
+                    "icon": "video"
                   }
-                ]
+                ],
+                "icon": "video"
               },
               {
                 "group": "Social data",
@@ -485,7 +547,8 @@
                       "en/api-reference/social-data/tiktok/user-profile",
                       "en/api-reference/social-data/tiktok/user-posts",
                       "en/api-reference/social-data/tiktok/video-search"
-                    ]
+                    ],
+                    "icon": "share-2"
                   },
                   {
                     "group": "Instagram",
@@ -494,7 +557,8 @@
                       "en/api-reference/social-data/instagram/user-profile",
                       "en/api-reference/social-data/instagram/user-posts",
                       "en/api-reference/social-data/instagram/search"
-                    ]
+                    ],
+                    "icon": "share-2"
                   },
                   {
                     "group": "YouTube",
@@ -503,7 +567,8 @@
                       "en/api-reference/social-data/youtube/channel-info",
                       "en/api-reference/social-data/youtube/channel-videos",
                       "en/api-reference/social-data/youtube/video-search"
-                    ]
+                    ],
+                    "icon": "share-2"
                   },
                   {
                     "group": "X",
@@ -512,9 +577,11 @@
                       "en/api-reference/social-data/x/user-profile",
                       "en/api-reference/social-data/x/user-tweets",
                       "en/api-reference/social-data/x/timeline-search"
-                    ]
+                    ],
+                    "icon": "share-2"
                   }
-                ]
+                ],
+                "icon": "share-2"
               },
               {
                 "group": "Publishing",
@@ -525,23 +592,27 @@
                       "en/api-reference/publishing/start-connect",
                       "en/api-reference/publishing/list-accounts",
                       "en/api-reference/publishing/disconnect"
-                    ]
+                    ],
+                    "icon": "send"
                   },
                   {
                     "group": "Posts",
                     "pages": [
                       "en/api-reference/publishing/create-post",
                       "en/api-reference/publishing/get-post"
-                    ]
+                    ],
+                    "icon": "send"
                   },
                   {
                     "group": "Media",
                     "pages": [
                       "en/api-reference/publishing/presign",
                       "en/api-reference/publishing/upload"
-                    ]
+                    ],
+                    "icon": "send"
                   }
-                ]
+                ],
+                "icon": "send"
               },
               {
                 "group": "Account",
@@ -550,16 +621,19 @@
                     "group": "Auth",
                     "pages": [
                       "en/api-reference/account/device-login"
-                    ]
+                    ],
+                    "icon": "user"
                   },
                   {
                     "group": "Profile",
                     "pages": [
                       "en/api-reference/account/balance",
                       "en/api-reference/account/pricing"
-                    ]
+                    ],
+                    "icon": "user"
                   }
-                ]
+                ],
+                "icon": "user"
               },
               {
                 "group": "Tasks",
@@ -570,18 +644,22 @@
                       "en/api-reference/tasks/video-task",
                       "en/api-reference/tasks/video-content",
                       "en/api-reference/tasks/image-task"
-                    ]
+                    ],
+                    "icon": "list-checks"
                   }
-                ]
+                ],
+                "icon": "list-checks"
               },
               {
                 "group": "Appendix",
                 "pages": [
                   "en/api-reference/appendix/openapi"
                 ],
-                "openapi": "openapi/relay.json"
+                "openapi": "openapi/relay.json",
+                "icon": "book-open"
               }
-            ]
+            ],
+            "icon": "square-terminal"
           },
           {
             "tab": "Integration guide",
@@ -595,14 +673,16 @@
                   "en/integration-guide/opencode",
                   "en/integration-guide/pi",
                   "en/integration-guide/hermes"
-                ]
+                ],
+                "icon": "terminal"
               },
               {
                 "group": "Desktop and IDE",
                 "pages": [
                   "en/integration-guide/claude-desktop",
                   "en/integration-guide/codebuddy-workbuddy"
-                ]
+                ],
+                "icon": "monitor"
               },
               {
                 "group": "OpenClaw",
@@ -611,9 +691,11 @@
                   "en/integration-guide/openclaw-auto",
                   "en/integration-guide/openclaw-feishu",
                   "en/integration-guide/openclaw-telegram"
-                ]
+                ],
+                "icon": "bot"
               }
-            ]
+            ],
+            "icon": "plug"
           }
         ]
       }

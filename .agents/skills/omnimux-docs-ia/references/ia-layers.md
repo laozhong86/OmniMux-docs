@@ -50,6 +50,19 @@ L1  系列 / 管理面          （发现主轴）
 - 空品牌（Kling/Sora/即梦 path 壳无 model）  
 
 **Nav lean rule:** 侧栏只保留可调用合同/能力路径；禁止概述、覆盖矩阵、重复说明页加厚导航。
+
+**Nav icons (Mintlify `icon` on groups):** L1 系列与其下 L2 品牌/资源组共用**系列统一图标**（对齐 Evolink：图像品牌皆 `image`，视频品牌皆 `video`）。
+
+| 系列 | icon |
+| --- | --- |
+| 语言系列 | `message-square` |
+| 图像系列 | `image` |
+| 视频系列 | `video` |
+| 社交数据 | `share-2` |
+| 社媒发布 | `send` |
+| 账户管理 | `user` |
+| 任务管理 | `list-checks` |
+| 附录 | `book-open` |
 ## Directory map (repo)
 
 ```text
