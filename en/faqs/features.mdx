@@ -1,0 +1,23 @@
+---
+title: "Features and compatibility"
+sidebarTitle: "Features and compatibility"
+description: "OpenAI compatibility and product boundaries"
+---
+
+## OpenAI-compatible?
+
+Primary text path follows **OpenAI Chat Completions**. Point clients at `https://api.omnimux.ai/v1` with an OmniMux `sk-` and live model ids. See [language complete reference](/en/api-reference/text-series/claude/complete).
+
+## Modalities
+
+Live catalog only: language / image / video, plus social-data (read) and publishing (write, different auth).
+
+## Why not identical to ChatGPT/Claude websites?
+
+APIs expose model capability, not each vendor’s product shell (browsing, memory UI, built-in tools). Manage context, system prompts, and tools yourself.
+
+## Video tasks
+
+Create: `POST /v1/video/generations`  
+Poll: `GET /v1/video/generations/{task_id}`  
+Do not confuse with `/v1/videos/{id}/content` download.

@@ -1,0 +1,27 @@
+---
+title: "Security and keys"
+sidebarTitle: "Security and keys"
+description: "API keys and access tokens"
+---
+
+## Protect `sk-` keys
+
+- Never commit keys to public repos or ship them in frontend bundles  
+- Prefer env vars / secret managers  
+- Rotate immediately if leaked  
+- Separate keys for dev/stage/prod  
+
+## Two credential surfaces
+
+| Credential | Use |
+| --- | --- |
+| `sk-` API key | Gateway inference, social-data reads |
+| User access token + `New-Api-User` | Device-login user APIs, publishing |
+
+Do not mix them casually.
+
+## Hygiene
+
+- Limit automation tokens to required models/groups  
+- Never log full secrets  
+- Use `<token>` placeholders in shared examples
