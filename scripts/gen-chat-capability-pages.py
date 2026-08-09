@@ -405,9 +405,9 @@ Base URL：`https://api.omnimux.ai`
 def render_mdx_en(brand_key: str, models: list[str], op_rel: str) -> str:
     brand_cn, brand_en, _ = BRANDS[brand_key]
     return f"""---
-title: "{brand_en} · Complete reference"
-sidebarTitle: "{brand_en} · Complete reference"
-description: "{brand_en} · Chat Completions complete reference (shared contract, model enum)"
+title: "{brand_en} · Complete API Reference"
+sidebarTitle: "{brand_en} · Complete API Reference"
+description: "{brand_en} · Chat Completions complete API reference (shared contract, model enum)"
 openapi: "{op_rel} POST /v1/chat/completions"
 ---
 
