@@ -39,7 +39,7 @@ Base URL: `https://api.omnimux.ai`
 | --- | --- | --- | --- |
 | `model` | string | yes | Must be `tiktok-user` |
 | `messages` | array | yes | Dummy user message allowed |
-| `uniqueId` | string | yes | Primary business key for this capability |
+| `uniqueId` | string | yes | Required business field for this capability (see request example) |
 
 ## Response
 
@@ -50,7 +50,7 @@ Base URL: `https://api.omnimux.ai`
 | `id` | string | Completion id |
 | `object` | string | `chat.completion` |
 | `model` | string | `tiktok-user` |
-| `choices[].message.content` | string | Upstream platform JSON as string |
+| `choices[].message.content` | string | Upstream platform JSON string (shape varies by capability) |
 
 Errors: right rail and [Error codes](/en/faqs/connection-usage).
 
@@ -76,13 +76,16 @@ Errors: right rail and [Error codes](/en/faqs/connection-usage).
 
 ```json 200
 {
-  "id": "chatcmpl-example",
+  "id": "chatcmpl-social-data-example",
   "object": "chat.completion",
   "model": "tiktok-user",
   "choices": [
     {
       "index": 0,
-      "message": { "role": "assistant", "content": "…" },
+      "message": {
+        "role": "assistant",
+        "content": "{ /* upstream platform JSON; shape varies by capability */ }"
+      },
       "finish_reason": "stop"
     }
   ]
@@ -90,11 +93,23 @@ Errors: right rail and [Error codes](/en/faqs/connection-usage).
 ```
 
 ```json 400
-{ "error": { "message": "Invalid request", "type": "invalid_request_error", "code": "bad_request" } }
+{
+  "error": {
+    "message": "Invalid request: missing required business field or invalid parameter",
+    "type": "invalid_request_error",
+    "code": "bad_request"
+  }
+}
 ```
 
 ```json 401
-{ "error": { "message": "Invalid token", "type": "authentication_error", "code": "unauthorized" } }
+{
+  "error": {
+    "message": "Invalid token or authentication failed",
+    "type": "authentication_error",
+    "code": "unauthorized"
+  }
+}
 ```
 
 ```json 402
@@ -108,15 +123,43 @@ Errors: right rail and [Error codes](/en/faqs/connection-usage).
 ```
 
 ```json 403
-{ "error": { "message": "Forbidden", "type": "permission_error", "code": "forbidden" } }
+{
+  "error": {
+    "message": "Model not allowed for this token",
+    "type": "permission_error",
+    "code": "forbidden"
+  }
+}
 ```
 
 ```json 429
-{ "error": { "message": "Rate limit exceeded", "type": "rate_limit_error", "code": "rate_limit_exceeded" } }
+{
+  "error": {
+    "message": "Rate limit exceeded",
+    "type": "rate_limit_error",
+    "code": "rate_limit_exceeded"
+  }
+}
 ```
 
 ```json 500
-{ "error": { "message": "Internal server error", "type": "server_error", "code": "internal_error" } }
+{
+  "error": {
+    "message": "Internal server error",
+    "type": "server_error",
+    "code": "internal_error"
+  }
+}
+```
+
+```json 502
+{
+  "error": {
+    "message": "Upstream provider error",
+    "type": "server_error",
+    "code": "bad_gateway"
+  }
+}
 ```
 
 </ResponseExample>
