@@ -2,11 +2,17 @@
 
 ## W0. Public docs gate (product + docs)
 
-When product ships/changes **user-facing HTTP**:
+When product ships/changes **user-facing HTTP** or **live model catalog**:
 
 1. Smoke succeeds.  
 2. Update **OmniMux-docs** (zh + en + `docs.json` if new).  
-3. Callable L3 uses **OpenAPI operation** page shape (not thin tables only).
+3. Callable L3 uses **OpenAPI operation** page shape (not thin tables only).  
+4. **API Updates**: append `data/changelog/entries/YYYY-MM-DD-slug.json`, then:
+   ```bash
+   python3 scripts/gen-changelog-pages.py
+   python3 scripts/check-changelog.py
+   ```
+   See `references/changelog.md`. Skip only for pure typo/nav fixes with no user-visible capability or pricing change.
 
 ## W1. Add AI language model (same Chat contract)
 
@@ -53,12 +59,17 @@ Empty brands, planned APIs, Social Ops names, L2-duplicate children.
 python3 -c "import json; json.load(open('docs.json'))"
 python3 scripts/check-naming.py
 python3 scripts/check-i18n.py
+python3 scripts/check-changelog.py
 python3 -c "import json; json.load(open('openapi/ops/chat/gpt-5.4.json'))"
 # after deploy
 curl -sS -o /dev/null -w '%{http_code}\n' \
   https://docs.omnimux.ai/zh/api-reference/text-series/claude/complete
 curl -sS -o /dev/null -w '%{http_code}\n' \
   https://docs.omnimux.ai/en/api-reference/text-series/claude/complete
+curl -sS -o /dev/null -w '%{http_code}\n' \
+  https://docs.omnimux.ai/en/updates
+curl -sS -o /dev/null -w '%{http_code}\n' \
+  https://docs.omnimux.ai/data/changelog/index.json
 ```
 
 Ego checklist:

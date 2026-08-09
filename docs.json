@@ -347,7 +347,8 @@
                 "group": "Getting started",
                 "pages": [
                   "en/index",
-                  "en/quickstart"
+                  "en/quickstart",
+                  "en/updates"
                 ],
                 "icon": "rocket"
               }
@@ -681,7 +682,8 @@
                 "group": "开始使用",
                 "pages": [
                   "zh/index",
-                  "zh/quickstart"
+                  "zh/quickstart",
+                  "zh/updates"
                 ],
                 "icon": "rocket"
               }

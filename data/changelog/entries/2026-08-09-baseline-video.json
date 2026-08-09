@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "id": "2026-08-09-baseline-video",
+  "published_at": "2026-08-09",
+  "rank": 70,
+  "type": "baseline",
+  "modality": ["video"],
+  "title": {
+    "en": "Video models (catalog baseline)",
+    "zh": "视频系列模型（目录期初）"
+  },
+  "summary": {
+    "en": "Async video SKUs: Omni Flash duration family, MiniMax H3 variants, Veo 3.1, Grok Imagine Video, LTX.",
+    "zh": "异步视频 SKU：Omni Flash 时长族、MiniMax H3 变体、Veo 3.1、Grok Imagine Video、LTX。"
+  },
+  "models": [
+    "grok-imagine-video-1.5",
+    "ltx2.3-kj",
+    "minimax-h3-endframe",
+    "minimax-h3-fl2va",
+    "minimax-h3-flf",
+    "minimax-h3-t2v",
+    "omni_flash",
+    "omni_flash-10s",
+    "omni_flash-4s",
+    "omni_flash-6s",
+    "veo_3_1"
+  ],
+  "links": [
+    {
+      "label": { "en": "Video task poll", "zh": "视频任务查询" },
+      "href": { "en": "/en/api-reference/tasks/video-task", "zh": "/zh/api-reference/tasks/video-task" }
+    },
+    {
+      "label": { "en": "Omni Flash", "zh": "Omni Flash" },
+      "href": { "en": "/en/api-reference/video-series/models/omni_flash", "zh": "/zh/api-reference/video-series/models/omni_flash" }
+    },
+    {
+      "label": { "en": "MiniMax H3 T2V", "zh": "MiniMax H3 文生视频" },
+      "href": { "en": "/en/api-reference/video-series/models/minimax-h3-t2v", "zh": "/zh/api-reference/video-series/models/minimax-h3-t2v" }
+    },
+    {
+      "label": { "en": "Veo 3.1", "zh": "Veo 3.1" },
+      "href": { "en": "/en/api-reference/video-series/models/veo_3_1", "zh": "/zh/api-reference/video-series/models/veo_3_1" }
+    }
+  ],
+  "tags": ["video", "async", "baseline"],
+  "body": {
+    "en": "Video generation on OmniMux is primarily **async**:\n\n- Create: `POST /v1/video/generations`\n- Poll: `GET /v1/video/generations/{task_id}`\n\n## Models in this baseline\n\n| Model id | Role |\n| --- | --- |\n| `omni_flash` | Omni Flash base |\n| `omni_flash-4s` / `-6s` / `-10s` | Duration-oriented Omni Flash SKUs |\n| `minimax-h3-t2v` | MiniMax H3 text-to-video |\n| `minimax-h3-flf` | First/last-frame style I2V |\n| `minimax-h3-fl2va` | FL2VA-oriented path |\n| `minimax-h3-endframe` | End-frame reference I2V |\n| `veo_3_1` | Veo 3.1 |\n| `grok-imagine-video-1.5` | Grok Imagine Video |\n| `ltx2.3-kj` | LTX 2.3 family SKU |\n\n## Documentation\n\nSee **Video series** and **Task management** in the API manual. Do not confuse task poll with content download paths.",
+    "zh": "OmniMux 视频生成以 **异步任务** 为主：\n\n- 创建：`POST /v1/video/generations`\n- 查询：`GET /v1/video/generations/{task_id}`\n\n## 本期初模型\n\n| Model id | 角色 |\n| --- | --- |\n| `omni_flash` | Omni Flash 基础 |\n| `omni_flash-4s` / `-6s` / `-10s` | 按时长划分的 Omni Flash SKU |\n| `minimax-h3-t2v` | MiniMax H3 文生视频 |\n| `minimax-h3-flf` | 首末帧类 I2V |\n| `minimax-h3-fl2va` | FL2VA 路径 |\n| `minimax-h3-endframe` | 尾帧参考 I2V |\n| `veo_3_1` | Veo 3.1 |\n| `grok-imagine-video-1.5` | Grok Imagine Video |\n| `ltx2.3-kj` | LTX 2.3 系 SKU |\n\n## 文档\n\n见 API 手册 **视频系列** 与 **任务管理**。勿与内容下载路径混淆。"
+  }
+}

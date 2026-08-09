@@ -54,10 +54,13 @@ docs_link = https://docs.omnimux.ai
 
 | 动作 | 在哪里做 |
 | --- | --- |
-| 改 MDX / 导航 | 本仓 `cn/` `en/` `docs.json` |
+| 改 MDX / 导航 | 本仓 `zh/` `en/` `docs.json` |
 | 更新 OpenAPI | 产品仓改 `docs/openapi/relay.json` → 同步到本仓 `openapi/` |
+| **API 更新日志** | 只改 `data/changelog/entries/*.json`，再跑 `python3 scripts/gen-changelog-pages.py` 与 `python3 scripts/check-changelog.py`；页面 `/en/updates` · `/zh/updates` |
 | 预览 | `mint dev` |
 | 发布 | `git push origin main` |
+
+规范细节：`.agents/skills/omnimux-docs-ia/references/changelog.md`。
 
 ## 验收
 

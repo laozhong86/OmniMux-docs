@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "id": "2026-08-09-baseline-image",
+  "published_at": "2026-08-09",
+  "rank": 80,
+  "type": "baseline",
+  "modality": ["image"],
+  "title": {
+    "en": "Image models (catalog baseline)",
+    "zh": "图像系列模型（目录期初）"
+  },
+  "summary": {
+    "en": "Image generation SKUs on live pricing: GPT Image 2, Nano Banana, Z-Image makeup.",
+    "zh": "live 定价上的图像 SKU：GPT Image 2、Nano Banana、Z-Image 美妆。"
+  },
+  "models": [
+    "gpt-image2",
+    "gpt-image2-hd",
+    "nano_banana_2",
+    "nano_banana_pro",
+    "zimage-makeup"
+  ],
+  "links": [
+    {
+      "label": { "en": "GPT Image 2", "zh": "GPT Image 2" },
+      "href": { "en": "/en/api-reference/image-series/models/gpt-image2", "zh": "/zh/api-reference/image-series/models/gpt-image2" }
+    },
+    {
+      "label": { "en": "GPT Image 2 HD", "zh": "GPT Image 2 HD" },
+      "href": { "en": "/en/api-reference/image-series/models/gpt-image2-hd", "zh": "/zh/api-reference/image-series/models/gpt-image2-hd" }
+    },
+    {
+      "label": { "en": "Nano Banana 2", "zh": "Nano Banana 2" },
+      "href": { "en": "/en/api-reference/image-series/models/nano_banana_2", "zh": "/zh/api-reference/image-series/models/nano_banana_2" }
+    },
+    {
+      "label": { "en": "Nano Banana Pro", "zh": "Nano Banana Pro" },
+      "href": { "en": "/en/api-reference/image-series/models/nano_banana_pro", "zh": "/zh/api-reference/image-series/models/nano_banana_pro" }
+    }
+  ],
+  "tags": ["image", "baseline"],
+  "body": {
+    "en": "Image generation models available on the gateway as of this baseline.\n\n## Models\n\n| Model id | Notes |\n| --- | --- |\n| `gpt-image2` | GPT Image 2 primary SKU |\n| `gpt-image2-hd` | Higher-detail / HD tier |\n| `nano_banana_2` | Nano Banana 2 image family |\n| `nano_banana_pro` | Nano Banana Pro |\n| `zimage-makeup` | Makeup / beauty workflow-oriented image model |\n\n## Documentation\n\nSee **Image series** in the API manual. Always pin the exact model id from live pricing.",
+    "zh": "本 baseline 时网关上的图像生成模型。\n\n## 模型\n\n| Model id | 说明 |\n| --- | --- |\n| `gpt-image2` | GPT Image 2 主 SKU |\n| `gpt-image2-hd` | 更高细节 / HD 档 |\n| `nano_banana_2` | Nano Banana 2 |\n| `nano_banana_pro` | Nano Banana Pro |\n| `zimage-makeup` | 美妆向图像工作流模型 |\n\n## 文档\n\n见 API 手册 **图像系列**。model id 以 live 定价为准。"
+  }
+}

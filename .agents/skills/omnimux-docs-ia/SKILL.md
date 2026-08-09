@@ -1,6 +1,6 @@
 ---
 name: omnimux-docs-ia
-description: "OmniMux public Mintlify docs (OmniMux-docs) API 手册 IA and content norms. Use when adding/changing docs.omnimux.ai API pages, docs.json navigation, model/brand/series pages, OpenAPI capability detail pages, 社交数据/社媒发布/账户/任务 docs, RequestExample/ResponseExample/Panel, or after shipping user-facing HTTP APIs (public docs gate). Triggers: omnimux docs, Mintlify, API 手册, OpenAPI operation, series brand model, 连接账户, Connecting Accounts. Not for: product Go/relay implementation (use newapi / deploy-vps); admin OpenAPI; inventing models not on live pricing."
+description: "OmniMux public Mintlify docs (OmniMux-docs) API 手册 IA and content norms. Use when adding/changing docs.omnimux.ai API pages, docs.json navigation, model/brand/series pages, OpenAPI capability detail pages, 社交数据/社媒发布/账户/任务 docs, RequestExample/ResponseExample/Panel, API Updates/changelog, or after shipping user-facing HTTP APIs (public docs gate). Triggers: omnimux docs, Mintlify, API 手册, OpenAPI operation, series brand model, 连接账户, Connecting Accounts, 更新日志, API Updates, changelog. Not for: product Go/relay implementation (use newapi / deploy-vps); admin OpenAPI; inventing models not on live pricing."
 ---
 
 # omnimux-docs-ia
@@ -20,6 +20,7 @@ This skill is the standing instruction set for **API 手册** architecture and p
 | **L5 Field matrix** | `references/field-matrix.md` | Family field baselines |
 | **L6 Workflows** | `references/workflows.md` | Add model / smoke→docs / align phases |
 | **L7 i18n** | `references/i18n.md` | zh/en dual tree (default en), check-i18n, switcher |
+| **L8 Changelog** | `references/changelog.md` | API Updates feed: schema, append, gen/check |
 
 Do **not** invent parallel IA. Live site + `docs.json` + this skill are the source of truth.
 
@@ -32,7 +33,8 @@ Do **not** invent parallel IA. Live site + `docs.json` + this skill are the sour
 | Locales | `en/**` (default), `zh/**` (简体中文); legacy `/cn/*` → `/zh/*` redirects |
 | Gateway OpenAPI snapshot | `openapi/relay.json` (generator source only; **not** sidebar dump) |
 | Per-capability ops | `openapi/ops/**` (single operation docs) |
-| Generators | `scripts/gen-chat-capability-pages.py` (more surfaces later) |
+| Generators | `scripts/gen-chat-capability-pages.py`; changelog `scripts/gen-changelog-pages.py` |
+| API Updates data | `data/changelog/entries/` (source) → `index.json` + `pages/*.json` + `en|zh/updates*.mdx` |
 
 ## Hard rules (summary)
 
@@ -51,9 +53,10 @@ Do **not** invent parallel IA. Live site + `docs.json` + this skill are the sour
 12. **402** on billed ops.  
 13. **Field honesty** from `openapi/relay.json` / live.  
 14. **Domains only**: `omnimux.ai` / `api.omnimux.ai` / `docs.omnimux.ai`.  
-15. **Public docs gate** after smoke.  
+15. **Public docs gate** after smoke: API/docs pages **and** API Updates changelog entry when user-facing models or public HTTP change.  
 16. **Skill first**, then regen.  
-17. **zh + en** parity: every page must exist at the **same relative path** under `zh/` and `en/`; default language is **en**; `docs.json` nav page sets must match after stripping locale prefix; no cross-locale internal links. Run `python3 scripts/check-i18n.py` after docs edits. Do not reintroduce `cn/` content paths.
+17. **zh + en** parity: every page must exist at the **same relative path** under `zh/` and `en/`; default language is **en**; `docs.json` nav page sets must match after stripping locale prefix; no cross-locale internal links. Run `python3 scripts/check-i18n.py` after docs edits. Do not reintroduce `cn/` content paths.  
+18. **Changelog**: append only under `data/changelog/entries/`; run `gen-changelog-pages.py` + `check-changelog.py`; do not hand-edit generated updates MDX or `index.json` / `pages/*.json`.
 
 ## Default procedure (short)
 
