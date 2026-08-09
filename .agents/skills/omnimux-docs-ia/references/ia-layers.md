@@ -83,7 +83,7 @@ L1  系列 / 管理面          （发现主轴）
 | 语言系列 | `message-square` |
 | 图像系列 | `image` |
 | 视频系列 | `video` |
-| 社交数据 | L1 `share-2`（lucide）；L2 品牌 SVG：`/icons/social/{tiktok,instagram,youtube,x}.svg`（勿用 music/camera 隐喻） |
+| 社交数据 | L1 `share-2`（lucide）；L2 品牌 SVG：`/icons/social/{tiktok,instagram,youtube,x}.svg`（勿用 music/camera 隐喻）；深色主题由 `style.css` 对 `/icons/social/` 做 invert 适配 |
 | 社媒发布 | `send` |
 | 账户管理 | `user` |
 | 任务管理 | `list-checks` |
