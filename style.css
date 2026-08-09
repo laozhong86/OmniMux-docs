@@ -1,0 +1,29 @@
+/* Hide Mintlify built-in AI Assistant UI (Ask Assistant / 询问助手).
+   Dashboard toggle (app.mintlify.com/products/assistant) remains the source of truth for billing/index;
+   this CSS removes the on-page entry so users cannot open Q&A. */
+
+#assistant-entry,
+#assistant-entry-mobile,
+button#assistant-entry,
+button#assistant-entry-mobile,
+[aria-label="Toggle assistant panel"],
+[aria-label="切换助手面板"],
+[aria-label="Toggle Assistant"],
+[aria-label="询问助手"] {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  width: 0 !important;
+  min-width: 0 !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+/* Assistant slide-over / sheet when somehow opened */
+[data-assistant-state="open"] [data-component-name="assistant"],
+aside[data-assistant],
+[data-testid="assistant-panel"] {
+  display: none !important;
+}
