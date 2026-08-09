@@ -385,7 +385,7 @@ def render_mdx_cn(brand_key: str, models: list[str], op_rel: str) -> str:
     brand_cn, brand_en, _ = BRANDS[brand_key]
     return f"""---
 title: "{brand_cn} · 完整参数"
-sidebarTitle: "完整参数"
+sidebarTitle: "{brand_cn} · 完整参数"
 description: "{brand_cn} · Chat Completions 完整参数（同合同，model 枚举）"
 openapi: "{op_rel} POST /v1/chat/completions"
 ---
@@ -406,7 +406,7 @@ def render_mdx_en(brand_key: str, models: list[str], op_rel: str) -> str:
     brand_cn, brand_en, _ = BRANDS[brand_key]
     return f"""---
 title: "{brand_en} · Complete reference"
-sidebarTitle: "Complete reference"
+sidebarTitle: "{brand_en} · Complete reference"
 description: "{brand_en} · Chat Completions complete reference (shared contract, model enum)"
 openapi: "{op_rel} POST /v1/chat/completions"
 ---

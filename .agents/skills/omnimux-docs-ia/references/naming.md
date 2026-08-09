@@ -4,7 +4,7 @@
 
 | Concept | CN | EN | Meaning |
 | --- | --- | --- | --- |
-| Gateway user account | 账户管理 | Account | OmniMux user, quota, device login, pricing |
+| Gateway user account | 账户管理 | **Account management** | OmniMux user, quota, device login, pricing |
 | Connected social account | **连接账户** | **Connecting Accounts** | Platform OAuth bind (Zernio guide title) |
 | Social **read** APIs | **社交数据** | Social data | TikHub-backed models; vendor = platform brand |
 | Social **write** APIs | **社媒发布** | Publishing | `/api/social/v1` connect/posts/media |
@@ -19,33 +19,88 @@
 | TikHub as public **vendor** for social-data | Vendor = TikTok / Instagram / YouTube / X |
 | METHOD + path as sidebar title | Implementation detail → body / right panel only |
 | Raw model id alone as L3 sidebar title | Hard to tell variants apart; must add capability short label |
+| Language leaf sidebar = bare `完整参数` / `Complete reference` | Leaf must carry brand: `{Brand} · 完整参数` |
+| EN image leaf bare `image` / `generate` | Use **Image Generation** (or `Generation` if brand already ends with Image) |
+| EN video leaf bare `video` / `generate` | Use **Video Generation** / **Text-to-Video** / **Image-to-Video** |
 
-## Sidebar title contract (POST / GET leaves)
+## L1 display names (API manual)
 
-Every callable L3 leaf that shows a METHOD badge **must** use:
+| CN | EN |
+| --- | --- |
+| 语言系列 | Language series |
+| 图像系列 | Image series |
+| 视频系列 | Video series |
+| 社交数据 | Social data |
+| 社媒发布 | Publishing |
+| 账户管理 | Account management |
+| 任务管理 | Task management |
+| 常见问题 | FAQs |
+
+Account L2 EN: **Authentication** (登录鉴权), **Account info** (账户信息).  
+Do **not** rename URL path prefix `api-reference` to `api-manual` (external links).
+
+## Sidebar title contract (callable L3)
 
 ```text
-<title> = <品牌或产品短名> <能力简称>
+title = sidebarTitle = human label (same string preferred)
 ```
 
-Examples (Evolink-style):
+Language Complete **must** include brand on both fields. Other leaves: brand + capability; never model id alone.
 
-| Bad (model id only) | Good (CN) | Good (EN) |
+### A. Language · brand contract
+
+```text
+CN: {Brand} · 完整参数
+EN: {Brand} · Complete reference
+```
+
+Separator: middle dot `·` (not Evolink ASCII ` - `).  
+One leaf per brand × Chat Completions; model ids live in OpenAPI enum, not nav.
+
+### B. Image · model leaf
+
+| Kind | CN | EN |
 | --- | --- | --- |
-| `omni_flash` | Omni Flash 视频生成 | Omni Flash video |
+| Default | `{Brand} 生图` | `{Brand} Image Generation` |
+| Brand already contains `Image` | `{Brand} 生图` | `{Brand} Generation` (e.g. `GPT Image Generation`, `Z Image Generation`) |
+| HD | `{Brand} HD 生图` | `{Brand} HD Generation` |
+| Async | `… · 异步` | `… · Async` |
+
+### C. Video · model leaf
+
+| Kind | CN | EN |
+| --- | --- | --- |
+| Generic | `{Brand} 视频生成` | `{Brand} Video Generation` |
+| Text-to-video | `{Brand} 文生视频` | `{Brand} Text-to-Video` |
+| Image-to-video | `{Brand} 图生视频` | `{Brand} Image-to-Video` |
+| First-last frame | `{Brand} 首尾帧` | `{Brand} First-Last Frame` |
+| End frame | `{Brand} 尾帧` | `{Brand} End Frame` |
+| Duration SKU | `{Brand} {N} 秒` | `{Brand} {N}s` |
+| Async | `… · 异步` | `… · Async` |
+
+Keep current capability axis (mode vs duration SKU); naming only unifies labels. Do not merge Veo 3.1 and Omni Flash L2 groups.
+
+### D. Account / tasks / social / publishing
+
+| Kind | CN | EN |
+| --- | --- | --- |
+| Device login | 设备码登录 | Device Code Login |
+| Balance | 查询余额 | Get Balance |
+| Pricing | 查询定价 | Get Pricing |
+| Video task poll | 查询视频任务 | Query Video Task |
+| Social capability | 作品详情 / 用户资料 / … | Post Detail / User Profile / User Posts / Video Search / … (Title Case) |
+| Publishing | 发起连接 / 列出账户 / … | Start Connection / List Accounts / Disconnect Account / Create Post / Get Post / Media Presign / Upload Media |
+
+## Examples (Evolink-style leaf labels)
+
+| Bad | Good (CN) | Good (EN) |
+| --- | --- | --- |
+| `完整参数` (no brand) | Claude · 完整参数 | Claude · Complete reference |
+| `omni_flash` | Omni Flash 视频生成 | Omni Flash Video Generation |
 | `omni_flash-4s` | Omni Flash 4 秒 | Omni Flash 4s |
-| `minimax-h3-t2v` | MiniMax 文生视频 | MiniMax text-to-video |
-| `minimax-h3-t2v-async` | MiniMax 文生视频 · 异步 | MiniMax text-to-video async |
-| `veo_3_1` | Veo 3.1 视频生成 | Veo 3.1 video |
-| `nano_banana_2` | Nano Banana 2 生图 | Nano Banana 2 image |
-
-Rules:
-
-1. **title** and **sidebarTitle** both carry the short capability label (sidebarTitle may truncate brand if needed, never drop capability).  
-2. Capability words distinguish **mode** (文生 / 图生 / 首尾帧 / 参考图 / 编辑) and **ops variant** (异步 / 秒数 / HD) when siblings would otherwise look identical.  
-3. Body / OpenAPI still pin **model id** exactly as live pricing.  
-4. Language **brand contract** pages stay `完整参数` / `Complete reference` (one contract, model enum) — not per-model leaves.  
-5. Social-data L3 already uses capability Chinese names — keep; do not replace with model id alone.
+| `minimax-h3-t2v` | MiniMax 文生视频 | MiniMax Text-to-Video |
+| `nano_banana_2` only | Nano Banana 2 生图 | Nano Banana 2 Image Generation |
+| `GPT Image generate` | GPT Image 生图 | GPT Image Generation |
 
 ## Zernio alignment (publishing)
 
@@ -69,32 +124,38 @@ Post **status** lives under **帖子**, never under **任务管理**.
 ## AI series brands
 
 - Brand = user-facing family (Claude, GPT, Nano Banana, Omni Flash, Veo 3.1…), not channel slug.  
-- **Language:** L3 = brand Complete contract page; model ids in enum table.  
+- **Language:** L3 = brand Complete contract; model ids in enum table.  
 - **Image / video (per-model leaves until contract-axis):** L3 title = brand + capability short name; model id in body.  
 - No empty brand folders for paths without catalog models.  
 - **Veo 3.1** and **Omni Flash** are separate L2 groups (never “Veo / Omni Flash” combined).
 
-## Page titles
+## Page titles (summary)
 
 | Page kind | title / sidebarTitle |
 | --- | --- |
-| Language brand contract | `Claude · 完整参数` / `Claude · Complete reference` |
-| Image / video model leaf | **品牌 + 能力简称** (required) |
-| Social-data capability | Chinese capability (CN); English capability (EN) |
-| Publishing capability | 发起连接 / 列出账户 / … (capability Chinese) |
-| Task poll | 查询视频任务 / … |
+| Language brand contract | `{Brand} · 完整参数` / `{Brand} · Complete reference` (**both fields**) |
+| Image / video model leaf | **品牌 + 能力简称** (required; EN per tables B/C) |
+| Social-data capability | Chinese capability (CN); Title Case capability (EN) |
+| Publishing capability | 发起连接 / Start Connection / … |
+| Task poll | 查询视频任务 / Query Video Task |
 
 ## Domains
 
 Only: `omnimux.ai`, `api.omnimux.ai`, `docs.omnimux.ai`.  
 Never: `*.geminix.cc`, `docs.newapi.pro` as primary.
 
-
 ## Tasks (hard)
 
 | Keep in nav | Path | Notes |
 | --- | --- | --- |
 | 查询视频任务 | `GET /v1/video/generations/{task_id}` | Primary poll for video series creates |
-| **Do not** list as generic task helpers | `GET /v1/videos/{task_id}/content` | OpenAI Videos **file download**, not status poll; not MiniMax/Veo/Omni Flash path |
+| **Do not** list as generic task helpers | `GET /v1/videos/{task_id}/content` | OpenAI Videos **file download**, not status poll |
 | **Do not** invent | `GET /v1/images/generations/{task_id}` | Not in public relay OpenAPI |
 
+## Lint
+
+```bash
+python3 scripts/check-naming.py
+```
+
+Must pass before merge when titles or nav groups change.

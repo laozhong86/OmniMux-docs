@@ -51,10 +51,11 @@ Empty brands, planned APIs, Social Ops names, L2-duplicate children.
 
 ```bash
 python3 -c "import json; json.load(open('docs.json'))"
+python3 scripts/check-naming.py
 python3 -c "import json; json.load(open('openapi/ops/chat/gpt-5.4.json'))"
 # after deploy
 curl -sS -o /dev/null -w '%{http_code}\n' \
-  https://docs.omnimux.ai/cn/api-reference/text-series/models/gpt-5.4
+  https://docs.omnimux.ai/cn/api-reference/text-series/claude/complete
 ```
 
 Ego checklist:
@@ -63,7 +64,8 @@ Ego checklist:
 - [ ] Body fields expandable (model, messages, stream, …)  
 - [ ] Response statuses include 402  
 - [ ] Right sticky request example  
-- [ ] Not “only 5-row Markdown Body”
+- [ ] Not “only 5-row Markdown Body”  
+- [ ] Sidebar leaf shows brand + capability (language Complete not bare「完整参数」)
 
 ## W7. OpenAPI relay sync
 
