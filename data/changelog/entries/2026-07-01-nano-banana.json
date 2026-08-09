@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "id": "2026-07-01-nano-banana",
+  "published_at": "2026-07-01",
+  "rank": 0,
+  "type": "model_launch",
+  "modality": [
+    "image"
+  ],
+  "title": {
+    "en": "Nano Banana 2 and Nano Banana Pro",
+    "zh": "Nano Banana 2 与 Nano Banana Pro"
+  },
+  "summary": {
+    "en": "Nano Banana image models on OmniMux.",
+    "zh": "Nano Banana 图像模型已在 OmniMux 可调用。"
+  },
+  "models": [
+    "nano_banana_2",
+    "nano_banana_pro"
+  ],
+  "tags": [
+    "image"
+  ],
+  "links": [
+    {
+      "label": {
+        "en": "Nano Banana 2",
+        "zh": "Nano Banana 2"
+      },
+      "href": {
+        "en": "/en/api-reference/image-series/models/nano_banana_2",
+        "zh": "/zh/api-reference/image-series/models/nano_banana_2"
+      }
+    },
+    {
+      "label": {
+        "en": "Nano Banana Pro",
+        "zh": "Nano Banana Pro"
+      },
+      "href": {
+        "en": "/en/api-reference/image-series/models/nano_banana_pro",
+        "zh": "/zh/api-reference/image-series/models/nano_banana_pro"
+      }
+    }
+  ],
+  "body": {
+    "en": "## Nano Banana\n\n**Nano Banana 2** and **Nano Banana Pro** are now available on OmniMux.\n\n### New models\n\n- **Model IDs:** `nano_banana_2`, `nano_banana_pro`\n- **Modality:** image generation\n\nSee each model page for request parameters.",
+    "zh": "## Nano Banana\n\n**Nano Banana 2** 与 **Nano Banana Pro** 现已在 OmniMux 可调用。\n\n### 新模型\n\n- **模型 ID：** `nano_banana_2`、`nano_banana_pro`\n- **模态：** 图像生成\n\n请求参数见各模型文档页。"
+  }
+}

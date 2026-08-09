@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "id": "2026-07-17-kimi-k3",
+  "published_at": "2026-07-17",
+  "rank": 0,
+  "type": "model_launch",
+  "modality": [
+    "text"
+  ],
+  "title": {
+    "en": "Kimi K3 — long-context reasoning",
+    "zh": "Kimi K3 — 长上下文推理"
+  },
+  "summary": {
+    "en": "Kimi K3 is available on OmniMux Chat Completions.",
+    "zh": "Kimi K3 已在 OmniMux Chat Completions 可调用。"
+  },
+  "models": [
+    "kimi-k3"
+  ],
+  "tags": [
+    "text"
+  ],
+  "links": [
+    {
+      "label": {
+        "en": "Kimi complete",
+        "zh": "Kimi 完整参数"
+      },
+      "href": {
+        "en": "/en/api-reference/text-series/kimi/complete",
+        "zh": "/zh/api-reference/text-series/kimi/complete"
+      }
+    }
+  ],
+  "body": {
+    "en": "## Kimi K3\n\n**Kimi K3** is now available on OmniMux.\n\n### New model\n\n- **Model ID:** `kimi-k3`\n- **API:** Chat Completions at `https://api.omnimux.ai/v1`\n- **Focus:** long-context reasoning and agent-style workflows\n\nSee the Kimi complete page for the full model enum.",
+    "zh": "## Kimi K3\n\n**Kimi K3** 现已在 OmniMux 可调用。\n\n### 新模型\n\n- **模型 ID：** `kimi-k3`\n- **API：** Chat Completions：`https://api.omnimux.ai/v1`\n- **定位：** 长上下文推理与 Agent 类工作流\n\n完整模型枚举见 Kimi 完整参数页。"
+  }
+}

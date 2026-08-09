@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "id": "2026-07-16-suno",
+  "published_at": "2026-07-16",
+  "rank": 0,
+  "type": "model_launch",
+  "modality": [
+    "audio"
+  ],
+  "title": {
+    "en": "Suno — music generation",
+    "zh": "Suno — 音乐生成"
+  },
+  "summary": {
+    "en": "Suno music generation is available on OmniMux.",
+    "zh": "Suno 音乐生成已在 OmniMux 可调用。"
+  },
+  "models": [
+    "suno"
+  ],
+  "tags": [
+    "audio"
+  ],
+  "links": [
+    {
+      "label": {
+        "en": "Pricing",
+        "zh": "定价"
+      },
+      "href": {
+        "en": "/en/api-reference/account/pricing",
+        "zh": "/zh/api-reference/account/pricing"
+      }
+    }
+  ],
+  "body": {
+    "en": "## Suno\n\n**Suno** music generation is now available on OmniMux.\n\n### New model\n\n- **Model ID:** `suno`\n- **Use:** AI music generation workflows via the gateway catalog\n\nConfirm billing and request shape from live pricing / console before production traffic.",
+    "zh": "## Suno\n\n**Suno** 音乐生成现已在 OmniMux 可调用。\n\n### 新模型\n\n- **模型 ID：** `suno`\n- **用途：** 通过网关目录进行 AI 音乐生成\n\n上线生产前请在控制台定价中确认计费与请求形态。"
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "id": "2026-06-16-kling",
+  "published_at": "2026-06-16",
+  "rank": 0,
+  "type": "model_launch",
+  "modality": [
+    "video"
+  ],
+  "title": {
+    "en": "Kling V3 and Kling V2.6",
+    "zh": "Kling V3 与 Kling V2.6"
+  },
+  "summary": {
+    "en": "Kling video models on OmniMux.",
+    "zh": "Kling 视频模型已在 OmniMux 可调用。"
+  },
+  "models": [
+    "kling-v3",
+    "kling-v2-6"
+  ],
+  "tags": [
+    "video"
+  ],
+  "links": [
+    {
+      "label": {
+        "en": "Video task poll",
+        "zh": "视频任务查询"
+      },
+      "href": {
+        "en": "/en/api-reference/tasks/video-task",
+        "zh": "/zh/api-reference/tasks/video-task"
+      }
+    },
+    {
+      "label": {
+        "en": "Pricing",
+        "zh": "定价"
+      },
+      "href": {
+        "en": "/en/api-reference/account/pricing",
+        "zh": "/zh/api-reference/account/pricing"
+      }
+    }
+  ],
+  "body": {
+    "en": "## Kling\n\n**Kling** video models are available on OmniMux.\n\n### New models\n\n- **Model IDs:** `kling-v3`, `kling-v2-6`\n- **API:** async `POST` / `GET` `/v1/video/generations`\n\nPin IDs from live pricing; request parameters follow the video task contract.",
+    "zh": "## Kling\n\n**Kling** 视频模型已在 OmniMux 可调用。\n\n### 新模型\n\n- **模型 ID：** `kling-v3`、`kling-v2-6`\n- **API：** 异步 `POST` / `GET` `/v1/video/generations`\n\n精确 ID 以线上定价为准；请求形态遵循视频任务约定。"
+  }
+}

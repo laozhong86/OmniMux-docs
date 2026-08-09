@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "id": "2026-03-06-gpt-5-4",
+  "published_at": "2026-03-06",
+  "rank": 0,
+  "type": "model_launch",
+  "modality": [
+    "text"
+  ],
+  "title": {
+    "en": "GPT-5.4 series",
+    "zh": "GPT-5.4 系列"
+  },
+  "summary": {
+    "en": "GPT-5.4 and GPT-5.4 Mini on OmniMux.",
+    "zh": "GPT-5.4 与 GPT-5.4 Mini 已在 OmniMux 可调用。"
+  },
+  "models": [
+    "gpt-5.4",
+    "gpt-5.4-mini"
+  ],
+  "tags": [
+    "text"
+  ],
+  "links": [
+    {
+      "label": {
+        "en": "GPT complete",
+        "zh": "GPT 完整参数"
+      },
+      "href": {
+        "en": "/en/api-reference/text-series/gpt/complete",
+        "zh": "/zh/api-reference/text-series/gpt/complete"
+      }
+    }
+  ],
+  "body": {
+    "en": "## GPT-5.4\n\n**GPT-5.4** series models are available on OmniMux Chat Completions.\n\n### New models\n\n- **Model IDs:** `gpt-5.4`, `gpt-5.4-mini`\n- **API:** `https://api.omnimux.ai/v1`\n\nLater GPT-5.x IDs (for example `gpt-5.5`, `gpt-5.6-terra`) may also appear on live pricing — always pin the ID from the console.",
+    "zh": "## GPT-5.4\n\n**GPT-5.4** 系列模型已通过 Chat Completions 在 OmniMux 可调用。\n\n### 新模型\n\n- **模型 ID：** `gpt-5.4`、`gpt-5.4-mini`\n- **API：** `https://api.omnimux.ai/v1`\n\n后续 GPT-5.x ID（如 `gpt-5.5`、`gpt-5.6-terra`）也可能出现在线上定价——请始终以控制台 ID 为准。"
+  }
+}

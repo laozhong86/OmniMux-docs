@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "id": "2026-06-01-minimax-m3",
+  "published_at": "2026-06-01",
+  "rank": 0,
+  "type": "model_launch",
+  "modality": [
+    "text"
+  ],
+  "title": {
+    "en": "MiniMax M3",
+    "zh": "MiniMax M3"
+  },
+  "summary": {
+    "en": "MiniMax M3 language model on OmniMux.",
+    "zh": "MiniMax M3 语言模型已在 OmniMux 可调用。"
+  },
+  "models": [
+    "minimax-m3"
+  ],
+  "tags": [
+    "text"
+  ],
+  "links": [
+    {
+      "label": {
+        "en": "MiniMax complete",
+        "zh": "MiniMax 完整参数"
+      },
+      "href": {
+        "en": "/en/api-reference/text-series/minimax/complete",
+        "zh": "/zh/api-reference/text-series/minimax/complete"
+      }
+    }
+  ],
+  "body": {
+    "en": "## MiniMax M3\n\n**MiniMax M3** is now available on OmniMux Chat Completions.\n\n### New model\n\n- **Model ID:** `minimax-m3`\n- **API:** `https://api.omnimux.ai/v1`",
+    "zh": "## MiniMax M3\n\n**MiniMax M3** 现已通过 Chat Completions 在 OmniMux 可调用。\n\n### 新模型\n\n- **模型 ID：** `minimax-m3`\n- **API：** `https://api.omnimux.ai/v1`"
+  }
+}

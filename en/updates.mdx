@@ -1,224 +1,506 @@
 ---
 title: "API Updates"
 sidebarTitle: "API Updates"
-description: "Stay informed about the latest changes and improvements across OmniMux APIs."
+description: "Stay informed about the latest model launches, capability changes, pricing, and platform notes on OmniMux."
+rss: true
 ---
 
-Stay informed about the latest model launches, capability changes, pricing updates, and platform notes on OmniMux.
+Stay up to date with OmniMux gateway model launches and platform changes. The full callable catalog is on [console pricing](https://omnimux.ai) / [Pricing](/en/api-reference/account/pricing).
 
-The full callable catalog is always on [console pricing](https://omnimux.ai) / [Pricing API](/en/api-reference/account/pricing). Incidents: [status.omnimux.ai](https://status.omnimux.ai).
+<a id="2026-08-09-platform-api-updates"></a>
 
-### 2026-08-09
+<Update label="August 9, 2026" tags={["Platform"]} rss={{ title: "API Updates timeline opens" }}>
 
-<a id="2026-08-09-platform-api-updates-feed"></a>
+  ## API Updates
 
-## Platform | API Updates feed opens
+  OmniMux now publishes a dated **API Updates** feed so you can track gateway model launches and platform changes in one place.
 
-`Platform`
+  ### What we log
 
-*Public developer timeline for model launches, capability changes, pricing, and platform notes.*
+  - **New models** — callable model IDs on live pricing
+  - **Model updates** — modes, durations, resolutions, parameters
+  - **Pricing** — material rate changes
+  - **Platform** — auth, domains, public HTTP surfaces
 
-OmniMux now publishes an **API Updates** timeline so you can track gateway changes without digging through chats or release notes elsewhere.
+  ### How to call OmniMux
 
-## What this feed covers
+  | Surface | URL |
+  | --- | --- |
+  | Console | `https://omnimux.ai` |
+  | OpenAI-compatible API | `https://api.omnimux.ai/v1` |
+  | Docs | `https://docs.omnimux.ai` |
+  | Status | `https://status.omnimux.ai` |
 
-- **New models** — callable model IDs added on live pricing
-- **Model updates** — new modes, durations, resolutions, parameters
-- **Pricing** — material rate or settlement changes
-- **Breaking** — incompatible request/response or path changes
-- **Platform** — auth, domains, and public HTTP surfaces (for example Social Ops publishing)
+  Auth for relay: Bearer `sk-…` from the console. Full catalog always lives on console pricing — this page is the **change timeline**.
 
-## How to use OmniMux today
+  ### Links
 
-| Surface | URL |
-| --- | --- |
-| Console | `https://omnimux.ai` |
-| OpenAI-compatible API | `https://api.omnimux.ai/v1` |
-| Docs | `https://docs.omnimux.ai` |
-| Status | `https://status.omnimux.ai` |
+  - [Quickstart](/en/quickstart)
+  - [Pricing](/en/api-reference/account/pricing)
 
-Relay auth: Bearer `sk-…` from the console.
+</Update>
 
-## Note on earlier capability
+<a id="2026-08-09-social-data"></a>
 
-Entries dated **2026-08-09** that describe language, image, video, or social-data families document capabilities **already available** on the gateway when this feed started. They are not fabricated per-model first-launch history. Later entries are append-only real changes.
+<Update label="August 9, 2026" tags={["New models", "Social data"]} rss={{ title: "Social data models — TikTok, Instagram, X, YouTube" }}>
 
-Full model inventory always lives on console pricing — this page is a **change timeline**, not a second catalog.
+  ## Social data (read-only)
 
-### Links
+  **Social data** model IDs are available on OmniMux for read-only public profile and content style access. This is **not** social publishing.
 
-- [Quickstart](/en/quickstart)
-- [Pricing](/en/api-reference/account/pricing)
+  ### Model IDs
 
----
+  | Platform | IDs |
+  | --- | --- |
+  | TikTok | `tiktok-user`, `tiktok-posts`, `tiktok-video`, `tiktok-search` |
+  | Instagram | `instagram-user`, `instagram-posts`, `instagram-post`, `instagram-search` |
+  | X | `x-user`, `x-posts`, `x-tweet`, `x-search` |
+  | YouTube | `youtube-user`, `youtube-posts`, `youtube-video`, `youtube-search` |
 
-<a id="2026-08-09-models-language-series"></a>
+  ### Publishing (different surface)
 
-## New Model | Language series — Claude, GPT, Gemini, Grok & more
+  Connect accounts and create posts use **`/api/social/v1/*`** with access token + `New-Api-User`. Do not mix that auth with gateway `sk-` Chat Completions.
 
-`New Model`
+  ### Links
 
-*Chat Completions language brands are available on the gateway (already live when this feed opened).*
+  - [TikTok user profile](/en/api-reference/social-data/tiktok/user-profile)
+  - [X tweet detail](/en/api-reference/social-data/x/tweet-detail)
+  - [Create post (publishing)](/en/api-reference/publishing/create-post)
 
-Language generation brands are **already available** on OmniMux through OpenAI-compatible **Chat Completions** at `https://api.omnimux.ai/v1`.
+</Update>
 
-## New model
+<a id="2026-08-07-seedance-2-5"></a>
 
-Representative model IDs (pin the exact ID from live pricing / docs enums):
+<Update label="August 7, 2026" tags={["New models", "Video"]} rss={{ title: "Seedance 2.5 — longer video with multimodal references" }}>
 
-| Brand | Example model IDs |
-| --- | --- |
-| Claude | `claude-opus-5`, `claude-sonnet-5`, `claude-haiku-4-5` |
-| GPT | `gpt-5.5`, `gpt-5.6-terra` |
-| Gemini | `gemini-3.6-flash`, `gemini-3.1-pro` |
-| Grok | `grok-4.5` |
-| DeepSeek | `deepseek-v4-pro` |
-| GLM | `glm-5.2` |
-| Kimi | `kimi-k3` |
-| MiniMax (text) | `minimax-m3` |
+  ## Seedance 2.5
 
-## Contract
+  **Seedance 2.5** is now available on OmniMux for async video generation.
 
-- One **complete** docs page per brand (`model` is an enum on the page).
-- Use model IDs from console pricing or the brand complete page only.
+  ### New model
 
-## Documentation
+  - **Model ID:** `seedance-2-5`
+  - **Create:** `POST /v1/video/generations`
+  - **Poll:** `GET /v1/video/generations/{task_id}`
+  - **Highlights:** longer single-pass generation and multimodal reference inputs (text / image / video / audio style workflows)
 
-Start from the **Language series** tab in the API manual (links below).
+  Pin the exact ID from live pricing before integrating.
 
-### Links
+  ### Links
 
-- [Claude complete](/en/api-reference/text-series/claude/complete)
-- [GPT complete](/en/api-reference/text-series/gpt/complete)
-- [Gemini complete](/en/api-reference/text-series/gemini/complete)
-- [Grok complete](/en/api-reference/text-series/grok/complete)
-- [DeepSeek complete](/en/api-reference/text-series/deepseek/complete)
-- [GLM complete](/en/api-reference/text-series/glm/complete)
-- [Kimi complete](/en/api-reference/text-series/kimi/complete)
-- [MiniMax complete](/en/api-reference/text-series/minimax/complete)
+  - [Video task poll](/en/api-reference/tasks/video-task)
+  - [Pricing](/en/api-reference/account/pricing)
 
----
+</Update>
 
-<a id="2026-08-09-models-image-series"></a>
+<a id="2026-07-30-minimax-h3"></a>
 
-## New Model | Image generation — GPT Image 2, Nano Banana, Midjourney & more
+<Update label="July 30, 2026" tags={["New models", "Video"]} rss={{ title: "MiniMax H3 — text-to-video and frame variants" }}>
 
-`New Model`
+  ## MiniMax H3
 
-*Image generation SKUs available on live pricing when this feed opened.*
+  **MiniMax H3** video models are now available on OmniMux.
 
-Image generation models are **already available** on the OmniMux gateway.
+  ### New models
 
-## New model
+  | Model ID | Role |
+  | --- | --- |
+  | `minimax-h3-t2v` | Text-to-video |
+  | `minimax-h3-flf` | First/last-frame style I2V |
+  | `minimax-h3-fl2va` | FL2VA-oriented path |
+  | `minimax-h3-endframe` | End-frame reference I2V |
 
-| Model ID | Notes |
-| --- | --- |
-| `gpt-image2` | GPT Image 2 primary SKU |
-| `gpt-image2-hd` | Higher-detail / HD tier |
-| `nano_banana_2` | Nano Banana 2 |
-| `nano_banana_pro` | Nano Banana Pro |
-| `zimage-makeup` | Makeup / beauty workflow-oriented image model |
-| `midjourney` | Midjourney image path on live pricing |
+  ### API
 
-## Key capabilities
+  - **Create:** `POST /v1/video/generations`
+  - **Poll:** `GET /v1/video/generations/{task_id}`
 
-- Text-to-image and product/creative image workflows via gateway model IDs
-- Pin the exact model ID from live pricing before integrating
+  Async only — submit once, then poll task status.
 
-## Documentation
+  ### Links
 
-See **Image series** in the API manual. Full inventory remains on console pricing.
+  - [MiniMax H3 T2V](/en/api-reference/video-series/models/minimax-h3-t2v)
+  - [Video task poll](/en/api-reference/tasks/video-task)
 
-### Links
+</Update>
 
-- [GPT Image 2](/en/api-reference/image-series/models/gpt-image2)
-- [GPT Image 2 HD](/en/api-reference/image-series/models/gpt-image2-hd)
-- [Nano Banana 2](/en/api-reference/image-series/models/nano_banana_2)
-- [Nano Banana Pro](/en/api-reference/image-series/models/nano_banana_pro)
-- [Z-Image makeup](/en/api-reference/image-series/models/zimage-makeup)
+<a id="2026-07-28-grok-imagine-video-1-5"></a>
 
----
+<Update label="July 28, 2026" tags={["New models", "Video"]} rss={{ title: "Grok Imagine Video 1.5" }}>
 
-<a id="2026-08-09-models-video-series"></a>
+  ## Grok Imagine Video 1.5
 
-## New Model | Video generation — Omni Flash, MiniMax H3, Veo, Kling, Seedance
+  **Grok Imagine Video 1.5** is now available on OmniMux.
 
-`New Model`
+  ### New model
 
-*Async video SKUs available when this feed opened: create then poll task status.*
+  - **Model ID:** `grok-imagine-video-1.5`
+  - **Mode:** image-to-video style generation via async video API
+  - **Create / poll:** `POST` / `GET` `/v1/video/generations`
 
-Video generation on OmniMux is primarily **async** and **already available** on the gateway:
+  See the model page for parameters and the task poll contract.
 
-- Create: `POST /v1/video/generations`
-- Poll: `GET /v1/video/generations/{task_id}`
+  ### Links
 
-## New model
+  - [Grok Imagine Video 1.5](/en/api-reference/video-series/models/grok-imagine-video-1.5)
+  - [Video task poll](/en/api-reference/tasks/video-task)
 
-| Model ID | Role |
-| --- | --- |
-| `omni_flash`, `omni_flash-4s` / `-6s` / `-10s` | Omni Flash duration family |
-| `minimax-h3-t2v` | MiniMax H3 text-to-video |
-| `minimax-h3-flf` / `minimax-h3-fl2va` / `minimax-h3-endframe` | MiniMax H3 image / frame variants |
-| `veo_3_1` | Veo 3.1 |
-| `grok-imagine-video-1.5` | Grok Imagine Video |
-| `ltx2.3-kj` | LTX family SKU |
-| `kling-v2-6`, `kling-v3` | Kling video SKUs on live pricing |
-| `seedance-2-0`, `seedance-2-0-fast`, `seedance-2-0-mini`, `seedance-2-5` | Seedance family on live pricing |
+</Update>
 
-## Key capabilities
+<a id="2026-07-25-claude-opus-5"></a>
 
-- Submit once, poll task status until assets are ready
-- Do not confuse task poll with content-download-only paths
+<Update label="July 25, 2026" tags={["New models", "Text"]} rss={{ title: "Claude Opus 5" }}>
 
-## Documentation
+  ## Claude Opus 5
 
-See **Video series** and **Task management**. Exact IDs always from live pricing.
+  **Claude Opus 5** is now available on OmniMux through OpenAI-compatible Chat Completions.
 
-### Links
+  ### New model
 
-- [Video task poll](/en/api-reference/tasks/video-task)
-- [Omni Flash](/en/api-reference/video-series/models/omni_flash)
-- [MiniMax H3 T2V](/en/api-reference/video-series/models/minimax-h3-t2v)
-- [Veo 3.1](/en/api-reference/video-series/models/veo_3_1)
-- [Grok Imagine Video 1.5](/en/api-reference/video-series/models/grok-imagine-video-1.5)
+  - **Model ID:** `claude-opus-5`
+  - **Endpoint:** `https://api.omnimux.ai/v1` (Chat Completions)
+  - **Docs:** one complete page per brand — `model` is an enum on the Claude complete page
 
----
+  Related Claude IDs on the gateway include other Opus / Sonnet / Haiku SKUs on live pricing.
 
-<a id="2026-08-09-models-social-data"></a>
+  ### Links
 
-## New Model | Social data — TikTok, Instagram, X, YouTube (read-only)
+  - [Claude complete](/en/api-reference/text-series/claude/complete)
 
-`New Model`
+</Update>
 
-*Read-only social data models via Chat Completions-style IDs — not publishing.*
+<a id="2026-07-22-gemini-3-6-flash"></a>
 
-**Social data** is **read-only** public content / profile style access. It is **not** social publishing.
+<Update label="July 22, 2026" tags={["New models", "Text"]} rss={{ title: "Gemini 3.6 Flash and Gemini 3.5 Flash" }}>
 
-## New model
+  ## Gemini Flash models
 
-| Platform | Model IDs |
-| --- | --- |
-| TikTok | `tiktok-user`, `tiktok-posts`, `tiktok-video`, `tiktok-search` |
-| Instagram | `instagram-user`, `instagram-posts`, `instagram-post`, `instagram-search` |
-| X | `x-user`, `x-posts`, `x-tweet`, `x-search` |
-| YouTube | `youtube-user`, `youtube-posts`, `youtube-video`, `youtube-search` |
+  New Gemini Flash-class models are available on OmniMux.
 
-## Publishing (different surface)
+  ### New models
 
-Connect accounts and create posts use **`/api/social/v1/*`** with access token + `New-Api-User` — see **Publishing** in the API manual. Do not mix auth models with gateway `sk-` Chat Completions.
+  - **Model IDs:** `gemini-3.6-flash`, `gemini-3.5-flash`
+  - **API:** OpenAI-compatible Chat Completions at `https://api.omnimux.ai/v1`
 
-## Documentation
+  Additional Gemini IDs (Pro / preview / lite) may also appear on live pricing — pin the exact ID from the console or Gemini complete page.
 
-See **Social data** groups under the API manual (links below).
+  ### Links
 
-### Links
+  - [Gemini complete](/en/api-reference/text-series/gemini/complete)
 
-- [TikTok user profile](/en/api-reference/social-data/tiktok/user-profile)
-- [X tweet detail](/en/api-reference/social-data/x/tweet-detail)
-- [YouTube video search](/en/api-reference/social-data/youtube/video-search)
-- [Instagram search](/en/api-reference/social-data/instagram/search)
-- [Create post (publishing)](/en/api-reference/publishing/create-post)
+</Update>
 
+<a id="2026-07-17-kimi-k3"></a>
+
+<Update label="July 17, 2026" tags={["New models", "Text"]} rss={{ title: "Kimi K3 — long-context reasoning" }}>
+
+  ## Kimi K3
+
+  **Kimi K3** is now available on OmniMux.
+
+  ### New model
+
+  - **Model ID:** `kimi-k3`
+  - **API:** Chat Completions at `https://api.omnimux.ai/v1`
+  - **Focus:** long-context reasoning and agent-style workflows
+
+  See the Kimi complete page for the full model enum.
+
+  ### Links
+
+  - [Kimi complete](/en/api-reference/text-series/kimi/complete)
+
+</Update>
+
+<a id="2026-07-16-suno"></a>
+
+<Update label="July 16, 2026" tags={["New models", "Audio"]} rss={{ title: "Suno — music generation" }}>
+
+  ## Suno
+
+  **Suno** music generation is now available on OmniMux.
+
+  ### New model
+
+  - **Model ID:** `suno`
+  - **Use:** AI music generation workflows via the gateway catalog
+
+  Confirm billing and request shape from live pricing / console before production traffic.
+
+  ### Links
+
+  - [Pricing](/en/api-reference/account/pricing)
+
+</Update>
+
+<a id="2026-07-01-nano-banana"></a>
+
+<Update label="July 1, 2026" tags={["New models", "Image"]} rss={{ title: "Nano Banana 2 and Nano Banana Pro" }}>
+
+  ## Nano Banana
+
+  **Nano Banana 2** and **Nano Banana Pro** are now available on OmniMux.
+
+  ### New models
+
+  - **Model IDs:** `nano_banana_2`, `nano_banana_pro`
+  - **Modality:** image generation
+
+  See each model page for request parameters.
+
+  ### Links
+
+  - [Nano Banana 2](/en/api-reference/image-series/models/nano_banana_2)
+  - [Nano Banana Pro](/en/api-reference/image-series/models/nano_banana_pro)
+
+</Update>
+
+<a id="2026-06-25-seedance-2-0"></a>
+
+<Update label="June 25, 2026" tags={["New models", "Video"]} rss={{ title: "Seedance 2.0 family — Standard, Mini, Fast" }}>
+
+  ## Seedance 2.0
+
+  The **Seedance 2.0** family is available on OmniMux for async video generation.
+
+  ### New models
+
+  | Model ID | Role |
+  | --- | --- |
+  | `seedance-2-0` | Standard |
+  | `seedance-2-0-mini` | Lightweight / cost-oriented |
+  | `seedance-2-0-fast` | Speed-oriented |
+
+  ### API
+
+  - **Create:** `POST /v1/video/generations`
+  - **Poll:** `GET /v1/video/generations/{task_id}`
+
+  ### Links
+
+  - [Video task poll](/en/api-reference/tasks/video-task)
+  - [Pricing](/en/api-reference/account/pricing)
+
+</Update>
+
+<a id="2026-06-17-glm-5-2"></a>
+
+<Update label="June 17, 2026" tags={["New models", "Text"]} rss={{ title: "GLM-5.2" }}>
+
+  ## GLM-5.2
+
+  **GLM-5.2** is now available on OmniMux (with related GLM IDs on pricing).
+
+  ### New models
+
+  - **Model IDs:** `glm-5.2`, `glm-5.1`
+  - **API:** Chat Completions at `https://api.omnimux.ai/v1`
+
+  ### Links
+
+  - [GLM complete](/en/api-reference/text-series/glm/complete)
+
+</Update>
+
+<a id="2026-06-16-kling"></a>
+
+<Update label="June 16, 2026" tags={["New models", "Video"]} rss={{ title: "Kling V3 and Kling V2.6" }}>
+
+  ## Kling
+
+  **Kling** video models are available on OmniMux.
+
+  ### New models
+
+  - **Model IDs:** `kling-v3`, `kling-v2-6`
+  - **API:** async `POST` / `GET` `/v1/video/generations`
+
+  Pin IDs from live pricing; request parameters follow the video task contract.
+
+  ### Links
+
+  - [Video task poll](/en/api-reference/tasks/video-task)
+  - [Pricing](/en/api-reference/account/pricing)
+
+</Update>
+
+<a id="2026-06-15-midjourney"></a>
+
+<Update label="June 15, 2026" tags={["New models", "Image"]} rss={{ title: "Midjourney" }}>
+
+  ## Midjourney
+
+  **Midjourney** is available on OmniMux as model ID `midjourney`.
+
+  ### New model
+
+  - **Model ID:** `midjourney`
+  - **Modality:** image generation via the gateway catalog
+
+  Confirm request shape and billing on console pricing before production use.
+
+  ### Links
+
+  - [Pricing](/en/api-reference/account/pricing)
+
+</Update>
+
+<a id="2026-06-01-minimax-m3"></a>
+
+<Update label="June 1, 2026" tags={["New models", "Text"]} rss={{ title: "MiniMax M3" }}>
+
+  ## MiniMax M3
+
+  **MiniMax M3** is now available on OmniMux Chat Completions.
+
+  ### New model
+
+  - **Model ID:** `minimax-m3`
+  - **API:** `https://api.omnimux.ai/v1`
+
+  ### Links
+
+  - [MiniMax complete](/en/api-reference/text-series/minimax/complete)
+
+</Update>
+
+<a id="2026-05-20-omni-flash"></a>
+
+<Update label="May 20, 2026" tags={["New models", "Video"]} rss={{ title: "Omni Flash — duration video family" }}>
+
+  ## Omni Flash
+
+  The **Omni Flash** duration family is available on OmniMux.
+
+  ### New models
+
+  | Model ID | Role |
+  | --- | --- |
+  | `omni_flash` | Base |
+  | `omni_flash-4s` | 4s-oriented SKU |
+  | `omni_flash-6s` | 6s-oriented SKU |
+  | `omni_flash-10s` | 10s-oriented SKU |
+
+  ### API
+
+  - **Create:** `POST /v1/video/generations`
+  - **Poll:** `GET /v1/video/generations/{task_id}`
+
+  ### Links
+
+  - [Omni Flash](/en/api-reference/video-series/models/omni_flash)
+  - [Video task poll](/en/api-reference/tasks/video-task)
+
+</Update>
+
+<a id="2026-05-20-veo-3-1"></a>
+
+<Update label="May 20, 2026" tags={["New models", "Video"]} rss={{ title: "Veo 3.1" }}>
+
+  ## Veo 3.1
+
+  **Veo 3.1** is now available on OmniMux.
+
+  ### New model
+
+  - **Model ID:** `veo_3_1`
+  - **API:** async video create + poll on `/v1/video/generations`
+
+  ### Links
+
+  - [Veo 3.1](/en/api-reference/video-series/models/veo_3_1)
+  - [Video task poll](/en/api-reference/tasks/video-task)
+
+</Update>
+
+<a id="2026-05-05-claude-opus-4-7-deepseek-v4"></a>
+
+<Update label="May 5, 2026" tags={["New models", "Text"]} rss={{ title: "Claude Opus 4.7 and DeepSeek V4" }}>
+
+  ## Claude Opus 4.7 and DeepSeek V4
+
+  New language models are available on OmniMux Chat Completions.
+
+  ### New models
+
+  | Model ID | Brand |
+  | --- | --- |
+  | `claude-opus-4-7` | Claude |
+  | `deepseek-v4-flash` | DeepSeek |
+  | `deepseek-v4-pro` | DeepSeek |
+
+  ### API
+
+  - **Endpoint:** `https://api.omnimux.ai/v1` (Chat Completions)
+
+  ### Links
+
+  - [Claude complete](/en/api-reference/text-series/claude/complete)
+  - [DeepSeek complete](/en/api-reference/text-series/deepseek/complete)
+
+</Update>
+
+<a id="2026-04-28-gpt-image-2"></a>
+
+<Update label="April 28, 2026" tags={["New models", "Image"]} rss={{ title: "GPT Image 2" }}>
+
+  ## GPT Image 2
+
+  **GPT Image 2** is now available on OmniMux.
+
+  ### New models
+
+  - **Model IDs:** `gpt-image2`, `gpt-image2-hd`
+  - **Modality:** image generation
+
+  See model docs for size / quality parameters.
+
+  ### Links
+
+  - [GPT Image 2](/en/api-reference/image-series/models/gpt-image2)
+  - [GPT Image 2 HD](/en/api-reference/image-series/models/gpt-image2-hd)
+
+</Update>
+
+<a id="2026-03-08-minimax-m2-5"></a>
+
+<Update label="March 8, 2026" tags={["New models", "Text"]} rss={{ title: "MiniMax M2.5" }}>
+
+  ## MiniMax M2.5
+
+  **MiniMax M2.5** (and related MiniMax text IDs) are available on OmniMux.
+
+  ### New models
+
+  - **Model IDs:** `minimax-m2.5`, `minimax-m2.7`
+  - **API:** Chat Completions
+
+  ### Links
+
+  - [MiniMax complete](/en/api-reference/text-series/minimax/complete)
+
+</Update>
+
+<a id="2026-03-06-gpt-5-4"></a>
+
+<Update label="March 6, 2026" tags={["New models", "Text"]} rss={{ title: "GPT-5.4 series" }}>
+
+  ## GPT-5.4
+
+  **GPT-5.4** series models are available on OmniMux Chat Completions.
+
+  ### New models
+
+  - **Model IDs:** `gpt-5.4`, `gpt-5.4-mini`
+  - **API:** `https://api.omnimux.ai/v1`
+
+  Later GPT-5.x IDs (for example `gpt-5.5`, `gpt-5.6-terra`) may also appear on live pricing — always pin the ID from the console.
+
+  ### Links
+
+  - [GPT complete](/en/api-reference/text-series/gpt/complete)
+
+</Update>
 
 ---
 

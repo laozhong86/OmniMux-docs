@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "id": "2026-08-07-seedance-2-5",
+  "published_at": "2026-08-07",
+  "rank": 0,
+  "type": "model_launch",
+  "modality": [
+    "video"
+  ],
+  "title": {
+    "en": "Seedance 2.5 — longer video with multimodal references",
+    "zh": "Seedance 2.5 — 更长视频与多模态参考"
+  },
+  "summary": {
+    "en": "Seedance 2.5 video generation is available on OmniMux.",
+    "zh": "Seedance 2.5 视频生成已在 OmniMux 可调用。"
+  },
+  "models": [
+    "seedance-2-5"
+  ],
+  "tags": [
+    "video"
+  ],
+  "links": [
+    {
+      "label": {
+        "en": "Video task poll",
+        "zh": "视频任务查询"
+      },
+      "href": {
+        "en": "/en/api-reference/tasks/video-task",
+        "zh": "/zh/api-reference/tasks/video-task"
+      }
+    },
+    {
+      "label": {
+        "en": "Pricing",
+        "zh": "定价"
+      },
+      "href": {
+        "en": "/en/api-reference/account/pricing",
+        "zh": "/zh/api-reference/account/pricing"
+      }
+    }
+  ],
+  "body": {
+    "en": "## Seedance 2.5\n\n**Seedance 2.5** is now available on OmniMux for async video generation.\n\n### New model\n\n- **Model ID:** `seedance-2-5`\n- **Create:** `POST /v1/video/generations`\n- **Poll:** `GET /v1/video/generations/{task_id}`\n- **Highlights:** longer single-pass generation and multimodal reference inputs (text / image / video / audio style workflows)\n\nPin the exact ID from live pricing before integrating.",
+    "zh": "## Seedance 2.5\n\n**Seedance 2.5** 现已在 OmniMux 可调用（异步视频生成）。\n\n### 新模型\n\n- **模型 ID：** `seedance-2-5`\n- **创建：** `POST /v1/video/generations`\n- **查询：** `GET /v1/video/generations/{task_id}`\n- **要点：** 更长单次生成，支持多模态参考输入（文本 / 图像 / 视频 / 音频类工作流）\n\n接入前请以线上定价的精确 ID 为准。"
+  }
+}

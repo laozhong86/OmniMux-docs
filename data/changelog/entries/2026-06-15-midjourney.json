@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "id": "2026-06-15-midjourney",
+  "published_at": "2026-06-15",
+  "rank": 0,
+  "type": "model_launch",
+  "modality": [
+    "image"
+  ],
+  "title": {
+    "en": "Midjourney",
+    "zh": "Midjourney"
+  },
+  "summary": {
+    "en": "Midjourney image path on OmniMux live pricing.",
+    "zh": "Midjourney 图像路径已在 OmniMux 线上定价可调用。"
+  },
+  "models": [
+    "midjourney"
+  ],
+  "tags": [
+    "image"
+  ],
+  "links": [
+    {
+      "label": {
+        "en": "Pricing",
+        "zh": "定价"
+      },
+      "href": {
+        "en": "/en/api-reference/account/pricing",
+        "zh": "/zh/api-reference/account/pricing"
+      }
+    }
+  ],
+  "body": {
+    "en": "## Midjourney\n\n**Midjourney** is available on OmniMux as model ID `midjourney`.\n\n### New model\n\n- **Model ID:** `midjourney`\n- **Modality:** image generation via the gateway catalog\n\nConfirm request shape and billing on console pricing before production use.",
+    "zh": "## Midjourney\n\n**Midjourney** 已在 OmniMux 可调用，模型 ID 为 `midjourney`。\n\n### 新模型\n\n- **模型 ID：** `midjourney`\n- **模态：** 网关目录中的图像生成\n\n上线生产前请在控制台定价确认请求形态与计费。"
+  }
+}

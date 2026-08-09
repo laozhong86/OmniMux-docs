@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "id": "2026-05-20-omni-flash",
+  "published_at": "2026-05-20",
+  "rank": 20,
+  "type": "model_launch",
+  "modality": [
+    "video"
+  ],
+  "title": {
+    "en": "Omni Flash — duration video family",
+    "zh": "Omni Flash — 时长视频族"
+  },
+  "summary": {
+    "en": "Omni Flash and duration SKUs on OmniMux.",
+    "zh": "Omni Flash 及按时长 SKU 已在 OmniMux 可调用。"
+  },
+  "models": [
+    "omni_flash",
+    "omni_flash-4s",
+    "omni_flash-6s",
+    "omni_flash-10s"
+  ],
+  "tags": [
+    "video"
+  ],
+  "links": [
+    {
+      "label": {
+        "en": "Omni Flash",
+        "zh": "Omni Flash"
+      },
+      "href": {
+        "en": "/en/api-reference/video-series/models/omni_flash",
+        "zh": "/zh/api-reference/video-series/models/omni_flash"
+      }
+    },
+    {
+      "label": {
+        "en": "Video task poll",
+        "zh": "视频任务查询"
+      },
+      "href": {
+        "en": "/en/api-reference/tasks/video-task",
+        "zh": "/zh/api-reference/tasks/video-task"
+      }
+    }
+  ],
+  "body": {
+    "en": "## Omni Flash\n\nThe **Omni Flash** duration family is available on OmniMux.\n\n### New models\n\n| Model ID | Role |\n| --- | --- |\n| `omni_flash` | Base |\n| `omni_flash-4s` | 4s-oriented SKU |\n| `omni_flash-6s` | 6s-oriented SKU |\n| `omni_flash-10s` | 10s-oriented SKU |\n\n### API\n\n- **Create:** `POST /v1/video/generations`\n- **Poll:** `GET /v1/video/generations/{task_id}`",
+    "zh": "## Omni Flash\n\n**Omni Flash** 时长族已在 OmniMux 可调用。\n\n### 新模型\n\n| 模型 ID | 角色 |\n| --- | --- |\n| `omni_flash` | 基础 |\n| `omni_flash-4s` | 4 秒向 SKU |\n| `omni_flash-6s` | 6 秒向 SKU |\n| `omni_flash-10s` | 10 秒向 SKU |\n\n### 调用\n\n- **创建：** `POST /v1/video/generations`\n- **查询：** `GET /v1/video/generations/{task_id}`"
+  }
+}

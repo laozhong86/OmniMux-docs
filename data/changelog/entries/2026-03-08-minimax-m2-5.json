@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "id": "2026-03-08-minimax-m2-5",
+  "published_at": "2026-03-08",
+  "rank": 0,
+  "type": "model_launch",
+  "modality": [
+    "text"
+  ],
+  "title": {
+    "en": "MiniMax M2.5",
+    "zh": "MiniMax M2.5"
+  },
+  "summary": {
+    "en": "MiniMax M2.5 language model on OmniMux.",
+    "zh": "MiniMax M2.5 语言模型已在 OmniMux 可调用。"
+  },
+  "models": [
+    "minimax-m2.5",
+    "minimax-m2.7"
+  ],
+  "tags": [
+    "text"
+  ],
+  "links": [
+    {
+      "label": {
+        "en": "MiniMax complete",
+        "zh": "MiniMax 完整参数"
+      },
+      "href": {
+        "en": "/en/api-reference/text-series/minimax/complete",
+        "zh": "/zh/api-reference/text-series/minimax/complete"
+      }
+    }
+  ],
+  "body": {
+    "en": "## MiniMax M2.5\n\n**MiniMax M2.5** (and related MiniMax text IDs) are available on OmniMux.\n\n### New models\n\n- **Model IDs:** `minimax-m2.5`, `minimax-m2.7`\n- **API:** Chat Completions",
+    "zh": "## MiniMax M2.5\n\n**MiniMax M2.5**（及同族文本 ID）已在 OmniMux 可调用。\n\n### 新模型\n\n- **模型 ID：** `minimax-m2.5`、`minimax-m2.7`\n- **API：** Chat Completions"
+  }
+}

@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """Generate changelog index/pages JSON and en/zh MDX from data/changelog/entries/.
 
-Human page is an Evolink/APIMart-style timeline (date → typed title → body).
+Human MDX matches Mintlify official Product updates layout:
+https://www.mintlify.com/docs/changelog
+  — frontmatter + stacked <Update label tags rss> blocks.
 Machine feeds stay at data/changelog/index.json and pages/*.json.
 """
 
@@ -11,6 +13,7 @@ import argparse
 import json
 import re
 import sys
+from datetime import date
 from pathlib import Path
 from typing import Any
 
@@ -19,7 +22,7 @@ ENTRIES_DIR = ROOT / "data" / "changelog" / "entries"
 OUT_DIR = ROOT / "data" / "changelog"
 PAGES_DIR = OUT_DIR / "pages"
 SCHEMA_VERSION = 1
-PAGE_SIZE = 20
+PAGE_SIZE = 50  # changelog timelines are usually one long page
 TYPES = frozenset(
     {"model_launch", "capability", "pricing", "breaking", "platform", "baseline"}
 )
@@ -28,25 +31,62 @@ MODALITIES = frozenset(
 )
 LOCALES = ("en", "zh")
 
-# Evolink-style type chips (public labels). Prefer not to use baseline for new entries.
-TYPE_LABEL = {
+# Type + modality → filter chips (Mintlify Update tags = right-rail filters)
+TYPE_TAG = {
     "en": {
-        "model_launch": "New Model",
-        "capability": "Model Update",
+        "model_launch": "New models",
+        "capability": "Improvements",
         "pricing": "Pricing",
         "breaking": "Breaking",
         "platform": "Platform",
-        "baseline": "Catalog note",
+        "baseline": "Catalog",
     },
     "zh": {
         "model_launch": "新模型",
-        "capability": "模型更新",
+        "capability": "能力更新",
         "pricing": "价格调整",
         "breaking": "不兼容变更",
         "platform": "平台",
-        "baseline": "目录说明",
+        "baseline": "目录",
     },
 }
+MODALITY_TAG = {
+    "en": {
+        "text": "Text",
+        "image": "Image",
+        "video": "Video",
+        "audio": "Audio",
+        "social-data": "Social data",
+        "publishing": "Publishing",
+        "platform": "Platform",
+        "other": "Other",
+    },
+    "zh": {
+        "text": "文本",
+        "image": "图像",
+        "video": "视频",
+        "audio": "音频",
+        "social-data": "社交数据",
+        "publishing": "社媒发布",
+        "platform": "平台",
+        "other": "其他",
+    },
+}
+
+_MONTH_EN = (
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+)
 
 
 def die(msg: str, code: int = 1) -> None:
@@ -67,6 +107,46 @@ def loc_text(value: Any, locale: str) -> str:
     return "" if value is None else str(value)
 
 
+def format_label(published_at: str, locale: str) -> str:
+    """Mintlify official uses 'August 7, 2026'; zh uses '2026 年 8 月 7 日'."""
+    y, m, d = (int(x) for x in published_at.split("-"))
+    if locale == "zh":
+        return f"{y} 年 {m} 月 {d} 日"
+    return f"{_MONTH_EN[m - 1]} {d}, {y}"
+
+
+def build_tags(e: dict[str, Any], locale: str) -> list[str]:
+    tags: list[str] = []
+    typ = e.get("type")
+    if typ in TYPE_TAG[locale]:
+        tags.append(TYPE_TAG[locale][typ])
+    for mod in e.get("modality") or []:
+        if mod == "platform" and typ == "platform":
+            continue
+        label = MODALITY_TAG[locale].get(mod)
+        if label and label not in tags:
+            tags.append(label)
+    # entry-level free tags (optional English keys) — skip if already covered
+    for t in e.get("tags") or []:
+        if not isinstance(t, str) or not t.strip():
+            continue
+        # keep raw only if not a raw modality slug already mapped
+        if t in MODALITY_TAG["en"] or t in TYPE_TAG["en"].values():
+            continue
+        if t not in tags and t not in ("available", "feed", "chat", "async"):
+            # don't dump internal slugs as chips
+            if re.fullmatch(r"[a-z0-9-]+", t) and t in (
+                "text",
+                "image",
+                "video",
+                "audio",
+                "social-data",
+                "platform",
+            ):
+                continue
+    return tags
+
+
 def load_entries() -> list[dict[str, Any]]:
     if not ENTRIES_DIR.is_dir():
         die(f"missing entries dir: {ENTRIES_DIR}")
@@ -80,7 +160,6 @@ def load_entries() -> list[dict[str, Any]]:
             die(f"{path}: root must be object")
         data["_source"] = path.name
         items.append(data)
-    # Newer dates first; within a day, higher rank first (default 0); then id desc.
     items.sort(
         key=lambda e: (
             str(e.get("published_at") or ""),
@@ -95,12 +174,19 @@ def load_entries() -> list[dict[str, Any]]:
 def validate_entry(e: dict[str, Any], path_hint: str) -> list[str]:
     errs: list[str] = []
     eid = e.get("id")
-    if not isinstance(eid, str) or not re.fullmatch(r"[0-9]{4}-[0-9]{2}-[0-9]{2}-[a-z0-9][a-z0-9-]*", eid):
+    if not isinstance(eid, str) or not re.fullmatch(
+        r"[0-9]{4}-[0-9]{2}-[0-9]{2}-[a-z0-9][a-z0-9-]*", eid
+    ):
         errs.append(f"{path_hint}: id must match YYYY-MM-DD-slug")
     if e.get("schema_version") != SCHEMA_VERSION:
         errs.append(f"{path_hint}: schema_version must be {SCHEMA_VERSION}")
     if not re.fullmatch(r"[0-9]{4}-[0-9]{2}-[0-9]{2}", str(e.get("published_at") or "")):
         errs.append(f"{path_hint}: published_at must be YYYY-MM-DD")
+    else:
+        try:
+            date.fromisoformat(str(e["published_at"]))
+        except ValueError:
+            errs.append(f"{path_hint}: published_at is not a valid date")
     if e.get("type") not in TYPES:
         errs.append(f"{path_hint}: type must be one of {sorted(TYPES)}")
     mods = e.get("modality")
@@ -112,7 +198,9 @@ def validate_entry(e: dict[str, Any], path_hint: str) -> list[str]:
                 errs.append(f"{path_hint}: unknown modality {m!r}")
     for field in ("title", "summary", "body"):
         v = e.get(field)
-        if not isinstance(v, dict) or not all(isinstance(v.get(l), str) and v.get(l).strip() for l in LOCALES):
+        if not isinstance(v, dict) or not all(
+            isinstance(v.get(l), str) and v.get(l).strip() for l in LOCALES
+        ):
             errs.append(f"{path_hint}: {field}.en and {field}.zh required non-empty strings")
     models = e.get("models", [])
     if not isinstance(models, list) or any(not isinstance(x, str) or not x for x in models):
@@ -167,31 +255,72 @@ def chunk(items: list[Any], size: int) -> list[list[Any]]:
     return [items[i : i + size] for i in range(0, len(items), size)]
 
 
+def jsx_string(s: str) -> str:
+    return json.dumps(s, ensure_ascii=False)
+
+
+def indent_block(text: str, spaces: int = 2) -> str:
+    pad = " " * spaces
+    lines = text.rstrip().splitlines()
+    return "\n".join(pad + line if line.strip() else "" for line in lines)
+
+
+def render_update(e: dict[str, Any], locale: str) -> str:
+    """One Mintlify <Update> block (official changelog style)."""
+    label = format_label(str(e["published_at"]), locale)
+    tags = build_tags(e, locale)
+    rss_title = loc_text(e["title"], locale)
+    body = loc_text(e["body"], locale).rstrip()
+    links = e.get("links") or []
+
+    # Append docs links as markdown list (inside Update body)
+    if links:
+        link_heading = "### Links" if locale == "en" else "### 链接"
+        link_lines = [link_heading, ""]
+        for link in links:
+            lab = loc_text(link.get("label"), locale)
+            href = loc_text(link.get("href"), locale)
+            if lab and href:
+                link_lines.append(f"- [{lab}]({href})")
+        body = body + "\n\n" + "\n".join(link_lines)
+
+    tags_jsx = "[" + ", ".join(jsx_string(t) for t in tags) + "]"
+    # Mintlify: <Update label="..." tags={[...]} rss={{ title: "..." }}>
+    open_tag = (
+        f"<Update label={jsx_string(label)} tags={{{tags_jsx}}} "
+        f"rss={{{{ title: {jsx_string(rss_title)} }}}}>"
+    )
+    # Anchor id for deep links / checker (official Update also anchors on label)
+    anchor = f'<a id="{e["id"]}"></a>'
+    inner = indent_block(body, 2)
+    return f"{anchor}\n\n{open_tag}\n\n{inner}\n\n</Update>"
+
+
 def render_mdx(entries: list[dict[str, Any]], locale: str, page: int, total_pages: int) -> str:
     is_en = locale == "en"
     title = "API Updates" if is_en else "API 更新"
-    sidebar = title
     desc = (
-        "Stay informed about the latest changes and improvements across OmniMux APIs."
+        "Stay informed about the latest model launches, capability changes, pricing, and platform notes on OmniMux."
         if is_en
         else "获取所有 API 最新变更与改进通知。"
     )
-    # User-facing intro only (no repo paths / gen commands). Machine feed in footer.
+    # Match Mintlify official: short blurb under H1 via description; minimal intro prose
     intro = (
-        "Stay informed about the latest model launches, capability changes, pricing updates, and platform notes on OmniMux.\n\n"
-        "The full callable catalog is always on [console pricing](https://omnimux.ai) / "
-        "[Pricing API](/en/api-reference/account/pricing). Incidents: [status.omnimux.ai](https://status.omnimux.ai)."
+        "Stay up to date with OmniMux gateway model launches and platform changes. "
+        "The full callable catalog is on [console pricing](https://omnimux.ai) / "
+        "[Pricing](/en/api-reference/account/pricing)."
         if is_en
-        else "跟踪 OmniMux 的模型上新、能力变更、定价调整与平台说明。\n\n"
+        else "跟踪 OmniMux 网关的模型上新与平台变更。"
         "完整可调用模型以[控制台定价](https://omnimux.ai) / "
-        "[定价与账户](/zh/api-reference/account/pricing)为准。故障与可用性见 [status.omnimux.ai](https://status.omnimux.ai)。"
+        "[定价与账户](/zh/api-reference/account/pricing)为准。"
     )
 
     lines: list[str] = [
         "---",
         f'title: "{title}"',
-        f'sidebarTitle: "{sidebar}"',
+        f'sidebarTitle: "{title}"',
         f'description: "{desc}"',
+        "rss: true",
         "---",
         "",
         intro,
@@ -214,57 +343,16 @@ def render_mdx(entries: list[dict[str, Any]], locale: str, page: int, total_page
         lines.append("_No updates yet._" if is_en else "_暂无更新。_")
         lines.append("")
     else:
-        current_date: str | None = None
         for e in entries:
-            eid = e["id"]
-            typ = e["type"]
-            type_label = TYPE_LABEL[locale].get(typ, typ)
-            title_t = loc_text(e["title"], locale)
-            summary = loc_text(e["summary"], locale)
-            body = loc_text(e["body"], locale).rstrip()
-            date = e["published_at"]
-
-            if date != current_date:
-                current_date = date
-                lines.append(f"### {date}")
-                lines.append("")
-
-            lines.append(f'<a id="{eid}"></a>')
-            lines.append("")
-            lines.append(f"## {title_t}")
-            lines.append("")
-            lines.append(f"`{type_label}`")
-            lines.append("")
-            if summary:
-                lines.append(f"*{summary}*")
-                lines.append("")
-            # Do not dump models[] as a wall of chips — IDs belong in the body (APIMart style).
-            lines.append(body)
-            lines.append("")
-            links = e.get("links") or []
-            if links:
-                lines.append("### " + ("Links" if is_en else "链接"))
-                lines.append("")
-                for link in links:
-                    lab = loc_text(link.get("label"), locale)
-                    href = loc_text(link.get("href"), locale)
-                    if lab and href:
-                        lines.append(f"- [{lab}]({href})")
-                lines.append("")
-            lines.append("---")
+            lines.append(render_update(e, locale))
             lines.append("")
 
-        while lines and lines[-1] in ("", "---"):
-            lines.pop()
-        lines.append("")
-
-    # Footer: machine-readable only (integration / Agent consumers)
     footer = (
-        "\n---\n\n"
+        "---\n\n"
         f"**Machine-readable:** [`/data/changelog/index.json`](/data/changelog/index.json) · "
         f"[`/data/changelog/pages/{page}.json`](/data/changelog/pages/{page}.json)\n"
         if is_en
-        else "\n---\n\n"
+        else "---\n\n"
         f"**机器可读：** [`/data/changelog/index.json`](/data/changelog/index.json) · "
         f"[`/data/changelog/pages/{page}.json`](/data/changelog/pages/{page}.json)\n"
     )
@@ -354,7 +442,10 @@ def main() -> None:
                 encoding="utf-8",
             )
 
-    print(f"wrote index + {total_pages} page(s) JSON and {len(LOCALES)}× MDX for {len(entries)} entries")
+    print(
+        f"wrote index + {total_pages} page(s) JSON and {len(LOCALES)}× MDX "
+        f"for {len(entries)} entries (Mintlify <Update> layout)"
+    )
 
 
 if __name__ == "__main__":
