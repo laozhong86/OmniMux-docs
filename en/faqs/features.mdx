@@ -21,3 +21,17 @@ APIs expose model capability, not each vendor’s product shell (browsing, memor
 Create: `POST /v1/video/generations`  
 Poll: `GET /v1/video/generations/{task_id}`  
 Do not confuse with `/v1/videos/{id}/content` download.
+
+## Agent-readable docs?
+
+Mintlify auto-generates machine-readable surfaces (no hand-maintained index):
+
+| URL | Purpose |
+| --- | --- |
+| [llms.txt](https://docs.omnimux.ai/llms.txt) | Page index for LLM discovery |
+| [llms-full.txt](https://docs.omnimux.ai/llms-full.txt) | Full-site Markdown dump |
+| [skill.md](https://docs.omnimux.ai/skill.md) | Product skill for agents |
+| [Docs MCP](https://docs.omnimux.ai/mcp) | Hosted docs search MCP |
+| Any page + `.md` | Single-page Markdown export |
+
+These stay in sync with published docs. Prefer them over scraping HTML.

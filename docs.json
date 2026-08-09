@@ -741,15 +741,51 @@
       "telegram": "https://t.me/+ITiQvBOpCe8wZTc1",
       "github": "https://github.com/laozhong86/OmniMux",
       "website": "https://omnimux.ai"
-    }
+    },
+    "links": [
+      {
+        "header": "For agents",
+        "items": [
+          {
+            "label": "llms.txt",
+            "href": "https://docs.omnimux.ai/llms.txt"
+          },
+          {
+            "label": "llms-full.txt",
+            "href": "https://docs.omnimux.ai/llms-full.txt"
+          },
+          {
+            "label": "skill.md",
+            "href": "https://docs.omnimux.ai/skill.md"
+          },
+          {
+            "label": "Docs MCP",
+            "href": "https://docs.omnimux.ai/mcp"
+          }
+        ]
+      }
+    ]
+  },
+  "markdown": {
+    "instructions": [
+      "Public hosts only: console https://omnimux.ai/dashboard · API https://api.omnimux.ai · docs https://docs.omnimux.ai.",
+      "Gateway auth is Authorization: Bearer sk-… on https://api.omnimux.ai/v1 (OpenAI-compatible Chat Completions and related paths).",
+      "Discover pages from /llms.txt; full site dump /llms-full.txt; product skill /skill.md; docs search MCP /mcp. Prefer .md page URLs for Markdown.",
+      "Default docs locale is en; zh mirrors the same relative paths. Do not invent model ids not present on live pricing or the complete API pages."
+    ]
   },
   "contextual": {
     "options": [
       "copy",
       "view",
+      "chatgpt",
+      "claude",
+      "grok",
       "mcp",
+      "add-mcp",
       "cursor",
-      "vscode"
+      "vscode",
+      "download-spec"
     ]
   },
   "seo": {

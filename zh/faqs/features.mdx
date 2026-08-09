@@ -26,3 +26,17 @@ API 提供的是**模型能力本身**，不包含各官网的产品壳（联网
 创建：`POST /v1/video/generations`  
 轮询：`GET /v1/video/generations/{task_id}`（[查询视频任务](/zh/api-reference/tasks/video-task)）  
 不要与 OpenAI Videos 的 `/v1/videos/{id}/content` 下载路径混淆。
+
+## 有给 Agent 的可机读文档吗？
+
+Mintlify 自动生成以下入口（无需手写维护索引）：
+
+| URL | 用途 |
+| --- | --- |
+| [llms.txt](https://docs.omnimux.ai/llms.txt) | 面向 LLM 的页面索引 |
+| [llms-full.txt](https://docs.omnimux.ai/llms-full.txt) | 全站 Markdown 合并 |
+| [skill.md](https://docs.omnimux.ai/skill.md) | 产品 Skill |
+| [Docs MCP](https://docs.omnimux.ai/mcp) | 文档搜索 MCP |
+| 任意页面 URL + `.md` | 单页 Markdown 导出 |
+
+随文档发布自动更新；优先用这些入口，不要爬 HTML。

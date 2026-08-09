@@ -78,6 +78,27 @@ OmniMux 是为 Agent 打造的社交媒体自动化运营基础设施，帮助�
   </Card>
 </CardGroup>
 
+## 给 Agent 的入口
+
+Mintlify 自动托管可机读文档。请让 Agent 先读这些入口：
+
+<CardGroup cols={2}>
+  <Card title="llms.txt" icon="list" href="https://docs.omnimux.ai/llms.txt">
+    面向 LLM 的站点索引——页面列表与简短说明（由导航自动生成，无需手维护）。
+  </Card>
+  <Card title="llms-full.txt" icon="file-text" href="https://docs.omnimux.ai/llms-full.txt">
+    全站 Markdown 合并文件，适合一次性塞入上下文。
+  </Card>
+  <Card title="skill.md" icon="sparkles" href="https://docs.omnimux.ai/skill.md">
+    产品 Skill：何时用 OmniMux、鉴权与常见工作流。
+  </Card>
+  <Card title="Docs MCP" icon="plug" href="https://docs.omnimux.ai/mcp">
+    托管的文档搜索 MCP，可接 Cursor / Claude 等客户端。
+  </Card>
+</CardGroup>
+
+提示：任意文档页都有 Markdown 版本（URL 末尾加 `.md`）；页眉 contextual menu 可复制 Markdown 或安装文档 MCP。
+
 <Tip>
   控制台与 API 域名分离：控制台 [omnimux.ai/dashboard](https://omnimux.ai/dashboard)，API 使用 `https://api.omnimux.ai`。
 </Tip>
