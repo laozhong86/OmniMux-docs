@@ -195,7 +195,7 @@
                       "en/api-reference/social-data/tiktok/user-posts",
                       "en/api-reference/social-data/tiktok/video-search"
                     ],
-                    "icon": "share-2"
+                    "icon": "music-2"
                   },
                   {
                     "group": "Instagram",
@@ -205,7 +205,7 @@
                       "en/api-reference/social-data/instagram/user-posts",
                       "en/api-reference/social-data/instagram/search"
                     ],
-                    "icon": "share-2"
+                    "icon": "camera"
                   },
                   {
                     "group": "YouTube",
@@ -215,7 +215,7 @@
                       "en/api-reference/social-data/youtube/channel-videos",
                       "en/api-reference/social-data/youtube/video-search"
                     ],
-                    "icon": "share-2"
+                    "icon": "play-circle"
                   },
                   {
                     "group": "X",
@@ -225,7 +225,7 @@
                       "en/api-reference/social-data/x/user-tweets",
                       "en/api-reference/social-data/x/timeline-search"
                     ],
-                    "icon": "share-2"
+                    "icon": "at-sign"
                   }
                 ],
                 "icon": "share-2"
@@ -529,7 +529,7 @@
                       "zh/api-reference/social-data/tiktok/user-posts",
                       "zh/api-reference/social-data/tiktok/video-search"
                     ],
-                    "icon": "share-2"
+                    "icon": "music-2"
                   },
                   {
                     "group": "Instagram",
@@ -539,7 +539,7 @@
                       "zh/api-reference/social-data/instagram/user-posts",
                       "zh/api-reference/social-data/instagram/search"
                     ],
-                    "icon": "share-2"
+                    "icon": "camera"
                   },
                   {
                     "group": "YouTube",
@@ -549,7 +549,7 @@
                       "zh/api-reference/social-data/youtube/channel-videos",
                       "zh/api-reference/social-data/youtube/video-search"
                     ],
-                    "icon": "share-2"
+                    "icon": "play-circle"
                   },
                   {
                     "group": "X",
@@ -559,7 +559,7 @@
                       "zh/api-reference/social-data/x/user-tweets",
                       "zh/api-reference/social-data/x/timeline-search"
                     ],
-                    "icon": "share-2"
+                    "icon": "at-sign"
                   }
                 ],
                 "icon": "share-2"
@@ -768,5 +768,8 @@
       "destination": "/en/quickstart",
       "permanent": false
     }
-  ]
+  ],
+  "icons": {
+    "library": "lucide"
+  }
 }
