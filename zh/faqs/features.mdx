@@ -1,0 +1,28 @@
+---
+title: "能力与兼容性"
+sidebarTitle: "能力与兼容性"
+description: "OpenAI 兼容与产品边界"
+---
+
+## 兼容 OpenAI 吗？
+
+文本/多模态网关主路径兼容 **OpenAI Chat Completions** 等常见格式：把客户端 Base URL 指到 `https://api.omnimux.ai/v1`，使用 OmniMux `sk-` 与 **live model id** 即可。详见 [语言系列完整参数](/zh/api-reference/text-series/claude/complete)。
+
+## 支持哪些模态？
+
+以控制台 live 目录为准，文档按系列组织：
+
+- 语言 / 图像 / 视频  
+- 社交数据（读）与社媒发布（写，凭证不同）  
+
+未在定价中的模型不要假设可用。
+
+## 为什么和官网 ChatGPT / Claude 网页版体验不同？
+
+API 提供的是**模型能力本身**，不包含各官网的产品壳（联网、记忆、内置工具 UI 等）。若需要接近产品壳的体验，需自行维护上下文、system prompt 与工具调用。
+
+## 视频任务怎么查？
+
+创建：`POST /v1/video/generations`  
+轮询：`GET /v1/video/generations/{task_id}`（[查询视频任务](/zh/api-reference/tasks/video-task)）  
+不要与 OpenAI Videos 的 `/v1/videos/{id}/content` 下载路径混淆。

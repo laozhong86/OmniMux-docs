@@ -1,0 +1,117 @@
+---
+title: "断开账户"
+sidebarTitle: "断开账户"
+description: "断开账户"
+api: "DELETE https://omnimux.ai/api/social/v1/accounts/{id}"
+---
+
+- 社媒 **发布** 用户 API（非 `sk-` 社交数据读）
+- Base：`https://omnimux.ai`；鉴权 access token + `New-Api-User`
+- 连接账户命名对齐 Zernio **Connecting Accounts**
+
+## 身份
+
+| 字段 | 值 |
+| --- | --- |
+| 系列 | 社媒发布 |
+| 能力 | 断开账户 |
+
+## 接口
+
+| 方法 | 路径 |
+| --- | --- |
+| `DELETE` | `/api/social/v1/accounts/{id}` |
+
+Base URL：`https://omnimux.ai`
+
+## 鉴权
+
+| 名称 | 位置 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | 是 | `Bearer <access_token>`（用户 access token） |
+| `New-Api-User` | header | string | 是 | 当前用户 id |
+
+## 请求体 / 参数
+
+以右栏 cURL 为准。常见字段：
+
+| 字段 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| （见示例） | — | — | 不同资源（连接 / 帖子 / 媒体）字段不同 |
+
+## 响应
+
+### 200
+
+| 字段 | 类型 | 说明 |
+| --- | --- | --- |
+| `success` | boolean | 是否成功 |
+| `data` | object | 业务数据 |
+
+错误见右栏与 [错误码](/zh/faqs/connection-usage)。
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request DELETE \
+  --url https://omnimux.ai/api/social/v1/accounts/{id} \
+  --header 'Authorization: Bearer <access_token>' \
+  --header 'New-Api-User: <user_id>' \
+  --header 'Content-Type: application/json'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200
+{"success":true}
+```
+
+```json 401
+{
+  "success": false,
+  "message": "Unauthorized"
+}
+```
+
+```json 402
+{
+  "success": false,
+  "message": "Insufficient quota. Please top up your account."
+}
+```
+
+```json 403
+{
+  "success": false,
+  "message": "Forbidden"
+}
+```
+
+```json 404
+{
+  "success": false,
+  "message": "Not found"
+}
+```
+
+```json 429
+{
+  "success": false,
+  "message": "Rate limit exceeded"
+}
+```
+
+```json 500
+{
+  "success": false,
+  "message": "Internal server error"
+}
+```
+
+</ResponseExample>
+
+</Panel>

@@ -92,7 +92,7 @@ L1  系列 / 管理面          （发现主轴）
 ## Directory map (repo)
 
 ```text
-cn|en/
+zh|en/
   index.mdx · quickstart.mdx
   faqs/{connection-usage,cost-optimization,...}   # 错误语义 / 双 Base / 402（无独立 errors 页）
   integration-guide/{chat apps,dev tools,platforms}
@@ -129,8 +129,8 @@ Brand MDX under `brands/` may exist for deep links / series overview tables, but
 {
   "group": "YouTube",
   "pages": [
-    "cn/api-reference/social-data/youtube/video-detail",
-    "cn/api-reference/social-data/youtube/channel-info"
+    "zh/api-reference/social-data/youtube/video-detail",
+    "zh/api-reference/social-data/youtube/channel-info"
   ]
 }
 ```
@@ -141,8 +141,8 @@ Brand MDX under `brands/` may exist for deep links / series overview tables, but
 {
   "group": "YouTube",
   "pages": [
-    "cn/api-reference/social-data/brands/youtube",
-    "cn/api-reference/social-data/youtube/video-detail"
+    "zh/api-reference/social-data/brands/youtube",
+    "zh/api-reference/social-data/youtube/video-detail"
   ]
 }
 ```

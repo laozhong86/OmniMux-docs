@@ -1,0 +1,28 @@
+---
+title: "查询视频任务"
+sidebarTitle: "查询视频任务"
+description: "GET /v1/video/generations/{task_id} · 轮询视频生成任务"
+api: "GET https://api.omnimux.ai/v1/video/generations/{task_id}"
+---
+
+> - 仅用于 **视频系列** 创建接口 `POST /v1/video/generations` 返回的 `task_id`
+> - **不是** OpenAI Videos 的 `/v1/videos/{id}` 或 `/content` 下载路径
+> - 鉴权：`Authorization: Bearer sk-...`
+
+## 路径参数
+
+| 字段 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| `task_id` | string | 是 | 创建任务响应中的 id |
+
+## 响应（摘要）
+
+| 字段 | 说明 |
+| --- | --- |
+| `status` | 如 `queued` / `in_progress` / `completed` / `failed`（以线上为准） |
+| `task_id` / `id` | 任务标识 |
+| 结果字段 | 完成后可能含产物 URL 等，结构因模型而异 |
+
+Base URL：`https://api.omnimux.ai`
+
+更多错误语义见 [连接与使用](/zh/faqs/connection-usage) 与 [成本优化](/zh/faqs/cost-optimization)（402）。

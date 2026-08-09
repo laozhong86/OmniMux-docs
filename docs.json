@@ -41,340 +41,6 @@
   "navigation": {
     "languages": [
       {
-        "language": "cn",
-        "default": true,
-        "tabs": [
-          {
-            "tab": "API 手册",
-            "groups": [
-              {
-                "group": "语言系列",
-                "pages": [
-                  {
-                    "group": "Claude",
-                    "pages": [
-                      "cn/api-reference/text-series/claude/complete"
-                    ],
-                    "icon": "message-square"
-                  },
-                  {
-                    "group": "Gemini",
-                    "pages": [
-                      "cn/api-reference/text-series/gemini/complete"
-                    ],
-                    "icon": "message-square"
-                  },
-                  {
-                    "group": "GPT",
-                    "pages": [
-                      "cn/api-reference/text-series/gpt/complete"
-                    ],
-                    "icon": "message-square"
-                  },
-                  {
-                    "group": "Grok",
-                    "pages": [
-                      "cn/api-reference/text-series/grok/complete"
-                    ],
-                    "icon": "message-square"
-                  },
-                  {
-                    "group": "Kimi",
-                    "pages": [
-                      "cn/api-reference/text-series/kimi/complete"
-                    ],
-                    "icon": "message-square"
-                  },
-                  {
-                    "group": "DeepSeek",
-                    "pages": [
-                      "cn/api-reference/text-series/deepseek/complete"
-                    ],
-                    "icon": "message-square"
-                  },
-                  {
-                    "group": "MiniMax",
-                    "pages": [
-                      "cn/api-reference/text-series/minimax/complete"
-                    ],
-                    "icon": "message-square"
-                  },
-                  {
-                    "group": "GLM",
-                    "pages": [
-                      "cn/api-reference/text-series/glm/complete"
-                    ],
-                    "icon": "message-square"
-                  }
-                ],
-                "icon": "message-square"
-              },
-              {
-                "group": "图像系列",
-                "pages": [
-                  {
-                    "group": "Nano Banana",
-                    "pages": [
-                      "cn/api-reference/image-series/models/nano_banana_2",
-                      "cn/api-reference/image-series/models/nano_banana_pro"
-                    ],
-                    "icon": "image"
-                  },
-                  {
-                    "group": "GPT Image",
-                    "pages": [
-                      "cn/api-reference/image-series/models/gpt-image2",
-                      "cn/api-reference/image-series/models/gpt-image2-hd"
-                    ],
-                    "icon": "image"
-                  },
-                  {
-                    "group": "Z Image",
-                    "pages": [
-                      "cn/api-reference/image-series/models/zimage-makeup"
-                    ],
-                    "icon": "image"
-                  }
-                ],
-                "icon": "image"
-              },
-              {
-                "group": "视频系列",
-                "pages": [
-                  {
-                    "group": "MiniMax",
-                    "pages": [
-                      "cn/api-reference/video-series/models/minimax-h3-endframe",
-                      "cn/api-reference/video-series/models/minimax-h3-fl2va",
-                      "cn/api-reference/video-series/models/minimax-h3-flf",
-                      "cn/api-reference/video-series/models/minimax-h3-t2v"
-                    ],
-                    "icon": "video"
-                  },
-                  {
-                    "group": "Veo 3.1",
-                    "icon": "video",
-                    "pages": [
-                      "cn/api-reference/video-series/models/veo_3_1"
-                    ]
-                  },
-                  {
-                    "group": "Omni Flash",
-                    "icon": "video",
-                    "pages": [
-                      "cn/api-reference/video-series/models/omni_flash",
-                      "cn/api-reference/video-series/models/omni_flash-10s",
-                      "cn/api-reference/video-series/models/omni_flash-4s",
-                      "cn/api-reference/video-series/models/omni_flash-6s"
-                    ]
-                  },
-                  {
-                    "group": "LTX",
-                    "pages": [
-                      "cn/api-reference/video-series/models/ltx2.3-kj"
-                    ],
-                    "icon": "video"
-                  },
-                  {
-                    "group": "Grok Imagine",
-                    "pages": [
-                      "cn/api-reference/video-series/models/grok-imagine-video-1.5"
-                    ],
-                    "icon": "video"
-                  }
-                ],
-                "icon": "video"
-              },
-              {
-                "group": "社交数据",
-                "pages": [
-                  {
-                    "group": "TikTok",
-                    "pages": [
-                      "cn/api-reference/social-data/tiktok/post-detail",
-                      "cn/api-reference/social-data/tiktok/user-profile",
-                      "cn/api-reference/social-data/tiktok/user-posts",
-                      "cn/api-reference/social-data/tiktok/video-search"
-                    ],
-                    "icon": "share-2"
-                  },
-                  {
-                    "group": "Instagram",
-                    "pages": [
-                      "cn/api-reference/social-data/instagram/post-detail",
-                      "cn/api-reference/social-data/instagram/user-profile",
-                      "cn/api-reference/social-data/instagram/user-posts",
-                      "cn/api-reference/social-data/instagram/search"
-                    ],
-                    "icon": "share-2"
-                  },
-                  {
-                    "group": "YouTube",
-                    "pages": [
-                      "cn/api-reference/social-data/youtube/video-detail",
-                      "cn/api-reference/social-data/youtube/channel-info",
-                      "cn/api-reference/social-data/youtube/channel-videos",
-                      "cn/api-reference/social-data/youtube/video-search"
-                    ],
-                    "icon": "share-2"
-                  },
-                  {
-                    "group": "X",
-                    "pages": [
-                      "cn/api-reference/social-data/x/tweet-detail",
-                      "cn/api-reference/social-data/x/user-profile",
-                      "cn/api-reference/social-data/x/user-tweets",
-                      "cn/api-reference/social-data/x/timeline-search"
-                    ],
-                    "icon": "share-2"
-                  }
-                ],
-                "icon": "share-2"
-              },
-              {
-                "group": "社媒发布",
-                "pages": [
-                  {
-                    "group": "连接账户",
-                    "pages": [
-                      "cn/api-reference/publishing/start-connect",
-                      "cn/api-reference/publishing/list-accounts",
-                      "cn/api-reference/publishing/disconnect"
-                    ],
-                    "icon": "send"
-                  },
-                  {
-                    "group": "帖子",
-                    "pages": [
-                      "cn/api-reference/publishing/create-post",
-                      "cn/api-reference/publishing/get-post"
-                    ],
-                    "icon": "send"
-                  },
-                  {
-                    "group": "媒体",
-                    "pages": [
-                      "cn/api-reference/publishing/presign",
-                      "cn/api-reference/publishing/upload"
-                    ],
-                    "icon": "send"
-                  }
-                ],
-                "icon": "send"
-              },
-              {
-                "group": "账户管理",
-                "pages": [
-                  {
-                    "group": "登录鉴权",
-                    "pages": [
-                      "cn/api-reference/account/device-login"
-                    ],
-                    "icon": "user"
-                  },
-                  {
-                    "group": "账户信息",
-                    "pages": [
-                      "cn/api-reference/account/balance",
-                      "cn/api-reference/account/pricing"
-                    ],
-                    "icon": "user"
-                  }
-                ],
-                "icon": "user"
-              },
-              {
-                "group": "任务管理",
-                "pages": [
-                  "cn/api-reference/tasks/video-task"
-                ],
-                "icon": "list-checks"
-              }
-            ],
-            "icon": "square-terminal"
-          },
-          {
-            "tab": "集成指南",
-            "groups": [
-              {
-                "group": "聊天应用",
-                "icon": "message-circle",
-                "pages": [
-                  "cn/integration-guide/chatbox",
-                  "cn/integration-guide/cherry-studio",
-                  "cn/integration-guide/anythingllm",
-                  "cn/integration-guide/claude-desktop"
-                ]
-              },
-              {
-                "group": "开发工具",
-                "icon": "terminal",
-                "pages": [
-                  "cn/integration-guide/claude-code-cli",
-                  "cn/integration-guide/codex-cli",
-                  "cn/integration-guide/gemini-cli",
-                  "cn/integration-guide/grok-cli",
-                  "cn/integration-guide/kimi-cli",
-                  "cn/integration-guide/zcode",
-                  "cn/integration-guide/opencode",
-                  "cn/integration-guide/pi",
-                  "cn/integration-guide/hermes",
-                  "cn/integration-guide/cursor",
-                  "cn/integration-guide/cline",
-                  "cn/integration-guide/cc-switch",
-                  "cn/integration-guide/codebuddy-workbuddy"
-                ]
-              },
-              {
-                "group": "应用平台",
-                "icon": "layout-grid",
-                "pages": [
-                  "cn/integration-guide/n8n",
-                  "cn/integration-guide/dify",
-                  "cn/integration-guide/immersive-translate",
-                  "cn/integration-guide/openclaw",
-                  "cn/integration-guide/openclaw-auto",
-                  "cn/integration-guide/openclaw-feishu",
-                  "cn/integration-guide/openclaw-telegram"
-                ]
-              }
-            ],
-            "icon": "plug"
-          },
-          {
-            "tab": "用户指南",
-            "groups": [
-              {
-                "group": "开始使用",
-                "pages": [
-                  "cn/index",
-                  "cn/quickstart"
-                ],
-                "icon": "rocket"
-              }
-            ],
-            "icon": "book-user"
-          },
-          {
-            "tab": "常见问题",
-            "icon": "circle-help",
-            "groups": [
-              {
-                "group": "常见问题",
-                "icon": "circle-help",
-                "pages": [
-                  "cn/faqs/cost-optimization",
-                  "cn/faqs/connection-usage",
-                  "cn/faqs/security",
-                  "cn/faqs/account-billing",
-                  "cn/faqs/features"
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      {
         "language": "en",
         "tabs": [
           {
@@ -705,6 +371,340 @@
               }
             ]
           }
+        ],
+        "default": true
+      },
+      {
+        "language": "zh",
+        "tabs": [
+          {
+            "tab": "API 手册",
+            "groups": [
+              {
+                "group": "语言系列",
+                "pages": [
+                  {
+                    "group": "Claude",
+                    "pages": [
+                      "zh/api-reference/text-series/claude/complete"
+                    ],
+                    "icon": "message-square"
+                  },
+                  {
+                    "group": "Gemini",
+                    "pages": [
+                      "zh/api-reference/text-series/gemini/complete"
+                    ],
+                    "icon": "message-square"
+                  },
+                  {
+                    "group": "GPT",
+                    "pages": [
+                      "zh/api-reference/text-series/gpt/complete"
+                    ],
+                    "icon": "message-square"
+                  },
+                  {
+                    "group": "Grok",
+                    "pages": [
+                      "zh/api-reference/text-series/grok/complete"
+                    ],
+                    "icon": "message-square"
+                  },
+                  {
+                    "group": "Kimi",
+                    "pages": [
+                      "zh/api-reference/text-series/kimi/complete"
+                    ],
+                    "icon": "message-square"
+                  },
+                  {
+                    "group": "DeepSeek",
+                    "pages": [
+                      "zh/api-reference/text-series/deepseek/complete"
+                    ],
+                    "icon": "message-square"
+                  },
+                  {
+                    "group": "MiniMax",
+                    "pages": [
+                      "zh/api-reference/text-series/minimax/complete"
+                    ],
+                    "icon": "message-square"
+                  },
+                  {
+                    "group": "GLM",
+                    "pages": [
+                      "zh/api-reference/text-series/glm/complete"
+                    ],
+                    "icon": "message-square"
+                  }
+                ],
+                "icon": "message-square"
+              },
+              {
+                "group": "图像系列",
+                "pages": [
+                  {
+                    "group": "Nano Banana",
+                    "pages": [
+                      "zh/api-reference/image-series/models/nano_banana_2",
+                      "zh/api-reference/image-series/models/nano_banana_pro"
+                    ],
+                    "icon": "image"
+                  },
+                  {
+                    "group": "GPT Image",
+                    "pages": [
+                      "zh/api-reference/image-series/models/gpt-image2",
+                      "zh/api-reference/image-series/models/gpt-image2-hd"
+                    ],
+                    "icon": "image"
+                  },
+                  {
+                    "group": "Z Image",
+                    "pages": [
+                      "zh/api-reference/image-series/models/zimage-makeup"
+                    ],
+                    "icon": "image"
+                  }
+                ],
+                "icon": "image"
+              },
+              {
+                "group": "视频系列",
+                "pages": [
+                  {
+                    "group": "MiniMax",
+                    "pages": [
+                      "zh/api-reference/video-series/models/minimax-h3-endframe",
+                      "zh/api-reference/video-series/models/minimax-h3-fl2va",
+                      "zh/api-reference/video-series/models/minimax-h3-flf",
+                      "zh/api-reference/video-series/models/minimax-h3-t2v"
+                    ],
+                    "icon": "video"
+                  },
+                  {
+                    "group": "Veo 3.1",
+                    "icon": "video",
+                    "pages": [
+                      "zh/api-reference/video-series/models/veo_3_1"
+                    ]
+                  },
+                  {
+                    "group": "Omni Flash",
+                    "icon": "video",
+                    "pages": [
+                      "zh/api-reference/video-series/models/omni_flash",
+                      "zh/api-reference/video-series/models/omni_flash-10s",
+                      "zh/api-reference/video-series/models/omni_flash-4s",
+                      "zh/api-reference/video-series/models/omni_flash-6s"
+                    ]
+                  },
+                  {
+                    "group": "LTX",
+                    "pages": [
+                      "zh/api-reference/video-series/models/ltx2.3-kj"
+                    ],
+                    "icon": "video"
+                  },
+                  {
+                    "group": "Grok Imagine",
+                    "pages": [
+                      "zh/api-reference/video-series/models/grok-imagine-video-1.5"
+                    ],
+                    "icon": "video"
+                  }
+                ],
+                "icon": "video"
+              },
+              {
+                "group": "社交数据",
+                "pages": [
+                  {
+                    "group": "TikTok",
+                    "pages": [
+                      "zh/api-reference/social-data/tiktok/post-detail",
+                      "zh/api-reference/social-data/tiktok/user-profile",
+                      "zh/api-reference/social-data/tiktok/user-posts",
+                      "zh/api-reference/social-data/tiktok/video-search"
+                    ],
+                    "icon": "share-2"
+                  },
+                  {
+                    "group": "Instagram",
+                    "pages": [
+                      "zh/api-reference/social-data/instagram/post-detail",
+                      "zh/api-reference/social-data/instagram/user-profile",
+                      "zh/api-reference/social-data/instagram/user-posts",
+                      "zh/api-reference/social-data/instagram/search"
+                    ],
+                    "icon": "share-2"
+                  },
+                  {
+                    "group": "YouTube",
+                    "pages": [
+                      "zh/api-reference/social-data/youtube/video-detail",
+                      "zh/api-reference/social-data/youtube/channel-info",
+                      "zh/api-reference/social-data/youtube/channel-videos",
+                      "zh/api-reference/social-data/youtube/video-search"
+                    ],
+                    "icon": "share-2"
+                  },
+                  {
+                    "group": "X",
+                    "pages": [
+                      "zh/api-reference/social-data/x/tweet-detail",
+                      "zh/api-reference/social-data/x/user-profile",
+                      "zh/api-reference/social-data/x/user-tweets",
+                      "zh/api-reference/social-data/x/timeline-search"
+                    ],
+                    "icon": "share-2"
+                  }
+                ],
+                "icon": "share-2"
+              },
+              {
+                "group": "社媒发布",
+                "pages": [
+                  {
+                    "group": "连接账户",
+                    "pages": [
+                      "zh/api-reference/publishing/start-connect",
+                      "zh/api-reference/publishing/list-accounts",
+                      "zh/api-reference/publishing/disconnect"
+                    ],
+                    "icon": "send"
+                  },
+                  {
+                    "group": "帖子",
+                    "pages": [
+                      "zh/api-reference/publishing/create-post",
+                      "zh/api-reference/publishing/get-post"
+                    ],
+                    "icon": "send"
+                  },
+                  {
+                    "group": "媒体",
+                    "pages": [
+                      "zh/api-reference/publishing/presign",
+                      "zh/api-reference/publishing/upload"
+                    ],
+                    "icon": "send"
+                  }
+                ],
+                "icon": "send"
+              },
+              {
+                "group": "账户管理",
+                "pages": [
+                  {
+                    "group": "登录鉴权",
+                    "pages": [
+                      "zh/api-reference/account/device-login"
+                    ],
+                    "icon": "user"
+                  },
+                  {
+                    "group": "账户信息",
+                    "pages": [
+                      "zh/api-reference/account/balance",
+                      "zh/api-reference/account/pricing"
+                    ],
+                    "icon": "user"
+                  }
+                ],
+                "icon": "user"
+              },
+              {
+                "group": "任务管理",
+                "pages": [
+                  "zh/api-reference/tasks/video-task"
+                ],
+                "icon": "list-checks"
+              }
+            ],
+            "icon": "square-terminal"
+          },
+          {
+            "tab": "集成指南",
+            "groups": [
+              {
+                "group": "聊天应用",
+                "icon": "message-circle",
+                "pages": [
+                  "zh/integration-guide/chatbox",
+                  "zh/integration-guide/cherry-studio",
+                  "zh/integration-guide/anythingllm",
+                  "zh/integration-guide/claude-desktop"
+                ]
+              },
+              {
+                "group": "开发工具",
+                "icon": "terminal",
+                "pages": [
+                  "zh/integration-guide/claude-code-cli",
+                  "zh/integration-guide/codex-cli",
+                  "zh/integration-guide/gemini-cli",
+                  "zh/integration-guide/grok-cli",
+                  "zh/integration-guide/kimi-cli",
+                  "zh/integration-guide/zcode",
+                  "zh/integration-guide/opencode",
+                  "zh/integration-guide/pi",
+                  "zh/integration-guide/hermes",
+                  "zh/integration-guide/cursor",
+                  "zh/integration-guide/cline",
+                  "zh/integration-guide/cc-switch",
+                  "zh/integration-guide/codebuddy-workbuddy"
+                ]
+              },
+              {
+                "group": "应用平台",
+                "icon": "layout-grid",
+                "pages": [
+                  "zh/integration-guide/n8n",
+                  "zh/integration-guide/dify",
+                  "zh/integration-guide/immersive-translate",
+                  "zh/integration-guide/openclaw",
+                  "zh/integration-guide/openclaw-auto",
+                  "zh/integration-guide/openclaw-feishu",
+                  "zh/integration-guide/openclaw-telegram"
+                ]
+              }
+            ],
+            "icon": "plug"
+          },
+          {
+            "tab": "用户指南",
+            "groups": [
+              {
+                "group": "开始使用",
+                "pages": [
+                  "zh/index",
+                  "zh/quickstart"
+                ],
+                "icon": "rocket"
+              }
+            ],
+            "icon": "book-user"
+          },
+          {
+            "tab": "常见问题",
+            "icon": "circle-help",
+            "groups": [
+              {
+                "group": "常见问题",
+                "icon": "circle-help",
+                "pages": [
+                  "zh/faqs/cost-optimization",
+                  "zh/faqs/connection-usage",
+                  "zh/faqs/security",
+                  "zh/faqs/account-billing",
+                  "zh/faqs/features"
+                ]
+              }
+            ]
+          }
         ]
       }
     ]
@@ -741,5 +741,32 @@
     "metatags": {
       "og:site_name": "OmniMux Docs"
     }
-  }
+  },
+  "redirects": [
+    {
+      "source": "/cn",
+      "destination": "/zh",
+      "permanent": true
+    },
+    {
+      "source": "/cn/:slug*",
+      "destination": "/zh/:slug*",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/overview",
+      "destination": "/zh/quickstart",
+      "permanent": true
+    },
+    {
+      "source": "/zh/api-reference/overview",
+      "destination": "/zh/quickstart",
+      "permanent": true
+    },
+    {
+      "source": "/",
+      "destination": "/en/quickstart",
+      "permanent": false
+    }
+  ]
 }

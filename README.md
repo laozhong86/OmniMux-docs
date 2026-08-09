@@ -20,7 +20,7 @@ Preview: [http://localhost:3000](http://localhost:3000)
 | Path | Purpose |
 | --- | --- |
 | `docs.json` | Site config, top tabs, i18n, OpenAPI |
-| `cn/` · `en/` | Locale pages (index, quickstart, faqs, api-reference, integration-guide) |
+| `zh/` · `en/` | Locale pages (index, quickstart, faqs, api-reference, integration-guide) |
 | `*/faqs/` | Connection/usage, cost, security (replaces deleted guides + errors pages) |
 | `*/api-reference/` | Callable contract pages (language Complete, image/video models, social, publish, account, tasks) |
 | `*/integration-guide/` | Chat apps / dev tools / app platforms |

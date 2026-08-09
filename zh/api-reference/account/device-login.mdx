@@ -1,0 +1,157 @@
+---
+title: "设备码登录"
+sidebarTitle: "设备码登录"
+description: "RFC 8628 风格设备码登录：申请 device_code → 浏览器确认 → 轮询换取 access_token"
+api: "POST https://omnimux.ai/api/user/device/code"
+---
+
+- 账户管理用户 API（CLI / 无头环境登录）
+- **申请码与轮询换 token 无需鉴权**；浏览器侧批准/拒绝需已登录用户会话
+- 换取的 `access_token` 用于后续 `https://omnimux.ai` 用户 API（配合 `New-Api-User`）
+
+## 身份
+
+| 字段 | 值 |
+| --- | --- |
+| 系列 | 账户管理 |
+| 能力 | 设备码登录 |
+
+## 接口
+
+| 步骤 | 方法 | 路径 | 鉴权 |
+| --- | --- | --- | --- |
+| 1. 申请设备码 | `POST` | `/api/user/device/code` | 无 |
+| 2. 用户浏览器确认 | 打开 `verification_uri` | 控制台 / CLI 登录页 | 浏览器会话 |
+| 3. 轮询换 token | `POST` | `/api/user/device/token` | 无 |
+| 4. 批准 / 拒绝（可选，已登录会话） | `POST` | `/api/user/device/approve` · `/api/user/device/deny` | 用户会话 |
+
+Base URL：`https://omnimux.ai`
+
+## 鉴权说明
+
+| 步骤 | 要求 |
+| --- | --- |
+| `device/code` · `device/token` | **不需要** `Authorization` / `New-Api-User` |
+| `device/approve` · `device/deny` | 已登录用户（控制台会话）；body 含 `user_code` |
+| 换得 token 之后 | 其他用户 API：`Authorization: Bearer <access_token>` + `New-Api-User: <user_id>` |
+
+网关 AI / 社交数据仍使用 `https://api.omnimux.ai` 的 `sk-` 令牌，与设备码 access token **不是同一套凭证**。见 [连接与使用](/zh/faqs/connection-usage)。
+
+## 请求体 / 参数
+
+### `POST /api/user/device/code`
+
+| 字段 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| `client_name` | string | 否 | 客户端标识（如 `my-cli`） |
+
+### `POST /api/user/device/token`
+
+| 字段 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| `device_code` | string | 是 | 步骤 1 返回的 `device_code` |
+| `grant_type` | string | 否 | 若传则须为 `urn:ietf:params:oauth:grant-type:device_code` |
+
+轮询间隔遵循响应中的 `interval`（默认约 5 秒）；过频会返回 `slow_down`。
+
+## 响应
+
+### 步骤 1 · 200（申请码）
+
+| 字段 | 说明 |
+| --- | --- |
+| `data.device_code` | 设备侧保密码（用于轮询） |
+| `data.user_code` | 用户在浏览器输入的短码 |
+| `data.verification_uri` | 确认页 URL |
+| `data.verification_uri_complete` | 预填 `user_code` 的完整 URL |
+| `data.expires_in` | 有效期（秒，默认 900） |
+| `data.interval` | 建议轮询间隔（秒） |
+
+### 步骤 3 · 成功（已批准）
+
+| 字段 | 说明 |
+| --- | --- |
+| `data.access_token` | 系统 access token（PAT） |
+| `data.token_type` | `Bearer` |
+| `data.user_id` | 用户 id（后续作 `New-Api-User`） |
+| `data.username` | 用户名 |
+
+### 步骤 3 · 进行中 / 错误（HTTP 多为 200 + `success: false`）
+
+| `code` | 含义 |
+| --- | --- |
+| `authorization_pending` | 用户尚未批准 |
+| `slow_down` | 轮询过快 |
+| `access_denied` | 用户拒绝 |
+| `expired_token` / `invalid_grant` | 过期或无效 |
+
+更多错误语义见 [连接与使用](/zh/faqs/connection-usage)。
+
+<Panel>
+
+<RequestExample>
+
+```bash 1. 申请设备码
+curl --request POST \
+  --url https://omnimux.ai/api/user/device/code \
+  --header 'Content-Type: application/json' \
+  --data '{"client_name":"my-cli"}'
+```
+
+```bash 2. 轮询换 token
+curl --request POST \
+  --url https://omnimux.ai/api/user/device/token \
+  --header 'Content-Type: application/json' \
+  --data '{"device_code":"<device_code>","grant_type":"urn:ietf:params:oauth:grant-type:device_code"}'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200 申请码
+{
+  "success": true,
+  "data": {
+    "device_code": "...",
+    "user_code": "ABCD-EFGH",
+    "verification_uri": "https://omnimux.ai/cli/login",
+    "verification_uri_complete": "https://omnimux.ai/cli/login?user_code=ABCD-EFGH",
+    "expires_in": 900,
+    "interval": 5
+  }
+}
+```
+
+```json pending
+{
+  "success": false,
+  "code": "authorization_pending",
+  "message": "authorization pending",
+  "interval": 5
+}
+```
+
+```json 200 已批准
+{
+  "success": true,
+  "data": {
+    "access_token": "...",
+    "token_type": "Bearer",
+    "user_id": 1,
+    "username": "alice"
+  }
+}
+```
+
+```json denied
+{
+  "success": false,
+  "code": "access_denied",
+  "message": "authorization denied"
+}
+```
+
+</ResponseExample>
+
+</Panel>
