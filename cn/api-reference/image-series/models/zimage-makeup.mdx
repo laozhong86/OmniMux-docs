@@ -1,27 +1,28 @@
 ---
 title: "Z Image 生图"
 sidebarTitle: "Z Image 生图"
-description: "Z Image 生图 · model `zimage-makeup`"
-api: "POST https://api.omnimux.ai/v1/images/generations"
+description: "Z Image 生图 · model `zimage-makeup`（GxgenAI 任务）"
+api: "POST https://api.omnimux.ai/v1/video/generations"
 ---
 
-- 调用 `POST /v1/images/generations`，`model` 为 `zimage-makeup`
-- 请求体至少包含 `model` 与 `prompt`
-- 同步或异步以线上响应为准；若返回 task id，请用任务查询接口轮询
+- 创建：`POST /v1/video/generations`，`model` 为 `zimage-makeup`
+- 轮询：`GET /v1/video/generations/{task_id}`（**不要**使用 `*-async` / `*-query` 模型名）
+- 媒体任务默认异步；公开 model ID **不带** `-async` 后缀
 
 ## 身份
 
 | 字段 | 值 |
 | --- | --- |
 | 系列 | 图像系列 |
-| 品牌 | Z Image |
+| 品牌 | Z Image / GxgenAI |
 | model | `zimage-makeup` |
 
 ## 接口
 
 | 方法 | 路径 |
 | --- | --- |
-| `POST` | `/v1/images/generations` |
+| `POST` | `/v1/video/generations` |
+| `GET` | `/v1/video/generations/{task_id}` |
 
 Base URL：`https://api.omnimux.ai`
 
@@ -36,22 +37,19 @@ Base URL：`https://api.omnimux.ai`
 | 字段 | 类型 | 必填 | 说明 |
 | --- | --- | --- | --- |
 | `model` | string | 是 | 固定为 `zimage-makeup` |
-| `prompt` | string | 是 | 图像描述 / 编辑说明 |
-| `n` | integer | 否 | 生成张数（受网关上限约束） |
-| `size` | string | 否 | 尺寸或宽高比（模型相关） |
-| `quality` | string | 否 | 质量档位（模型相关） |
+| `prompt` | string | 是 | 图像描述 |
+| `metadata.nodeInfoList` | array | 否 | 需要自定义节点时传入；多数情况 prompt-only 即可 |
 
 ## 响应
 
-### 200
+### 200（创建）
 
 | 字段 | 类型 | 说明 |
 | --- | --- | --- |
-| `created` | integer | 创建时间戳（若返回） |
-| `data` | array | 图像结果（`url` 或 `b64_json`） |
-| `task_id` / `id` | string | 异步时的任务 id（若返回） |
+| `id` / `task_id` | string | 任务 id |
+| `status` | string | 如 `queued` / `in_progress` |
 
-错误形态见右栏示例。异步任务以创建响应中的 `task_id` / 控制台日志为准（公开文档不提供独立图像 query 路径）。
+查询完成后再取产物 URL；链接可能有时效，请及时落盘。
 
 <Panel>
 
@@ -59,13 +57,12 @@ Base URL：`https://api.omnimux.ai`
 
 ```bash cURL
 curl --request POST \
-  --url https://api.omnimux.ai/v1/images/generations \
+  --url https://api.omnimux.ai/v1/video/generations \
   --header 'Authorization: Bearer <token>' \
   --header 'Content-Type: application/json' \
   --data '{
   "model": "zimage-makeup",
-  "prompt": "a product photo on white background",
-  "n": 1
+  "prompt": "一个古装美女，写实定妆照"
 }'
 ```
 
@@ -75,50 +72,18 @@ curl --request POST \
 
 ```json 200
 {
-  "created": 1741428397,
-  "data": [
-    { "url": "https://example.com/image.png" }
-  ]
-}
-```
-
-```json 400
-{
-  "error": { "message": "Invalid request", "type": "invalid_request_error", "code": "bad_request" }
-}
-```
-
-```json 401
-{
-  "error": { "message": "Invalid token", "type": "authentication_error", "code": "unauthorized" }
+  "id": "task_xxx",
+  "status": "in_progress",
+  "model": "zimage-makeup"
 }
 ```
 
 ```json 402
 {
   "error": {
-    "message": "Insufficient quota. Please top up your account.",
-    "type": "insufficient_quota",
-    "code": "insufficient_quota"
+    "message": "insufficient quota",
+    "type": "new_api_error"
   }
-}
-```
-
-```json 403
-{
-  "error": { "message": "Model not allowed", "type": "permission_error", "code": "forbidden" }
-}
-```
-
-```json 429
-{
-  "error": { "message": "Rate limit exceeded", "type": "rate_limit_error", "code": "rate_limit_exceeded" }
-}
-```
-
-```json 500
-{
-  "error": { "message": "Internal server error", "type": "server_error", "code": "internal_error" }
 }
 ```
 
