@@ -714,6 +714,20 @@
   "navbar": {
     "links": [
       {
+        "label": "X",
+        "href": "https://x.com/OmniMuxai",
+        "icon": "twitter"
+      },
+      {
+        "type": "discord",
+        "href": "https://discord.gg/AEK4YdUfR"
+      },
+      {
+        "label": "Telegram",
+        "href": "https://t.me/+ITiQvBOpCe8wZTc1",
+        "icon": "send"
+      },
+      {
         "label": "Support",
         "href": "mailto:hello@omnimux.ai"
       }
@@ -726,8 +740,11 @@
   },
   "footer": {
     "socials": {
+      "x": "https://x.com/OmniMuxai",
+      "discord": "https://discord.gg/AEK4YdUfR",
+      "telegram": "https://t.me/+ITiQvBOpCe8wZTc1",
       "github": "https://github.com/laozhong86/OmniMux",
-      "website": "https://omnimux.ai/dashboard"
+      "website": "https://omnimux.ai"
     }
   },
   "contextual": {
