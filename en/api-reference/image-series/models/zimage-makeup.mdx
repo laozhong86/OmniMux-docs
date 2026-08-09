@@ -1,117 +1,90 @@
 ---
 title: "Z Image Generation"
 sidebarTitle: "Z Image Generation"
-description: "Z Image Generation · model `zimage-makeup`"
-api: "POST https://api.omnimux.ai/v1/images/generations"
+description: "Z Image generation · model `zimage-makeup` (GxgenAI task)"
+api: "POST https://api.omnimux.ai/v1/video/generations"
 ---
 
-- Call `POST /v1/images/generations` with `model` `zimage-makeup`
-- Body requires at least `model` and `prompt`
-- If async, follow `task_id` in the create response and console usage logs
+- Create: `POST /v1/video/generations` with `model` `zimage-makeup`
+- Poll: `GET /v1/video/generations/{task_id}` (do **not** use `*-async` / `*-query` model names)
+- Media tasks are async by default; public model IDs do **not** use an `-async` suffix
 
 ## Identity
 
 | Field | Value |
 | --- | --- |
-| Series | Image series |
-| Brand | Z Image |
+| Series | Image |
+| Brand | Z Image / GxgenAI |
 | model | `zimage-makeup` |
 
-## Endpoint
+## API
 
 | Method | Path |
 | --- | --- |
-| `POST` | `/v1/images/generations` |
+| `POST` | `/v1/video/generations` |
+| `GET` | `/v1/video/generations/{task_id}` |
 
 Base URL: `https://api.omnimux.ai`
 
-## Authorizations
+## Auth
 
-| Name | In | Type | Required | Description |
+| Name | In | Type | Required | Notes |
 | --- | --- | --- | --- | --- |
 | `Authorization` | header | string | yes | `Bearer sk-...` (API key) |
 
-## Body
+## Request body
 
-| Field | Type | Required | Description |
+| Field | Type | Required | Notes |
 | --- | --- | --- | --- |
 | `model` | string | yes | Must be `zimage-makeup` |
-| `prompt` | string | yes | Image description / edit instruction |
-| `n` | integer | no | Number of images (gateway-capped) |
-| `size` | string | no | Size or aspect ratio (model-specific) |
-| `quality` | string | no | Quality tier (model-specific) |
+| `prompt` | string | yes | Image description |
+| `metadata.nodeInfoList` | array | no | Custom nodes when needed; prompt-only works for defaults |
 
 ## Response
 
-### 200
+### 200 (create)
 
-| Field | Type | Description |
+| Field | Type | Notes |
 | --- | --- | --- |
-| `created` | integer | Creation timestamp when present |
-| `data` | array | Results (`url` or `b64_json`) |
-| `task_id` / `id` | string | Async task id when present |
+| `id` / `task_id` | string | Task id |
+| `status` | string | e.g. `queued` / `in_progress` |
 
-Errors: see right-rail examples. Async: use `task_id` from create response / console logs (no separate public image-query page).
+Poll until complete, then download result URLs promptly (upstream links may expire).
 
 <Panel>
 
 <RequestExample>
 
-```bash curl --request POST \
-  --url https://api.omnimux.ai/v1/images/generations \
+```bash cURL
+curl --request POST \
+  --url https://api.omnimux.ai/v1/video/generations \
   --header 'Authorization: Bearer <token>' \
   --header 'Content-Type: application/json' \
-  --data '{"model":"zimage-makeup","prompt":"a product photo on white background","n":1}'
+  --data '{
+  "model": "zimage-makeup",
+  "prompt": "a classical portrait photo, realistic makeup look"
+}'
 ```
 
 </RequestExample>
-
 
 <ResponseExample>
 
 ```json 200
 {
-  "id": "chatcmpl-example",
-  "object": "chat.completion",
-  "model": "zimage-makeup",
-  "choices": [
-    {
-      "index": 0,
-      "message": { "role": "assistant", "content": "…" },
-      "finish_reason": "stop"
-    }
-  ]
+  "id": "task_xxx",
+  "status": "in_progress",
+  "model": "zimage-makeup"
 }
-```
-
-```json 400
-{ "error": { "message": "Invalid request", "type": "invalid_request_error", "code": "bad_request" } }
-```
-
-```json 401
-{ "error": { "message": "Invalid token", "type": "authentication_error", "code": "unauthorized" } }
 ```
 
 ```json 402
 {
   "error": {
-    "message": "Insufficient quota. Please top up your account.",
-    "type": "insufficient_quota",
-    "code": "insufficient_quota"
+    "message": "insufficient quota",
+    "type": "new_api_error"
   }
 }
-```
-
-```json 403
-{ "error": { "message": "Forbidden", "type": "permission_error", "code": "forbidden" } }
-```
-
-```json 429
-{ "error": { "message": "Rate limit exceeded", "type": "rate_limit_error", "code": "rate_limit_exceeded" } }
-```
-
-```json 500
-{ "error": { "message": "Internal server error", "type": "server_error", "code": "internal_error" } }
 ```
 
 </ResponseExample>

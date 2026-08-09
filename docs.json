@@ -131,8 +131,7 @@
                   {
                     "group": "Z Image",
                     "pages": [
-                      "cn/api-reference/image-series/models/zimage-makeup",
-                      "cn/api-reference/image-series/models/zimage-makeup-async"
+                      "cn/api-reference/image-series/models/zimage-makeup"
                     ],
                     "icon": "image"
                   }
@@ -146,13 +145,9 @@
                     "group": "MiniMax",
                     "pages": [
                       "cn/api-reference/video-series/models/minimax-h3-endframe",
-                      "cn/api-reference/video-series/models/minimax-h3-endframe-async",
                       "cn/api-reference/video-series/models/minimax-h3-fl2va",
-                      "cn/api-reference/video-series/models/minimax-h3-fl2va-async",
                       "cn/api-reference/video-series/models/minimax-h3-flf",
-                      "cn/api-reference/video-series/models/minimax-h3-flf-async",
-                      "cn/api-reference/video-series/models/minimax-h3-t2v",
-                      "cn/api-reference/video-series/models/minimax-h3-t2v-async"
+                      "cn/api-reference/video-series/models/minimax-h3-t2v"
                     ],
                     "icon": "video"
                   },
@@ -176,8 +171,7 @@
                   {
                     "group": "LTX",
                     "pages": [
-                      "cn/api-reference/video-series/models/ltx2.3-kj",
-                      "cn/api-reference/video-series/models/ltx2.3-kj-async"
+                      "cn/api-reference/video-series/models/ltx2.3-kj"
                     ],
                     "icon": "video"
                   },
@@ -464,8 +458,7 @@
                   {
                     "group": "Z Image",
                     "pages": [
-                      "en/api-reference/image-series/models/zimage-makeup",
-                      "en/api-reference/image-series/models/zimage-makeup-async"
+                      "en/api-reference/image-series/models/zimage-makeup"
                     ],
                     "icon": "image"
                   }
@@ -479,13 +472,9 @@
                     "group": "MiniMax",
                     "pages": [
                       "en/api-reference/video-series/models/minimax-h3-endframe",
-                      "en/api-reference/video-series/models/minimax-h3-endframe-async",
                       "en/api-reference/video-series/models/minimax-h3-fl2va",
-                      "en/api-reference/video-series/models/minimax-h3-fl2va-async",
                       "en/api-reference/video-series/models/minimax-h3-flf",
-                      "en/api-reference/video-series/models/minimax-h3-flf-async",
-                      "en/api-reference/video-series/models/minimax-h3-t2v",
-                      "en/api-reference/video-series/models/minimax-h3-t2v-async"
+                      "en/api-reference/video-series/models/minimax-h3-t2v"
                     ],
                     "icon": "video"
                   },
@@ -509,8 +498,7 @@
                   {
                     "group": "LTX",
                     "pages": [
-                      "en/api-reference/video-series/models/ltx2.3-kj",
-                      "en/api-reference/video-series/models/ltx2.3-kj-async"
+                      "en/api-reference/video-series/models/ltx2.3-kj"
                     ],
                     "icon": "video"
                   },
@@ -732,9 +720,6 @@
     "options": [
       "copy",
       "view",
-      "chatgpt",
-      "claude",
-      "perplexity",
       "mcp",
       "cursor",
       "vscode"
