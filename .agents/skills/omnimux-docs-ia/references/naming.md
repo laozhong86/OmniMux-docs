@@ -19,7 +19,7 @@
 | TikHub as public **vendor** for social-data | Vendor = TikTok / Instagram / YouTube / X |
 | METHOD + path as sidebar title | Implementation detail → body / right panel only |
 | Raw model id alone as L3 sidebar title | Hard to tell variants apart; must add capability short label |
-| Language leaf sidebar = bare `完整参数` / `Complete reference` | Leaf must carry brand: `{Brand} · 完整参数` |
+| Language leaf sidebar = bare `完整参数` / `Complete API Reference` | Leaf must carry brand: `{Brand} · 完整参数` |
 | EN image leaf bare `image` / `generate` | Use **Image Generation** (or `Generation` if brand already ends with Image) |
 | EN video leaf bare `video` / `generate` | Use **Video Generation** / **Text-to-Video** / **Image-to-Video** |
 
@@ -51,7 +51,7 @@ Language Complete **must** include brand on both fields. Other leaves: brand + c
 
 ```text
 CN: {Brand} · 完整参数
-EN: {Brand} · Complete reference
+EN: {Brand} · Complete API Reference
 ```
 
 Separator: middle dot `·` (not Evolink ASCII ` - `).  
@@ -95,7 +95,7 @@ Keep current capability axis (mode vs duration SKU); naming only unifies labels.
 
 | Bad | Good (CN) | Good (EN) |
 | --- | --- | --- |
-| `完整参数` (no brand) | Claude · 完整参数 | Claude · Complete reference |
+| `完整参数` (no brand) | Claude · 完整参数 | Claude · Complete API Reference |
 | `omni_flash` | Omni Flash 视频生成 | Omni Flash Video Generation |
 | `omni_flash-4s` | Omni Flash 4 秒 | Omni Flash 4s |
 | `minimax-h3-t2v` | MiniMax 文生视频 | MiniMax Text-to-Video |
@@ -133,7 +133,7 @@ Post **status** lives under **帖子**, never under **任务管理**.
 
 | Page kind | title / sidebarTitle |
 | --- | --- |
-| Language brand contract | `{Brand} · 完整参数` / `{Brand} · Complete reference` (**both fields**) |
+| Language brand contract | `{Brand} · 完整参数` / `{Brand} · Complete API Reference` (**both fields**) |
 | Image / video model leaf | **品牌 + 能力简称** (required; EN per tables B/C) |
 | Social-data capability | Chinese capability (CN); Title Case capability (EN) |
 | Publishing capability | 发起连接 / Start Connection / … |

@@ -25,7 +25,7 @@ def fm(path: Path) -> dict[str, str]:
 
 def main() -> int:
     # Language complete: sidebar must include brand + complete phrase
-    for loc, needle in [("cn", "完整参数"), ("en", "Complete reference")]:
+    for loc, needle in [("cn", "完整参数"), ("en", "Complete API Reference")]:
         for p in sorted((ROOT / loc / "api-reference/text-series").glob("*/complete.mdx")):
             meta = fm(p)
             title = meta.get("title", "")
