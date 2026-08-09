@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "id": "2026-08-09-platform-api-updates-feed",
+  "published_at": "2026-08-09",
+  "rank": 100,
+  "type": "platform",
+  "modality": ["platform"],
+  "title": {
+    "en": "Platform | API Updates feed opens",
+    "zh": "平台 | API 更新日志上线"
+  },
+  "summary": {
+    "en": "Public developer timeline for model launches, capability changes, pricing, and platform notes.",
+    "zh": "面向开发者的公开时间线：模型上新、能力变更、定价与平台说明。"
+  },
+  "models": [],
+  "tags": ["platform", "feed"],
+  "links": [
+    {
+      "label": { "en": "Quickstart", "zh": "快速开始" },
+      "href": { "en": "/en/quickstart", "zh": "/zh/quickstart" }
+    },
+    {
+      "label": { "en": "Pricing", "zh": "定价与账户" },
+      "href": {
+        "en": "/en/api-reference/account/pricing",
+        "zh": "/zh/api-reference/account/pricing"
+      }
+    }
+  ],
+  "body": {
+    "en": "OmniMux now publishes an **API Updates** timeline so you can track gateway changes without digging through chats or release notes elsewhere.\n\n## What this feed covers\n\n- **New models** — callable model IDs added on live pricing\n- **Model updates** — new modes, durations, resolutions, parameters\n- **Pricing** — material rate or settlement changes\n- **Breaking** — incompatible request/response or path changes\n- **Platform** — auth, domains, and public HTTP surfaces (for example Social Ops publishing)\n\n## How to use OmniMux today\n\n| Surface | URL |\n| --- | --- |\n| Console | `https://omnimux.ai` |\n| OpenAI-compatible API | `https://api.omnimux.ai/v1` |\n| Docs | `https://docs.omnimux.ai` |\n| Status | `https://status.omnimux.ai` |\n\nRelay auth: Bearer `sk-…` from the console.\n\n## Note on earlier capability\n\nEntries dated **2026-08-09** that describe language, image, video, or social-data families document capabilities **already available** on the gateway when this feed started. They are not fabricated per-model first-launch history. Later entries are append-only real changes.\n\nFull model inventory always lives on console pricing — this page is a **change timeline**, not a second catalog.",
+    "zh": "OmniMux 现提供 **API 更新** 时间线，便于跟踪网关侧模型与协议变更，而无需翻聊天或零散发布说明。\n\n## 本时间线覆盖范围\n\n- **新模型** — 线上定价新增可调用的模型 ID\n- **模型更新** — 新模式、时长、分辨率、参数\n- **价格调整** — 实质费率或结算规则变化\n- **不兼容变更** — 请求/响应或路径不兼容\n- **平台** — 鉴权、域名、公开 HTTP 面（如社媒发布）\n\n## 当前使用入口\n\n| 面 | URL |\n| --- | --- |\n| 控制台 | `https://omnimux.ai` |\n| OpenAI 兼容 API | `https://api.omnimux.ai/v1` |\n| 文档 | `https://docs.omnimux.ai` |\n| 状态页 | `https://status.omnimux.ai` |\n\nRelay 鉴权：控制台签发的 Bearer `sk-…`。\n\n## 关于早期能力\n\n日期为 **2026-08-09**、描述语言 / 图像 / 视频 / 社交数据等族的条目，记录的是本时间线上线时网关上 **已可调用** 的能力，**不是**伪造的逐模型首发史。之后条目为只追加的真实变更。\n\n完整模型清单以控制台定价为准——本页是 **变更时间线**，不是第二份目录。"
+  }
+}

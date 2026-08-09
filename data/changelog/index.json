@@ -6,24 +6,24 @@
   "total_pages": 1,
   "items": [
     {
-      "id": "2026-08-09-baseline-platform",
+      "id": "2026-08-09-platform-api-updates-feed",
       "published_at": "2026-08-09",
-      "type": "baseline",
+      "type": "platform",
       "modality": [
         "platform"
       ],
       "title": {
-        "en": "API Updates feed opens",
-        "zh": "API 更新日志上线"
+        "en": "Platform | API Updates feed opens",
+        "zh": "平台 | API 更新日志上线"
       },
       "summary": {
-        "en": "Public developer changelog for model launches, capability changes, pricing, and breaking API notes.",
-        "zh": "面向开发者的公开变更流：模型上新、能力扩展、定价与 breaking change。"
+        "en": "Public developer timeline for model launches, capability changes, pricing, and platform notes.",
+        "zh": "面向开发者的公开时间线：模型上新、能力变更、定价与平台说明。"
       },
       "models": [],
       "tags": [
         "platform",
-        "docs"
+        "feed"
       ],
       "links": [
         {
@@ -38,7 +38,7 @@
         },
         {
           "label": {
-            "en": "Pricing API surface",
+            "en": "Pricing",
             "zh": "定价与账户"
           },
           "href": {
@@ -49,70 +49,38 @@
       ]
     },
     {
-      "id": "2026-08-09-baseline-text",
+      "id": "2026-08-09-models-language-series",
       "published_at": "2026-08-09",
-      "type": "baseline",
+      "type": "model_launch",
       "modality": [
         "text"
       ],
       "title": {
-        "en": "Language models (catalog baseline)",
-        "zh": "语言系列模型（目录期初）"
+        "en": "New Model | Language series — Claude, GPT, Gemini, Grok & more",
+        "zh": "新模型 | 语言系列 — Claude / GPT / Gemini / Grok 等"
       },
       "summary": {
-        "en": "Chat Completions language brands live on the gateway: Claude, GPT, Gemini, Grok, DeepSeek, GLM, Kimi, MiniMax.",
-        "zh": "网关已上线语言品牌（Chat Completions）：Claude、GPT、Gemini、Grok、DeepSeek、GLM、Kimi、MiniMax。"
+        "en": "Chat Completions language brands are available on the gateway (already live when this feed opened).",
+        "zh": "语言品牌已通过 Chat Completions 可调用（本时间线上线时已在网关可用）。"
       },
       "models": [
-        "claude-fable-5",
-        "claude-haiku-4-5",
-        "claude-opus-4-6",
-        "claude-opus-4-7",
-        "claude-opus-4-8",
         "claude-opus-5",
-        "claude-sonnet-4-6",
         "claude-sonnet-5",
-        "deepseek-v4-flash",
-        "deepseek-v4-pro",
-        "gemini-2.5-flash",
-        "gemini-2.5-flash-lite",
-        "gemini-2.5-pro",
-        "gemini-3-flash",
-        "gemini-3-flash-preview",
-        "gemini-3-pro",
-        "gemini-3-pro-preview",
-        "gemini-3.1-flash-lite",
-        "gemini-3.1-flash-lite-preview",
-        "gemini-3.1-pro",
-        "gemini-3.1-pro-preview",
-        "gemini-3.5-flash",
-        "gemini-3.6-flash",
-        "glm-5.1",
-        "glm-5.2",
-        "gpt-5.4",
-        "gpt-5.4-mini",
+        "claude-haiku-4-5",
         "gpt-5.5",
-        "gpt-5.6-luna",
-        "gpt-5.6-sol",
         "gpt-5.6-terra",
-        "grok-4.20-0309-non-reasoning",
-        "grok-4.20-0309-reasoning",
-        "grok-4.20-multi-agent-0309",
-        "grok-4.3",
+        "gemini-3.6-flash",
+        "gemini-3.1-pro",
         "grok-4.5",
-        "grok-build-0.1",
-        "grok-composer-2.5-fast",
-        "kimi-k2.6",
-        "kimi-k2.7-code",
+        "deepseek-v4-pro",
+        "glm-5.2",
         "kimi-k3",
-        "minimax-m2.5",
-        "minimax-m2.7",
         "minimax-m3"
       ],
       "tags": [
         "text",
         "chat",
-        "baseline"
+        "available"
       ],
       "links": [
         {
@@ -154,34 +122,75 @@
             "en": "/en/api-reference/text-series/grok/complete",
             "zh": "/zh/api-reference/text-series/grok/complete"
           }
+        },
+        {
+          "label": {
+            "en": "DeepSeek complete",
+            "zh": "DeepSeek 完整参数"
+          },
+          "href": {
+            "en": "/en/api-reference/text-series/deepseek/complete",
+            "zh": "/zh/api-reference/text-series/deepseek/complete"
+          }
+        },
+        {
+          "label": {
+            "en": "GLM complete",
+            "zh": "GLM 完整参数"
+          },
+          "href": {
+            "en": "/en/api-reference/text-series/glm/complete",
+            "zh": "/zh/api-reference/text-series/glm/complete"
+          }
+        },
+        {
+          "label": {
+            "en": "Kimi complete",
+            "zh": "Kimi 完整参数"
+          },
+          "href": {
+            "en": "/en/api-reference/text-series/kimi/complete",
+            "zh": "/zh/api-reference/text-series/kimi/complete"
+          }
+        },
+        {
+          "label": {
+            "en": "MiniMax complete",
+            "zh": "MiniMax 完整参数"
+          },
+          "href": {
+            "en": "/en/api-reference/text-series/minimax/complete",
+            "zh": "/zh/api-reference/text-series/minimax/complete"
+          }
         }
       ]
     },
     {
-      "id": "2026-08-09-baseline-image",
+      "id": "2026-08-09-models-image-series",
       "published_at": "2026-08-09",
-      "type": "baseline",
+      "type": "model_launch",
       "modality": [
         "image"
       ],
       "title": {
-        "en": "Image models (catalog baseline)",
-        "zh": "图像系列模型（目录期初）"
+        "en": "New Model | Image generation — GPT Image 2, Nano Banana, Midjourney & more",
+        "zh": "新模型 | 图像生成 — GPT Image 2 / Nano Banana / Midjourney 等"
       },
       "summary": {
-        "en": "Image generation SKUs on live pricing: GPT Image 2, Nano Banana, Z-Image makeup.",
-        "zh": "live 定价上的图像 SKU：GPT Image 2、Nano Banana、Z-Image 美妆。"
+        "en": "Image generation SKUs available on live pricing when this feed opened.",
+        "zh": "本时间线上线时，线上定价已提供的图像生成能力。"
       },
       "models": [
         "gpt-image2",
         "gpt-image2-hd",
         "nano_banana_2",
         "nano_banana_pro",
-        "zimage-makeup"
+        "zimage-makeup",
+        "midjourney"
       ],
       "tags": [
         "image",
-        "baseline"
+        "available"
       ],
       "links": [
         {
@@ -223,41 +232,57 @@
             "en": "/en/api-reference/image-series/models/nano_banana_pro",
             "zh": "/zh/api-reference/image-series/models/nano_banana_pro"
           }
+        },
+        {
+          "label": {
+            "en": "Z-Image makeup",
+            "zh": "Z-Image 美妆"
+          },
+          "href": {
+            "en": "/en/api-reference/image-series/models/zimage-makeup",
+            "zh": "/zh/api-reference/image-series/models/zimage-makeup"
+          }
         }
       ]
     },
     {
-      "id": "2026-08-09-baseline-video",
+      "id": "2026-08-09-models-video-series",
       "published_at": "2026-08-09",
-      "type": "baseline",
+      "type": "model_launch",
       "modality": [
         "video"
       ],
       "title": {
-        "en": "Video models (catalog baseline)",
-        "zh": "视频系列模型（目录期初）"
+        "en": "New Model | Video generation — Omni Flash, MiniMax H3, Veo, Kling, Seedance",
+        "zh": "新模型 | 视频生成 — Omni Flash / MiniMax H3 / Veo / Kling / Seedance"
       },
       "summary": {
-        "en": "Async video SKUs: Omni Flash duration family, MiniMax H3 variants, Veo 3.1, Grok Imagine Video, LTX.",
-        "zh": "异步视频 SKU：Omni Flash 时长族、MiniMax H3 变体、Veo 3.1、Grok Imagine Video、LTX。"
+        "en": "Async video SKUs available when this feed opened: create then poll task status.",
+        "zh": "本时间线上线时已可用的异步视频能力：先创建任务再查询状态。"
       },
       "models": [
-        "grok-imagine-video-1.5",
-        "ltx2.3-kj",
-        "minimax-h3-endframe",
-        "minimax-h3-fl2va",
-        "minimax-h3-flf",
-        "minimax-h3-t2v",
         "omni_flash",
-        "omni_flash-10s",
         "omni_flash-4s",
         "omni_flash-6s",
-        "veo_3_1"
+        "omni_flash-10s",
+        "minimax-h3-t2v",
+        "minimax-h3-flf",
+        "minimax-h3-fl2va",
+        "minimax-h3-endframe",
+        "veo_3_1",
+        "grok-imagine-video-1.5",
+        "ltx2.3-kj",
+        "kling-v2-6",
+        "kling-v3",
+        "seedance-2-0",
+        "seedance-2-0-fast",
+        "seedance-2-0-mini",
+        "seedance-2-5"
       ],
       "tags": [
         "video",
         "async",
-        "baseline"
+        "available"
       ],
       "links": [
         {
@@ -299,45 +324,55 @@
             "en": "/en/api-reference/video-series/models/veo_3_1",
             "zh": "/zh/api-reference/video-series/models/veo_3_1"
           }
+        },
+        {
+          "label": {
+            "en": "Grok Imagine Video 1.5",
+            "zh": "Grok Imagine Video 1.5"
+          },
+          "href": {
+            "en": "/en/api-reference/video-series/models/grok-imagine-video-1.5",
+            "zh": "/zh/api-reference/video-series/models/grok-imagine-video-1.5"
+          }
         }
       ]
     },
     {
-      "id": "2026-08-09-baseline-social-data",
+      "id": "2026-08-09-models-social-data",
       "published_at": "2026-08-09",
-      "type": "baseline",
+      "type": "model_launch",
       "modality": [
         "social-data"
       ],
       "title": {
-        "en": "Social data models (catalog baseline)",
-        "zh": "社交数据模型（目录期初）"
+        "en": "New Model | Social data — TikTok, Instagram, X, YouTube (read-only)",
+        "zh": "新模型 | 社交数据 — TikTok / Instagram / X / YouTube（只读）"
       },
       "summary": {
-        "en": "Read-only social data via Chat Completions-style models for TikTok, Instagram, X, and YouTube.",
-        "zh": "只读社交数据：以 Chat Completions 形态提供的 TikTok、Instagram、X、YouTube 模型。"
+        "en": "Read-only social data models via Chat Completions-style IDs — not publishing.",
+        "zh": "只读社交数据模型（Chat Completions 形态模型 ID）——不是社媒发布。"
       },
       "models": [
-        "instagram-post",
-        "instagram-posts",
-        "instagram-search",
-        "instagram-user",
-        "tiktok-posts",
-        "tiktok-search",
         "tiktok-user",
+        "tiktok-posts",
         "tiktok-video",
-        "x-posts",
-        "x-search",
-        "x-tweet",
+        "tiktok-search",
+        "instagram-user",
+        "instagram-posts",
+        "instagram-post",
+        "instagram-search",
         "x-user",
-        "youtube-posts",
-        "youtube-search",
+        "x-posts",
+        "x-tweet",
+        "x-search",
         "youtube-user",
-        "youtube-video"
+        "youtube-posts",
+        "youtube-video",
+        "youtube-search"
       ],
       "tags": [
         "social-data",
-        "baseline"
+        "available"
       ],
       "links": [
         {
@@ -378,6 +413,16 @@
           "href": {
             "en": "/en/api-reference/social-data/instagram/search",
             "zh": "/zh/api-reference/social-data/instagram/search"
+          }
+        },
+        {
+          "label": {
+            "en": "Create post (publishing)",
+            "zh": "创建帖子（社媒发布）"
+          },
+          "href": {
+            "en": "/en/api-reference/publishing/create-post",
+            "zh": "/zh/api-reference/publishing/create-post"
           }
         }
       ]

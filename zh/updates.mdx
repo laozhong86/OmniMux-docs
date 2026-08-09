@@ -1,31 +1,31 @@
 ---
-title: "API 更新日志"
-sidebarTitle: "API 更新日志"
-description: "OmniMux 开发者变更日志：模型上新、能力扩展、定价与平台变更。"
+title: "API 更新"
+sidebarTitle: "API 更新"
+description: "获取所有 API 最新变更与改进通知。"
 ---
 
-数据真源在 `data/changelog/`（JSON）。本页由脚本生成 — **追加条目文件后执行** `python3 scripts/gen-changelog-pages.py`。
+跟踪 OmniMux 的模型上新、能力变更、定价调整与平台说明。
 
-机器可读：[`/data/changelog/index.json`](/data/changelog/index.json)（摘要）· [`/data/changelog/pages/1.json`](/data/changelog/pages/1.json)（本页正文）。
+完整可调用模型以[控制台定价](https://omnimux.ai) / [定价与账户](/zh/api-reference/account/pricing)为准。故障与可用性见 [status.omnimux.ai](https://status.omnimux.ai)。
 
-缓存：文档 CDN 静态文件；列表优先用 `index.json`，需要正文再拉对应 page JSON。
+### 2026-08-09
 
-<a id="2026-08-09-baseline-platform"></a>
+<a id="2026-08-09-platform-api-updates-feed"></a>
 
-## API 更新日志上线
+## 平台 | API 更新日志上线
 
-**2026-08-09** · `期初目录`
+`平台`
 
-*面向开发者的公开变更流：模型上新、能力扩展、定价与 breaking change。*
+*面向开发者的公开时间线：模型上新、能力变更、定价与平台说明。*
 
-OmniMux 现提供 **API 更新日志**，便于跟踪网关侧模型与协议变更，而无需翻聊天记录。
+OmniMux 现提供 **API 更新** 时间线，便于跟踪网关侧模型与协议变更，而无需翻聊天或零散发布说明。
 
-## 本日志覆盖范围
+## 本时间线覆盖范围
 
-- **模型上新** — live pricing 上可调用的新 model id
-- **能力扩展** — 新模式、时长、分辨率、参数
-- **定价** — 实质费率或结算规则变化
-- **Breaking** — 不兼容的请求/响应或路径变更
+- **新模型** — 线上定价新增可调用的模型 ID
+- **模型更新** — 新模式、时长、分辨率、参数
+- **价格调整** — 实质费率或结算规则变化
+- **不兼容变更** — 请求/响应或路径不兼容
 - **平台** — 鉴权、域名、公开 HTTP 面（如社媒发布）
 
 ## 当前使用入口
@@ -37,11 +37,13 @@ OmniMux 现提供 **API 更新日志**，便于跟踪网关侧模型与协议变
 | 文档 | `https://docs.omnimux.ai` |
 | 状态页 | `https://status.omnimux.ai` |
 
-Relay 鉴权：控制台签发的 Bearer `sk-…`。额度展示：raw_quota ÷ 500000 = USD；**1 USD = 10 积分**。
+Relay 鉴权：控制台签发的 Bearer `sk-…`。
 
-## 期初说明
+## 关于早期能力
 
-日期为 **2026-08-09** 且类型为 `baseline` 的条目，是本日志启用时的 **live 目录快照**，不是伪造的逐日上线史。之后条目为只追加的真实变更。
+日期为 **2026-08-09**、描述语言 / 图像 / 视频 / 社交数据等族的条目，记录的是本时间线上线时网关上 **已可调用** 的能力，**不是**伪造的逐模型首发史。之后条目为只追加的真实变更。
+
+完整模型清单以控制台定价为准——本页是 **变更时间线**，不是第二份目录。
 
 ### 链接
 
@@ -50,41 +52,39 @@ Relay 鉴权：控制台签发的 Bearer `sk-…`。额度展示：raw_quota ÷ 
 
 ---
 
-<a id="2026-08-09-baseline-text"></a>
+<a id="2026-08-09-models-language-series"></a>
 
-## 语言系列模型（目录期初）
+## 新模型 | 语言系列 — Claude / GPT / Gemini / Grok 等
 
-**2026-08-09** · `期初目录`
+`新模型`
 
-*网关已上线语言品牌（Chat Completions）：Claude、GPT、Gemini、Grok、DeepSeek、GLM、Kimi、MiniMax。*
+*语言品牌已通过 Chat Completions 可调用（本时间线上线时已在网关可用）。*
 
-**模型:** `claude-fable-5`, `claude-haiku-4-5`, `claude-opus-4-6`, `claude-opus-4-7`, `claude-opus-4-8`, `claude-opus-5`, `claude-sonnet-4-6`, `claude-sonnet-5`, `deepseek-v4-flash`, `deepseek-v4-pro`, `gemini-2.5-flash`, `gemini-2.5-flash-lite`, `gemini-2.5-pro`, `gemini-3-flash`, `gemini-3-flash-preview`, `gemini-3-pro`, `gemini-3-pro-preview`, `gemini-3.1-flash-lite`, `gemini-3.1-flash-lite-preview`, `gemini-3.1-pro`, `gemini-3.1-pro-preview`, `gemini-3.5-flash`, `gemini-3.6-flash`, `glm-5.1`, `glm-5.2`, `gpt-5.4`, `gpt-5.4-mini`, `gpt-5.5`, `gpt-5.6-luna`, `gpt-5.6-sol`, `gpt-5.6-terra`, `grok-4.20-0309-non-reasoning`, `grok-4.20-0309-reasoning`, `grok-4.20-multi-agent-0309`, `grok-4.3`, `grok-4.5`, `grok-build-0.1`, `grok-composer-2.5-fast`, `kimi-k2.6`, `kimi-k2.7-code`, `kimi-k3`, `minimax-m2.5`, `minimax-m2.7`, `minimax-m3`
+语言生成品牌 **已在** OmniMux 可调用，主路径为 OpenAI 兼容 **Chat Completions**：`https://api.omnimux.ai/v1`。
 
-语言生成主要通过 **OpenAI 兼容 Chat Completions** 暴露：`https://api.omnimux.ai/v1`。
+## 新模型
 
-## 调用合同
+代表性模型 ID（精确 ID 以线上定价 / 文档枚举为准）：
+
+| 品牌 | 示例模型 ID |
+| --- | --- |
+| Claude | `claude-opus-5`、`claude-sonnet-5`、`claude-haiku-4-5` |
+| GPT | `gpt-5.5`、`gpt-5.6-terra` |
+| Gemini | `gemini-3.6-flash`、`gemini-3.1-pro` |
+| Grok | `grok-4.5` |
+| DeepSeek | `deepseek-v4-pro` |
+| GLM | `glm-5.2` |
+| Kimi | `kimi-k3` |
+| MiniMax（文本） | `minimax-m3` |
+
+## 调用约定
 
 - 每个品牌一页 **完整参数**（`model` 为页内枚举）。
-- model id 以控制台定价 / 文档枚举为准，禁止臆造。
-
-## 本期初覆盖品牌
-
-| 品牌 | 示例 model id |
-| --- | --- |
-| Claude | `claude-opus-4-7`、`claude-sonnet-5`、`claude-haiku-4-5` 等 |
-| GPT | `gpt-5.4`、`gpt-5.5`、`gpt-5.6-terra` 等 |
-| Gemini | `gemini-3.5-flash`、`gemini-3.1-pro`、`gemini-2.5-flash` 等 |
-| Grok | `grok-4.5`、`grok-4.3`、`grok-build-0.1` 等 |
-| DeepSeek | `deepseek-v4-flash`、`deepseek-v4-pro` |
-| GLM | `glm-5.1`、`glm-5.2` |
-| Kimi | `kimi-k2.6`、`kimi-k2.7-code`、`kimi-k3` |
-| MiniMax（文本） | `minimax-m2.5`、`minimax-m2.7`、`minimax-m3` |
-
-完整 id 见本条目 `models` 字段与各品牌完整参数页。
+- 模型 ID 请以控制台定价或品牌完整参数页为准。
 
 ## 文档
 
-见 API 手册 **语言系列** 页签。
+见 API 手册 **语言系列**（下方链接）。
 
 ### 链接
 
@@ -92,34 +92,42 @@ Relay 鉴权：控制台签发的 Bearer `sk-…`。额度展示：raw_quota ÷ 
 - [GPT 完整参数](/zh/api-reference/text-series/gpt/complete)
 - [Gemini 完整参数](/zh/api-reference/text-series/gemini/complete)
 - [Grok 完整参数](/zh/api-reference/text-series/grok/complete)
+- [DeepSeek 完整参数](/zh/api-reference/text-series/deepseek/complete)
+- [GLM 完整参数](/zh/api-reference/text-series/glm/complete)
+- [Kimi 完整参数](/zh/api-reference/text-series/kimi/complete)
+- [MiniMax 完整参数](/zh/api-reference/text-series/minimax/complete)
 
 ---
 
-<a id="2026-08-09-baseline-image"></a>
+<a id="2026-08-09-models-image-series"></a>
 
-## 图像系列模型（目录期初）
+## 新模型 | 图像生成 — GPT Image 2 / Nano Banana / Midjourney 等
 
-**2026-08-09** · `期初目录`
+`新模型`
 
-*live 定价上的图像 SKU：GPT Image 2、Nano Banana、Z-Image 美妆。*
+*本时间线上线时，线上定价已提供的图像生成能力。*
 
-**模型:** `gpt-image2`, `gpt-image2-hd`, `nano_banana_2`, `nano_banana_pro`, `zimage-makeup`
+图像生成模型 **已在** OmniMux 网关可调用。
 
-本 baseline 时网关上的图像生成模型。
+## 新模型
 
-## 模型
-
-| Model id | 说明 |
+| 模型 ID | 说明 |
 | --- | --- |
 | `gpt-image2` | GPT Image 2 主 SKU |
 | `gpt-image2-hd` | 更高细节 / HD 档 |
 | `nano_banana_2` | Nano Banana 2 |
 | `nano_banana_pro` | Nano Banana Pro |
 | `zimage-makeup` | 美妆向图像工作流模型 |
+| `midjourney` | 线上定价中的 Midjourney 图像路径 |
+
+## 关键能力
+
+- 通过网关模型 ID 做文生图与创意/商品图工作流
+- 接入前请以线上定价的精确模型 ID 为准
 
 ## 文档
 
-见 API 手册 **图像系列**。model id 以 live 定价为准。
+见 API 手册 **图像系列**。完整清单仍以控制台定价为准。
 
 ### 链接
 
@@ -127,41 +135,44 @@ Relay 鉴权：控制台签发的 Bearer `sk-…`。额度展示：raw_quota ÷ 
 - [GPT Image 2 HD](/zh/api-reference/image-series/models/gpt-image2-hd)
 - [Nano Banana 2](/zh/api-reference/image-series/models/nano_banana_2)
 - [Nano Banana Pro](/zh/api-reference/image-series/models/nano_banana_pro)
+- [Z-Image 美妆](/zh/api-reference/image-series/models/zimage-makeup)
 
 ---
 
-<a id="2026-08-09-baseline-video"></a>
+<a id="2026-08-09-models-video-series"></a>
 
-## 视频系列模型（目录期初）
+## 新模型 | 视频生成 — Omni Flash / MiniMax H3 / Veo / Kling / Seedance
 
-**2026-08-09** · `期初目录`
+`新模型`
 
-*异步视频 SKU：Omni Flash 时长族、MiniMax H3 变体、Veo 3.1、Grok Imagine Video、LTX。*
+*本时间线上线时已可用的异步视频能力：先创建任务再查询状态。*
 
-**模型:** `grok-imagine-video-1.5`, `ltx2.3-kj`, `minimax-h3-endframe`, `minimax-h3-fl2va`, `minimax-h3-flf`, `minimax-h3-t2v`, `omni_flash`, `omni_flash-10s`, `omni_flash-4s`, `omni_flash-6s`, `veo_3_1`
-
-OmniMux 视频生成以 **异步任务** 为主：
+OmniMux 视频生成以 **异步任务** 为主，且 **已在** 网关可调用：
 
 - 创建：`POST /v1/video/generations`
 - 查询：`GET /v1/video/generations/{task_id}`
 
-## 本期初模型
+## 新模型
 
-| Model id | 角色 |
+| 模型 ID | 角色 |
 | --- | --- |
-| `omni_flash` | Omni Flash 基础 |
-| `omni_flash-4s` / `-6s` / `-10s` | 按时长划分的 Omni Flash SKU |
+| `omni_flash`、`omni_flash-4s` / `-6s` / `-10s` | Omni Flash 时长族 |
 | `minimax-h3-t2v` | MiniMax H3 文生视频 |
-| `minimax-h3-flf` | 首末帧类 I2V |
-| `minimax-h3-fl2va` | FL2VA 路径 |
-| `minimax-h3-endframe` | 尾帧参考 I2V |
+| `minimax-h3-flf` / `minimax-h3-fl2va` / `minimax-h3-endframe` | MiniMax H3 图/帧变体 |
 | `veo_3_1` | Veo 3.1 |
 | `grok-imagine-video-1.5` | Grok Imagine Video |
-| `ltx2.3-kj` | LTX 2.3 系 SKU |
+| `ltx2.3-kj` | LTX 系 SKU |
+| `kling-v2-6`、`kling-v3` | 线上定价中的 Kling 视频 |
+| `seedance-2-0`、`seedance-2-0-fast`、`seedance-2-0-mini`、`seedance-2-5` | 线上定价中的 Seedance 族 |
+
+## 关键能力
+
+- 提交一次后轮询任务状态直至产出就绪
+- 勿与纯内容下载路径混淆
 
 ## 文档
 
-见 API 手册 **视频系列** 与 **任务管理**。勿与内容下载路径混淆。
+见 **视频系列** 与 **任务管理**。精确 ID 始终以线上定价为准。
 
 ### 链接
 
@@ -169,24 +180,23 @@ OmniMux 视频生成以 **异步任务** 为主：
 - [Omni Flash](/zh/api-reference/video-series/models/omni_flash)
 - [MiniMax H3 文生视频](/zh/api-reference/video-series/models/minimax-h3-t2v)
 - [Veo 3.1](/zh/api-reference/video-series/models/veo_3_1)
+- [Grok Imagine Video 1.5](/zh/api-reference/video-series/models/grok-imagine-video-1.5)
 
 ---
 
-<a id="2026-08-09-baseline-social-data"></a>
+<a id="2026-08-09-models-social-data"></a>
 
-## 社交数据模型（目录期初）
+## 新模型 | 社交数据 — TikTok / Instagram / X / YouTube（只读）
 
-**2026-08-09** · `期初目录`
+`新模型`
 
-*只读社交数据：以 Chat Completions 形态提供的 TikTok、Instagram、X、YouTube 模型。*
-
-**模型:** `instagram-post`, `instagram-posts`, `instagram-search`, `instagram-user`, `tiktok-posts`, `tiktok-search`, `tiktok-user`, `tiktok-video`, `x-posts`, `x-search`, `x-tweet`, `x-user`, `youtube-posts`, `youtube-search`, `youtube-user`, `youtube-video`
+*只读社交数据模型（Chat Completions 形态模型 ID）——不是社媒发布。*
 
 **社交数据**是 **只读** 的公开内容/资料类能力，**不是** 社媒发布。
 
-## 本期初平台
+## 新模型
 
-| 平台 | Model id（示例） |
+| 平台 | 模型 ID |
 | --- | --- |
 | TikTok | `tiktok-user`、`tiktok-posts`、`tiktok-video`、`tiktok-search` |
 | Instagram | `instagram-user`、`instagram-posts`、`instagram-post`、`instagram-search` |
@@ -195,11 +205,11 @@ OmniMux 视频生成以 **异步任务** 为主：
 
 ## 社媒发布（另一套面）
 
-连接账户与发帖走 **`/api/social/v1/*`**，鉴权为 access token + `New-Api-User`，见 API 手册 **社媒发布**。勿混用鉴权模型。
+连接账户与发帖走 **`/api/social/v1/*`**，鉴权为 access token + `New-Api-User`，见 API 手册 **社媒发布**。勿与网关 `sk-` Chat Completions 混用鉴权。
 
 ## 文档
 
-见 API 手册 **社交数据** 分组。
+见 API 手册 **社交数据** 分组（下方链接）。
 
 ### 链接
 
@@ -207,3 +217,9 @@ OmniMux 视频生成以 **异步任务** 为主：
 - [X 推文详情](/zh/api-reference/social-data/x/tweet-detail)
 - [YouTube 视频搜索](/zh/api-reference/social-data/youtube/video-search)
 - [Instagram 搜索](/zh/api-reference/social-data/instagram/search)
+- [创建帖子（社媒发布）](/zh/api-reference/publishing/create-post)
+
+
+---
+
+**机器可读：** [`/data/changelog/index.json`](/data/changelog/index.json) · [`/data/changelog/pages/1.json`](/data/changelog/pages/1.json)

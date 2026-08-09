@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Generate changelog index/pages JSON and en/zh MDX from data/changelog/entries/."""
+"""Generate changelog index/pages JSON and en/zh MDX from data/changelog/entries/.
+
+Human page is an Evolink/APIMart-style timeline (date → typed title → body).
+Machine feeds stay at data/changelog/index.json and pages/*.json.
+"""
 
 from __future__ import annotations
 
@@ -24,22 +28,23 @@ MODALITIES = frozenset(
 )
 LOCALES = ("en", "zh")
 
+# Evolink-style type chips (public labels). Prefer not to use baseline for new entries.
 TYPE_LABEL = {
     "en": {
-        "model_launch": "New model",
-        "capability": "Capability",
+        "model_launch": "New Model",
+        "capability": "Model Update",
         "pricing": "Pricing",
         "breaking": "Breaking",
         "platform": "Platform",
-        "baseline": "Baseline",
+        "baseline": "Catalog note",
     },
     "zh": {
-        "model_launch": "模型上新",
-        "capability": "能力扩展",
-        "pricing": "定价",
-        "breaking": "Breaking",
+        "model_launch": "新模型",
+        "capability": "模型更新",
+        "pricing": "价格调整",
+        "breaking": "不兼容变更",
         "platform": "平台",
-        "baseline": "期初目录",
+        "baseline": "目录说明",
     },
 }
 
@@ -164,23 +169,22 @@ def chunk(items: list[Any], size: int) -> list[list[Any]]:
 
 def render_mdx(entries: list[dict[str, Any]], locale: str, page: int, total_pages: int) -> str:
     is_en = locale == "en"
-    title = "API Updates" if is_en else "API 更新日志"
+    title = "API Updates" if is_en else "API 更新"
     sidebar = title
     desc = (
-        "Developer changelog for OmniMux models, capabilities, pricing, and platform changes."
+        "Stay informed about the latest changes and improvements across OmniMux APIs."
         if is_en
-        else "OmniMux 开发者变更日志：模型上新、能力扩展、定价与平台变更。"
+        else "获取所有 API 最新变更与改进通知。"
     )
+    # User-facing intro only (no repo paths / gen commands). Machine feed in footer.
     intro = (
-        "Data lives in `data/changelog/` (JSON). This page is generated — **append an entry file, then run** `python3 scripts/gen-changelog-pages.py`.\n\n"
-        "Machine-readable feeds: [`/data/changelog/index.json`](/data/changelog/index.json) (meta) · "
-        f"[`/data/changelog/pages/{page}.json`](/data/changelog/pages/{page}.json) (this page bodies).\n\n"
-        "Caches: static files on the docs CDN; prefer `index.json` for lists and load page JSON only when needed."
+        "Stay informed about the latest model launches, capability changes, pricing updates, and platform notes on OmniMux.\n\n"
+        "The full callable catalog is always on [console pricing](https://omnimux.ai) / "
+        "[Pricing API](/en/api-reference/account/pricing). Incidents: [status.omnimux.ai](https://status.omnimux.ai)."
         if is_en
-        else "数据真源在 `data/changelog/`（JSON）。本页由脚本生成 — **追加条目文件后执行** `python3 scripts/gen-changelog-pages.py`。\n\n"
-        "机器可读：[`/data/changelog/index.json`](/data/changelog/index.json)（摘要）· "
-        f"[`/data/changelog/pages/{page}.json`](/data/changelog/pages/{page}.json)（本页正文）。\n\n"
-        "缓存：文档 CDN 静态文件；列表优先用 `index.json`，需要正文再拉对应 page JSON。"
+        else "跟踪 OmniMux 的模型上新、能力变更、定价调整与平台说明。\n\n"
+        "完整可调用模型以[控制台定价](https://omnimux.ai) / "
+        "[定价与账户](/zh/api-reference/account/pricing)为准。故障与可用性见 [status.omnimux.ai](https://status.omnimux.ai)。"
     )
 
     lines: list[str] = [
@@ -209,50 +213,62 @@ def render_mdx(entries: list[dict[str, Any]], locale: str, page: int, total_page
     if not entries:
         lines.append("_No updates yet._" if is_en else "_暂无更新。_")
         lines.append("")
-        return "\n".join(lines)
+    else:
+        current_date: str | None = None
+        for e in entries:
+            eid = e["id"]
+            typ = e["type"]
+            type_label = TYPE_LABEL[locale].get(typ, typ)
+            title_t = loc_text(e["title"], locale)
+            summary = loc_text(e["summary"], locale)
+            body = loc_text(e["body"], locale).rstrip()
+            date = e["published_at"]
 
-    for e in entries:
-        eid = e["id"]
-        typ = e["type"]
-        type_label = TYPE_LABEL[locale].get(typ, typ)
-        title_t = loc_text(e["title"], locale)
-        summary = loc_text(e["summary"], locale)
-        body = loc_text(e["body"], locale).rstrip()
-        date = e["published_at"]
-        lines.append(f'<a id="{eid}"></a>')
-        lines.append("")
-        lines.append(f"## {title_t}")
-        lines.append("")
-        lines.append(f"**{date}** · `{type_label}`")
-        lines.append("")
-        if summary:
-            lines.append(f"*{summary}*")
+            if date != current_date:
+                current_date = date
+                lines.append(f"### {date}")
+                lines.append("")
+
+            lines.append(f'<a id="{eid}"></a>')
             lines.append("")
-        models = e.get("models") or []
-        if models:
-            label = "Models" if is_en else "模型"
-            # keep chips readable; wrap long lists
-            chips = ", ".join(f"`{m}`" for m in models)
-            lines.append(f"**{label}:** {chips}")
+            lines.append(f"## {title_t}")
             lines.append("")
-        lines.append(body)
-        lines.append("")
-        links = e.get("links") or []
-        if links:
-            lines.append("### " + ("Links" if is_en else "链接"))
+            lines.append(f"`{type_label}`")
             lines.append("")
-            for link in links:
-                lab = loc_text(link.get("label"), locale)
-                href = loc_text(link.get("href"), locale)
-                if lab and href:
-                    lines.append(f"- [{lab}]({href})")
+            if summary:
+                lines.append(f"*{summary}*")
+                lines.append("")
+            # Do not dump models[] as a wall of chips — IDs belong in the body (APIMart style).
+            lines.append(body)
             lines.append("")
-        lines.append("---")
+            links = e.get("links") or []
+            if links:
+                lines.append("### " + ("Links" if is_en else "链接"))
+                lines.append("")
+                for link in links:
+                    lab = loc_text(link.get("label"), locale)
+                    href = loc_text(link.get("href"), locale)
+                    if lab and href:
+                        lines.append(f"- [{lab}]({href})")
+                lines.append("")
+            lines.append("---")
+            lines.append("")
+
+        while lines and lines[-1] in ("", "---"):
+            lines.pop()
         lines.append("")
 
-    # drop trailing ---
-    while lines and lines[-1] in ("", "---"):
-        lines.pop()
+    # Footer: machine-readable only (integration / Agent consumers)
+    footer = (
+        "\n---\n\n"
+        f"**Machine-readable:** [`/data/changelog/index.json`](/data/changelog/index.json) · "
+        f"[`/data/changelog/pages/{page}.json`](/data/changelog/pages/{page}.json)\n"
+        if is_en
+        else "\n---\n\n"
+        f"**机器可读：** [`/data/changelog/index.json`](/data/changelog/index.json) · "
+        f"[`/data/changelog/pages/{page}.json`](/data/changelog/pages/{page}.json)\n"
+    )
+    lines.append(footer.rstrip())
     lines.append("")
     return "\n".join(lines)
 
@@ -280,9 +296,6 @@ def main() -> None:
             if eid in seen:
                 errors.append(f"duplicate id: {eid}")
             seen.add(eid)
-            if not str(e.get("_source", "")).startswith(eid):
-                # soft: filename should start with id
-                pass
     if errors:
         for err in errors:
             print(err, file=sys.stderr)
@@ -311,7 +324,6 @@ def main() -> None:
         print(f"ok: {len(entries)} entries, {total_pages} page(s)")
         return
 
-    # clean old generated page JSON / extra mdx pages
     PAGES_DIR.mkdir(parents=True, exist_ok=True)
     for old in PAGES_DIR.glob("*.json"):
         old.unlink()

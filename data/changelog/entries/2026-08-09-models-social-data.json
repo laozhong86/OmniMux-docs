@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "id": "2026-08-09-models-social-data",
+  "published_at": "2026-08-09",
+  "rank": 20,
+  "type": "model_launch",
+  "modality": ["social-data"],
+  "title": {
+    "en": "New Model | Social data — TikTok, Instagram, X, YouTube (read-only)",
+    "zh": "新模型 | 社交数据 — TikTok / Instagram / X / YouTube（只读）"
+  },
+  "summary": {
+    "en": "Read-only social data models via Chat Completions-style IDs — not publishing.",
+    "zh": "只读社交数据模型（Chat Completions 形态模型 ID）——不是社媒发布。"
+  },
+  "models": [
+    "tiktok-user",
+    "tiktok-posts",
+    "tiktok-video",
+    "tiktok-search",
+    "instagram-user",
+    "instagram-posts",
+    "instagram-post",
+    "instagram-search",
+    "x-user",
+    "x-posts",
+    "x-tweet",
+    "x-search",
+    "youtube-user",
+    "youtube-posts",
+    "youtube-video",
+    "youtube-search"
+  ],
+  "tags": ["social-data", "available"],
+  "links": [
+    {
+      "label": { "en": "TikTok user profile", "zh": "TikTok 用户资料" },
+      "href": {
+        "en": "/en/api-reference/social-data/tiktok/user-profile",
+        "zh": "/zh/api-reference/social-data/tiktok/user-profile"
+      }
+    },
+    {
+      "label": { "en": "X tweet detail", "zh": "X 推文详情" },
+      "href": {
+        "en": "/en/api-reference/social-data/x/tweet-detail",
+        "zh": "/zh/api-reference/social-data/x/tweet-detail"
+      }
+    },
+    {
+      "label": { "en": "YouTube video search", "zh": "YouTube 视频搜索" },
+      "href": {
+        "en": "/en/api-reference/social-data/youtube/video-search",
+        "zh": "/zh/api-reference/social-data/youtube/video-search"
+      }
+    },
+    {
+      "label": { "en": "Instagram search", "zh": "Instagram 搜索" },
+      "href": {
+        "en": "/en/api-reference/social-data/instagram/search",
+        "zh": "/zh/api-reference/social-data/instagram/search"
+      }
+    },
+    {
+      "label": { "en": "Create post (publishing)", "zh": "创建帖子（社媒发布）" },
+      "href": {
+        "en": "/en/api-reference/publishing/create-post",
+        "zh": "/zh/api-reference/publishing/create-post"
+      }
+    }
+  ],
+  "body": {
+    "en": "**Social data** is **read-only** public content / profile style access. It is **not** social publishing.\n\n## New model\n\n| Platform | Model IDs |\n| --- | --- |\n| TikTok | `tiktok-user`, `tiktok-posts`, `tiktok-video`, `tiktok-search` |\n| Instagram | `instagram-user`, `instagram-posts`, `instagram-post`, `instagram-search` |\n| X | `x-user`, `x-posts`, `x-tweet`, `x-search` |\n| YouTube | `youtube-user`, `youtube-posts`, `youtube-video`, `youtube-search` |\n\n## Publishing (different surface)\n\nConnect accounts and create posts use **`/api/social/v1/*`** with access token + `New-Api-User` — see **Publishing** in the API manual. Do not mix auth models with gateway `sk-` Chat Completions.\n\n## Documentation\n\nSee **Social data** groups under the API manual (links below).",
+    "zh": "**社交数据**是 **只读** 的公开内容/资料类能力，**不是** 社媒发布。\n\n## 新模型\n\n| 平台 | 模型 ID |\n| --- | --- |\n| TikTok | `tiktok-user`、`tiktok-posts`、`tiktok-video`、`tiktok-search` |\n| Instagram | `instagram-user`、`instagram-posts`、`instagram-post`、`instagram-search` |\n| X | `x-user`、`x-posts`、`x-tweet`、`x-search` |\n| YouTube | `youtube-user`、`youtube-posts`、`youtube-video`、`youtube-search` |\n\n## 社媒发布（另一套面）\n\n连接账户与发帖走 **`/api/social/v1/*`**，鉴权为 access token + `New-Api-User`，见 API 手册 **社媒发布**。勿与网关 `sk-` Chat Completions 混用鉴权。\n\n## 文档\n\n见 API 手册 **社交数据** 分组（下方链接）。"
+  }
+}

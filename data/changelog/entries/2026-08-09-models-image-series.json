@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "id": "2026-08-09-models-image-series",
+  "published_at": "2026-08-09",
+  "rank": 40,
+  "type": "model_launch",
+  "modality": ["image"],
+  "title": {
+    "en": "New Model | Image generation — GPT Image 2, Nano Banana, Midjourney & more",
+    "zh": "新模型 | 图像生成 — GPT Image 2 / Nano Banana / Midjourney 等"
+  },
+  "summary": {
+    "en": "Image generation SKUs available on live pricing when this feed opened.",
+    "zh": "本时间线上线时，线上定价已提供的图像生成能力。"
+  },
+  "models": [
+    "gpt-image2",
+    "gpt-image2-hd",
+    "nano_banana_2",
+    "nano_banana_pro",
+    "zimage-makeup",
+    "midjourney"
+  ],
+  "tags": ["image", "available"],
+  "links": [
+    {
+      "label": { "en": "GPT Image 2", "zh": "GPT Image 2" },
+      "href": {
+        "en": "/en/api-reference/image-series/models/gpt-image2",
+        "zh": "/zh/api-reference/image-series/models/gpt-image2"
+      }
+    },
+    {
+      "label": { "en": "GPT Image 2 HD", "zh": "GPT Image 2 HD" },
+      "href": {
+        "en": "/en/api-reference/image-series/models/gpt-image2-hd",
+        "zh": "/zh/api-reference/image-series/models/gpt-image2-hd"
+      }
+    },
+    {
+      "label": { "en": "Nano Banana 2", "zh": "Nano Banana 2" },
+      "href": {
+        "en": "/en/api-reference/image-series/models/nano_banana_2",
+        "zh": "/zh/api-reference/image-series/models/nano_banana_2"
+      }
+    },
+    {
+      "label": { "en": "Nano Banana Pro", "zh": "Nano Banana Pro" },
+      "href": {
+        "en": "/en/api-reference/image-series/models/nano_banana_pro",
+        "zh": "/zh/api-reference/image-series/models/nano_banana_pro"
+      }
+    },
+    {
+      "label": { "en": "Z-Image makeup", "zh": "Z-Image 美妆" },
+      "href": {
+        "en": "/en/api-reference/image-series/models/zimage-makeup",
+        "zh": "/zh/api-reference/image-series/models/zimage-makeup"
+      }
+    }
+  ],
+  "body": {
+    "en": "Image generation models are **already available** on the OmniMux gateway.\n\n## New model\n\n| Model ID | Notes |\n| --- | --- |\n| `gpt-image2` | GPT Image 2 primary SKU |\n| `gpt-image2-hd` | Higher-detail / HD tier |\n| `nano_banana_2` | Nano Banana 2 |\n| `nano_banana_pro` | Nano Banana Pro |\n| `zimage-makeup` | Makeup / beauty workflow-oriented image model |\n| `midjourney` | Midjourney image path on live pricing |\n\n## Key capabilities\n\n- Text-to-image and product/creative image workflows via gateway model IDs\n- Pin the exact model ID from live pricing before integrating\n\n## Documentation\n\nSee **Image series** in the API manual. Full inventory remains on console pricing.",
+    "zh": "图像生成模型 **已在** OmniMux 网关可调用。\n\n## 新模型\n\n| 模型 ID | 说明 |\n| --- | --- |\n| `gpt-image2` | GPT Image 2 主 SKU |\n| `gpt-image2-hd` | 更高细节 / HD 档 |\n| `nano_banana_2` | Nano Banana 2 |\n| `nano_banana_pro` | Nano Banana Pro |\n| `zimage-makeup` | 美妆向图像工作流模型 |\n| `midjourney` | 线上定价中的 Midjourney 图像路径 |\n\n## 关键能力\n\n- 通过网关模型 ID 做文生图与创意/商品图工作流\n- 接入前请以线上定价的精确模型 ID 为准\n\n## 文档\n\n见 API 手册 **图像系列**。完整清单仍以控制台定价为准。"
+  }
+}
