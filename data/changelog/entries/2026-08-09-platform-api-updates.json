@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "id": "2026-08-09-platform-api-updates",
+  "published_at": "2026-08-09",
+  "rank": 100,
+  "type": "platform",
+  "modality": [
+    "platform"
+  ],
+  "title": {
+    "en": "API Updates timeline opens",
+    "zh": "API 更新时间线上线"
+  },
+  "summary": {
+    "en": "Public developer changelog for model launches and platform changes.",
+    "zh": "面向开发者的公开更新时间线：模型上新与平台变更。"
+  },
+  "models": [],
+  "tags": [
+    "platform"
+  ],
+  "links": [
+    {
+      "label": {
+        "en": "Quickstart",
+        "zh": "快速开始"
+      },
+      "href": {
+        "en": "/en/quickstart",
+        "zh": "/zh/quickstart"
+      }
+    },
+    {
+      "label": {
+        "en": "Pricing",
+        "zh": "定价与账户"
+      },
+      "href": {
+        "en": "/en/api-reference/account/pricing",
+        "zh": "/zh/api-reference/account/pricing"
+      }
+    }
+  ],
+  "body": {
+    "en": "## API Updates\n\nOmniMux now publishes a dated **API Updates** feed so you can track gateway model launches and platform changes in one place.\n\n### What we log\n\n- **New models** — callable model IDs on live pricing\n- **Model updates** — modes, durations, resolutions, parameters\n- **Pricing** — material rate changes\n- **Platform** — auth, domains, public HTTP surfaces\n\n### How to call OmniMux\n\n| Surface | URL |\n| --- | --- |\n| Console | `https://omnimux.ai` |\n| OpenAI-compatible API | `https://api.omnimux.ai/v1` |\n| Docs | `https://docs.omnimux.ai` |\n| Status | `https://status.omnimux.ai` |\n\nAuth for relay: Bearer `sk-…` from the console. Full catalog always lives on console pricing — this page is the **change timeline**.",
+    "zh": "## API 更新\n\nOmniMux 现提供按日期排列的 **API 更新** 时间线，便于跟踪网关模型上新与平台变更。\n\n### 记录范围\n\n- **新模型** — 线上定价可调用的模型 ID\n- **模型更新** — 模式、时长、分辨率、参数\n- **价格调整** — 实质费率变化\n- **平台** — 鉴权、域名、公开 HTTP 面\n\n### 使用入口\n\n| 面 | URL |\n| --- | --- |\n| 控制台 | `https://omnimux.ai` |\n| OpenAI 兼容 API | `https://api.omnimux.ai/v1` |\n| 文档 | `https://docs.omnimux.ai` |\n| 状态页 | `https://status.omnimux.ai` |\n\nRelay 鉴权：控制台签发的 Bearer `sk-…`。完整目录以控制台定价为准——本页是 **变更时间线**。"
+  }
+}

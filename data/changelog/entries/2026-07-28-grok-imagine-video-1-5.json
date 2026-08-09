@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "id": "2026-07-28-grok-imagine-video-1-5",
+  "published_at": "2026-07-28",
+  "rank": 0,
+  "type": "model_launch",
+  "modality": [
+    "video"
+  ],
+  "title": {
+    "en": "Grok Imagine Video 1.5",
+    "zh": "Grok Imagine Video 1.5"
+  },
+  "summary": {
+    "en": "Image-to-video with Grok Imagine Video 1.5 on OmniMux.",
+    "zh": "Grok Imagine Video 1.5 图生视频已在 OmniMux 可调用。"
+  },
+  "models": [
+    "grok-imagine-video-1.5"
+  ],
+  "tags": [
+    "video"
+  ],
+  "links": [
+    {
+      "label": {
+        "en": "Grok Imagine Video 1.5",
+        "zh": "Grok Imagine Video 1.5"
+      },
+      "href": {
+        "en": "/en/api-reference/video-series/models/grok-imagine-video-1.5",
+        "zh": "/zh/api-reference/video-series/models/grok-imagine-video-1.5"
+      }
+    },
+    {
+      "label": {
+        "en": "Video task poll",
+        "zh": "视频任务查询"
+      },
+      "href": {
+        "en": "/en/api-reference/tasks/video-task",
+        "zh": "/zh/api-reference/tasks/video-task"
+      }
+    }
+  ],
+  "body": {
+    "en": "## Grok Imagine Video 1.5\n\n**Grok Imagine Video 1.5** is now available on OmniMux.\n\n### New model\n\n- **Model ID:** `grok-imagine-video-1.5`\n- **Mode:** image-to-video style generation via async video API\n- **Create / poll:** `POST` / `GET` `/v1/video/generations`\n\nSee the model page for parameters and the task poll contract.",
+    "zh": "## Grok Imagine Video 1.5\n\n**Grok Imagine Video 1.5** 现已在 OmniMux 可调用。\n\n### 新模型\n\n- **模型 ID：** `grok-imagine-video-1.5`\n- **模式：** 异步视频 API 下的图生视频类能力\n- **创建 / 查询：** `POST` / `GET` `/v1/video/generations`\n\n参数与任务查询约定见模型页与任务文档。"
+  }
+}

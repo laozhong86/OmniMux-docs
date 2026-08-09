@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "id": "2026-05-05-claude-opus-4-7-deepseek-v4",
+  "published_at": "2026-05-05",
+  "rank": 0,
+  "type": "model_launch",
+  "modality": [
+    "text"
+  ],
+  "title": {
+    "en": "Claude Opus 4.7 and DeepSeek V4",
+    "zh": "Claude Opus 4.7 与 DeepSeek V4"
+  },
+  "summary": {
+    "en": "Claude Opus 4.7 plus DeepSeek V4 Flash/Pro on OmniMux.",
+    "zh": "Claude Opus 4.7 与 DeepSeek V4 Flash/Pro 已在 OmniMux 可调用。"
+  },
+  "models": [
+    "claude-opus-4-7",
+    "deepseek-v4-flash",
+    "deepseek-v4-pro"
+  ],
+  "tags": [
+    "text"
+  ],
+  "links": [
+    {
+      "label": {
+        "en": "Claude complete",
+        "zh": "Claude 完整参数"
+      },
+      "href": {
+        "en": "/en/api-reference/text-series/claude/complete",
+        "zh": "/zh/api-reference/text-series/claude/complete"
+      }
+    },
+    {
+      "label": {
+        "en": "DeepSeek complete",
+        "zh": "DeepSeek 完整参数"
+      },
+      "href": {
+        "en": "/en/api-reference/text-series/deepseek/complete",
+        "zh": "/zh/api-reference/text-series/deepseek/complete"
+      }
+    }
+  ],
+  "body": {
+    "en": "## Claude Opus 4.7 and DeepSeek V4\n\nNew language models are available on OmniMux Chat Completions.\n\n### New models\n\n| Model ID | Brand |\n| --- | --- |\n| `claude-opus-4-7` | Claude |\n| `deepseek-v4-flash` | DeepSeek |\n| `deepseek-v4-pro` | DeepSeek |\n\n### API\n\n- **Endpoint:** `https://api.omnimux.ai/v1` (Chat Completions)",
+    "zh": "## Claude Opus 4.7 与 DeepSeek V4\n\n新的语言模型已通过 Chat Completions 在 OmniMux 可调用。\n\n### 新模型\n\n| 模型 ID | 品牌 |\n| --- | --- |\n| `claude-opus-4-7` | Claude |\n| `deepseek-v4-flash` | DeepSeek |\n| `deepseek-v4-pro` | DeepSeek |\n\n### 调用\n\n- **端点：** `https://api.omnimux.ai/v1`（Chat Completions）"
+  }
+}

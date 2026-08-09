@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "id": "2026-07-30-minimax-h3",
+  "published_at": "2026-07-30",
+  "rank": 0,
+  "type": "model_launch",
+  "modality": [
+    "video"
+  ],
+  "title": {
+    "en": "MiniMax H3 — text-to-video and frame variants",
+    "zh": "MiniMax H3 — 文生视频与帧变体"
+  },
+  "summary": {
+    "en": "MiniMax H3 video routes are live on OmniMux.",
+    "zh": "MiniMax H3 视频路由已在 OmniMux 上线。"
+  },
+  "models": [
+    "minimax-h3-t2v",
+    "minimax-h3-flf",
+    "minimax-h3-fl2va",
+    "minimax-h3-endframe"
+  ],
+  "tags": [
+    "video"
+  ],
+  "links": [
+    {
+      "label": {
+        "en": "MiniMax H3 T2V",
+        "zh": "MiniMax H3 文生视频"
+      },
+      "href": {
+        "en": "/en/api-reference/video-series/models/minimax-h3-t2v",
+        "zh": "/zh/api-reference/video-series/models/minimax-h3-t2v"
+      }
+    },
+    {
+      "label": {
+        "en": "Video task poll",
+        "zh": "视频任务查询"
+      },
+      "href": {
+        "en": "/en/api-reference/tasks/video-task",
+        "zh": "/zh/api-reference/tasks/video-task"
+      }
+    }
+  ],
+  "body": {
+    "en": "## MiniMax H3\n\n**MiniMax H3** video models are now available on OmniMux.\n\n### New models\n\n| Model ID | Role |\n| --- | --- |\n| `minimax-h3-t2v` | Text-to-video |\n| `minimax-h3-flf` | First/last-frame style I2V |\n| `minimax-h3-fl2va` | FL2VA-oriented path |\n| `minimax-h3-endframe` | End-frame reference I2V |\n\n### API\n\n- **Create:** `POST /v1/video/generations`\n- **Poll:** `GET /v1/video/generations/{task_id}`\n\nAsync only — submit once, then poll task status.",
+    "zh": "## MiniMax H3\n\n**MiniMax H3** 视频模型现已在 OmniMux 可调用。\n\n### 新模型\n\n| 模型 ID | 角色 |\n| --- | --- |\n| `minimax-h3-t2v` | 文生视频 |\n| `minimax-h3-flf` | 首末帧类 I2V |\n| `minimax-h3-fl2va` | FL2VA 路径 |\n| `minimax-h3-endframe` | 尾帧参考 I2V |\n\n### 调用\n\n- **创建：** `POST /v1/video/generations`\n- **查询：** `GET /v1/video/generations/{task_id}`\n\n异步任务：提交后轮询状态。"
+  }
+}

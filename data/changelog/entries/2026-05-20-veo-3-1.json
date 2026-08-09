@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "id": "2026-05-20-veo-3-1",
+  "published_at": "2026-05-20",
+  "rank": 10,
+  "type": "model_launch",
+  "modality": [
+    "video"
+  ],
+  "title": {
+    "en": "Veo 3.1",
+    "zh": "Veo 3.1"
+  },
+  "summary": {
+    "en": "Veo 3.1 video generation on OmniMux.",
+    "zh": "Veo 3.1 视频生成已在 OmniMux 可调用。"
+  },
+  "models": [
+    "veo_3_1"
+  ],
+  "tags": [
+    "video"
+  ],
+  "links": [
+    {
+      "label": {
+        "en": "Veo 3.1",
+        "zh": "Veo 3.1"
+      },
+      "href": {
+        "en": "/en/api-reference/video-series/models/veo_3_1",
+        "zh": "/zh/api-reference/video-series/models/veo_3_1"
+      }
+    },
+    {
+      "label": {
+        "en": "Video task poll",
+        "zh": "视频任务查询"
+      },
+      "href": {
+        "en": "/en/api-reference/tasks/video-task",
+        "zh": "/zh/api-reference/tasks/video-task"
+      }
+    }
+  ],
+  "body": {
+    "en": "## Veo 3.1\n\n**Veo 3.1** is now available on OmniMux.\n\n### New model\n\n- **Model ID:** `veo_3_1`\n- **API:** async video create + poll on `/v1/video/generations`",
+    "zh": "## Veo 3.1\n\n**Veo 3.1** 现已在 OmniMux 可调用。\n\n### 新模型\n\n- **模型 ID：** `veo_3_1`\n- **API：** `/v1/video/generations` 异步创建 + 查询"
+  }
+}

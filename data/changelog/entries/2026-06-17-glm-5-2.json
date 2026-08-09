@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "id": "2026-06-17-glm-5-2",
+  "published_at": "2026-06-17",
+  "rank": 0,
+  "type": "model_launch",
+  "modality": [
+    "text"
+  ],
+  "title": {
+    "en": "GLM-5.2",
+    "zh": "GLM-5.2"
+  },
+  "summary": {
+    "en": "GLM-5.2 language model on OmniMux.",
+    "zh": "GLM-5.2 语言模型已在 OmniMux 可调用。"
+  },
+  "models": [
+    "glm-5.2",
+    "glm-5.1"
+  ],
+  "tags": [
+    "text"
+  ],
+  "links": [
+    {
+      "label": {
+        "en": "GLM complete",
+        "zh": "GLM 完整参数"
+      },
+      "href": {
+        "en": "/en/api-reference/text-series/glm/complete",
+        "zh": "/zh/api-reference/text-series/glm/complete"
+      }
+    }
+  ],
+  "body": {
+    "en": "## GLM-5.2\n\n**GLM-5.2** is now available on OmniMux (with related GLM IDs on pricing).\n\n### New models\n\n- **Model IDs:** `glm-5.2`, `glm-5.1`\n- **API:** Chat Completions at `https://api.omnimux.ai/v1`",
+    "zh": "## GLM-5.2\n\n**GLM-5.2** 现已在 OmniMux 可调用（定价上另有同族 GLM ID）。\n\n### 新模型\n\n- **模型 ID：** `glm-5.2`、`glm-5.1`\n- **API：** Chat Completions：`https://api.omnimux.ai/v1`"
+  }
+}

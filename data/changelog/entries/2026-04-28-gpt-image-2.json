@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "id": "2026-04-28-gpt-image-2",
+  "published_at": "2026-04-28",
+  "rank": 0,
+  "type": "model_launch",
+  "modality": [
+    "image"
+  ],
+  "title": {
+    "en": "GPT Image 2",
+    "zh": "GPT Image 2"
+  },
+  "summary": {
+    "en": "GPT Image 2 and HD tier on OmniMux.",
+    "zh": "GPT Image 2 及 HD 档已在 OmniMux 可调用。"
+  },
+  "models": [
+    "gpt-image2",
+    "gpt-image2-hd"
+  ],
+  "tags": [
+    "image"
+  ],
+  "links": [
+    {
+      "label": {
+        "en": "GPT Image 2",
+        "zh": "GPT Image 2"
+      },
+      "href": {
+        "en": "/en/api-reference/image-series/models/gpt-image2",
+        "zh": "/zh/api-reference/image-series/models/gpt-image2"
+      }
+    },
+    {
+      "label": {
+        "en": "GPT Image 2 HD",
+        "zh": "GPT Image 2 HD"
+      },
+      "href": {
+        "en": "/en/api-reference/image-series/models/gpt-image2-hd",
+        "zh": "/zh/api-reference/image-series/models/gpt-image2-hd"
+      }
+    }
+  ],
+  "body": {
+    "en": "## GPT Image 2\n\n**GPT Image 2** is now available on OmniMux.\n\n### New models\n\n- **Model IDs:** `gpt-image2`, `gpt-image2-hd`\n- **Modality:** image generation\n\nSee model docs for size / quality parameters.",
+    "zh": "## GPT Image 2\n\n**GPT Image 2** 现已在 OmniMux 可调用。\n\n### 新模型\n\n- **模型 ID：** `gpt-image2`、`gpt-image2-hd`\n- **模态：** 图像生成\n\n尺寸 / 画质等参数见模型文档。"
+  }
+}

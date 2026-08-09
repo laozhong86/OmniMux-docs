@@ -2,223 +2,505 @@
 title: "API 更新"
 sidebarTitle: "API 更新"
 description: "获取所有 API 最新变更与改进通知。"
+rss: true
 ---
 
-跟踪 OmniMux 的模型上新、能力变更、定价调整与平台说明。
+跟踪 OmniMux 网关的模型上新与平台变更。完整可调用模型以[控制台定价](https://omnimux.ai) / [定价与账户](/zh/api-reference/account/pricing)为准。
 
-完整可调用模型以[控制台定价](https://omnimux.ai) / [定价与账户](/zh/api-reference/account/pricing)为准。故障与可用性见 [status.omnimux.ai](https://status.omnimux.ai)。
+<a id="2026-08-09-platform-api-updates"></a>
 
-### 2026-08-09
+<Update label="2026 年 8 月 9 日" tags={["平台"]} rss={{ title: "API 更新时间线上线" }}>
 
-<a id="2026-08-09-platform-api-updates-feed"></a>
+  ## API 更新
 
-## 平台 | API 更新日志上线
+  OmniMux 现提供按日期排列的 **API 更新** 时间线，便于跟踪网关模型上新与平台变更。
 
-`平台`
+  ### 记录范围
 
-*面向开发者的公开时间线：模型上新、能力变更、定价与平台说明。*
+  - **新模型** — 线上定价可调用的模型 ID
+  - **模型更新** — 模式、时长、分辨率、参数
+  - **价格调整** — 实质费率变化
+  - **平台** — 鉴权、域名、公开 HTTP 面
 
-OmniMux 现提供 **API 更新** 时间线，便于跟踪网关侧模型与协议变更，而无需翻聊天或零散发布说明。
+  ### 使用入口
 
-## 本时间线覆盖范围
+  | 面 | URL |
+  | --- | --- |
+  | 控制台 | `https://omnimux.ai` |
+  | OpenAI 兼容 API | `https://api.omnimux.ai/v1` |
+  | 文档 | `https://docs.omnimux.ai` |
+  | 状态页 | `https://status.omnimux.ai` |
 
-- **新模型** — 线上定价新增可调用的模型 ID
-- **模型更新** — 新模式、时长、分辨率、参数
-- **价格调整** — 实质费率或结算规则变化
-- **不兼容变更** — 请求/响应或路径不兼容
-- **平台** — 鉴权、域名、公开 HTTP 面（如社媒发布）
+  Relay 鉴权：控制台签发的 Bearer `sk-…`。完整目录以控制台定价为准——本页是 **变更时间线**。
 
-## 当前使用入口
+  ### 链接
 
-| 面 | URL |
-| --- | --- |
-| 控制台 | `https://omnimux.ai` |
-| OpenAI 兼容 API | `https://api.omnimux.ai/v1` |
-| 文档 | `https://docs.omnimux.ai` |
-| 状态页 | `https://status.omnimux.ai` |
+  - [快速开始](/zh/quickstart)
+  - [定价与账户](/zh/api-reference/account/pricing)
 
-Relay 鉴权：控制台签发的 Bearer `sk-…`。
+</Update>
 
-## 关于早期能力
+<a id="2026-08-09-social-data"></a>
 
-日期为 **2026-08-09**、描述语言 / 图像 / 视频 / 社交数据等族的条目，记录的是本时间线上线时网关上 **已可调用** 的能力，**不是**伪造的逐模型首发史。之后条目为只追加的真实变更。
+<Update label="2026 年 8 月 9 日" tags={["新模型", "社交数据"]} rss={{ title: "社交数据模型 — TikTok / Instagram / X / YouTube" }}>
 
-完整模型清单以控制台定价为准——本页是 **变更时间线**，不是第二份目录。
+  ## 社交数据（只读）
 
-### 链接
+  **社交数据** 模型 ID 已在 OmniMux 可调用，用于只读的公开资料/内容类访问。**不是** 社媒发布。
 
-- [快速开始](/zh/quickstart)
-- [定价与账户](/zh/api-reference/account/pricing)
+  ### 模型 ID
 
----
+  | 平台 | ID |
+  | --- | --- |
+  | TikTok | `tiktok-user`、`tiktok-posts`、`tiktok-video`、`tiktok-search` |
+  | Instagram | `instagram-user`、`instagram-posts`、`instagram-post`、`instagram-search` |
+  | X | `x-user`、`x-posts`、`x-tweet`、`x-search` |
+  | YouTube | `youtube-user`、`youtube-posts`、`youtube-video`、`youtube-search` |
 
-<a id="2026-08-09-models-language-series"></a>
+  ### 社媒发布（另一套面）
 
-## 新模型 | 语言系列 — Claude / GPT / Gemini / Grok 等
+  连接账户与发帖走 **`/api/social/v1/*`**，鉴权为 access token + `New-Api-User`。勿与网关 `sk-` Chat Completions 混用。
 
-`新模型`
+  ### 链接
 
-*语言品牌已通过 Chat Completions 可调用（本时间线上线时已在网关可用）。*
+  - [TikTok 用户资料](/zh/api-reference/social-data/tiktok/user-profile)
+  - [X 推文详情](/zh/api-reference/social-data/x/tweet-detail)
+  - [创建帖子（社媒发布）](/zh/api-reference/publishing/create-post)
 
-语言生成品牌 **已在** OmniMux 可调用，主路径为 OpenAI 兼容 **Chat Completions**：`https://api.omnimux.ai/v1`。
+</Update>
 
-## 新模型
+<a id="2026-08-07-seedance-2-5"></a>
 
-代表性模型 ID（精确 ID 以线上定价 / 文档枚举为准）：
+<Update label="2026 年 8 月 7 日" tags={["新模型", "视频"]} rss={{ title: "Seedance 2.5 — 更长视频与多模态参考" }}>
 
-| 品牌 | 示例模型 ID |
-| --- | --- |
-| Claude | `claude-opus-5`、`claude-sonnet-5`、`claude-haiku-4-5` |
-| GPT | `gpt-5.5`、`gpt-5.6-terra` |
-| Gemini | `gemini-3.6-flash`、`gemini-3.1-pro` |
-| Grok | `grok-4.5` |
-| DeepSeek | `deepseek-v4-pro` |
-| GLM | `glm-5.2` |
-| Kimi | `kimi-k3` |
-| MiniMax（文本） | `minimax-m3` |
+  ## Seedance 2.5
 
-## 调用约定
+  **Seedance 2.5** 现已在 OmniMux 可调用（异步视频生成）。
 
-- 每个品牌一页 **完整参数**（`model` 为页内枚举）。
-- 模型 ID 请以控制台定价或品牌完整参数页为准。
+  ### 新模型
 
-## 文档
+  - **模型 ID：** `seedance-2-5`
+  - **创建：** `POST /v1/video/generations`
+  - **查询：** `GET /v1/video/generations/{task_id}`
+  - **要点：** 更长单次生成，支持多模态参考输入（文本 / 图像 / 视频 / 音频类工作流）
 
-见 API 手册 **语言系列**（下方链接）。
+  接入前请以线上定价的精确 ID 为准。
 
-### 链接
+  ### 链接
 
-- [Claude 完整参数](/zh/api-reference/text-series/claude/complete)
-- [GPT 完整参数](/zh/api-reference/text-series/gpt/complete)
-- [Gemini 完整参数](/zh/api-reference/text-series/gemini/complete)
-- [Grok 完整参数](/zh/api-reference/text-series/grok/complete)
-- [DeepSeek 完整参数](/zh/api-reference/text-series/deepseek/complete)
-- [GLM 完整参数](/zh/api-reference/text-series/glm/complete)
-- [Kimi 完整参数](/zh/api-reference/text-series/kimi/complete)
-- [MiniMax 完整参数](/zh/api-reference/text-series/minimax/complete)
+  - [视频任务查询](/zh/api-reference/tasks/video-task)
+  - [定价](/zh/api-reference/account/pricing)
 
----
+</Update>
 
-<a id="2026-08-09-models-image-series"></a>
+<a id="2026-07-30-minimax-h3"></a>
 
-## 新模型 | 图像生成 — GPT Image 2 / Nano Banana / Midjourney 等
+<Update label="2026 年 7 月 30 日" tags={["新模型", "视频"]} rss={{ title: "MiniMax H3 — 文生视频与帧变体" }}>
 
-`新模型`
+  ## MiniMax H3
 
-*本时间线上线时，线上定价已提供的图像生成能力。*
+  **MiniMax H3** 视频模型现已在 OmniMux 可调用。
 
-图像生成模型 **已在** OmniMux 网关可调用。
+  ### 新模型
 
-## 新模型
+  | 模型 ID | 角色 |
+  | --- | --- |
+  | `minimax-h3-t2v` | 文生视频 |
+  | `minimax-h3-flf` | 首末帧类 I2V |
+  | `minimax-h3-fl2va` | FL2VA 路径 |
+  | `minimax-h3-endframe` | 尾帧参考 I2V |
 
-| 模型 ID | 说明 |
-| --- | --- |
-| `gpt-image2` | GPT Image 2 主 SKU |
-| `gpt-image2-hd` | 更高细节 / HD 档 |
-| `nano_banana_2` | Nano Banana 2 |
-| `nano_banana_pro` | Nano Banana Pro |
-| `zimage-makeup` | 美妆向图像工作流模型 |
-| `midjourney` | 线上定价中的 Midjourney 图像路径 |
+  ### 调用
 
-## 关键能力
+  - **创建：** `POST /v1/video/generations`
+  - **查询：** `GET /v1/video/generations/{task_id}`
 
-- 通过网关模型 ID 做文生图与创意/商品图工作流
-- 接入前请以线上定价的精确模型 ID 为准
+  异步任务：提交后轮询状态。
 
-## 文档
+  ### 链接
 
-见 API 手册 **图像系列**。完整清单仍以控制台定价为准。
+  - [MiniMax H3 文生视频](/zh/api-reference/video-series/models/minimax-h3-t2v)
+  - [视频任务查询](/zh/api-reference/tasks/video-task)
 
-### 链接
+</Update>
 
-- [GPT Image 2](/zh/api-reference/image-series/models/gpt-image2)
-- [GPT Image 2 HD](/zh/api-reference/image-series/models/gpt-image2-hd)
-- [Nano Banana 2](/zh/api-reference/image-series/models/nano_banana_2)
-- [Nano Banana Pro](/zh/api-reference/image-series/models/nano_banana_pro)
-- [Z-Image 美妆](/zh/api-reference/image-series/models/zimage-makeup)
+<a id="2026-07-28-grok-imagine-video-1-5"></a>
 
----
+<Update label="2026 年 7 月 28 日" tags={["新模型", "视频"]} rss={{ title: "Grok Imagine Video 1.5" }}>
 
-<a id="2026-08-09-models-video-series"></a>
+  ## Grok Imagine Video 1.5
 
-## 新模型 | 视频生成 — Omni Flash / MiniMax H3 / Veo / Kling / Seedance
+  **Grok Imagine Video 1.5** 现已在 OmniMux 可调用。
 
-`新模型`
+  ### 新模型
 
-*本时间线上线时已可用的异步视频能力：先创建任务再查询状态。*
+  - **模型 ID：** `grok-imagine-video-1.5`
+  - **模式：** 异步视频 API 下的图生视频类能力
+  - **创建 / 查询：** `POST` / `GET` `/v1/video/generations`
 
-OmniMux 视频生成以 **异步任务** 为主，且 **已在** 网关可调用：
+  参数与任务查询约定见模型页与任务文档。
 
-- 创建：`POST /v1/video/generations`
-- 查询：`GET /v1/video/generations/{task_id}`
+  ### 链接
 
-## 新模型
+  - [Grok Imagine Video 1.5](/zh/api-reference/video-series/models/grok-imagine-video-1.5)
+  - [视频任务查询](/zh/api-reference/tasks/video-task)
 
-| 模型 ID | 角色 |
-| --- | --- |
-| `omni_flash`、`omni_flash-4s` / `-6s` / `-10s` | Omni Flash 时长族 |
-| `minimax-h3-t2v` | MiniMax H3 文生视频 |
-| `minimax-h3-flf` / `minimax-h3-fl2va` / `minimax-h3-endframe` | MiniMax H3 图/帧变体 |
-| `veo_3_1` | Veo 3.1 |
-| `grok-imagine-video-1.5` | Grok Imagine Video |
-| `ltx2.3-kj` | LTX 系 SKU |
-| `kling-v2-6`、`kling-v3` | 线上定价中的 Kling 视频 |
-| `seedance-2-0`、`seedance-2-0-fast`、`seedance-2-0-mini`、`seedance-2-5` | 线上定价中的 Seedance 族 |
+</Update>
 
-## 关键能力
+<a id="2026-07-25-claude-opus-5"></a>
 
-- 提交一次后轮询任务状态直至产出就绪
-- 勿与纯内容下载路径混淆
+<Update label="2026 年 7 月 25 日" tags={["新模型", "文本"]} rss={{ title: "Claude Opus 5" }}>
 
-## 文档
+  ## Claude Opus 5
 
-见 **视频系列** 与 **任务管理**。精确 ID 始终以线上定价为准。
+  **Claude Opus 5** 现已通过 OpenAI 兼容 Chat Completions 在 OmniMux 可调用。
 
-### 链接
+  ### 新模型
 
-- [视频任务查询](/zh/api-reference/tasks/video-task)
-- [Omni Flash](/zh/api-reference/video-series/models/omni_flash)
-- [MiniMax H3 文生视频](/zh/api-reference/video-series/models/minimax-h3-t2v)
-- [Veo 3.1](/zh/api-reference/video-series/models/veo_3_1)
-- [Grok Imagine Video 1.5](/zh/api-reference/video-series/models/grok-imagine-video-1.5)
+  - **模型 ID：** `claude-opus-5`
+  - **端点：** `https://api.omnimux.ai/v1`（Chat Completions）
+  - **文档：** 每个品牌一页完整参数 — `model` 为 Claude 完整参数页内枚举
 
----
+  网关上同族还有其他 Opus / Sonnet / Haiku SKU，以线上定价为准。
 
-<a id="2026-08-09-models-social-data"></a>
+  ### 链接
 
-## 新模型 | 社交数据 — TikTok / Instagram / X / YouTube（只读）
+  - [Claude 完整参数](/zh/api-reference/text-series/claude/complete)
 
-`新模型`
+</Update>
 
-*只读社交数据模型（Chat Completions 形态模型 ID）——不是社媒发布。*
+<a id="2026-07-22-gemini-3-6-flash"></a>
 
-**社交数据**是 **只读** 的公开内容/资料类能力，**不是** 社媒发布。
+<Update label="2026 年 7 月 22 日" tags={["新模型", "文本"]} rss={{ title: "Gemini 3.6 Flash 与 Gemini 3.5 Flash" }}>
 
-## 新模型
+  ## Gemini Flash 模型
 
-| 平台 | 模型 ID |
-| --- | --- |
-| TikTok | `tiktok-user`、`tiktok-posts`、`tiktok-video`、`tiktok-search` |
-| Instagram | `instagram-user`、`instagram-posts`、`instagram-post`、`instagram-search` |
-| X | `x-user`、`x-posts`、`x-tweet`、`x-search` |
-| YouTube | `youtube-user`、`youtube-posts`、`youtube-video`、`youtube-search` |
+  Gemini Flash 档模型现已在 OmniMux 可调用。
 
-## 社媒发布（另一套面）
+  ### 新模型
 
-连接账户与发帖走 **`/api/social/v1/*`**，鉴权为 access token + `New-Api-User`，见 API 手册 **社媒发布**。勿与网关 `sk-` Chat Completions 混用鉴权。
+  - **模型 ID：** `gemini-3.6-flash`、`gemini-3.5-flash`
+  - **API：** OpenAI 兼容 Chat Completions：`https://api.omnimux.ai/v1`
 
-## 文档
+  线上定价中可能还有 Pro / preview / lite 等 Gemini ID——请以控制台或 Gemini 完整参数页为准。
 
-见 API 手册 **社交数据** 分组（下方链接）。
+  ### 链接
 
-### 链接
+  - [Gemini 完整参数](/zh/api-reference/text-series/gemini/complete)
 
-- [TikTok 用户资料](/zh/api-reference/social-data/tiktok/user-profile)
-- [X 推文详情](/zh/api-reference/social-data/x/tweet-detail)
-- [YouTube 视频搜索](/zh/api-reference/social-data/youtube/video-search)
-- [Instagram 搜索](/zh/api-reference/social-data/instagram/search)
-- [创建帖子（社媒发布）](/zh/api-reference/publishing/create-post)
+</Update>
 
+<a id="2026-07-17-kimi-k3"></a>
+
+<Update label="2026 年 7 月 17 日" tags={["新模型", "文本"]} rss={{ title: "Kimi K3 — 长上下文推理" }}>
+
+  ## Kimi K3
+
+  **Kimi K3** 现已在 OmniMux 可调用。
+
+  ### 新模型
+
+  - **模型 ID：** `kimi-k3`
+  - **API：** Chat Completions：`https://api.omnimux.ai/v1`
+  - **定位：** 长上下文推理与 Agent 类工作流
+
+  完整模型枚举见 Kimi 完整参数页。
+
+  ### 链接
+
+  - [Kimi 完整参数](/zh/api-reference/text-series/kimi/complete)
+
+</Update>
+
+<a id="2026-07-16-suno"></a>
+
+<Update label="2026 年 7 月 16 日" tags={["新模型", "音频"]} rss={{ title: "Suno — 音乐生成" }}>
+
+  ## Suno
+
+  **Suno** 音乐生成现已在 OmniMux 可调用。
+
+  ### 新模型
+
+  - **模型 ID：** `suno`
+  - **用途：** 通过网关目录进行 AI 音乐生成
+
+  上线生产前请在控制台定价中确认计费与请求形态。
+
+  ### 链接
+
+  - [定价](/zh/api-reference/account/pricing)
+
+</Update>
+
+<a id="2026-07-01-nano-banana"></a>
+
+<Update label="2026 年 7 月 1 日" tags={["新模型", "图像"]} rss={{ title: "Nano Banana 2 与 Nano Banana Pro" }}>
+
+  ## Nano Banana
+
+  **Nano Banana 2** 与 **Nano Banana Pro** 现已在 OmniMux 可调用。
+
+  ### 新模型
+
+  - **模型 ID：** `nano_banana_2`、`nano_banana_pro`
+  - **模态：** 图像生成
+
+  请求参数见各模型文档页。
+
+  ### 链接
+
+  - [Nano Banana 2](/zh/api-reference/image-series/models/nano_banana_2)
+  - [Nano Banana Pro](/zh/api-reference/image-series/models/nano_banana_pro)
+
+</Update>
+
+<a id="2026-06-25-seedance-2-0"></a>
+
+<Update label="2026 年 6 月 25 日" tags={["新模型", "视频"]} rss={{ title: "Seedance 2.0 系列 — Standard / Mini / Fast" }}>
+
+  ## Seedance 2.0
+
+  **Seedance 2.0** 系列已在 OmniMux 可调用（异步视频）。
+
+  ### 新模型
+
+  | 模型 ID | 角色 |
+  | --- | --- |
+  | `seedance-2-0` | 标准档 |
+  | `seedance-2-0-mini` | 轻量 / 成本向 |
+  | `seedance-2-0-fast` | 速度向 |
+
+  ### 调用
+
+  - **创建：** `POST /v1/video/generations`
+  - **查询：** `GET /v1/video/generations/{task_id}`
+
+  ### 链接
+
+  - [视频任务查询](/zh/api-reference/tasks/video-task)
+  - [定价](/zh/api-reference/account/pricing)
+
+</Update>
+
+<a id="2026-06-17-glm-5-2"></a>
+
+<Update label="2026 年 6 月 17 日" tags={["新模型", "文本"]} rss={{ title: "GLM-5.2" }}>
+
+  ## GLM-5.2
+
+  **GLM-5.2** 现已在 OmniMux 可调用（定价上另有同族 GLM ID）。
+
+  ### 新模型
+
+  - **模型 ID：** `glm-5.2`、`glm-5.1`
+  - **API：** Chat Completions：`https://api.omnimux.ai/v1`
+
+  ### 链接
+
+  - [GLM 完整参数](/zh/api-reference/text-series/glm/complete)
+
+</Update>
+
+<a id="2026-06-16-kling"></a>
+
+<Update label="2026 年 6 月 16 日" tags={["新模型", "视频"]} rss={{ title: "Kling V3 与 Kling V2.6" }}>
+
+  ## Kling
+
+  **Kling** 视频模型已在 OmniMux 可调用。
+
+  ### 新模型
+
+  - **模型 ID：** `kling-v3`、`kling-v2-6`
+  - **API：** 异步 `POST` / `GET` `/v1/video/generations`
+
+  精确 ID 以线上定价为准；请求形态遵循视频任务约定。
+
+  ### 链接
+
+  - [视频任务查询](/zh/api-reference/tasks/video-task)
+  - [定价](/zh/api-reference/account/pricing)
+
+</Update>
+
+<a id="2026-06-15-midjourney"></a>
+
+<Update label="2026 年 6 月 15 日" tags={["新模型", "图像"]} rss={{ title: "Midjourney" }}>
+
+  ## Midjourney
+
+  **Midjourney** 已在 OmniMux 可调用，模型 ID 为 `midjourney`。
+
+  ### 新模型
+
+  - **模型 ID：** `midjourney`
+  - **模态：** 网关目录中的图像生成
+
+  上线生产前请在控制台定价确认请求形态与计费。
+
+  ### 链接
+
+  - [定价](/zh/api-reference/account/pricing)
+
+</Update>
+
+<a id="2026-06-01-minimax-m3"></a>
+
+<Update label="2026 年 6 月 1 日" tags={["新模型", "文本"]} rss={{ title: "MiniMax M3" }}>
+
+  ## MiniMax M3
+
+  **MiniMax M3** 现已通过 Chat Completions 在 OmniMux 可调用。
+
+  ### 新模型
+
+  - **模型 ID：** `minimax-m3`
+  - **API：** `https://api.omnimux.ai/v1`
+
+  ### 链接
+
+  - [MiniMax 完整参数](/zh/api-reference/text-series/minimax/complete)
+
+</Update>
+
+<a id="2026-05-20-omni-flash"></a>
+
+<Update label="2026 年 5 月 20 日" tags={["新模型", "视频"]} rss={{ title: "Omni Flash — 时长视频族" }}>
+
+  ## Omni Flash
+
+  **Omni Flash** 时长族已在 OmniMux 可调用。
+
+  ### 新模型
+
+  | 模型 ID | 角色 |
+  | --- | --- |
+  | `omni_flash` | 基础 |
+  | `omni_flash-4s` | 4 秒向 SKU |
+  | `omni_flash-6s` | 6 秒向 SKU |
+  | `omni_flash-10s` | 10 秒向 SKU |
+
+  ### 调用
+
+  - **创建：** `POST /v1/video/generations`
+  - **查询：** `GET /v1/video/generations/{task_id}`
+
+  ### 链接
+
+  - [Omni Flash](/zh/api-reference/video-series/models/omni_flash)
+  - [视频任务查询](/zh/api-reference/tasks/video-task)
+
+</Update>
+
+<a id="2026-05-20-veo-3-1"></a>
+
+<Update label="2026 年 5 月 20 日" tags={["新模型", "视频"]} rss={{ title: "Veo 3.1" }}>
+
+  ## Veo 3.1
+
+  **Veo 3.1** 现已在 OmniMux 可调用。
+
+  ### 新模型
+
+  - **模型 ID：** `veo_3_1`
+  - **API：** `/v1/video/generations` 异步创建 + 查询
+
+  ### 链接
+
+  - [Veo 3.1](/zh/api-reference/video-series/models/veo_3_1)
+  - [视频任务查询](/zh/api-reference/tasks/video-task)
+
+</Update>
+
+<a id="2026-05-05-claude-opus-4-7-deepseek-v4"></a>
+
+<Update label="2026 年 5 月 5 日" tags={["新模型", "文本"]} rss={{ title: "Claude Opus 4.7 与 DeepSeek V4" }}>
+
+  ## Claude Opus 4.7 与 DeepSeek V4
+
+  新的语言模型已通过 Chat Completions 在 OmniMux 可调用。
+
+  ### 新模型
+
+  | 模型 ID | 品牌 |
+  | --- | --- |
+  | `claude-opus-4-7` | Claude |
+  | `deepseek-v4-flash` | DeepSeek |
+  | `deepseek-v4-pro` | DeepSeek |
+
+  ### 调用
+
+  - **端点：** `https://api.omnimux.ai/v1`（Chat Completions）
+
+  ### 链接
+
+  - [Claude 完整参数](/zh/api-reference/text-series/claude/complete)
+  - [DeepSeek 完整参数](/zh/api-reference/text-series/deepseek/complete)
+
+</Update>
+
+<a id="2026-04-28-gpt-image-2"></a>
+
+<Update label="2026 年 4 月 28 日" tags={["新模型", "图像"]} rss={{ title: "GPT Image 2" }}>
+
+  ## GPT Image 2
+
+  **GPT Image 2** 现已在 OmniMux 可调用。
+
+  ### 新模型
+
+  - **模型 ID：** `gpt-image2`、`gpt-image2-hd`
+  - **模态：** 图像生成
+
+  尺寸 / 画质等参数见模型文档。
+
+  ### 链接
+
+  - [GPT Image 2](/zh/api-reference/image-series/models/gpt-image2)
+  - [GPT Image 2 HD](/zh/api-reference/image-series/models/gpt-image2-hd)
+
+</Update>
+
+<a id="2026-03-08-minimax-m2-5"></a>
+
+<Update label="2026 年 3 月 8 日" tags={["新模型", "文本"]} rss={{ title: "MiniMax M2.5" }}>
+
+  ## MiniMax M2.5
+
+  **MiniMax M2.5**（及同族文本 ID）已在 OmniMux 可调用。
+
+  ### 新模型
+
+  - **模型 ID：** `minimax-m2.5`、`minimax-m2.7`
+  - **API：** Chat Completions
+
+  ### 链接
+
+  - [MiniMax 完整参数](/zh/api-reference/text-series/minimax/complete)
+
+</Update>
+
+<a id="2026-03-06-gpt-5-4"></a>
+
+<Update label="2026 年 3 月 6 日" tags={["新模型", "文本"]} rss={{ title: "GPT-5.4 系列" }}>
+
+  ## GPT-5.4
+
+  **GPT-5.4** 系列模型已通过 Chat Completions 在 OmniMux 可调用。
+
+  ### 新模型
+
+  - **模型 ID：** `gpt-5.4`、`gpt-5.4-mini`
+  - **API：** `https://api.omnimux.ai/v1`
+
+  后续 GPT-5.x ID（如 `gpt-5.5`、`gpt-5.6-terra`）也可能出现在线上定价——请始终以控制台 ID 为准。
+
+  ### 链接
+
+  - [GPT 完整参数](/zh/api-reference/text-series/gpt/complete)
+
+</Update>
 
 ---
 

@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "id": "2026-06-25-seedance-2-0",
+  "published_at": "2026-06-25",
+  "rank": 0,
+  "type": "model_launch",
+  "modality": [
+    "video"
+  ],
+  "title": {
+    "en": "Seedance 2.0 family — Standard, Mini, Fast",
+    "zh": "Seedance 2.0 系列 — Standard / Mini / Fast"
+  },
+  "summary": {
+    "en": "Seedance 2.0 video SKUs on OmniMux.",
+    "zh": "Seedance 2.0 视频 SKU 已在 OmniMux 可调用。"
+  },
+  "models": [
+    "seedance-2-0",
+    "seedance-2-0-mini",
+    "seedance-2-0-fast"
+  ],
+  "tags": [
+    "video"
+  ],
+  "links": [
+    {
+      "label": {
+        "en": "Video task poll",
+        "zh": "视频任务查询"
+      },
+      "href": {
+        "en": "/en/api-reference/tasks/video-task",
+        "zh": "/zh/api-reference/tasks/video-task"
+      }
+    },
+    {
+      "label": {
+        "en": "Pricing",
+        "zh": "定价"
+      },
+      "href": {
+        "en": "/en/api-reference/account/pricing",
+        "zh": "/zh/api-reference/account/pricing"
+      }
+    }
+  ],
+  "body": {
+    "en": "## Seedance 2.0\n\nThe **Seedance 2.0** family is available on OmniMux for async video generation.\n\n### New models\n\n| Model ID | Role |\n| --- | --- |\n| `seedance-2-0` | Standard |\n| `seedance-2-0-mini` | Lightweight / cost-oriented |\n| `seedance-2-0-fast` | Speed-oriented |\n\n### API\n\n- **Create:** `POST /v1/video/generations`\n- **Poll:** `GET /v1/video/generations/{task_id}`",
+    "zh": "## Seedance 2.0\n\n**Seedance 2.0** 系列已在 OmniMux 可调用（异步视频）。\n\n### 新模型\n\n| 模型 ID | 角色 |\n| --- | --- |\n| `seedance-2-0` | 标准档 |\n| `seedance-2-0-mini` | 轻量 / 成本向 |\n| `seedance-2-0-fast` | 速度向 |\n\n### 调用\n\n- **创建：** `POST /v1/video/generations`\n- **查询：** `GET /v1/video/generations/{task_id}`"
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "id": "2026-07-22-gemini-3-6-flash",
+  "published_at": "2026-07-22",
+  "rank": 0,
+  "type": "model_launch",
+  "modality": [
+    "text"
+  ],
+  "title": {
+    "en": "Gemini 3.6 Flash and Gemini 3.5 Flash",
+    "zh": "Gemini 3.6 Flash 与 Gemini 3.5 Flash"
+  },
+  "summary": {
+    "en": "Gemini Flash-class language models on OmniMux.",
+    "zh": "Gemini Flash 档语言模型已在 OmniMux 可调用。"
+  },
+  "models": [
+    "gemini-3.6-flash",
+    "gemini-3.5-flash"
+  ],
+  "tags": [
+    "text"
+  ],
+  "links": [
+    {
+      "label": {
+        "en": "Gemini complete",
+        "zh": "Gemini 完整参数"
+      },
+      "href": {
+        "en": "/en/api-reference/text-series/gemini/complete",
+        "zh": "/zh/api-reference/text-series/gemini/complete"
+      }
+    }
+  ],
+  "body": {
+    "en": "## Gemini Flash models\n\nNew Gemini Flash-class models are available on OmniMux.\n\n### New models\n\n- **Model IDs:** `gemini-3.6-flash`, `gemini-3.5-flash`\n- **API:** OpenAI-compatible Chat Completions at `https://api.omnimux.ai/v1`\n\nAdditional Gemini IDs (Pro / preview / lite) may also appear on live pricing — pin the exact ID from the console or Gemini complete page.",
+    "zh": "## Gemini Flash 模型\n\nGemini Flash 档模型现已在 OmniMux 可调用。\n\n### 新模型\n\n- **模型 ID：** `gemini-3.6-flash`、`gemini-3.5-flash`\n- **API：** OpenAI 兼容 Chat Completions：`https://api.omnimux.ai/v1`\n\n线上定价中可能还有 Pro / preview / lite 等 Gemini ID——请以控制台或 Gemini 完整参数页为准。"
+  }
+}
