@@ -5,6 +5,7 @@
 | Concept | CN | EN | Meaning |
 | --- | --- | --- | --- |
 | Gateway user account | 账户管理 | **Account management** | OmniMux user, quota, device login, pricing |
+| Top-tab FAQs | **常见问题** | **FAQs** | Top nav tab **after** 用户指南 / User guide (not under API 手册) |
 | Connected social account | **连接账户** | **Connecting Accounts** | Platform OAuth bind (Zernio guide title) |
 | Social **read** APIs | **社交数据** | Social data | TikHub-backed models; vendor = platform brand |
 | Social **write** APIs | **社媒发布** | Publishing | `/api/social/v1` connect/posts/media |
@@ -34,7 +35,8 @@
 | 社媒发布 | Publishing |
 | 账户管理 | Account management |
 | 任务管理 | Task management |
-| 常见问题 | FAQs |
+
+**Top tabs (not API-manual L1):** 用户指南 / User guide · **常见问题 / FAQs**（用户指南右侧）· 集成指南 / Integration guide · API 手册 / API manual.
 
 Account L2 EN: **Authentication** (登录鉴权), **Account info** (账户信息).  
 Do **not** rename URL path prefix `api-reference` to `api-manual` (external links).
