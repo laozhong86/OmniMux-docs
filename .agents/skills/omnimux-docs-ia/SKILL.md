@@ -39,6 +39,7 @@ Do **not** invent parallel IA. Live site + `docs.json` + this skill are the sour
 2. **Paging axis**: page = auth + method + path + schema. **`model` is enum inside the page.** Same brand + same Chat Completions shape → **one** Complete page. Split only for different protocol/path/shape.  
 3. **Language series**: `text-series/<brand>/complete` + `openapi/ops/chat/<brand>.json` (model enum). No per-model Complete leaves in nav.  
 4. **No METHOD paths as sidebar titles**. Callable L3 titles = **品牌 + 能力简称** (e.g. `Omni Flash 文生视频` / `Omni Flash 4 秒`), never raw model id alone — see `references/naming.md`.  
+4b. **`title` and `sidebarTitle` same human label** (preferred). Language Complete **must** keep brand on both: `Claude · 完整参数` / `Claude · Complete reference` — never bare `完整参数` in the sidebar.  
 5. **No empty brands / planned-only APIs**. Ground models in live pricing for enums.  
 6. **社交数据 ≠ 社媒发布**.  
 7. **连接账户** = **Connecting Accounts**.  

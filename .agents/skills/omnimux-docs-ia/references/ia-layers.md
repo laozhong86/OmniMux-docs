@@ -36,8 +36,8 @@ L1  系列 / 管理面          （发现主轴）
 | 视频系列 | Video series | MiniMax, **Veo 3.1**, **Omni Flash**（分栏，勿合并）, LTX, Grok Imagine | model id（合同轴后续可收敛） | `sk-` |
 | 社交数据 | Social data | TikTok, Instagram, YouTube, X | 中文能力名（作品详情…） | `sk-` Chat 形态 |
 | 社媒发布 | Publishing | 连接账户 / 帖子 / 媒体 | 发起连接、列出账户… | access token + `New-Api-User` |
-| 账户管理 | Account | 登录鉴权 / 账户信息 | 设备码登录、余额、定价 | 多为 access token |
-| 任务管理 | Tasks | — | **仅** `查询视频任务` → `GET /v1/video/generations/{task_id}`；禁止把 `/v1/videos/{id}/content` 写成通用「查询视频内容」 | `sk-` |
+| 账户管理 | **Account management** | 登录鉴权 / Authentication · 账户信息 / Account info | 设备码登录、余额、定价 | 多为 access token |
+| 任务管理 | **Task management** | — | **仅** `查询视频任务` / Query Video Task → `GET /v1/video/generations/{task_id}`；禁止把 `/v1/videos/{id}/content` 写成通用「查询视频内容」 | `sk-` |
 | ~~附录~~ | — | **侧栏移除**；勿挂 openapi 自动分组（Models/Chat/Video…） |
 
 **Not L1 (do not reintroduce without product+docs decision):**
@@ -92,9 +92,9 @@ cn|en/
   integration-guide/{chat apps,dev tools,platforms}
   api-reference/
     text-series/<brand>/complete.mdx              # brand contract (OpenAPI ops)
-    image-series/{brands/*,models/*}              # per-model until contract-axis
-    video-series/{brands/*,models/*}
-    social-data/{brands/*,tiktok|instagram|youtube|x/*}
+    image-series/models/*                         # per-model until contract-axis
+    video-series/models/*
+    social-data/{tiktok|instagram|youtube|x}/*
     publishing/{start-connect,list-accounts,create-post,...}
     account/{device-login,balance,pricing}        # device: POST /api/user/device/code|token
     tasks/video-task.mdx                          # ONLY video poll path
@@ -102,13 +102,16 @@ docs.json
 openapi/relay.json                                # generator only; not sidebar
 openapi/ops/chat/<brand>.json
 scripts/gen-chat-capability-pages.py
+scripts/check-naming.py                           # title/sidebarTitle lint
 ```
 
 **Removed / forbidden paths (do not reintroduce or link):**
 
 - `**/overview.mdx` · `guides/*`（鉴权 / Base URL / 模型列表已并入 quickstart + faqs + 合同页）
-- `api-reference/errors` → 用 `faqs/connection-usage`
+- `api-reference/errors` · `coverage.mdx` → 用 `faqs/connection-usage`
 - `tasks/image-task` · `tasks/video-content` · `appendix/openapi.mdx`
+- `**/brands/*.mdx` hub shells（L2 分组名在 `docs.json`，无独立 brand 概述页）
+- publishing hub shells `connecting-accounts` / `media` / `posts`（callable leaves only）
 
 Do **not** create `**/overview.mdx` for series or guides.
 

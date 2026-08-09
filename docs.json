@@ -602,17 +602,17 @@
                 "icon": "send"
               },
               {
-                "group": "Account",
+                "group": "Account management",
                 "pages": [
                   {
-                    "group": "Auth",
+                    "group": "Authentication",
                     "pages": [
                       "en/api-reference/account/device-login"
                     ],
                     "icon": "user"
                   },
                   {
-                    "group": "Profile",
+                    "group": "Account info",
                     "pages": [
                       "en/api-reference/account/balance",
                       "en/api-reference/account/pricing"
@@ -623,7 +623,7 @@
                 "icon": "user"
               },
               {
-                "group": "Tasks",
+                "group": "Task management",
                 "pages": [
                   "en/api-reference/tasks/video-task"
                 ],
