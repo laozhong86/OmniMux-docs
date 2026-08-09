@@ -38,6 +38,7 @@ L1  系列 / 管理面          （发现主轴）
 | 社媒发布 | Publishing | 连接账户 / 帖子 / 媒体 | 发起连接、列出账户… | access token + `New-Api-User` |
 | 账户管理 | **Account management** | 登录鉴权 / Authentication · 账户信息 / Account info | 设备码登录、余额、定价 | 多为 access token |
 | 任务管理 | **Task management** | — | **仅** `查询视频任务` / Query Video Task → `GET /v1/video/generations/{task_id}`；禁止把 `/v1/videos/{id}/content` 写成通用「查询视频内容」 | `sk-` |
+| ~~常见问题~~ | ~~FAQs~~ | **已升为顶栏 Tab**（用户指南右侧），非 API 手册 L1 | — |
 | ~~附录~~ | — | **侧栏移除**；勿挂 openapi 自动分组（Models/Chat/Video…） |
 
 **Not L1 (do not reintroduce without product+docs decision):**
@@ -51,7 +52,11 @@ L1  系列 / 管理面          （发现主轴）
 
 **Nav lean rule:** 侧栏只保留可调用合同/能力路径；禁止概述、覆盖矩阵、重复说明页加厚导航。
 
-### 常见问题（API 手册末组）
+### 常见问题（顶栏 Tab · 在「用户指南」右侧）
+
+- **CN tab**：`常见问题` · **EN tab**：`FAQs`  
+- 位置：`docs.json` → 与 API 手册 / 集成指南 / 用户指南 **同级**，插在 **用户指南之后**（右侧）。  
+- **禁止**再挂在 API 手册 L1 末组。
 
 | 页 | 内容必须对齐系统 |
 | --- | --- |
@@ -82,6 +87,7 @@ L1  系列 / 管理面          （发现主轴）
 | 社媒发布 | `send` |
 | 账户管理 | `user` |
 | 任务管理 | `list-checks` |
+| 常见问题（顶栏 Tab） | `circle-help` |
 
 ## Directory map (repo)
 

@@ -289,17 +289,6 @@
                   "cn/api-reference/tasks/video-task"
                 ],
                 "icon": "list-checks"
-              },
-              {
-                "group": "常见问题",
-                "icon": "circle-help",
-                "pages": [
-                  "cn/faqs/cost-optimization",
-                  "cn/faqs/connection-usage",
-                  "cn/faqs/security",
-                  "cn/faqs/account-billing",
-                  "cn/faqs/features"
-                ]
               }
             ],
             "icon": "square-terminal"
@@ -365,6 +354,23 @@
               }
             ],
             "icon": "book-user"
+          },
+          {
+            "tab": "常见问题",
+            "icon": "circle-help",
+            "groups": [
+              {
+                "group": "常见问题",
+                "icon": "circle-help",
+                "pages": [
+                  "cn/faqs/cost-optimization",
+                  "cn/faqs/connection-usage",
+                  "cn/faqs/security",
+                  "cn/faqs/account-billing",
+                  "cn/faqs/features"
+                ]
+              }
+            ]
           }
         ]
       },
@@ -616,17 +622,6 @@
                   "en/api-reference/tasks/video-task"
                 ],
                 "icon": "list-checks"
-              },
-              {
-                "group": "FAQs",
-                "icon": "circle-help",
-                "pages": [
-                  "en/faqs/cost-optimization",
-                  "en/faqs/connection-usage",
-                  "en/faqs/security",
-                  "en/faqs/account-billing",
-                  "en/faqs/features"
-                ]
               }
             ],
             "icon": "square-terminal"
@@ -692,6 +687,23 @@
               }
             ],
             "icon": "book-user"
+          },
+          {
+            "tab": "FAQs",
+            "icon": "circle-help",
+            "groups": [
+              {
+                "group": "FAQs",
+                "icon": "circle-help",
+                "pages": [
+                  "en/faqs/cost-optimization",
+                  "en/faqs/connection-usage",
+                  "en/faqs/security",
+                  "en/faqs/account-billing",
+                  "en/faqs/features"
+                ]
+              }
+            ]
           }
         ]
       }
