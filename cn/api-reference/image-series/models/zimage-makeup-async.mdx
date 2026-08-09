@@ -7,7 +7,7 @@ api: "POST https://api.omnimux.ai/v1/images/generations"
 
 - 调用 `POST /v1/images/generations`，`model` 为 `zimage-makeup-async`
 - 请求体至少包含 `model` 与 `prompt`
-- 异步任务：用返回的 `task_id` 轮询 [查询图像任务](/cn/api-reference/tasks/image-task)
+- 异步任务：创建响应可能返回 `task_id`；状态以响应体与控制台用量日志为准
 
 ## 身份
 
@@ -51,7 +51,7 @@ Base URL：`https://api.omnimux.ai`
 | `data` | array | 图像结果（`url` 或 `b64_json`） |
 | `task_id` / `id` | string | 异步时的任务 id（若返回） |
 
-错误形态见右栏示例与 [错误码](/cn/api-reference/errors)。异步查询见 [查询图像任务](/cn/api-reference/tasks/image-task)。
+错误形态见右栏示例。异步任务以创建响应中的 `task_id` / 控制台日志为准（公开文档不提供独立图像 query 路径）。
 
 <Panel>
 

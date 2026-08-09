@@ -1,12 +1,28 @@
 ---
 title: "Get video task"
 sidebarTitle: "Get video task"
-description: "GET /v1/video/generations/{task_id} · poll video generation task"
+description: "GET /v1/video/generations/{task_id} · poll video generation"
 api: "GET https://api.omnimux.ai/v1/video/generations/{task_id}"
 ---
 
-> - For `task_id` from **video series** create (`POST /v1/video/generations`)
-> - Not the OpenAI-compatible `/v1/videos/*` family
-> - Statuses: `queued` / `in_progress` / `completed` / `failed` (see live response)
+> - Only for `task_id` from **video series** `POST /v1/video/generations`
+> - **Not** OpenAI Videos `/v1/videos/{id}` or `/content` download
+> - Auth: `Authorization: Bearer sk-...`
 
-Base URL: `https://api.omnimux.ai` · Auth: `Authorization: Bearer sk-...`
+## Path parameters
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `task_id` | string | yes | Id from the create response |
+
+## Response (summary)
+
+| Field | Notes |
+| --- | --- |
+| `status` | e.g. `queued` / `in_progress` / `completed` / `failed` (live) |
+| `task_id` / `id` | Task id |
+| Result fields | May include output URLs when completed; shape varies by model |
+
+Base URL: `https://api.omnimux.ai`
+
+See [Connection and usage](/en/faqs/connection-usage) and [Cost optimization](/en/faqs/cost-optimization) (402).

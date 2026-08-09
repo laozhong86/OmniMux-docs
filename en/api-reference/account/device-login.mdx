@@ -1,11 +1,13 @@
 ---
 title: "Device login"
 sidebarTitle: "Device login"
-description: "Device login"
+description: "RFC 8628-style device login: request device_code → browser approve → poll for access_token"
+api: "POST https://omnimux.ai/api/user/device/code"
 ---
 
-- Account management user API
-- Usually access token + `New-Api-User` (see device-login for bootstrap)
+- Account management user API (CLI / headless login)
+- **Code request and token poll need no auth**; approve/deny need a logged-in browser session
+- The returned `access_token` is for `https://omnimux.ai` user APIs (with `New-Api-User`)
 
 ## Identity
 
@@ -14,79 +16,141 @@ description: "Device login"
 | Series | Account |
 | Capability | Device login |
 
-## Endpoint
+## Endpoints
 
-| Method | Path |
-| --- | --- |
-| `GET` | `` |
+| Step | Method | Path | Auth |
+| --- | --- | --- | --- |
+| 1. Request device code | `POST` | `/api/user/device/code` | None |
+| 2. Browser approval | Open `verification_uri` | Console / CLI login page | Browser session |
+| 3. Poll for token | `POST` | `/api/user/device/token` | None |
+| 4. Approve / deny (optional, logged-in) | `POST` | `/api/user/device/approve` · `/api/user/device/deny` | User session |
 
 Base URL: `https://omnimux.ai`
 
-## Authorizations
+## Authorization
 
-| Name | In | Type | Required | Description |
-| --- | --- | --- | --- | --- |
-| `Authorization` | header | string | yes | `Bearer <access_token>` |
-| `New-Api-User` | header | string | yes | Current user id |
+| Step | Requirement |
+| --- | --- |
+| `device/code` · `device/token` | **No** `Authorization` / `New-Api-User` |
+| `device/approve` · `device/deny` | Logged-in user (console session); body includes `user_code` |
+| After token issued | Other user APIs: `Authorization: Bearer <access_token>` + `New-Api-User: <user_id>` |
+
+AI gateway and social-data APIs still use `sk-` tokens on `https://api.omnimux.ai` — a different credential surface. See [Connection & usage](/en/faqs/connection-usage).
 
 ## Body / parameters
 
-Follow the right-rail cURL.
+### `POST /api/user/device/code`
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `client_name` | string | no | Client label (e.g. `my-cli`) |
+
+### `POST /api/user/device/token`
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `device_code` | string | yes | `device_code` from step 1 |
+| `grant_type` | string | no | If set, must be `urn:ietf:params:oauth:grant-type:device_code` |
+
+Poll at the response `interval` (default ~5s); polling faster returns `slow_down`.
 
 ## Response
 
-### 200
+### Step 1 · 200 (code issued)
 
-Account fields such as `quota` / `used_quota` when applicable. Errors: right rail and [Error codes](/en/api-reference/errors).
+| Field | Description |
+| --- | --- |
+| `data.device_code` | Secret for the device (poll with this) |
+| `data.user_code` | Short code the user types in the browser |
+| `data.verification_uri` | Approval page URL |
+| `data.verification_uri_complete` | URL with prefilled `user_code` |
+| `data.expires_in` | Lifetime in seconds (default 900) |
+| `data.interval` | Recommended poll interval (seconds) |
+
+### Step 3 · success (approved)
+
+| Field | Description |
+| --- | --- |
+| `data.access_token` | System access token (PAT) |
+| `data.token_type` | `Bearer` |
+| `data.user_id` | User id (use as `New-Api-User`) |
+| `data.username` | Username |
+
+### Step 3 · pending / errors (often HTTP 200 with `success: false`)
+
+| `code` | Meaning |
+| --- | --- |
+| `authorization_pending` | User has not approved yet |
+| `slow_down` | Polling too fast |
+| `access_denied` | User denied |
+| `expired_token` / `invalid_grant` | Expired or invalid |
+
+More error semantics: [Connection & usage](/en/faqs/connection-usage).
 
 <Panel>
 
 <RequestExample>
 
-```bash cURL
-curl --request GET \
-  --url https://api.omnimux.ai/v1/video/generations/$TASK_ID \
-  --header 'Authorization: Bearer <token>'
+```bash 1. Request device code
+curl --request POST \
+  --url https://omnimux.ai/api/user/device/code \
+  --header 'Content-Type: application/json' \
+  --data '{"client_name":"my-cli"}'
+```
+
+```bash 2. Poll for token
+curl --request POST \
+  --url https://omnimux.ai/api/user/device/token \
+  --header 'Content-Type: application/json' \
+  --data '{"device_code":"<device_code>","grant_type":"urn:ietf:params:oauth:grant-type:device_code"}'
 ```
 
 </RequestExample>
 
 <ResponseExample>
 
-```json 200
-{ "ok": true }
-```
-
-```json 400
-{ "error": { "message": "Invalid request", "type": "invalid_request_error", "code": "bad_request" } }
-```
-
-```json 401
-{ "error": { "message": "Invalid token", "type": "authentication_error", "code": "unauthorized" } }
-```
-
-```json 402
+```json 200 code issued
 {
-  "error": {
-    "message": "Insufficient quota. Please top up your account.",
-    "type": "insufficient_quota",
-    "code": "insufficient_quota"
+  "success": true,
+  "data": {
+    "device_code": "...",
+    "user_code": "ABCD-EFGH",
+    "verification_uri": "https://omnimux.ai/cli/login",
+    "verification_uri_complete": "https://omnimux.ai/cli/login?user_code=ABCD-EFGH",
+    "expires_in": 900,
+    "interval": 5
   }
 }
 ```
 
-```json 403
-{ "error": { "message": "Forbidden", "type": "permission_error", "code": "forbidden" } }
+```json pending
+{
+  "success": false,
+  "code": "authorization_pending",
+  "message": "authorization pending",
+  "interval": 5
+}
 ```
 
-```json 429
-{ "error": { "message": "Rate limit exceeded", "type": "rate_limit_error", "code": "rate_limit_exceeded" } }
+```json 200 approved
+{
+  "success": true,
+  "data": {
+    "access_token": "...",
+    "token_type": "Bearer",
+    "user_id": 1,
+    "username": "alice"
+  }
+}
 ```
 
-```json 500
-{ "error": { "message": "Internal server error", "type": "server_error", "code": "internal_error" } }
+```json denied
+{
+  "success": false,
+  "code": "access_denied",
+  "message": "authorization denied"
+}
 ```
-
 
 </ResponseExample>
 

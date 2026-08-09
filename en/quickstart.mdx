@@ -50,7 +50,7 @@ This guide covers: create an API key → set the Base URL → send a request.
       }'
     ```
 
-    `model` must be enabled for your account. Check the console or call `GET /v1/models`. See [Models](/en/guides/models).
+    `model` must be enabled for your account. Check the console or call `GET /v1/models`. Language contract: [Claude · Complete reference](/en/api-reference/text-series/claude/complete).
   </Step>
 </Steps>
 
@@ -94,11 +94,11 @@ console.log(resp.choices[0].message.content);
 
 | Topic | What you get |
 | --- | --- |
-| [Configure Base URL](/en/guides/base-url) | Client / SDK setup |
-| [Authentication](/en/guides/authentication) | Header format and security notes |
-| [Models](/en/guides/models) | How to list and pick a model |
-| [API manual](/en/api-reference/overview) | Chat, Claude, Gemini, images, video, and more |
-| [Integration guide](/en/integration-guide/claude-code-cli) | Claude Code, Codex, OpenClaw, and other clients |
+| [Connection and usage](/en/faqs/connection-usage) | Base URL, dual credentials, common errors |
+| [Security and keys](/en/faqs/security) | Key hygiene |
+| [Cost optimization](/en/faqs/cost-optimization) | Points / precharge / 402 |
+| [API manual · complete](/en/api-reference/text-series/claude/complete) | Language contract entry (brand model enum) |
+| [Integration guide](/en/integration-guide/chatbox) | Chat apps / dev tools / platforms |
 
 <Warning>
   API keys can spend account quota. Keep them server-side only. Rotate immediately if exposed.
