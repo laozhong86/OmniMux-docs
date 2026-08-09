@@ -7,7 +7,7 @@ api: "POST https://api.omnimux.ai/v1/images/generations"
 
 - Call `POST /v1/images/generations` with `model` `nano_banana_2`
 - Body requires at least `model` and `prompt`
-- If the response is async, poll [Image task](/en/api-reference/tasks/image-task)
+- If async, follow `task_id` in the create response and console usage logs
 
 ## Identity
 
@@ -51,7 +51,7 @@ Base URL: `https://api.omnimux.ai`
 | `data` | array | Results (`url` or `b64_json`) |
 | `task_id` / `id` | string | Async task id when present |
 
-Errors: right rail and [Error codes](/en/api-reference/errors). Async: [Image task](/en/api-reference/tasks/image-task).
+Errors: see right-rail examples. Async: use `task_id` from create response / console logs (no separate public image-query page).
 
 <Panel>
 

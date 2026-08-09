@@ -86,20 +86,29 @@ L1  系列 / 管理面          （发现主轴）
 ## Directory map (repo)
 
 ```text
-cn|en/api-reference/
-  text-series/<brand>/complete.mdx    # brand contract pages (no overview)
-  image-series/{brands/*,models/*}
-  video-series/{brands/*,models/*}
-  social-data/{brands/*,tiktok|instagram|youtube|x/*}
-  publishing/{connecting-accounts,posts,media,start-connect,...}
-  account/{device-login,balance,pricing}
-  tasks/{video-task,video-content,image-task}
-  appendix/openapi.mdx
+cn|en/
+  index.mdx · quickstart.mdx
+  faqs/{connection-usage,cost-optimization,...}   # 错误语义 / 双 Base / 402（无独立 errors 页）
+  integration-guide/{chat apps,dev tools,platforms}
+  api-reference/
+    text-series/<brand>/complete.mdx              # brand contract (OpenAPI ops)
+    image-series/{brands/*,models/*}              # per-model until contract-axis
+    video-series/{brands/*,models/*}
+    social-data/{brands/*,tiktok|instagram|youtube|x/*}
+    publishing/{start-connect,list-accounts,create-post,...}
+    account/{device-login,balance,pricing}        # device: POST /api/user/device/code|token
+    tasks/video-task.mdx                          # ONLY video poll path
 docs.json
-openapi/relay.json
+openapi/relay.json                                # generator only; not sidebar
 openapi/ops/chat/<brand>.json
 scripts/gen-chat-capability-pages.py
 ```
+
+**Removed / forbidden paths (do not reintroduce or link):**
+
+- `**/overview.mdx` · `guides/*`（鉴权 / Base URL / 模型列表已并入 quickstart + faqs + 合同页）
+- `api-reference/errors` → 用 `faqs/connection-usage`
+- `tasks/image-task` · `tasks/video-content` · `appendix/openapi.mdx`
 
 Do **not** create `**/overview.mdx` for series or guides.
 

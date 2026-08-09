@@ -20,12 +20,14 @@ Preview: [http://localhost:3000](http://localhost:3000)
 | Path | Purpose |
 | --- | --- |
 | `docs.json` | Site config, top tabs, i18n, OpenAPI |
-| `cn/` · `en/` | Locale pages |
-| `*/guides/` | User guide: auth, Base URL, models |
-| `*/api-reference/` | API manual overview (+ OpenAPI in nav) |
-| `*/integration-guide/` | Client / CLI / OpenClaw integrations |
-| `openapi/relay.json` | Gateway OpenAPI snapshot |
+| `cn/` · `en/` | Locale pages (index, quickstart, faqs, api-reference, integration-guide) |
+| `*/faqs/` | Connection/usage, cost, security (replaces deleted guides + errors pages) |
+| `*/api-reference/` | Callable contract pages (language Complete, image/video models, social, publish, account, tasks) |
+| `*/integration-guide/` | Chat apps / dev tools / app platforms |
+| `openapi/ops/chat/` | Per-brand Chat Completions OpenAPI fragments |
+| `openapi/relay.json` | Full gateway snapshot (generators only; not sidebar dump) |
 | `logo/` | Brand logos |
+| `.agents/skills/omnimux-docs-ia/` | Agent IA skill (nav, templates, gates) |
 
 Top tabs: **用户指南 / User guide** · **API 手册 / API manual** · **集成指南 / Integration guide**.
 
