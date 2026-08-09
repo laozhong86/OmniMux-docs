@@ -6,24 +6,24 @@
   "total_pages": 1,
   "items": [
     {
-      "id": "2026-08-09-baseline-platform",
+      "id": "2026-08-09-platform-api-updates-feed",
       "published_at": "2026-08-09",
-      "type": "baseline",
+      "type": "platform",
       "modality": [
         "platform"
       ],
       "title": {
-        "en": "API Updates feed opens",
-        "zh": "API 更新日志上线"
+        "en": "Platform | API Updates feed opens",
+        "zh": "平台 | API 更新日志上线"
       },
       "summary": {
-        "en": "Public developer changelog for model launches, capability changes, pricing, and breaking API notes.",
-        "zh": "面向开发者的公开变更流：模型上新、能力扩展、定价与 breaking change。"
+        "en": "Public developer timeline for model launches, capability changes, pricing, and platform notes.",
+        "zh": "面向开发者的公开时间线：模型上新、能力变更、定价与平台说明。"
       },
       "models": [],
       "tags": [
         "platform",
-        "docs"
+        "feed"
       ],
       "links": [
         {
@@ -38,7 +38,7 @@
         },
         {
           "label": {
-            "en": "Pricing API surface",
+            "en": "Pricing",
             "zh": "定价与账户"
           },
           "href": {
@@ -48,76 +48,44 @@
         }
       ],
       "body": {
-        "en": "OmniMux now publishes an **API Updates** feed so you can track what changed on the gateway without digging through release chats.\n\n## What this log covers\n\n- **Model launches** — new callable model ids on live pricing\n- **Capability changes** — new modes, durations, resolutions, parameters\n- **Pricing** — material rate or settlement changes\n- **Breaking** — incompatible request/response or path changes\n- **Platform** — auth, domains, public HTTP surfaces (for example Social Ops publishing)\n\n## How to use OmniMux today\n\n| Surface | URL |\n| --- | --- |\n| Console | `https://omnimux.ai` |\n| OpenAI-compatible API | `https://api.omnimux.ai/v1` |\n| Docs | `https://docs.omnimux.ai` |\n| Status | `https://status.omnimux.ai` |\n\nAuth for relay: Bearer `sk-…` from the console. Quota display: raw_quota ÷ 500000 = USD; **1 USD = 10 credits (积分)**.\n\n## Baseline note\n\nEntries dated **2026-08-09** with type `baseline` describe the **live catalog snapshot** when this feed started. They are not fabricated per-day launch history. Later entries are append-only real changes.",
-        "zh": "OmniMux 现提供 **API 更新日志**，便于跟踪网关侧模型与协议变更，而无需翻聊天记录。\n\n## 本日志覆盖范围\n\n- **模型上新** — live pricing 上可调用的新 model id\n- **能力扩展** — 新模式、时长、分辨率、参数\n- **定价** — 实质费率或结算规则变化\n- **Breaking** — 不兼容的请求/响应或路径变更\n- **平台** — 鉴权、域名、公开 HTTP 面（如社媒发布）\n\n## 当前使用入口\n\n| 面 | URL |\n| --- | --- |\n| 控制台 | `https://omnimux.ai` |\n| OpenAI 兼容 API | `https://api.omnimux.ai/v1` |\n| 文档 | `https://docs.omnimux.ai` |\n| 状态页 | `https://status.omnimux.ai` |\n\nRelay 鉴权：控制台签发的 Bearer `sk-…`。额度展示：raw_quota ÷ 500000 = USD；**1 USD = 10 积分**。\n\n## 期初说明\n\n日期为 **2026-08-09** 且类型为 `baseline` 的条目，是本日志启用时的 **live 目录快照**，不是伪造的逐日上线史。之后条目为只追加的真实变更。"
+        "en": "OmniMux now publishes an **API Updates** timeline so you can track gateway changes without digging through chats or release notes elsewhere.\n\n## What this feed covers\n\n- **New models** — callable model IDs added on live pricing\n- **Model updates** — new modes, durations, resolutions, parameters\n- **Pricing** — material rate or settlement changes\n- **Breaking** — incompatible request/response or path changes\n- **Platform** — auth, domains, and public HTTP surfaces (for example Social Ops publishing)\n\n## How to use OmniMux today\n\n| Surface | URL |\n| --- | --- |\n| Console | `https://omnimux.ai` |\n| OpenAI-compatible API | `https://api.omnimux.ai/v1` |\n| Docs | `https://docs.omnimux.ai` |\n| Status | `https://status.omnimux.ai` |\n\nRelay auth: Bearer `sk-…` from the console.\n\n## Note on earlier capability\n\nEntries dated **2026-08-09** that describe language, image, video, or social-data families document capabilities **already available** on the gateway when this feed started. They are not fabricated per-model first-launch history. Later entries are append-only real changes.\n\nFull model inventory always lives on console pricing — this page is a **change timeline**, not a second catalog.",
+        "zh": "OmniMux 现提供 **API 更新** 时间线，便于跟踪网关侧模型与协议变更，而无需翻聊天或零散发布说明。\n\n## 本时间线覆盖范围\n\n- **新模型** — 线上定价新增可调用的模型 ID\n- **模型更新** — 新模式、时长、分辨率、参数\n- **价格调整** — 实质费率或结算规则变化\n- **不兼容变更** — 请求/响应或路径不兼容\n- **平台** — 鉴权、域名、公开 HTTP 面（如社媒发布）\n\n## 当前使用入口\n\n| 面 | URL |\n| --- | --- |\n| 控制台 | `https://omnimux.ai` |\n| OpenAI 兼容 API | `https://api.omnimux.ai/v1` |\n| 文档 | `https://docs.omnimux.ai` |\n| 状态页 | `https://status.omnimux.ai` |\n\nRelay 鉴权：控制台签发的 Bearer `sk-…`。\n\n## 关于早期能力\n\n日期为 **2026-08-09**、描述语言 / 图像 / 视频 / 社交数据等族的条目，记录的是本时间线上线时网关上 **已可调用** 的能力，**不是**伪造的逐模型首发史。之后条目为只追加的真实变更。\n\n完整模型清单以控制台定价为准——本页是 **变更时间线**，不是第二份目录。"
       },
       "schema_version": 1
     },
     {
-      "id": "2026-08-09-baseline-text",
+      "id": "2026-08-09-models-language-series",
       "published_at": "2026-08-09",
-      "type": "baseline",
+      "type": "model_launch",
       "modality": [
         "text"
       ],
       "title": {
-        "en": "Language models (catalog baseline)",
-        "zh": "语言系列模型（目录期初）"
+        "en": "New Model | Language series — Claude, GPT, Gemini, Grok & more",
+        "zh": "新模型 | 语言系列 — Claude / GPT / Gemini / Grok 等"
       },
       "summary": {
-        "en": "Chat Completions language brands live on the gateway: Claude, GPT, Gemini, Grok, DeepSeek, GLM, Kimi, MiniMax.",
-        "zh": "网关已上线语言品牌（Chat Completions）：Claude、GPT、Gemini、Grok、DeepSeek、GLM、Kimi、MiniMax。"
+        "en": "Chat Completions language brands are available on the gateway (already live when this feed opened).",
+        "zh": "语言品牌已通过 Chat Completions 可调用（本时间线上线时已在网关可用）。"
       },
       "models": [
-        "claude-fable-5",
-        "claude-haiku-4-5",
-        "claude-opus-4-6",
-        "claude-opus-4-7",
-        "claude-opus-4-8",
         "claude-opus-5",
-        "claude-sonnet-4-6",
         "claude-sonnet-5",
-        "deepseek-v4-flash",
-        "deepseek-v4-pro",
-        "gemini-2.5-flash",
-        "gemini-2.5-flash-lite",
-        "gemini-2.5-pro",
-        "gemini-3-flash",
-        "gemini-3-flash-preview",
-        "gemini-3-pro",
-        "gemini-3-pro-preview",
-        "gemini-3.1-flash-lite",
-        "gemini-3.1-flash-lite-preview",
-        "gemini-3.1-pro",
-        "gemini-3.1-pro-preview",
-        "gemini-3.5-flash",
-        "gemini-3.6-flash",
-        "glm-5.1",
-        "glm-5.2",
-        "gpt-5.4",
-        "gpt-5.4-mini",
+        "claude-haiku-4-5",
         "gpt-5.5",
-        "gpt-5.6-luna",
-        "gpt-5.6-sol",
         "gpt-5.6-terra",
-        "grok-4.20-0309-non-reasoning",
-        "grok-4.20-0309-reasoning",
-        "grok-4.20-multi-agent-0309",
-        "grok-4.3",
+        "gemini-3.6-flash",
+        "gemini-3.1-pro",
         "grok-4.5",
-        "grok-build-0.1",
-        "grok-composer-2.5-fast",
-        "kimi-k2.6",
-        "kimi-k2.7-code",
+        "deepseek-v4-pro",
+        "glm-5.2",
         "kimi-k3",
-        "minimax-m2.5",
-        "minimax-m2.7",
         "minimax-m3"
       ],
       "tags": [
         "text",
         "chat",
-        "baseline"
+        "available"
       ],
       "links": [
         {
@@ -159,39 +127,80 @@
             "en": "/en/api-reference/text-series/grok/complete",
             "zh": "/zh/api-reference/text-series/grok/complete"
           }
+        },
+        {
+          "label": {
+            "en": "DeepSeek complete",
+            "zh": "DeepSeek 完整参数"
+          },
+          "href": {
+            "en": "/en/api-reference/text-series/deepseek/complete",
+            "zh": "/zh/api-reference/text-series/deepseek/complete"
+          }
+        },
+        {
+          "label": {
+            "en": "GLM complete",
+            "zh": "GLM 完整参数"
+          },
+          "href": {
+            "en": "/en/api-reference/text-series/glm/complete",
+            "zh": "/zh/api-reference/text-series/glm/complete"
+          }
+        },
+        {
+          "label": {
+            "en": "Kimi complete",
+            "zh": "Kimi 完整参数"
+          },
+          "href": {
+            "en": "/en/api-reference/text-series/kimi/complete",
+            "zh": "/zh/api-reference/text-series/kimi/complete"
+          }
+        },
+        {
+          "label": {
+            "en": "MiniMax complete",
+            "zh": "MiniMax 完整参数"
+          },
+          "href": {
+            "en": "/en/api-reference/text-series/minimax/complete",
+            "zh": "/zh/api-reference/text-series/minimax/complete"
+          }
         }
       ],
       "body": {
-        "en": "Language generation is exposed primarily through **OpenAI-compatible Chat Completions** at `https://api.omnimux.ai/v1`.\n\n## Contract shape\n\n- One **complete** docs page per brand (model is an enum on the page).\n- Pin live model ids from console pricing / docs enums — do not invent ids.\n\n## Brands in this baseline\n\n| Brand | Example model ids |\n| --- | --- |\n| Claude | `claude-opus-4-7`, `claude-sonnet-5`, `claude-haiku-4-5`, … |\n| GPT | `gpt-5.4`, `gpt-5.5`, `gpt-5.6-terra`, … |\n| Gemini | `gemini-3.5-flash`, `gemini-3.1-pro`, `gemini-2.5-flash`, … |\n| Grok | `grok-4.5`, `grok-4.3`, `grok-build-0.1`, … |\n| DeepSeek | `deepseek-v4-flash`, `deepseek-v4-pro` |\n| GLM | `glm-5.1`, `glm-5.2` |\n| Kimi | `kimi-k2.6`, `kimi-k2.7-code`, `kimi-k3` |\n| MiniMax (text) | `minimax-m2.5`, `minimax-m2.7`, `minimax-m3` |\n\nFull id list is in the entry `models` field and on each brand complete page.\n\n## Documentation\n\nStart from the **Language series** tab in the API manual.",
-        "zh": "语言生成主要通过 **OpenAI 兼容 Chat Completions** 暴露：`https://api.omnimux.ai/v1`。\n\n## 调用合同\n\n- 每个品牌一页 **完整参数**（`model` 为页内枚举）。\n- model id 以控制台定价 / 文档枚举为准，禁止臆造。\n\n## 本期初覆盖品牌\n\n| 品牌 | 示例 model id |\n| --- | --- |\n| Claude | `claude-opus-4-7`、`claude-sonnet-5`、`claude-haiku-4-5` 等 |\n| GPT | `gpt-5.4`、`gpt-5.5`、`gpt-5.6-terra` 等 |\n| Gemini | `gemini-3.5-flash`、`gemini-3.1-pro`、`gemini-2.5-flash` 等 |\n| Grok | `grok-4.5`、`grok-4.3`、`grok-build-0.1` 等 |\n| DeepSeek | `deepseek-v4-flash`、`deepseek-v4-pro` |\n| GLM | `glm-5.1`、`glm-5.2` |\n| Kimi | `kimi-k2.6`、`kimi-k2.7-code`、`kimi-k3` |\n| MiniMax（文本） | `minimax-m2.5`、`minimax-m2.7`、`minimax-m3` |\n\n完整 id 见本条目 `models` 字段与各品牌完整参数页。\n\n## 文档\n\n见 API 手册 **语言系列** 页签。"
+        "en": "Language generation brands are **already available** on OmniMux through OpenAI-compatible **Chat Completions** at `https://api.omnimux.ai/v1`.\n\n## New model\n\nRepresentative model IDs (pin the exact ID from live pricing / docs enums):\n\n| Brand | Example model IDs |\n| --- | --- |\n| Claude | `claude-opus-5`, `claude-sonnet-5`, `claude-haiku-4-5` |\n| GPT | `gpt-5.5`, `gpt-5.6-terra` |\n| Gemini | `gemini-3.6-flash`, `gemini-3.1-pro` |\n| Grok | `grok-4.5` |\n| DeepSeek | `deepseek-v4-pro` |\n| GLM | `glm-5.2` |\n| Kimi | `kimi-k3` |\n| MiniMax (text) | `minimax-m3` |\n\n## Contract\n\n- One **complete** docs page per brand (`model` is an enum on the page).\n- Use model IDs from console pricing or the brand complete page only.\n\n## Documentation\n\nStart from the **Language series** tab in the API manual (links below).",
+        "zh": "语言生成品牌 **已在** OmniMux 可调用，主路径为 OpenAI 兼容 **Chat Completions**：`https://api.omnimux.ai/v1`。\n\n## 新模型\n\n代表性模型 ID（精确 ID 以线上定价 / 文档枚举为准）：\n\n| 品牌 | 示例模型 ID |\n| --- | --- |\n| Claude | `claude-opus-5`、`claude-sonnet-5`、`claude-haiku-4-5` |\n| GPT | `gpt-5.5`、`gpt-5.6-terra` |\n| Gemini | `gemini-3.6-flash`、`gemini-3.1-pro` |\n| Grok | `grok-4.5` |\n| DeepSeek | `deepseek-v4-pro` |\n| GLM | `glm-5.2` |\n| Kimi | `kimi-k3` |\n| MiniMax（文本） | `minimax-m3` |\n\n## 调用约定\n\n- 每个品牌一页 **完整参数**（`model` 为页内枚举）。\n- 模型 ID 请以控制台定价或品牌完整参数页为准。\n\n## 文档\n\n见 API 手册 **语言系列**（下方链接）。"
       },
       "schema_version": 1
     },
     {
-      "id": "2026-08-09-baseline-image",
+      "id": "2026-08-09-models-image-series",
       "published_at": "2026-08-09",
-      "type": "baseline",
+      "type": "model_launch",
       "modality": [
         "image"
       ],
       "title": {
-        "en": "Image models (catalog baseline)",
-        "zh": "图像系列模型（目录期初）"
+        "en": "New Model | Image generation — GPT Image 2, Nano Banana, Midjourney & more",
+        "zh": "新模型 | 图像生成 — GPT Image 2 / Nano Banana / Midjourney 等"
       },
       "summary": {
-        "en": "Image generation SKUs on live pricing: GPT Image 2, Nano Banana, Z-Image makeup.",
-        "zh": "live 定价上的图像 SKU：GPT Image 2、Nano Banana、Z-Image 美妆。"
+        "en": "Image generation SKUs available on live pricing when this feed opened.",
+        "zh": "本时间线上线时，线上定价已提供的图像生成能力。"
       },
       "models": [
         "gpt-image2",
         "gpt-image2-hd",
         "nano_banana_2",
         "nano_banana_pro",
-        "zimage-makeup"
+        "zimage-makeup",
+        "midjourney"
       ],
       "tags": [
         "image",
-        "baseline"
+        "available"
       ],
       "links": [
         {
@@ -233,46 +242,62 @@
             "en": "/en/api-reference/image-series/models/nano_banana_pro",
             "zh": "/zh/api-reference/image-series/models/nano_banana_pro"
           }
+        },
+        {
+          "label": {
+            "en": "Z-Image makeup",
+            "zh": "Z-Image 美妆"
+          },
+          "href": {
+            "en": "/en/api-reference/image-series/models/zimage-makeup",
+            "zh": "/zh/api-reference/image-series/models/zimage-makeup"
+          }
         }
       ],
       "body": {
-        "en": "Image generation models available on the gateway as of this baseline.\n\n## Models\n\n| Model id | Notes |\n| --- | --- |\n| `gpt-image2` | GPT Image 2 primary SKU |\n| `gpt-image2-hd` | Higher-detail / HD tier |\n| `nano_banana_2` | Nano Banana 2 image family |\n| `nano_banana_pro` | Nano Banana Pro |\n| `zimage-makeup` | Makeup / beauty workflow-oriented image model |\n\n## Documentation\n\nSee **Image series** in the API manual. Always pin the exact model id from live pricing.",
-        "zh": "本 baseline 时网关上的图像生成模型。\n\n## 模型\n\n| Model id | 说明 |\n| --- | --- |\n| `gpt-image2` | GPT Image 2 主 SKU |\n| `gpt-image2-hd` | 更高细节 / HD 档 |\n| `nano_banana_2` | Nano Banana 2 |\n| `nano_banana_pro` | Nano Banana Pro |\n| `zimage-makeup` | 美妆向图像工作流模型 |\n\n## 文档\n\n见 API 手册 **图像系列**。model id 以 live 定价为准。"
+        "en": "Image generation models are **already available** on the OmniMux gateway.\n\n## New model\n\n| Model ID | Notes |\n| --- | --- |\n| `gpt-image2` | GPT Image 2 primary SKU |\n| `gpt-image2-hd` | Higher-detail / HD tier |\n| `nano_banana_2` | Nano Banana 2 |\n| `nano_banana_pro` | Nano Banana Pro |\n| `zimage-makeup` | Makeup / beauty workflow-oriented image model |\n| `midjourney` | Midjourney image path on live pricing |\n\n## Key capabilities\n\n- Text-to-image and product/creative image workflows via gateway model IDs\n- Pin the exact model ID from live pricing before integrating\n\n## Documentation\n\nSee **Image series** in the API manual. Full inventory remains on console pricing.",
+        "zh": "图像生成模型 **已在** OmniMux 网关可调用。\n\n## 新模型\n\n| 模型 ID | 说明 |\n| --- | --- |\n| `gpt-image2` | GPT Image 2 主 SKU |\n| `gpt-image2-hd` | 更高细节 / HD 档 |\n| `nano_banana_2` | Nano Banana 2 |\n| `nano_banana_pro` | Nano Banana Pro |\n| `zimage-makeup` | 美妆向图像工作流模型 |\n| `midjourney` | 线上定价中的 Midjourney 图像路径 |\n\n## 关键能力\n\n- 通过网关模型 ID 做文生图与创意/商品图工作流\n- 接入前请以线上定价的精确模型 ID 为准\n\n## 文档\n\n见 API 手册 **图像系列**。完整清单仍以控制台定价为准。"
       },
       "schema_version": 1
     },
     {
-      "id": "2026-08-09-baseline-video",
+      "id": "2026-08-09-models-video-series",
       "published_at": "2026-08-09",
-      "type": "baseline",
+      "type": "model_launch",
       "modality": [
         "video"
       ],
       "title": {
-        "en": "Video models (catalog baseline)",
-        "zh": "视频系列模型（目录期初）"
+        "en": "New Model | Video generation — Omni Flash, MiniMax H3, Veo, Kling, Seedance",
+        "zh": "新模型 | 视频生成 — Omni Flash / MiniMax H3 / Veo / Kling / Seedance"
       },
       "summary": {
-        "en": "Async video SKUs: Omni Flash duration family, MiniMax H3 variants, Veo 3.1, Grok Imagine Video, LTX.",
-        "zh": "异步视频 SKU：Omni Flash 时长族、MiniMax H3 变体、Veo 3.1、Grok Imagine Video、LTX。"
+        "en": "Async video SKUs available when this feed opened: create then poll task status.",
+        "zh": "本时间线上线时已可用的异步视频能力：先创建任务再查询状态。"
       },
       "models": [
-        "grok-imagine-video-1.5",
-        "ltx2.3-kj",
-        "minimax-h3-endframe",
-        "minimax-h3-fl2va",
-        "minimax-h3-flf",
-        "minimax-h3-t2v",
         "omni_flash",
-        "omni_flash-10s",
         "omni_flash-4s",
         "omni_flash-6s",
-        "veo_3_1"
+        "omni_flash-10s",
+        "minimax-h3-t2v",
+        "minimax-h3-flf",
+        "minimax-h3-fl2va",
+        "minimax-h3-endframe",
+        "veo_3_1",
+        "grok-imagine-video-1.5",
+        "ltx2.3-kj",
+        "kling-v2-6",
+        "kling-v3",
+        "seedance-2-0",
+        "seedance-2-0-fast",
+        "seedance-2-0-mini",
+        "seedance-2-5"
       ],
       "tags": [
         "video",
         "async",
-        "baseline"
+        "available"
       ],
       "links": [
         {
@@ -314,50 +339,60 @@
             "en": "/en/api-reference/video-series/models/veo_3_1",
             "zh": "/zh/api-reference/video-series/models/veo_3_1"
           }
+        },
+        {
+          "label": {
+            "en": "Grok Imagine Video 1.5",
+            "zh": "Grok Imagine Video 1.5"
+          },
+          "href": {
+            "en": "/en/api-reference/video-series/models/grok-imagine-video-1.5",
+            "zh": "/zh/api-reference/video-series/models/grok-imagine-video-1.5"
+          }
         }
       ],
       "body": {
-        "en": "Video generation on OmniMux is primarily **async**:\n\n- Create: `POST /v1/video/generations`\n- Poll: `GET /v1/video/generations/{task_id}`\n\n## Models in this baseline\n\n| Model id | Role |\n| --- | --- |\n| `omni_flash` | Omni Flash base |\n| `omni_flash-4s` / `-6s` / `-10s` | Duration-oriented Omni Flash SKUs |\n| `minimax-h3-t2v` | MiniMax H3 text-to-video |\n| `minimax-h3-flf` | First/last-frame style I2V |\n| `minimax-h3-fl2va` | FL2VA-oriented path |\n| `minimax-h3-endframe` | End-frame reference I2V |\n| `veo_3_1` | Veo 3.1 |\n| `grok-imagine-video-1.5` | Grok Imagine Video |\n| `ltx2.3-kj` | LTX 2.3 family SKU |\n\n## Documentation\n\nSee **Video series** and **Task management** in the API manual. Do not confuse task poll with content download paths.",
-        "zh": "OmniMux 视频生成以 **异步任务** 为主：\n\n- 创建：`POST /v1/video/generations`\n- 查询：`GET /v1/video/generations/{task_id}`\n\n## 本期初模型\n\n| Model id | 角色 |\n| --- | --- |\n| `omni_flash` | Omni Flash 基础 |\n| `omni_flash-4s` / `-6s` / `-10s` | 按时长划分的 Omni Flash SKU |\n| `minimax-h3-t2v` | MiniMax H3 文生视频 |\n| `minimax-h3-flf` | 首末帧类 I2V |\n| `minimax-h3-fl2va` | FL2VA 路径 |\n| `minimax-h3-endframe` | 尾帧参考 I2V |\n| `veo_3_1` | Veo 3.1 |\n| `grok-imagine-video-1.5` | Grok Imagine Video |\n| `ltx2.3-kj` | LTX 2.3 系 SKU |\n\n## 文档\n\n见 API 手册 **视频系列** 与 **任务管理**。勿与内容下载路径混淆。"
+        "en": "Video generation on OmniMux is primarily **async** and **already available** on the gateway:\n\n- Create: `POST /v1/video/generations`\n- Poll: `GET /v1/video/generations/{task_id}`\n\n## New model\n\n| Model ID | Role |\n| --- | --- |\n| `omni_flash`, `omni_flash-4s` / `-6s` / `-10s` | Omni Flash duration family |\n| `minimax-h3-t2v` | MiniMax H3 text-to-video |\n| `minimax-h3-flf` / `minimax-h3-fl2va` / `minimax-h3-endframe` | MiniMax H3 image / frame variants |\n| `veo_3_1` | Veo 3.1 |\n| `grok-imagine-video-1.5` | Grok Imagine Video |\n| `ltx2.3-kj` | LTX family SKU |\n| `kling-v2-6`, `kling-v3` | Kling video SKUs on live pricing |\n| `seedance-2-0`, `seedance-2-0-fast`, `seedance-2-0-mini`, `seedance-2-5` | Seedance family on live pricing |\n\n## Key capabilities\n\n- Submit once, poll task status until assets are ready\n- Do not confuse task poll with content-download-only paths\n\n## Documentation\n\nSee **Video series** and **Task management**. Exact IDs always from live pricing.",
+        "zh": "OmniMux 视频生成以 **异步任务** 为主，且 **已在** 网关可调用：\n\n- 创建：`POST /v1/video/generations`\n- 查询：`GET /v1/video/generations/{task_id}`\n\n## 新模型\n\n| 模型 ID | 角色 |\n| --- | --- |\n| `omni_flash`、`omni_flash-4s` / `-6s` / `-10s` | Omni Flash 时长族 |\n| `minimax-h3-t2v` | MiniMax H3 文生视频 |\n| `minimax-h3-flf` / `minimax-h3-fl2va` / `minimax-h3-endframe` | MiniMax H3 图/帧变体 |\n| `veo_3_1` | Veo 3.1 |\n| `grok-imagine-video-1.5` | Grok Imagine Video |\n| `ltx2.3-kj` | LTX 系 SKU |\n| `kling-v2-6`、`kling-v3` | 线上定价中的 Kling 视频 |\n| `seedance-2-0`、`seedance-2-0-fast`、`seedance-2-0-mini`、`seedance-2-5` | 线上定价中的 Seedance 族 |\n\n## 关键能力\n\n- 提交一次后轮询任务状态直至产出就绪\n- 勿与纯内容下载路径混淆\n\n## 文档\n\n见 **视频系列** 与 **任务管理**。精确 ID 始终以线上定价为准。"
       },
       "schema_version": 1
     },
     {
-      "id": "2026-08-09-baseline-social-data",
+      "id": "2026-08-09-models-social-data",
       "published_at": "2026-08-09",
-      "type": "baseline",
+      "type": "model_launch",
       "modality": [
         "social-data"
       ],
       "title": {
-        "en": "Social data models (catalog baseline)",
-        "zh": "社交数据模型（目录期初）"
+        "en": "New Model | Social data — TikTok, Instagram, X, YouTube (read-only)",
+        "zh": "新模型 | 社交数据 — TikTok / Instagram / X / YouTube（只读）"
       },
       "summary": {
-        "en": "Read-only social data via Chat Completions-style models for TikTok, Instagram, X, and YouTube.",
-        "zh": "只读社交数据：以 Chat Completions 形态提供的 TikTok、Instagram、X、YouTube 模型。"
+        "en": "Read-only social data models via Chat Completions-style IDs — not publishing.",
+        "zh": "只读社交数据模型（Chat Completions 形态模型 ID）——不是社媒发布。"
       },
       "models": [
-        "instagram-post",
-        "instagram-posts",
-        "instagram-search",
-        "instagram-user",
-        "tiktok-posts",
-        "tiktok-search",
         "tiktok-user",
+        "tiktok-posts",
         "tiktok-video",
-        "x-posts",
-        "x-search",
-        "x-tweet",
+        "tiktok-search",
+        "instagram-user",
+        "instagram-posts",
+        "instagram-post",
+        "instagram-search",
         "x-user",
-        "youtube-posts",
-        "youtube-search",
+        "x-posts",
+        "x-tweet",
+        "x-search",
         "youtube-user",
-        "youtube-video"
+        "youtube-posts",
+        "youtube-video",
+        "youtube-search"
       ],
       "tags": [
         "social-data",
-        "baseline"
+        "available"
       ],
       "links": [
         {
@@ -399,11 +434,21 @@
             "en": "/en/api-reference/social-data/instagram/search",
             "zh": "/zh/api-reference/social-data/instagram/search"
           }
+        },
+        {
+          "label": {
+            "en": "Create post (publishing)",
+            "zh": "创建帖子（社媒发布）"
+          },
+          "href": {
+            "en": "/en/api-reference/publishing/create-post",
+            "zh": "/zh/api-reference/publishing/create-post"
+          }
         }
       ],
       "body": {
-        "en": "**Social data** is **read-only** public content / profile style access. It is **not** social publishing.\n\n## Platforms in this baseline\n\n| Platform | Model ids (examples) |\n| --- | --- |\n| TikTok | `tiktok-user`, `tiktok-posts`, `tiktok-video`, `tiktok-search` |\n| Instagram | `instagram-user`, `instagram-posts`, `instagram-post`, `instagram-search` |\n| X | `x-user`, `x-posts`, `x-tweet`, `x-search` |\n| YouTube | `youtube-user`, `youtube-posts`, `youtube-video`, `youtube-search` |\n\n## Publishing (different surface)\n\nConnect accounts and create posts use **`/api/social/v1/*`** with access token + `New-Api-User` — see **Publishing** in the API manual. Do not mix auth models.\n\n## Documentation\n\nSee **Social data** groups under the API manual.",
-        "zh": "**社交数据**是 **只读** 的公开内容/资料类能力，**不是** 社媒发布。\n\n## 本期初平台\n\n| 平台 | Model id（示例） |\n| --- | --- |\n| TikTok | `tiktok-user`、`tiktok-posts`、`tiktok-video`、`tiktok-search` |\n| Instagram | `instagram-user`、`instagram-posts`、`instagram-post`、`instagram-search` |\n| X | `x-user`、`x-posts`、`x-tweet`、`x-search` |\n| YouTube | `youtube-user`、`youtube-posts`、`youtube-video`、`youtube-search` |\n\n## 社媒发布（另一套面）\n\n连接账户与发帖走 **`/api/social/v1/*`**，鉴权为 access token + `New-Api-User`，见 API 手册 **社媒发布**。勿混用鉴权模型。\n\n## 文档\n\n见 API 手册 **社交数据** 分组。"
+        "en": "**Social data** is **read-only** public content / profile style access. It is **not** social publishing.\n\n## New model\n\n| Platform | Model IDs |\n| --- | --- |\n| TikTok | `tiktok-user`, `tiktok-posts`, `tiktok-video`, `tiktok-search` |\n| Instagram | `instagram-user`, `instagram-posts`, `instagram-post`, `instagram-search` |\n| X | `x-user`, `x-posts`, `x-tweet`, `x-search` |\n| YouTube | `youtube-user`, `youtube-posts`, `youtube-video`, `youtube-search` |\n\n## Publishing (different surface)\n\nConnect accounts and create posts use **`/api/social/v1/*`** with access token + `New-Api-User` — see **Publishing** in the API manual. Do not mix auth models with gateway `sk-` Chat Completions.\n\n## Documentation\n\nSee **Social data** groups under the API manual (links below).",
+        "zh": "**社交数据**是 **只读** 的公开内容/资料类能力，**不是** 社媒发布。\n\n## 新模型\n\n| 平台 | 模型 ID |\n| --- | --- |\n| TikTok | `tiktok-user`、`tiktok-posts`、`tiktok-video`、`tiktok-search` |\n| Instagram | `instagram-user`、`instagram-posts`、`instagram-post`、`instagram-search` |\n| X | `x-user`、`x-posts`、`x-tweet`、`x-search` |\n| YouTube | `youtube-user`、`youtube-posts`、`youtube-video`、`youtube-search` |\n\n## 社媒发布（另一套面）\n\n连接账户与发帖走 **`/api/social/v1/*`**，鉴权为 access token + `New-Api-User`，见 API 手册 **社媒发布**。勿与网关 `sk-` Chat Completions 混用鉴权。\n\n## 文档\n\n见 API 手册 **社交数据** 分组（下方链接）。"
       },
       "schema_version": 1
     }
