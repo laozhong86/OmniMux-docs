@@ -27,3 +27,32 @@ aside[data-assistant],
 [data-testid="assistant-panel"] {
   display: none !important;
 }
+
+/* Social brand SVGs: files are painted black and often loaded as <img>,
+   so currentColor does not track the theme. Invert in dark mode. */
+img[src*="/icons/social/"],
+img[src*="icons/social/"],
+image[href*="/icons/social/"],
+[style*="icons/social/"] {
+  opacity: 0.8;
+}
+
+html.dark img[src*="/icons/social/"],
+html.dark img[src*="icons/social/"],
+.dark img[src*="/icons/social/"],
+.dark img[src*="icons/social/"],
+html[data-theme="dark"] img[src*="/icons/social/"],
+html[data-theme="dark"] img[src*="icons/social/"],
+[data-theme="dark"] img[src*="/icons/social/"],
+html.dark [style*="icons/social/"],
+.dark [style*="icons/social/"] {
+  filter: invert(1) brightness(1.05);
+  opacity: 0.9;
+}
+
+/* If Mintlify inlines SVG with hard-coded fill */
+html.dark svg[data-icon-path*="icons/social"] path,
+.dark svg[data-icon-path*="icons/social"] path {
+  fill: currentColor;
+  stroke: currentColor;
+}
