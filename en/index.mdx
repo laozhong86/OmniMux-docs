@@ -1,9 +1,9 @@
 ---
 title: "OmniMux"
-description: "Social media operations infrastructure for agents — help creators, developers, brands, and teams run automated multi-platform accounts."
+description: "All-in-one social media API for AI agents — one API to create and orchestrate content across platforms. Pay per call, no subscription."
 ---
 
-OmniMux is social media operations infrastructure built for agents. It helps creators, developers, brands, and companies build an automated social-account operating system. **Built for agents**: delivered as API, local CLI, Agent Skill, and MCP Server so any agent can plug in with minimal friction. **Global and China coverage**: one abstraction and one auth model across worldwide and Chinese platforms — connect once, reach the network. **Agent-first delivery**: send the product URL to your agent; install, init, and platform authorization are completed by the agent.
+OmniMux is the **all-in-one social media API for AI agents**. **One API** to **create content and orchestrate multi-platform distribution**. **Pay per call, no subscription.** Delivered as REST API, local CLI, Agent Skill, and MCP Server so any agent can plug in. **Global channels**: X, LinkedIn, YouTube, Instagram, TikTok, Threads, and more under one abstraction and auth model (the product support matrix does **not** include mainland China domestic platforms). **Agent-first delivery**: send the product URL to your agent; install, init, and platform authorization can be completed by the agent.
 
 Production: console [omnimux.ai/dashboard](https://omnimux.ai/dashboard) · API `https://api.omnimux.ai` · docs [docs.omnimux.ai](https://docs.omnimux.ai).
 
@@ -13,92 +13,46 @@ Production: console [omnimux.ai/dashboard](https://omnimux.ai/dashboard) · API 
   <Card title="Agent-native access" icon="robot">
     One capability surface as API, CLI, Skill, and MCP — meet your agent wherever it runs.
   </Card>
-  <Card title="Global and China rails" icon="globe">
-    X, LinkedIn, YouTube plus Xiaohongshu, Douyin, and WeChat Official Accounts share one call surface; OmniMux handles platform auth and rules.
+  <Card title="Create + orchestrate" icon="layer-group">
+    Content production and multi-platform publishing share one interface — no two half-stack products or bills.
   </Card>
-  <Card title="Agent-first delivery" icon="handshake">
-    The product URL is the entrypoint. Agents fetch install and init steps; Skills include authorization guidance — zero UI onboarding.
+  <Card title="Global channels" icon="globe">
+    X, LinkedIn, YouTube, Instagram, TikTok, Threads, and more with unified abstraction and auth.
   </Card>
-  <Card title="Transparent billing" icon="receipt">
-    Free to install, pay per call. Each action has a credit unit price, estimates before invoke, and usage returned with the response.
+  <Card title="Pay per call, no subscription" icon="receipt">
+    Free to install. Each action has a credit unit price, estimates before invoke, and usage returned with the response.
   </Card>
 </CardGroup>
 
 ## Capabilities
 
-**Analytics** Pull performance and engagement from each platform into one view for topic selection, spend, and review.
+### Content creation
 
-**Content planning** Plan themes and publishing cadence from data insights. Exposed as API and Skill for your agent to call.
+Multi-channel content and asset production, exposed as API and Skill for your agent to call — your agent keeps creative control.
 
-**Auto-posting** Multi-platform publish and scheduling with format, specs, and tone adapted per network.
+### Multi-platform orchestration
 
-**Engagement ops** Day-to-day matrix actions with human-like pacing, fully logged and auditable.
+Close the loop on global channels. Orchestration sub-capabilities include:
 
-These cover publish, adapt, distribute, and recycle on one call surface — analytics, planning, posting, and engagement through one API, driven by your agent.
+- **Publish** multi-platform posting and scheduling by platform rules
+- **Adapt** per-channel format, specs, and tone
+- **Distribute** account-matrix distribution at a human pace, fully auditable
+- **Collect** engagement and performance back into the next plan
+
+Messaging and promotion capabilities expand with the channel matrix as orchestration extensions.
+
+One call surface: create + orchestrate through one API.
 
 ## Core features
 
-<CardGroup cols={2}>
-  <Card title="Unified auth" icon="key">
-    One key for all capabilities. Credentials for cross-platform publish, data pull, and account ops stay in one place.
-  </Card>
-  <Card title="Auditable execution" icon="clipboard-list">
-    Idempotent publish. Request, response, latency, and cost are retained by default for observability.
-  </Card>
-  <Card title="Human-like pacing" icon="wave-pulse">
-    Execution policy is paced, configurable, and rule-aware to reduce rate limits and account risk.
-  </Card>
-  <Card title="Stable routing" icon="route">
-    When upstreams degrade, smart routing fails over to healthy channels without changing contracts or metering.
-  </Card>
-</CardGroup>
+**Unified auth**
+One key for creation and orchestration across channels.
 
-## Use cases
+**Auditable execution**
+Idempotent publish; request, response, latency, and cost on every call.
 
-| Scenario | What you get |
-| --- | --- |
-| **Personal brand** | Creators and one-person companies hand distribution to an agent — publish network-wide, review nightly, feed data back into topics. |
-| **Product marketing** | Developers and indie hackers get multi-platform social execution from one endpoint, or embed it in their own product. |
-| **Brand matrices** | Marketing teams and agencies run matrix ops with systems and agents, with permissions, audit, and optional human review gates. |
+**Human-paced execution**
+Configurable pacing treats platform rules as constraints.
 
-## Start here
-
-<CardGroup cols={2}>
-  <Card title="Quickstart" icon="rocket" href="/en/quickstart">
-    Create an API key, set the Base URL, and send your first request.
-  </Card>
-  <Card title="Connection and usage" icon="link" href="/en/faqs/connection-usage">
-    Base URL, dual credentials, and 401/402/429.
-  </Card>
-  <Card title="API manual" icon="code" href="/en/api-reference/text-series/claude/complete">
-    Language / image / video / social contracts.
-  </Card>
-  <Card title="Integration guide" icon="plug" href="/en/integration-guide/chatbox">
-    Chat apps, dev tools, and app platforms.
-  </Card>
-</CardGroup>
-
-## For agents
-
-Mintlify auto-hosts machine-readable docs. Point your agent here first:
-
-<CardGroup cols={2}>
-  <Card title="llms.txt" icon="list" href="https://docs.omnimux.ai/llms.txt">
-    Site index for LLMs — page list with short descriptions (always generated from nav).
-  </Card>
-  <Card title="llms-full.txt" icon="file-text" href="https://docs.omnimux.ai/llms-full.txt">
-    Full-site Markdown dump for one-shot context.
-  </Card>
-  <Card title="skill.md" icon="sparkles" href="https://docs.omnimux.ai/skill.md">
-    Product skill: when to use OmniMux, auth, and common workflows.
-  </Card>
-  <Card title="Docs MCP" icon="plug" href="https://docs.omnimux.ai/mcp">
-    Hosted search MCP for Cursor / Claude / other MCP clients.
-  </Card>
-</CardGroup>
-
-Tip: any docs page also has a Markdown twin at `…/path.md`, and the page header contextual menu can copy Markdown or install the docs MCP.
-
-<Tip>
-  Console and API hosts are separate: console [omnimux.ai/dashboard](https://omnimux.ai/dashboard), API `https://api.omnimux.ai`.
-</Tip>
+**Stable routing**
+Intelligent routing fails over when upstream degrades; the contract and metering stay the same.
