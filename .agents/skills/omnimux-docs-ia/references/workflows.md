@@ -52,10 +52,13 @@ Empty brands, planned APIs, Social Ops names, L2-duplicate children.
 ```bash
 python3 -c "import json; json.load(open('docs.json'))"
 python3 scripts/check-naming.py
+python3 scripts/check-i18n.py
 python3 -c "import json; json.load(open('openapi/ops/chat/gpt-5.4.json'))"
 # after deploy
 curl -sS -o /dev/null -w '%{http_code}\n' \
   https://docs.omnimux.ai/cn/api-reference/text-series/claude/complete
+curl -sS -o /dev/null -w '%{http_code}\n' \
+  https://docs.omnimux.ai/en/api-reference/text-series/claude/complete
 ```
 
 Ego checklist:
@@ -65,7 +68,24 @@ Ego checklist:
 - [ ] Response statuses include 402  
 - [ ] Right sticky request example  
 - [ ] Not “only 5-row Markdown Body”  
-- [ ] Sidebar leaf shows brand + capability (language Complete not bare「完整参数」)
+- [ ] Sidebar leaf shows brand + capability (language Complete not bare「完整参数」)  
+- [ ] cn + en page pair both open  
+
+### Language switcher (M2)
+
+After deploy, spot-check path-preserving switch (Mintlify localization selector):
+
+| From | Expect after switch |
+| --- | --- |
+| `/cn/quickstart` | `/en/quickstart` |
+| `/en/api-reference/text-series/claude/complete` | `/cn/api-reference/text-series/claude/complete` |
+| `/cn/faqs/connection-usage` | `/en/faqs/connection-usage` |
+
+If the platform only returns locale home, document as limitation; do not invent non-supported hreflang.
+
+### Navbar chrome
+
+`docs.json` `navbar` is **site-wide English** (`Support`, `Dashboard`) by design (zero-risk). Do not require per-locale navbar unless product asks and Mintlify schema supports it.
 
 ## W7. OpenAPI relay sync
 
