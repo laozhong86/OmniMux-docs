@@ -726,10 +726,6 @@
         "label": "Telegram",
         "href": "https://t.me/+ITiQvBOpCe8wZTc1",
         "icon": "send"
-      },
-      {
-        "label": "Support",
-        "href": "mailto:hello@omnimux.ai"
       }
     ],
     "primary": {
