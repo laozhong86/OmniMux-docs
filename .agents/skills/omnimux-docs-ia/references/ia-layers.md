@@ -83,7 +83,7 @@ L1  系列 / 管理面          （发现主轴）
 | 语言系列 | `message-square` |
 | 图像系列 | `image` |
 | 视频系列 | `video` |
-| 社交数据 | `share-2` |
+| 社交数据 | `share-2`（L1）；L2：TikTok `music-2` · Instagram `camera` · YouTube `play-circle` · X `at-sign`；`docs.json` 须设 `icons.library: lucide` |
 | 社媒发布 | `send` |
 | 账户管理 | `user` |
 | 任务管理 | `list-checks` |
