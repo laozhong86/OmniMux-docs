@@ -25,7 +25,7 @@ def fm(path: Path) -> dict[str, str]:
 
 def main() -> int:
     # Language complete: sidebar must include brand + complete phrase
-    for loc, needle in [("cn", "完整参数"), ("en", "Complete API Reference")]:
+    for loc, needle in [("zh", "完整参数"), ("en", "Complete API Reference")]:
         for p in sorted((ROOT / loc / "api-reference/text-series").glob("*/complete.mdx")):
             meta = fm(p)
             title = meta.get("title", "")
@@ -42,7 +42,7 @@ def main() -> int:
 
     # Image/video model leaves: non-empty capability, not model-id-only
     for series in ("image-series", "video-series"):
-        for loc in ("cn", "en"):
+        for loc in ("zh", "en"):
             models = ROOT / loc / "api-reference" / series / "models"
             if not models.is_dir():
                 continue
@@ -66,8 +66,8 @@ def main() -> int:
 
     # Orphans that must not exist
     for rel in (
-        "cn/api-reference/coverage.mdx",
-        "cn/api-reference/errors.mdx",
+        "zh/api-reference/coverage.mdx",
+        "zh/api-reference/errors.mdx",
         "en/api-reference/coverage.mdx",
         "en/api-reference/errors.mdx",
     ):

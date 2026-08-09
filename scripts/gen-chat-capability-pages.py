@@ -21,7 +21,7 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 RELAY = ROOT / "openapi" / "relay.json"
 OPS_DIR = ROOT / "openapi" / "ops" / "chat"
-MODELS_DIR = ROOT / "cn" / "api-reference" / "text-series" / "models"
+MODELS_DIR = ROOT / "zh" / "api-reference" / "text-series" / "models"
 
 # brand key → (display CN, display EN, model-id prefix regex)
 BRANDS: dict[str, tuple[str, str, str]] = {
@@ -441,7 +441,7 @@ def write_brand(brand_key: str, models: list[str] | None = None) -> None:
     op_path.write_text(json.dumps(op, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     op_rel = f"openapi/ops/chat/{brand_key}.json"
 
-    for loc, render in (("cn", render_mdx_cn), ("en", render_mdx_en)):
+    for loc, render in (("zh", render_mdx_cn), ("en", render_mdx_en)):
         d = ROOT / loc / "api-reference" / "text-series" / brand_key
         d.mkdir(parents=True, exist_ok=True)
         page = d / "complete.mdx"
@@ -451,7 +451,7 @@ def write_brand(brand_key: str, models: list[str] | None = None) -> None:
 
 def remove_per_model_pages() -> None:
     """Delete per-model MDX and ops; keep brand complete ops + catalog."""
-    for loc in ("cn", "en"):
+    for loc in ("zh", "en"):
         mdir = ROOT / loc / "api-reference" / "text-series" / "models"
         if not mdir.exists():
             continue
@@ -474,7 +474,7 @@ def update_docs_json() -> None:
         order = ["claude", "gemini", "gpt", "grok", "kimi", "deepseek", "minimax", "glm"]
         out = []
         labels = {
-            "cn": {k: v[0] for k, v in BRANDS.items()},
+            "zh": {k: v[0] for k, v in BRANDS.items()},
             "en": {k: v[1] for k, v in BRANDS.items()},
         }
         for k in order:
@@ -487,7 +487,7 @@ def update_docs_json() -> None:
         return out
 
     for lang in d["navigation"]["languages"]:
-        loc = "cn" if lang.get("language") == "cn" else "en"
+        loc = "zh" if lang.get("language") == "zh" else "en"
         for tab in lang.get("tabs", []):
             if tab.get("tab") not in ("API 手册", "API manual"):
                 continue

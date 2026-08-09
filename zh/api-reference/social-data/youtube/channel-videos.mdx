@@ -1,0 +1,169 @@
+---
+title: "频道视频列表"
+sidebarTitle: "频道视频列表"
+description: "社交数据 · YouTube · `youtube-posts`"
+api: "POST https://api.omnimux.ai/v1/chat/completions"
+---
+
+- 社交数据 **读取** 能力：OpenAI Chat Completions 形态，鉴权 `sk-`
+- `model` 为 `youtube-posts`；`messages` 可传 dummy（如 `"."`）
+- 业务参数放在请求体 **top-level**（如 `channel_id`），不要塞进 system prompt
+- 与 **社媒发布** 无关（发布见连接账户 / 帖子）
+
+## 身份
+
+| 字段 | 值 |
+| --- | --- |
+| 系列 | 社交数据 |
+| 平台 | YouTube |
+| 能力 | 频道视频列表 |
+| model | `youtube-posts` |
+
+## 接口
+
+| 方法 | 路径 |
+| --- | --- |
+| `POST` | `/v1/chat/completions` |
+
+Base URL：`https://api.omnimux.ai`
+
+## 鉴权
+
+| 名称 | 位置 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | 是 | `Bearer sk-...`（API Key） |
+
+## 请求体
+
+| 字段 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| `model` | string | 是 | 固定为 `youtube-posts` |
+| `messages` | array | 是 | 可传 dummy user message |
+| `channel_id` | string | 是 | YouTube channel id |
+
+## 响应
+
+### 200
+
+| 字段 | 类型 | 说明 |
+| --- | --- | --- |
+| `id` | string | 完成 id |
+| `object` | string | `chat.completion` |
+| `model` | string | `youtube-posts` |
+| `choices[].message.content` | string | 上游平台 JSON 字符串（结构因接口而异） |
+
+错误形态见右栏示例与 [错误码](/zh/faqs/connection-usage)。
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url https://api.omnimux.ai/v1/chat/completions \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "model": "youtube-posts",
+  "messages": [
+    { "role": "user", "content": "." }
+  ],
+  "channel_id": "UC_x5XG1OV2P6uZZ5FSM9Ttw"
+}'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200
+{
+  "id": "chatcmpl-social-data-example",
+  "object": "chat.completion",
+  "model": "youtube-posts",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "{ /* 上游平台 JSON，结构因接口而异 */ }"
+      },
+      "finish_reason": "stop"
+    }
+  ]
+}
+```
+
+```json 400
+{
+  "error": {
+    "message": "Invalid request: missing channel_id or invalid parameter",
+    "type": "invalid_request_error",
+    "code": "bad_request"
+  }
+}
+```
+
+```json 401
+{
+  "error": {
+    "message": "Invalid token or authentication failed",
+    "type": "authentication_error",
+    "code": "unauthorized"
+  }
+}
+```
+
+```json 402
+{
+  "error": {
+    "message": "Insufficient quota. Please top up your account.",
+    "type": "insufficient_quota",
+    "code": "insufficient_quota"
+  }
+}
+```
+
+```json 403
+{
+  "error": {
+    "message": "Model not allowed for this token",
+    "type": "permission_error",
+    "code": "forbidden"
+  }
+}
+```
+
+```json 429
+{
+  "error": {
+    "message": "Rate limit exceeded",
+    "type": "rate_limit_error",
+    "code": "rate_limit_exceeded"
+  }
+}
+```
+
+```json 500
+{
+  "error": {
+    "message": "Internal server error",
+    "type": "server_error",
+    "code": "internal_error"
+  }
+}
+```
+
+```json 502
+{
+  "error": {
+    "message": "Upstream provider error",
+    "type": "server_error",
+    "code": "bad_gateway"
+  }
+}
+```
+
+</ResponseExample>
+
+</Panel>

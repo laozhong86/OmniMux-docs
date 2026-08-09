@@ -1,0 +1,187 @@
+---
+title: "CodeBuddy / WorkBuddy"
+description: "将 CodeBuddy 和 WorkBuddy 连接到 OmniMux"
+---
+
+## 概述
+
+<Note>
+OmniMux 网关统一使用 Base URL：`https://api.omnimux.ai`（OpenAI 兼容客户端通常填 `https://api.omnimux.ai/v1`）。控制台为 [omnimux.ai/dashboard](https://omnimux.ai/dashboard)。文中的模型 ID 仅为示例，请以控制台或 `GET /v1/models` 为准。
+</Note>
+
+
+CodeBuddy 和 WorkBuddy 是腾讯云推出的 AI 工具，支持通过 `models.json` 配置文件接入自定义 AI 模型。
+通过将它们与 **OmniMux API** 进行配置集成，您可以直接使用 OmniMux 提供的各类 AI 模型能力。
+
+CodeBuddy 和 WorkBuddy 使用相同的配置方式，本文档同时适用于两者。
+
+## 使用前准备
+
+### 获取 OmniMux API Key
+
+* 登录 [OmniMux 控制台](https://omnimux.ai/dashboard)
+* 在控制台中找到 API Keys，点击"创建新Key"按钮，然后复制生成的 Key
+* API Key 通常以 `sk-` 开头，请妥善保存
+
+## 配置步骤
+
+### 1. 打开配置文件
+
+**CodeBuddy：** `~/.codebuddy/models.json`
+
+**WorkBuddy：** `~/.workbuddy/models.json`
+
+### 2. 添加 OmniMux 模型配置
+
+编辑 `models.json` 文件，添加以下配置：
+
+目前仅支持 OpenAI SDK 格式的模型接入。
+
+```json
+{
+"models": [
+{
+"id": "claude-sonnet-4-5-20250929",
+"name": "OmniMux Gateway (智能路由)",
+"vendor": "OmniMux",
+"apiKey": "sk-your-api-key-here",
+"url": "https://api.omnimux.ai/v1/chat/completions",
+"supportsToolCall": true,
+"supportsImages": true
+},
+{
+"id": "gpt-5.4",
+"name": "OmniMux GPT-5.4",
+"vendor": "OpenAI",
+"apiKey": "sk-your-api-key-here",
+"url": "https://api.omnimux.ai/v1/chat/completions",
+"supportsToolCall": true,
+"supportsImages": true
+},
+{
+"id": "doubao-seed-2.0-mini",
+"name": "OmniMux Doubao Seed 2.0 Mini",
+"vendor": "ByteDance",
+"apiKey": "sk-your-api-key-here",
+"url": "https://api.omnimux.ai/v1/chat/completions",
+"supportsToolCall": true,
+"supportsImages": true
+}
+]
+}
+```
+
+请将 `sk-your-api-key-here` 替换为您的实际 OmniMux API Key。
+
+### 更多可用模型
+
+除了上述示例，您还可以添加以下模型（配置格式相同，name 字段添加 "OmniMux " 前缀）：
+
+**GPT 系列：**
+
+* `gpt-5.2` - OmniMux GPT-5.2
+* `gpt-5.1` - OmniMux GPT-5.1
+* `gpt-5.1-chat` - OmniMux GPT-5.1 Chat
+* `gpt-5.1-thinking` - OmniMux GPT-5.1 Thinking
+
+**Gemini 系列：**
+
+* `gemini-2.5-pro` - OmniMux Gemini 2.5 Pro
+* `gemini-2.5-flash` - OmniMux Gemini 2.5 Flash
+* `gemini-3-pro-preview` - OmniMux Gemini 3.0 Pro
+* `gemini-3-flash-preview` - OmniMux Gemini 3.0 Flash
+
+**Doubao Seed 2.0 系列：**
+
+* `doubao-seed-2.0-pro` - OmniMux Doubao Seed 2.0 Pro
+* `doubao-seed-2.0-lite` - OmniMux Doubao Seed 2.0 Lite
+* `doubao-seed-2.0-code` - OmniMux Doubao Seed 2.0 Code
+
+**Kimi K2 系列：**
+
+* `kimi-k2-thinking` - OmniMux Kimi K2 Thinking
+* `kimi-k2-thinking-turbo` - OmniMux Kimi K2 Thinking Turbo
+
+### 3. 保存并重启
+
+保存配置文件后，工具会自动检测配置变更并重载（1秒防抖延迟）。
+
+配置完成后，您可以在模型选择下拉列表中看到所有配置的 OmniMux 模型：
+
+## 使用 OmniMux Gateway 智能路由
+
+### 什么是 OmniMux Gateway？
+
+OmniMux Gateway 是智能模型路由功能，系统会根据您的请求内容自动选择最合适的 AI 模型。
+
+### 核心优势
+
+* **智能匹配**：自动分析请求内容，选择最适合的模型处理
+* **成本优化**：在保证质量的前提下，优先选择性价比高的模型
+* **负载均衡**：自动在多个模型间分配请求，提高系统稳定性
+* **透明可见**：响应中返回实际使用的模型名称
+
+### 使用方法
+
+在模型选择下拉列表中，选择 "OmniMux Gateway (智能路由)" 即可。
+
+## 限制可用模型列表
+
+如果您只想在下拉列表中显示特定模型，可以使用 `availableModels` 字段：
+
+```json
+{
+"models": [
+// ... 模型配置
+],
+"availableModels": [
+"claude-sonnet-4-5-20250929",
+"gpt-5.4",
+"doubao-seed-2.0-mini"
+]
+}
+```
+
+## 常见问题
+
+### 1. 配置文件在哪里？
+
+**CodeBuddy：**
+
+* macOS/Linux：`~/.codebuddy/models.json`
+* Windows：`C:\Users\<用户名>\.codebuddy\models.json`
+
+**WorkBuddy：**
+
+* macOS/Linux：`~/.workbuddy/models.json`
+* Windows：`C:\Users\<用户名>\.workbuddy\models.json`
+
+### 2. 支持项目级配置吗？
+
+支持。除了用户级配置，还可以在项目根目录创建配置文件：
+
+**CodeBuddy：** `<项目根目录>/.codebuddy/models.json`
+
+**WorkBuddy：** `<项目根目录>/.workbuddy/models.json`
+
+项目级配置优先级高于用户级配置。建议在用户级配置全局模型，在项目级配置项目特定模型。
+
+### 3. 配置不生效怎么办？
+
+1. 检查 JSON 格式是否正确（可使用 JSON 验证工具）
+2. 确认 API Key 是否正确
+3. 尝试重启应用
+
+### 4. 支持哪些模型？
+
+OmniMux 支持 OpenAI、Anthropic、Google 等多家厂商的模型。可用模型见控制台、`GET /v1/models`，或 [Claude · 完整参数](/zh/api-reference/text-series/claude/complete) 等语言合同页。
+
+### 5. API Key 安全吗？
+
+API Key 存储在本地配置文件中，不会上传到云端。建议设置文件权限，防止他人访问。
+
+## 相关链接
+
+* [OmniMux 控制台](https://omnimux.ai/dashboard)
+* [CodeBuddy 官方文档](https://www.codebuddy.cn/docs)
+* [OmniMux API 文档](/zh/api-reference/text-series/claude/complete)

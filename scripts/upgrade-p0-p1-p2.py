@@ -201,7 +201,7 @@ Base URL：`https://api.omnimux.ai`
 | `choices` | array | 生成结果（含 `message`） |
 | `usage` | object | prompt / completion / total tokens |
 
-错误形态见右栏示例与 [错误码](/cn/api-reference/errors)。
+错误形态见右栏示例与 [错误码](/zh/api-reference/errors)。
 """
 
 
@@ -264,7 +264,7 @@ def rebuild_cn_image(meta: dict, old: str) -> str:
         "- 请求体至少包含 `model` 与 `prompt`",
     ]
     if async_note:
-        bullets.append("- 异步任务：用返回的 `task_id` 轮询 [查询图像任务](/cn/api-reference/tasks/image-task)")
+        bullets.append("- 异步任务：用返回的 `task_id` 轮询 [查询图像任务](/zh/api-reference/tasks/image-task)")
     else:
         bullets.append("- 同步或异步以线上响应为准；若返回 task id，请用任务查询接口轮询")
     return f"""{chr(10).join(bullets)}
@@ -306,7 +306,7 @@ Base URL：`https://api.omnimux.ai`
 | `data` | array | 图像结果（`url` 或 `b64_json`） |
 | `task_id` / `id` | string | 异步时的任务 id（若返回） |
 
-错误形态见右栏示例与 [错误码](/cn/api-reference/errors)。异步查询见 [查询图像任务](/cn/api-reference/tasks/image-task)。
+错误形态见右栏示例与 [错误码](/zh/api-reference/errors)。异步查询见 [查询图像任务](/zh/api-reference/tasks/image-task)。
 """
 
 
@@ -362,7 +362,7 @@ def rebuild_cn_video(meta: dict, old: str) -> str:
     model = extract_table_value(old, ["model"]) or meta.get("title", "")
     brand = extract_table_value(old, ["品牌"]) or brand_for(model)
     return f"""- 创建：`POST /v1/video/generations`，`model` 为 `{model}`
-- 异步任务：用返回的 `task_id` 查询 [查询视频任务](/cn/api-reference/tasks/video-task)
+- 异步任务：用返回的 `task_id` 查询 [查询视频任务](/zh/api-reference/tasks/video-task)
 - 产物 URL 请及时落盘（上游链接可能有时效）
 
 ## 身份
@@ -402,7 +402,7 @@ Base URL：`https://api.omnimux.ai`
 | `task_id` | string | 任务 id，用于轮询 |
 | `status` | string | 如 `pending` / `processing` / `completed` |
 
-轮询字段见 [查询视频任务](/cn/api-reference/tasks/video-task)。错误见右栏与 [错误码](/cn/api-reference/errors)。
+轮询字段见 [查询视频任务](/zh/api-reference/tasks/video-task)。错误见右栏与 [错误码](/zh/api-reference/errors)。
 """
 
 
@@ -522,7 +522,7 @@ Base URL：`https://api.omnimux.ai`
 | `model` | string | `{model}` |
 | `choices[].message.content` | string | 上游平台 JSON 字符串（结构因接口而异） |
 
-错误形态见右栏示例与 [错误码](/cn/api-reference/errors)。
+错误形态见右栏示例与 [错误码](/zh/api-reference/errors)。
 """
 
 
@@ -627,7 +627,7 @@ Base URL：`https://api.omnimux.ai`
 | `status` | string | 如 `pending` / `processing` / `completed` / `failed` |
 | `result` / `data` | object | 完成后的产物信息（结构因模型而异） |
 
-错误见右栏与 [错误码](/cn/api-reference/errors)。创建见{create_link}（对应系列 model 页）。
+错误见右栏与 [错误码](/zh/api-reference/errors)。创建见{create_link}（对应系列 model 页）。
 """
 
 
@@ -722,7 +722,7 @@ Base URL：`https://omnimux.ai`
 | `success` | boolean | 是否成功 |
 | `data` | object | 业务数据 |
 
-错误见右栏与 [错误码](/cn/api-reference/errors)。
+错误见右栏与 [错误码](/zh/api-reference/errors)。
 """
 
 
@@ -799,7 +799,7 @@ Base URL：`https://omnimux.ai`
 
 ### 200
 
-成功时返回账户相关字段（如 `quota` / `used_quota`）。错误见右栏与 [错误码](/cn/api-reference/errors)。
+成功时返回账户相关字段（如 `quota` / `used_quota`）。错误见右栏与 [错误码](/zh/api-reference/errors)。
 """
 
 
@@ -978,30 +978,30 @@ def process_file(path: Path) -> bool:
             return False
 
     left_old, panel = extract_panel(body)
-    locale = "cn" if "/cn/" in str(path) else "en"
+    locale = "cn" if "/zh/" in str(path) else "en"
     success_shape = kind in ("pub", "account")
 
     if kind == "text":
-        left = rebuild_cn_text(meta, left_old) if locale == "cn" else rebuild_en_text(meta, left_old)
+        left = rebuild_cn_text(meta, left_old) if locale == "zh" else rebuild_en_text(meta, left_old)
     elif kind == "image":
-        left = rebuild_cn_image(meta, left_old) if locale == "cn" else rebuild_en_image(meta, left_old)
+        left = rebuild_cn_image(meta, left_old) if locale == "zh" else rebuild_en_image(meta, left_old)
     elif kind == "video":
-        left = rebuild_cn_video(meta, left_old) if locale == "cn" else rebuild_en_video(meta, left_old)
+        left = rebuild_cn_video(meta, left_old) if locale == "zh" else rebuild_en_video(meta, left_old)
     elif kind == "social":
         plat = social_platform(path)
         left = (
             rebuild_cn_social(meta, left_old, plat)
-            if locale == "cn"
+            if locale == "zh"
             else rebuild_en_social(meta, left_old, plat)
         )
     elif kind == "task":
-        left = rebuild_cn_task(meta, left_old, path.stem) if locale == "cn" else rebuild_en_task(meta, left_old, path.stem)
+        left = rebuild_cn_task(meta, left_old, path.stem) if locale == "zh" else rebuild_en_task(meta, left_old, path.stem)
     elif kind == "pub":
         if "<Panel" not in body and "api" not in meta:
             return False
-        left = rebuild_cn_pub(meta, left_old) if locale == "cn" else rebuild_en_pub(meta, left_old)
+        left = rebuild_cn_pub(meta, left_old) if locale == "zh" else rebuild_en_pub(meta, left_old)
     elif kind == "account":
-        left = rebuild_cn_account(meta, left_old) if locale == "cn" else rebuild_en_account(meta, left_old)
+        left = rebuild_cn_account(meta, left_old) if locale == "zh" else rebuild_en_account(meta, left_old)
     else:
         return False
 
@@ -1090,7 +1090,7 @@ def upgrade_errors() -> None:
         if "| `402`" not in text:
             row = (
                 "| `402` | 额度不足（需充值） |\n"
-                if loc == "cn"
+                if loc == "zh"
                 else "| `402` | Insufficient quota |\n"
             )
             text = re.sub(

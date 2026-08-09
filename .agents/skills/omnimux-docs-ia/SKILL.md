@@ -19,7 +19,7 @@ This skill is the standing instruction set for **API 手册** architecture and p
 | **L4 OpenAPI fragments** | `references/openapi-fragments.md` | Generators, ops JSON, field sources |
 | **L5 Field matrix** | `references/field-matrix.md` | Family field baselines |
 | **L6 Workflows** | `references/workflows.md` | Add model / smoke→docs / align phases |
-| **L7 i18n** | `references/i18n.md` | cn/en dual tree, check-i18n, switcher |
+| **L7 i18n** | `references/i18n.md` | zh/en dual tree (default en), check-i18n, switcher |
 
 Do **not** invent parallel IA. Live site + `docs.json` + this skill are the source of truth.
 
@@ -29,7 +29,7 @@ Do **not** invent parallel IA. Live site + `docs.json` + this skill are the sour
 | --- | --- |
 | Docs repo (edit here) | sibling `OmniMux-docs` |
 | Nav | `docs.json` |
-| Locales | `cn/**`, `en/**` |
+| Locales | `en/**` (default), `zh/**` (简体中文); legacy `/cn/*` → `/zh/*` redirects |
 | Gateway OpenAPI snapshot | `openapi/relay.json` (generator source only; **not** sidebar dump) |
 | Per-capability ops | `openapi/ops/**` (single operation docs) |
 | Generators | `scripts/gen-chat-capability-pages.py` (more surfaces later) |
@@ -53,7 +53,7 @@ Do **not** invent parallel IA. Live site + `docs.json` + this skill are the sour
 14. **Domains only**: `omnimux.ai` / `api.omnimux.ai` / `docs.omnimux.ai`.  
 15. **Public docs gate** after smoke.  
 16. **Skill first**, then regen.  
-17. **cn + en** parity: every page must exist at the **same relative path** under `cn/` and `en/`; `docs.json` nav page sets must match after stripping locale prefix; no cross-locale internal links (`cn` pages must not link to `/en/…` and vice versa). Run `python3 scripts/check-i18n.py` after docs edits.
+17. **zh + en** parity: every page must exist at the **same relative path** under `zh/` and `en/`; default language is **en**; `docs.json` nav page sets must match after stripping locale prefix; no cross-locale internal links. Run `python3 scripts/check-i18n.py` after docs edits. Do not reintroduce `cn/` content paths.
 
 ## Default procedure (short)
 

@@ -1,0 +1,83 @@
+---
+title: "OmniMux"
+description: "为 Agent 打造的社交媒体自动化运营基础设施，帮助创作者、开发者、品牌与企业建立社交媒体账号自动化运营体系。"
+---
+
+OmniMux 是为 Agent 打造的社交媒体自动化运营基础设施，帮助创作者、开发者、品牌与企业建立一套社交媒体账号自动化运营体系。**为 Agent 打造**：以 API、本地 CLI、Agent Skill、MCP Server 四种形态交付，任何 Agent 都能零摩擦接入。**双线覆盖**：全球平台与中国平台统一抽象、统一鉴权，一处接入、全网可达。**Agent 协同交付**：把官网发给 Agent，安装、初始化与平台授权全部由 Agent 自助完成。
+
+生产入口：控制台 [omnimux.ai/dashboard](https://omnimux.ai/dashboard) · API `https://api.omnimux.ai` · 文档 [docs.omnimux.ai](https://docs.omnimux.ai)。
+
+## 平台优势
+
+<CardGroup cols={2}>
+  <Card title="Agent 原生接入" icon="robot">
+    同一套能力，API、CLI、Skill、MCP 四种交付形态，你的 Agent 运行在哪里，就从哪里接入。
+  </Card>
+  <Card title="全球与中国双线" icon="globe">
+    X、LinkedIn、YouTube 与小红书、抖音、公众号共用同一调用面，平台鉴权与规则由 OmniMux 打理。
+  </Card>
+  <Card title="Agent 协同交付" icon="handshake">
+    官网 URL 即入口，Agent 抓取页面自助完成安装与初始化，Skill 内置授权引导，零 UI onboarding。
+  </Card>
+  <Card title="透明计费" icon="receipt">
+    免费安装，按调用付费，每个动作标注 credits 单价，调用前可预估，每笔消费随响应返回。
+  </Card>
+</CardGroup>
+
+## 服务能力
+
+**数据分析** 回收各平台的数据与互动表现，为选题、投放与复盘提供统一数据视图。
+
+**内容规划** 基于数据洞察规划内容方向与发布节奏，能力以 API 和 Skill 形式提供，由你的 Agent 调用。
+
+**自动发帖** 多平台内容发布与排期，按平台自动适配格式、规格与语气。
+
+**互动运营** 多账号矩阵的日常运营动作，拟人节奏执行，全程留痕可审计。
+
+以上动作覆盖同一调用面上的发布、适配、分发、回收四个环节。从数据分析、内容规划，到自动发帖和互动，都通过一个 API，由你的 Agent 完成。
+
+## 核心能力
+
+<CardGroup cols={2}>
+  <Card title="统一鉴权" icon="key">
+    一个 Key 调用全部能力，跨平台发布、数据回收与账号运营的凭证统一管理。
+  </Card>
+  <Card title="可审计执行" icon="clipboard-list">
+    幂等发布，每次调用的请求、响应、延迟与成本完整留痕，默认可观测。
+  </Card>
+  <Card title="拟人节奏" icon="wave-pulse">
+    执行策略拟人、有节奏、可配置，把平台规则当约束条件，降低限流与封号风险。
+  </Card>
+  <Card title="稳定调度" icon="route">
+    上游抖动时智能路由自动切换到健康通道，调用契约与计量方式保持不变。
+  </Card>
+</CardGroup>
+
+## 适用场景
+
+| 场景 | 说明 |
+| --- | --- |
+| **个人 IP 营销** | AI 创作者与一人公司把分发交给 Agent，一句话发全网，每晚自动复盘，数据回流选题，把时间全部还给创作。 |
+| **产品品牌推广** | 开发者与独立黑客用一个端点让产品和 Agent 获得全网社媒执行力，也可把社媒能力嵌入自己的产品与工作流。 |
+| **企业品牌矩阵** | 营销团队与代理商让系统和 Agent 执行矩阵运营，权限与审计齐备，人工审核关卡可插拔，成本不随账号数线性增长。 |
+
+## 从这里开始
+
+<CardGroup cols={2}>
+  <Card title="快速开始" icon="rocket" href="/zh/quickstart">
+    获取 API Key，配置 Base URL，发出第一条请求。
+  </Card>
+  <Card title="连接与使用" icon="link" href="/zh/faqs/connection-usage">
+    Base URL、双凭证与 401/402/429。
+  </Card>
+  <Card title="API 手册" icon="code" href="/zh/api-reference/text-series/claude/complete">
+    语言 / 图像 / 视频 / 社交等合同入口。
+  </Card>
+  <Card title="集成指南" icon="plug" href="/zh/integration-guide/chatbox">
+    聊天应用、开发工具与应用平台。
+  </Card>
+</CardGroup>
+
+<Tip>
+  控制台与 API 域名分离：控制台 [omnimux.ai/dashboard](https://omnimux.ai/dashboard)，API 使用 `https://api.omnimux.ai`。
+</Tip>
