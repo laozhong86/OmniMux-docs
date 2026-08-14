@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "id": "2026-08-14-tokens-flow-per-call",
+  "published_at": "2026-08-14",
+  "rank": 0,
+  "type": "pricing",
+  "modality": ["image", "video"],
+  "title": {
+    "en": "Omni Flash, Veo, and Nano Banana now billed per call",
+    "zh": "Omni Flash、Veo、Nano Banana 改为按次计费"
+  },
+  "summary": {
+    "en": "These models switch from token-ratio display to a fixed per-call price on the Model Square.",
+    "zh": "这些模型从按 token 倍率展示改为模型广场按次固定价。"
+  },
+  "models": [
+    "nano_banana_2",
+    "nano_banana_pro",
+    "omni_flash",
+    "omni_flash-4s",
+    "omni_flash-6s",
+    "omni_flash-10s",
+    "veo_3_1"
+  ],
+  "tags": ["pricing", "image", "video"],
+  "links": [
+    {
+      "label": { "en": "Nano Banana 2", "zh": "Nano Banana 2" },
+      "href": {
+        "en": "/en/api-reference/image-series/models/nano_banana_2",
+        "zh": "/zh/api-reference/image-series/models/nano_banana_2"
+      }
+    },
+    {
+      "label": { "en": "Omni Flash", "zh": "Omni Flash" },
+      "href": {
+        "en": "/en/api-reference/video-series/models/omni_flash",
+        "zh": "/zh/api-reference/video-series/models/omni_flash"
+      }
+    },
+    {
+      "label": { "en": "Veo 3.1", "zh": "Veo 3.1" },
+      "href": {
+        "en": "/en/api-reference/video-series/models/veo_3_1",
+        "zh": "/zh/api-reference/video-series/models/veo_3_1"
+      }
+    }
+  ],
+  "body": {
+    "en": "## Per-call pricing\n\nOmni Flash, Veo 3.1, and Nano Banana are now **pay per call**, not token-ratio.\n\n### Prices\n\n- **Model IDs:** `nano_banana_2`, `nano_banana_pro` — **0.2 credits / call** ($0.02)\n- **Model IDs:** `omni_flash-4s` — **0.2 credits / call** ($0.02)\n- **Model IDs:** `omni_flash-6s` — **0.3 credits / call** ($0.03)\n- **Model IDs:** `omni_flash`, `omni_flash-10s`, `veo_3_1` — **0.5 credits / call** ($0.05)\n- **API:** image generations or video generations for the matching model\n- **Display:** Model Square shows a single per-request price (no Input/Output 40 credits)\n\n10 credits = 1 USD.",
+    "zh": "## 按次计费\n\nOmni Flash、Veo 3.1、Nano Banana 现为**按次扣费**，不再按 token 倍率展示。\n\n### 价格\n\n- **模型 ID：** `nano_banana_2`、`nano_banana_pro` — **0.2 积分/次**（$0.02）\n- **模型 ID：** `omni_flash-4s` — **0.2 积分/次**（$0.02）\n- **模型 ID：** `omni_flash-6s` — **0.3 积分/次**（$0.03）\n- **模型 ID：** `omni_flash`、`omni_flash-10s`、`veo_3_1` — **0.5 积分/次**（$0.05）\n- **API：** 对应的图像或视频生成接口\n- **展示：** 模型广场显示单次价（不再出现输入/输出 40 积分）\n\n10 积分 = 1 USD。"
+  }
+}
