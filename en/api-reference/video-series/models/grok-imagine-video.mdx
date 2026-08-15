@@ -1,11 +1,11 @@
 ---
-title: "Grok Imagine Video Generation 1.5"
-sidebarTitle: "Grok Imagine Video Generation 1.5"
-description: "Grok Imagine Video Generation 1.5 · model `grok-imagine-video-1.5`"
+title: "Grok Imagine Video Generation"
+sidebarTitle: "Grok Imagine Video Generation"
+description: "Grok Imagine Video Generation · model `grok-imagine-video`"
 api: "POST https://api.omnimux.ai/v1/video/generations"
 ---
 
-- Create: `POST /v1/video/generations` with `model` `grok-imagine-video-1.5`
+- Create: `POST /v1/video/generations` with `model` `grok-imagine-video`
 - Async: poll [Video task](/en/api-reference/tasks/video-task) with returned `task_id`
 - Persist result URLs promptly (upstream links may expire)
 
@@ -15,7 +15,7 @@ api: "POST https://api.omnimux.ai/v1/video/generations"
 | --- | --- |
 | Series | Video series |
 | Brand | Grok |
-| model | `grok-imagine-video-1.5` |
+| model | `grok-imagine-video` |
 
 ## Endpoint
 
@@ -36,11 +36,11 @@ Base URL: `https://api.omnimux.ai`
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `model` | string | yes | Must be `grok-imagine-video-1.5` |
+| `model` | string | yes | Must be `grok-imagine-video` |
 | `prompt` | string | conditional | Required for text-to-video |
 | `seconds` / `duration` | number | no | Duration in seconds (bounded) |
 | `size` / `resolution` | string | no | Resolution (model-specific) |
-| `image` / `images` | string/array | no | Image-to-video references |
+| `image` / `images` | string / array | no | Image-to-video references |
 
 ## Response
 
@@ -61,7 +61,7 @@ See [Video task](/en/api-reference/tasks/video-task). Errors: right rail and [Er
   --url https://api.omnimux.ai/v1/video/generations \
   --header 'Authorization: Bearer <token>' \
   --header 'Content-Type: application/json' \
-  --data '{"model":"grok-imagine-video-1.5","prompt":"slow pan across a product"}'
+  --data '{"model":"grok-imagine-video","prompt":"slow pan across a product"}'
 ```
 
 </RequestExample>
@@ -73,7 +73,7 @@ See [Video task](/en/api-reference/tasks/video-task). Errors: right rail and [Er
 {
   "id": "chatcmpl-example",
   "object": "chat.completion",
-  "model": "grok-imagine-video-1.5",
+  "model": "grok-imagine-video",
   "choices": [
     {
       "index": 0,

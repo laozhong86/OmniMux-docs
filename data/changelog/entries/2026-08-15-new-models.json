@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "id": "2026-08-15-new-models",
+  "published_at": "2026-08-15",
+  "rank": 0,
+  "type": "model_launch",
+  "modality": [
+    "text",
+    "image",
+    "video"
+  ],
+  "title": {
+    "en": "New models: Gemini 3.7 Flash, GLM 5.3, Grok 4.6, Grok Imagine, GPT Image 2",
+    "zh": "新模型：Gemini 3.7 Flash、GLM 5.3、Grok 4.6、Grok Imagine、GPT Image 2"
+  },
+  "summary": {
+    "en": "Seven new models across text, image and video are available on OmniMux.",
+    "zh": "文本、图像与视频共七个新模型现已在 OmniMux 可调用。"
+  },
+  "models": [
+    "gemini-3.7-flash",
+    "glm-5.3",
+    "grok-4.6",
+    "grok-imagine-image",
+    "grok-imagine-image-quality",
+    "grok-imagine-video",
+    "gpt-image-2"
+  ],
+  "tags": [
+    "text",
+    "image",
+    "video"
+  ],
+  "links": [
+    {
+      "label": {
+        "en": "Gemini complete",
+        "zh": "Gemini 完整参数"
+      },
+      "href": {
+        "en": "/en/api-reference/text-series/gemini/complete",
+        "zh": "/zh/api-reference/text-series/gemini/complete"
+      }
+    },
+    {
+      "label": {
+        "en": "GLM complete",
+        "zh": "GLM 完整参数"
+      },
+      "href": {
+        "en": "/en/api-reference/text-series/glm/complete",
+        "zh": "/zh/api-reference/text-series/glm/complete"
+      }
+    },
+    {
+      "label": {
+        "en": "Grok complete",
+        "zh": "Grok 完整参数"
+      },
+      "href": {
+        "en": "/en/api-reference/text-series/grok/complete",
+        "zh": "/zh/api-reference/text-series/grok/complete"
+      }
+    },
+    {
+      "label": {
+        "en": "Grok Imagine Image",
+        "zh": "Grok Imagine 生图"
+      },
+      "href": {
+        "en": "/en/api-reference/image-series/models/grok-imagine-image",
+        "zh": "/zh/api-reference/image-series/models/grok-imagine-image"
+      }
+    },
+    {
+      "label": {
+        "en": "Grok Imagine Video",
+        "zh": "Grok Imagine 视频生成"
+      },
+      "href": {
+        "en": "/en/api-reference/video-series/models/grok-imagine-video",
+        "zh": "/zh/api-reference/video-series/models/grok-imagine-video"
+      }
+    },
+    {
+      "label": {
+        "en": "GPT Image 2",
+        "zh": "GPT Image 2 生图"
+      },
+      "href": {
+        "en": "/en/api-reference/image-series/models/gpt-image-2",
+        "zh": "/zh/api-reference/image-series/models/gpt-image-2"
+      }
+    }
+  ],
+  "body": {
+    "en": "## New models\n\nSeven new models are now available on OmniMux, synced from the latest upstream catalog.\n\n### Text\n\n- **Model IDs:** `gemini-3.7-flash`, `glm-5.3`, `grok-4.6`\n- **API:** OpenAI-compatible Chat Completions at `https://api.omnimux.ai/v1`\n\n### Image\n\n- **Model IDs:** `grok-imagine-image`, `grok-imagine-image-quality`, `gpt-image-2`\n- **API:** `POST /v1/images/generations`\n\n### Video\n\n- **Model IDs:** `grok-imagine-video`\n- **API:** `POST` / `GET` `/v1/video/generations`\n\nSee the model pages for parameters, pricing and task polling.",
+    "zh": "## 新模型\n\n七个新模型现已在 OmniMux 可调用，已同步最新上游目录。\n\n### 文本\n\n- **模型 ID：** `gemini-3.7-flash`、`glm-5.3`、`grok-4.6`\n- **API：** OpenAI 兼容 Chat Completions：`https://api.omnimux.ai/v1`\n\n### 图像\n\n- **模型 ID：** `grok-imagine-image`、`grok-imagine-image-quality`、`gpt-image-2`\n- **API：** `POST /v1/images/generations`\n\n### 视频\n\n- **模型 ID：** `grok-imagine-video`\n- **API：** `POST` / `GET` `/v1/video/generations`\n\n参数、定价与任务轮询见各模型页。"
+  }
+}
