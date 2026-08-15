@@ -1,11 +1,11 @@
 ---
-title: "Grok Imagine 视频生成 1.5"
-sidebarTitle: "Grok Imagine 视频生成 1.5"
-description: "Grok Imagine 视频生成 1.5 · model `grok-imagine-video-1.5`"
+title: "Grok Imagine 视频生成"
+sidebarTitle: "Grok Imagine 视频生成"
+description: "Grok Imagine 视频生成 · model `grok-imagine-video`"
 api: "POST https://api.omnimux.ai/v1/video/generations"
 ---
 
-- 创建：`POST /v1/video/generations`，`model` 为 `grok-imagine-video-1.5`
+- 创建：`POST /v1/video/generations`，`model` 为 `grok-imagine-video`
 - 异步任务：用返回的 `task_id` 查询 [查询视频任务](/zh/api-reference/tasks/video-task)
 - 产物 URL 请及时落盘（上游链接可能有时效）
 
@@ -15,7 +15,7 @@ api: "POST https://api.omnimux.ai/v1/video/generations"
 | --- | --- |
 | 系列 | 视频系列 |
 | 品牌 | Grok |
-| model | `grok-imagine-video-1.5` |
+| model | `grok-imagine-video` |
 
 ## 接口
 
@@ -36,11 +36,11 @@ Base URL：`https://api.omnimux.ai`
 
 | 字段 | 类型 | 必填 | 说明 |
 | --- | --- | --- | --- |
-| `model` | string | 是 | 固定为 `grok-imagine-video-1.5` |
+| `model` | string | 是 | 固定为 `grok-imagine-video` |
 | `prompt` | string | 条件 | 文生视频时必填 |
 | `seconds` / `duration` | number | 否 | 时长（秒，受模型与网关上限约束） |
 | `size` / `resolution` | string | 否 | 分辨率（模型相关） |
-| `image` / `images` | string/array | 否 | 图生视频参考图（模型相关） |
+| `image` / `images` | string / array | 否 | 图生视频参考图（模型相关） |
 
 ## 响应
 
@@ -63,8 +63,8 @@ curl --request POST \
   --header 'Authorization: Bearer <token>' \
   --header 'Content-Type: application/json' \
   --data '{
-  "model": "grok-imagine-video-1.5",
-  "prompt": "slow pan across a product on a table"
+  "model": "grok-imagine-video",
+  "prompt": "slow pan across a product"
 }'
 ```
 

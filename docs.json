@@ -123,7 +123,16 @@
                     "group": "GPT Image",
                     "pages": [
                       "en/api-reference/image-series/models/gpt-image2",
-                      "en/api-reference/image-series/models/gpt-image2-hd"
+                      "en/api-reference/image-series/models/gpt-image2-hd",
+                      "en/api-reference/image-series/models/gpt-image-2"
+                    ],
+                    "icon": "image"
+                  },
+                  {
+                    "group": "Grok Imagine",
+                    "pages": [
+                      "en/api-reference/image-series/models/grok-imagine-image",
+                      "en/api-reference/image-series/models/grok-imagine-image-quality"
                     ],
                     "icon": "image"
                   },
@@ -177,6 +186,7 @@
                   {
                     "group": "Grok Imagine",
                     "pages": [
+                      "en/api-reference/video-series/models/grok-imagine-video",
                       "en/api-reference/video-series/models/grok-imagine-video-1.5"
                     ],
                     "icon": "video"
@@ -458,7 +468,16 @@
                     "group": "GPT Image",
                     "pages": [
                       "zh/api-reference/image-series/models/gpt-image2",
-                      "zh/api-reference/image-series/models/gpt-image2-hd"
+                      "zh/api-reference/image-series/models/gpt-image2-hd",
+                      "zh/api-reference/image-series/models/gpt-image-2"
+                    ],
+                    "icon": "image"
+                  },
+                  {
+                    "group": "Grok Imagine",
+                    "pages": [
+                      "zh/api-reference/image-series/models/grok-imagine-image",
+                      "zh/api-reference/image-series/models/grok-imagine-image-quality"
                     ],
                     "icon": "image"
                   },
@@ -512,6 +531,7 @@
                   {
                     "group": "Grok Imagine",
                     "pages": [
+                      "zh/api-reference/video-series/models/grok-imagine-video",
                       "zh/api-reference/video-series/models/grok-imagine-video-1.5"
                     ],
                     "icon": "video"

@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Gemini · Chat Completions",
-    "description": "OpenAI-compatible Chat Completions for Gemini models on OmniMux. Supported model ids: `gemini-2.5-flash-lite`, `gemini-2.5-flash`, `gemini-2.5-pro`, `gemini-3-flash-preview`, `gemini-3-flash`, `gemini-3-pro-preview`, `gemini-3-pro`, `gemini-3.1-flash-lite-preview`, `gemini-3.1-flash-lite`, `gemini-3.1-pro-preview`, `gemini-3.1-pro`, `gemini-3.5-flash`, `gemini-3.6-flash`.",
+    "description": "OpenAI-compatible Chat Completions for Gemini models on OmniMux. Supported model ids: `gemini-2.5-flash-lite`, `gemini-2.5-flash`, `gemini-2.5-pro`, `gemini-3-flash-preview`, `gemini-3-flash`, `gemini-3-pro-preview`, `gemini-3-pro`, `gemini-3.1-flash-lite-preview`, `gemini-3.1-flash-lite`, `gemini-3.1-pro-preview`, `gemini-3.1-pro`, `gemini-3.5-flash`, `gemini-3.6-flash`, `gemini-3.7-flash`.",
     "version": "1.0.0"
   },
   "servers": [
@@ -305,7 +305,8 @@
               "gemini-3.1-pro-preview",
               "gemini-3.1-pro",
               "gemini-3.5-flash",
-              "gemini-3.6-flash"
+              "gemini-3.6-flash",
+              "gemini-3.7-flash"
             ],
             "default": "gemini-2.5-flash-lite",
             "example": "gemini-2.5-flash-lite"

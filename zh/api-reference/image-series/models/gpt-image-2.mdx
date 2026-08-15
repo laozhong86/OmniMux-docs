@@ -1,28 +1,27 @@
 ---
-title: "Grok Imagine 视频生成 1.5"
-sidebarTitle: "Grok Imagine 视频生成 1.5"
-description: "Grok Imagine 视频生成 1.5 · model `grok-imagine-video-1.5`"
-api: "POST https://api.omnimux.ai/v1/video/generations"
+title: "GPT Image 2 生图"
+sidebarTitle: "GPT Image 2 生图"
+description: "GPT Image 2 生图 · model `gpt-image-2`"
+api: "POST https://api.omnimux.ai/v1/images/generations"
 ---
 
-- 创建：`POST /v1/video/generations`，`model` 为 `grok-imagine-video-1.5`
-- 异步任务：用返回的 `task_id` 查询 [查询视频任务](/zh/api-reference/tasks/video-task)
-- 产物 URL 请及时落盘（上游链接可能有时效）
+- 调用 `POST /v1/images/generations`，`model` 为 `gpt-image-2`
+- 请求体至少包含 `model` 与 `prompt`
+- 同步或异步以线上响应为准；若返回 task id，请用任务查询接口轮询
 
 ## 身份
 
 | 字段 | 值 |
 | --- | --- |
-| 系列 | 视频系列 |
-| 品牌 | Grok |
-| model | `grok-imagine-video-1.5` |
+| 系列 | 图像系列 |
+| 品牌 | GPT |
+| model | `gpt-image-2` |
 
 ## 接口
 
 | 方法 | 路径 |
 | --- | --- |
-| `POST` | `/v1/video/generations` |
-| `GET` | `/v1/video/generations/{task_id}` |
+| `POST` | `/v1/images/generations` |
 
 Base URL：`https://api.omnimux.ai`
 
@@ -36,22 +35,23 @@ Base URL：`https://api.omnimux.ai`
 
 | 字段 | 类型 | 必填 | 说明 |
 | --- | --- | --- | --- |
-| `model` | string | 是 | 固定为 `grok-imagine-video-1.5` |
-| `prompt` | string | 条件 | 文生视频时必填 |
-| `seconds` / `duration` | number | 否 | 时长（秒，受模型与网关上限约束） |
-| `size` / `resolution` | string | 否 | 分辨率（模型相关） |
-| `image` / `images` | string/array | 否 | 图生视频参考图（模型相关） |
+| `model` | string | 是 | 固定为 `gpt-image-2` |
+| `prompt` | string | 是 | 图像描述 / 编辑说明 |
+| `n` | integer | 否 | 生成张数（受网关上限约束） |
+| `size` | string | 否 | 尺寸或宽高比（模型相关） |
+| `quality` | string | 否 | 质量档位（模型相关） |
 
 ## 响应
 
-### 200（创建）
+### 200
 
 | 字段 | 类型 | 说明 |
 | --- | --- | --- |
-| `task_id` | string | 任务 id，用于轮询 |
-| `status` | string | 如 `pending` / `processing` / `completed` |
+| `created` | integer | 创建时间戳（若返回） |
+| `data` | array | 图像结果（`url` 或 `b64_json`） |
+| `task_id` / `id` | string | 异步时的任务 id（若返回） |
 
-轮询字段见 [查询视频任务](/zh/api-reference/tasks/video-task)。错误见右栏与 [错误码](/zh/faqs/connection-usage)。
+错误形态见右栏示例。异步任务以创建响应中的 `task_id` / 控制台日志为准（公开文档不提供独立图像 query 路径）。
 
 <Panel>
 
@@ -59,12 +59,13 @@ Base URL：`https://api.omnimux.ai`
 
 ```bash cURL
 curl --request POST \
-  --url https://api.omnimux.ai/v1/video/generations \
+  --url https://api.omnimux.ai/v1/images/generations \
   --header 'Authorization: Bearer <token>' \
   --header 'Content-Type: application/json' \
   --data '{
-  "model": "grok-imagine-video-1.5",
-  "prompt": "slow pan across a product on a table"
+  "model": "gpt-image-2",
+  "prompt": "a product photo on white background",
+  "n": 1
 }'
 ```
 
@@ -74,8 +75,10 @@ curl --request POST \
 
 ```json 200
 {
-  "task_id": "task_01HXYZABCDEF",
-  "status": "queued"
+  "created": 1741428397,
+  "data": [
+    { "url": "https://example.com/image.png" }
+  ]
 }
 ```
 
