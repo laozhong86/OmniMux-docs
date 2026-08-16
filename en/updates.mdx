@@ -7,6 +7,27 @@ rss: true
 
 Stay up to date with OmniMux gateway model launches and platform changes. The full callable catalog is on [console pricing](https://omnimux.ai) / [Pricing](/en/api-reference/account/pricing).
 
+<a id="2026-08-16-index-tts-ltx-docs"></a>
+
+<Update label="August 16, 2026" tags={["New models", "Audio", "Video"]} rss={{ title: "Index TTS voice clone plus LTX digital-human contract" }}>
+
+  ## New model
+
+  - **Model ID:** `index-tts`
+  - **Path:** `POST` / `GET` `/v1/video/generations` (GxgenAI task path; result is audio)
+  - **Contract:** `metadata.nodeInfoList` required — node `4/audio` (reference clip) and `7/text` (script)
+
+  ## Docs fix
+
+  - **`ltx2.3-kj`** is a photo + audio lip-sync model. Prompt-only text-to-video examples were incorrect. Send image node `444` and audio node `1755`.
+
+  ### Links
+
+  - [Index TTS](/en/api-reference/audio-series/models/index-tts)
+  - [LTX digital human](/en/api-reference/video-series/models/ltx2.3-kj)
+
+</Update>
+
 <a id="2026-08-09-platform-api-updates"></a>
 
 <Update label="August 9, 2026" tags={["Platform"]} rss={{ title: "API Updates timeline opens" }}>

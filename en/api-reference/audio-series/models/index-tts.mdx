@@ -1,23 +1,24 @@
 ---
-title: "LTX digital human"
-sidebarTitle: "LTX digital human"
-description: "GxgenAI LTX 2.3 photo lip-sync · model `ltx2.3-kj`"
+title: "Index TTS voice clone"
+sidebarTitle: "Index TTS voice clone"
+description: "GxgenAI Index-TTS voice clone · model `index-tts`"
 api: "POST https://api.omnimux.ai/v1/video/generations"
 ---
 
-- Create: `POST /v1/video/generations` with `model` `ltx2.3-kj`
+- Create: `POST /v1/video/generations` with `model` `index-tts`
 - Poll: `GET /v1/video/generations/{task_id}` (do **not** use `*-async` / `*-query` names)
-- This is **photo + audio lip-sync**, not text-to-video. `metadata.nodeInfoList` is required
-- Upload image/audio to a public URL or an upstream file name first. Raw `data:` URIs fail
-- Persist result URLs promptly (upstream links expire)
+- GxgenAI tasks share this path even when the result is audio
+- `metadata.nodeInfoList` is required (reference audio + script)
+- Upload the reference clip first (public URL or upstream file name). Raw `data:` URIs fail
+- Persist result URLs promptly
 
 ## Identity
 
 | Field | Value |
 | --- | --- |
-| Series | Video |
-| Brand | LTX / GxgenAI |
-| model | `ltx2.3-kj` |
+| Series | Audio |
+| Brand | Index TTS / GxgenAI |
+| model | `index-tts` |
 
 ## Endpoint
 
@@ -38,21 +39,16 @@ Base URL: `https://api.omnimux.ai`
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `model` | string | yes | Must be `ltx2.3-kj` |
-| `prompt` | string | no | Action hint; also send node `1624` |
-| `metadata.nodeInfoList` | array | **yes** | Image + audio + duration nodes |
+| `model` | string | yes | Must be `index-tts` |
+| `prompt` | string | no | Label only; script goes in node `7` |
+| `metadata.nodeInfoList` | array | **yes** | Reference audio + text |
 
 Required nodes:
 
 | nodeId | fieldName | Meaning |
 | --- | --- | --- |
-| `444` | `image` | Portrait still (9:16 or 16:9) |
-| `1755` | `audio` | Speech or song |
-| `1583` | `value` | Duration seconds (`0` = full audio; keep ≤35) |
-| `1776` | `value` | Audio start second |
-| `1624` | `value` | Motion prompt |
-| `1606` | `value` | Max resolution (`<1600`) |
-| `1586` | `value` | FPS |
+| `4` | `audio` | Reference voice (first ~15s is used) |
+| `7` | `text` | Script to speak |
 
 ## Response
 
@@ -75,17 +71,12 @@ curl --request POST \
   --header 'Authorization: Bearer <token>' \
   --header 'Content-Type: application/json' \
   --data '{
-  "model": "ltx2.3-kj",
-  "prompt": "Look at camera and speak naturally. Locked shot.",
+  "model": "index-tts",
+  "prompt": "index-tts-run",
   "metadata": {
     "nodeInfoList": [
-      { "nodeId": "444", "fieldName": "image", "fieldValue": "https://example.com/face.jpg" },
-      { "nodeId": "1755", "fieldName": "audio", "fieldValue": "https://example.com/speech.mp3" },
-      { "nodeId": "1583", "fieldName": "value", "fieldValue": "10" },
-      { "nodeId": "1776", "fieldName": "value", "fieldValue": "0" },
-      { "nodeId": "1624", "fieldName": "value", "fieldValue": "Look at camera and speak naturally. Locked shot." },
-      { "nodeId": "1606", "fieldName": "value", "fieldValue": "1280" },
-      { "nodeId": "1586", "fieldName": "value", "fieldValue": "25" }
+      { "nodeId": "4", "fieldName": "audio", "fieldValue": "https://example.com/voice.mp3" },
+      { "nodeId": "7", "fieldName": "text", "fieldValue": "Hello, this is a voice clone test." }
     ]
   }
 }'
@@ -99,12 +90,12 @@ curl --request POST \
 {
   "id": "task_xxx",
   "status": "in_progress",
-  "model": "ltx2.3-kj"
+  "model": "index-tts"
 }
 ```
 
 ```json 400
-{ "error": { "message": "metadata.nodeInfoList is required for model ltx2.3-kj", "type": "invalid_request_error", "code": "bad_request" } }
+{ "error": { "message": "metadata.nodeInfoList is required for model index-tts", "type": "invalid_request_error", "code": "bad_request" } }
 ```
 
 ```json 401

@@ -7,6 +7,27 @@ rss: true
 
 跟踪 OmniMux 网关的模型上新与平台变更。完整可调用模型以[控制台定价](https://omnimux.ai) / [定价与账户](/zh/api-reference/account/pricing)为准。
 
+<a id="2026-08-16-index-tts-ltx-docs"></a>
+
+<Update label="2026 年 8 月 16 日" tags={["新模型", "音频", "视频"]} rss={{ title: "上架 Index TTS 声音克隆，并更正 LTX 数字人合同" }}>
+
+  ## 新模型
+
+  - **模型 ID：** `index-tts`
+  - **路径：** `POST` / `GET` `/v1/video/generations`（GxgenAI 任务路径，产物为音频）
+  - **合同：** 必须传 `metadata.nodeInfoList` — 节点 `4/audio`（参考音）和 `7/text`（文稿）
+
+  ## 文档更正
+
+  - **`ltx2.3-kj`** 是人设静帧 + 音频对口型，不是文生视频。请传图片节点 `444` 和音频节点 `1755`。
+
+  ### 链接
+
+  - [Index TTS](/zh/api-reference/audio-series/models/index-tts)
+  - [LTX 数字人对口型](/zh/api-reference/video-series/models/ltx2.3-kj)
+
+</Update>
+
 <a id="2026-08-09-platform-api-updates"></a>
 
 <Update label="2026 年 8 月 9 日" tags={["平台"]} rss={{ title: "API 更新时间线上线" }}>
