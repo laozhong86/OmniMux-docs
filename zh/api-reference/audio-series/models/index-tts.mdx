@@ -1,23 +1,24 @@
 ---
-title: "LTX 数字人对口型"
-sidebarTitle: "LTX 数字人对口型"
-description: "GxgenAI LTX 2.3 照片对口型 · model `ltx2.3-kj`"
+title: "Index TTS 声音克隆"
+sidebarTitle: "Index TTS 声音克隆"
+description: "GxgenAI Index-TTS 声音克隆 · model `index-tts`"
 api: "POST https://api.omnimux.ai/v1/video/generations"
 ---
 
-- 创建：`POST /v1/video/generations`，`model` 为 `ltx2.3-kj`
+- 创建：`POST /v1/video/generations`，`model` 为 `index-tts`
 - 轮询：`GET /v1/video/generations/{task_id}`（**不要**使用 `*-async` / `*-query` 模型名）
-- 这是 **人设静帧 + 音频对口型**，不是文生视频。必须传 `metadata.nodeInfoList`
-- 图片/音频先用公网 URL 或上游 fileName；不要传 `data:` URI
-- 产物 URL 请及时落盘（上游链接可能过期）
+- GxgenAI 任务共用这条路径，即使产物是音频
+- 必须传 `metadata.nodeInfoList`（参考音 + 文稿）
+- 参考音先用公网 URL 或上游 fileName；不要传 `data:` URI
+- 产物 URL 请及时落盘
 
 ## 身份
 
 | 字段 | 值 |
 | --- | --- |
-| 系列 | 视频系列 |
-| 品牌 | LTX / GxgenAI |
-| model | `ltx2.3-kj` |
+| 系列 | 音频系列 |
+| 品牌 | Index TTS / GxgenAI |
+| model | `index-tts` |
 
 ## 接口
 
@@ -38,21 +39,16 @@ Base URL：`https://api.omnimux.ai`
 
 | 字段 | 类型 | 必填 | 说明 |
 | --- | --- | --- | --- |
-| `model` | string | 是 | 固定为 `ltx2.3-kj` |
-| `prompt` | string | 否 | 动作提示；同时写入节点 `1624` |
-| `metadata.nodeInfoList` | array | **是** | 人设图 + 音频 + 时长等节点 |
+| `model` | string | 是 | 固定为 `index-tts` |
+| `prompt` | string | 否 | 仅作标签；文稿写在节点 `7` |
+| `metadata.nodeInfoList` | array | **是** | 参考音 + 文稿 |
 
 必填节点：
 
 | nodeId | fieldName | 含义 |
 | --- | --- | --- |
-| `444` | `image` | 人设静帧（9:16 或 16:9） |
-| `1755` | `audio` | 语音或歌曲 |
-| `1583` | `value` | 生成秒数（`0`=整段音频；建议 ≤35） |
-| `1776` | `value` | 音频起始秒 |
-| `1624` | `value` | 动作提示词 |
-| `1606` | `value` | 最大分辨率（`<1600`） |
-| `1586` | `value` | 帧率 |
+| `4` | `audio` | 克隆参考音（自动截取前约 15 秒） |
+| `7` | `text` | 要朗读的文字 |
 
 ## 响应
 
@@ -75,17 +71,12 @@ curl --request POST \
   --header 'Authorization: Bearer <token>' \
   --header 'Content-Type: application/json' \
   --data '{
-  "model": "ltx2.3-kj",
-  "prompt": "角色面向镜头自然说话，固定镜头。",
+  "model": "index-tts",
+  "prompt": "index-tts-run",
   "metadata": {
     "nodeInfoList": [
-      { "nodeId": "444", "fieldName": "image", "fieldValue": "https://example.com/face.jpg" },
-      { "nodeId": "1755", "fieldName": "audio", "fieldValue": "https://example.com/speech.mp3" },
-      { "nodeId": "1583", "fieldName": "value", "fieldValue": "10" },
-      { "nodeId": "1776", "fieldName": "value", "fieldValue": "0" },
-      { "nodeId": "1624", "fieldName": "value", "fieldValue": "角色面向镜头自然说话，固定镜头。" },
-      { "nodeId": "1606", "fieldName": "value", "fieldValue": "1280" },
-      { "nodeId": "1586", "fieldName": "value", "fieldValue": "25" }
+      { "nodeId": "4", "fieldName": "audio", "fieldValue": "https://example.com/voice.mp3" },
+      { "nodeId": "7", "fieldName": "text", "fieldValue": "你好，这是一段声音克隆测试。" }
     ]
   }
 }'
@@ -99,12 +90,12 @@ curl --request POST \
 {
   "id": "task_xxx",
   "status": "in_progress",
-  "model": "ltx2.3-kj"
+  "model": "index-tts"
 }
 ```
 
 ```json 400
-{ "error": { "message": "metadata.nodeInfoList is required for model ltx2.3-kj", "type": "invalid_request_error", "code": "bad_request" } }
+{ "error": { "message": "metadata.nodeInfoList is required for model index-tts", "type": "invalid_request_error", "code": "bad_request" } }
 ```
 
 ```json 401

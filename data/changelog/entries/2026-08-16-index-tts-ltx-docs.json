@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "id": "2026-08-16-index-tts-ltx-docs",
+  "published_at": "2026-08-16",
+  "rank": 0,
+  "type": "model_launch",
+  "modality": ["audio", "video"],
+  "title": {
+    "en": "Index TTS voice clone plus LTX digital-human contract",
+    "zh": "上架 Index TTS 声音克隆，并更正 LTX 数字人合同"
+  },
+  "summary": {
+    "en": "`index-tts` is live for GxgenAI voice clone. `ltx2.3-kj` docs now describe required photo + audio nodeInfoList, not text-to-video.",
+    "zh": "`index-tts` 已上架，用于 GxgenAI 声音克隆。`ltx2.3-kj` 文档改为必填人设图+音频 nodeInfoList，不再写成文生视频。"
+  },
+  "models": ["index-tts", "ltx2.3-kj"],
+  "tags": ["audio", "video", "gxgenai"],
+  "links": [
+    {
+      "label": { "en": "Index TTS", "zh": "Index TTS" },
+      "href": {
+        "en": "/en/api-reference/audio-series/models/index-tts",
+        "zh": "/zh/api-reference/audio-series/models/index-tts"
+      }
+    },
+    {
+      "label": { "en": "LTX digital human", "zh": "LTX 数字人对口型" },
+      "href": {
+        "en": "/en/api-reference/video-series/models/ltx2.3-kj",
+        "zh": "/zh/api-reference/video-series/models/ltx2.3-kj"
+      }
+    }
+  ],
+  "body": {
+    "en": "## New model\n\n- **Model ID:** `index-tts`\n- **Path:** `POST` / `GET` `/v1/video/generations` (GxgenAI task path; result is audio)\n- **Contract:** `metadata.nodeInfoList` required — node `4/audio` (reference clip) and `7/text` (script)\n\n## Docs fix\n\n- **`ltx2.3-kj`** is a photo + audio lip-sync model. Prompt-only text-to-video examples were incorrect. Send image node `444` and audio node `1755`.",
+    "zh": "## 新模型\n\n- **模型 ID：** `index-tts`\n- **路径：** `POST` / `GET` `/v1/video/generations`（GxgenAI 任务路径，产物为音频）\n- **合同：** 必须传 `metadata.nodeInfoList` — 节点 `4/audio`（参考音）和 `7/text`（文稿）\n\n## 文档更正\n\n- **`ltx2.3-kj`** 是人设静帧 + 音频对口型，不是文生视频。请传图片节点 `444` 和音频节点 `1755`。"
+  }
+}

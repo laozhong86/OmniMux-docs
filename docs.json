@@ -185,6 +185,19 @@
                 "icon": "video"
               },
               {
+                "group": "Audio series",
+                "icon": "audio-lines",
+                "pages": [
+                  {
+                    "group": "Index TTS",
+                    "icon": "audio-lines",
+                    "pages": [
+                      "en/api-reference/audio-series/models/index-tts"
+                    ]
+                  }
+                ]
+              },
+              {
                 "group": "Social data",
                 "pages": [
                   {
@@ -518,6 +531,19 @@
                   }
                 ],
                 "icon": "video"
+              },
+              {
+                "group": "音频系列",
+                "icon": "audio-lines",
+                "pages": [
+                  {
+                    "group": "Index TTS",
+                    "icon": "audio-lines",
+                    "pages": [
+                      "zh/api-reference/audio-series/models/index-tts"
+                    ]
+                  }
+                ]
               },
               {
                 "group": "社交数据",
