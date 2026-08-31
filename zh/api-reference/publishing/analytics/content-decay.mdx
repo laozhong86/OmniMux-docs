@@ -1,0 +1,139 @@
+---
+title: "内容衰减曲线"
+sidebarTitle: "内容衰减曲线"
+description: "分析内容发布后不同时间窗口内互动累积百分比分布与半衰期"
+api: "GET https://omnimux.ai/api/social/v1/analytics/content-decay"
+---
+
+- 社媒 **发布** 用户 API（非 `sk-` 社交数据读）
+- Base：`https://omnimux.ai`；鉴权 access token + `New-Api-User`
+- 分析内容发布后不同时间窗口内的互动累积百分比分布与半衰期
+
+## 身份
+
+| 字段 | 值 |
+| --- | --- |
+| 系列 | 社媒发布 |
+| 资源组 | 社媒分析 |
+| 能力 | 内容衰减曲线 |
+
+## 接口
+
+| 方法 | 路径 |
+| --- | --- |
+| `GET` | `/api/social/v1/analytics/content-decay` |
+
+Base URL：`https://omnimux.ai`
+
+## 鉴权
+
+| 名称 | 位置 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | 是 | `Bearer <access_token>`（用户 access token） |
+| `New-Api-User` | header | string | 是 | 当前用户 id |
+
+## 查询参数
+
+| 参数名 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| `platform` | string | 否 | 平台过滤（`tiktok`、`x`、`instagram`、`youtube` 等） |
+
+## 响应
+
+### 200
+
+| 字段 | 类型 | 说明 |
+| --- | --- | --- |
+| `success` | boolean | 是否成功 |
+| `data.buckets` | array | 时间窗口互动累积分布 |
+| `data.buckets[].bucketOrder` | integer | 序号（0-5） |
+| `data.buckets[].bucketLabel` | string | 窗口标签（`0-6h`、`6-12h`、`12-24h`、`1-2d`、`2-7d`、`7-30d`） |
+| `data.buckets[].avgPctOfFinal` | number | 平均达到最终总互动的百分比（%） |
+| `data.buckets[].postCount` | integer | 样本帖子数 |
+| `data.milestones` | object | 互动里程碑（50% 互动半衰期窗口与 80% 饱和窗口） |
+
+错误见右栏与 [错误码](/zh/faqs/connection-usage)。
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url 'https://omnimux.ai/api/social/v1/analytics/content-decay?platform=tiktok' \
+  --header 'Authorization: Bearer <access_token>' \
+  --header 'New-Api-User: <user_id>' \
+  --header 'Content-Type: application/json'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200
+{
+  "success": true,
+  "data": {
+    "buckets": [
+      {
+        "bucketOrder": 0,
+        "bucketLabel": "0-6h",
+        "avgPctOfFinal": 42.5,
+        "postCount": 45
+      },
+      {
+        "bucketOrder": 1,
+        "bucketLabel": "6-12h",
+        "avgPctOfFinal": 58.0,
+        "postCount": 45
+      },
+      {
+        "bucketOrder": 2,
+        "bucketLabel": "12-24h",
+        "avgPctOfFinal": 62.1,
+        "postCount": 45
+      },
+      {
+        "bucketOrder": 3,
+        "bucketLabel": "1-2d",
+        "avgPctOfFinal": 71.3,
+        "postCount": 45
+      },
+      {
+        "bucketOrder": 4,
+        "bucketLabel": "2-7d",
+        "avgPctOfFinal": 80.4,
+        "postCount": 45
+      },
+      {
+        "bucketOrder": 5,
+        "bucketLabel": "7-30d",
+        "avgPctOfFinal": 100.0,
+        "postCount": 45
+      }
+    ],
+    "milestones": {
+      "halfEngagementBy": "2-7d",
+      "eightyPercentWithin": "2-7d"
+    }
+  }
+}
+```
+
+```json 401
+{
+  "success": false,
+  "message": "Unauthorized"
+}
+```
+
+```json 503
+{
+  "success": false,
+  "message": "social ops is disabled"
+}
+```
+
+</ResponseExample>
+
+</Panel>

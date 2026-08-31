@@ -1,0 +1,107 @@
+---
+title: "查询席位"
+sidebarTitle: "查询席位"
+description: "查询社媒绑定席位配额与使用情况"
+api: "GET https://omnimux.ai/api/social/v1/seats"
+---
+
+- 社媒 **发布** 用户 API（非 `sk-` 社交数据读）
+- Base：`https://omnimux.ai`；鉴权 access token + `New-Api-User`
+- 查询当前已分配社媒席位数、已绑定账号数与空坑使用状态
+
+## 身份
+
+| 字段 | 值 |
+| --- | --- |
+| 系列 | 社媒发布 |
+| 资源组 | 连接账户 |
+| 能力 | 查询席位 |
+
+## 接口
+
+| 方法 | 路径 |
+| --- | --- |
+| `GET` | `/api/social/v1/seats` |
+
+Base URL：`https://omnimux.ai`
+
+## 鉴权
+
+| 名称 | 位置 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | 是 | `Bearer <access_token>`（用户 access token） |
+| `New-Api-User` | header | string | 是 | 当前用户 id |
+
+## 查询参数
+
+无。
+
+## 响应
+
+### 200
+
+| 字段 | 类型 | 说明 |
+| --- | --- | --- |
+| `success` | boolean | 是否成功 |
+| `data` | object | 席位使用详情 |
+| `data.billing_mode` | string | 当前席位计费模式（`off`、`free`、`paid`） |
+| `data.used_seats` | integer | 当前已绑定的社媒账号数量 |
+| `data.total_seats` | integer | 当前拥有的总席位配额容量 |
+| `data.vacant_seats` | integer | 剩余可用空坑数量 |
+| `data.price_per_seat_month` | number | 单席位每月订阅价格（USD） |
+
+错误见右栏与 [错误码](/zh/faqs/connection-usage)。
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url https://omnimux.ai/api/social/v1/seats \
+  --header 'Authorization: Bearer <access_token>' \
+  --header 'New-Api-User: <user_id>' \
+  --header 'Content-Type: application/json'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200
+{
+  "success": true,
+  "data": {
+    "billing_mode": "paid",
+    "used_seats": 2,
+    "total_seats": 5,
+    "vacant_seats": 3,
+    "price_per_seat_month": 5.0
+  }
+}
+```
+
+```json 401
+{
+  "success": false,
+  "message": "Unauthorized"
+}
+```
+
+```json 403
+{
+  "success": false,
+  "message": "Forbidden"
+}
+```
+
+```json 503
+{
+  "success": false,
+  "message": "social ops is disabled"
+}
+```
+
+</ResponseExample>
+
+</Panel>

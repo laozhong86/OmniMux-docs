@@ -1,0 +1,104 @@
+---
+title: "Whisper Audio Transcription"
+sidebarTitle: "Whisper Audio Transcription"
+description: "Whisper Audio Transcription · model `whisper-1`"
+api: "POST https://api.omnimux.ai/v1/audio/transcriptions"
+---
+
+- Call `POST /v1/audio/transcriptions` with `model` `whisper-1`
+- Request is `multipart/form-data` with `file` and `model`
+- Returns transcribed text in JSON, text, or subtitle format
+
+## Identity
+
+| Field | Value |
+| --- | --- |
+| Series | Audio series |
+| Brand | Whisper |
+| model | `whisper-1` |
+
+## Endpoint
+
+| Method | Path |
+| --- | --- |
+| `POST` | `/v1/audio/transcriptions` |
+
+Base URL: `https://api.omnimux.ai`
+
+## Authorizations
+
+| Name | In | Type | Required | Description |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | yes | `Bearer sk-...` (API key) |
+
+## Body (multipart/form-data)
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `file` | binary | yes | Audio file to transcribe (`flac`, `mp3`, `mp4`, `mpeg`, `mpga`, `m4a`, `ogg`, `wav`, `webm`) |
+| `model` | string | yes | Must be `whisper-1` |
+| `language` | string | no | ISO-639-1 language code (e.g. `en`, `zh`) |
+| `prompt` | string | no | Optional text guide for spelling / context |
+| `response_format` | string | no | `json` (default), `text`, `srt`, `verbose_json`, `vtt` |
+| `temperature` | number | no | Sampling temperature between 0 and 1 |
+
+## Response
+
+### 200
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `text` | string | Transcribed text content |
+
+Errors: see right-rail examples.
+
+<Panel>
+
+<RequestExample>
+
+```bash curl --request POST \
+  --url https://api.omnimux.ai/v1/audio/transcriptions \
+  --header 'Authorization: Bearer <token>' \
+  --form file=@audio.mp3 \
+  --form model="whisper-1"
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200
+{
+  "text": "Welcome to the podcast. Today we discuss AI agent infrastructure..."
+}
+```
+
+```json 400
+{ "error": { "message": "Invalid request", "type": "invalid_request_error", "code": "bad_request" } }
+```
+
+```json 401
+{ "error": { "message": "Invalid token", "type": "authentication_error", "code": "unauthorized" } }
+```
+
+```json 402
+{
+  "error": {
+    "message": "Insufficient quota. Please top up your account.",
+    "type": "insufficient_quota",
+    "code": "insufficient_quota"
+  }
+}
+```
+
+```json 429
+{ "error": { "message": "Rate limit exceeded", "type": "rate_limit_error", "code": "rate_limit_exceeded" } }
+```
+
+```json 500
+{ "error": { "message": "Internal server error", "type": "server_error", "code": "internal_error" } }
+```
+
+</ResponseExample>
+
+</Panel>

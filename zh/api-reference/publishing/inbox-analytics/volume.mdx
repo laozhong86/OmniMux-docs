@@ -1,0 +1,108 @@
+---
+title: "私信消息量趋势"
+sidebarTitle: "私信消息量趋势"
+description: "获取指定时间段内私信与互动消息量时序走势"
+api: "GET https://omnimux.ai/api/social/v1/inbox-analytics/volume"
+---
+
+- 社媒 **发布** 用户 API（非 `sk-` 社交数据读）
+- Base：`https://omnimux.ai`；鉴权 access token + `New-Api-User`
+- 统计收到的私信、评论等互动消息量时序趋势
+
+## 身份
+
+| 字段 | 值 |
+| --- | --- |
+| 系列 | 社媒发布 |
+| 资源组 | 私信分析 |
+| 能力 | 私信消息量趋势 |
+
+## 接口
+
+| 方法 | 路径 |
+| --- | --- |
+| `GET` | `/api/social/v1/inbox-analytics/volume` |
+
+Base URL：`https://omnimux.ai`
+
+## 鉴权
+
+| 名称 | 位置 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | 是 | `Bearer <access_token>`（用户 access token） |
+| `New-Api-User` | header | string | 是 | 当前用户 id |
+
+## 查询参数
+
+| 参数名 | 类型 | 必填 | 默认值 | 说明 |
+| --- | --- | --- | --- | --- |
+| `platform` | string | 否 | — | 平台过滤（`tiktok`、`x`、`instagram`、`youtube`） |
+| `fromDate` | string | 否 | 30天前 | 起始日期（`YYYY-MM-DD`） |
+| `toDate` | string | 否 | 当天 | 截止日期（`YYYY-MM-DD`） |
+
+## 响应
+
+### 200
+
+| 字段 | 类型 | 说明 |
+| --- | --- | --- |
+| `success` | boolean | 是否成功 |
+| `data.timeline` | array | 每日消息量时序数据 |
+| `data.timeline[].date` | string | 日期（`YYYY-MM-DD`） |
+| `data.timeline[].totalMessages` | integer | 当日消息总量 |
+| `data.timeline[].directMessages` | integer | 私信数量 |
+| `data.timeline[].comments` | integer | 评论互动数量 |
+| `data.total` | integer | 统计区间内消息总量 |
+
+错误见右栏与 [错误码](/zh/faqs/connection-usage)。
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url 'https://omnimux.ai/api/social/v1/inbox-analytics/volume?fromDate=2026-08-01&toDate=2026-08-25&platform=tiktok' \
+  --header 'Authorization: Bearer <access_token>' \
+  --header 'New-Api-User: <user_id>' \
+  --header 'Content-Type: application/json'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200
+{
+  "success": true,
+  "data": {
+    "timeline": [
+      {
+        "date": "2026-08-20",
+        "totalMessages": 128,
+        "directMessages": 45,
+        "comments": 83
+      }
+    ],
+    "total": 128
+  }
+}
+```
+
+```json 401
+{
+  "success": false,
+  "message": "Unauthorized"
+}
+```
+
+```json 503
+{
+  "success": false,
+  "message": "social ops is disabled"
+}
+```
+
+</ResponseExample>
+
+</Panel>

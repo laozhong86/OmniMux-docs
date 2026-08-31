@@ -1,0 +1,116 @@
+---
+title: "私信渠道分布"
+sidebarTitle: "私信渠道分布"
+description: "获取各社交媒体平台渠道在私信与互动总量中的分布占比"
+api: "GET https://omnimux.ai/api/social/v1/inbox-analytics/source-breakdown"
+---
+
+- 社媒 **发布** 用户 API（非 `sk-` 社交数据读）
+- Base：`https://omnimux.ai`；鉴权 access token + `New-Api-User`
+- 分析各绑定社媒渠道（TikTok、Instagram、X 等）的私信互动来源占比
+
+## 身份
+
+| 字段 | 值 |
+| --- | --- |
+| 系列 | 社媒发布 |
+| 资源组 | 私信分析 |
+| 能力 | 私信渠道分布 |
+
+## 接口
+
+| 方法 | 路径 |
+| --- | --- |
+| `GET` | `/api/social/v1/inbox-analytics/source-breakdown` |
+
+Base URL：`https://omnimux.ai`
+
+## 鉴权
+
+| 名称 | 位置 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | 是 | `Bearer <access_token>`（用户 access token） |
+| `New-Api-User` | header | string | 是 | 当前用户 id |
+
+## 查询参数
+
+| 参数名 | 类型 | 必填 | 默认值 | 说明 |
+| --- | --- | --- | --- | --- |
+| `platform` | string | 否 | — | 平台过滤（`tiktok`、`x`、`instagram`、`youtube`） |
+| `fromDate` | string | 否 | 30天前 | 起始日期（`YYYY-MM-DD`） |
+| `toDate` | string | 否 | 当天 | 截止日期（`YYYY-MM-DD`） |
+
+## 响应
+
+### 200
+
+| 字段 | 类型 | 说明 |
+| --- | --- | --- |
+| `success` | boolean | 是否成功 |
+| `data.platforms` | array | 各平台私信量分布列表 |
+| `data.platforms[].platform` | string | 平台名称 |
+| `data.platforms[].messageCount` | integer | 该平台接收消息总量 |
+| `data.platforms[].percentage` | number | 占总消息量的百分比（%） |
+| `data.totalMessages` | integer | 所有渠道接收消息总数 |
+
+错误见右栏与 [错误码](/zh/faqs/connection-usage)。
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url 'https://omnimux.ai/api/social/v1/inbox-analytics/source-breakdown?fromDate=2026-08-01&toDate=2026-08-25' \
+  --header 'Authorization: Bearer <access_token>' \
+  --header 'New-Api-User: <user_id>' \
+  --header 'Content-Type: application/json'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200
+{
+  "success": true,
+  "data": {
+    "platforms": [
+      {
+        "platform": "tiktok",
+        "messageCount": 180,
+        "percentage": 60.0
+      },
+      {
+        "platform": "instagram",
+        "messageCount": 90,
+        "percentage": 30.0
+      },
+      {
+        "platform": "x",
+        "messageCount": 30,
+        "percentage": 10.0
+      }
+    ],
+    "totalMessages": 300
+  }
+}
+```
+
+```json 401
+{
+  "success": false,
+  "message": "Unauthorized"
+}
+```
+
+```json 503
+{
+  "success": false,
+  "message": "social ops is disabled"
+}
+```
+
+</ResponseExample>
+
+</Panel>

@@ -1,0 +1,116 @@
+---
+title: "Inbox Source Breakdown"
+sidebarTitle: "Inbox Source Breakdown"
+description: "Get channel and platform distribution breakdown for incoming direct messages and comments"
+api: "GET https://omnimux.ai/api/social/v1/inbox-analytics/source-breakdown"
+---
+
+- Social **publishing** user API (not `sk-` social-data read)
+- Base: `https://omnimux.ai`; auth access token + `New-Api-User`
+- Analyzes the proportional distribution of incoming interactions across connected social platforms
+
+## Identity
+
+| Field | Value |
+| --- | --- |
+| Series | Publishing |
+| Group | Inbox Analytics |
+| Capability | Inbox source breakdown |
+
+## Endpoint
+
+| Method | Path |
+| --- | --- |
+| `GET` | `/api/social/v1/inbox-analytics/source-breakdown` |
+
+Base URL: `https://omnimux.ai`
+
+## Authorizations
+
+| Name | In | Type | Required | Description |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | yes | `Bearer <access_token>` (User Access Token) |
+| `New-Api-User` | header | string | yes | Current user id |
+
+## Query Parameters
+
+| Parameter | Type | Required | Default | Description |
+| --- | --- | --- | --- | --- |
+| `platform` | string | no | — | Filter by platform (`tiktok`, `x`, `instagram`, `youtube`) |
+| `fromDate` | string | no | 30 days ago | Start date (`YYYY-MM-DD`) |
+| `toDate` | string | no | Today | End date (`YYYY-MM-DD`) |
+
+## Response
+
+### 200
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `success` | boolean | Success flag |
+| `data.platforms` | array | Breakdown of messages by social platform |
+| `data.platforms[].platform` | string | Platform name |
+| `data.platforms[].messageCount` | integer | Total inbound messages on this platform |
+| `data.platforms[].percentage` | number | Percentage of total inbox volume (%) |
+| `data.totalMessages` | integer | Grand total incoming messages across all sources |
+
+Errors: right rail and [Error codes](/en/faqs/connection-usage).
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url 'https://omnimux.ai/api/social/v1/inbox-analytics/source-breakdown?fromDate=2026-08-01&toDate=2026-08-25' \
+  --header 'Authorization: Bearer <access_token>' \
+  --header 'New-Api-User: <user_id>' \
+  --header 'Content-Type: application/json'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200
+{
+  "success": true,
+  "data": {
+    "platforms": [
+      {
+        "platform": "tiktok",
+        "messageCount": 180,
+        "percentage": 60.0
+      },
+      {
+        "platform": "instagram",
+        "messageCount": 90,
+        "percentage": 30.0
+      },
+      {
+        "platform": "x",
+        "messageCount": 30,
+        "percentage": 10.0
+      }
+    ],
+    "totalMessages": 300
+  }
+}
+```
+
+```json 401
+{
+  "success": false,
+  "message": "Unauthorized"
+}
+```
+
+```json 503
+{
+  "success": false,
+  "message": "social ops is disabled"
+}
+```
+
+</ResponseExample>
+
+</Panel>

@@ -1,0 +1,117 @@
+---
+title: "Inbox Activity Heatmap"
+sidebarTitle: "Inbox Activity Heatmap"
+description: "Calculate 7x24 hourly heatmap distribution for incoming direct messages and comments"
+api: "GET https://omnimux.ai/api/social/v1/inbox-analytics/heatmap"
+---
+
+- Social **publishing** user API (not `sk-` social-data read)
+- Base: `https://omnimux.ai`; auth access token + `New-Api-User`
+- Identifies peak traffic hours and weekday patterns for incoming audience messages
+
+## Identity
+
+| Field | Value |
+| --- | --- |
+| Series | Publishing |
+| Group | Inbox Analytics |
+| Capability | Inbox activity heatmap |
+
+## Endpoint
+
+| Method | Path |
+| --- | --- |
+| `GET` | `/api/social/v1/inbox-analytics/heatmap` |
+
+Base URL: `https://omnimux.ai`
+
+## Authorizations
+
+| Name | In | Type | Required | Description |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | yes | `Bearer <access_token>` (User Access Token) |
+| `New-Api-User` | header | string | yes | Current user id |
+
+## Query Parameters
+
+| Parameter | Type | Required | Default | Description |
+| --- | --- | --- | --- | --- |
+| `platform` | string | no | — | Filter by platform (`tiktok`, `x`, `instagram`, `youtube`) |
+| `timezone` | string | no | `UTC` | Timezone identifier (e.g. `Asia/Shanghai`, `America/New_York`) |
+
+## Response
+
+### 200
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `success` | boolean | Success flag |
+| `data.slots` | array | 7x24 hourly incoming volume slots |
+| `data.slots[].dayOfWeek` | integer | Day of week (0 = Sunday, 1 = Monday, ..., 6 = Saturday) |
+| `data.slots[].hour` | integer | Hour of day (0-23) |
+| `data.slots[].messageCount` | integer | Total messages received in this time slot |
+| `data.peakSlots` | array | Top peak message reception hours |
+
+Errors: right rail and [Error codes](/en/faqs/connection-usage).
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url 'https://omnimux.ai/api/social/v1/inbox-analytics/heatmap?timezone=Asia/Shanghai' \
+  --header 'Authorization: Bearer <access_token>' \
+  --header 'New-Api-User: <user_id>' \
+  --header 'Content-Type: application/json'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200
+{
+  "success": true,
+  "data": {
+    "slots": [
+      {
+        "dayOfWeek": 1,
+        "hour": 14,
+        "messageCount": 35
+      },
+      {
+        "dayOfWeek": 5,
+        "hour": 21,
+        "messageCount": 58
+      }
+    ],
+    "peakSlots": [
+      {
+        "dayOfWeek": 5,
+        "hour": 21,
+        "label": "Fri 9pm",
+        "messageCount": 58
+      }
+    ]
+  }
+}
+```
+
+```json 401
+{
+  "success": false,
+  "message": "Unauthorized"
+}
+```
+
+```json 503
+{
+  "success": false,
+  "message": "social ops is disabled"
+}
+```
+
+</ResponseExample>
+
+</Panel>

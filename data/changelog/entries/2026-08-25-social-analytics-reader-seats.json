@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "id": "2026-08-25-social-analytics-reader-seats",
+  "published_at": "2026-08-25",
+  "rank": 0,
+  "type": "platform",
+  "modality": [
+    "platform",
+    "text"
+  ],
+  "title": {
+    "en": "Social analytics & inbox suite, Jina Reader extractor, and social seats",
+    "zh": "上线社媒分析与私信分析套件、Jina Reader 网页提取及社媒席位管理"
+  },
+  "summary": {
+    "en": "Landed 11 social analytics and inbox endpoints under `/api/social/v1`, Jina Reader `/v1/reader` gateway relay with output-token billing, and social seats status API.",
+    "zh": "上线 `/api/social/v1` 11 个社媒分析与私信分析端点、Jina Reader `/v1/reader` 网页提取中继（按输出 Token 计费）以及社媒席位管理接口。"
+  },
+  "models": [
+    "jina-reader-v1"
+  ],
+  "tags": [
+    "publishing",
+    "analytics",
+    "reader",
+    "social"
+  ],
+  "links": [
+    {
+      "label": {
+        "en": "Jina Reader Extractor",
+        "zh": "Jina Reader 网页提取"
+      },
+      "href": {
+        "en": "/en/api-reference/reader-series/models/jina-reader-v1",
+        "zh": "/zh/api-reference/reader-series/models/jina-reader-v1"
+      }
+    },
+    {
+      "label": {
+        "en": "Daily Metrics",
+        "zh": "大盘时序指标"
+      },
+      "href": {
+        "en": "/en/api-reference/publishing/analytics/daily-metrics",
+        "zh": "/zh/api-reference/publishing/analytics/daily-metrics"
+      }
+    },
+    {
+      "label": {
+        "en": "Social Seats",
+        "zh": "查询席位"
+      },
+      "href": {
+        "en": "/en/api-reference/publishing/seats",
+        "zh": "/zh/api-reference/publishing/seats"
+      }
+    }
+  ],
+  "body": {
+    "en": "## Social Analytics & Inbox Suite\n\nOmniMux now exposes 11 RESTful analytics endpoints under `/api/social/v1` for comprehensive audience and engagement intelligence:\n\n- **Analytics:** Daily metrics timeseries, 7x24 weekly best time to post heatmap, posting frequency cadence model, content decay curve, follower growth snapshots, posts performance ranking, and external posts incremental synchronization.\n- **Inbox Analytics:** Message volume trends, response time (TTR) distribution, 7x24 incoming activity heatmap, and source breakdown across connected platforms.\n\n## Jina Reader Relay (`POST /v1/reader`)\n\n- **Model ID:** `jina-reader-v1`\n- **Capability:** URL to clean Markdown / structured JSON text extraction with CSS selectors filtering and output-token billing.\n- **Auth:** Standard gateway Bearer `sk-...` token.\n\n## Social Seats Management (`GET /api/social/v1/seats`)\n\n- Inspects current active connected social accounts, total quota capacity, and vacant seat availability.",
+    "zh": "## 社媒分析与私信分析套件\n\nOmniMux 在 `/api/social/v1` 路由组下全新接入 11 个 RESTful 深度数据分析与私信洞察端点：\n\n- **社媒分析（Analytics）：** 宏观大盘时序指标、7×24小时最佳发布时间热力矩阵、发帖频次与互动率相关性模型、内容生命周期衰减曲线、多平台粉丝增长快照、单帖与列表深度指标排行、外部平台存量帖子增量同步。\n- **私信分析（Inbox Analytics）：** 私信与互动消息量时序走势、响应时效（TTR）耗时分布、7×24小时私信时段热力图、跨平台私信渠道来源占比。\n\n## Jina Reader 网页提取中继（`POST /v1/reader`）\n\n- **模型 ID：** `jina-reader-v1`\n- **能力：** 将网页 URL 高效转换为大模型友好的 Markdown 或结构化 JSON 文本，支持 CSS 选择器过滤、图片摘要与按输出 Token 结算。\n- **鉴权：** 标准网关 Bearer `sk-...` 凭据。\n\n## 社媒席位管理（`GET /api/social/v1/seats`）\n\n- 查询当前用户绑定的社媒账号数量、席位配额容量与可用空坑状态。"
+  }
+}

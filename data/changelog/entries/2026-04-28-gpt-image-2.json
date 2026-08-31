@@ -16,8 +16,8 @@
     "zh": "GPT Image 2 及 HD 档已在 OmniMux 可调用。"
   },
   "models": [
-    "gpt-image2",
-    "gpt-image2-hd"
+    "gpt-image-2",
+    "gpt-image-2-hd"
   ],
   "tags": [
     "image"
@@ -29,8 +29,8 @@
         "zh": "GPT Image 2"
       },
       "href": {
-        "en": "/en/api-reference/image-series/models/gpt-image2",
-        "zh": "/zh/api-reference/image-series/models/gpt-image2"
+        "en": "/en/api-reference/image-series/models/gpt-image-2",
+        "zh": "/zh/api-reference/image-series/models/gpt-image-2"
       }
     },
     {
@@ -39,8 +39,8 @@
         "zh": "GPT Image 2 HD"
       },
       "href": {
-        "en": "/en/api-reference/image-series/models/gpt-image2-hd",
-        "zh": "/zh/api-reference/image-series/models/gpt-image2-hd"
+        "en": "/en/api-reference/image-series/models/gpt-image-2-hd",
+        "zh": "/zh/api-reference/image-series/models/gpt-image-2-hd"
       }
     }
   ],

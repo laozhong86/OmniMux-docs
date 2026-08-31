@@ -1,0 +1,107 @@
+---
+title: "Query Seats"
+sidebarTitle: "Query Seats"
+description: "Query social account seats quota and utilization status"
+api: "GET https://omnimux.ai/api/social/v1/seats"
+---
+
+- Social **publishing** user API (not `sk-` social-data read)
+- Base: `https://omnimux.ai`; auth access token + `New-Api-User`
+- Queries current allocated social account seats, active bound accounts, and vacant slot availability
+
+## Identity
+
+| Field | Value |
+| --- | --- |
+| Series | Publishing |
+| Group | Connecting Accounts |
+| Capability | Query seats |
+
+## Endpoint
+
+| Method | Path |
+| --- | --- |
+| `GET` | `/api/social/v1/seats` |
+
+Base URL: `https://omnimux.ai`
+
+## Authorizations
+
+| Name | In | Type | Required | Description |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | yes | `Bearer <access_token>` (User Access Token) |
+| `New-Api-User` | header | string | yes | Current user id |
+
+## Query Parameters
+
+None.
+
+## Response
+
+### 200
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `success` | boolean | Success flag |
+| `data` | object | Seat utilization details |
+| `data.billing_mode` | string | Current seat billing mode (`off`, `free`, `paid`) |
+| `data.used_seats` | integer | Number of active bound social accounts |
+| `data.total_seats` | integer | Total allocated seats capacity |
+| `data.vacant_seats` | integer | Available unbound slots |
+| `data.price_per_seat_month` | number | Price per additional seat per month |
+
+Errors: right rail and [Error codes](/en/faqs/connection-usage).
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url https://omnimux.ai/api/social/v1/seats \
+  --header 'Authorization: Bearer <access_token>' \
+  --header 'New-Api-User: <user_id>' \
+  --header 'Content-Type: application/json'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200
+{
+  "success": true,
+  "data": {
+    "billing_mode": "paid",
+    "used_seats": 2,
+    "total_seats": 5,
+    "vacant_seats": 3,
+    "price_per_seat_month": 5.0
+  }
+}
+```
+
+```json 401
+{
+  "success": false,
+  "message": "Unauthorized"
+}
+```
+
+```json 403
+{
+  "success": false,
+  "message": "Forbidden"
+}
+```
+
+```json 503
+{
+  "success": false,
+  "message": "social ops is disabled"
+}
+```
+
+</ResponseExample>
+
+</Panel>

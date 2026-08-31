@@ -1,0 +1,139 @@
+---
+title: "Content Decay Curve"
+sidebarTitle: "Content Decay Curve"
+description: "Analyze post engagement accumulation and half-life decay lifecycle"
+api: "GET https://omnimux.ai/api/social/v1/analytics/content-decay"
+---
+
+- Social **publishing** user API (not `sk-` social-data read)
+- Base: `https://omnimux.ai`; auth access token + `New-Api-User`
+- Measures engagement accumulation across post-publishing time windows to determine content half-life
+
+## Identity
+
+| Field | Value |
+| --- | --- |
+| Series | Publishing |
+| Group | Analytics |
+| Capability | Content decay |
+
+## Endpoint
+
+| Method | Path |
+| --- | --- |
+| `GET` | `/api/social/v1/analytics/content-decay` |
+
+Base URL: `https://omnimux.ai`
+
+## Authorizations
+
+| Name | In | Type | Required | Description |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | yes | `Bearer <access_token>` (User Access Token) |
+| `New-Api-User` | header | string | yes | Current user id |
+
+## Query Parameters
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `platform` | string | no | Filter by platform (`tiktok`, `x`, `instagram`, `youtube`) |
+
+## Response
+
+### 200
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `success` | boolean | Success flag |
+| `data.buckets` | array | Time window cumulative engagement buckets |
+| `data.buckets[].bucketOrder` | integer | Sequential index (0-5) |
+| `data.buckets[].bucketLabel` | string | Window label (`0-6h`, `6-12h`, `12-24h`, `1-2d`, `2-7d`, `7-30d`) |
+| `data.buckets[].avgPctOfFinal` | number | Average percentage of final total engagement achieved |
+| `data.buckets[].postCount` | integer | Posts sample size |
+| `data.milestones` | object | Milestones (50% half-life window and 80% ceiling window) |
+
+Errors: right rail and [Error codes](/en/faqs/connection-usage).
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url 'https://omnimux.ai/api/social/v1/analytics/content-decay?platform=tiktok' \
+  --header 'Authorization: Bearer <access_token>' \
+  --header 'New-Api-User: <user_id>' \
+  --header 'Content-Type: application/json'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200
+{
+  "success": true,
+  "data": {
+    "buckets": [
+      {
+        "bucketOrder": 0,
+        "bucketLabel": "0-6h",
+        "avgPctOfFinal": 42.5,
+        "postCount": 45
+      },
+      {
+        "bucketOrder": 1,
+        "bucketLabel": "6-12h",
+        "avgPctOfFinal": 58.0,
+        "postCount": 45
+      },
+      {
+        "bucketOrder": 2,
+        "bucketLabel": "12-24h",
+        "avgPctOfFinal": 62.1,
+        "postCount": 45
+      },
+      {
+        "bucketOrder": 3,
+        "bucketLabel": "1-2d",
+        "avgPctOfFinal": 71.3,
+        "postCount": 45
+      },
+      {
+        "bucketOrder": 4,
+        "bucketLabel": "2-7d",
+        "avgPctOfFinal": 80.4,
+        "postCount": 45
+      },
+      {
+        "bucketOrder": 5,
+        "bucketLabel": "7-30d",
+        "avgPctOfFinal": 100.0,
+        "postCount": 45
+      }
+    ],
+    "milestones": {
+      "halfEngagementBy": "2-7d",
+      "eightyPercentWithin": "2-7d"
+    }
+  }
+}
+```
+
+```json 401
+{
+  "success": false,
+  "message": "Unauthorized"
+}
+```
+
+```json 503
+{
+  "success": false,
+  "message": "social ops is disabled"
+}
+```
+
+</ResponseExample>
+
+</Panel>

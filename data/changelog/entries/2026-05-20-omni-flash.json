@@ -16,10 +16,7 @@
     "zh": "Omni Flash 及按时长 SKU 已在 OmniMux 可调用。"
   },
   "models": [
-    "omni_flash",
-    "omni_flash-4s",
-    "omni_flash-6s",
-    "omni_flash-10s"
+    "gemini-omni-flash"
   ],
   "tags": [
     "video"
@@ -31,8 +28,8 @@
         "zh": "Omni Flash"
       },
       "href": {
-        "en": "/en/api-reference/video-series/models/omni_flash",
-        "zh": "/zh/api-reference/video-series/models/omni_flash"
+        "en": "/en/api-reference/video-series/models/gemini-omni-flash",
+        "zh": "/zh/api-reference/video-series/models/gemini-omni-flash"
       }
     },
     {
@@ -47,7 +44,7 @@
     }
   ],
   "body": {
-    "en": "## Omni Flash\n\nThe **Omni Flash** duration family is available on OmniMux.\n\n### New models\n\n| Model ID | Role |\n| --- | --- |\n| `omni_flash` | Base |\n| `omni_flash-4s` | 4s-oriented SKU |\n| `omni_flash-6s` | 6s-oriented SKU |\n| `omni_flash-10s` | 10s-oriented SKU |\n\n### API\n\n- **Create:** `POST /v1/video/generations`\n- **Poll:** `GET /v1/video/generations/{task_id}`",
-    "zh": "## Omni Flash\n\n**Omni Flash** 时长族已在 OmniMux 可调用。\n\n### 新模型\n\n| 模型 ID | 角色 |\n| --- | --- |\n| `omni_flash` | 基础 |\n| `omni_flash-4s` | 4 秒向 SKU |\n| `omni_flash-6s` | 6 秒向 SKU |\n| `omni_flash-10s` | 10 秒向 SKU |\n\n### 调用\n\n- **创建：** `POST /v1/video/generations`\n- **查询：** `GET /v1/video/generations/{task_id}`"
+    "en": "## Omni Flash\n\n**Omni Flash** (`gemini-omni-flash`) is available on OmniMux for fast video generation.\n\n### Model\n\n- **Model ID:** `gemini-omni-flash`\n- **API:** `POST /v1/video/generations` + poll `GET /v1/video/generations/{task_id}`",
+    "zh": "## Omni Flash\n\n**Omni Flash**（`gemini-omni-flash`）已在 OmniMux 可调用，用于快速视频生成。\n\n### 模型\n\n- **模型 ID：** `gemini-omni-flash`\n- **调用：** `POST /v1/video/generations` + 轮询 `GET /v1/video/generations/{task_id}`"
   }
 }

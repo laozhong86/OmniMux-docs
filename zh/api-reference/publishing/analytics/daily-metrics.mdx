@@ -1,0 +1,141 @@
+---
+title: "大盘时序指标"
+sidebarTitle: "大盘时序指标"
+description: "获取每日综合汇总、平台分布及各项互动指标走势"
+api: "GET https://omnimux.ai/api/social/v1/analytics/daily-metrics"
+---
+
+- 社媒 **发布** 用户 API（非 `sk-` 社交数据读）
+- Base：`https://omnimux.ai`；鉴权 access token + `New-Api-User`
+- 获取指定时间段内的每日综合汇总、平台分布及曝光、触达、互动走势
+
+## 身份
+
+| 字段 | 值 |
+| --- | --- |
+| 系列 | 社媒发布 |
+| 资源组 | 社媒分析 |
+| 能力 | 大盘时序指标 |
+
+## 接口
+
+| 方法 | 路径 |
+| --- | --- |
+| `GET` | `/api/social/v1/analytics/daily-metrics` |
+
+Base URL：`https://omnimux.ai`
+
+## 鉴权
+
+| 名称 | 位置 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | 是 | `Bearer <access_token>`（用户 access token） |
+| `New-Api-User` | header | string | 是 | 当前用户 id |
+
+## 查询参数
+
+| 参数名 | 类型 | 必填 | 默认值 | 说明 |
+| --- | --- | --- | --- | --- |
+| `fromDate` | string | 否 | 30天前 | 起始日期（`YYYY-MM-DD`） |
+| `toDate` | string | 否 | 当天 | 截止日期（`YYYY-MM-DD`） |
+| `platform` | string | 否 | — | 平台过滤（`tiktok`、`x`、`instagram`、`youtube` 等） |
+| `account_ids` | string | 否 | — | 逗号分隔的本地数字账号 ID（如 `1,2,5`） |
+| `timezone` | string | 否 | `UTC` | 时区（如 `Asia/Shanghai`、`America/New_York`） |
+
+## 响应
+
+### 200
+
+| 字段 | 类型 | 说明 |
+| --- | --- | --- |
+| `success` | boolean | 是否成功 |
+| `data.dailyData` | array | 每日时序数据列表 |
+| `data.dailyData[].date` | string | 日期（`YYYY-MM-DD`） |
+| `data.dailyData[].postCount` | integer | 当日发布帖子总数 |
+| `data.dailyData[].platforms` | object | 各平台发帖量分布 |
+| `data.dailyData[].metrics` | object | 汇总互动指标（曝光、触达、点赞、评论、分享、收藏、点击、播放等） |
+| `data.platformBreakdown` | array | 跨平台整体汇总概览 |
+
+错误见右栏与 [错误码](/zh/faqs/connection-usage)。
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url 'https://omnimux.ai/api/social/v1/analytics/daily-metrics?fromDate=2026-08-01&toDate=2026-08-25&timezone=Asia/Shanghai' \
+  --header 'Authorization: Bearer <access_token>' \
+  --header 'New-Api-User: <user_id>' \
+  --header 'Content-Type: application/json'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200
+{
+  "success": true,
+  "data": {
+    "dailyData": [
+      {
+        "date": "2026-08-20",
+        "postCount": 6,
+        "platforms": {
+          "tiktok": 4,
+          "x": 2
+        },
+        "metrics": {
+          "impressions": 12500,
+          "reach": 8900,
+          "likes": 340,
+          "comments": 28,
+          "shares": 15,
+          "saves": 12,
+          "clicks": 45,
+          "views": 9800
+        }
+      }
+    ],
+    "platformBreakdown": [
+      {
+        "platform": "tiktok",
+        "postCount": 12,
+        "metrics": {
+          "likes": 340,
+          "comments": 28,
+          "shares": 15,
+          "views": 9800,
+          "er": 2.28
+        }
+      }
+    ]
+  }
+}
+```
+
+```json 401
+{
+  "success": false,
+  "message": "Unauthorized"
+}
+```
+
+```json 403
+{
+  "success": false,
+  "message": "one or more accounts are not owned by this user"
+}
+```
+
+```json 503
+{
+  "success": false,
+  "message": "social ops is disabled"
+}
+```
+
+</ResponseExample>
+
+</Panel>

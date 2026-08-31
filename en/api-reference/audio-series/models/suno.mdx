@@ -1,0 +1,110 @@
+---
+title: "Suno Music Generation"
+sidebarTitle: "Suno Music Generation"
+description: "Suno Music Generation · model `suno`"
+api: "POST https://api.omnimux.ai/v1/video/generations"
+---
+
+- Create: `POST /v1/video/generations` with `model` `suno`
+- Async: poll [Video task](/en/api-reference/tasks/video-task) with returned `task_id`
+- Music generations share the unified media task endpoint and task polling contract
+
+## Identity
+
+| Field | Value |
+| --- | --- |
+| Series | Audio series |
+| Brand | Suno |
+| model | `suno` |
+
+## Endpoint
+
+| Method | Path |
+| --- | --- |
+| `POST` | `/v1/video/generations` |
+| `GET` | `/v1/video/generations/{task_id}` |
+
+Base URL: `https://api.omnimux.ai`
+
+## Authorizations
+
+| Name | In | Type | Required | Description |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | yes | `Bearer sk-...` (API key) |
+
+## Body
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `model` | string | yes | Must be `suno` |
+| `prompt` | string | yes | Song lyrics, genre description, or musical style |
+| `title` | string | no | Song title |
+| `tags` / `style` | string | no | Musical style tags (e.g. `acoustic pop`, `electronic synth`) |
+| `instrumental` | boolean | no | Set `true` to generate instrumental music without vocals |
+
+## Response
+
+### 200 (create)
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `task_id` | string | Task id for polling |
+| `status` | string | `queued` / `processing` / `completed` |
+
+See [Video task](/en/api-reference/tasks/video-task). Errors: [Error codes](/en/faqs/connection-usage).
+
+<Panel>
+
+<RequestExample>
+
+```bash curl --request POST \
+  --url https://api.omnimux.ai/v1/video/generations \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "model": "suno",
+  "prompt": "An upbeat acoustic folk song about mountain travel at sunrise",
+  "tags": "folk acoustic positive"
+}'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200
+{
+  "task_id": "task_suno_01HXYZABCDEF",
+  "status": "queued"
+}
+```
+
+```json 400
+{ "error": { "message": "Invalid request", "type": "invalid_request_error", "code": "bad_request" } }
+```
+
+```json 401
+{ "error": { "message": "Invalid token", "type": "authentication_error", "code": "unauthorized" } }
+```
+
+```json 402
+{
+  "error": {
+    "message": "Insufficient quota. Please top up your account.",
+    "type": "insufficient_quota",
+    "code": "insufficient_quota"
+  }
+}
+```
+
+```json 429
+{ "error": { "message": "Rate limit exceeded", "type": "rate_limit_error", "code": "rate_limit_exceeded" } }
+```
+
+```json 500
+{ "error": { "message": "Internal server error", "type": "server_error", "code": "internal_error" } }
+```
+
+</ResponseExample>
+
+</Panel>

@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "GLM · Chat Completions",
-    "description": "OpenAI-compatible Chat Completions for GLM models on OmniMux. Supported model ids: `glm-5.1`, `glm-5.2`.",
+    "description": "OpenAI-compatible Chat Completions for GLM models on OmniMux. Supported model ids: `glm-5.1`, `glm-5.2`, `glm-5.3`.",
     "version": "1.0.0"
   },
   "servers": [
@@ -294,7 +294,8 @@
             "description": "Model id for this brand on OmniMux. Same request/response shape for all ids below; only the `model` value changes.",
             "enum": [
               "glm-5.1",
-              "glm-5.2"
+              "glm-5.2",
+              "glm-5.3"
             ],
             "default": "glm-5.1",
             "example": "glm-5.1"

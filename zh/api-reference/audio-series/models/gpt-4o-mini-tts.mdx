@@ -1,0 +1,109 @@
+---
+title: "GPT-4o mini 语音合成"
+sidebarTitle: "GPT-4o mini 语音合成"
+description: "GPT-4o mini 语音合成 · model `gpt-4o-mini-tts`"
+api: "POST https://api.omnimux.ai/v1/audio/speech"
+---
+
+- 调用 `POST /v1/audio/speech`，`model` 为 `gpt-4o-mini-tts`
+- 请求体必填 `model`、`input`、`voice`
+- 成功返回二进制音频流（默认 `audio/mpeg`）
+
+## 身份
+
+| 字段 | 值 |
+| --- | --- |
+| 系列 | 音频系列 |
+| 品牌 | GPT Audio |
+| model | `gpt-4o-mini-tts` |
+
+## 接口
+
+| 方法 | 路径 |
+| --- | --- |
+| `POST` | `/v1/audio/speech` |
+
+Base URL：`https://api.omnimux.ai`
+
+## 鉴权
+
+| 名称 | 位置 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | 是 | `Bearer sk-...`（API Key） |
+
+## 请求体
+
+| 字段 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| `model` | string | 是 | 固定为 `gpt-4o-mini-tts` |
+| `input` | string | 是 | 要转换的文本（最多 4096 字符） |
+| `voice` | string | 是 | 音色名称（如 `alloy`, `echo`, `fable`, `onyx`, `nova`, `shimmer`） |
+| `response_format` | string | 否 | 输出格式：`mp3`（默认）、`opus`、`aac`、`flac`、`wav`、`pcm` |
+| `speed` | number | 否 | 语速倍率（`0.25` 到 `4.0`，默认 `1.0`） |
+
+## 响应
+
+### 200
+
+返回 `Content-Type: audio/mpeg` 二进制音频数据。
+
+错误形态见右栏示例。
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url https://api.omnimux.ai/v1/audio/speech \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "model": "gpt-4o-mini-tts",
+  "input": "你好！欢迎使用 OmniMux 语音合成服务。",
+  "voice": "alloy"
+}' \
+  --output speech.mp3
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 400
+{
+  "error": { "message": "Invalid request", "type": "invalid_request_error", "code": "bad_request" }
+}
+```
+
+```json 401
+{
+  "error": { "message": "Invalid token", "type": "authentication_error", "code": "unauthorized" }
+}
+```
+
+```json 402
+{
+  "error": {
+    "message": "Insufficient quota. Please top up your account.",
+    "type": "insufficient_quota",
+    "code": "insufficient_quota"
+  }
+}
+```
+
+```json 429
+{
+  "error": { "message": "Rate limit exceeded", "type": "rate_limit_error", "code": "rate_limit_exceeded" }
+}
+```
+
+```json 500
+{
+  "error": { "message": "Internal server error", "type": "server_error", "code": "internal_error" }
+}
+```
+
+</ResponseExample>
+
+</Panel>

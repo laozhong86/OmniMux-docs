@@ -1,0 +1,120 @@
+---
+title: "Posting Frequency"
+sidebarTitle: "Posting Frequency"
+description: "Analyze correlation between weekly posting frequency and engagement rates"
+api: "GET https://omnimux.ai/api/social/v1/analytics/posting-frequency"
+---
+
+- Social **publishing** user API (not `sk-` social-data read)
+- Base: `https://omnimux.ai`; auth access token + `New-Api-User`
+- Evaluates posting frequency cadence buckets and identifies optimal weekly output volume
+
+## Identity
+
+| Field | Value |
+| --- | --- |
+| Series | Publishing |
+| Group | Analytics |
+| Capability | Posting frequency |
+
+## Endpoint
+
+| Method | Path |
+| --- | --- |
+| `GET` | `/api/social/v1/analytics/posting-frequency` |
+
+Base URL: `https://omnimux.ai`
+
+## Authorizations
+
+| Name | In | Type | Required | Description |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | yes | `Bearer <access_token>` (User Access Token) |
+| `New-Api-User` | header | string | yes | Current user id |
+
+## Query Parameters
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `platform` | string | no | Filter by platform (`tiktok`, `x`, `instagram`, `youtube`) |
+
+## Response
+
+### 200
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `success` | boolean | Success flag |
+| `data.frequency` | array | Cadence frequency buckets analysis |
+| `data.frequency[].platform` | string | Target platform |
+| `data.frequency[].postsPerWeek` | string | Frequency bracket (e.g. `1-3/wk`, `6-10/wk`, `11+/wk`) |
+| `data.frequency[].avgEngagementRate` | number | Average engagement rate (%) |
+| `data.frequency[].avgEngagement` | number | Average raw engagement score |
+| `data.frequency[].weeksCount` | integer | Total weeks analyzed under this cadence |
+| `data.optimalCadence` | object | Recommended cadence strategy per platform |
+
+Errors: right rail and [Error codes](/en/faqs/connection-usage).
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url 'https://omnimux.ai/api/social/v1/analytics/posting-frequency?platform=tiktok' \
+  --header 'Authorization: Bearer <access_token>' \
+  --header 'New-Api-User: <user_id>' \
+  --header 'Content-Type: application/json'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200
+{
+  "success": true,
+  "data": {
+    "frequency": [
+      {
+        "platform": "tiktok",
+        "postsPerWeek": "6-10/wk",
+        "avgEngagementRate": 0.6,
+        "avgEngagement": 120,
+        "weeksCount": 12
+      },
+      {
+        "platform": "tiktok",
+        "postsPerWeek": "11+/wk",
+        "avgEngagementRate": 2.2,
+        "avgEngagement": 480,
+        "weeksCount": 8
+      }
+    ],
+    "optimalCadence": {
+      "tiktok": {
+        "recommendation": "11+/wk",
+        "er": 2.2
+      }
+    }
+  }
+}
+```
+
+```json 401
+{
+  "success": false,
+  "message": "Unauthorized"
+}
+```
+
+```json 503
+{
+  "success": false,
+  "message": "social ops is disabled"
+}
+```
+
+</ResponseExample>
+
+</Panel>

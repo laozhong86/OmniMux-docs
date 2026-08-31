@@ -1,0 +1,117 @@
+---
+title: "响应时效分析"
+sidebarTitle: "响应时效分析"
+description: "分析客服与 Agent 对私信互动的响应时效与 TTR 耗时分布"
+api: "GET https://omnimux.ai/api/social/v1/inbox-analytics/response-time"
+---
+
+- 社媒 **发布** 用户 API（非 `sk-` 社交数据读）
+- Base：`https://omnimux.ai`；鉴权 access token + `New-Api-User`
+- 统计客服或 AI Agent 对用户私信/评论的响应时效与耗时分布
+
+## 身份
+
+| 字段 | 值 |
+| --- | --- |
+| 系列 | 社媒发布 |
+| 资源组 | 私信分析 |
+| 能力 | 响应时效分析 |
+
+## 接口
+
+| 方法 | 路径 |
+| --- | --- |
+| `GET` | `/api/social/v1/inbox-analytics/response-time` |
+
+Base URL：`https://omnimux.ai`
+
+## 鉴权
+
+| 名称 | 位置 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | 是 | `Bearer <access_token>`（用户 access token） |
+| `New-Api-User` | header | string | 是 | 当前用户 id |
+
+## 查询参数
+
+| 参数名 | 类型 | 必填 | 默认值 | 说明 |
+| --- | --- | --- | --- | --- |
+| `platform` | string | 否 | — | 平台过滤（`tiktok`、`x`、`instagram`、`youtube`） |
+| `fromDate` | string | 否 | 30天前 | 起始日期（`YYYY-MM-DD`） |
+| `toDate` | string | 否 | 当天 | 截止日期（`YYYY-MM-DD`） |
+
+## 响应
+
+### 200
+
+| 字段 | 类型 | 说明 |
+| --- | --- | --- |
+| `success` | boolean | 是否成功 |
+| `data.medianResponseTimeMinutes` | number | 中位数响应耗时（分钟） |
+| `data.averageResponseTimeMinutes` | number | 平均响应耗时（分钟） |
+| `data.buckets` | array | 响应耗时区间分布（`<15m`、`15-60m`、`>1h` 等） |
+| `data.resolvedConversations` | integer | 已处理完成的会话总数 |
+
+错误见右栏与 [错误码](/zh/faqs/connection-usage)。
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url 'https://omnimux.ai/api/social/v1/inbox-analytics/response-time?fromDate=2026-08-01&toDate=2026-08-25' \
+  --header 'Authorization: Bearer <access_token>' \
+  --header 'New-Api-User: <user_id>' \
+  --header 'Content-Type: application/json'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200
+{
+  "success": true,
+  "data": {
+    "medianResponseTimeMinutes": 12.5,
+    "averageResponseTimeMinutes": 24.8,
+    "buckets": [
+      {
+        "label": "<15m",
+        "count": 85,
+        "percentage": 68.0
+      },
+      {
+        "label": "15-60m",
+        "count": 25,
+        "percentage": 20.0
+      },
+      {
+        "label": ">1h",
+        "count": 15,
+        "percentage": 12.0
+      }
+    ],
+    "resolvedConversations": 125
+  }
+}
+```
+
+```json 401
+{
+  "success": false,
+  "message": "Unauthorized"
+}
+```
+
+```json 503
+{
+  "success": false,
+  "message": "social ops is disabled"
+}
+```
+
+</ResponseExample>
+
+</Panel>

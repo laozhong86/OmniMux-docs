@@ -7,13 +7,42 @@ rss: true
 
 Stay up to date with OmniMux gateway model launches and platform changes. The full callable catalog is on [console pricing](https://omnimux.ai) / [Pricing](/en/api-reference/account/pricing).
 
+<a id="2026-08-31-catalog-sync"></a>
+
+<Update label="August 31, 2026" tags={["New models", "Text", "Image", "Video", "Audio"]} rss={{ title: "Catalog synchronization: Gemini 3.7, GLM 5.3, Wan 3.0, Seedance 2.0, Grok Imagine, Audio TTS & STT" }}>
+
+  ## Language series
+
+  - **Gemini:** Added `gemini-3.7-flash`
+  - **GLM:** Added `glm-5.3`
+  - **Grok:** Added `grok-4.6`
+  - **DeepSeek:** Added `deepseek-v4-flash-vision-exp`
+
+  ## Image & Video series
+
+  - Canonical model ID hyphenation and full coverage for **Wan 3.0** (`wan-3.0`, `wan-3.0-prime`, `wan-3.0-prime-ref`, `wan-3.0-ref`), **Seedance 2.0** (`seedance-2-0`, `seedance-2-0-fast`, `seedance-2-0-mini`, `seedance-2-5`), **Kling** (`kling-v3`, `kling-v2-6`, `kling-avatar`, `kling-o3`, `kling-v3-motion-control`), **Grok Imagine**, and **Midjourney**.
+  - Retired legacy Omni Flash duration-fixed SKUs.
+
+  ## Audio series
+
+  - `gpt-4o-mini-tts` (`POST /v1/audio/speech`)
+  - `whisper-1` (`POST /v1/audio/transcriptions`)
+  - `suno` (`POST /v1/video/generations`)
+
+  ### Links
+
+  - [Pricing](/en/api-reference/account/pricing)
+  - [Audio Speech](/en/api-reference/audio-series/models/gpt-4o-mini-tts)
+
+</Update>
+
 <a id="2026-08-31-media-catalog"></a>
 
 <Update label="August 31, 2026" tags={["New models", "Image", "Video"]} rss={{ title: "Seedream 5.0 Pro, Qwen Image 3.0, Grok Imagine Image 2.0, Kling O3, Omni 1.1, PixVerse v6, Vidu Q3" }}>
 
   ## Image
 
-  - **Model IDs:** `seedream-5.0-pro`, `qwen-image-3.0`, `grok-imagine-image-2.0`
+  - **Model IDs:** `seedream-5-0-pro`, `qwen-image-3-0`, `grok-imagine-image-2-0`
   - **API:** `POST /v1/images/generations`
 
   ## Video
@@ -30,6 +59,35 @@ Stay up to date with OmniMux gateway model launches and platform changes. The fu
 
 </Update>
 
+<a id="2026-08-25-social-analytics-reader-seats"></a>
+
+<Update label="August 25, 2026" tags={["Platform", "Text"]} rss={{ title: "Social analytics & inbox suite, Jina Reader extractor, and social seats" }}>
+
+  ## Social Analytics & Inbox Suite
+
+  OmniMux now exposes 11 RESTful analytics endpoints under `/api/social/v1` for comprehensive audience and engagement intelligence:
+
+  - **Analytics:** Daily metrics timeseries, 7x24 weekly best time to post heatmap, posting frequency cadence model, content decay curve, follower growth snapshots, posts performance ranking, and external posts incremental synchronization.
+  - **Inbox Analytics:** Message volume trends, response time (TTR) distribution, 7x24 incoming activity heatmap, and source breakdown across connected platforms.
+
+  ## Jina Reader Relay (`POST /v1/reader`)
+
+  - **Model ID:** `jina-reader-v1`
+  - **Capability:** URL to clean Markdown / structured JSON text extraction with CSS selectors filtering and output-token billing.
+  - **Auth:** Standard gateway Bearer `sk-...` token.
+
+  ## Social Seats Management (`GET /api/social/v1/seats`)
+
+  - Inspects current active connected social accounts, total quota capacity, and vacant seat availability.
+
+  ### Links
+
+  - [Jina Reader Extractor](/en/api-reference/reader-series/models/jina-reader-v1)
+  - [Daily Metrics](/en/api-reference/publishing/analytics/daily-metrics)
+  - [Social Seats](/en/api-reference/publishing/seats)
+
+</Update>
+
 <a id="2026-08-16-index-tts-ltx-docs"></a>
 
 <Update label="August 16, 2026" tags={["New models", "Audio", "Video"]} rss={{ title: "Index TTS voice clone plus LTX digital-human contract" }}>
@@ -42,12 +100,12 @@ Stay up to date with OmniMux gateway model launches and platform changes. The fu
 
   ## Docs fix
 
-  - **`ltx2.3-kj`** is a photo + audio lip-sync model. Prompt-only text-to-video examples were incorrect. Send image node `444` and audio node `1755`.
+  - **`ltx-2-3-kj`** is a photo + audio lip-sync model. Prompt-only text-to-video examples were incorrect. Send image node `444` and audio node `1755`.
 
   ### Links
 
   - [Index TTS](/en/api-reference/audio-series/models/index-tts)
-  - [LTX digital human](/en/api-reference/video-series/models/ltx2.3-kj)
+  - [LTX digital human](/en/api-reference/video-series/models/ltx-2-3-kj)
 
 </Update>
 
@@ -178,7 +236,7 @@ Stay up to date with OmniMux gateway model launches and platform changes. The fu
 
   ### New model
 
-  - **Model ID:** `grok-imagine-video-1.5`
+  - **Model ID:** `grok-imagine-video-1-5`
   - **Mode:** image-to-video style generation via async video API
   - **Create / poll:** `POST` / `GET` `/v1/video/generations`
 
@@ -186,7 +244,7 @@ Stay up to date with OmniMux gateway model launches and platform changes. The fu
 
   ### Links
 
-  - [Grok Imagine Video 1.5](/en/api-reference/video-series/models/grok-imagine-video-1.5)
+  - [Grok Imagine Video 1.5](/en/api-reference/video-series/models/grok-imagine-video-1-5)
   - [Video task poll](/en/api-reference/tasks/video-task)
 
 </Update>
@@ -287,15 +345,15 @@ Stay up to date with OmniMux gateway model launches and platform changes. The fu
 
   ### New models
 
-  - **Model IDs:** `nano_banana_2`, `nano_banana_pro`
+  - **Model IDs:** `nano-banana-2`, `nano-banana-pro`
   - **Modality:** image generation
 
   See each model page for request parameters.
 
   ### Links
 
-  - [Nano Banana 2](/en/api-reference/image-series/models/nano_banana_2)
-  - [Nano Banana Pro](/en/api-reference/image-series/models/nano_banana_pro)
+  - [Nano Banana 2](/en/api-reference/image-series/models/nano-banana-2)
+  - [Nano Banana Pro](/en/api-reference/image-series/models/nano-banana-pro)
 
 </Update>
 
@@ -414,25 +472,16 @@ Stay up to date with OmniMux gateway model launches and platform changes. The fu
 
   ## Omni Flash
 
-  The **Omni Flash** duration family is available on OmniMux.
+  **Omni Flash** (`gemini-omni-flash`) is available on OmniMux for fast video generation.
 
-  ### New models
+  ### Model
 
-  | Model ID | Role |
-  | --- | --- |
-  | `omni_flash` | Base |
-  | `omni_flash-4s` | 4s-oriented SKU |
-  | `omni_flash-6s` | 6s-oriented SKU |
-  | `omni_flash-10s` | 10s-oriented SKU |
-
-  ### API
-
-  - **Create:** `POST /v1/video/generations`
-  - **Poll:** `GET /v1/video/generations/{task_id}`
+  - **Model ID:** `gemini-omni-flash`
+  - **API:** `POST /v1/video/generations` + poll `GET /v1/video/generations/{task_id}`
 
   ### Links
 
-  - [Omni Flash](/en/api-reference/video-series/models/omni_flash)
+  - [Omni Flash](/en/api-reference/video-series/models/gemini-omni-flash)
   - [Video task poll](/en/api-reference/tasks/video-task)
 
 </Update>
@@ -447,12 +496,12 @@ Stay up to date with OmniMux gateway model launches and platform changes. The fu
 
   ### New model
 
-  - **Model ID:** `veo_3_1`
+  - **Model ID:** `veo-3.1`
   - **API:** async video create + poll on `/v1/video/generations`
 
   ### Links
 
-  - [Veo 3.1](/en/api-reference/video-series/models/veo_3_1)
+  - [Veo 3.1](/en/api-reference/video-series/models/veo-3.1)
   - [Video task poll](/en/api-reference/tasks/video-task)
 
 </Update>
@@ -501,8 +550,8 @@ Stay up to date with OmniMux gateway model launches and platform changes. The fu
 
   ### Links
 
-  - [GPT Image 2](/en/api-reference/image-series/models/gpt-image2)
-  - [GPT Image 2 HD](/en/api-reference/image-series/models/gpt-image2-hd)
+  - [GPT Image 2](/en/api-reference/image-series/models/gpt-image-2)
+  - [GPT Image 2 HD](/en/api-reference/image-series/models/gpt-image-2-hd)
 
 </Update>
 

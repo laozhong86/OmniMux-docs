@@ -7,13 +7,42 @@ rss: true
 
 跟踪 OmniMux 网关的模型上新与平台变更。完整可调用模型以[控制台定价](https://omnimux.ai) / [定价与账户](/zh/api-reference/account/pricing)为准。
 
+<a id="2026-08-31-catalog-sync"></a>
+
+<Update label="2026 年 8 月 31 日" tags={["新模型", "文本", "图像", "视频", "音频"]} rss={{ title: "模型目录全量同步：Gemini 3.7、GLM 5.3、Wan 3.0、Seedance 2.0、Grok Imagine、音频与语音转录" }}>
+
+  ## 语言系列
+
+  - **Gemini：** 增加 `gemini-3.7-flash`
+  - **GLM：** 增加 `glm-5.3`
+  - **Grok：** 增加 `grok-4.6`
+  - **DeepSeek：** 增加 `deepseek-v4-flash-vision-exp`
+
+  ## 图像与视频系列
+
+  - 全量补齐 **Wan 3.0**（`wan-3.0`、`wan-3.0-prime`、`wan-3.0-prime-ref`、`wan-3.0-ref`）、**Seedance 2.0**（`seedance-2-0`、`seedance-2-0-fast`、`seedance-2-0-mini`、`seedance-2-5`）、**Kling**（`kling-v3`、`kling-v2-6`、`kling-avatar`、`kling-o3`、`kling-v3-motion-control`）、**Grok Imagine** 与 **Midjourney** 文档。
+  - 下架并清理已停售的 Omni Flash 固定时长 SKU。
+
+  ## 音频系列
+
+  - `gpt-4o-mini-tts`（`POST /v1/audio/speech` 语音合成）
+  - `whisper-1`（`POST /v1/audio/transcriptions` 语音转录）
+  - `suno`（`POST /v1/video/generations` 音乐生成）
+
+  ### 链接
+
+  - [定价](/zh/api-reference/account/pricing)
+  - [语音合成](/zh/api-reference/audio-series/models/gpt-4o-mini-tts)
+
+</Update>
+
 <a id="2026-08-31-media-catalog"></a>
 
 <Update label="2026 年 8 月 31 日" tags={["新模型", "图像", "视频"]} rss={{ title: "Seedream 5.0 Pro、Qwen Image 3.0、Grok Imagine Image 2.0、Kling O3、Omni 1.1、PixVerse v6、Vidu Q3" }}>
 
   ## 图像
 
-  - **模型 ID：** `seedream-5.0-pro`、`qwen-image-3.0`、`grok-imagine-image-2.0`
+  - **模型 ID：** `seedream-5-0-pro`、`qwen-image-3-0`、`grok-imagine-image-2-0`
   - **API：** `POST /v1/images/generations`
 
   ## 视频
@@ -30,6 +59,35 @@ rss: true
 
 </Update>
 
+<a id="2026-08-25-social-analytics-reader-seats"></a>
+
+<Update label="2026 年 8 月 25 日" tags={["平台", "文本"]} rss={{ title: "上线社媒分析与私信分析套件、Jina Reader 网页提取及社媒席位管理" }}>
+
+  ## 社媒分析与私信分析套件
+
+  OmniMux 在 `/api/social/v1` 路由组下全新接入 11 个 RESTful 深度数据分析与私信洞察端点：
+
+  - **社媒分析（Analytics）：** 宏观大盘时序指标、7×24小时最佳发布时间热力矩阵、发帖频次与互动率相关性模型、内容生命周期衰减曲线、多平台粉丝增长快照、单帖与列表深度指标排行、外部平台存量帖子增量同步。
+  - **私信分析（Inbox Analytics）：** 私信与互动消息量时序走势、响应时效（TTR）耗时分布、7×24小时私信时段热力图、跨平台私信渠道来源占比。
+
+  ## Jina Reader 网页提取中继（`POST /v1/reader`）
+
+  - **模型 ID：** `jina-reader-v1`
+  - **能力：** 将网页 URL 高效转换为大模型友好的 Markdown 或结构化 JSON 文本，支持 CSS 选择器过滤、图片摘要与按输出 Token 结算。
+  - **鉴权：** 标准网关 Bearer `sk-...` 凭据。
+
+  ## 社媒席位管理（`GET /api/social/v1/seats`）
+
+  - 查询当前用户绑定的社媒账号数量、席位配额容量与可用空坑状态。
+
+  ### 链接
+
+  - [Jina Reader 网页提取](/zh/api-reference/reader-series/models/jina-reader-v1)
+  - [大盘时序指标](/zh/api-reference/publishing/analytics/daily-metrics)
+  - [查询席位](/zh/api-reference/publishing/seats)
+
+</Update>
+
 <a id="2026-08-16-index-tts-ltx-docs"></a>
 
 <Update label="2026 年 8 月 16 日" tags={["新模型", "音频", "视频"]} rss={{ title: "上架 Index TTS 声音克隆，并更正 LTX 数字人合同" }}>
@@ -42,12 +100,12 @@ rss: true
 
   ## 文档更正
 
-  - **`ltx2.3-kj`** 是人设静帧 + 音频对口型，不是文生视频。请传图片节点 `444` 和音频节点 `1755`。
+  - **`ltx-2-3-kj`** 是人设静帧 + 音频对口型，不是文生视频。请传图片节点 `444` 和音频节点 `1755`。
 
   ### 链接
 
   - [Index TTS](/zh/api-reference/audio-series/models/index-tts)
-  - [LTX 数字人对口型](/zh/api-reference/video-series/models/ltx2.3-kj)
+  - [LTX 数字人对口型](/zh/api-reference/video-series/models/ltx-2-3-kj)
 
 </Update>
 
@@ -178,7 +236,7 @@ rss: true
 
   ### 新模型
 
-  - **模型 ID：** `grok-imagine-video-1.5`
+  - **模型 ID：** `grok-imagine-video-1-5`
   - **模式：** 异步视频 API 下的图生视频类能力
   - **创建 / 查询：** `POST` / `GET` `/v1/video/generations`
 
@@ -186,7 +244,7 @@ rss: true
 
   ### 链接
 
-  - [Grok Imagine Video 1.5](/zh/api-reference/video-series/models/grok-imagine-video-1.5)
+  - [Grok Imagine Video 1.5](/zh/api-reference/video-series/models/grok-imagine-video-1-5)
   - [视频任务查询](/zh/api-reference/tasks/video-task)
 
 </Update>
@@ -287,15 +345,15 @@ rss: true
 
   ### 新模型
 
-  - **模型 ID：** `nano_banana_2`、`nano_banana_pro`
+  - **模型 ID：** `nano-banana-2`、`nano-banana-pro`
   - **模态：** 图像生成
 
   请求参数见各模型文档页。
 
   ### 链接
 
-  - [Nano Banana 2](/zh/api-reference/image-series/models/nano_banana_2)
-  - [Nano Banana Pro](/zh/api-reference/image-series/models/nano_banana_pro)
+  - [Nano Banana 2](/zh/api-reference/image-series/models/nano-banana-2)
+  - [Nano Banana Pro](/zh/api-reference/image-series/models/nano-banana-pro)
 
 </Update>
 
@@ -414,25 +472,16 @@ rss: true
 
   ## Omni Flash
 
-  **Omni Flash** 时长族已在 OmniMux 可调用。
+  **Omni Flash**（`gemini-omni-flash`）已在 OmniMux 可调用，用于快速视频生成。
 
-  ### 新模型
+  ### 模型
 
-  | 模型 ID | 角色 |
-  | --- | --- |
-  | `omni_flash` | 基础 |
-  | `omni_flash-4s` | 4 秒向 SKU |
-  | `omni_flash-6s` | 6 秒向 SKU |
-  | `omni_flash-10s` | 10 秒向 SKU |
-
-  ### 调用
-
-  - **创建：** `POST /v1/video/generations`
-  - **查询：** `GET /v1/video/generations/{task_id}`
+  - **模型 ID：** `gemini-omni-flash`
+  - **调用：** `POST /v1/video/generations` + 轮询 `GET /v1/video/generations/{task_id}`
 
   ### 链接
 
-  - [Omni Flash](/zh/api-reference/video-series/models/omni_flash)
+  - [Omni Flash](/zh/api-reference/video-series/models/gemini-omni-flash)
   - [视频任务查询](/zh/api-reference/tasks/video-task)
 
 </Update>
@@ -447,12 +496,12 @@ rss: true
 
   ### 新模型
 
-  - **模型 ID：** `veo_3_1`
+  - **模型 ID：** `veo-3.1`
   - **API：** `/v1/video/generations` 异步创建 + 查询
 
   ### 链接
 
-  - [Veo 3.1](/zh/api-reference/video-series/models/veo_3_1)
+  - [Veo 3.1](/zh/api-reference/video-series/models/veo-3.1)
   - [视频任务查询](/zh/api-reference/tasks/video-task)
 
 </Update>
@@ -501,8 +550,8 @@ rss: true
 
   ### 链接
 
-  - [GPT Image 2](/zh/api-reference/image-series/models/gpt-image2)
-  - [GPT Image 2 HD](/zh/api-reference/image-series/models/gpt-image2-hd)
+  - [GPT Image 2](/zh/api-reference/image-series/models/gpt-image-2)
+  - [GPT Image 2 HD](/zh/api-reference/image-series/models/gpt-image-2-hd)
 
 </Update>
 

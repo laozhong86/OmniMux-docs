@@ -1,0 +1,138 @@
+---
+title: "LTX digital human"
+sidebarTitle: "LTX digital human"
+description: "GxgenAI LTX 2.3 photo lip-sync · model `ltx-2-3-kj`"
+api: "POST https://api.omnimux.ai/v1/video/generations"
+---
+
+- Create: `POST /v1/video/generations` with `model` `ltx-2-3-kj`
+- Poll: `GET /v1/video/generations/{task_id}` (do **not** use `*-async` / `*-query` names)
+- This is **photo + audio lip-sync**, not text-to-video. `metadata.nodeInfoList` is required
+- Upload image/audio to a public URL or an upstream file name first. Raw `data:` URIs fail
+- Persist result URLs promptly (upstream links expire)
+
+## Identity
+
+| Field | Value |
+| --- | --- |
+| Series | Video |
+| Brand | LTX / GxgenAI |
+| model | `ltx-2-3-kj` |
+
+## Endpoint
+
+| Method | Path |
+| --- | --- |
+| `POST` | `/v1/video/generations` |
+| `GET` | `/v1/video/generations/{task_id}` |
+
+Base URL: `https://api.omnimux.ai`
+
+## Authorizations
+
+| Name | In | Type | Required | Description |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | yes | `Bearer sk-...` (API key) |
+
+## Body
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `model` | string | yes | Must be `ltx-2-3-kj` |
+| `prompt` | string | no | Action hint; also send node `1624` |
+| `metadata.nodeInfoList` | array | **yes** | Image + audio + duration nodes |
+
+Required nodes:
+
+| nodeId | fieldName | Meaning |
+| --- | --- | --- |
+| `444` | `image` | Portrait still (9:16 or 16:9) |
+| `1755` | `audio` | Speech or song |
+| `1583` | `value` | Duration seconds (`0` = full audio; keep ≤35) |
+| `1776` | `value` | Audio start second |
+| `1624` | `value` | Motion prompt |
+| `1606` | `value` | Max resolution (`<1600`) |
+| `1586` | `value` | FPS |
+
+## Response
+
+### 200 (create)
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` / `task_id` | string | Task id |
+| `status` | string | `queued` / `in_progress` / `completed` |
+
+Poll [Video task](/en/api-reference/tasks/video-task). Errors: [Error codes](/en/faqs/connection-usage).
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url https://api.omnimux.ai/v1/video/generations \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "model": "ltx-2-3-kj",
+  "prompt": "Look at camera and speak naturally. Locked shot.",
+  "metadata": {
+    "nodeInfoList": [
+      { "nodeId": "444", "fieldName": "image", "fieldValue": "https://example.com/face.jpg" },
+      { "nodeId": "1755", "fieldName": "audio", "fieldValue": "https://example.com/speech.mp3" },
+      { "nodeId": "1583", "fieldName": "value", "fieldValue": "10" },
+      { "nodeId": "1776", "fieldName": "value", "fieldValue": "0" },
+      { "nodeId": "1624", "fieldName": "value", "fieldValue": "Look at camera and speak naturally. Locked shot." },
+      { "nodeId": "1606", "fieldName": "value", "fieldValue": "1280" },
+      { "nodeId": "1586", "fieldName": "value", "fieldValue": "25" }
+    ]
+  }
+}'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200
+{
+  "id": "task_xxx",
+  "status": "in_progress",
+  "model": "ltx-2-3-kj"
+}
+```
+
+```json 400
+{ "error": { "message": "metadata.nodeInfoList is required for model ltx-2-3-kj", "type": "invalid_request_error", "code": "bad_request" } }
+```
+
+```json 401
+{ "error": { "message": "Invalid token", "type": "authentication_error", "code": "unauthorized" } }
+```
+
+```json 402
+{
+  "error": {
+    "message": "Insufficient quota. Please top up your account.",
+    "type": "insufficient_quota",
+    "code": "insufficient_quota"
+  }
+}
+```
+
+```json 403
+{ "error": { "message": "Forbidden", "type": "permission_error", "code": "forbidden" } }
+```
+
+```json 429
+{ "error": { "message": "Rate limit exceeded", "type": "rate_limit_error", "code": "rate_limit_exceeded" } }
+```
+
+```json 500
+{ "error": { "message": "Internal server error", "type": "server_error", "code": "internal_error" } }
+```
+
+</ResponseExample>
+
+</Panel>

@@ -1,0 +1,134 @@
+---
+title: "Best Time to Post"
+sidebarTitle: "Best Time to Post"
+description: "Calculate 7x24 weekly engagement heatmaps and recommended posting slots"
+api: "GET https://omnimux.ai/api/social/v1/analytics/best-time-to-post"
+---
+
+- Social **publishing** user API (not `sk-` social-data read)
+- Base: `https://omnimux.ai`; auth access token + `New-Api-User`
+- Analyzes historical engagement to compute hourly effectiveness scores across all 7 days of the week
+
+## Identity
+
+| Field | Value |
+| --- | --- |
+| Series | Publishing |
+| Group | Analytics |
+| Capability | Best time to post |
+
+## Endpoint
+
+| Method | Path |
+| --- | --- |
+| `GET` | `/api/social/v1/analytics/best-time-to-post` |
+
+Base URL: `https://omnimux.ai`
+
+## Authorizations
+
+| Name | In | Type | Required | Description |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | yes | `Bearer <access_token>` (User Access Token) |
+| `New-Api-User` | header | string | yes | Current user id |
+
+## Query Parameters
+
+| Parameter | Type | Required | Default | Description |
+| --- | --- | --- | --- | --- |
+| `platform` | string | no | — | Filter by platform (default all platforms) |
+| `account_id` | integer | no | — | Filter by single local numeric account ID |
+| `timezone` | string | no | `UTC` | Timezone identifier (e.g. `Asia/Shanghai`, `America/New_York`) |
+
+## Response
+
+### 200
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `success` | boolean | Success flag |
+| `data.slots` | array | 7x24 hourly engagement slots |
+| `data.slots[].dayOfWeek` | integer | Day of week (0 = Sunday, 1 = Monday, ..., 6 = Saturday) |
+| `data.slots[].hour` | integer | Hour of day (0-23) |
+| `data.slots[].avgEngagement` | number | Average engagement score for this slot |
+| `data.slots[].postCount` | integer | Total posts analyzed in this slot |
+| `data.recommended` | array | Ranked list of recommended top time slots |
+
+Errors: right rail and [Error codes](/en/faqs/connection-usage).
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url 'https://omnimux.ai/api/social/v1/analytics/best-time-to-post?platform=tiktok&timezone=Asia/Shanghai' \
+  --header 'Authorization: Bearer <access_token>' \
+  --header 'New-Api-User: <user_id>' \
+  --header 'Content-Type: application/json'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200
+{
+  "success": true,
+  "data": {
+    "slots": [
+      {
+        "dayOfWeek": 0,
+        "hour": 10,
+        "avgEngagement": 510.3,
+        "postCount": 15
+      },
+      {
+        "dayOfWeek": 3,
+        "hour": 20,
+        "avgEngagement": 289.1,
+        "postCount": 8
+      }
+    ],
+    "recommended": [
+      {
+        "label": "Sun 10am",
+        "dayOfWeek": 0,
+        "hour": 10,
+        "score": 24
+      },
+      {
+        "label": "Wed 8pm",
+        "dayOfWeek": 3,
+        "hour": 20,
+        "score": 18
+      }
+    ]
+  }
+}
+```
+
+```json 401
+{
+  "success": false,
+  "message": "Unauthorized"
+}
+```
+
+```json 403
+{
+  "success": false,
+  "message": "one or more accounts are not owned by this user"
+}
+```
+
+```json 503
+{
+  "success": false,
+  "message": "social ops is disabled"
+}
+```
+
+</ResponseExample>
+
+</Panel>

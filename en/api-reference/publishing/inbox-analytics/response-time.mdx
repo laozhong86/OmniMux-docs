@@ -1,0 +1,117 @@
+---
+title: "Inbox Response Time"
+sidebarTitle: "Inbox Response Time"
+description: "Analyze response latency and time-to-resolve (TTR) distribution for inbound messages"
+api: "GET https://omnimux.ai/api/social/v1/inbox-analytics/response-time"
+---
+
+- Social **publishing** user API (not `sk-` social-data read)
+- Base: `https://omnimux.ai`; auth access token + `New-Api-User`
+- Evaluates agent and operator response latency, median time-to-first-response (TTFR), and resolution speed
+
+## Identity
+
+| Field | Value |
+| --- | --- |
+| Series | Publishing |
+| Group | Inbox Analytics |
+| Capability | Inbox response time |
+
+## Endpoint
+
+| Method | Path |
+| --- | --- |
+| `GET` | `/api/social/v1/inbox-analytics/response-time` |
+
+Base URL: `https://omnimux.ai`
+
+## Authorizations
+
+| Name | In | Type | Required | Description |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | yes | `Bearer <access_token>` (User Access Token) |
+| `New-Api-User` | header | string | yes | Current user id |
+
+## Query Parameters
+
+| Parameter | Type | Required | Default | Description |
+| --- | --- | --- | --- | --- |
+| `platform` | string | no | — | Filter by platform (`tiktok`, `x`, `instagram`, `youtube`) |
+| `fromDate` | string | no | 30 days ago | Start date (`YYYY-MM-DD`) |
+| `toDate` | string | no | Today | End date (`YYYY-MM-DD`) |
+
+## Response
+
+### 200
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `success` | boolean | Success flag |
+| `data.medianResponseTimeMinutes` | number | Median response time in minutes |
+| `data.averageResponseTimeMinutes` | number | Average response time in minutes |
+| `data.buckets` | array | Latency distribution brackets (`<15m`, `15-60m`, `1-4h`, `4-24h`, `>24h`) |
+| `data.resolvedConversations` | integer | Total conversations handled and resolved |
+
+Errors: right rail and [Error codes](/en/faqs/connection-usage).
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url 'https://omnimux.ai/api/social/v1/inbox-analytics/response-time?fromDate=2026-08-01&toDate=2026-08-25' \
+  --header 'Authorization: Bearer <access_token>' \
+  --header 'New-Api-User: <user_id>' \
+  --header 'Content-Type: application/json'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200
+{
+  "success": true,
+  "data": {
+    "medianResponseTimeMinutes": 12.5,
+    "averageResponseTimeMinutes": 24.8,
+    "buckets": [
+      {
+        "label": "<15m",
+        "count": 85,
+        "percentage": 68.0
+      },
+      {
+        "label": "15-60m",
+        "count": 25,
+        "percentage": 20.0
+      },
+      {
+        "label": ">1h",
+        "count": 15,
+        "percentage": 12.0
+      }
+    ],
+    "resolvedConversations": 125
+  }
+}
+```
+
+```json 401
+{
+  "success": false,
+  "message": "Unauthorized"
+}
+```
+
+```json 503
+{
+  "success": false,
+  "message": "social ops is disabled"
+}
+```
+
+</ResponseExample>
+
+</Panel>

@@ -1,0 +1,126 @@
+---
+title: "粉丝增长统计"
+sidebarTitle: "粉丝增长统计"
+description: "获取绑定的多账号历史粉丝量快照及净增演进走势"
+api: "GET https://omnimux.ai/api/social/v1/accounts/follower-stats"
+---
+
+- 社媒 **发布** 用户 API（非 `sk-` 社交数据读）
+- Base：`https://omnimux.ai`；鉴权 access token + `New-Api-User`
+- 获取绑定的多平台账号历史粉丝量快照及净增演进走势
+
+## 身份
+
+| 字段 | 值 |
+| --- | --- |
+| 系列 | 社媒发布 |
+| 资源组 | 社媒分析 |
+| 能力 | 粉丝增长统计 |
+
+## 接口
+
+| 方法 | 路径 |
+| --- | --- |
+| `GET` | `/api/social/v1/accounts/follower-stats` |
+
+Base URL：`https://omnimux.ai`
+
+## 鉴权
+
+| 名称 | 位置 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | 是 | `Bearer <access_token>`（用户 access token） |
+| `New-Api-User` | header | string | 是 | 当前用户 id |
+
+## 查询参数
+
+| 参数名 | 类型 | 必填 | 默认值 | 说明 |
+| --- | --- | --- | --- | --- |
+| `days` | integer | 否 | `30` | 统计历史天数（1-90） |
+| `account_ids` | string | 否 | — | 本地账号 ID 列表过滤（逗号分隔） |
+
+## 响应
+
+### 200
+
+| 字段 | 类型 | 说明 |
+| --- | --- | --- |
+| `success` | boolean | 是否成功 |
+| `data.accounts` | array | 各账号统计摘要列表 |
+| `data.accounts[].accountId` | string | 服务商账号 ID |
+| `data.accounts[].platform` | string | 社媒平台 |
+| `data.accounts[].username` | string | 用户名 / 账号句柄 |
+| `data.accounts[].currentFollowers` | integer | 当前粉丝总数 |
+| `data.accounts[].growth` | integer | 期间净增粉丝数 |
+| `data.accounts[].growthPercentage` | number | 粉丝增长百分比（%） |
+| `data.timeline` | array | 历史每日全平台粉丝总量与分账号时间线 |
+
+错误见右栏与 [错误码](/zh/faqs/connection-usage)。
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url 'https://omnimux.ai/api/social/v1/accounts/follower-stats?days=30' \
+  --header 'Authorization: Bearer <access_token>' \
+  --header 'New-Api-User: <user_id>' \
+  --header 'Content-Type: application/json'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200
+{
+  "success": true,
+  "data": {
+    "accounts": [
+      {
+        "accountId": "12",
+        "platform": "tiktok",
+        "username": "@omnimux_official",
+        "currentFollowers": 2530,
+        "growth": 170,
+        "growthPercentage": 7.2
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-08-20",
+        "total": 2530,
+        "breakdown": {
+          "12": 2530
+        }
+      }
+    ]
+  }
+}
+```
+
+```json 401
+{
+  "success": false,
+  "message": "Unauthorized"
+}
+```
+
+```json 403
+{
+  "success": false,
+  "message": "one or more accounts are not owned by this user"
+}
+```
+
+```json 503
+{
+  "success": false,
+  "message": "social ops is disabled"
+}
+```
+
+</ResponseExample>
+
+</Panel>

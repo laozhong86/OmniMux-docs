@@ -1,0 +1,121 @@
+---
+title: "同步外部帖子"
+sidebarTitle: "同步外部帖子"
+description: "触发抓取外部在平台原生发布的内容并同步其指标"
+api: "POST https://omnimux.ai/api/social/v1/analytics/sync-external-posts"
+---
+
+- 社媒 **发布** 用户 API（非 `sk-` 社交数据读）
+- Base：`https://omnimux.ai`；鉴权 access token + `New-Api-User`
+- 触发抓取在各平台原生发布的内容并同步其互动指标至 OmniMux 分析中心
+
+## 身份
+
+| 字段 | 值 |
+| --- | --- |
+| 系列 | 社媒发布 |
+| 资源组 | 社媒分析 |
+| 能力 | 同步外部帖子 |
+
+## 接口
+
+| 方法 | 路径 |
+| --- | --- |
+| `POST` | `/api/social/v1/analytics/sync-external-posts` |
+
+Base URL：`https://omnimux.ai`
+
+## 鉴权
+
+| 名称 | 位置 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | 是 | `Bearer <access_token>`（用户 access token） |
+| `New-Api-User` | header | string | 是 | 当前用户 id |
+
+## 请求体
+
+| 字段 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| `account_id` | integer | **是** | 本地数字账号 ID（必须属于当前用户） |
+| `url` | string | **是** | 目标平台原生帖子的公开 URL |
+
+## 响应
+
+### 200
+
+| 字段 | 类型 | 说明 |
+| --- | --- | --- |
+| `success` | boolean | 是否成功 |
+| `data.ok` | boolean | 同步成功标识 |
+| `data.syncedCount` | integer | 成功同步的帖子数量 |
+| `data.posts` | array | 同步完成的帖子标识与状态列表 |
+
+错误见右栏与 [错误码](/zh/faqs/connection-usage)。
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url https://omnimux.ai/api/social/v1/analytics/sync-external-posts \
+  --header 'Authorization: Bearer <access_token>' \
+  --header 'New-Api-User: <user_id>' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "account_id": 12,
+  "url": "https://www.tiktok.com/@omnimux/video/7382910481239"
+}'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200
+{
+  "success": true,
+  "data": {
+    "ok": true,
+    "syncedCount": 1,
+    "posts": [
+      {
+        "postId": "ext_post_7382910481239",
+        "status": "synced"
+      }
+    ]
+  }
+}
+```
+
+```json 400
+{
+  "success": false,
+  "message": "account_id and url are required"
+}
+```
+
+```json 401
+{
+  "success": false,
+  "message": "Unauthorized"
+}
+```
+
+```json 403
+{
+  "success": false,
+  "message": "one or more accounts are not owned by this user"
+}
+```
+
+```json 503
+{
+  "success": false,
+  "message": "social ops is disabled"
+}
+```
+
+</ResponseExample>
+
+</Panel>

@@ -114,16 +114,16 @@
                   {
                     "group": "Nano Banana",
                     "pages": [
-                      "en/api-reference/image-series/models/nano_banana_2",
-                      "en/api-reference/image-series/models/nano_banana_pro"
+                      "en/api-reference/image-series/models/nano-banana-2",
+                      "en/api-reference/image-series/models/nano-banana-pro"
                     ],
                     "icon": "image"
                   },
                   {
                     "group": "GPT Image",
                     "pages": [
-                      "en/api-reference/image-series/models/gpt-image2",
-                      "en/api-reference/image-series/models/gpt-image2-hd"
+                      "en/api-reference/image-series/models/gpt-image-2",
+                      "en/api-reference/image-series/models/gpt-image-2-hd"
                     ],
                     "icon": "image"
                   },
@@ -137,21 +137,30 @@
                   {
                     "group": "Seedream",
                     "pages": [
-                      "en/api-reference/image-series/models/seedream-5.0-pro"
+                      "en/api-reference/image-series/models/seedream-5-0-pro"
                     ],
                     "icon": "image"
                   },
                   {
                     "group": "Qwen Image",
                     "pages": [
-                      "en/api-reference/image-series/models/qwen-image-3.0"
+                      "en/api-reference/image-series/models/qwen-image-3-0"
                     ],
                     "icon": "image"
                   },
                   {
                     "group": "Grok Imagine",
                     "pages": [
-                      "en/api-reference/image-series/models/grok-imagine-image-2.0"
+                      "en/api-reference/image-series/models/grok-imagine-image",
+                      "en/api-reference/image-series/models/grok-imagine-image-2-0",
+                      "en/api-reference/image-series/models/grok-imagine-image-quality"
+                    ],
+                    "icon": "image"
+                  },
+                  {
+                    "group": "Midjourney",
+                    "pages": [
+                      "en/api-reference/image-series/models/midjourney"
                     ],
                     "icon": "image"
                   }
@@ -164,49 +173,53 @@
                   {
                     "group": "MiniMax",
                     "pages": [
-                      "en/api-reference/video-series/models/minimax-h3-endframe",
+                      "en/api-reference/video-series/models/minimax-h3",
+                      "en/api-reference/video-series/models/minimax-h3-t2v",
                       "en/api-reference/video-series/models/minimax-h3-fl2va",
                       "en/api-reference/video-series/models/minimax-h3-flf",
-                      "en/api-reference/video-series/models/minimax-h3-t2v"
+                      "en/api-reference/video-series/models/minimax-h3-endframe"
                     ],
                     "icon": "video"
                   },
                   {
                     "group": "Veo 3.1",
-                    "icon": "video",
                     "pages": [
-                      "en/api-reference/video-series/models/veo_3_1"
-                    ]
+                      "en/api-reference/video-series/models/veo-3.1",
+                      "en/api-reference/video-series/models/veo-3.1-fast"
+                    ],
+                    "icon": "video"
                   },
                   {
                     "group": "Omni Flash",
-                    "icon": "video",
                     "pages": [
-                      "en/api-reference/video-series/models/omni_flash",
-                      "en/api-reference/video-series/models/omni_flash-10s",
-                      "en/api-reference/video-series/models/omni_flash-4s",
-                      "en/api-reference/video-series/models/omni_flash-6s",
+                      "en/api-reference/video-series/models/gemini-omni-flash",
                       "en/api-reference/video-series/models/gemini-omni-1.1"
-                    ]
+                    ],
+                    "icon": "video"
                   },
                   {
                     "group": "LTX",
                     "pages": [
-                      "en/api-reference/video-series/models/ltx2.3-kj"
+                      "en/api-reference/video-series/models/ltx-2-3-kj"
                     ],
                     "icon": "video"
                   },
                   {
                     "group": "Grok Imagine",
                     "pages": [
-                      "en/api-reference/video-series/models/grok-imagine-video-1.5"
+                      "en/api-reference/video-series/models/grok-imagine-video",
+                      "en/api-reference/video-series/models/grok-imagine-video-1-5"
                     ],
                     "icon": "video"
                   },
                   {
                     "group": "Kling",
                     "pages": [
-                      "en/api-reference/video-series/models/kling-o3"
+                      "en/api-reference/video-series/models/kling-v3",
+                      "en/api-reference/video-series/models/kling-v2-6",
+                      "en/api-reference/video-series/models/kling-avatar",
+                      "en/api-reference/video-series/models/kling-o3",
+                      "en/api-reference/video-series/models/kling-v3-motion-control"
                     ],
                     "icon": "video"
                   },
@@ -223,6 +236,33 @@
                       "en/api-reference/video-series/models/vidu-q3"
                     ],
                     "icon": "video"
+                  },
+                  {
+                    "group": "Seedance",
+                    "pages": [
+                      "en/api-reference/video-series/models/seedance-2-0",
+                      "en/api-reference/video-series/models/seedance-2-0-fast",
+                      "en/api-reference/video-series/models/seedance-2-0-mini",
+                      "en/api-reference/video-series/models/seedance-2-5"
+                    ],
+                    "icon": "video"
+                  },
+                  {
+                    "group": "Wan",
+                    "pages": [
+                      "en/api-reference/video-series/models/wan-3.0",
+                      "en/api-reference/video-series/models/wan-3.0-prime",
+                      "en/api-reference/video-series/models/wan-3.0-prime-ref",
+                      "en/api-reference/video-series/models/wan-3.0-ref"
+                    ],
+                    "icon": "video"
+                  },
+                  {
+                    "group": "Depth Video",
+                    "pages": [
+                      "en/api-reference/video-series/models/depth-video"
+                    ],
+                    "icon": "video"
                   }
                 ],
                 "icon": "video"
@@ -232,10 +272,44 @@
                 "icon": "audio-lines",
                 "pages": [
                   {
+                    "group": "GPT Audio",
+                    "pages": [
+                      "en/api-reference/audio-series/models/gpt-4o-mini-tts"
+                    ],
+                    "icon": "audio-lines"
+                  },
+                  {
+                    "group": "Whisper",
+                    "pages": [
+                      "en/api-reference/audio-series/models/whisper-1"
+                    ],
+                    "icon": "audio-lines"
+                  },
+                  {
+                    "group": "Suno",
+                    "pages": [
+                      "en/api-reference/audio-series/models/suno"
+                    ],
+                    "icon": "audio-lines"
+                  },
+                  {
                     "group": "Index TTS",
-                    "icon": "audio-lines",
                     "pages": [
                       "en/api-reference/audio-series/models/index-tts"
+                    ],
+                    "icon": "audio-lines"
+                  }
+                ]
+              },
+              {
+                "group": "Reader series",
+                "icon": "book-open",
+                "pages": [
+                  {
+                    "group": "Jina Reader",
+                    "icon": "book-open",
+                    "pages": [
+                      "en/api-reference/reader-series/models/jina-reader-v1"
                     ]
                   }
                 ]
@@ -505,16 +579,16 @@
                   {
                     "group": "Nano Banana",
                     "pages": [
-                      "zh/api-reference/image-series/models/nano_banana_2",
-                      "zh/api-reference/image-series/models/nano_banana_pro"
+                      "zh/api-reference/image-series/models/nano-banana-2",
+                      "zh/api-reference/image-series/models/nano-banana-pro"
                     ],
                     "icon": "image"
                   },
                   {
                     "group": "GPT Image",
                     "pages": [
-                      "zh/api-reference/image-series/models/gpt-image2",
-                      "zh/api-reference/image-series/models/gpt-image2-hd"
+                      "zh/api-reference/image-series/models/gpt-image-2",
+                      "zh/api-reference/image-series/models/gpt-image-2-hd"
                     ],
                     "icon": "image"
                   },
@@ -528,21 +602,30 @@
                   {
                     "group": "Seedream",
                     "pages": [
-                      "zh/api-reference/image-series/models/seedream-5.0-pro"
+                      "zh/api-reference/image-series/models/seedream-5-0-pro"
                     ],
                     "icon": "image"
                   },
                   {
                     "group": "Qwen Image",
                     "pages": [
-                      "zh/api-reference/image-series/models/qwen-image-3.0"
+                      "zh/api-reference/image-series/models/qwen-image-3-0"
                     ],
                     "icon": "image"
                   },
                   {
                     "group": "Grok Imagine",
                     "pages": [
-                      "zh/api-reference/image-series/models/grok-imagine-image-2.0"
+                      "zh/api-reference/image-series/models/grok-imagine-image",
+                      "zh/api-reference/image-series/models/grok-imagine-image-2-0",
+                      "zh/api-reference/image-series/models/grok-imagine-image-quality"
+                    ],
+                    "icon": "image"
+                  },
+                  {
+                    "group": "Midjourney",
+                    "pages": [
+                      "zh/api-reference/image-series/models/midjourney"
                     ],
                     "icon": "image"
                   }
@@ -555,49 +638,53 @@
                   {
                     "group": "MiniMax",
                     "pages": [
-                      "zh/api-reference/video-series/models/minimax-h3-endframe",
+                      "zh/api-reference/video-series/models/minimax-h3",
+                      "zh/api-reference/video-series/models/minimax-h3-t2v",
                       "zh/api-reference/video-series/models/minimax-h3-fl2va",
                       "zh/api-reference/video-series/models/minimax-h3-flf",
-                      "zh/api-reference/video-series/models/minimax-h3-t2v"
+                      "zh/api-reference/video-series/models/minimax-h3-endframe"
                     ],
                     "icon": "video"
                   },
                   {
                     "group": "Veo 3.1",
-                    "icon": "video",
                     "pages": [
-                      "zh/api-reference/video-series/models/veo_3_1"
-                    ]
+                      "zh/api-reference/video-series/models/veo-3.1",
+                      "zh/api-reference/video-series/models/veo-3.1-fast"
+                    ],
+                    "icon": "video"
                   },
                   {
                     "group": "Omni Flash",
-                    "icon": "video",
                     "pages": [
-                      "zh/api-reference/video-series/models/omni_flash",
-                      "zh/api-reference/video-series/models/omni_flash-10s",
-                      "zh/api-reference/video-series/models/omni_flash-4s",
-                      "zh/api-reference/video-series/models/omni_flash-6s",
+                      "zh/api-reference/video-series/models/gemini-omni-flash",
                       "zh/api-reference/video-series/models/gemini-omni-1.1"
-                    ]
+                    ],
+                    "icon": "video"
                   },
                   {
                     "group": "LTX",
                     "pages": [
-                      "zh/api-reference/video-series/models/ltx2.3-kj"
+                      "zh/api-reference/video-series/models/ltx-2-3-kj"
                     ],
                     "icon": "video"
                   },
                   {
                     "group": "Grok Imagine",
                     "pages": [
-                      "zh/api-reference/video-series/models/grok-imagine-video-1.5"
+                      "zh/api-reference/video-series/models/grok-imagine-video",
+                      "zh/api-reference/video-series/models/grok-imagine-video-1-5"
                     ],
                     "icon": "video"
                   },
                   {
                     "group": "Kling",
                     "pages": [
-                      "zh/api-reference/video-series/models/kling-o3"
+                      "zh/api-reference/video-series/models/kling-v3",
+                      "zh/api-reference/video-series/models/kling-v2-6",
+                      "zh/api-reference/video-series/models/kling-avatar",
+                      "zh/api-reference/video-series/models/kling-o3",
+                      "zh/api-reference/video-series/models/kling-v3-motion-control"
                     ],
                     "icon": "video"
                   },
@@ -614,6 +701,33 @@
                       "zh/api-reference/video-series/models/vidu-q3"
                     ],
                     "icon": "video"
+                  },
+                  {
+                    "group": "Seedance",
+                    "pages": [
+                      "zh/api-reference/video-series/models/seedance-2-0",
+                      "zh/api-reference/video-series/models/seedance-2-0-fast",
+                      "zh/api-reference/video-series/models/seedance-2-0-mini",
+                      "zh/api-reference/video-series/models/seedance-2-5"
+                    ],
+                    "icon": "video"
+                  },
+                  {
+                    "group": "Wan",
+                    "pages": [
+                      "zh/api-reference/video-series/models/wan-3.0",
+                      "zh/api-reference/video-series/models/wan-3.0-prime",
+                      "zh/api-reference/video-series/models/wan-3.0-prime-ref",
+                      "zh/api-reference/video-series/models/wan-3.0-ref"
+                    ],
+                    "icon": "video"
+                  },
+                  {
+                    "group": "Depth Video",
+                    "pages": [
+                      "zh/api-reference/video-series/models/depth-video"
+                    ],
+                    "icon": "video"
                   }
                 ],
                 "icon": "video"
@@ -623,10 +737,44 @@
                 "icon": "audio-lines",
                 "pages": [
                   {
+                    "group": "GPT 语音",
+                    "pages": [
+                      "zh/api-reference/audio-series/models/gpt-4o-mini-tts"
+                    ],
+                    "icon": "audio-lines"
+                  },
+                  {
+                    "group": "Whisper",
+                    "pages": [
+                      "zh/api-reference/audio-series/models/whisper-1"
+                    ],
+                    "icon": "audio-lines"
+                  },
+                  {
+                    "group": "Suno",
+                    "pages": [
+                      "zh/api-reference/audio-series/models/suno"
+                    ],
+                    "icon": "audio-lines"
+                  },
+                  {
                     "group": "Index TTS",
-                    "icon": "audio-lines",
                     "pages": [
                       "zh/api-reference/audio-series/models/index-tts"
+                    ],
+                    "icon": "audio-lines"
+                  }
+                ]
+              },
+              {
+                "group": "阅读提取",
+                "icon": "book-open",
+                "pages": [
+                  {
+                    "group": "Jina Reader",
+                    "icon": "book-open",
+                    "pages": [
+                      "zh/api-reference/reader-series/models/jina-reader-v1"
                     ]
                   }
                 ]
@@ -930,6 +1078,146 @@
       "source": "/",
       "destination": "/en/quickstart",
       "permanent": false
+    },
+    {
+      "source": "/zh/api-reference/image-series/models/nano_banana_2",
+      "destination": "/zh/api-reference/image-series/models/nano-banana-2",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/image-series/models/nano_banana_2",
+      "destination": "/en/api-reference/image-series/models/nano-banana-2",
+      "permanent": true
+    },
+    {
+      "source": "/zh/api-reference/image-series/models/nano_banana_pro",
+      "destination": "/zh/api-reference/image-series/models/nano-banana-pro",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/image-series/models/nano_banana_pro",
+      "destination": "/en/api-reference/image-series/models/nano-banana-pro",
+      "permanent": true
+    },
+    {
+      "source": "/zh/api-reference/image-series/models/gpt-image2",
+      "destination": "/zh/api-reference/image-series/models/gpt-image-2",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/image-series/models/gpt-image2",
+      "destination": "/en/api-reference/image-series/models/gpt-image-2",
+      "permanent": true
+    },
+    {
+      "source": "/zh/api-reference/image-series/models/gpt-image2-hd",
+      "destination": "/zh/api-reference/image-series/models/gpt-image-2-hd",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/image-series/models/gpt-image2-hd",
+      "destination": "/en/api-reference/image-series/models/gpt-image-2-hd",
+      "permanent": true
+    },
+    {
+      "source": "/zh/api-reference/image-series/models/seedream-5.0-pro",
+      "destination": "/zh/api-reference/image-series/models/seedream-5-0-pro",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/image-series/models/seedream-5.0-pro",
+      "destination": "/en/api-reference/image-series/models/seedream-5-0-pro",
+      "permanent": true
+    },
+    {
+      "source": "/zh/api-reference/image-series/models/qwen-image-3.0",
+      "destination": "/zh/api-reference/image-series/models/qwen-image-3-0",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/image-series/models/qwen-image-3.0",
+      "destination": "/en/api-reference/image-series/models/qwen-image-3-0",
+      "permanent": true
+    },
+    {
+      "source": "/zh/api-reference/image-series/models/grok-imagine-image-2.0",
+      "destination": "/zh/api-reference/image-series/models/grok-imagine-image-2-0",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/image-series/models/grok-imagine-image-2.0",
+      "destination": "/en/api-reference/image-series/models/grok-imagine-image-2-0",
+      "permanent": true
+    },
+    {
+      "source": "/zh/api-reference/video-series/models/veo_3_1",
+      "destination": "/zh/api-reference/video-series/models/veo-3.1",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/video-series/models/veo_3_1",
+      "destination": "/en/api-reference/video-series/models/veo-3.1",
+      "permanent": true
+    },
+    {
+      "source": "/zh/api-reference/video-series/models/ltx2.3-kj",
+      "destination": "/zh/api-reference/video-series/models/ltx-2-3-kj",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/video-series/models/ltx2.3-kj",
+      "destination": "/en/api-reference/video-series/models/ltx-2-3-kj",
+      "permanent": true
+    },
+    {
+      "source": "/zh/api-reference/video-series/models/grok-imagine-video-1.5",
+      "destination": "/zh/api-reference/video-series/models/grok-imagine-video-1-5",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/video-series/models/grok-imagine-video-1.5",
+      "destination": "/en/api-reference/video-series/models/grok-imagine-video-1-5",
+      "permanent": true
+    },
+    {
+      "source": "/zh/api-reference/video-series/models/omni_flash",
+      "destination": "/zh/api-reference/video-series/models/gemini-omni-flash",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/video-series/models/omni_flash",
+      "destination": "/en/api-reference/video-series/models/gemini-omni-flash",
+      "permanent": true
+    },
+    {
+      "source": "/zh/api-reference/video-series/models/omni_flash-4s",
+      "destination": "/zh/api-reference/video-series/models/gemini-omni-flash",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/video-series/models/omni_flash-4s",
+      "destination": "/en/api-reference/video-series/models/gemini-omni-flash",
+      "permanent": true
+    },
+    {
+      "source": "/zh/api-reference/video-series/models/omni_flash-6s",
+      "destination": "/zh/api-reference/video-series/models/gemini-omni-flash",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/video-series/models/omni_flash-6s",
+      "destination": "/en/api-reference/video-series/models/gemini-omni-flash",
+      "permanent": true
+    },
+    {
+      "source": "/zh/api-reference/video-series/models/omni_flash-10s",
+      "destination": "/zh/api-reference/video-series/models/gemini-omni-flash",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/video-series/models/omni_flash-10s",
+      "destination": "/en/api-reference/video-series/models/gemini-omni-flash",
+      "permanent": true
     }
   ],
   "icons": {
