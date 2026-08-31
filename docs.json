@@ -133,6 +133,27 @@
                       "en/api-reference/image-series/models/zimage-makeup"
                     ],
                     "icon": "image"
+                  },
+                  {
+                    "group": "Seedream",
+                    "pages": [
+                      "en/api-reference/image-series/models/seedream-5.0-pro"
+                    ],
+                    "icon": "image"
+                  },
+                  {
+                    "group": "Qwen Image",
+                    "pages": [
+                      "en/api-reference/image-series/models/qwen-image-3.0"
+                    ],
+                    "icon": "image"
+                  },
+                  {
+                    "group": "Grok Imagine",
+                    "pages": [
+                      "en/api-reference/image-series/models/grok-imagine-image-2.0"
+                    ],
+                    "icon": "image"
                   }
                 ],
                 "icon": "image"
@@ -164,7 +185,8 @@
                       "en/api-reference/video-series/models/omni_flash",
                       "en/api-reference/video-series/models/omni_flash-10s",
                       "en/api-reference/video-series/models/omni_flash-4s",
-                      "en/api-reference/video-series/models/omni_flash-6s"
+                      "en/api-reference/video-series/models/omni_flash-6s",
+                      "en/api-reference/video-series/models/gemini-omni-1.1"
                     ]
                   },
                   {
@@ -178,6 +200,27 @@
                     "group": "Grok Imagine",
                     "pages": [
                       "en/api-reference/video-series/models/grok-imagine-video-1.5"
+                    ],
+                    "icon": "video"
+                  },
+                  {
+                    "group": "Kling",
+                    "pages": [
+                      "en/api-reference/video-series/models/kling-o3"
+                    ],
+                    "icon": "video"
+                  },
+                  {
+                    "group": "PixVerse",
+                    "pages": [
+                      "en/api-reference/video-series/models/pixverse-v6"
+                    ],
+                    "icon": "video"
+                  },
+                  {
+                    "group": "Vidu",
+                    "pages": [
+                      "en/api-reference/video-series/models/vidu-q3"
                     ],
                     "icon": "video"
                   }
@@ -481,6 +524,27 @@
                       "zh/api-reference/image-series/models/zimage-makeup"
                     ],
                     "icon": "image"
+                  },
+                  {
+                    "group": "Seedream",
+                    "pages": [
+                      "zh/api-reference/image-series/models/seedream-5.0-pro"
+                    ],
+                    "icon": "image"
+                  },
+                  {
+                    "group": "Qwen Image",
+                    "pages": [
+                      "zh/api-reference/image-series/models/qwen-image-3.0"
+                    ],
+                    "icon": "image"
+                  },
+                  {
+                    "group": "Grok Imagine",
+                    "pages": [
+                      "zh/api-reference/image-series/models/grok-imagine-image-2.0"
+                    ],
+                    "icon": "image"
                   }
                 ],
                 "icon": "image"
@@ -512,7 +576,8 @@
                       "zh/api-reference/video-series/models/omni_flash",
                       "zh/api-reference/video-series/models/omni_flash-10s",
                       "zh/api-reference/video-series/models/omni_flash-4s",
-                      "zh/api-reference/video-series/models/omni_flash-6s"
+                      "zh/api-reference/video-series/models/omni_flash-6s",
+                      "zh/api-reference/video-series/models/gemini-omni-1.1"
                     ]
                   },
                   {
@@ -526,6 +591,27 @@
                     "group": "Grok Imagine",
                     "pages": [
                       "zh/api-reference/video-series/models/grok-imagine-video-1.5"
+                    ],
+                    "icon": "video"
+                  },
+                  {
+                    "group": "Kling",
+                    "pages": [
+                      "zh/api-reference/video-series/models/kling-o3"
+                    ],
+                    "icon": "video"
+                  },
+                  {
+                    "group": "PixVerse",
+                    "pages": [
+                      "zh/api-reference/video-series/models/pixverse-v6"
+                    ],
+                    "icon": "video"
+                  },
+                  {
+                    "group": "Vidu",
+                    "pages": [
+                      "zh/api-reference/video-series/models/vidu-q3"
                     ],
                     "icon": "video"
                   }

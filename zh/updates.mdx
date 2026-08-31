@@ -7,6 +7,29 @@ rss: true
 
 跟踪 OmniMux 网关的模型上新与平台变更。完整可调用模型以[控制台定价](https://omnimux.ai) / [定价与账户](/zh/api-reference/account/pricing)为准。
 
+<a id="2026-08-31-media-catalog"></a>
+
+<Update label="2026 年 8 月 31 日" tags={["新模型", "图像", "视频"]} rss={{ title: "Seedream 5.0 Pro、Qwen Image 3.0、Grok Imagine Image 2.0、Kling O3、Omni 1.1、PixVerse v6、Vidu Q3" }}>
+
+  ## 图像
+
+  - **模型 ID：** `seedream-5.0-pro`、`qwen-image-3.0`、`grok-imagine-image-2.0`
+  - **API：** `POST /v1/images/generations`
+
+  ## 视频
+
+  - **模型 ID：** `kling-o3`、`gemini-omni-1.1`、`pixverse-v6`、`vidu-q3`
+  - **API：** 异步 `POST` / `GET` `/v1/video/generations`
+
+  `kling-o3` 是新 ID，不覆盖 `kling-v3`。`gemini-omni-1.1` 与 `gemini-omni-flash` 不同。精确 ID 以线上定价为准。
+
+  ### 链接
+
+  - [定价](/zh/api-reference/account/pricing)
+  - [视频任务查询](/zh/api-reference/tasks/video-task)
+
+</Update>
+
 <a id="2026-08-16-index-tts-ltx-docs"></a>
 
 <Update label="2026 年 8 月 16 日" tags={["新模型", "音频", "视频"]} rss={{ title: "上架 Index TTS 声音克隆，并更正 LTX 数字人合同" }}>
