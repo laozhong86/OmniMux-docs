@@ -1,0 +1,119 @@
+---
+title: "Suno 音乐生成"
+sidebarTitle: "Suno 音乐生成"
+description: "Suno 音乐生成 · model `suno`"
+api: "POST https://api.omnimux.ai/v1/video/generations"
+---
+
+- 创建：`POST /v1/video/generations`，`model` 为 `suno`
+- 异步任务：用返回的 `task_id` 查询 [查询视频任务](/zh/api-reference/tasks/video-task)
+- 音乐生成任务共用统一媒体任务端点与轮询约定
+
+## 身份
+
+| 字段 | 值 |
+| --- | --- |
+| 系列 | 音频系列 |
+| 品牌 | Suno |
+| model | `suno` |
+
+## 接口
+
+| 方法 | 路径 |
+| --- | --- |
+| `POST` | `/v1/video/generations` |
+| `GET` | `/v1/video/generations/{task_id}` |
+
+Base URL：`https://api.omnimux.ai`
+
+## 鉴权
+
+| 名称 | 位置 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | 是 | `Bearer sk-...`（API Key） |
+
+## 请求体
+
+| 字段 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| `model` | string | 是 | 固定为 `suno` |
+| `prompt` | string | 是 | 歌词内容、曲风描述或音乐风格 |
+| `title` | string | 否 | 曲目标题 |
+| `tags` / `style` | string | 否 | 曲风标签（如 `民谣`, `流行`, `电子`） |
+| `instrumental` | boolean | 否 | 是否生成纯音乐无声乐伴奏（`true`/`false`） |
+
+## 响应
+
+### 200（创建）
+
+| 字段 | 类型 | 说明 |
+| --- | --- | --- |
+| `task_id` | string | 任务 id，用于轮询 |
+| `status` | string | 如 `pending` / `processing` / `completed` |
+
+轮询见 [查询视频任务](/zh/api-reference/tasks/video-task)。错误见 [错误码](/zh/faqs/connection-usage)。
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url https://api.omnimux.ai/v1/video/generations \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "model": "suno",
+  "prompt": "清晨山间徒步的欢快民谣，原声吉他与轻快鼓点",
+  "tags": "folk acoustic positive"
+}'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200
+{
+  "task_id": "task_suno_01HXYZABCDEF",
+  "status": "queued"
+}
+```
+
+```json 400
+{
+  "error": { "message": "Invalid request", "type": "invalid_request_error", "code": "bad_request" }
+}
+```
+
+```json 401
+{
+  "error": { "message": "Invalid token", "type": "authentication_error", "code": "unauthorized" }
+}
+```
+
+```json 402
+{
+  "error": {
+    "message": "Insufficient quota. Please top up your account.",
+    "type": "insufficient_quota",
+    "code": "insufficient_quota"
+  }
+}
+```
+
+```json 429
+{
+  "error": { "message": "Rate limit exceeded", "type": "rate_limit_error", "code": "rate_limit_exceeded" }
+}
+```
+
+```json 500
+{
+  "error": { "message": "Internal server error", "type": "server_error", "code": "internal_error" }
+}
+```
+
+</ResponseExample>
+
+</Panel>

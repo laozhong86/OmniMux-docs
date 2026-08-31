@@ -1,21 +1,13 @@
 {
-  "minimax": [
-    "minimax-m2.5",
-    "minimax-m2.7",
-    "minimax-m3"
-  ],
-  "grok": [
-    "grok-4.20-0309-non-reasoning",
-    "grok-4.20-0309-reasoning",
-    "grok-4.20-multi-agent-0309",
-    "grok-4.3",
-    "grok-4.5",
-    "grok-build-0.1",
-    "grok-composer-2.5-fast"
-  ],
-  "glm": [
-    "glm-5.1",
-    "glm-5.2"
+  "claude": [
+    "claude-fable-5",
+    "claude-haiku-4-5",
+    "claude-opus-4-6",
+    "claude-opus-4-7",
+    "claude-opus-4-8",
+    "claude-opus-5",
+    "claude-sonnet-4-6",
+    "claude-sonnet-5"
   ],
   "gemini": [
     "gemini-2.5-flash-lite",
@@ -30,26 +22,8 @@
     "gemini-3.1-pro-preview",
     "gemini-3.1-pro",
     "gemini-3.5-flash",
-    "gemini-3.6-flash"
-  ],
-  "deepseek": [
-    "deepseek-v4-flash",
-    "deepseek-v4-pro"
-  ],
-  "kimi": [
-    "kimi-k2.6",
-    "kimi-k2.7-code",
-    "kimi-k3"
-  ],
-  "claude": [
-    "claude-fable-5",
-    "claude-haiku-4-5",
-    "claude-opus-4-6",
-    "claude-opus-4-7",
-    "claude-opus-4-8",
-    "claude-opus-5",
-    "claude-sonnet-4-6",
-    "claude-sonnet-5"
+    "gemini-3.6-flash",
+    "gemini-3.7-flash"
   ],
   "gpt": [
     "gpt-5.4-mini",
@@ -58,5 +32,35 @@
     "gpt-5.6-luna",
     "gpt-5.6-sol",
     "gpt-5.6-terra"
+  ],
+  "grok": [
+    "grok-4.20-0309-non-reasoning",
+    "grok-4.20-0309-reasoning",
+    "grok-4.20-multi-agent-0309",
+    "grok-4.3",
+    "grok-4.5",
+    "grok-4.6",
+    "grok-build-0.1",
+    "grok-composer-2.5-fast"
+  ],
+  "kimi": [
+    "kimi-k2.6",
+    "kimi-k2.7-code",
+    "kimi-k3"
+  ],
+  "deepseek": [
+    "deepseek-v4-flash",
+    "deepseek-v4-flash-vision-exp",
+    "deepseek-v4-pro"
+  ],
+  "minimax": [
+    "minimax-m2.5",
+    "minimax-m2.7",
+    "minimax-m3"
+  ],
+  "glm": [
+    "glm-5.1",
+    "glm-5.2",
+    "glm-5.3"
   ]
 }

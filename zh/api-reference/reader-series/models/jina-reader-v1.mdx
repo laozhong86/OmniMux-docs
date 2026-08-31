@@ -1,0 +1,178 @@
+---
+title: "Jina Reader 网页提取"
+sidebarTitle: "Jina Reader 网页提取"
+description: "Jina Reader 网页转 LLM 友好 Markdown/JSON 文本 · 模型 `jina-reader-v1`"
+api: "POST https://api.omnimux.ai/v1/reader"
+---
+
+- 独立接口：`POST /v1/reader`，模型指定为 `jina-reader-v1`
+- 鉴权方式：网关 Bearer 令牌（`Authorization: Bearer sk-...`）
+- 将目标网页 URL 快速清洗提取为适合大模型理解的 Markdown 或结构化 JSON
+- 计费方式：按输出 Token 结算（根据实际返回的 Markdown/JSON 内容 Token 数扣费）
+
+## 身份
+
+| 字段 | 值 |
+| --- | --- |
+| 系列 | 阅读系列 |
+| 品牌 | Jina Reader |
+| 模型 | `jina-reader-v1` |
+
+## 接口
+
+| 方法 | 路径 |
+| --- | --- |
+| `POST` | `/v1/reader` |
+
+Base URL：`https://api.omnimux.ai`
+
+## 鉴权
+
+| 名称 | 位置 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | 是 | `Bearer sk-...`（OmniMux 网关 API Key） |
+
+## 请求体
+
+| 字段 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| `model` | string | **是** | 固定为 `jina-reader-v1` |
+| `url` | string | **是** | 目标网页 URL（http:// 或 https://） |
+| `return_format` | string | 否 | 响应格式：`markdown`（默认）或 `json` |
+| `remove_selector` | string | 否 | 需要移除的 CSS 选择器（如 `header, footer, .ads`） |
+| `target_selector` | string | 否 | 提取目标区域的 CSS 选择器（如 `article`, `#content`） |
+| `wait_for_selector` | string | 否 | 动态网页需等待加载完成的 CSS 选择器 |
+| `timeout` | string | 否 | 上游页面加载超时时间（秒） |
+| `retain_images` | string | 否 | 设为 `none` 可移除所有图片标记 |
+| `with_links_summary` | boolean | 否 | 是否在文末附带页面所有链接的汇总清单 |
+| `with_images_summary` | boolean | 否 | 是否在文末附带页面所有图片的汇总清单 |
+| `with_generated_alt` | boolean | 否 | 是否由视觉模型为图片自动生成 Alt 描述文字 |
+| `no_cache` | boolean | 否 | 是否强制绕过缓存重新抓取最新网页 |
+| `respond_with` | string | 否 | 自定义解析引擎（如 `readerlm-v2`） |
+
+## 响应
+
+### 200（Markdown 默认）
+
+直接返回干净清洗后的纯文本 Markdown 正文。
+
+### 200（JSON 格式）
+
+| 字段 | 类型 | 说明 |
+| --- | --- | --- |
+| `code` | integer | 状态码（200） |
+| `status` | integer | HTTP 状态码 |
+| `data` | object | 提取结果对象 |
+| `data.title` | string | 页面标题 |
+| `data.description` | string | 页面 Meta 描述 |
+| `data.url` | string | 最终规范 URL |
+| `data.content` | string | Markdown 格式的网页正文内容 |
+| `data.usage.tokens` | integer | 输出消耗的 Token 总量 |
+
+错误见右栏与 [错误码](/zh/faqs/connection-usage)。
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL (Markdown)
+curl --request POST \
+  --url https://api.omnimux.ai/v1/reader \
+  --header 'Authorization: Bearer sk-your-key' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "model": "jina-reader-v1",
+  "url": "https://example.com/article",
+  "return_format": "markdown"
+}'
+```
+
+```bash cURL (JSON with selectors)
+curl --request POST \
+  --url https://api.omnimux.ai/v1/reader \
+  --header 'Authorization: Bearer sk-your-key' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "model": "jina-reader-v1",
+  "url": "https://example.com/article",
+  "return_format": "json",
+  "target_selector": "article.main-content",
+  "remove_selector": ".ad-banner, .comments",
+  "with_links_summary": true
+}'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```markdown 200 (Markdown)
+Title: Example Article Title
+URL Source: https://example.com/article
+Published Time: 2026-08-20T10:00:00Z
+
+Markdown Content:
+# Example Article Title
+
+Here is the clean extracted text content of the target webpage...
+```
+
+```json 200 (JSON)
+{
+  "code": 200,
+  "status": 20000,
+  "data": {
+    "title": "Example Article Title",
+    "description": "Article summary meta description",
+    "url": "https://example.com/article",
+    "content": "# Example Article Title\n\nExtracted content...",
+    "usage": {
+      "tokens": 850
+    }
+  }
+}
+```
+
+```json 400
+{
+  "error": {
+    "message": "url is required",
+    "type": "invalid_request_error",
+    "code": "bad_request"
+  }
+}
+```
+
+```json 401
+{
+  "error": {
+    "message": "Invalid API key",
+    "type": "authentication_error",
+    "code": "invalid_api_key"
+  }
+}
+```
+
+```json 402
+{
+  "error": {
+    "message": "Insufficient quota. Please top up your account.",
+    "type": "insufficient_quota",
+    "code": "insufficient_quota"
+  }
+}
+```
+
+```json 429
+{
+  "error": {
+    "message": "Rate limit exceeded",
+    "type": "rate_limit_error",
+    "code": "rate_limit_exceeded"
+  }
+}
+```
+
+</ResponseExample>
+
+</Panel>

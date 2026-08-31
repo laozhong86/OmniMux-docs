@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "DeepSeek · Chat Completions",
-    "description": "OpenAI-compatible Chat Completions for DeepSeek models on OmniMux. Supported model ids: `deepseek-v4-flash`, `deepseek-v4-pro`.",
+    "description": "OpenAI-compatible Chat Completions for DeepSeek models on OmniMux. Supported model ids: `deepseek-v4-flash`, `deepseek-v4-flash-vision-exp`, `deepseek-v4-pro`.",
     "version": "1.0.0"
   },
   "servers": [
@@ -294,6 +294,7 @@
             "description": "Model id for this brand on OmniMux. Same request/response shape for all ids below; only the `model` value changes.",
             "enum": [
               "deepseek-v4-flash",
+              "deepseek-v4-flash-vision-exp",
               "deepseek-v4-pro"
             ],
             "default": "deepseek-v4-flash",

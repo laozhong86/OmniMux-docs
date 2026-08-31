@@ -1,0 +1,117 @@
+---
+title: "私信时段热力图"
+sidebarTitle: "私信时段热力图"
+description: "统计 7×24 小时私信接收高峰时段与互动热力分布"
+api: "GET https://omnimux.ai/api/social/v1/inbox-analytics/heatmap"
+---
+
+- 社媒 **发布** 用户 API（非 `sk-` 社交数据读）
+- Base：`https://omnimux.ai`；鉴权 access token + `New-Api-User`
+- 分析周一至周日 24 小时的私信接收峰值时段与互动热力分布
+
+## 身份
+
+| 字段 | 值 |
+| --- | --- |
+| 系列 | 社媒发布 |
+| 资源组 | 私信分析 |
+| 能力 | 私信时段热力图 |
+
+## 接口
+
+| 方法 | 路径 |
+| --- | --- |
+| `GET` | `/api/social/v1/inbox-analytics/heatmap` |
+
+Base URL：`https://omnimux.ai`
+
+## 鉴权
+
+| 名称 | 位置 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | 是 | `Bearer <access_token>`（用户 access token） |
+| `New-Api-User` | header | string | 是 | 当前用户 id |
+
+## 查询参数
+
+| 参数名 | 类型 | 必填 | 默认值 | 说明 |
+| --- | --- | --- | --- | --- |
+| `platform` | string | 否 | — | 平台过滤（`tiktok`、`x`、`instagram`、`youtube`） |
+| `timezone` | string | 否 | `UTC` | 时区（如 `Asia/Shanghai`、`America/New_York`） |
+
+## 响应
+
+### 200
+
+| 字段 | 类型 | 说明 |
+| --- | --- | --- |
+| `success` | boolean | 是否成功 |
+| `data.slots` | array | 7×24 小时消息分布时隙 |
+| `data.slots[].dayOfWeek` | integer | 星期几（0 为周日，1 为周一，...，6 为周六） |
+| `data.slots[].hour` | integer | 小时（0-23） |
+| `data.slots[].messageCount` | integer | 该时隙接收到的消息数 |
+| `data.peakSlots` | array | 接收高峰时段排行榜 |
+
+错误见右栏与 [错误码](/zh/faqs/connection-usage)。
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url 'https://omnimux.ai/api/social/v1/inbox-analytics/heatmap?timezone=Asia/Shanghai' \
+  --header 'Authorization: Bearer <access_token>' \
+  --header 'New-Api-User: <user_id>' \
+  --header 'Content-Type: application/json'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200
+{
+  "success": true,
+  "data": {
+    "slots": [
+      {
+        "dayOfWeek": 1,
+        "hour": 14,
+        "messageCount": 35
+      },
+      {
+        "dayOfWeek": 5,
+        "hour": 21,
+        "messageCount": 58
+      }
+    ],
+    "peakSlots": [
+      {
+        "dayOfWeek": 5,
+        "hour": 21,
+        "label": "Fri 9pm",
+        "messageCount": 58
+      }
+    ]
+  }
+}
+```
+
+```json 401
+{
+  "success": false,
+  "message": "Unauthorized"
+}
+```
+
+```json 503
+{
+  "success": false,
+  "message": "social ops is disabled"
+}
+```
+
+</ResponseExample>
+
+</Panel>

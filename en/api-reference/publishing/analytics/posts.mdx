@@ -1,0 +1,128 @@
+---
+title: "Posts Performance"
+sidebarTitle: "Posts Performance"
+description: "Query detailed post performance analytics with multi-dimensional sorting"
+api: "GET https://omnimux.ai/api/social/v1/analytics/posts"
+---
+
+- Social **publishing** user API (not `sk-` social-data read)
+- Base: `https://omnimux.ai`; auth access token + `New-Api-User`
+- Deep post-level metrics with flexible ranking by engagement rate, views, likes, or date
+
+## Identity
+
+| Field | Value |
+| --- | --- |
+| Series | Publishing |
+| Group | Analytics |
+| Capability | Posts performance |
+
+## Endpoint
+
+| Method | Path |
+| --- | --- |
+| `GET` | `/api/social/v1/analytics/posts` |
+
+Base URL: `https://omnimux.ai`
+
+## Authorizations
+
+| Name | In | Type | Required | Description |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | yes | `Bearer <access_token>` (User Access Token) |
+| `New-Api-User` | header | string | yes | Current user id |
+
+## Query Parameters
+
+| Parameter | Type | Required | Default | Description |
+| --- | --- | --- | --- | --- |
+| `post_id` | integer | no | — | Query a single post by local database ID |
+| `platform` | string | no | — | Filter by platform (`tiktok`, `x`, `instagram`, `youtube`) |
+| `sortBy` | string | no | `date` | Sort field (`date`, `engagement`, `views`, `likes`, `er`) |
+| `sortOrder` | string | no | `desc` | Sort direction (`asc` or `desc`) |
+| `page` | integer | no | `1` | Page number |
+| `limit` | integer | no | `20` | Items per page (max 100) |
+
+## Response
+
+### 200
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `success` | boolean | Success flag |
+| `data.posts` | array | List of posts with detailed metrics |
+| `data.posts[].id` | integer | Post record ID |
+| `data.posts[].platform` | string | Social platform |
+| `data.posts[].content` | string | Text content / caption |
+| `data.posts[].publishedAt` | string | Publish timestamp (`ISO 8601`) |
+| `data.posts[].status` | string | Delivery status (`published`, `failed`, etc.) |
+| `data.posts[].analytics` | object | Metrics (impressions, reach, likes, comments, shares, saves, views, engagementRate) |
+| `data.total` | integer | Total matched posts |
+| `data.page` | integer | Current page number |
+| `data.limit` | integer | Page size limit |
+
+Errors: right rail and [Error codes](/en/faqs/connection-usage).
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url 'https://omnimux.ai/api/social/v1/analytics/posts?platform=tiktok&sortBy=er&sortOrder=desc&limit=10' \
+  --header 'Authorization: Bearer <access_token>' \
+  --header 'New-Api-User: <user_id>' \
+  --header 'Content-Type: application/json'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200
+{
+  "success": true,
+  "data": {
+    "posts": [
+      {
+        "id": 108,
+        "platform": "tiktok",
+        "content": "Automated workflow demo with OmniMux CLI",
+        "publishedAt": "2026-08-20T10:00:00Z",
+        "status": "published",
+        "analytics": {
+          "impressions": 12000,
+          "reach": 9300,
+          "likes": 340,
+          "comments": 42,
+          "shares": 18,
+          "saves": 35,
+          "views": 9300,
+          "engagementRate": 3.62
+        }
+      }
+    ],
+    "total": 1,
+    "page": 1,
+    "limit": 10
+  }
+}
+```
+
+```json 401
+{
+  "success": false,
+  "message": "Unauthorized"
+}
+```
+
+```json 503
+{
+  "success": false,
+  "message": "social ops is disabled"
+}
+```
+
+</ResponseExample>
+
+</Panel>

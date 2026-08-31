@@ -61,7 +61,7 @@ See [Video task](/en/api-reference/tasks/video-task). Errors: right rail and [Er
   --url https://api.omnimux.ai/v1/video/generations \
   --header 'Authorization: Bearer <token>' \
   --header 'Content-Type: application/json' \
-  --data '{"model":"minimax-h3-t2v","prompt":"slow pan across a product"}'
+  --data '{"model":"minimax-h3-t2v","prompt":"slow pan across a product on a table"}'
 ```
 
 </RequestExample>
@@ -71,16 +71,8 @@ See [Video task](/en/api-reference/tasks/video-task). Errors: right rail and [Er
 
 ```json 200
 {
-  "id": "chatcmpl-example",
-  "object": "chat.completion",
-  "model": "minimax-h3-t2v",
-  "choices": [
-    {
-      "index": 0,
-      "message": { "role": "assistant", "content": "…" },
-      "finish_reason": "stop"
-    }
-  ]
+  "task_id": "task_01HXYZABCDEF",
+  "status": "queued"
 }
 ```
 

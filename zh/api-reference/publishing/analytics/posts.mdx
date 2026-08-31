@@ -1,0 +1,128 @@
+---
+title: "帖子表现排行"
+sidebarTitle: "帖子表现排行"
+description: "已发布帖子列表深度指标查询，支持按互动率、播放量等多维排序"
+api: "GET https://omnimux.ai/api/social/v1/analytics/posts"
+---
+
+- 社媒 **发布** 用户 API（非 `sk-` 社交数据读）
+- Base：`https://omnimux.ai`；鉴权 access token + `New-Api-User`
+- 已发布帖子列表深度指标查询，支持按互动率、播放量、点赞数等多维排序
+
+## 身份
+
+| 字段 | 值 |
+| --- | --- |
+| 系列 | 社媒发布 |
+| 资源组 | 社媒分析 |
+| 能力 | 帖子表现排行 |
+
+## 接口
+
+| 方法 | 路径 |
+| --- | --- |
+| `GET` | `/api/social/v1/analytics/posts` |
+
+Base URL：`https://omnimux.ai`
+
+## 鉴权
+
+| 名称 | 位置 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | 是 | `Bearer <access_token>`（用户 access token） |
+| `New-Api-User` | header | string | 是 | 当前用户 id |
+
+## 查询参数
+
+| 参数名 | 类型 | 必填 | 默认值 | 说明 |
+| --- | --- | --- | --- | --- |
+| `post_id` | integer | 否 | — | 指定单帖 ID（传入时仅查单帖） |
+| `platform` | string | 否 | — | 平台过滤（`tiktok`、`x`、`instagram`、`youtube`） |
+| `sortBy` | string | 否 | `date` | 排序字段（`date`、`engagement`、`views`、`likes`、`er`） |
+| `sortOrder` | string | 否 | `desc` | 排序方向（`asc` 或 `desc`） |
+| `page` | integer | 否 | `1` | 页码 |
+| `limit` | integer | 否 | `20` | 每页条数（最大 100） |
+
+## 响应
+
+### 200
+
+| 字段 | 类型 | 说明 |
+| --- | --- | --- |
+| `success` | boolean | 是否成功 |
+| `data.posts` | array | 帖子指标明细列表 |
+| `data.posts[].id` | integer | 本地帖子记录 ID |
+| `data.posts[].platform` | string | 发布平台 |
+| `data.posts[].content` | string | 文本正文 / 标题 |
+| `data.posts[].publishedAt` | string | 发布时间戳（`ISO 8601`） |
+| `data.posts[].status` | string | 发送状态（`published`、`failed` 等） |
+| `data.posts[].analytics` | object | 详细指标（曝光、触达、点赞、评论、分享、收藏、播放量、互动率） |
+| `data.total` | integer | 符合条件的帖子总数 |
+| `data.page` | integer | 当前页码 |
+| `data.limit` | integer | 每页限制条数 |
+
+错误见右栏与 [错误码](/zh/faqs/connection-usage)。
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url 'https://omnimux.ai/api/social/v1/analytics/posts?platform=tiktok&sortBy=er&sortOrder=desc&limit=10' \
+  --header 'Authorization: Bearer <access_token>' \
+  --header 'New-Api-User: <user_id>' \
+  --header 'Content-Type: application/json'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200
+{
+  "success": true,
+  "data": {
+    "posts": [
+      {
+        "id": 108,
+        "platform": "tiktok",
+        "content": "Automated workflow demo with OmniMux CLI",
+        "publishedAt": "2026-08-20T10:00:00Z",
+        "status": "published",
+        "analytics": {
+          "impressions": 12000,
+          "reach": 9300,
+          "likes": 340,
+          "comments": 42,
+          "shares": 18,
+          "saves": 35,
+          "views": 9300,
+          "engagementRate": 3.62
+        }
+      }
+    ],
+    "total": 1,
+    "page": 1,
+    "limit": 10
+  }
+}
+```
+
+```json 401
+{
+  "success": false,
+  "message": "Unauthorized"
+}
+```
+
+```json 503
+{
+  "success": false,
+  "message": "social ops is disabled"
+}
+```
+
+</ResponseExample>
+
+</Panel>

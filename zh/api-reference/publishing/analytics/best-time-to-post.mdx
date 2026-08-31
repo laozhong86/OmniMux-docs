@@ -1,0 +1,134 @@
+---
+title: "最佳发布时间"
+sidebarTitle: "最佳发布时间"
+description: "计算 7×24 小时每周互动热力矩阵与最优发布时隙推荐"
+api: "GET https://omnimux.ai/api/social/v1/analytics/best-time-to-post"
+---
+
+- 社媒 **发布** 用户 API（非 `sk-` 社交数据读）
+- Base：`https://omnimux.ai`；鉴权 access token + `New-Api-User`
+- 基于历史表现计算周一到周日 24 小时的互动打分矩阵及最优发帖时隙推荐
+
+## 身份
+
+| 字段 | 值 |
+| --- | --- |
+| 系列 | 社媒发布 |
+| 资源组 | 社媒分析 |
+| 能力 | 最佳发布时间 |
+
+## 接口
+
+| 方法 | 路径 |
+| --- | --- |
+| `GET` | `/api/social/v1/analytics/best-time-to-post` |
+
+Base URL：`https://omnimux.ai`
+
+## 鉴权
+
+| 名称 | 位置 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | 是 | `Bearer <access_token>`（用户 access token） |
+| `New-Api-User` | header | string | 是 | 当前用户 id |
+
+## 查询参数
+
+| 参数名 | 类型 | 必填 | 默认值 | 说明 |
+| --- | --- | --- | --- | --- |
+| `platform` | string | 否 | — | 平台过滤（缺省为全平台） |
+| `account_id` | integer | 否 | — | 本地数字账号 ID（仅分析指定账号） |
+| `timezone` | string | 否 | `UTC` | 时区（如 `Asia/Shanghai`、`America/New_York`） |
+
+## 响应
+
+### 200
+
+| 字段 | 类型 | 说明 |
+| --- | --- | --- |
+| `success` | boolean | 是否成功 |
+| `data.slots` | array | 7×24 小时每时隙互动统计 |
+| `data.slots[].dayOfWeek` | integer | 星期几（0 为周日，1 为周一，...，6 为周六） |
+| `data.slots[].hour` | integer | 小时（0-23） |
+| `data.slots[].avgEngagement` | number | 该时隙平均互动分 |
+| `data.slots[].postCount` | integer | 样本帖子数 |
+| `data.recommended` | array | 最优推荐发帖时隙排行榜 |
+
+错误见右栏与 [错误码](/zh/faqs/connection-usage)。
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url 'https://omnimux.ai/api/social/v1/analytics/best-time-to-post?platform=tiktok&timezone=Asia/Shanghai' \
+  --header 'Authorization: Bearer <access_token>' \
+  --header 'New-Api-User: <user_id>' \
+  --header 'Content-Type: application/json'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200
+{
+  "success": true,
+  "data": {
+    "slots": [
+      {
+        "dayOfWeek": 0,
+        "hour": 10,
+        "avgEngagement": 510.3,
+        "postCount": 15
+      },
+      {
+        "dayOfWeek": 3,
+        "hour": 20,
+        "avgEngagement": 289.1,
+        "postCount": 8
+      }
+    ],
+    "recommended": [
+      {
+        "label": "Sun 10am",
+        "dayOfWeek": 0,
+        "hour": 10,
+        "score": 24
+      },
+      {
+        "label": "Wed 8pm",
+        "dayOfWeek": 3,
+        "hour": 20,
+        "score": 18
+      }
+    ]
+  }
+}
+```
+
+```json 401
+{
+  "success": false,
+  "message": "Unauthorized"
+}
+```
+
+```json 403
+{
+  "success": false,
+  "message": "one or more accounts are not owned by this user"
+}
+```
+
+```json 503
+{
+  "success": false,
+  "message": "social ops is disabled"
+}
+```
+
+</ResponseExample>
+
+</Panel>

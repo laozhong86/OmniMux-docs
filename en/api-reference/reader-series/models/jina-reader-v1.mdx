@@ -1,0 +1,178 @@
+---
+title: "Jina Reader Web Extractor"
+sidebarTitle: "Jina Reader Web Extractor"
+description: "Jina Reader URL to LLM-friendly Markdown/JSON · model `jina-reader-v1`"
+api: "POST https://api.omnimux.ai/v1/reader"
+---
+
+- Dedicated endpoint: `POST /v1/reader` with `model` `jina-reader-v1`
+- Auth: Gateway Bearer (`Authorization: Bearer sk-...`)
+- Transforms any public URL into clean Markdown or JSON for LLM prompts
+- Output-token billing: charged based on actual rendered markdown/JSON tokens
+
+## Identity
+
+| Field | Value |
+| --- | --- |
+| Series | Reader series |
+| Brand | Jina Reader |
+| model | `jina-reader-v1` |
+
+## Endpoint
+
+| Method | Path |
+| --- | --- |
+| `POST` | `/v1/reader` |
+
+Base URL: `https://api.omnimux.ai`
+
+## Authorizations
+
+| Name | In | Type | Required | Description |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | yes | `Bearer sk-...` (OmniMux Gateway API key) |
+
+## Body
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `model` | string | **yes** | Must be `jina-reader-v1` |
+| `url` | string | **yes** | Target webpage URL (http:// or https://) |
+| `return_format` | string | no | Response format: `markdown` (default) or `json` |
+| `remove_selector` | string | no | CSS selectors to remove (e.g. `header, footer, .ads`) |
+| `target_selector` | string | no | CSS selector to focus extraction on (e.g. `article`, `#content`) |
+| `wait_for_selector` | string | no | Wait for dynamic DOM element before reading |
+| `timeout` | string | no | Upstream page load timeout in seconds |
+| `retain_images` | string | no | Set to `none` to strip all image elements |
+| `with_links_summary` | boolean | no | Append a structured summary of all page links |
+| `with_images_summary` | boolean | no | Append a structured summary of all page images |
+| `with_generated_alt` | boolean | no | Automatically generate alt text descriptions for images |
+| `no_cache` | boolean | no | Bypass upstream cache and force fresh scrape |
+| `respond_with` | string | no | Alternative engine (e.g. `readerlm-v2`) |
+
+## Response
+
+### 200 (Markdown default)
+
+Returns clean text markdown content of the webpage directly.
+
+### 200 (JSON format)
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `code` | integer | Status code (200) |
+| `status` | integer | HTTP status |
+| `data` | object | Extracted content object |
+| `data.title` | string | Extracted page title |
+| `data.description` | string | Page meta description |
+| `data.url` | string | Final canonical page URL |
+| `data.content` | string | Page content in markdown format |
+| `data.usage.tokens` | integer | Total output tokens generated |
+
+Errors: [Error codes](/en/faqs/connection-usage).
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL (Markdown)
+curl --request POST \
+  --url https://api.omnimux.ai/v1/reader \
+  --header 'Authorization: Bearer sk-your-key' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "model": "jina-reader-v1",
+  "url": "https://example.com/article",
+  "return_format": "markdown"
+}'
+```
+
+```bash cURL (JSON with selectors)
+curl --request POST \
+  --url https://api.omnimux.ai/v1/reader \
+  --header 'Authorization: Bearer sk-your-key' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "model": "jina-reader-v1",
+  "url": "https://example.com/article",
+  "return_format": "json",
+  "target_selector": "article.main-content",
+  "remove_selector": ".ad-banner, .comments",
+  "with_links_summary": true
+}'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```markdown 200 (Markdown)
+Title: Example Article Title
+URL Source: https://example.com/article
+Published Time: 2026-08-20T10:00:00Z
+
+Markdown Content:
+# Example Article Title
+
+Here is the clean extracted text content of the target webpage...
+```
+
+```json 200 (JSON)
+{
+  "code": 200,
+  "status": 20000,
+  "data": {
+    "title": "Example Article Title",
+    "description": "Article summary meta description",
+    "url": "https://example.com/article",
+    "content": "# Example Article Title\n\nExtracted content...",
+    "usage": {
+      "tokens": 850
+    }
+  }
+}
+```
+
+```json 400
+{
+  "error": {
+    "message": "url is required",
+    "type": "invalid_request_error",
+    "code": "bad_request"
+  }
+}
+```
+
+```json 401
+{
+  "error": {
+    "message": "Invalid API key",
+    "type": "authentication_error",
+    "code": "invalid_api_key"
+  }
+}
+```
+
+```json 402
+{
+  "error": {
+    "message": "Insufficient quota. Please top up your account.",
+    "type": "insufficient_quota",
+    "code": "insufficient_quota"
+  }
+}
+```
+
+```json 429
+{
+  "error": {
+    "message": "Rate limit exceeded",
+    "type": "rate_limit_error",
+    "code": "rate_limit_exceeded"
+  }
+}
+```
+
+</ResponseExample>
+
+</Panel>

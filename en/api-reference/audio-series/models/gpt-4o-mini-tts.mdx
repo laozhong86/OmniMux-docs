@@ -1,0 +1,100 @@
+---
+title: "GPT-4o mini TTS"
+sidebarTitle: "GPT-4o mini TTS"
+description: "GPT-4o mini TTS · model `gpt-4o-mini-tts`"
+api: "POST https://api.omnimux.ai/v1/audio/speech"
+---
+
+- Call `POST /v1/audio/speech` with `model` `gpt-4o-mini-tts`
+- Body requires `model`, `input`, and `voice`
+- Returns binary audio stream (`audio/mpeg` by default)
+
+## Identity
+
+| Field | Value |
+| --- | --- |
+| Series | Audio series |
+| Brand | GPT Audio |
+| model | `gpt-4o-mini-tts` |
+
+## Endpoint
+
+| Method | Path |
+| --- | --- |
+| `POST` | `/v1/audio/speech` |
+
+Base URL: `https://api.omnimux.ai`
+
+## Authorizations
+
+| Name | In | Type | Required | Description |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | yes | `Bearer sk-...` (API key) |
+
+## Body
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `model` | string | yes | Must be `gpt-4o-mini-tts` |
+| `input` | string | yes | Text to synthesize (up to 4096 characters) |
+| `voice` | string | yes | Voice persona (e.g. `alloy`, `echo`, `fable`, `onyx`, `nova`, `shimmer`) |
+| `response_format` | string | no | `mp3` (default), `opus`, `aac`, `flac`, `wav`, `pcm` |
+| `speed` | number | no | Speaking speed multiplier (`0.25` to `4.0`, default `1.0`) |
+
+## Response
+
+### 200
+
+Returns binary audio data with `Content-Type: audio/mpeg`.
+
+Errors: see right-rail examples.
+
+<Panel>
+
+<RequestExample>
+
+```bash curl --request POST \
+  --url https://api.omnimux.ai/v1/audio/speech \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "model": "gpt-4o-mini-tts",
+  "input": "Hello! Welcome to OmniMux text-to-speech API.",
+  "voice": "alloy"
+}' \
+  --output speech.mp3
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 400
+{ "error": { "message": "Invalid request", "type": "invalid_request_error", "code": "bad_request" } }
+```
+
+```json 401
+{ "error": { "message": "Invalid token", "type": "authentication_error", "code": "unauthorized" } }
+```
+
+```json 402
+{
+  "error": {
+    "message": "Insufficient quota. Please top up your account.",
+    "type": "insufficient_quota",
+    "code": "insufficient_quota"
+  }
+}
+```
+
+```json 429
+{ "error": { "message": "Rate limit exceeded", "type": "rate_limit_error", "code": "rate_limit_exceeded" } }
+```
+
+```json 500
+{ "error": { "message": "Internal server error", "type": "server_error", "code": "internal_error" } }
+```
+
+</ResponseExample>
+
+</Panel>

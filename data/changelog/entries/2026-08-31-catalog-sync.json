@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "id": "2026-08-31-catalog-sync",
+  "published_at": "2026-08-31",
+  "rank": 30,
+  "type": "model_launch",
+  "modality": [
+    "text",
+    "image",
+    "video",
+    "audio"
+  ],
+  "title": {
+    "en": "Catalog synchronization: Gemini 3.7, GLM 5.3, Wan 3.0, Seedance 2.0, Grok Imagine, Audio TTS & STT",
+    "zh": "模型目录全量同步：Gemini 3.7、GLM 5.3、Wan 3.0、Seedance 2.0、Grok Imagine、音频与语音转录"
+  },
+  "summary": {
+    "en": "Comprehensive documentation alignment across all 108 live models in the OmniMux catalog.",
+    "zh": "全面对齐 OmniMux 线上 108 个在售模型的开发文档与 API 参考手册。"
+  },
+  "models": [
+    "gemini-3.7-flash",
+    "glm-5.3",
+    "grok-4.6",
+    "deepseek-v4-flash-vision-exp",
+    "wan-3.0",
+    "seedance-2-0",
+    "gpt-4o-mini-tts",
+    "whisper-1"
+  ],
+  "tags": [
+    "text",
+    "image",
+    "video",
+    "audio"
+  ],
+  "links": [
+    {
+      "label": {
+        "en": "Pricing",
+        "zh": "定价"
+      },
+      "href": {
+        "en": "/en/api-reference/account/pricing",
+        "zh": "/zh/api-reference/account/pricing"
+      }
+    },
+    {
+      "label": {
+        "en": "Audio Speech",
+        "zh": "语音合成"
+      },
+      "href": {
+        "en": "/en/api-reference/audio-series/models/gpt-4o-mini-tts",
+        "zh": "/zh/api-reference/audio-series/models/gpt-4o-mini-tts"
+      }
+    }
+  ],
+  "body": {
+    "en": "## Language series\n\n- **Gemini:** Added `gemini-3.7-flash`\n- **GLM:** Added `glm-5.3`\n- **Grok:** Added `grok-4.6`\n- **DeepSeek:** Added `deepseek-v4-flash-vision-exp`\n\n## Image & Video series\n\n- Canonical model ID hyphenation and full coverage for **Wan 3.0** (`wan-3.0`, `wan-3.0-prime`, `wan-3.0-prime-ref`, `wan-3.0-ref`), **Seedance 2.0** (`seedance-2-0`, `seedance-2-0-fast`, `seedance-2-0-mini`, `seedance-2-5`), **Kling** (`kling-v3`, `kling-v2-6`, `kling-avatar`, `kling-o3`, `kling-v3-motion-control`), **Grok Imagine**, and **Midjourney**.\n- Retired legacy Omni Flash duration-fixed SKUs.\n\n## Audio series\n\n- `gpt-4o-mini-tts` (`POST /v1/audio/speech`)\n- `whisper-1` (`POST /v1/audio/transcriptions`)\n- `suno` (`POST /v1/video/generations`)",
+    "zh": "## 语言系列\n\n- **Gemini：** 增加 `gemini-3.7-flash`\n- **GLM：** 增加 `glm-5.3`\n- **Grok：** 增加 `grok-4.6`\n- **DeepSeek：** 增加 `deepseek-v4-flash-vision-exp`\n\n## 图像与视频系列\n\n- 全量补齐 **Wan 3.0**（`wan-3.0`、`wan-3.0-prime`、`wan-3.0-prime-ref`、`wan-3.0-ref`）、**Seedance 2.0**（`seedance-2-0`、`seedance-2-0-fast`、`seedance-2-0-mini`、`seedance-2-5`）、**Kling**（`kling-v3`、`kling-v2-6`、`kling-avatar`、`kling-o3`、`kling-v3-motion-control`）、**Grok Imagine** 与 **Midjourney** 文档。\n- 下架并清理已停售的 Omni Flash 固定时长 SKU。\n\n## 音频系列\n\n- `gpt-4o-mini-tts`（`POST /v1/audio/speech` 语音合成）\n- `whisper-1`（`POST /v1/audio/transcriptions` 语音转录）\n- `suno`（`POST /v1/video/generations` 音乐生成）"
+  }
+}

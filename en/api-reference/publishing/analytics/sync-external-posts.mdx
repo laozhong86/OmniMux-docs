@@ -1,0 +1,121 @@
+---
+title: "Sync External Posts"
+sidebarTitle: "Sync External Posts"
+description: "Trigger incremental synchronization and metric ingestion for external platform posts"
+api: "POST https://omnimux.ai/api/social/v1/analytics/sync-external-posts"
+---
+
+- Social **publishing** user API (not `sk-` social-data read)
+- Base: `https://omnimux.ai`; auth access token + `New-Api-User`
+- Ingests posts created directly on native platforms and syncs their performance data
+
+## Identity
+
+| Field | Value |
+| --- | --- |
+| Series | Publishing |
+| Group | Analytics |
+| Capability | Sync external posts |
+
+## Endpoint
+
+| Method | Path |
+| --- | --- |
+| `POST` | `/api/social/v1/analytics/sync-external-posts` |
+
+Base URL: `https://omnimux.ai`
+
+## Authorizations
+
+| Name | In | Type | Required | Description |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | yes | `Bearer <access_token>` (User Access Token) |
+| `New-Api-User` | header | string | yes | Current user id |
+
+## Body
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `account_id` | integer | **yes** | Local numeric account ID associated with the content |
+| `url` | string | **yes** | Public URL of the target post on the social platform |
+
+## Response
+
+### 200
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `success` | boolean | Success flag |
+| `data.ok` | boolean | Ingestion status flag |
+| `data.syncedCount` | integer | Number of synchronized posts |
+| `data.posts` | array | List of synced post identifiers and statuses |
+
+Errors: right rail and [Error codes](/en/faqs/connection-usage).
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url https://omnimux.ai/api/social/v1/analytics/sync-external-posts \
+  --header 'Authorization: Bearer <access_token>' \
+  --header 'New-Api-User: <user_id>' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "account_id": 12,
+  "url": "https://www.tiktok.com/@omnimux/video/7382910481239"
+}'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200
+{
+  "success": true,
+  "data": {
+    "ok": true,
+    "syncedCount": 1,
+    "posts": [
+      {
+        "postId": "ext_post_7382910481239",
+        "status": "synced"
+      }
+    ]
+  }
+}
+```
+
+```json 400
+{
+  "success": false,
+  "message": "account_id and url are required"
+}
+```
+
+```json 401
+{
+  "success": false,
+  "message": "Unauthorized"
+}
+```
+
+```json 403
+{
+  "success": false,
+  "message": "one or more accounts are not owned by this user"
+}
+```
+
+```json 503
+{
+  "success": false,
+  "message": "social ops is disabled"
+}
+```
+
+</ResponseExample>
+
+</Panel>

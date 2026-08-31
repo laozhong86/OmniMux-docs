@@ -1,0 +1,126 @@
+---
+title: "Follower Stats"
+sidebarTitle: "Follower Stats"
+description: "Get historical follower growth snapshots and timeline across connected accounts"
+api: "GET https://omnimux.ai/api/social/v1/accounts/follower-stats"
+---
+
+- Social **publishing** user API (not `sk-` social-data read)
+- Base: `https://omnimux.ai`; auth access token + `New-Api-User`
+- Retrieves multi-platform follower count evolution, net growth, and daily timeline snapshots
+
+## Identity
+
+| Field | Value |
+| --- | --- |
+| Series | Publishing |
+| Group | Analytics |
+| Capability | Follower stats |
+
+## Endpoint
+
+| Method | Path |
+| --- | --- |
+| `GET` | `/api/social/v1/accounts/follower-stats` |
+
+Base URL: `https://omnimux.ai`
+
+## Authorizations
+
+| Name | In | Type | Required | Description |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | yes | `Bearer <access_token>` (User Access Token) |
+| `New-Api-User` | header | string | yes | Current user id |
+
+## Query Parameters
+
+| Parameter | Type | Required | Default | Description |
+| --- | --- | --- | --- | --- |
+| `days` | integer | no | `30` | Number of historical days to inspect (1-90) |
+| `account_ids` | string | no | — | Comma-separated list of local numeric account IDs |
+
+## Response
+
+### 200
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `success` | boolean | Success flag |
+| `data.accounts` | array | Per-account summary metrics |
+| `data.accounts[].accountId` | string | Provider account id |
+| `data.accounts[].platform` | string | Social platform |
+| `data.accounts[].username` | string | Handle / username |
+| `data.accounts[].currentFollowers` | integer | Current follower count |
+| `data.accounts[].growth` | integer | Net follower growth over the period |
+| `data.accounts[].growthPercentage` | number | Percentage growth rate (%) |
+| `data.timeline` | array | Historical daily follower totals and breakdown |
+
+Errors: right rail and [Error codes](/en/faqs/connection-usage).
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url 'https://omnimux.ai/api/social/v1/accounts/follower-stats?days=30' \
+  --header 'Authorization: Bearer <access_token>' \
+  --header 'New-Api-User: <user_id>' \
+  --header 'Content-Type: application/json'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200
+{
+  "success": true,
+  "data": {
+    "accounts": [
+      {
+        "accountId": "12",
+        "platform": "tiktok",
+        "username": "@omnimux_official",
+        "currentFollowers": 2530,
+        "growth": 170,
+        "growthPercentage": 7.2
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-08-20",
+        "total": 2530,
+        "breakdown": {
+          "12": 2530
+        }
+      }
+    ]
+  }
+}
+```
+
+```json 401
+{
+  "success": false,
+  "message": "Unauthorized"
+}
+```
+
+```json 403
+{
+  "success": false,
+  "message": "one or more accounts are not owned by this user"
+}
+```
+
+```json 503
+{
+  "success": false,
+  "message": "social ops is disabled"
+}
+```
+
+</ResponseExample>
+
+</Panel>

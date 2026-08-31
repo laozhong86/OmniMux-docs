@@ -17,9 +17,9 @@
     "zh": "七个图像 / 视频模型已在 OmniMux 可调用。"
   },
   "models": [
-    "seedream-5.0-pro",
-    "qwen-image-3.0",
-    "grok-imagine-image-2.0",
+    "seedream-5-0-pro",
+    "qwen-image-3-0",
+    "grok-imagine-image-2-0",
     "kling-o3",
     "gemini-omni-1.1",
     "pixverse-v6",
@@ -52,7 +52,7 @@
     }
   ],
   "body": {
-    "en": "## Image\n\n- **Model IDs:** `seedream-5.0-pro`, `qwen-image-3.0`, `grok-imagine-image-2.0`\n- **API:** `POST /v1/images/generations`\n\n## Video\n\n- **Model IDs:** `kling-o3`, `gemini-omni-1.1`, `pixverse-v6`, `vidu-q3`\n- **API:** async `POST` / `GET` `/v1/video/generations`\n\n`kling-o3` is a new id and does not replace `kling-v3`. `gemini-omni-1.1` is distinct from `gemini-omni-flash`. Pin IDs from live pricing.",
-    "zh": "## 图像\n\n- **模型 ID：** `seedream-5.0-pro`、`qwen-image-3.0`、`grok-imagine-image-2.0`\n- **API：** `POST /v1/images/generations`\n\n## 视频\n\n- **模型 ID：** `kling-o3`、`gemini-omni-1.1`、`pixverse-v6`、`vidu-q3`\n- **API：** 异步 `POST` / `GET` `/v1/video/generations`\n\n`kling-o3` 是新 ID，不覆盖 `kling-v3`。`gemini-omni-1.1` 与 `gemini-omni-flash` 不同。精确 ID 以线上定价为准。"
+    "en": "## Image\n\n- **Model IDs:** `seedream-5-0-pro`, `qwen-image-3-0`, `grok-imagine-image-2-0`\n- **API:** `POST /v1/images/generations`\n\n## Video\n\n- **Model IDs:** `kling-o3`, `gemini-omni-1.1`, `pixverse-v6`, `vidu-q3`\n- **API:** async `POST` / `GET` `/v1/video/generations`\n\n`kling-o3` is a new id and does not replace `kling-v3`. `gemini-omni-1.1` is distinct from `gemini-omni-flash`. Pin IDs from live pricing.",
+    "zh": "## 图像\n\n- **模型 ID：** `seedream-5-0-pro`、`qwen-image-3-0`、`grok-imagine-image-2-0`\n- **API：** `POST /v1/images/generations`\n\n## 视频\n\n- **模型 ID：** `kling-o3`、`gemini-omni-1.1`、`pixverse-v6`、`vidu-q3`\n- **API：** 异步 `POST` / `GET` `/v1/video/generations`\n\n`kling-o3` 是新 ID，不覆盖 `kling-v3`。`gemini-omni-1.1` 与 `gemini-omni-flash` 不同。精确 ID 以线上定价为准。"
   }
 }

@@ -1,0 +1,141 @@
+---
+title: "Daily Metrics"
+sidebarTitle: "Daily Metrics"
+description: "Get daily aggregated engagement trends and cross-platform breakdown"
+api: "GET https://omnimux.ai/api/social/v1/analytics/daily-metrics"
+---
+
+- Social **publishing** user API (not `sk-` social-data read)
+- Base: `https://omnimux.ai`; auth access token + `New-Api-User`
+- Retrieves comprehensive time-series analytics, post counts, reach, impressions, and engagement metrics
+
+## Identity
+
+| Field | Value |
+| --- | --- |
+| Series | Publishing |
+| Group | Analytics |
+| Capability | Daily metrics |
+
+## Endpoint
+
+| Method | Path |
+| --- | --- |
+| `GET` | `/api/social/v1/analytics/daily-metrics` |
+
+Base URL: `https://omnimux.ai`
+
+## Authorizations
+
+| Name | In | Type | Required | Description |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | yes | `Bearer <access_token>` (User Access Token) |
+| `New-Api-User` | header | string | yes | Current user id |
+
+## Query Parameters
+
+| Parameter | Type | Required | Default | Description |
+| --- | --- | --- | --- | --- |
+| `fromDate` | string | no | 30 days ago | Start date (`YYYY-MM-DD`) |
+| `toDate` | string | no | Today | End date (`YYYY-MM-DD`) |
+| `platform` | string | no | — | Filter by platform (`tiktok`, `x`, `instagram`, `youtube`) |
+| `account_ids` | string | no | — | Comma-separated list of local numeric account IDs (e.g. `1,2,5`) |
+| `timezone` | string | no | `UTC` | Timezone identifier (e.g. `Asia/Shanghai`, `America/New_York`) |
+
+## Response
+
+### 200
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `success` | boolean | Success flag |
+| `data.dailyData` | array | Daily timeseries records |
+| `data.dailyData[].date` | string | Date string (`YYYY-MM-DD`) |
+| `data.dailyData[].postCount` | integer | Total posts published on this date |
+| `data.dailyData[].platforms` | object | Post counts breakdown per platform |
+| `data.dailyData[].metrics` | object | Aggregate metrics (impressions, reach, likes, comments, shares, saves, clicks, views) |
+| `data.platformBreakdown` | array | Overall summary per platform |
+
+Errors: right rail and [Error codes](/en/faqs/connection-usage).
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url 'https://omnimux.ai/api/social/v1/analytics/daily-metrics?fromDate=2026-08-01&toDate=2026-08-25&timezone=Asia/Shanghai' \
+  --header 'Authorization: Bearer <access_token>' \
+  --header 'New-Api-User: <user_id>' \
+  --header 'Content-Type: application/json'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200
+{
+  "success": true,
+  "data": {
+    "dailyData": [
+      {
+        "date": "2026-08-20",
+        "postCount": 6,
+        "platforms": {
+          "tiktok": 4,
+          "x": 2
+        },
+        "metrics": {
+          "impressions": 12500,
+          "reach": 8900,
+          "likes": 340,
+          "comments": 28,
+          "shares": 15,
+          "saves": 12,
+          "clicks": 45,
+          "views": 9800
+        }
+      }
+    ],
+    "platformBreakdown": [
+      {
+        "platform": "tiktok",
+        "postCount": 12,
+        "metrics": {
+          "likes": 340,
+          "comments": 28,
+          "shares": 15,
+          "views": 9800,
+          "er": 2.28
+        }
+      }
+    ]
+  }
+}
+```
+
+```json 401
+{
+  "success": false,
+  "message": "Unauthorized"
+}
+```
+
+```json 403
+{
+  "success": false,
+  "message": "one or more accounts are not owned by this user"
+}
+```
+
+```json 503
+{
+  "success": false,
+  "message": "social ops is disabled"
+}
+```
+
+</ResponseExample>
+
+</Panel>

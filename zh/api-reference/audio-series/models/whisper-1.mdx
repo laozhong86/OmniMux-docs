@@ -1,0 +1,113 @@
+---
+title: "Whisper 语音转录"
+sidebarTitle: "Whisper 语音转录"
+description: "Whisper 语音转录 · model `whisper-1`"
+api: "POST https://api.omnimux.ai/v1/audio/transcriptions"
+---
+
+- 调用 `POST /v1/audio/transcriptions`，`model` 为 `whisper-1`
+- 请求为 `multipart/form-data` 表单上传，包含 `file` 与 `model`
+- 成功返回转录文本（JSON、纯文本或字幕格式）
+
+## 身份
+
+| 字段 | 值 |
+| --- | --- |
+| 系列 | 音频系列 |
+| 品牌 | Whisper |
+| model | `whisper-1` |
+
+## 接口
+
+| 方法 | 路径 |
+| --- | --- |
+| `POST` | `/v1/audio/transcriptions` |
+
+Base URL：`https://api.omnimux.ai`
+
+## 鉴权
+
+| 名称 | 位置 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | 是 | `Bearer sk-...`（API Key） |
+
+## 请求体（multipart/form-data）
+
+| 字段 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| `file` | 二进制 | 是 | 音频文件（`flac`, `mp3`, `mp4`, `mpeg`, `mpga`, `m4a`, `ogg`, `wav`, `webm`） |
+| `model` | string | 是 | 固定为 `whisper-1` |
+| `language` | string | 否 | ISO-639-1 语言代码（如 `zh`, `en`） |
+| `prompt` | string | 否 | 可选提示词引导专业术语与拼写 |
+| `response_format` | string | 否 | 输出格式：`json`（默认）、`text`、`srt`、`verbose_json`、`vtt` |
+| `temperature` | number | 否 | 采样温度（0 到 1） |
+
+## 响应
+
+### 200
+
+| 字段 | 类型 | 说明 |
+| --- | --- | --- |
+| `text` | string | 转录完成的文本内容 |
+
+错误形态见右栏示例。
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url https://api.omnimux.ai/v1/audio/transcriptions \
+  --header 'Authorization: Bearer <token>' \
+  --form file=@audio.mp3 \
+  --form model="whisper-1"
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200
+{
+  "text": "你好，欢迎收听本期播客。今天我们将探讨 AI Agent 基础设施的演进..."
+}
+```
+
+```json 400
+{
+  "error": { "message": "Invalid request", "type": "invalid_request_error", "code": "bad_request" }
+}
+```
+
+```json 401
+{
+  "error": { "message": "Invalid token", "type": "authentication_error", "code": "unauthorized" }
+}
+```
+
+```json 402
+{
+  "error": {
+    "message": "Insufficient quota. Please top up your account.",
+    "type": "insufficient_quota",
+    "code": "insufficient_quota"
+  }
+}
+```
+
+```json 429
+{
+  "error": { "message": "Rate limit exceeded", "type": "rate_limit_error", "code": "rate_limit_exceeded" }
+}
+```
+
+```json 500
+{
+  "error": { "message": "Internal server error", "type": "server_error", "code": "internal_error" }
+}
+```
+
+</ResponseExample>
+
+</Panel>

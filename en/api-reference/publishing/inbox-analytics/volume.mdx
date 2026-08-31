@@ -1,0 +1,108 @@
+---
+title: "Inbox Volume"
+sidebarTitle: "Inbox Volume"
+description: "Get direct message and comment volume trends over time"
+api: "GET https://omnimux.ai/api/social/v1/inbox-analytics/volume"
+---
+
+- Social **publishing** user API (not `sk-` social-data read)
+- Base: `https://omnimux.ai`; auth access token + `New-Api-User`
+- Measures incoming direct messages, comments, and conversation volume trends
+
+## Identity
+
+| Field | Value |
+| --- | --- |
+| Series | Publishing |
+| Group | Inbox Analytics |
+| Capability | Inbox volume |
+
+## Endpoint
+
+| Method | Path |
+| --- | --- |
+| `GET` | `/api/social/v1/inbox-analytics/volume` |
+
+Base URL: `https://omnimux.ai`
+
+## Authorizations
+
+| Name | In | Type | Required | Description |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | yes | `Bearer <access_token>` (User Access Token) |
+| `New-Api-User` | header | string | yes | Current user id |
+
+## Query Parameters
+
+| Parameter | Type | Required | Default | Description |
+| --- | --- | --- | --- | --- |
+| `platform` | string | no | — | Filter by platform (`tiktok`, `x`, `instagram`, `youtube`) |
+| `fromDate` | string | no | 30 days ago | Start date (`YYYY-MM-DD`) |
+| `toDate` | string | no | Today | End date (`YYYY-MM-DD`) |
+
+## Response
+
+### 200
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `success` | boolean | Success flag |
+| `data.timeline` | array | Daily message volume time series |
+| `data.timeline[].date` | string | Date string (`YYYY-MM-DD`) |
+| `data.timeline[].totalMessages` | integer | Total incoming messages received |
+| `data.timeline[].directMessages` | integer | DM count |
+| `data.timeline[].comments` | integer | Post comments count |
+| `data.total` | integer | Aggregated total message volume in the window |
+
+Errors: right rail and [Error codes](/en/faqs/connection-usage).
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url 'https://omnimux.ai/api/social/v1/inbox-analytics/volume?fromDate=2026-08-01&toDate=2026-08-25&platform=tiktok' \
+  --header 'Authorization: Bearer <access_token>' \
+  --header 'New-Api-User: <user_id>' \
+  --header 'Content-Type: application/json'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200
+{
+  "success": true,
+  "data": {
+    "timeline": [
+      {
+        "date": "2026-08-20",
+        "totalMessages": 128,
+        "directMessages": 45,
+        "comments": 83
+      }
+    ],
+    "total": 128
+  }
+}
+```
+
+```json 401
+{
+  "success": false,
+  "message": "Unauthorized"
+}
+```
+
+```json 503
+{
+  "success": false,
+  "message": "social ops is disabled"
+}
+```
+
+</ResponseExample>
+
+</Panel>

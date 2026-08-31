@@ -2,9 +2,71 @@
   "schema_version": 1,
   "page": 1,
   "page_size": 50,
-  "total": 23,
+  "total": 25,
   "total_pages": 1,
   "items": [
+    {
+      "id": "2026-08-31-catalog-sync",
+      "published_at": "2026-08-31",
+      "type": "model_launch",
+      "modality": [
+        "text",
+        "image",
+        "video",
+        "audio"
+      ],
+      "title": {
+        "en": "Catalog synchronization: Gemini 3.7, GLM 5.3, Wan 3.0, Seedance 2.0, Grok Imagine, Audio TTS & STT",
+        "zh": "模型目录全量同步：Gemini 3.7、GLM 5.3、Wan 3.0、Seedance 2.0、Grok Imagine、音频与语音转录"
+      },
+      "summary": {
+        "en": "Comprehensive documentation alignment across all 108 live models in the OmniMux catalog.",
+        "zh": "全面对齐 OmniMux 线上 108 个在售模型的开发文档与 API 参考手册。"
+      },
+      "models": [
+        "gemini-3.7-flash",
+        "glm-5.3",
+        "grok-4.6",
+        "deepseek-v4-flash-vision-exp",
+        "wan-3.0",
+        "seedance-2-0",
+        "gpt-4o-mini-tts",
+        "whisper-1"
+      ],
+      "tags": [
+        "text",
+        "image",
+        "video",
+        "audio"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "Pricing",
+            "zh": "定价"
+          },
+          "href": {
+            "en": "/en/api-reference/account/pricing",
+            "zh": "/zh/api-reference/account/pricing"
+          }
+        },
+        {
+          "label": {
+            "en": "Audio Speech",
+            "zh": "语音合成"
+          },
+          "href": {
+            "en": "/en/api-reference/audio-series/models/gpt-4o-mini-tts",
+            "zh": "/zh/api-reference/audio-series/models/gpt-4o-mini-tts"
+          }
+        }
+      ],
+      "body": {
+        "en": "## Language series\n\n- **Gemini:** Added `gemini-3.7-flash`\n- **GLM:** Added `glm-5.3`\n- **Grok:** Added `grok-4.6`\n- **DeepSeek:** Added `deepseek-v4-flash-vision-exp`\n\n## Image & Video series\n\n- Canonical model ID hyphenation and full coverage for **Wan 3.0** (`wan-3.0`, `wan-3.0-prime`, `wan-3.0-prime-ref`, `wan-3.0-ref`), **Seedance 2.0** (`seedance-2-0`, `seedance-2-0-fast`, `seedance-2-0-mini`, `seedance-2-5`), **Kling** (`kling-v3`, `kling-v2-6`, `kling-avatar`, `kling-o3`, `kling-v3-motion-control`), **Grok Imagine**, and **Midjourney**.\n- Retired legacy Omni Flash duration-fixed SKUs.\n\n## Audio series\n\n- `gpt-4o-mini-tts` (`POST /v1/audio/speech`)\n- `whisper-1` (`POST /v1/audio/transcriptions`)\n- `suno` (`POST /v1/video/generations`)",
+        "zh": "## 语言系列\n\n- **Gemini：** 增加 `gemini-3.7-flash`\n- **GLM：** 增加 `glm-5.3`\n- **Grok：** 增加 `grok-4.6`\n- **DeepSeek：** 增加 `deepseek-v4-flash-vision-exp`\n\n## 图像与视频系列\n\n- 全量补齐 **Wan 3.0**（`wan-3.0`、`wan-3.0-prime`、`wan-3.0-prime-ref`、`wan-3.0-ref`）、**Seedance 2.0**（`seedance-2-0`、`seedance-2-0-fast`、`seedance-2-0-mini`、`seedance-2-5`）、**Kling**（`kling-v3`、`kling-v2-6`、`kling-avatar`、`kling-o3`、`kling-v3-motion-control`）、**Grok Imagine** 与 **Midjourney** 文档。\n- 下架并清理已停售的 Omni Flash 固定时长 SKU。\n\n## 音频系列\n\n- `gpt-4o-mini-tts`（`POST /v1/audio/speech` 语音合成）\n- `whisper-1`（`POST /v1/audio/transcriptions` 语音转录）\n- `suno`（`POST /v1/video/generations` 音乐生成）"
+      },
+      "schema_version": 1
+    },
     {
       "id": "2026-08-31-media-catalog",
       "published_at": "2026-08-31",
@@ -22,9 +84,9 @@
         "zh": "七个图像 / 视频模型已在 OmniMux 可调用。"
       },
       "models": [
-        "seedream-5.0-pro",
-        "qwen-image-3.0",
-        "grok-imagine-image-2.0",
+        "seedream-5-0-pro",
+        "qwen-image-3-0",
+        "grok-imagine-image-2-0",
         "kling-o3",
         "gemini-omni-1.1",
         "pixverse-v6",
@@ -57,8 +119,71 @@
         }
       ],
       "body": {
-        "en": "## Image\n\n- **Model IDs:** `seedream-5.0-pro`, `qwen-image-3.0`, `grok-imagine-image-2.0`\n- **API:** `POST /v1/images/generations`\n\n## Video\n\n- **Model IDs:** `kling-o3`, `gemini-omni-1.1`, `pixverse-v6`, `vidu-q3`\n- **API:** async `POST` / `GET` `/v1/video/generations`\n\n`kling-o3` is a new id and does not replace `kling-v3`. `gemini-omni-1.1` is distinct from `gemini-omni-flash`. Pin IDs from live pricing.",
-        "zh": "## 图像\n\n- **模型 ID：** `seedream-5.0-pro`、`qwen-image-3.0`、`grok-imagine-image-2.0`\n- **API：** `POST /v1/images/generations`\n\n## 视频\n\n- **模型 ID：** `kling-o3`、`gemini-omni-1.1`、`pixverse-v6`、`vidu-q3`\n- **API：** 异步 `POST` / `GET` `/v1/video/generations`\n\n`kling-o3` 是新 ID，不覆盖 `kling-v3`。`gemini-omni-1.1` 与 `gemini-omni-flash` 不同。精确 ID 以线上定价为准。"
+        "en": "## Image\n\n- **Model IDs:** `seedream-5-0-pro`, `qwen-image-3-0`, `grok-imagine-image-2-0`\n- **API:** `POST /v1/images/generations`\n\n## Video\n\n- **Model IDs:** `kling-o3`, `gemini-omni-1.1`, `pixverse-v6`, `vidu-q3`\n- **API:** async `POST` / `GET` `/v1/video/generations`\n\n`kling-o3` is a new id and does not replace `kling-v3`. `gemini-omni-1.1` is distinct from `gemini-omni-flash`. Pin IDs from live pricing.",
+        "zh": "## 图像\n\n- **模型 ID：** `seedream-5-0-pro`、`qwen-image-3-0`、`grok-imagine-image-2-0`\n- **API：** `POST /v1/images/generations`\n\n## 视频\n\n- **模型 ID：** `kling-o3`、`gemini-omni-1.1`、`pixverse-v6`、`vidu-q3`\n- **API：** 异步 `POST` / `GET` `/v1/video/generations`\n\n`kling-o3` 是新 ID，不覆盖 `kling-v3`。`gemini-omni-1.1` 与 `gemini-omni-flash` 不同。精确 ID 以线上定价为准。"
+      },
+      "schema_version": 1
+    },
+    {
+      "id": "2026-08-25-social-analytics-reader-seats",
+      "published_at": "2026-08-25",
+      "type": "platform",
+      "modality": [
+        "platform",
+        "text"
+      ],
+      "title": {
+        "en": "Social analytics & inbox suite, Jina Reader extractor, and social seats",
+        "zh": "上线社媒分析与私信分析套件、Jina Reader 网页提取及社媒席位管理"
+      },
+      "summary": {
+        "en": "Landed 11 social analytics and inbox endpoints under `/api/social/v1`, Jina Reader `/v1/reader` gateway relay with output-token billing, and social seats status API.",
+        "zh": "上线 `/api/social/v1` 11 个社媒分析与私信分析端点、Jina Reader `/v1/reader` 网页提取中继（按输出 Token 计费）以及社媒席位管理接口。"
+      },
+      "models": [
+        "jina-reader-v1"
+      ],
+      "tags": [
+        "publishing",
+        "analytics",
+        "reader",
+        "social"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "Jina Reader Extractor",
+            "zh": "Jina Reader 网页提取"
+          },
+          "href": {
+            "en": "/en/api-reference/reader-series/models/jina-reader-v1",
+            "zh": "/zh/api-reference/reader-series/models/jina-reader-v1"
+          }
+        },
+        {
+          "label": {
+            "en": "Daily Metrics",
+            "zh": "大盘时序指标"
+          },
+          "href": {
+            "en": "/en/api-reference/publishing/analytics/daily-metrics",
+            "zh": "/zh/api-reference/publishing/analytics/daily-metrics"
+          }
+        },
+        {
+          "label": {
+            "en": "Social Seats",
+            "zh": "查询席位"
+          },
+          "href": {
+            "en": "/en/api-reference/publishing/seats",
+            "zh": "/zh/api-reference/publishing/seats"
+          }
+        }
+      ],
+      "body": {
+        "en": "## Social Analytics & Inbox Suite\n\nOmniMux now exposes 11 RESTful analytics endpoints under `/api/social/v1` for comprehensive audience and engagement intelligence:\n\n- **Analytics:** Daily metrics timeseries, 7x24 weekly best time to post heatmap, posting frequency cadence model, content decay curve, follower growth snapshots, posts performance ranking, and external posts incremental synchronization.\n- **Inbox Analytics:** Message volume trends, response time (TTR) distribution, 7x24 incoming activity heatmap, and source breakdown across connected platforms.\n\n## Jina Reader Relay (`POST /v1/reader`)\n\n- **Model ID:** `jina-reader-v1`\n- **Capability:** URL to clean Markdown / structured JSON text extraction with CSS selectors filtering and output-token billing.\n- **Auth:** Standard gateway Bearer `sk-...` token.\n\n## Social Seats Management (`GET /api/social/v1/seats`)\n\n- Inspects current active connected social accounts, total quota capacity, and vacant seat availability.",
+        "zh": "## 社媒分析与私信分析套件\n\nOmniMux 在 `/api/social/v1` 路由组下全新接入 11 个 RESTful 深度数据分析与私信洞察端点：\n\n- **社媒分析（Analytics）：** 宏观大盘时序指标、7×24小时最佳发布时间热力矩阵、发帖频次与互动率相关性模型、内容生命周期衰减曲线、多平台粉丝增长快照、单帖与列表深度指标排行、外部平台存量帖子增量同步。\n- **私信分析（Inbox Analytics）：** 私信与互动消息量时序走势、响应时效（TTR）耗时分布、7×24小时私信时段热力图、跨平台私信渠道来源占比。\n\n## Jina Reader 网页提取中继（`POST /v1/reader`）\n\n- **模型 ID：** `jina-reader-v1`\n- **能力：** 将网页 URL 高效转换为大模型友好的 Markdown 或结构化 JSON 文本，支持 CSS 选择器过滤、图片摘要与按输出 Token 结算。\n- **鉴权：** 标准网关 Bearer `sk-...` 凭据。\n\n## 社媒席位管理（`GET /api/social/v1/seats`）\n\n- 查询当前用户绑定的社媒账号数量、席位配额容量与可用空坑状态。"
       },
       "schema_version": 1
     },
@@ -80,7 +205,7 @@
       },
       "models": [
         "index-tts",
-        "ltx2.3-kj"
+        "ltx-2-3-kj"
       ],
       "tags": [
         "audio",
@@ -104,14 +229,14 @@
             "zh": "LTX 数字人对口型"
           },
           "href": {
-            "en": "/en/api-reference/video-series/models/ltx2.3-kj",
-            "zh": "/zh/api-reference/video-series/models/ltx2.3-kj"
+            "en": "/en/api-reference/video-series/models/ltx-2-3-kj",
+            "zh": "/zh/api-reference/video-series/models/ltx-2-3-kj"
           }
         }
       ],
       "body": {
-        "en": "## New model\n\n- **Model ID:** `index-tts`\n- **Path:** `POST` / `GET` `/v1/video/generations` (GxgenAI task path; result is audio)\n- **Contract:** `metadata.nodeInfoList` required — node `4/audio` (reference clip) and `7/text` (script)\n\n## Docs fix\n\n- **`ltx2.3-kj`** is a photo + audio lip-sync model. Prompt-only text-to-video examples were incorrect. Send image node `444` and audio node `1755`.",
-        "zh": "## 新模型\n\n- **模型 ID：** `index-tts`\n- **路径：** `POST` / `GET` `/v1/video/generations`（GxgenAI 任务路径，产物为音频）\n- **合同：** 必须传 `metadata.nodeInfoList` — 节点 `4/audio`（参考音）和 `7/text`（文稿）\n\n## 文档更正\n\n- **`ltx2.3-kj`** 是人设静帧 + 音频对口型，不是文生视频。请传图片节点 `444` 和音频节点 `1755`。"
+        "en": "## New model\n\n- **Model ID:** `index-tts`\n- **Path:** `POST` / `GET` `/v1/video/generations` (GxgenAI task path; result is audio)\n- **Contract:** `metadata.nodeInfoList` required — node `4/audio` (reference clip) and `7/text` (script)\n\n## Docs fix\n\n- **`ltx-2-3-kj`** is a photo + audio lip-sync model. Prompt-only text-to-video examples were incorrect. Send image node `444` and audio node `1755`.",
+        "zh": "## 新模型\n\n- **模型 ID：** `index-tts`\n- **路径：** `POST` / `GET` `/v1/video/generations`（GxgenAI 任务路径，产物为音频）\n- **合同：** 必须传 `metadata.nodeInfoList` — 节点 `4/audio`（参考音）和 `7/text`（文稿）\n\n## 文档更正\n\n- **`ltx-2-3-kj`** 是人设静帧 + 音频对口型，不是文生视频。请传图片节点 `444` 和音频节点 `1755`。"
       },
       "schema_version": 1
     },
@@ -353,7 +478,7 @@
         "zh": "Grok Imagine Video 1.5 图生视频已在 OmniMux 可调用。"
       },
       "models": [
-        "grok-imagine-video-1.5"
+        "grok-imagine-video-1-5"
       ],
       "tags": [
         "video"
@@ -365,8 +490,8 @@
             "zh": "Grok Imagine Video 1.5"
           },
           "href": {
-            "en": "/en/api-reference/video-series/models/grok-imagine-video-1.5",
-            "zh": "/zh/api-reference/video-series/models/grok-imagine-video-1.5"
+            "en": "/en/api-reference/video-series/models/grok-imagine-video-1-5",
+            "zh": "/zh/api-reference/video-series/models/grok-imagine-video-1-5"
           }
         },
         {
@@ -381,8 +506,8 @@
         }
       ],
       "body": {
-        "en": "## Grok Imagine Video 1.5\n\n**Grok Imagine Video 1.5** is now available on OmniMux.\n\n### New model\n\n- **Model ID:** `grok-imagine-video-1.5`\n- **Mode:** image-to-video style generation via async video API\n- **Create / poll:** `POST` / `GET` `/v1/video/generations`\n\nSee the model page for parameters and the task poll contract.",
-        "zh": "## Grok Imagine Video 1.5\n\n**Grok Imagine Video 1.5** 现已在 OmniMux 可调用。\n\n### 新模型\n\n- **模型 ID：** `grok-imagine-video-1.5`\n- **模式：** 异步视频 API 下的图生视频类能力\n- **创建 / 查询：** `POST` / `GET` `/v1/video/generations`\n\n参数与任务查询约定见模型页与任务文档。"
+        "en": "## Grok Imagine Video 1.5\n\n**Grok Imagine Video 1.5** is now available on OmniMux.\n\n### New model\n\n- **Model ID:** `grok-imagine-video-1-5`\n- **Mode:** image-to-video style generation via async video API\n- **Create / poll:** `POST` / `GET` `/v1/video/generations`\n\nSee the model page for parameters and the task poll contract.",
+        "zh": "## Grok Imagine Video 1.5\n\n**Grok Imagine Video 1.5** 现已在 OmniMux 可调用。\n\n### 新模型\n\n- **模型 ID：** `grok-imagine-video-1-5`\n- **模式：** 异步视频 API 下的图生视频类能力\n- **创建 / 查询：** `POST` / `GET` `/v1/video/generations`\n\n参数与任务查询约定见模型页与任务文档。"
       },
       "schema_version": 1
     },
@@ -559,8 +684,8 @@
         "zh": "Nano Banana 图像模型已在 OmniMux 可调用。"
       },
       "models": [
-        "nano_banana_2",
-        "nano_banana_pro"
+        "nano-banana-2",
+        "nano-banana-pro"
       ],
       "tags": [
         "image"
@@ -572,8 +697,8 @@
             "zh": "Nano Banana 2"
           },
           "href": {
-            "en": "/en/api-reference/image-series/models/nano_banana_2",
-            "zh": "/zh/api-reference/image-series/models/nano_banana_2"
+            "en": "/en/api-reference/image-series/models/nano-banana-2",
+            "zh": "/zh/api-reference/image-series/models/nano-banana-2"
           }
         },
         {
@@ -582,14 +707,14 @@
             "zh": "Nano Banana Pro"
           },
           "href": {
-            "en": "/en/api-reference/image-series/models/nano_banana_pro",
-            "zh": "/zh/api-reference/image-series/models/nano_banana_pro"
+            "en": "/en/api-reference/image-series/models/nano-banana-pro",
+            "zh": "/zh/api-reference/image-series/models/nano-banana-pro"
           }
         }
       ],
       "body": {
-        "en": "## Nano Banana\n\n**Nano Banana 2** and **Nano Banana Pro** are now available on OmniMux.\n\n### New models\n\n- **Model IDs:** `nano_banana_2`, `nano_banana_pro`\n- **Modality:** image generation\n\nSee each model page for request parameters.",
-        "zh": "## Nano Banana\n\n**Nano Banana 2** 与 **Nano Banana Pro** 现已在 OmniMux 可调用。\n\n### 新模型\n\n- **模型 ID：** `nano_banana_2`、`nano_banana_pro`\n- **模态：** 图像生成\n\n请求参数见各模型文档页。"
+        "en": "## Nano Banana\n\n**Nano Banana 2** and **Nano Banana Pro** are now available on OmniMux.\n\n### New models\n\n- **Model IDs:** `nano-banana-2`, `nano-banana-pro`\n- **Modality:** image generation\n\nSee each model page for request parameters.",
+        "zh": "## Nano Banana\n\n**Nano Banana 2** 与 **Nano Banana Pro** 现已在 OmniMux 可调用。\n\n### 新模型\n\n- **模型 ID：** `nano-banana-2`、`nano-banana-pro`\n- **模态：** 图像生成\n\n请求参数见各模型文档页。"
       },
       "schema_version": 1
     },
@@ -828,10 +953,7 @@
         "zh": "Omni Flash 及按时长 SKU 已在 OmniMux 可调用。"
       },
       "models": [
-        "omni_flash",
-        "omni_flash-4s",
-        "omni_flash-6s",
-        "omni_flash-10s"
+        "gemini-omni-flash"
       ],
       "tags": [
         "video"
@@ -843,8 +965,8 @@
             "zh": "Omni Flash"
           },
           "href": {
-            "en": "/en/api-reference/video-series/models/omni_flash",
-            "zh": "/zh/api-reference/video-series/models/omni_flash"
+            "en": "/en/api-reference/video-series/models/gemini-omni-flash",
+            "zh": "/zh/api-reference/video-series/models/gemini-omni-flash"
           }
         },
         {
@@ -859,8 +981,8 @@
         }
       ],
       "body": {
-        "en": "## Omni Flash\n\nThe **Omni Flash** duration family is available on OmniMux.\n\n### New models\n\n| Model ID | Role |\n| --- | --- |\n| `omni_flash` | Base |\n| `omni_flash-4s` | 4s-oriented SKU |\n| `omni_flash-6s` | 6s-oriented SKU |\n| `omni_flash-10s` | 10s-oriented SKU |\n\n### API\n\n- **Create:** `POST /v1/video/generations`\n- **Poll:** `GET /v1/video/generations/{task_id}`",
-        "zh": "## Omni Flash\n\n**Omni Flash** 时长族已在 OmniMux 可调用。\n\n### 新模型\n\n| 模型 ID | 角色 |\n| --- | --- |\n| `omni_flash` | 基础 |\n| `omni_flash-4s` | 4 秒向 SKU |\n| `omni_flash-6s` | 6 秒向 SKU |\n| `omni_flash-10s` | 10 秒向 SKU |\n\n### 调用\n\n- **创建：** `POST /v1/video/generations`\n- **查询：** `GET /v1/video/generations/{task_id}`"
+        "en": "## Omni Flash\n\n**Omni Flash** (`gemini-omni-flash`) is available on OmniMux for fast video generation.\n\n### Model\n\n- **Model ID:** `gemini-omni-flash`\n- **API:** `POST /v1/video/generations` + poll `GET /v1/video/generations/{task_id}`",
+        "zh": "## Omni Flash\n\n**Omni Flash**（`gemini-omni-flash`）已在 OmniMux 可调用，用于快速视频生成。\n\n### 模型\n\n- **模型 ID：** `gemini-omni-flash`\n- **调用：** `POST /v1/video/generations` + 轮询 `GET /v1/video/generations/{task_id}`"
       },
       "schema_version": 1
     },
@@ -880,7 +1002,7 @@
         "zh": "Veo 3.1 视频生成已在 OmniMux 可调用。"
       },
       "models": [
-        "veo_3_1"
+        "veo-3.1"
       ],
       "tags": [
         "video"
@@ -892,8 +1014,8 @@
             "zh": "Veo 3.1"
           },
           "href": {
-            "en": "/en/api-reference/video-series/models/veo_3_1",
-            "zh": "/zh/api-reference/video-series/models/veo_3_1"
+            "en": "/en/api-reference/video-series/models/veo-3.1",
+            "zh": "/zh/api-reference/video-series/models/veo-3.1"
           }
         },
         {
@@ -908,8 +1030,8 @@
         }
       ],
       "body": {
-        "en": "## Veo 3.1\n\n**Veo 3.1** is now available on OmniMux.\n\n### New model\n\n- **Model ID:** `veo_3_1`\n- **API:** async video create + poll on `/v1/video/generations`",
-        "zh": "## Veo 3.1\n\n**Veo 3.1** 现已在 OmniMux 可调用。\n\n### 新模型\n\n- **模型 ID：** `veo_3_1`\n- **API：** `/v1/video/generations` 异步创建 + 查询"
+        "en": "## Veo 3.1\n\n**Veo 3.1** is now available on OmniMux.\n\n### New model\n\n- **Model ID:** `veo-3.1`\n- **API:** async video create + poll on `/v1/video/generations`",
+        "zh": "## Veo 3.1\n\n**Veo 3.1** 现已在 OmniMux 可调用。\n\n### 新模型\n\n- **模型 ID：** `veo-3.1`\n- **API：** `/v1/video/generations` 异步创建 + 查询"
       },
       "schema_version": 1
     },
@@ -980,8 +1102,8 @@
         "zh": "GPT Image 2 及 HD 档已在 OmniMux 可调用。"
       },
       "models": [
-        "gpt-image2",
-        "gpt-image2-hd"
+        "gpt-image-2",
+        "gpt-image-2-hd"
       ],
       "tags": [
         "image"
@@ -993,8 +1115,8 @@
             "zh": "GPT Image 2"
           },
           "href": {
-            "en": "/en/api-reference/image-series/models/gpt-image2",
-            "zh": "/zh/api-reference/image-series/models/gpt-image2"
+            "en": "/en/api-reference/image-series/models/gpt-image-2",
+            "zh": "/zh/api-reference/image-series/models/gpt-image-2"
           }
         },
         {
@@ -1003,8 +1125,8 @@
             "zh": "GPT Image 2 HD"
           },
           "href": {
-            "en": "/en/api-reference/image-series/models/gpt-image2-hd",
-            "zh": "/zh/api-reference/image-series/models/gpt-image2-hd"
+            "en": "/en/api-reference/image-series/models/gpt-image-2-hd",
+            "zh": "/zh/api-reference/image-series/models/gpt-image-2-hd"
           }
         }
       ],
