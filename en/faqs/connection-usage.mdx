@@ -22,6 +22,25 @@ Do not mix the two credential surfaces.
 | **402** | Insufficient quota on pre-consume |
 | **429** | Rate limited |
 
+## Account quota errors on OpenAI text endpoints
+
+`POST /v1/completions`, `/v1/chat/completions`, `/v1/responses`, and `/v1/responses/compact` return **402** with `error.type` and `error.code` set to `insufficient_quota` when the local account balance or subscription quota cannot cover pre-consume. This includes zero balance and a positive balance below the required amount.
+
+```json
+{
+  "error": {
+    "message": "insufficient_quota: Account balance or subscription quota is insufficient for this request. 用户余额或订阅额度不足，无法完成此次请求。 (request id: ...)",
+    "type": "insufficient_quota",
+    "param": "",
+    "code": "insufficient_quota"
+  }
+}
+```
+
+A streaming request receives the same JSON error **before** an SSE stream starts. Treat this as a terminal quota failure: check the account balance or subscription allowance before trying again. Do not refresh credentials, switch channels, or retry with backoff solely because of this response. The message includes a request ID; detailed quota amounts remain in server diagnostics.
+
+This normalization is limited to local account-quota failures on these endpoints. Token validity/quota errors, upstream provider errors, and other API protocols keep their existing contracts. A genuine 401 or permission 403 still requires an authentication/access check; an ordinary 429 remains a rate-limit response.
+
 ## Unexpected content
 
 - Use live model ids  

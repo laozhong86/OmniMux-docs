@@ -7,6 +7,18 @@ rss: true
 
 跟踪 OmniMux 网关的模型上新与平台变更。完整可调用模型以[控制台定价](https://omnimux.ai) / [定价与账户](/zh/api-reference/account/pricing)为准。
 
+<a id="2026-09-06-account-quota-errors"></a>
+
+<Update label="2026 年 9 月 6 日" tags={["平台", "文本"]} rss={{ title: "OpenAI 文本接口统一账户额度错误" }}>
+
+  OpenAI Completions、Chat Completions、Responses 和 Responses Compact 在本地账户余额或订阅额度不足以完成预扣时，返回 HTTP **402**，`error.type` 与 `error.code` 均为 `insufficient_quota`。流式请求在 SSE 建立前返回 JSON 错误。应先检查余额或额度，再决定是否重新请求；不要将其当作密钥失效或临时限流。token 错误、上游渠道错误、其他协议，以及真正的 401/403、普通 429 和 5xx 行为保持不变。
+
+  ### 链接
+
+  - [连接与使用](/zh/faqs/connection-usage)
+
+</Update>
+
 <a id="2026-08-31-catalog-sync"></a>
 
 <Update label="2026 年 8 月 31 日" tags={["新模型", "文本", "图像", "视频", "音频"]} rss={{ title: "模型目录全量同步：Gemini 3.7、GLM 5.3、Wan 3.0、Seedance 2.0、Grok Imagine、音频与语音转录" }}>
