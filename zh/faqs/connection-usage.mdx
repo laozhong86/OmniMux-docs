@@ -24,6 +24,25 @@ description: "Base URL、鉴权与常见 HTTP 错误"
 
 各模型/合同页的 Response 示例含上述状态。
 
+## OpenAI 文本接口的账户额度错误
+
+`POST /v1/completions`、`/v1/chat/completions`、`/v1/responses` 和 `/v1/responses/compact` 在本地账户余额或订阅额度不足以完成预扣时，返回 **402**，`error.type` 和 `error.code` 均为 `insufficient_quota`。零余额和正余额但不足以覆盖预扣金额都属于此类。
+
+```json
+{
+  "error": {
+    "message": "insufficient_quota: Account balance or subscription quota is insufficient for this request. 用户余额或订阅额度不足，无法完成此次请求。 (request id: ...)",
+    "type": "insufficient_quota",
+    "param": "",
+    "code": "insufficient_quota"
+  }
+}
+```
+
+流式请求在 SSE 建立**之前**返回同样的 JSON 错误。应将其作为不可自动重试的额度失败：先检查账户余额或订阅额度，再决定是否重新请求。不要仅因这个响应刷新密钥、切换渠道或退避重试。消息保留请求 ID，具体额度数字留在服务端诊断日志中。
+
+此规范化仅适用于上述接口的本地账户额度失败。token 有效性/额度错误、上游渠道错误及其他 API 协议保持原合同。真正的 401 或权限 403 仍需检查认证/访问权限；普通 429 仍表示限流。
+
 ## 有响应但内容不对？
 
 - 确认 `model` 为 live 列表中的 id  

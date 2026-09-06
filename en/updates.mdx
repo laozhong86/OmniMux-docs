@@ -7,6 +7,18 @@ rss: true
 
 Stay up to date with OmniMux gateway model launches and platform changes. The full callable catalog is on [console pricing](https://omnimux.ai) / [Pricing](/en/api-reference/account/pricing).
 
+<a id="2026-09-06-account-quota-errors"></a>
+
+<Update label="September 6, 2026" tags={["Platform", "Text"]} rss={{ title: "Account quota errors on OpenAI text endpoints" }}>
+
+  OpenAI Completions, Chat Completions, Responses, and Responses Compact return HTTP **402** with `error.type` and `error.code` set to `insufficient_quota` when the local account balance or subscription allowance cannot cover pre-consume. Streaming requests receive the JSON error before SSE starts. Check balance or allowance before trying again; do not treat this as invalid credentials or temporary rate limiting. Token errors, upstream provider errors, other protocols, actual 401/403, ordinary 429, and 5xx behavior are unchanged.
+
+  ### Links
+
+  - [Connection and usage](/en/faqs/connection-usage)
+
+</Update>
+
 <a id="2026-08-31-catalog-sync"></a>
 
 <Update label="August 31, 2026" tags={["New models", "Text", "Image", "Video", "Audio"]} rss={{ title: "Catalog synchronization: Gemini 3.7, GLM 5.3, Wan 3.0, Seedance 2.0, Grok Imagine, Audio TTS & STT" }}>
