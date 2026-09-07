@@ -1,113 +1,15 @@
 ---
 title: "List Accounts"
 sidebarTitle: "List Accounts"
-description: "List accounts"
-api: "GET https://omnimux.ai/api/social/v1/accounts"
+description: "List Accounts — explicit account source"
+openapi: "openapi/ops/publishing/list-accounts.json GET /api/social/v1/accounts"
 ---
 
-- Social **publishing** user API (not `sk-` social-data read)
-- Base: `https://omnimux.ai`; auth access token + `New-Api-User`
-- Connecting Accounts naming matches Zernio
+Only returns the selected source. The official list does not create a Zernio tenant or run a Zernio sync. An empty array means success with no accounts; failed responses are not empty lists.
 
-## Identity
+`provider` is required: `tiktok_direct` or `zernio`. It constrains the operation and never rewrites the stored source. Missing or unknown values return 400 `invalid-provider`.
 
-| Field | Value |
-| --- | --- |
-| Series | Publishing |
-| Capability | List accounts |
+Use an OmniMux user access token and `New-Api-User`, not an `sk-` key. Inspect `success` as well as HTTP status; some upstream failures return HTTP 200 with `success:false`.
 
-## Endpoint
 
-| Method | Path |
-| --- | --- |
-| `GET` | `/api/social/v1/accounts` |
-
-Base URL: `https://omnimux.ai`
-
-## Authorizations
-
-| Name | In | Type | Required | Description |
-| --- | --- | --- | --- | --- |
-| `Authorization` | header | string | yes | `Bearer <access_token>` |
-| `New-Api-User` | header | string | yes | Current user id |
-
-## Body / parameters
-
-Follow the right-rail cURL. Fields differ by resource (connect / posts / media).
-
-## Response
-
-### 200
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `success` | boolean | Success flag |
-| `data` | object | Payload |
-
-Errors: right rail and [Error codes](/en/faqs/connection-usage).
-
-<Panel>
-
-<RequestExample>
-
-```bash cURL
-curl --request GET \
-  --url https://omnimux.ai/api/social/v1/accounts \
-  --header 'Authorization: Bearer <access_token>' \
-  --header 'New-Api-User: <user_id>' \
-  --header 'Content-Type: application/json'
-```
-
-</RequestExample>
-
-<ResponseExample>
-
-```json 200
-{"success":true,"data":{"accounts":[{"id":1,"platform":"tiktok","username":"demo"}]}}
-```
-
-```json 401
-{
-  "success": false,
-  "message": "Unauthorized"
-}
-```
-
-```json 402
-{
-  "success": false,
-  "message": "Insufficient quota. Please top up your account."
-}
-```
-
-```json 403
-{
-  "success": false,
-  "message": "Forbidden"
-}
-```
-
-```json 404
-{
-  "success": false,
-  "message": "Not found"
-}
-```
-
-```json 429
-{
-  "success": false,
-  "message": "Rate limit exceeded"
-}
-```
-
-```json 500
-{
-  "success": false,
-  "message": "Internal server error"
-}
-```
-
-</ResponseExample>
-
-</Panel>
+CLI 0.4.0: run `omnimux update` (binary) or `npm install -g @omnimux/cli@0.4.0` (npm), then use `omnimux social accounts --provider zernio` or `--provider tiktok_direct`. Update saved scripts as well. See [API Updates](/en/updates#2026-09-07-social-provider-required).

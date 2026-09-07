@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "id": "2026-09-07-social-provider-required",
+  "published_at": "2026-09-07",
+  "rank": 1,
+  "type": "breaking",
+  "modality": [
+    "publishing"
+  ],
+  "title": {
+    "en": "Social operations require an explicit provider",
+    "zh": "社媒操作必须明确指定账号来源"
+  },
+  "summary": {
+    "en": "Pass tiktok_direct or zernio on five account and publishing operations. Upgrade the CLI and update saved commands.",
+    "zh": "五项账号及发布操作必须传入 tiktok_direct 或 zernio；请升级 CLI 并更新已有命令。"
+  },
+  "models": [],
+  "tags": [
+    "provider",
+    "CLI",
+    "migration"
+  ],
+  "links": [
+    {
+      "label": {
+        "en": "List accounts",
+        "zh": "账号列表"
+      },
+      "href": {
+        "en": "/en/api-reference/publishing/list-accounts",
+        "zh": "/zh/api-reference/publishing/list-accounts"
+      }
+    }
+  ],
+  "body": {
+    "en": "The gateway began requiring `provider` at **2026-09-07 07:25:20 UTC+8 (2026-09-06T23:25:20Z)** for listing accounts, starting a connection, disconnecting, creating a post and reading post status. Use `tiktok_direct` for official TikTok accounts or `zernio` for Zernio accounts. GET/DELETE carry it in the query; POST carries it in JSON. Missing or unknown values return `400 invalid-provider`; a resource from another source returns `409 account-provider-mismatch` or `409 post-provider-mismatch`. There is no default source.\n\n### CLI migration\n\nUse CLI **0.4.0**: `omnimux update` for binaries, or `npm install -g @omnimux/cli@0.4.0` for npm. Update all saved commands to include `--provider`, for example `omnimux social accounts --provider zernio`. For a read without upstream refresh, use `omnimux social post-status <post-id> --provider zernio --no-refresh`. Updating a binary does not update your scripts or prove all clients have upgraded.\n\nCLI 0.4.0 also includes the previously merged hosted commands and video skill updates. Credentials use a mode-0600 file on every platform; Keychain-only installations need credentials configured securely. The Agent RPC envelope remains `contract_version: 1`.\n\nCLI 0.4.0 was published on **2026-09-07 at 01:47:36 UTC (09:47:36 UTC+8)**. Both the public binary release and npm package are version 0.4.0.\n\nStandalone binaries do not include skill files. Install the npm package to use or update the bundled skills; a binary-only update can report that the skill tree is missing even when the CLI upgrade succeeds.",
+    "zh": "网关从 **2026-09-07 07:25:20 UTC+8（2026-09-06T23:25:20Z）** 起，要求账号列表、发起连接、解绑、创建帖子及查询帖子状态五项操作显式传入 `provider`。官方 TikTok 账号使用 `tiktok_direct`，Zernio 账号使用 `zernio`。GET/DELETE 使用查询参数，POST 使用 JSON 字段。缺失或未知值返回 `400 invalid-provider`；跨来源资源返回 `409 account-provider-mismatch` 或 `409 post-provider-mismatch`。没有默认来源。\n\n### CLI 迁移\n\n使用 CLI **0.4.0**：二进制安装执行 `omnimux update`，npm 安装执行 `npm install -g @omnimux/cli@0.4.0`。同步修改已有命令，补充 `--provider`，例如 `omnimux social accounts --provider zernio`。不刷新上游的状态读取示例：`omnimux social post-status <post-id> --provider zernio --no-refresh`。升级二进制不会修改脚本，也不代表全部客户端都已升级。\n\nCLI 0.4.0 同时包含此前合入的 hosted 命令和视频技能更新。各平台凭据统一保存在权限为 0600 的文件中；仅使用 Keychain 的旧安装需要安全配置凭据。Agent RPC 仍为 `contract_version: 1`。\n\nCLI 0.4.0 于 **2026-09-07 01:47:36 UTC（09:47:36 UTC+8）** 公开发布。公开二进制与 npm 包版本均为 0.4.0。\n\n独立二进制不包含技能文件。需要使用或更新随包技能时，请安装 npm 包；仅升级二进制时，即使 CLI 升级成功，技能同步仍可能报告缺少技能目录。"
+  }
+}

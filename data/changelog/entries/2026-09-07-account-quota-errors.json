@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "id": "2026-09-07-account-quota-errors",
+  "published_at": "2026-09-07",
+  "rank": 0,
+  "type": "platform",
+  "modality": [
+    "text"
+  ],
+  "title": {
+    "en": "Account quota errors on OpenAI text endpoints",
+    "zh": "OpenAI 文本接口统一账户额度错误"
+  },
+  "summary": {
+    "en": "Local account-quota failures return 402 insufficient_quota, preventing authentication misclassification and unnecessary retries.",
+    "zh": "本地账户额度不足返回 402 insufficient_quota，避免误判为密钥失效或触发无效重试。"
+  },
+  "models": [],
+  "links": [
+    {
+      "label": {
+        "en": "Connection and usage",
+        "zh": "连接与使用"
+      },
+      "href": {
+        "en": "/en/faqs/connection-usage",
+        "zh": "/zh/faqs/connection-usage"
+      }
+    }
+  ],
+  "tags": [
+    "errors",
+    "quota",
+    "compatibility"
+  ],
+  "body": {
+    "en": "OpenAI Completions, Chat Completions, Responses, and Responses Compact return HTTP **402** with `error.type` and `error.code` set to `insufficient_quota` when the local account balance or subscription allowance cannot cover pre-consume. Streaming requests receive the JSON error before SSE starts. Check balance or allowance before trying again; do not treat this as invalid credentials or temporary rate limiting. Token errors, upstream provider errors, other protocols, actual 401/403, ordinary 429, and 5xx behavior are unchanged.\n\nGateway enforcement began on September 7, 2026 at 07:25:20 UTC+8 (2026-09-06T23:25:20Z).",
+    "zh": "OpenAI Completions、Chat Completions、Responses 和 Responses Compact 在本地账户余额或订阅额度不足以完成预扣时，返回 HTTP **402**，`error.type` 与 `error.code` 均为 `insufficient_quota`。流式请求在 SSE 建立前返回 JSON 错误。应先检查余额或额度，再决定是否重新请求；不要将其当作密钥失效或临时限流。token 错误、上游渠道错误、其他协议，以及真正的 401/403、普通 429 和 5xx 行为保持不变。\n\n网关于 2026 年 9 月 7 日 07:25:20 UTC+8（2026-09-06T23:25:20Z）上线该响应。"
+  }
+}

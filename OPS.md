@@ -122,3 +122,9 @@ Residual risks (not closed in P0):
 - No Turnstile keys yet (registration closed instead)
 - Continuous monitoring: run `scripts/ops/prod-healthcheck.sh` via cron/launchd
 
+
+## Historical API Updates catalog checks
+
+Dated release records remain historical facts even when a model disappears from current pricing. Keep their model IDs and original text. For an evidenced absence, add only the exact entry-ID/model-ID pair to `data/changelog/catalog-exceptions.json`, including the UTC observation, public source, historical commit and reason. This exception does not advertise current availability or establish the removal date. Unknown missing models and unavailable live pricing fail validation.
+
+Run `python3 -m unittest discover -s scripts -p 'test_changelog_catalog.py'`, `python3 scripts/check-changelog.py`, and `python3 scripts/check-i18n.py`. Skill contract: `.agents/skills/omnimux-docs-ia/references/changelog.md`.
