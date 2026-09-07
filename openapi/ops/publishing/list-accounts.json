@@ -32,7 +32,8 @@
                 "zernio"
               ],
               "description": "Required expected source; never changes the stored account or post provider."
-            }
+            },
+            "example": "zernio"
           }
         ],
         "responses": {
@@ -297,7 +298,14 @@
               }
             }
           }
-        }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl --request GET \\\n  --url \"https://omnimux.ai/api/social/v1/accounts?provider=zernio\" \\\n  --header 'Authorization: Bearer <user-access-token>' \\\n  --header 'New-Api-User: <user-id>'"
+          }
+        ]
       }
     }
   },

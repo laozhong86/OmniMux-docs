@@ -43,7 +43,8 @@
                 "zernio"
               ],
               "description": "Required expected source; never changes the stored account or post provider."
-            }
+            },
+            "example": "zernio"
           },
           {
             "name": "refresh",
@@ -349,7 +350,14 @@
               }
             }
           }
-        }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl --request GET \\\n  --url \"https://omnimux.ai/api/social/v1/posts/<record-id>?provider=zernio&refresh=0\" \\\n  --header 'Authorization: Bearer <user-access-token>' \\\n  --header 'New-Api-User: <user-id>'"
+          }
+        ]
       }
     }
   },

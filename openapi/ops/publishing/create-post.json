@@ -386,10 +386,25 @@
                   "provider",
                   "account_ids"
                 ]
+              },
+              "example": {
+                "provider": "zernio",
+                "content": "Your original post",
+                "account_ids": [
+                  123
+                ],
+                "publish_now": true
               }
             }
           }
-        }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl --request POST \\\n  --url \"https://omnimux.ai/api/social/v1/posts\" \\\n  --header 'Authorization: Bearer <user-access-token>' \\\n  --header 'New-Api-User: <user-id>' \\\n  --header 'Content-Type: application/json' \\\n  --data '{\"provider\":\"zernio\",\"content\":\"Your original post\",\"account_ids\":[123],\"publish_now\":true}'"
+          }
+        ]
       }
     }
   },

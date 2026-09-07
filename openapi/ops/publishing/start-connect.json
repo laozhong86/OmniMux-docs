@@ -291,10 +291,21 @@
                   "provider",
                   "platform"
                 ]
+              },
+              "example": {
+                "provider": "zernio",
+                "platform": "tiktok"
               }
             }
           }
-        }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl --request POST \\\n  --url \"https://omnimux.ai/api/social/v1/connect\" \\\n  --header 'Authorization: Bearer <user-access-token>' \\\n  --header 'New-Api-User: <user-id>' \\\n  --header 'Content-Type: application/json' \\\n  --data '{\"provider\":\"zernio\",\"platform\":\"tiktok\"}'"
+          }
+        ]
       }
     }
   },
