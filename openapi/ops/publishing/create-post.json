@@ -60,7 +60,8 @@
                                 "tiktok_direct",
                                 "zernio"
                               ],
-                              "description": "Required expected source; never changes the stored account or post provider."
+                              "description": "Required expected source; never changes the stored account or post provider.",
+                              "example": "zernio"
                             },
                             "status": {
                               "type": "string"
