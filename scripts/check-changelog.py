@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import importlib.util
 import json
+from datetime import datetime
 import sys
 import urllib.error
 import urllib.request
@@ -36,14 +37,51 @@ def fetch_pricing_models() -> set[str] | None:
         with urllib.request.urlopen(req, timeout=20) as resp:
             data = json.loads(resp.read().decode("utf-8"))
     except (urllib.error.URLError, TimeoutError, json.JSONDecodeError, OSError) as e:
-        print(f"warn: could not fetch live pricing ({e}); skipping model membership checks")
+        print(f"warn: could not fetch live pricing ({e}); model membership cannot be verified")
         return None
     items = data.get("data") if isinstance(data, dict) else None
     if not isinstance(items, list):
-        print("warn: unexpected pricing shape; skipping model membership checks")
+        print("warn: unexpected pricing shape; model membership cannot be verified")
         return None
     names = {m.get("model_name") for m in items if isinstance(m, dict) and m.get("model_name")}
     return {n for n in names if isinstance(n, str)}
+
+
+def check_model_membership(entries: list[dict], live: set[str] | None, exceptions: list[dict]) -> list[str]:
+    """Keep historical facts without exempting new entries or other model IDs."""
+    errors: list[str] = []
+    known = {(e.get("id"), model) for e in entries for model in e.get("models", [])}
+    allowed: set[tuple[str, str]] = set()
+    if not isinstance(exceptions, list):
+        return ["catalog-exceptions.json must contain a list"]
+    for exception in exceptions:
+        if not isinstance(exception, dict) or not all(
+            isinstance(exception.get(key), str) and exception[key].strip()
+            for key in ("entry_id", "model", "checked_at", "source", "reason", "historical_commit")
+        ):
+            errors.append("catalog exception requires entry_id, model and non-empty evidence fields")
+            continue
+        pair = (exception["entry_id"], exception["model"])
+        try:
+            checked = datetime.fromisoformat(exception["checked_at"].replace("Z", "+00:00"))
+            if checked.tzinfo is None:
+                raise ValueError("timezone required")
+        except ValueError:
+            errors.append(f"{pair}: checked_at must be an ISO timestamp with timezone")
+            continue
+        if pair not in known:
+            errors.append(f"{pair}: catalog exception does not match an existing entry/model")
+        elif pair in allowed:
+            errors.append(f"{pair}: duplicate catalog exception")
+        else:
+            allowed.add(pair)
+    if live is None:
+        errors.append("live pricing unavailable; model membership was not verified")
+        return errors
+    for entry_id, model in sorted(known):
+        if model not in live and (entry_id, model) not in allowed:
+            errors.append(f"{entry_id}: model {model!r} not on live pricing (document historical evidence or onboard first)")
+    return errors
 
 
 def main() -> int:
@@ -59,14 +97,9 @@ def main() -> int:
                 errors.append(f"duplicate id: {eid}")
             seen.add(eid)
 
+    exceptions = json.loads((ROOT / "data/changelog/catalog-exceptions.json").read_text(encoding="utf-8"))
     live = fetch_pricing_models()
-    if live is not None:
-        for e in entries:
-            for mid in e.get("models") or []:
-                if mid not in live:
-                    errors.append(
-                        f"{e.get('id')}: model {mid!r} not on live pricing (remove or onboard first)"
-                    )
+    errors.extend(check_model_membership(entries, live, exceptions))
 
     index_path = ROOT / "data" / "changelog" / "index.json"
     if not index_path.is_file():

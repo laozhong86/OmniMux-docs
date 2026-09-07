@@ -10,3 +10,6 @@ openapi: "openapi/ops/publishing/list-accounts.json GET /api/social/v1/accounts"
 `provider` 必填，仅允许 `tiktok_direct` 或 `zernio`，表示操作范围，不能改写已存来源。缺失或未知值返回 400 `invalid-provider`。
 
 使用 OmniMux 用户 access token 和 `New-Api-User`，不是 `sk-` 密钥。同时检查 HTTP 状态和 `success`；部分上游错误仍返回 HTTP 200、`success:false`。
+
+
+CLI 0.4.0：二进制安装执行 `omnimux update`，npm 安装执行 `npm install -g @omnimux/cli@0.4.0`，随后使用 `omnimux social accounts --provider zernio` 或 `--provider tiktok_direct`。已有脚本也必须更新。参见 [API 更新](/zh/updates#2026-09-07-social-provider-required)。

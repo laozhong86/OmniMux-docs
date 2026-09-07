@@ -10,3 +10,6 @@ Only returns the selected source. The official list does not create a Zernio ten
 `provider` is required: `tiktok_direct` or `zernio`. It constrains the operation and never rewrites the stored source. Missing or unknown values return 400 `invalid-provider`.
 
 Use an OmniMux user access token and `New-Api-User`, not an `sk-` key. Inspect `success` as well as HTTP status; some upstream failures return HTTP 200 with `success:false`.
+
+
+CLI 0.4.0: run `omnimux update` (binary) or `npm install -g @omnimux/cli@0.4.0` (npm), then use `omnimux social accounts --provider zernio` or `--provider tiktok_direct`. Update saved scripts as well. See [API Updates](/en/updates#2026-09-07-social-provider-required).

@@ -7,11 +7,31 @@ rss: true
 
 Stay up to date with OmniMux gateway model launches and platform changes. The full callable catalog is on [console pricing](https://omnimux.ai) / [Pricing](/en/api-reference/account/pricing).
 
-<a id="2026-09-06-account-quota-errors"></a>
+<a id="2026-09-07-social-provider-required"></a>
 
-<Update label="September 6, 2026" tags={["Platform", "Text"]} rss={{ title: "Account quota errors on OpenAI text endpoints" }}>
+<Update label="September 7, 2026" tags={["Breaking", "Publishing"]} rss={{ title: "Social operations require an explicit provider" }}>
+
+  The gateway began requiring `provider` at **2026-09-07 07:25:20 UTC+8 (2026-09-06T23:25:20Z)** for listing accounts, starting a connection, disconnecting, creating a post and reading post status. Use `tiktok_direct` for official TikTok accounts or `zernio` for Zernio accounts. GET/DELETE carry it in the query; POST carries it in JSON. Missing or unknown values return `400 invalid-provider`; a resource from another source returns `409 account-provider-mismatch` or `409 post-provider-mismatch`. There is no default source.
+
+  ### CLI migration
+
+  Use CLI **0.4.0**: `omnimux update` for binaries, or `npm install -g @omnimux/cli@0.4.0` for npm. Update all saved commands to include `--provider`, for example `omnimux social accounts --provider zernio`. For a read without upstream refresh, use `omnimux social post-status <post-id> --provider zernio --no-refresh`. Updating a binary does not update your scripts or prove all clients have upgraded.
+
+  CLI 0.4.0 also includes the previously merged hosted commands and video skill updates. Credentials use a mode-0600 file on every platform; Keychain-only installations need credentials configured securely. The Agent RPC envelope remains `contract_version: 1`.
+
+  ### Links
+
+  - [List accounts](/en/api-reference/publishing/list-accounts)
+
+</Update>
+
+<a id="2026-09-07-account-quota-errors"></a>
+
+<Update label="September 7, 2026" tags={["Platform", "Text"]} rss={{ title: "Account quota errors on OpenAI text endpoints" }}>
 
   OpenAI Completions, Chat Completions, Responses, and Responses Compact return HTTP **402** with `error.type` and `error.code` set to `insufficient_quota` when the local account balance or subscription allowance cannot cover pre-consume. Streaming requests receive the JSON error before SSE starts. Check balance or allowance before trying again; do not treat this as invalid credentials or temporary rate limiting. Token errors, upstream provider errors, other protocols, actual 401/403, ordinary 429, and 5xx behavior are unchanged.
+
+  Gateway enforcement began on September 7, 2026 at 07:25:20 UTC+8 (2026-09-06T23:25:20Z).
 
   ### Links
 

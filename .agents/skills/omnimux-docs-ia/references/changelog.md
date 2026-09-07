@@ -18,10 +18,10 @@ Public developer **change timeline** for OmniMux, rendered with Mintlify’s off
 1. **Audience**: developers — not blog, not status, not full catalog.  
 2. **Shape**: **one change per entry**, sorted by `published_at` desc (timeline).  
 3. **Layout**: generator emits stacked `<Update label tags rss>` blocks (not hand-written `### date` dumps).  
-4. **Honesty**: only models on live OmniMux pricing. Never invent IDs. Peer gateway public dates may seed **historical** timeline fill for models we actually carry; **new** entries must use our own ship day.  
+4. **Honesty**: new model entries must use live OmniMux pricing. Preserve dated historical facts; never invent IDs. Peer gateway public dates may seed **historical** timeline fill for models we actually carry; **new** entries must use our own ship day.
 5. **Title / rss**: short product line (Evolink-style substance). Body: APIMart-style Model ID + path + highlights.  
 6. **i18n**: `title` / `summary` / `body` required for **en** and **zh**.  
-7. **`models[]`**: must exist on `GET https://omnimux.ai/api/pricing` when checker has network.  
+7. **`models[]`**: validate against `GET https://omnimux.ai/api/pricing`; an unavailable catalog fails verification. Historical absence may use `data/changelog/catalog-exceptions.json` only for an exact existing entry-ID/model-ID pair with `checked_at` (timezone required), source, reason and historical commit. Do not infer a removal date from present absence. New entries and other IDs remain subject to live membership checks.
 8. **No catalog dumps**: do not pack an entire modality into one “already available” mega-entry.  
 9. **Edit entries only**; never hand-edit generated MDX / `index.json` / `pages/*.json`.  
 10. **Public docs gate**: ship user-facing model/API change → append entry same window as docs.
@@ -107,5 +107,5 @@ Short intro…
 
 - Status incidents (`status.omnimux.ai`)  
 - Competitor pricing numbers / promo copy  
-- Models not on live pricing  
+- New model claims not on live pricing
 - Hand-edited updates MDX  
