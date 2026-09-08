@@ -1,0 +1,139 @@
+---
+title: "MiniMax H3 Max Turbo Video Generation"
+sidebarTitle: "MiniMax H3 Max Turbo"
+description: "MiniMax H3 Max Turbo ultra-fast video generation (<3s output) · model `minimax/h3-max-turbo`"
+api: "POST https://api.omnimux.ai/v1/video/generations"
+---
+
+- Create: `POST /v1/video/generations` with `model: "minimax/h3-max-turbo"`
+- Ultra-Fast Performance: ~3s end-to-end rendering (upstream inference ~1.5s), 50% cost reduction
+- Dynamic Multimodal Dispatch: pass text-only for fast text-to-video, or `image_url` for fast image-to-video
+- Async Task: query task status and result with `task_id` via [Query Video Task](/en/api-reference/tasks/video-task) or `GET /v1/tasks/{task_id}`
+- Pricing: base 5s call ~$0.25 (2.5 credits); `duration: 10` automatically settles with 2.0x multiplier
+
+## Identity
+
+| Field | Value |
+| --- | --- |
+| Series | Video series |
+| Brand | MiniMax |
+| model | `minimax/h3-max-turbo` |
+| Upstream Backend | fal.ai Queue |
+
+## Endpoints
+
+| Method | Path |
+| --- | --- |
+| `POST` | `/v1/video/generations` |
+| `GET` | `/v1/tasks/{task_id}` |
+
+Base URL: `https://api.omnimux.ai`
+
+## Authentication
+
+| Name | Location | Type | Required | Description |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | Yes | `Bearer sk-...` (API Key) |
+
+## Request Body
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `model` | string | Yes | Fixed as `minimax/h3-max-turbo` |
+| `prompt` | string | Conditional | Motion and scene description (required for text-to-video) |
+| `image_url` | string | Conditional | Reference image URL for image-to-video |
+| `duration` | number/string | No | Video duration (`5` or `10`, default `5`; 10s settles at 2.0x) |
+| `aspect_ratio` | string | No | Aspect ratio: `"16:9"`, `"9:16"`, `"1:1"`, default `"16:9"` |
+| `prompt_optimizer` | boolean | No | Enable LLM prompt enhancement, default `true` |
+
+## Response
+
+### 200 (Created)
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `task_id` | string | Asynchronous task ID for polling |
+| `status` | string | Initial task status (`queued`) |
+| `created` | number | Task creation timestamp |
+
+For polling format, see [Query Video Task](/en/api-reference/tasks/video-task). Errors are listed in the right panel and [Error Codes](/en/faqs/connection-usage).
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL (Fast Text to Video)
+curl --request POST \
+  --url https://api.omnimux.ai/v1/video/generations \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "model": "minimax/h3-max-turbo",
+  "prompt": "A tiny cute orange kitten blinking its eyes on a soft white blanket, cinematic lighting, 4k",
+  "aspect_ratio": "16:9",
+  "duration": 5
+}'
+```
+
+```bash cURL (Fast Image to Video)
+curl --request POST \
+  --url https://api.omnimux.ai/v1/video/generations \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "model": "minimax/h3-max-turbo",
+  "prompt": "The puppy wags its tail happily in the sunshine, natural movement",
+  "image_url": "https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=800",
+  "duration": 5
+}'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200
+{
+  "task_id": "task_v_fal_01a080e6",
+  "status": "queued",
+  "created": 1788864000
+}
+```
+
+```json 400
+{
+  "error": { "message": "Invalid request", "type": "invalid_request_error", "code": "bad_request" }
+}
+```
+
+```json 401
+{
+  "error": { "message": "Invalid token", "type": "authentication_error", "code": "unauthorized" }
+}
+```
+
+```json 402
+{
+  "error": {
+    "message": "Insufficient quota. Please top up your account.",
+    "type": "insufficient_quota",
+    "code": "insufficient_quota"
+  }
+}
+```
+
+```json 429
+{
+  "error": { "message": "Rate limit exceeded", "type": "rate_limit_error", "code": "rate_limit_exceeded" }
+}
+```
+
+```json 500
+{
+  "error": { "message": "Internal server error", "type": "server_error", "code": "internal_error" }
+}
+```
+
+</ResponseExample>
+
+</Panel>

@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "id": "2026-09-08-fal-minimax-h3",
+  "published_at": "2026-09-08",
+  "rank": 10,
+  "type": "model_launch",
+  "modality": [
+    "video"
+  ],
+  "title": {
+    "en": "fal.ai MiniMax H3 Max & Turbo Video Models Live with Dynamic Multimodal Dispatch",
+    "zh": "fal.ai MiniMax H3 Max 与 Turbo 视频模型上线，支持动态多模态分发"
+  },
+  "summary": {
+    "en": "MiniMax H3 Max and H3 Max Turbo (<3s rendering) video models are live on OmniMux via fal.ai, supporting dynamic multimodal routing across text-to-video, image-to-video, and reference-to-video.",
+    "zh": "基于 fal.ai 后训练的 MiniMax H3 Max 旗舰版与 H3 Max Turbo 极速版（约3秒出片）视频模型已在 OmniMux 上线，支持文生视频、图生视频及参考生视频的动态多模态参数自适应分发。"
+  },
+  "models": [
+    "minimax/h3-max",
+    "minimax/h3-max-turbo"
+  ],
+  "tags": [
+    "video",
+    "multimodal",
+    "fal.ai",
+    "minimax"
+  ],
+  "links": [
+    {
+      "label": {
+        "en": "MiniMax H3 Max",
+        "zh": "MiniMax H3 Max"
+      },
+      "href": {
+        "en": "/en/api-reference/video-series/models/minimax-h3-max",
+        "zh": "/zh/api-reference/video-series/models/minimax-h3-max"
+      }
+    },
+    {
+      "label": {
+        "en": "MiniMax H3 Max Turbo",
+        "zh": "MiniMax H3 Max Turbo"
+      },
+      "href": {
+        "en": "/en/api-reference/video-series/models/minimax-h3-max-turbo",
+        "zh": "/zh/api-reference/video-series/models/minimax-h3-max-turbo"
+      }
+    },
+    {
+      "label": {
+        "en": "Pricing",
+        "zh": "定价"
+      },
+      "href": {
+        "en": "/en/api-reference/account/pricing",
+        "zh": "/zh/api-reference/account/pricing"
+      }
+    }
+  ],
+  "body": {
+    "en": "## fal.ai MiniMax H3 Max & Turbo\n\n**MiniMax H3 Max** and **MiniMax H3 Max Turbo** video generation models are now live on OmniMux.\n\n### Highlights\n\n- **Dynamic Multimodal Dispatch**: Clients only need to configure two base models (`minimax/h3-max` and `minimax/h3-max-turbo`). Passing prompt-only routes to text-to-video, adding `image_url` routes to image-to-video, and passing `video_url` routes to reference-to-video automatically.\n- **Ultra-Fast Turbo Performance**: Sub-3-second end-to-end rendering for 5-second video clips.\n- **Two-Phase Resilient Polling**: Transparent inline result resolution with CDN 404 lag tolerance.\n- **Standard API**: Create via `POST /v1/video/generations` and query via `GET /v1/tasks/{task_id}`.",
+    "zh": "## fal.ai MiniMax H3 Max 与 Turbo 视频模型\n\n**MiniMax H3 Max** 旗舰版与 **MiniMax H3 Max Turbo** 极速版视频生成模型现已在 OmniMux 正式上线。\n\n### 核心特性\n\n- **动态多模态分发**：客户端仅需配置两个基础模型（`minimax/h3-max` 和 `minimax/h3-max-turbo`）。只传文字走文生视频，传入 `image_url` 自动切图生视频，传入 `video_url` 自动切参考生视频，心智极简。\n- **Turbo 极速出片**：5 秒视频片段端到端约 3 秒即可出片（模型推理仅约 1.5 秒）。\n- **双阶段内聚轮询与容错**：成片 URL 就地解析，并具备针对 CDN 延迟的自愈防误杀能力。\n- **标准协议**：支持通过 `POST /v1/video/generations` 异步提交任务，并通过 `GET /v1/tasks/{task_id}` 轮询结果。"
+  }
+}
