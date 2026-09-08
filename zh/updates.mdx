@@ -7,6 +7,29 @@ rss: true
 
 跟踪 OmniMux 网关的模型上新与平台变更。完整可调用模型以[控制台定价](https://omnimux.ai) / [定价与账户](/zh/api-reference/account/pricing)为准。
 
+<a id="2026-09-08-fal-minimax-h3"></a>
+
+<Update label="2026 年 9 月 8 日" tags={["新模型", "视频"]} rss={{ title: "fal.ai MiniMax H3 Max 与 Turbo 视频模型上线，支持动态多模态分发" }}>
+
+  ## fal.ai MiniMax H3 Max 与 Turbo 视频模型
+
+  **MiniMax H3 Max** 旗舰版与 **MiniMax H3 Max Turbo** 极速版视频生成模型现已在 OmniMux 正式上线。
+
+  ### 核心特性
+
+  - **动态多模态分发**：客户端仅需配置两个基础模型（`minimax/h3-max` 和 `minimax/h3-max-turbo`）。只传文字走文生视频，传入 `image_url` 自动切图生视频，传入 `video_url` 自动切参考生视频，心智极简。
+  - **Turbo 极速出片**：5 秒视频片段端到端约 3 秒即可出片（模型推理仅约 1.5 秒）。
+  - **双阶段内聚轮询与容错**：成片 URL 就地解析，并具备针对 CDN 延迟的自愈防误杀能力。
+  - **标准协议**：支持通过 `POST /v1/video/generations` 异步提交任务，并通过 `GET /v1/tasks/{task_id}` 轮询结果。
+
+  ### 链接
+
+  - [MiniMax H3 Max](/zh/api-reference/video-series/models/minimax-h3-max)
+  - [MiniMax H3 Max Turbo](/zh/api-reference/video-series/models/minimax-h3-max-turbo)
+  - [定价](/zh/api-reference/account/pricing)
+
+</Update>
+
 <a id="2026-09-07-social-provider-required"></a>
 
 <Update label="2026 年 9 月 7 日" tags={["不兼容变更", "社媒发布"]} rss={{ title: "社媒操作必须明确指定账号来源" }}>

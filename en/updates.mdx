@@ -7,6 +7,29 @@ rss: true
 
 Stay up to date with OmniMux gateway model launches and platform changes. The full callable catalog is on [console pricing](https://omnimux.ai) / [Pricing](/en/api-reference/account/pricing).
 
+<a id="2026-09-08-fal-minimax-h3"></a>
+
+<Update label="September 8, 2026" tags={["New models", "Video"]} rss={{ title: "fal.ai MiniMax H3 Max & Turbo Video Models Live with Dynamic Multimodal Dispatch" }}>
+
+  ## fal.ai MiniMax H3 Max & Turbo
+
+  **MiniMax H3 Max** and **MiniMax H3 Max Turbo** video generation models are now live on OmniMux.
+
+  ### Highlights
+
+  - **Dynamic Multimodal Dispatch**: Clients only need to configure two base models (`minimax/h3-max` and `minimax/h3-max-turbo`). Passing prompt-only routes to text-to-video, adding `image_url` routes to image-to-video, and passing `video_url` routes to reference-to-video automatically.
+  - **Ultra-Fast Turbo Performance**: Sub-3-second end-to-end rendering for 5-second video clips.
+  - **Two-Phase Resilient Polling**: Transparent inline result resolution with CDN 404 lag tolerance.
+  - **Standard API**: Create via `POST /v1/video/generations` and query via `GET /v1/tasks/{task_id}`.
+
+  ### Links
+
+  - [MiniMax H3 Max](/en/api-reference/video-series/models/minimax-h3-max)
+  - [MiniMax H3 Max Turbo](/en/api-reference/video-series/models/minimax-h3-max-turbo)
+  - [Pricing](/en/api-reference/account/pricing)
+
+</Update>
+
 <a id="2026-09-07-social-provider-required"></a>
 
 <Update label="September 7, 2026" tags={["Breaking", "Publishing"]} rss={{ title: "Social operations require an explicit provider" }}>
