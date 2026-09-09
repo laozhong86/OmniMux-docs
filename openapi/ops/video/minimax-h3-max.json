@@ -15,6 +15,49 @@
         "type": "http",
         "scheme": "bearer"
       }
+    },
+    "schemas": {
+      "TaskError": {
+        "type": "object",
+        "required": [
+          "code",
+          "message"
+        ],
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "nullable": true,
+            "description": "Additional task error data, commonly null."
+          }
+        }
+      },
+      "GatewayError": {
+        "type": "object",
+        "required": [
+          "error"
+        ],
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string"
+              },
+              "code": {
+                "nullable": true
+              }
+            }
+          }
+        }
+      }
     }
   },
   "paths": {
@@ -73,19 +116,99 @@
             }
           },
           "400": {
-            "description": "Invalid media, operation or resolution"
+            "description": "Invalid media, operation or resolution",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/TaskError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/GatewayError"
+                    }
+                  ],
+                  "description": "Task validation errors use code/message/data; authentication or gateway middleware may use an error envelope."
+                },
+                "example": {
+                  "code": "invalid_request",
+                  "message": "720p is retired for H3; explicitly select 768p",
+                  "data": null
+                }
+              }
+            }
           },
           "401": {
-            "description": "Invalid API key"
+            "description": "Invalid API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/TaskError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/GatewayError"
+                    }
+                  ],
+                  "description": "Task validation errors use code/message/data; authentication or gateway middleware may use an error envelope."
+                }
+              }
+            }
           },
           "402": {
-            "description": "Insufficient quota"
+            "description": "Insufficient quota",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/TaskError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/GatewayError"
+                    }
+                  ],
+                  "description": "Task validation errors use code/message/data; authentication or gateway middleware may use an error envelope."
+                }
+              }
+            }
           },
           "429": {
-            "description": "Rate limited"
+            "description": "Rate limited",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/TaskError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/GatewayError"
+                    }
+                  ],
+                  "description": "Task validation errors use code/message/data; authentication or gateway middleware may use an error envelope."
+                }
+              }
+            }
           },
           "500": {
-            "description": "Gateway error"
+            "description": "Gateway error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/TaskError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/GatewayError"
+                    }
+                  ],
+                  "description": "Task validation errors use code/message/data; authentication or gateway middleware may use an error envelope."
+                }
+              }
+            }
           }
         },
         "requestBody": {
