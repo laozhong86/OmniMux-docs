@@ -1,0 +1,171 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "minimax-h3-max",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.omnimux.ai"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  },
+  "paths": {
+    "/v1/video/generations": {
+      "post": {
+        "operationId": "minimax_h3_max",
+        "summary": "MiniMax H3 video generation",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Queued video task: id, task_id, model, status=queued, created"
+          },
+          "400": {
+            "description": "Invalid media, operation or resolution"
+          },
+          "401": {
+            "description": "Invalid API key"
+          },
+          "402": {
+            "description": "Insufficient quota"
+          },
+          "429": {
+            "description": "Rate limited"
+          },
+          "500": {
+            "description": "Gateway error"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "model",
+                  "prompt"
+                ],
+                "properties": {
+                  "model": {
+                    "type": "string",
+                    "enum": [
+                      "minimax/h3-max"
+                    ]
+                  },
+                  "prompt": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 50000
+                  },
+                  "operation": {
+                    "type": "string",
+                    "enum": [
+                      "text_to_video",
+                      "first_frame",
+                      "video_multi_ref"
+                    ],
+                    "description": "Must agree with media: text uses none; first_frame requires one image only."
+                  },
+                  "image_url": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "HTTP(S) first-frame image; do not combine with image_urls."
+                  },
+                  "image_urls": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "uri"
+                    },
+                    "maxItems": 9,
+                    "description": "Ordered images; one field spelling per media kind."
+                  },
+                  "resolution": {
+                    "type": "string",
+                    "enum": [
+                      "480P",
+                      "768P",
+                      "1080P"
+                    ],
+                    "default": "768P",
+                    "description": "Case/whitespace normalized. 720p is rejected; select 768P explicitly."
+                  },
+                  "duration": {
+                    "oneOf": [
+                      {
+                        "type": "integer",
+                        "enum": [
+                          5,
+                          10
+                        ]
+                      },
+                      {
+                        "type": "string",
+                        "enum": [
+                          "5",
+                          "10"
+                        ]
+                      }
+                    ],
+                    "default": 5
+                  },
+                  "aspect_ratio": {
+                    "type": "string",
+                    "enum": [
+                      "16:9",
+                      "9:16",
+                      "1:1"
+                    ],
+                    "default": "16:9"
+                  },
+                  "prompt_optimizer": {
+                    "type": "boolean",
+                    "default": true
+                  },
+                  "video_urls": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "uri"
+                    },
+                    "maxItems": 3,
+                    "description": "Ordered references. Total <=12, at least one image or video."
+                  },
+                  "audio_urls": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "uri"
+                    },
+                    "maxItems": 3,
+                    "description": "Ordered references. Total <=12, at least one image or video."
+                  }
+                }
+              },
+              "example": {
+                "model": "minimax/h3-max",
+                "operation": "first_frame",
+                "prompt": "The camera moves around the subject",
+                "image_url": "https://example.com/first-frame.png",
+                "resolution": "768P",
+                "duration": 5
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

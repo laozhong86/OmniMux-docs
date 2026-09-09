@@ -7,6 +7,14 @@ rss: true
 
 跟踪 OmniMux 网关的模型上新与平台变更。完整可调用模型以[控制台定价](https://omnimux.ai) / [定价与账户](/zh/api-reference/account/pricing)为准。
 
+<a id="2026-09-09-h3-media-task-contracts"></a>
+
+<Update label="2026 年 9 月 9 日" tags={["不兼容变更", "视频"]} rss={{ title: "H3 有序参考素材与任务结果处理修复" }}>
+
+  使用 operation 选择文生视频、首帧或 Max 多参考生成。素材数组保留顺序，冲突同义字段会被拒绝。旧720p需明确改为768P。产物暂不可用时重试，失败或取消不再被旧视频URL掩盖。状态查询不再抢先持久化终态，结算仍由后台轮询负责。
+
+</Update>
+
 <a id="2026-09-08-fal-minimax-h3"></a>
 
 <Update label="2026 年 9 月 8 日" tags={["新模型", "视频"]} rss={{ title: "fal.ai MiniMax H3 Max 与 Turbo 视频模型上线，支持动态多模态分发" }}>
