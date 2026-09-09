@@ -25,7 +25,18 @@
         "minimax/h3-max-turbo"
       ],
       "tags": [],
-      "links": []
+      "links": [
+        {
+          "label": {
+            "en": "H3 Max API",
+            "zh": "H3 Max API"
+          },
+          "href": {
+            "en": "/en/api-reference/video-series/models/minimax-h3-max",
+            "zh": "/zh/api-reference/video-series/models/minimax-h3-max"
+          }
+        }
+      ]
     },
     {
       "id": "2026-09-08-fal-minimax-h3",
