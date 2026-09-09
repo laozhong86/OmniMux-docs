@@ -2,9 +2,47 @@
   "schema_version": 1,
   "page": 1,
   "page_size": 50,
-  "total": 28,
+  "total": 29,
   "total_pages": 1,
   "items": [
+    {
+      "id": "2026-09-09-h3-media-task-contracts",
+      "published_at": "2026-09-09",
+      "type": "breaking",
+      "modality": [
+        "video"
+      ],
+      "title": {
+        "en": "H3 ordered references and task result handling",
+        "zh": "H3 有序参考素材与任务结果处理修复"
+      },
+      "summary": {
+        "en": "Explicit operations, ordered references and 720p migration; task reads preserve settlement ownership.",
+        "zh": "明确操作类型、保留参考素材顺序并迁移720p；任务查询保留后台结算职责。"
+      },
+      "models": [
+        "minimax/h3-max",
+        "minimax/h3-max-turbo"
+      ],
+      "tags": [],
+      "links": [
+        {
+          "label": {
+            "en": "H3 Max API",
+            "zh": "H3 Max API"
+          },
+          "href": {
+            "en": "/en/api-reference/video-series/models/minimax-h3-max",
+            "zh": "/zh/api-reference/video-series/models/minimax-h3-max"
+          }
+        }
+      ],
+      "body": {
+        "en": "Use operation to select text, first-frame or Max multi-reference generation. Media arrays retain order and conflicting aliases are rejected. Replace legacy 720p with explicit 768P. Temporary result unavailability is retried; failures and cancellations are not masked by stale video URLs. Status reads no longer persist terminal transitions ahead of settlement polling.",
+        "zh": "使用 operation 选择文生视频、首帧或 Max 多参考生成。素材数组保留顺序，冲突同义字段会被拒绝。旧720p需明确改为768P。产物暂不可用时重试，失败或取消不再被旧视频URL掩盖。状态查询不再抢先持久化终态，结算仍由后台轮询负责。"
+      },
+      "schema_version": 1
+    },
     {
       "id": "2026-09-08-fal-minimax-h3",
       "published_at": "2026-09-08",
