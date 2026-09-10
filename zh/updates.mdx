@@ -7,6 +7,28 @@ rss: true
 
 跟踪 OmniMux 网关的模型上新与平台变更。完整可调用模型以[控制台定价](https://omnimux.ai) / [定价与账户](/zh/api-reference/account/pricing)为准。
 
+<a id="2026-09-10-r2-file-storage"></a>
+
+<Update label="2026 年 9 月 10 日" tags={["平台"]} rss={{ title: "Cloudflare R2 存储开启与对齐 Evolink 文件上传 API 上线" }}>
+
+  ## 概述
+
+  OmniMux 现已全量支持 Cloudflare R2 对象存储与本地安全降级驱动，文件系列端点挂载于 `/api/v1/files/*` 与 `/v1/files/*`。
+
+  ## 核心能力
+
+  - **Base64 上传**：`POST /api/v1/files/upload/base64` 支持 Data URL 与纯 Base64。
+  - **流式上传**：`POST /api/v1/files/upload/stream` 支持 `multipart/form-data` 表单流。
+  - **URL 远程抓取**：`POST /api/v1/files/upload/url` 内置 SSRF 防护。
+  - **配额与 72h 过期**：单用户 2000 个活跃文件上限，72 小时自动过期物理清理。
+
+  ### 链接
+
+  - [Base64 文件上传](/zh/api-reference/file-series/upload-base64)
+  - [查询文件配额](/zh/api-reference/file-series/quota)
+
+</Update>
+
 <a id="2026-09-10-gpt-image-25-rename"></a>
 
 <Update label="2026 年 9 月 10 日" tags={["不兼容变更", "图像"]} rss={{ title: "GPT Image 按次模型 ID 正式更名为 2.5" }}>

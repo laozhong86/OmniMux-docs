@@ -1,0 +1,42 @@
+---
+title: "URL 文件上传"
+sidebarTitle: "URL 文件上传"
+description: "POST /api/v1/files/upload/url · 提供远程公网 URL 由服务端转存至 R2"
+api: "POST https://api.omnimux.ai/api/v1/files/upload/url"
+---
+
+> - 提供公网公开可访问的 HTTP/HTTPS 文件链接，服务端自动下载并存储
+> - 内置严格私网拦截与 SSRF 安全防护
+> - 文件会在 **72 小时** 后自动过期并由后台服务物理清理
+> - 单用户最多存储 **2,000** 个活跃文件，配额耗尽时会返回 429 提示
+> - 鉴权：`Authorization: Bearer sk-...`
+
+## 请求体
+
+| 字段 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| `file_url` | string | 是 | 远程文件的公网可访问 HTTP/HTTPS 链接 |
+| `upload_path` | string | 否 | 自定义分类子目录，不填时系统根据类型自动归类 |
+| `file_name` | string | 否 | 自定义文件名，不填时从 URL 路径解析或自动生成 |
+
+## 响应示例
+
+```json
+{
+  "success": true,
+  "code": 200,
+  "msg": "文件上传成功",
+  "data": {
+    "file_id": "file_c92cffd62415447d",
+    "file_name": "image.jpg",
+    "original_name": "image.jpg",
+    "file_size": 17129,
+    "mime_type": "image/jpeg",
+    "upload_path": "downloads",
+    "file_url": "https://api.omnimux.ai/api/v1/files/download/file_c92cffd62415447d",
+    "download_url": "https://api.omnimux.ai/api/v1/files/download/file_c92cffd62415447d",
+    "upload_time": "2026-09-10T23:50:07+08:00",
+    "expires_at": "2026-09-13T23:50:07+08:00"
+  }
+}
+```

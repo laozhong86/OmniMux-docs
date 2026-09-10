@@ -1,0 +1,38 @@
+---
+title: "查询文件配额"
+sidebarTitle: "查询配额"
+description: "GET /api/v1/files/quota · 查询当前用户的文件使用量与剩余配额"
+api: "GET https://api.omnimux.ai/api/v1/files/quota"
+---
+
+> - 默认用户组最多存储 **2,000** 个活跃文件
+> - 返回当前用户的已存储文件数 (`used_files`) 与剩余可用额度 (`remain_files`)
+> - 鉴权：`Authorization: Bearer sk-...`
+
+## 响应字段
+
+| 字段 | 类型 | 说明 |
+| --- | --- | --- |
+| `user_group` | string | 当前用户所在分组（如 `default`、`auto`） |
+| `used_files` | integer | 当前用户已保存的活跃（未过期）文件数 |
+| `max_files` | integer | 当前用户允许存储的最大文件数（默认 2000） |
+| `remain_files` | integer | 剩余可上传文件数 |
+| `is_custom` | boolean | 是否为定制配额 |
+| `quota_reason` | string | 配额原因说明（若有） |
+
+## 响应示例
+
+```json
+{
+  "success": true,
+  "code": 200,
+  "data": {
+    "user_group": "default",
+    "used_files": 2,
+    "max_files": 2000,
+    "remain_files": 1998,
+    "is_custom": false,
+    "quota_reason": ""
+  }
+}
+```

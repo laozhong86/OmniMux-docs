@@ -1,0 +1,42 @@
+---
+title: "Upload Base64 File"
+sidebarTitle: "Base64 Upload"
+description: "POST /api/v1/files/upload/base64 · Upload file encoded in Base64 or Data URL to R2"
+api: "POST https://api.omnimux.ai/api/v1/files/upload/base64"
+---
+
+> - Supports Data URL format (e.g. `data:image/png;base64,...`) and raw Base64 strings
+> - Automatically detects MIME types for images, audio, video, or documents
+> - Files automatically expire and are purged after **72 hours**
+> - Limit of **2,000** active files per user; returns 429 when quota is exhausted
+> - Auth: `Authorization: Bearer sk-...`
+
+## Request Body
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `base64_data` | string | Yes | Base64-encoded file data or Data URL string |
+| `upload_path` | string | No | Custom folder path (e.g. `avatars`, `covers`), auto-categorized by MIME if omitted |
+| `file_name` | string | No | Custom file name (e.g. `avatar.png`), auto-generated if omitted |
+
+## Response Example
+
+```json
+{
+  "success": true,
+  "code": 200,
+  "msg": "文件上传成功",
+  "data": {
+    "file_id": "file_8e6d425c0e564bde",
+    "file_name": "avatar.png",
+    "original_name": "avatar.png",
+    "file_size": 2048,
+    "mime_type": "image/png",
+    "upload_path": "avatars",
+    "file_url": "https://api.omnimux.ai/api/v1/files/download/file_8e6d425c0e564bde",
+    "download_url": "https://api.omnimux.ai/api/v1/files/download/file_8e6d425c0e564bde",
+    "upload_time": "2026-09-10T23:49:40+08:00",
+    "expires_at": "2026-09-13T23:49:40+08:00"
+  }
+}
+```

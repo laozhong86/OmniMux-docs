@@ -1,0 +1,29 @@
+---
+title: "Download and Access File"
+sidebarTitle: "Download File"
+description: "GET /api/v1/files/download/{file_id} · Retrieve uploaded file or redirect to CDN URL"
+api: "GET https://api.omnimux.ai/api/v1/files/download/{file_id}"
+---
+
+> - Public access by unique `file_id` (no login required)
+> - Automatically responds with **302 Redirect** to Cloudflare R2 CDN URL when public domain is configured
+> - Streams file directly with correct `Content-Type` and `Content-Disposition` in local storage mode
+> - Returns `404 Not Found` when file has expired past **72 hours**
+
+## Path Parameters
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `file_id` | string | Yes | Unique file identifier returned upon upload (e.g. `file_8e6d425c0e564bde`) |
+
+## Response
+
+- **Active File (200 OK / 302 Found)**: Binary stream of file or 302 redirect to R2 CDN URL.
+- **Expired or Deleted File (404 Not Found)**:
+  ```json
+  {
+    "success": false,
+    "code": 404,
+    "msg": "文件已过期"
+  }
+  ```

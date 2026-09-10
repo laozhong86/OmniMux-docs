@@ -1,0 +1,38 @@
+---
+title: "Get File Quota"
+sidebarTitle: "File Quota"
+description: "GET /api/v1/files/quota · Query current user file quota and remaining slots"
+api: "GET https://api.omnimux.ai/api/v1/files/quota"
+---
+
+> - Users can store up to **2,000** active files
+> - Returns current active file count (`used_files`) and available capacity (`remain_files`)
+> - Auth: `Authorization: Bearer sk-...`
+
+## Response Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `user_group` | string | Current token group (e.g. `default`, `auto`) |
+| `used_files` | integer | Number of active (unexpired) files currently stored |
+| `max_files` | integer | Maximum allowed files (default 2,000) |
+| `remain_files` | integer | Remaining available upload slots |
+| `is_custom` | boolean | Whether user has custom quota override |
+| `quota_reason` | string | Optional description for custom quota |
+
+## Response Example
+
+```json
+{
+  "success": true,
+  "code": 200,
+  "data": {
+    "user_group": "default",
+    "used_files": 2,
+    "max_files": 2000,
+    "remain_files": 1998,
+    "is_custom": false,
+    "quota_reason": ""
+  }
+}
+```

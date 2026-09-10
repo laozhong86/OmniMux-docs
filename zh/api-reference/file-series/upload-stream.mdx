@@ -1,0 +1,42 @@
+---
+title: "文件流上传"
+sidebarTitle: "文件流上传"
+description: "POST /api/v1/files/upload/stream · 使用 multipart/form-data 格式上传本地文件至 R2"
+api: "POST https://api.omnimux.ai/api/v1/files/upload/stream"
+---
+
+> - 使用 `multipart/form-data` 格式直接上传本地文件或二进制数据流
+> - 适用于大文件流式上传（最大支持 **100MB**）
+> - 文件会在 **72 小时** 后自动过期并由后台服务物理清理
+> - 单用户最多存储 **2,000** 个活跃文件，配额耗尽时会返回 429 提示
+> - 鉴权：`Authorization: Bearer sk-...`
+
+## 表单字段 (multipart/form-data)
+
+| 字段 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| `file` | binary | 是 | 文件二进制数据流 |
+| `upload_path` | string | 否 | 自定义分类子目录（支持下划线或驼峰 `uploadPath`） |
+| `file_name` | string | 否 | 自定义文件名（支持下划线或驼峰 `fileName`） |
+
+## 响应示例
+
+```json
+{
+  "success": true,
+  "code": 200,
+  "msg": "文件上传成功",
+  "data": {
+    "file_id": "file_349a227eaa054bab",
+    "file_name": "photo.png",
+    "original_name": "photo.png",
+    "file_size": 2048,
+    "mime_type": "image/png",
+    "upload_path": "photos",
+    "file_url": "https://api.omnimux.ai/api/v1/files/download/file_349a227eaa054bab",
+    "download_url": "https://api.omnimux.ai/api/v1/files/download/file_349a227eaa054bab",
+    "upload_time": "2026-09-10T23:49:59+08:00",
+    "expires_at": "2026-09-13T23:49:59+08:00"
+  }
+}
+```

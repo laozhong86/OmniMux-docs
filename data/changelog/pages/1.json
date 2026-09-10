@@ -2,9 +2,59 @@
   "schema_version": 1,
   "page": 1,
   "page_size": 50,
-  "total": 30,
+  "total": 31,
   "total_pages": 1,
   "items": [
+    {
+      "id": "2026-09-10-r2-file-storage",
+      "published_at": "2026-09-10",
+      "type": "platform",
+      "modality": [
+        "platform"
+      ],
+      "title": {
+        "en": "Cloudflare R2 storage & Evolink-compatible file upload API released",
+        "zh": "Cloudflare R2 存储开启与对齐 Evolink 文件上传 API 上线"
+      },
+      "summary": {
+        "en": "Supports Base64, stream multipart, and remote URL uploads with 72h lifecycle and 2,000 files/user quota.",
+        "zh": "支持 Base64、流式表单及 URL 远程抓取上传，配备 72 小时自动过期与单用户 2000 个文件配额门禁。"
+      },
+      "models": [],
+      "tags": [
+        "storage",
+        "files",
+        "r2",
+        "api"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "Base64 upload",
+            "zh": "Base64 文件上传"
+          },
+          "href": {
+            "en": "/en/api-reference/file-series/upload-base64",
+            "zh": "/zh/api-reference/file-series/upload-base64"
+          }
+        },
+        {
+          "label": {
+            "en": "File quota",
+            "zh": "查询文件配额"
+          },
+          "href": {
+            "en": "/en/api-reference/file-series/quota",
+            "zh": "/zh/api-reference/file-series/quota"
+          }
+        }
+      ],
+      "body": {
+        "en": "## Overview\n\nOmniMux now provides Cloudflare R2 object storage integration alongside a local disk fallback driver. File series endpoints are available under `/api/v1/files/*` and `/v1/files/*`.\n\n## Capabilities\n\n- **Base64 upload**: `POST /api/v1/files/upload/base64` supporting Data URL and raw Base64.\n- **Stream upload**: `POST /api/v1/files/upload/stream` via `multipart/form-data`.\n- **URL upload**: `POST /api/v1/files/upload/url` with SSRF protection.\n- **Quota & Expiration**: 2,000 active files per user quota, 72-hour automated expiration with background cleanup.",
+        "zh": "## 概述\n\nOmniMux 现已全量支持 Cloudflare R2 对象存储与本地安全降级驱动，文件系列端点挂载于 `/api/v1/files/*` 与 `/v1/files/*`。\n\n## 核心能力\n\n- **Base64 上传**：`POST /api/v1/files/upload/base64` 支持 Data URL 与纯 Base64。\n- **流式上传**：`POST /api/v1/files/upload/stream` 支持 `multipart/form-data` 表单流。\n- **URL 远程抓取**：`POST /api/v1/files/upload/url` 内置 SSRF 防护。\n- **配额与 72h 过期**：单用户 2000 个活跃文件上限，72 小时自动过期物理清理。"
+      },
+      "schema_version": 1
+    },
     {
       "id": "2026-09-10-gpt-image-25-rename",
       "published_at": "2026-09-10",

@@ -1,0 +1,29 @@
+---
+title: "文件下载与访问"
+sidebarTitle: "文件下载"
+description: "GET /api/v1/files/download/{file_id} · 通过文件唯一标识获取文件或重定向至 CDN 直链"
+api: "GET https://api.omnimux.ai/api/v1/files/download/{file_id}"
+---
+
+> - 公开寻址（免登录），依赖全局唯一的 `file_id` 访问
+> - 绑定 R2 公共域名时会自动 **302 重定向** 到 R2 CDN 极速下载直链
+> - 本地存储模式时由网关流式回源输出并自动设置正确的 `Content-Type` 与 `Content-Disposition`
+> - 文件超出 **72 小时** 后自动失效并返回 `404 Not Found`
+
+## 路径参数
+
+| 字段 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| `file_id` | string | 是 | 上传成功时返回的文件全局唯一标识（如 `file_8e6d425c0e564bde`） |
+
+## 响应说明
+
+- **未过期文件 (200 OK / 302 Found)**：返回文件二进制数据流或重定向至 R2 公共存储直链。
+- **过期或已删除文件 (404 Not Found)**：
+  ```json
+  {
+    "success": false,
+    "code": 404,
+    "msg": "文件已过期"
+  }
+  ```

@@ -1,0 +1,42 @@
+---
+title: "Base64 文件上传"
+sidebarTitle: "Base64 文件上传"
+description: "POST /api/v1/files/upload/base64 · 支持 Base64 编码与 Data URL 格式上传文件至 R2"
+api: "POST https://api.omnimux.ai/api/v1/files/upload/base64"
+---
+
+> - 支持 Data URL 格式（如 `data:image/png;base64,...`）与纯 Base64 编码
+> - 自动识别图片、音频、视频或通用文件 MIME 类型
+> - 文件会在 **72 小时** 后自动过期并由后台服务物理清理
+> - 单用户最多存储 **2,000** 个活跃文件，配额耗尽时会返回 429 提示
+> - 鉴权：`Authorization: Bearer sk-...`
+
+## 请求体
+
+| 字段 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| `base64_data` | string | 是 | Base64 编码的数据或 Data URL 字符串 |
+| `upload_path` | string | 否 | 自定义分类子目录（如 `avatars`、`covers`），不填时系统根据类型自动归类 |
+| `file_name` | string | 否 | 自定义文件名（如 `avatar.png`），不填时自动生成唯一文件名 |
+
+## 响应示例
+
+```json
+{
+  "success": true,
+  "code": 200,
+  "msg": "文件上传成功",
+  "data": {
+    "file_id": "file_8e6d425c0e564bde",
+    "file_name": "avatar.png",
+    "original_name": "avatar.png",
+    "file_size": 2048,
+    "mime_type": "image/png",
+    "upload_path": "avatars",
+    "file_url": "https://api.omnimux.ai/api/v1/files/download/file_8e6d425c0e564bde",
+    "download_url": "https://api.omnimux.ai/api/v1/files/download/file_8e6d425c0e564bde",
+    "upload_time": "2026-09-10T23:49:40+08:00",
+    "expires_at": "2026-09-13T23:49:40+08:00"
+  }
+}
+```

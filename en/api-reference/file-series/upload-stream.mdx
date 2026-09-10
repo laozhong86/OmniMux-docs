@@ -1,0 +1,42 @@
+---
+title: "Upload File Stream"
+sidebarTitle: "Stream Upload"
+description: "POST /api/v1/files/upload/stream · Upload local files via multipart/form-data to R2"
+api: "POST https://api.omnimux.ai/api/v1/files/upload/stream"
+---
+
+> - Upload local files or raw binary data via `multipart/form-data`
+> - Optimized for large file streams (supports up to **100MB**)
+> - Files automatically expire and are purged after **72 hours**
+> - Limit of **2,000** active files per user; returns 429 when quota is exhausted
+> - Auth: `Authorization: Bearer sk-...`
+
+## Form Fields (multipart/form-data)
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `file` | binary | Yes | File binary data stream |
+| `upload_path` | string | No | Custom folder path (supports camelCase `uploadPath`) |
+| `file_name` | string | No | Custom file name (supports camelCase `fileName`) |
+
+## Response Example
+
+```json
+{
+  "success": true,
+  "code": 200,
+  "msg": "文件上传成功",
+  "data": {
+    "file_id": "file_349a227eaa054bab",
+    "file_name": "photo.png",
+    "original_name": "photo.png",
+    "file_size": 2048,
+    "mime_type": "image/png",
+    "upload_path": "photos",
+    "file_url": "https://api.omnimux.ai/api/v1/files/download/file_349a227eaa054bab",
+    "download_url": "https://api.omnimux.ai/api/v1/files/download/file_349a227eaa054bab",
+    "upload_time": "2026-09-10T23:49:59+08:00",
+    "expires_at": "2026-09-13T23:49:59+08:00"
+  }
+}
+```

@@ -1,0 +1,42 @@
+---
+title: "Upload File via URL"
+sidebarTitle: "URL Upload"
+description: "POST /api/v1/files/upload/url · Upload remote file from public URL to R2"
+api: "POST https://api.omnimux.ai/api/v1/files/upload/url"
+---
+
+> - Ingests public remote files via HTTP/HTTPS URLs and stores directly into R2
+> - Built-in private IP protection and SSRF security defense
+> - Files automatically expire and are purged after **72 hours**
+> - Limit of **2,000** active files per user; returns 429 when quota is exhausted
+> - Auth: `Authorization: Bearer sk-...`
+
+## Request Body
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `file_url` | string | Yes | Publicly accessible HTTP/HTTPS URL of the remote file |
+| `upload_path` | string | No | Custom folder path, auto-categorized by MIME if omitted |
+| `file_name` | string | No | Custom file name, parsed from URL path or auto-generated if omitted |
+
+## Response Example
+
+```json
+{
+  "success": true,
+  "code": 200,
+  "msg": "文件上传成功",
+  "data": {
+    "file_id": "file_c92cffd62415447d",
+    "file_name": "image.jpg",
+    "original_name": "image.jpg",
+    "file_size": 17129,
+    "mime_type": "image/jpeg",
+    "upload_path": "downloads",
+    "file_url": "https://api.omnimux.ai/api/v1/files/download/file_c92cffd62415447d",
+    "download_url": "https://api.omnimux.ai/api/v1/files/download/file_c92cffd62415447d",
+    "upload_time": "2026-09-10T23:50:07+08:00",
+    "expires_at": "2026-09-13T23:50:07+08:00"
+  }
+}
+```

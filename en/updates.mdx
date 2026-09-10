@@ -7,6 +7,28 @@ rss: true
 
 Stay up to date with OmniMux gateway model launches and platform changes. The full callable catalog is on [console pricing](https://omnimux.ai) / [Pricing](/en/api-reference/account/pricing).
 
+<a id="2026-09-10-r2-file-storage"></a>
+
+<Update label="September 10, 2026" tags={["Platform"]} rss={{ title: "Cloudflare R2 storage & Evolink-compatible file upload API released" }}>
+
+  ## Overview
+
+  OmniMux now provides Cloudflare R2 object storage integration alongside a local disk fallback driver. File series endpoints are available under `/api/v1/files/*` and `/v1/files/*`.
+
+  ## Capabilities
+
+  - **Base64 upload**: `POST /api/v1/files/upload/base64` supporting Data URL and raw Base64.
+  - **Stream upload**: `POST /api/v1/files/upload/stream` via `multipart/form-data`.
+  - **URL upload**: `POST /api/v1/files/upload/url` with SSRF protection.
+  - **Quota & Expiration**: 2,000 active files per user quota, 72-hour automated expiration with background cleanup.
+
+  ### Links
+
+  - [Base64 upload](/en/api-reference/file-series/upload-base64)
+  - [File quota](/en/api-reference/file-series/quota)
+
+</Update>
+
 <a id="2026-09-10-gpt-image-25-rename"></a>
 
 <Update label="September 10, 2026" tags={["Breaking", "Image"]} rss={{ title: "GPT Image per-call model IDs renamed to 2.5" }}>

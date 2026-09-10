@@ -419,6 +419,17 @@
                   "en/api-reference/tasks/video-task"
                 ],
                 "icon": "list-checks"
+              },
+              {
+                "group": "File management",
+                "pages": [
+                  "en/api-reference/file-series/upload-base64",
+                  "en/api-reference/file-series/upload-stream",
+                  "en/api-reference/file-series/upload-url",
+                  "en/api-reference/file-series/quota",
+                  "en/api-reference/file-series/download"
+                ],
+                "icon": "folder-up"
               }
             ],
             "icon": "square-terminal"
@@ -885,6 +896,17 @@
                   "zh/api-reference/tasks/video-task"
                 ],
                 "icon": "list-checks"
+              },
+              {
+                "group": "文件管理",
+                "pages": [
+                  "zh/api-reference/file-series/upload-base64",
+                  "zh/api-reference/file-series/upload-stream",
+                  "zh/api-reference/file-series/upload-url",
+                  "zh/api-reference/file-series/quota",
+                  "zh/api-reference/file-series/download"
+                ],
+                "icon": "folder-up"
               }
             ],
             "icon": "square-terminal"
