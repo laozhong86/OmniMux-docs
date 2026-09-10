@@ -9,7 +9,7 @@ openapi: "openapi/ops/image/zh/gpt-image.json POST /v1/images/generations"
 自 2026-09-10 起，`gpt-image-2` 和 `gpt-image-2-hd` 已分别更名为 `gpt-image-2.5` 和 `gpt-image-2.5-hd`。旧 model ID 不再接受；请更新请求中的 `model`。这不是兼容别名。
 </Warning>
 
-这两个按次模型的基础价分别为 $0.0441/次和 $0.005479/次；分组倍率可能影响最终费用。本次更名未改变价格。
+这两个按次模型的基础价分别为 USD 0.0441/次和 USD 0.005479/次；分组倍率可能影响最终费用。本次更名未改变价格。
 
 返回 `data` 时读取图像结果；返回 `image.generation.task` 时表示异步任务已提交，不代表图像已生成。响应形态取决于实际路由，请勿将任务提交响应当作最终结果。
 
