@@ -1,0 +1,41 @@
+---
+title: "GPT Image · 图像生成"
+sidebarTitle: "GPT Image · 图像生成"
+description: "使用 GPT Image 2.5 按次模型生成图像。"
+openapi: "openapi/ops/image/zh/gpt-image.json POST /v1/images/generations"
+---
+
+<Warning>
+自 2026-09-10 起，`gpt-image-2` 和 `gpt-image-2-hd` 已分别更名为 `gpt-image-2.5` 和 `gpt-image-2.5-hd`。旧 model ID 不再接受；请更新请求中的 `model`。这不是兼容别名。
+</Warning>
+
+这两个按次模型的基础价分别为 $0.0441/次和 $0.005479/次；分组倍率可能影响最终费用。本次更名未改变价格。
+
+返回 `data` 时读取图像结果；返回 `image.generation.task` 时表示异步任务已提交，不代表图像已生成。响应形态取决于实际路由，请勿将任务提交响应当作最终结果。
+
+Flare 和 Sunburst 是独立的 Token 计费模型，不属于此按次契约，目前尚未开放。
+
+<Panel>
+<RequestExample>
+
+```bash curl
+curl --request POST \
+  --url https://api.omnimux.ai/v1/images/generations \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --data '{"model": "gpt-image-2.5", "prompt": "A product photo on a white background", "n": 1}'
+```
+
+</RequestExample>
+<ResponseExample>
+
+```json 200 — illustrative async task
+{"id":"task_example","object":"image.generation.task","model":"gpt-image-2.5-hd","status":"pending","created":0}
+```
+
+```json 402
+{"error":{"message":"Insufficient quota","type":"insufficient_quota"}}
+```
+
+</ResponseExample>
+</Panel>

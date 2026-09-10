@@ -2,9 +2,51 @@
   "schema_version": 1,
   "page": 1,
   "page_size": 50,
-  "total": 29,
+  "total": 30,
   "total_pages": 1,
   "items": [
+    {
+      "id": "2026-09-10-gpt-image-25-rename",
+      "published_at": "2026-09-10",
+      "type": "breaking",
+      "modality": [
+        "image"
+      ],
+      "title": {
+        "en": "GPT Image per-call model IDs renamed to 2.5",
+        "zh": "GPT Image 按次模型 ID 正式更名为 2.5"
+      },
+      "summary": {
+        "en": "Update requests to gpt-image-2.5 or gpt-image-2.5-hd. Old model IDs are no longer accepted; per-call prices are unchanged.",
+        "zh": "请将请求改为 gpt-image-2.5 或 gpt-image-2.5-hd。旧 model ID 不再接受，按次售价不变。"
+      },
+      "models": [
+        "gpt-image-2.5",
+        "gpt-image-2.5-hd"
+      ],
+      "tags": [
+        "image",
+        "breaking",
+        "migration"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "GPT Image generation",
+            "zh": "GPT Image 图像生成"
+          },
+          "href": {
+            "en": "/en/api-reference/image-series/gpt-image/generate",
+            "zh": "/zh/api-reference/image-series/gpt-image/generate"
+          }
+        }
+      ],
+      "body": {
+        "en": "## Required migration\n\n- Replace `gpt-image-2` with `gpt-image-2.5`.\n- Replace `gpt-image-2-hd` with `gpt-image-2.5-hd`.\n- Keep using `POST /v1/images/generations`. Update the `model` value in saved requests, integrations, and any model allowlists.\n\nThe old IDs are not compatibility aliases. The `gpt-image-2-5` spelling is not supported.\n\n## Pricing and scope\n\nBase per-call prices remain $0.0441 for `gpt-image-2.5` and $0.005479 for `gpt-image-2.5-hd`; group multipliers may affect final charges. This is a public ID migration, not a claim of a newly verified resolution or upstream capability.\n\nFlare and Sunburst are separate token-billed models and are not available as part of this change.",
+        "zh": "## 必须迁移\n\n- 将 `gpt-image-2` 替换为 `gpt-image-2.5`。\n- 将 `gpt-image-2-hd` 替换为 `gpt-image-2.5-hd`。\n- 继续使用 `POST /v1/images/generations`，更新保存的请求、集成代码及模型白名单中的 `model`。\n\n旧 ID 不是兼容别名，也不支持 `gpt-image-2-5` 拼写。\n\n## 价格与范围\n\n基础按次价保持不变：`gpt-image-2.5` 为 $0.0441/次，`gpt-image-2.5-hd` 为 $0.005479/次；分组倍率可能影响最终费用。本次是公开 ID 迁移，不代表新增或验证了特定分辨率及上游能力。\n\nFlare 和 Sunburst 是独立的 Token 计费模型，不在本次变更中开放。"
+      },
+      "schema_version": 1
+    },
     {
       "id": "2026-09-09-h3-media-task-contracts",
       "published_at": "2026-09-09",

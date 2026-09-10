@@ -54,5 +54,21 @@
     "source": "https://omnimux.ai/api/pricing",
     "historical_commit": "fab6847667195b92068f4f943f82abe78b5a8bd5",
     "reason": "The unchanged dated entry exists at the recorded commit; current public pricing omits this model. Retain the historical record without asserting current availability or a removal date."
+  },
+  {
+    "entry_id": "2026-04-28-gpt-image-2",
+    "model": "gpt-image-2",
+    "checked_at": "2026-09-10T10:40:40+08:00",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "83c10ae8e1fb024f969f70f732b5d9bf50b467b4",
+    "reason": "The unchanged dated launch entry exists at this commit. The public ID was renamed on 2026-09-10; current pricing omits the old ID. Preserve historical facts; see 2026-09-10-gpt-image-25-rename for required migration."
+  },
+  {
+    "entry_id": "2026-04-28-gpt-image-2",
+    "model": "gpt-image-2-hd",
+    "checked_at": "2026-09-10T10:40:40+08:00",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "83c10ae8e1fb024f969f70f732b5d9bf50b467b4",
+    "reason": "The unchanged dated launch entry exists at this commit. The public ID was renamed on 2026-09-10; current pricing omits the old ID. Preserve historical facts; see 2026-09-10-gpt-image-25-rename for required migration."
   }
 ]
