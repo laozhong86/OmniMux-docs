@@ -21,9 +21,9 @@ OmniMux 提供了原生的**无状态单请求动态分组路由**，支持开�
 
 | 规格类型 | 传参方式 | 典型场景 | 扣费机制 |
 | :--- | :--- | :--- | :--- |
-| **默认自动模式（Auto）** | 直接传官方模型名<br>`"model": "seedance-2-5"` | 快速接入、成本优先走量、草稿测试 | 新密钥默认生效。系统在可用分组中**优先匹配最低价格渠道**，并在低价池波动时**自动跨组重试升舱**保障服务不中断。 |
-| **通用标准专线（Standard）** | 加 `@standard` 后缀<br>`"model": "seedance-2-5@standard"`<br>或 Header `X-Omnimux-Group: standard` | 日常稳定生产、官方原厂直签专线 | 按 **1.0 基准倍率**计费，直连官方或一级商业主力专线，保障成片率与高可用。 |
-| **模型专属折扣规格** | 加模型专属后缀<br>`"model": "seedance-2-5@seedance-cheap"`<br>`"model": "gemini-3.8-flash@gemini-cheap"` | 批量出图、轻量任务、企业级独立并发 | 严格按照该模型在特定渠道的核算折扣扣费（如 `seedance-cheap` 享 2.5 折、`gemini-cheap` 享 3 折），渠道物理隔离。 |
+| **默认自动模式（Auto）** | 直接传官方模型名<br />`"model": "seedance-2-5"` | 快速接入、成本优先走量、草稿测试 | 新密钥默认生效。系统在可用分组中**优先匹配最低价格渠道**，并在低价池波动时**自动跨组重试升舱**保障服务不中断。 |
+| **通用标准专线（Standard）** | 加 `@standard` 后缀<br />`"model": "seedance-2-5@standard"`<br />或 Header `X-Omnimux-Group: standard` | 日常稳定生产、官方原厂直签专线 | 按 **1.0 基准倍率**计费，直连官方或一级商业主力专线，保障成片率与高可用。 |
+| **模型专属折扣规格** | 加模型专属后缀<br />`"model": "seedance-2-5@seedance-cheap"`<br />`"model": "gemini-3.8-flash@gemini-cheap"` | 批量出图、轻量任务、企业级独立并发 | 严格按照该模型在特定渠道的核算折扣扣费（如 `seedance-cheap` 享 2.5 折、`gemini-cheap` 享 3 折），渠道物理隔离。 |
 
 ### 2. 代码调用示例
 

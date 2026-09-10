@@ -21,9 +21,9 @@ OmniMux provides native **stateless per-request group routing**, allowing you to
 
 | Tier | Request Syntax | Typical Use Case | Billing & Routing |
 | :--- | :--- | :--- | :--- |
-| **Default Auto Mode** | Bare model name<br>`"model": "seedance-2-5"` | Onboarding, drafts, batch creation | Default for new keys. Resolves lowest-cost channels first with automatic cross-group retry for SLA protection. |
-| **Global Standard Tier** | Add `@standard` suffix<br>`"model": "seedance-2-5@standard"`<br>or `-H "X-Omnimux-Group: standard"` | Production pipelines, official SLA | Fixed **1.0 base multiplier**, routed to official or premier enterprise lines. |
-| **Model-Specific Discounts** | Add model-specific group<br>`"model": "seedance-2-5@seedance-cheap"`<br>`"model": "gemini-3.8-flash@gemini-cheap"` | Massive scaling, cost-sensitive jobs | Fixed custom discount (e.g. 75% off for Seedance Cheap, 70% off for Gemini Cheap), physically isolated channels. |
+| **Default Auto Mode** | Bare model name<br />`"model": "seedance-2-5"` | Onboarding, drafts, batch creation | Default for new keys. Resolves lowest-cost channels first with automatic cross-group retry for SLA protection. |
+| **Global Standard Tier** | Add `@standard` suffix<br />`"model": "seedance-2-5@standard"`<br />or `-H "X-Omnimux-Group: standard"` | Production pipelines, official SLA | Fixed **1.0 base multiplier**, routed to official or premier enterprise lines. |
+| **Model-Specific Discounts** | Add model-specific group<br />`"model": "seedance-2-5@seedance-cheap"`<br />`"model": "gemini-3.8-flash@gemini-cheap"` | Massive scaling, cost-sensitive jobs | Fixed custom discount (e.g. 75% off for Seedance Cheap, 70% off for Gemini Cheap), physically isolated channels. |
 
 ### 2. Code examples
 
