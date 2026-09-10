@@ -9,7 +9,7 @@ openapi: "openapi/ops/image/en/gpt-image.json POST /v1/images/generations"
 Since September 10, 2026, `gpt-image-2` and `gpt-image-2-hd` have been renamed to `gpt-image-2.5` and `gpt-image-2.5-hd`. The old model IDs are no longer accepted. Update the `model` in your requests; these are not compatibility aliases.
 </Warning>
 
-The base prices for these per-call models are $0.0441/call and $0.005479/call, respectively; group multipliers may affect the final charge. This rename does not change prices.
+The base prices for these per-call models are USD 0.0441/call and USD 0.005479/call, respectively; group multipliers may affect the final charge. This rename does not change prices.
 
 Read image results when `data` is returned. An `image.generation.task` response means an asynchronous task was submitted, not that an image is ready. The response shape depends on the route; do not treat task acceptance as the final result.
 
