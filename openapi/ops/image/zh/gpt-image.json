@@ -1,0 +1,141 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "GPT Image · 图像生成",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.omnimux.ai"
+    }
+  ],
+  "paths": {
+    "/v1/images/generations": {
+      "post": {
+        "summary": "GPT Image · 图像生成",
+        "operationId": "generateGPTImage",
+        "description": "使用 GPT Image 2.5 按次模型生成图像。",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "model",
+                  "prompt"
+                ],
+                "properties": {
+                  "model": {
+                    "type": "string",
+                    "enum": [
+                      "gpt-image-2.5",
+                      "gpt-image-2.5-hd"
+                    ],
+                    "default": "gpt-image-2.5"
+                  },
+                  "prompt": {
+                    "type": "string"
+                  },
+                  "n": {
+                    "type": "integer",
+                    "description": "图像数量，受所选模型和渠道限制。"
+                  },
+                  "size": {
+                    "type": "string",
+                    "description": "可接受的尺寸取决于所选模型与渠道；不保证所有尺寸可用。"
+                  },
+                  "quality": {
+                    "type": "string",
+                    "description": "质量选项取决于所选模型与渠道。"
+                  }
+                }
+              },
+              "example": {
+                "model": "gpt-image-2.5",
+                "prompt": "A product photo on a white background",
+                "n": 1
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "图像结果或已提交的异步任务。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "响应可为图像结果或异步任务；按实际响应处理。",
+                  "properties": {
+                    "created": {
+                      "type": "integer"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "url": {
+                            "type": "string"
+                          },
+                          "b64_json": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "id": {
+                      "type": "string",
+                      "description": "异步任务 ID（若返回）。"
+                    },
+                    "object": {
+                      "type": "string"
+                    },
+                    "model": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "402": {
+            "description": "Insufficient quota"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "429": {
+            "description": "Rate limit exceeded"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

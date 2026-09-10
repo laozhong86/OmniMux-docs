@@ -7,6 +7,30 @@ rss: true
 
 Stay up to date with OmniMux gateway model launches and platform changes. The full callable catalog is on [console pricing](https://omnimux.ai) / [Pricing](/en/api-reference/account/pricing).
 
+<a id="2026-09-10-gpt-image-25-rename"></a>
+
+<Update label="September 10, 2026" tags={["Breaking", "Image"]} rss={{ title: "GPT Image per-call model IDs renamed to 2.5" }}>
+
+  ## Required migration
+
+  - Replace `gpt-image-2` with `gpt-image-2.5`.
+  - Replace `gpt-image-2-hd` with `gpt-image-2.5-hd`.
+  - Keep using `POST /v1/images/generations`. Update the `model` value in saved requests, integrations, and any model allowlists.
+
+  The old IDs are not compatibility aliases. The `gpt-image-2-5` spelling is not supported.
+
+  ## Pricing and scope
+
+  Base per-call prices remain $0.0441 for `gpt-image-2.5` and $0.005479 for `gpt-image-2.5-hd`; group multipliers may affect final charges. This is a public ID migration, not a claim of a newly verified resolution or upstream capability.
+
+  Flare and Sunburst are separate token-billed models and are not available as part of this change.
+
+  ### Links
+
+  - [GPT Image generation](/en/api-reference/image-series/gpt-image/generate)
+
+</Update>
+
 <a id="2026-09-09-h3-media-task-contracts"></a>
 
 <Update label="September 9, 2026" tags={["Breaking", "Video"]} rss={{ title: "H3 ordered references and task result handling" }}>

@@ -1,0 +1,141 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "GPT Image · Image generation",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.omnimux.ai"
+    }
+  ],
+  "paths": {
+    "/v1/images/generations": {
+      "post": {
+        "summary": "GPT Image · Image generation",
+        "operationId": "generateGPTImage",
+        "description": "Generate images with the GPT Image 2.5 per-call models.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "model",
+                  "prompt"
+                ],
+                "properties": {
+                  "model": {
+                    "type": "string",
+                    "enum": [
+                      "gpt-image-2.5",
+                      "gpt-image-2.5-hd"
+                    ],
+                    "default": "gpt-image-2.5"
+                  },
+                  "prompt": {
+                    "type": "string"
+                  },
+                  "n": {
+                    "type": "integer",
+                    "description": "Image count, subject to the selected model and route limits."
+                  },
+                  "size": {
+                    "type": "string",
+                    "description": "Accepted sizes depend on the selected model and route; not every size is guaranteed."
+                  },
+                  "quality": {
+                    "type": "string",
+                    "description": "Quality options depend on the selected model and route."
+                  }
+                }
+              },
+              "example": {
+                "model": "gpt-image-2.5",
+                "prompt": "A product photo on a white background",
+                "n": 1
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Image results or an accepted asynchronous task.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "The response can contain image results or an asynchronous task; handle the returned shape.",
+                  "properties": {
+                    "created": {
+                      "type": "integer"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "url": {
+                            "type": "string"
+                          },
+                          "b64_json": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "id": {
+                      "type": "string",
+                      "description": "Asynchronous task ID, when returned."
+                    },
+                    "object": {
+                      "type": "string"
+                    },
+                    "model": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "402": {
+            "description": "Insufficient quota"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "429": {
+            "description": "Rate limit exceeded"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

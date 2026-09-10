@@ -7,6 +7,30 @@ rss: true
 
 跟踪 OmniMux 网关的模型上新与平台变更。完整可调用模型以[控制台定价](https://omnimux.ai) / [定价与账户](/zh/api-reference/account/pricing)为准。
 
+<a id="2026-09-10-gpt-image-25-rename"></a>
+
+<Update label="2026 年 9 月 10 日" tags={["不兼容变更", "图像"]} rss={{ title: "GPT Image 按次模型 ID 正式更名为 2.5" }}>
+
+  ## 必须迁移
+
+  - 将 `gpt-image-2` 替换为 `gpt-image-2.5`。
+  - 将 `gpt-image-2-hd` 替换为 `gpt-image-2.5-hd`。
+  - 继续使用 `POST /v1/images/generations`，更新保存的请求、集成代码及模型白名单中的 `model`。
+
+  旧 ID 不是兼容别名，也不支持 `gpt-image-2-5` 拼写。
+
+  ## 价格与范围
+
+  基础按次价保持不变：`gpt-image-2.5` 为 $0.0441/次，`gpt-image-2.5-hd` 为 $0.005479/次；分组倍率可能影响最终费用。本次是公开 ID 迁移，不代表新增或验证了特定分辨率及上游能力。
+
+  Flare 和 Sunburst 是独立的 Token 计费模型，不在本次变更中开放。
+
+  ### 链接
+
+  - [GPT Image 图像生成](/zh/api-reference/image-series/gpt-image/generate)
+
+</Update>
+
 <a id="2026-09-09-h3-media-task-contracts"></a>
 
 <Update label="2026 年 9 月 9 日" tags={["不兼容变更", "视频"]} rss={{ title: "H3 有序参考素材与任务结果处理修复" }}>

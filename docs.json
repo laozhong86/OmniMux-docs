@@ -122,8 +122,7 @@
                   {
                     "group": "GPT Image",
                     "pages": [
-                      "en/api-reference/image-series/models/gpt-image-2",
-                      "en/api-reference/image-series/models/gpt-image-2-hd"
+                      "en/api-reference/image-series/gpt-image/generate"
                     ],
                     "icon": "image"
                   },
@@ -589,8 +588,7 @@
                   {
                     "group": "GPT Image",
                     "pages": [
-                      "zh/api-reference/image-series/models/gpt-image-2",
-                      "zh/api-reference/image-series/models/gpt-image-2-hd"
+                      "zh/api-reference/image-series/gpt-image/generate"
                     ],
                     "icon": "image"
                   },
@@ -1105,22 +1103,22 @@
     },
     {
       "source": "/zh/api-reference/image-series/models/gpt-image2",
-      "destination": "/zh/api-reference/image-series/models/gpt-image-2",
+      "destination": "/zh/api-reference/image-series/gpt-image/generate",
       "permanent": true
     },
     {
       "source": "/en/api-reference/image-series/models/gpt-image2",
-      "destination": "/en/api-reference/image-series/models/gpt-image-2",
+      "destination": "/en/api-reference/image-series/gpt-image/generate",
       "permanent": true
     },
     {
       "source": "/zh/api-reference/image-series/models/gpt-image2-hd",
-      "destination": "/zh/api-reference/image-series/models/gpt-image-2-hd",
+      "destination": "/zh/api-reference/image-series/gpt-image/generate",
       "permanent": true
     },
     {
       "source": "/en/api-reference/image-series/models/gpt-image2-hd",
-      "destination": "/en/api-reference/image-series/models/gpt-image-2-hd",
+      "destination": "/en/api-reference/image-series/gpt-image/generate",
       "permanent": true
     },
     {
@@ -1222,6 +1220,22 @@
       "source": "/en/api-reference/video-series/models/omni_flash-10s",
       "destination": "/en/api-reference/video-series/models/gemini-omni-flash",
       "permanent": true
+    },
+    {
+      "source": "/en/api-reference/image-series/models/gpt-image-2",
+      "destination": "/en/api-reference/image-series/gpt-image/generate"
+    },
+    {
+      "source": "/en/api-reference/image-series/models/gpt-image-2-hd",
+      "destination": "/en/api-reference/image-series/gpt-image/generate"
+    },
+    {
+      "source": "/zh/api-reference/image-series/models/gpt-image-2",
+      "destination": "/zh/api-reference/image-series/gpt-image/generate"
+    },
+    {
+      "source": "/zh/api-reference/image-series/models/gpt-image-2-hd",
+      "destination": "/zh/api-reference/image-series/gpt-image/generate"
     }
   ],
   "icons": {
