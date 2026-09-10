@@ -13,6 +13,42 @@ OmniMux 控制台用户侧用 **积分** 展示消耗；与内部 raw quota 的�
 
 查看余额与明细请用 [控制台](https://omnimux.ai/dashboard)。公开定价入口见控制台 / 模型广场；接口侧可用 [查询定价](/zh/api-reference/account/pricing) 等账户 API（access token）。
 
+## 如何通过模型规格与动态分组控制成本与质量？
+
+OmniMux 提供了原生的**无状态单请求动态分组路由**，支持开发者在一把 API 密钥下自由平衡成本与质量，无需反复新建或切换密钥。
+
+### 1. 三种调用形态对比
+
+| 规格类型 | 传参方式 | 典型场景 | 扣费机制 |
+| :--- | :--- | :--- | :--- |
+| **默认自动模式（Auto）** | 直接传官方模型名<br>`"model": "seedance-2-5"` | 快速接入、成本优先走量、草稿测试 | 新密钥默认生效。系统在可用分组中**优先匹配最低价格渠道**，并在低价池波动时**自动跨组重试升舱**保障服务不中断。 |
+| **通用标准专线（Standard）** | 加 `@standard` 后缀<br>`"model": "seedance-2-5@standard"`<br>或 Header `X-Omnimux-Group: standard` | 日常稳定生产、官方原厂直签专线 | 按 **1.0 基准倍率**计费，直连官方或一级商业主力专线，保障成片率与高可用。 |
+| **模型专属折扣规格** | 加模型专属后缀<br>`"model": "seedance-2-5@seedance-cheap"`<br>`"model": "gemini-3.8-flash@gemini-cheap"` | 批量出图、轻量任务、企业级独立并发 | 严格按照该模型在特定渠道的核算折扣扣费（如 `seedance-cheap` 享 2.5 折、`gemini-cheap` 享 3 折），渠道物理隔离。 |
+
+### 2. 代码调用示例
+
+#### 方式 A：模型后缀语法（推荐，支持所有开源客户端与 SDK）
+```json
+{
+  "model": "seedance-2-5@seedance-cheap",
+  "prompt": "A peaceful ocean wave at sunrise, 4k"
+}
+```
+
+#### 方式 B：HTTP Header 透传（适合业务集成）
+```bash
+curl -X POST "https://api.omnimux.ai/v1/chat/completions" \
+  -H "Authorization: Bearer sk-your-token" \
+  -H "Content-Type: application/json" \
+  -H "X-Omnimux-Group: gemini-cheap" \
+  -d '{
+    "model": "gemini-3.8-flash",
+    "messages": [{"role": "user", "content": "Hello!"}]
+  }'
+```
+
+---
+
 ## 如何降低调用成本？
 
 1. **选对模型**  

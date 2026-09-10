@@ -13,6 +13,42 @@ User-facing balance uses **积分 (points)**. Internal raw quota converts as:
 
 Use the [console](https://omnimux.ai/dashboard) for balance and usage. Account APIs (access token) expose profile/quota fields.
 
+## How to control cost and quality via model tiers & dynamic groups
+
+OmniMux provides native **stateless per-request group routing**, allowing you to choose between cost optimization and production stability with a single API key:
+
+### 1. Three invocation modes
+
+| Tier | Request Syntax | Typical Use Case | Billing & Routing |
+| :--- | :--- | :--- | :--- |
+| **Default Auto Mode** | Bare model name<br>`"model": "seedance-2-5"` | Onboarding, drafts, batch creation | Default for new keys. Resolves lowest-cost channels first with automatic cross-group retry for SLA protection. |
+| **Global Standard Tier** | Add `@standard` suffix<br>`"model": "seedance-2-5@standard"`<br>or `-H "X-Omnimux-Group: standard"` | Production pipelines, official SLA | Fixed **1.0 base multiplier**, routed to official or premier enterprise lines. |
+| **Model-Specific Discounts** | Add model-specific group<br>`"model": "seedance-2-5@seedance-cheap"`<br>`"model": "gemini-3.8-flash@gemini-cheap"` | Massive scaling, cost-sensitive jobs | Fixed custom discount (e.g. 75% off for Seedance Cheap, 70% off for Gemini Cheap), physically isolated channels. |
+
+### 2. Code examples
+
+#### Method A: Model Suffix Syntax (Recommended for all clients/SDKs)
+```json
+{
+  "model": "seedance-2-5@seedance-cheap",
+  "prompt": "A peaceful ocean wave at sunrise, 4k"
+}
+```
+
+#### Method B: HTTP Header (Ideal for backend service integration)
+```bash
+curl -X POST "https://api.omnimux.ai/v1/chat/completions" \
+  -H "Authorization: Bearer sk-your-token" \
+  -H "Content-Type: application/json" \
+  -H "X-Omnimux-Group: gemini-cheap" \
+  -d '{
+    "model": "gemini-3.8-flash",
+    "messages": [{"role": "user", "content": "Hello!"}]
+  }'
+```
+
+---
+
 ## How to reduce cost
 
 1. **Pick the right model** — cheaper/smaller models for simple jobs; enum lists capability, not equal price.  
