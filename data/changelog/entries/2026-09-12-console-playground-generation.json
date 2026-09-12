@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "id": "2026-09-12-console-playground-generation",
+  "published_at": "2026-09-12",
+  "type": "platform",
+  "modality": ["platform"],
+  "title": {
+    "en": "Model page playground generates through the gateway session",
+    "zh": "模型详情页 Playground 支持以网关登录态直接发起生成"
+  },
+  "summary": {
+    "en": "The public model page submits real generations from a signed-in browser session, so no separately minted API token is needed to try a model from the console.",
+    "zh": "公开模型详情页现可直接以浏览器登录态提交真实生成，控制台试用模型无需另行创建 API 令牌。"
+  },
+  "models": [],
+  "links": [
+    {
+      "label": { "en": "Video generation API", "zh": "视频生成 API" },
+      "href": {
+        "en": "/en/api-reference/video-series/models/seedance-2-5",
+        "zh": "/zh/api-reference/video-series/models/seedance-2-5"
+      }
+    }
+  ],
+  "tags": ["console", "playground", "session", "video", "platform"],
+  "body": {
+    "en": "## Overview\n\nThe model page at `omnimux.ai/pricing/<model-id>` now runs real generations. Its **Playground** section submits through the gateway using the signed-in browser session, so a user who has already logged in to OmniMux can try a model without creating an API token first.\n\n## Which path to call\n\n- **From the console**: the page posts to the session-authenticated `POST /pg/video/generations`. This path accepts a browser session only and is not part of the token API surface.\n- **From your own code**: keep using `POST /v1/video/generations` with an API token — the same contract documented in the video-series model pages. Nothing about the token path changed.\n\n## Task results\n\nSubmitted tasks are read back through the same session: `GET /api/task/self` for status, progress and quota, and `GET /api/task/:task_id/artifacts` for the media projection. Tasks submitted from the console appear in the account's task list like any other task.\n\n## Billing\n\nConsole submissions use the standard precharge and settle path. No separate ledger, pricing rule or quota bucket is introduced for the console path.",
+    "zh": "## 概述\n\n位于 `omnimux.ai/pricing/<模型 ID>` 的模型详情页现已支持真实生成。页面中的 **Playground** 区块以浏览器登录态经网关提交，因此已登录 OmniMux 的用户无需先创建 API 令牌即可试用模型。\n\n## 该调用哪条路径\n\n- **在控制台内**：页面调用会话鉴权的 `POST /pg/video/generations`。该路径只接受浏览器登录态，不属于令牌 API 面。\n- **在自己的代码里**：继续使用带 API 令牌的 `POST /v1/video/generations`，契约与视频系列模型页所述一致。令牌路径没有任何改动。\n\n## 任务结果\n\n提交后的任务同样以登录态读取：`GET /api/task/self` 取状态、进度与额度，`GET /api/task/:task_id/artifacts` 取媒体投影。控制台提交的任务会和其他任务一样出现在账户任务列表中。\n\n## 计费\n\n控制台提交走标准预扣与结算路径，不为控制台单独引入账本、定价规则或配额池。"
+  }
+}
