@@ -7,6 +7,41 @@ rss: true
 
 Stay up to date with OmniMux gateway model launches and platform changes. The full callable catalog is on [console pricing](https://omnimux.ai) / [Pricing](/en/api-reference/account/pricing).
 
+<a id="2026-09-13-midjourney-two-ids"></a>
+
+<Update label="September 13, 2026" tags={["Breaking", "Image"]} rss={{ title: "Midjourney now uses two version IDs with per-request actions" }}>
+
+  ## Required migration
+
+  - Replace the legacy `midjourney` ID and every per-action ID (for example `mj-v7-upscale`, `mj-v8-1-remove-bg`) with one of two version IDs: `mj-v7` or `mj-v8-1`.
+  - Select the action in the request body: `model_params.operation` = `generate` | `enhance` | `pan` | `outpaint` | `remove-bg` | `upscale` | `variation` | `edit` | `inpaint` | `remix` | `retexture` | `upload-paint`. Omit it for plain generation.
+  - Keep using `POST /v1/images/generations`; the request shape, the async task id and the polling behaviour are unchanged.
+
+  The old IDs are not compatibility aliases. An unknown or unpriced `operation` is rejected with **400**, never silently downgraded to plain generation.
+
+  ## Pricing
+
+  Per-call prices are tiered by action, and the tiers are the same on both versions:
+
+  | Action tier | Price | Credits |
+  | --- | --- | --- |
+  | `generate`, `enhance`, `pan`, `outpaint`, `remove-bg` | USD 0.113446 | 1.134 |
+  | `upscale`, `variation`, `edit`, `inpaint`, `remix`, `retexture`, `upload-paint` | USD 0.170169 | 1.702 |
+
+  Multipliers stack on the action tier: `quality: "hd"` (mj-v8-1) ×1.5, `model_params.speed: "turbo"` ×2, upscale `type: "creative"` ×4/3. `draft`/`fast` and `type: "standard"` stay ×1. Measured example: mj-v8-1 + hd + upscale + creative = USD 0.255251 per call.
+
+  The `mj-v7` per-call price moved from USD 0.056723 to USD 0.113446 to match what upstream bills for generation; the action tiers above are unchanged in absolute terms.
+
+  ## Inpaint
+
+  Use the mask-image form: `model_params.mask.url` (an image URL or a `data:` URL, black = keep, white = regenerate). The polygon form `model_params.mask.areas[]` is rejected upstream with `invalid_parameters: Image dimensions out of range` in our measurements (2026-09-13), including with the upstream documentation's own example coordinates.
+
+  ### Links
+
+  - [Midjourney image generation](/en/api-reference/image-series/models/midjourney)
+
+</Update>
+
 <a id="2026-09-10-r2-file-storage"></a>
 
 <Update label="September 10, 2026" tags={["Platform"]} rss={{ title: "Cloudflare R2 storage & Evolink-compatible file upload API released" }}>
