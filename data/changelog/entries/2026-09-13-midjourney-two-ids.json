@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "id": "2026-09-13-midjourney-two-ids",
+  "published_at": "2026-09-13",
+  "type": "breaking",
+  "modality": ["image"],
+  "title": {
+    "en": "Midjourney now uses two version IDs with per-request actions",
+    "zh": "Midjourney 收敛为两个版本 ID，动作改为按请求选择"
+  },
+  "summary": {
+    "en": "Call model mj-v7 or mj-v8-1 and select the action with model_params.operation. The old per-action model IDs and the legacy `midjourney` ID are no longer accepted. Per-call prices are now tiered by action, and quality/speed/upscale-type multipliers apply on top.",
+    "zh": "请改用模型 mj-v7 或 mj-v8-1，并通过 model_params.operation 选择动作。原有的按动作模型 ID 与旧的 `midjourney` ID 已不再接受。按次价格改为按动作分档，并在其上叠加画质/速度/放大类型乘子。"
+  },
+  "models": ["mj-v7", "mj-v8-1"],
+  "links": [
+    {
+      "label": { "en": "Midjourney image generation", "zh": "Midjourney 图像生成" },
+      "href": {
+        "en": "/en/api-reference/image-series/models/midjourney",
+        "zh": "/zh/api-reference/image-series/models/midjourney"
+      }
+    }
+  ],
+  "tags": ["image", "breaking", "migration", "pricing"],
+  "body": {
+    "en": "## Required migration\n\n- Replace the legacy `midjourney` ID and every per-action ID (for example `mj-v7-upscale`, `mj-v8-1-remove-bg`) with one of two version IDs: `mj-v7` or `mj-v8-1`.\n- Select the action in the request body: `model_params.operation` = `generate` | `enhance` | `pan` | `outpaint` | `remove-bg` | `upscale` | `variation` | `edit` | `inpaint` | `remix` | `retexture` | `upload-paint`. Omit it for plain generation.\n- Keep using `POST /v1/images/generations`; the request shape, the async task id and the polling behaviour are unchanged.\n\nThe old IDs are not compatibility aliases. An unknown or unpriced `operation` is rejected with **400**, never silently downgraded to plain generation.\n\n## Pricing\n\nPer-call prices are tiered by action, and the tiers are the same on both versions:\n\n| Action tier | Price | Credits |\n| --- | --- | --- |\n| `generate`, `enhance`, `pan`, `outpaint`, `remove-bg` | USD 0.113446 | 1.134 |\n| `upscale`, `variation`, `edit`, `inpaint`, `remix`, `retexture`, `upload-paint` | USD 0.170169 | 1.702 |\n\nMultipliers stack on the action tier: `quality: \"hd\"` (mj-v8-1) ×1.5, `model_params.speed: \"turbo\"` ×2, upscale `type: \"creative\"` ×4/3. `draft`/`fast` and `type: \"standard\"` stay ×1. Measured example: mj-v8-1 + hd + upscale + creative = USD 0.255251 per call.\n\nThe `mj-v7` per-call price moved from USD 0.056723 to USD 0.113446 to match what upstream bills for generation; the action tiers above are unchanged in absolute terms.\n\n## Inpaint\n\nUse the mask-image form: `model_params.mask.url` (an image URL or a `data:` URL, black = keep, white = regenerate). The polygon form `model_params.mask.areas[]` is rejected upstream with `invalid_parameters: Image dimensions out of range` in our measurements (2026-09-13), including with the upstream documentation's own example coordinates.",
+    "zh": "## 必须迁移\n\n- 将旧的 `midjourney` ID 以及所有按动作的 ID（例如 `mj-v7-upscale`、`mj-v8-1-remove-bg`）替换为两个版本 ID 之一：`mj-v7` 或 `mj-v8-1`。\n- 动作改在请求体中选择：`model_params.operation` 取 `generate` | `enhance` | `pan` | `outpaint` | `remove-bg` | `upscale` | `variation` | `edit` | `inpaint` | `remix` | `retexture` | `upload-paint`；不传即为普通生成。\n- 继续使用 `POST /v1/images/generations`；请求形态、异步任务 id 与轮询方式均不变。\n\n旧 ID 不是兼容别名。未知或无法定价的 `operation` 一律返回 **400**，绝不静默降级为普通生成。\n\n## 价格\n\n按次价格改为按动作分档，两个版本的档位一致：\n\n| 动作档位 | 价格 | 积分 |\n| --- | --- | --- |\n| `generate`、`enhance`、`pan`、`outpaint`、`remove-bg` | USD 0.113446 | 1.134 |\n| `upscale`、`variation`、`edit`、`inpaint`、`remix`、`retexture`、`upload-paint` | USD 0.170169 | 1.702 |\n\n在动作档位之上叠加乘子：`quality: \"hd\"`（仅 mj-v8-1）×1.5、`model_params.speed: \"turbo\"` ×2、upscale `type: \"creative\"` ×4/3；`draft`/`fast` 与 `type: \"standard\"` 为 ×1。实测例：mj-v8-1 + hd + upscale + creative = USD 0.255251/次。\n\n`mj-v7` 的按次价由 USD 0.056723 调整为 USD 0.113446，与上游生成档实际扣费对齐；上述各动作档的绝对价不变。\n\n## 局部重绘\n\n请使用图片 mask：`model_params.mask.url`（图片 URL 或 `data:` URL，黑色=保留，白色=重绘）。多边形写法 `model_params.mask.areas[]` 在我们 2026-09-13 的实测中被上游以 `invalid_parameters: Image dimensions out of range` 拒绝，连上游文档自带的示例坐标也一样。"
+  }
+}

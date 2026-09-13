@@ -7,6 +7,41 @@ rss: true
 
 跟踪 OmniMux 网关的模型上新与平台变更。完整可调用模型以[控制台定价](https://omnimux.ai) / [定价与账户](/zh/api-reference/account/pricing)为准。
 
+<a id="2026-09-13-midjourney-two-ids"></a>
+
+<Update label="2026 年 9 月 13 日" tags={["不兼容变更", "图像"]} rss={{ title: "Midjourney 收敛为两个版本 ID，动作改为按请求选择" }}>
+
+  ## 必须迁移
+
+  - 将旧的 `midjourney` ID 以及所有按动作的 ID（例如 `mj-v7-upscale`、`mj-v8-1-remove-bg`）替换为两个版本 ID 之一：`mj-v7` 或 `mj-v8-1`。
+  - 动作改在请求体中选择：`model_params.operation` 取 `generate` | `enhance` | `pan` | `outpaint` | `remove-bg` | `upscale` | `variation` | `edit` | `inpaint` | `remix` | `retexture` | `upload-paint`；不传即为普通生成。
+  - 继续使用 `POST /v1/images/generations`；请求形态、异步任务 id 与轮询方式均不变。
+
+  旧 ID 不是兼容别名。未知或无法定价的 `operation` 一律返回 **400**，绝不静默降级为普通生成。
+
+  ## 价格
+
+  按次价格改为按动作分档，两个版本的档位一致：
+
+  | 动作档位 | 价格 | 积分 |
+  | --- | --- | --- |
+  | `generate`、`enhance`、`pan`、`outpaint`、`remove-bg` | USD 0.113446 | 1.134 |
+  | `upscale`、`variation`、`edit`、`inpaint`、`remix`、`retexture`、`upload-paint` | USD 0.170169 | 1.702 |
+
+  在动作档位之上叠加乘子：`quality: "hd"`（仅 mj-v8-1）×1.5、`model_params.speed: "turbo"` ×2、upscale `type: "creative"` ×4/3；`draft`/`fast` 与 `type: "standard"` 为 ×1。实测例：mj-v8-1 + hd + upscale + creative = USD 0.255251/次。
+
+  `mj-v7` 的按次价由 USD 0.056723 调整为 USD 0.113446，与上游生成档实际扣费对齐；上述各动作档的绝对价不变。
+
+  ## 局部重绘
+
+  请使用图片 mask：`model_params.mask.url`（图片 URL 或 `data:` URL，黑色=保留，白色=重绘）。多边形写法 `model_params.mask.areas[]` 在我们 2026-09-13 的实测中被上游以 `invalid_parameters: Image dimensions out of range` 拒绝，连上游文档自带的示例坐标也一样。
+
+  ### 链接
+
+  - [Midjourney 图像生成](/zh/api-reference/image-series/models/midjourney)
+
+</Update>
+
 <a id="2026-09-12-console-playground-generation"></a>
 
 <Update label="2026 年 9 月 12 日" tags={["平台"]} rss={{ title: "模型详情页 Playground 支持以网关登录态直接发起生成" }}>
