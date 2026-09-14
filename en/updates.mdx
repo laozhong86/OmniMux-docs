@@ -38,6 +38,68 @@ Stay up to date with OmniMux gateway model launches and platform changes. The fu
 
 </Update>
 
+<a id="2026-09-13-midjourney-two-ids"></a>
+
+<Update label="September 13, 2026" tags={["Breaking", "Image"]} rss={{ title: "Midjourney now uses two version IDs with per-request actions" }}>
+
+  ## Required migration
+
+  - Replace the legacy `midjourney` ID and every per-action ID (for example `mj-v7-upscale`, `mj-v8-1-remove-bg`) with one of two version IDs: `mj-v7` or `mj-v8-1`.
+  - Select the action in the request body: `model_params.operation` = `generate` | `enhance` | `pan` | `outpaint` | `remove-bg` | `upscale` | `variation` | `edit` | `inpaint` | `remix` | `retexture` | `upload-paint`. Omit it for plain generation.
+  - Keep using `POST /v1/images/generations`; the request shape, the async task id and the polling behaviour are unchanged.
+
+  The old IDs are not compatibility aliases. An unknown or unpriced `operation` is rejected with **400**, never silently downgraded to plain generation.
+
+  ## Pricing
+
+  Per-call prices are tiered by action, and the tiers are the same on both versions:
+
+  | Action tier | Price | Credits |
+  | --- | --- | --- |
+  | `generate`, `enhance`, `pan`, `outpaint`, `remove-bg` | USD 0.113446 | 1.134 |
+  | `upscale`, `variation`, `edit`, `inpaint`, `remix`, `retexture`, `upload-paint` | USD 0.170169 | 1.702 |
+
+  Multipliers stack on the action tier: `quality: "hd"` (mj-v8-1) ×1.5, `model_params.speed: "turbo"` ×2, upscale `type: "creative"` ×4/3. `draft`/`fast` and `type: "standard"` stay ×1. Measured example: mj-v8-1 + hd + upscale + creative = USD 0.255251 per call.
+
+  The `mj-v7` per-call price moved from USD 0.056723 to USD 0.113446 to match what upstream bills for generation; the action tiers above are unchanged in absolute terms.
+
+  ## Inpaint
+
+  Use the mask-image form: `model_params.mask.url` (an image URL or a `data:` URL, black = keep, white = regenerate). The polygon form `model_params.mask.areas[]` is rejected upstream with `invalid_parameters: Image dimensions out of range` in our measurements (2026-09-13), including with the upstream documentation's own example coordinates.
+
+  ### Links
+
+  - [Midjourney image generation](/en/api-reference/image-series/models/midjourney)
+
+</Update>
+
+<a id="2026-09-12-console-playground-generation"></a>
+
+<Update label="September 12, 2026" tags={["Platform"]} rss={{ title: "Model page playground generates through the gateway session" }}>
+
+  ## Overview
+
+  The model page at `omnimux.ai/pricing/<model-id>` now runs real generations. Its **Playground** section submits through the gateway using the signed-in browser session, so a user who has already logged in to OmniMux can try a model without creating an API token first.
+
+  ## Which path to call
+
+  - **From the console**: the page posts to the session-authenticated `POST /pg/video/generations`. This path accepts a browser session only and is not part of the token API surface.
+  - **From your own code**: keep using `POST /v1/video/generations` with an API token — the same contract documented in the video-series model pages. Nothing about the token path changed.
+
+  ## Task results
+
+  Submitted tasks are read back through the same session: `GET /api/task/self` for status, progress and quota, and `GET /api/task/:task_id/artifacts` for the media projection. Tasks submitted from the console appear in the account's task list like any other task.
+
+  ## Billing
+
+  Console submissions use the standard precharge and settle path. No separate ledger, pricing rule or quota bucket is introduced for the console path.
+
+  ### Links
+
+  - [Video generation API](/en/api-reference/video-series/models/seedance-2-5)
+
+</Update>
+
 <a id="2026-09-10-r2-file-storage"></a>
 
 <Update label="September 10, 2026" tags={["Platform"]} rss={{ title: "Cloudflare R2 storage & Evolink-compatible file upload API released" }}>

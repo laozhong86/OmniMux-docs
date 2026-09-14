@@ -2,7 +2,7 @@
   "schema_version": 1,
   "page": 1,
   "page_size": 50,
-  "total": 32,
+  "total": 34,
   "total_pages": 1,
   "items": [
     {
@@ -69,6 +69,90 @@
       "body": {
         "en": "## What changed\n\n- Image-generation model pages now document the reference-image request field `images` (`string[]`, image URL or base64) together with the accepted aliases `image`, `image_urls` and `input_reference`, which the gateway normalizes to `images` before the upstream call.\n- Each page states the limits its vendor publishes for that model: maximum count, minimum, accepted formats and per-file size ceiling.\n\n## Limits we do not state\n\n- Where a value is not published by the vendor, the page says so instead of carrying a number; nothing is rounded or copied from a sibling model.\n- Where no model spec exists yet, the reference-image note marks the capability **unverified** and states no limit at all.\n\n## Withdrawn figure\n\n- The previously stated per-file reference-image cap of 50 MB is withdrawn. In the vendor's image guide that figure sits under mask requirements and covers the image being edited together with its mask; it is not a reference-image ceiling. `gpt-image-2.5` therefore carries no per-file size limit.\n\n## Documentation\n\n- Image series model pages: `/en/api-reference/image-series/models/*`\n- GPT Image generation: `/en/api-reference/image-series/gpt-image/generate`",
         "zh": "## 本次变更\n\n- 生图模型页新增参考图请求字段 `images`（`string[]`，图片 URL 或 base64），并写明可接受的别名 `image`、`image_urls`、`input_reference`；网关会在调用上游前统一归一为 `images`。\n- 每页按厂商口径给出该模型的参考图上限：单次张数、下限、接受格式与单文件大小上限。\n\n## 不声明的上限\n\n- 厂商未公布的项直接写“官方未公布”，不给数字，也不从同系列其他模型套用或取整。\n- 尚无模型档案的模型，参考图说明标注为**未核验**，且完全不声明上限。\n\n## 撤回的数字\n\n- 此前写出的单张参考图 50 MB 上限撤回。厂商图像指南中的该数字位于遮罩（mask）要求下，覆盖的是“被编辑图 + 其遮罩”，不是参考图上限。因此 `gpt-image-2.5` 不声明单文件大小上限。\n\n## 文档\n\n- 图像系列模型页：`/zh/api-reference/image-series/models/*`\n- GPT Image 图像生成：`/zh/api-reference/image-series/gpt-image/generate`"
+      },
+      "schema_version": 1
+    },
+    {
+      "id": "2026-09-13-midjourney-two-ids",
+      "published_at": "2026-09-13",
+      "type": "breaking",
+      "modality": [
+        "image"
+      ],
+      "title": {
+        "en": "Midjourney now uses two version IDs with per-request actions",
+        "zh": "Midjourney 收敛为两个版本 ID，动作改为按请求选择"
+      },
+      "summary": {
+        "en": "Call model mj-v7 or mj-v8-1 and select the action with model_params.operation. The old per-action model IDs and the legacy `midjourney` ID are no longer accepted. Per-call prices are now tiered by action, and quality/speed/upscale-type multipliers apply on top.",
+        "zh": "请改用模型 mj-v7 或 mj-v8-1，并通过 model_params.operation 选择动作。原有的按动作模型 ID 与旧的 `midjourney` ID 已不再接受。按次价格改为按动作分档，并在其上叠加画质/速度/放大类型乘子。"
+      },
+      "models": [
+        "mj-v7",
+        "mj-v8-1"
+      ],
+      "tags": [
+        "image",
+        "breaking",
+        "migration",
+        "pricing"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "Midjourney image generation",
+            "zh": "Midjourney 图像生成"
+          },
+          "href": {
+            "en": "/en/api-reference/image-series/models/midjourney",
+            "zh": "/zh/api-reference/image-series/models/midjourney"
+          }
+        }
+      ],
+      "body": {
+        "en": "## Required migration\n\n- Replace the legacy `midjourney` ID and every per-action ID (for example `mj-v7-upscale`, `mj-v8-1-remove-bg`) with one of two version IDs: `mj-v7` or `mj-v8-1`.\n- Select the action in the request body: `model_params.operation` = `generate` | `enhance` | `pan` | `outpaint` | `remove-bg` | `upscale` | `variation` | `edit` | `inpaint` | `remix` | `retexture` | `upload-paint`. Omit it for plain generation.\n- Keep using `POST /v1/images/generations`; the request shape, the async task id and the polling behaviour are unchanged.\n\nThe old IDs are not compatibility aliases. An unknown or unpriced `operation` is rejected with **400**, never silently downgraded to plain generation.\n\n## Pricing\n\nPer-call prices are tiered by action, and the tiers are the same on both versions:\n\n| Action tier | Price | Credits |\n| --- | --- | --- |\n| `generate`, `enhance`, `pan`, `outpaint`, `remove-bg` | USD 0.113446 | 1.134 |\n| `upscale`, `variation`, `edit`, `inpaint`, `remix`, `retexture`, `upload-paint` | USD 0.170169 | 1.702 |\n\nMultipliers stack on the action tier: `quality: \"hd\"` (mj-v8-1) ×1.5, `model_params.speed: \"turbo\"` ×2, upscale `type: \"creative\"` ×4/3. `draft`/`fast` and `type: \"standard\"` stay ×1. Measured example: mj-v8-1 + hd + upscale + creative = USD 0.255251 per call.\n\nThe `mj-v7` per-call price moved from USD 0.056723 to USD 0.113446 to match what upstream bills for generation; the action tiers above are unchanged in absolute terms.\n\n## Inpaint\n\nUse the mask-image form: `model_params.mask.url` (an image URL or a `data:` URL, black = keep, white = regenerate). The polygon form `model_params.mask.areas[]` is rejected upstream with `invalid_parameters: Image dimensions out of range` in our measurements (2026-09-13), including with the upstream documentation's own example coordinates.",
+        "zh": "## 必须迁移\n\n- 将旧的 `midjourney` ID 以及所有按动作的 ID（例如 `mj-v7-upscale`、`mj-v8-1-remove-bg`）替换为两个版本 ID 之一：`mj-v7` 或 `mj-v8-1`。\n- 动作改在请求体中选择：`model_params.operation` 取 `generate` | `enhance` | `pan` | `outpaint` | `remove-bg` | `upscale` | `variation` | `edit` | `inpaint` | `remix` | `retexture` | `upload-paint`；不传即为普通生成。\n- 继续使用 `POST /v1/images/generations`；请求形态、异步任务 id 与轮询方式均不变。\n\n旧 ID 不是兼容别名。未知或无法定价的 `operation` 一律返回 **400**，绝不静默降级为普通生成。\n\n## 价格\n\n按次价格改为按动作分档，两个版本的档位一致：\n\n| 动作档位 | 价格 | 积分 |\n| --- | --- | --- |\n| `generate`、`enhance`、`pan`、`outpaint`、`remove-bg` | USD 0.113446 | 1.134 |\n| `upscale`、`variation`、`edit`、`inpaint`、`remix`、`retexture`、`upload-paint` | USD 0.170169 | 1.702 |\n\n在动作档位之上叠加乘子：`quality: \"hd\"`（仅 mj-v8-1）×1.5、`model_params.speed: \"turbo\"` ×2、upscale `type: \"creative\"` ×4/3；`draft`/`fast` 与 `type: \"standard\"` 为 ×1。实测例：mj-v8-1 + hd + upscale + creative = USD 0.255251/次。\n\n`mj-v7` 的按次价由 USD 0.056723 调整为 USD 0.113446，与上游生成档实际扣费对齐；上述各动作档的绝对价不变。\n\n## 局部重绘\n\n请使用图片 mask：`model_params.mask.url`（图片 URL 或 `data:` URL，黑色=保留，白色=重绘）。多边形写法 `model_params.mask.areas[]` 在我们 2026-09-13 的实测中被上游以 `invalid_parameters: Image dimensions out of range` 拒绝，连上游文档自带的示例坐标也一样。"
+      },
+      "schema_version": 1
+    },
+    {
+      "id": "2026-09-12-console-playground-generation",
+      "published_at": "2026-09-12",
+      "type": "platform",
+      "modality": [
+        "platform"
+      ],
+      "title": {
+        "en": "Model page playground generates through the gateway session",
+        "zh": "模型详情页 Playground 支持以网关登录态直接发起生成"
+      },
+      "summary": {
+        "en": "The public model page submits real generations from a signed-in browser session, so no separately minted API token is needed to try a model from the console.",
+        "zh": "公开模型详情页现可直接以浏览器登录态提交真实生成，控制台试用模型无需另行创建 API 令牌。"
+      },
+      "models": [],
+      "tags": [
+        "console",
+        "playground",
+        "session",
+        "video",
+        "platform"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "Video generation API",
+            "zh": "视频生成 API"
+          },
+          "href": {
+            "en": "/en/api-reference/video-series/models/seedance-2-5",
+            "zh": "/zh/api-reference/video-series/models/seedance-2-5"
+          }
+        }
+      ],
+      "body": {
+        "en": "## Overview\n\nThe model page at `omnimux.ai/pricing/<model-id>` now runs real generations. Its **Playground** section submits through the gateway using the signed-in browser session, so a user who has already logged in to OmniMux can try a model without creating an API token first.\n\n## Which path to call\n\n- **From the console**: the page posts to the session-authenticated `POST /pg/video/generations`. This path accepts a browser session only and is not part of the token API surface.\n- **From your own code**: keep using `POST /v1/video/generations` with an API token — the same contract documented in the video-series model pages. Nothing about the token path changed.\n\n## Task results\n\nSubmitted tasks are read back through the same session: `GET /api/task/self` for status, progress and quota, and `GET /api/task/:task_id/artifacts` for the media projection. Tasks submitted from the console appear in the account's task list like any other task.\n\n## Billing\n\nConsole submissions use the standard precharge and settle path. No separate ledger, pricing rule or quota bucket is introduced for the console path.",
+        "zh": "## 概述\n\n位于 `omnimux.ai/pricing/<模型 ID>` 的模型详情页现已支持真实生成。页面中的 **Playground** 区块以浏览器登录态经网关提交，因此已登录 OmniMux 的用户无需先创建 API 令牌即可试用模型。\n\n## 该调用哪条路径\n\n- **在控制台内**：页面调用会话鉴权的 `POST /pg/video/generations`。该路径只接受浏览器登录态，不属于令牌 API 面。\n- **在自己的代码里**：继续使用带 API 令牌的 `POST /v1/video/generations`，契约与视频系列模型页所述一致。令牌路径没有任何改动。\n\n## 任务结果\n\n提交后的任务同样以登录态读取：`GET /api/task/self` 取状态、进度与额度，`GET /api/task/:task_id/artifacts` 取媒体投影。控制台提交的任务会和其他任务一样出现在账户任务列表中。\n\n## 计费\n\n控制台提交走标准预扣与结算路径，不为控制台单独引入账本、定价规则或配额池。"
       },
       "schema_version": 1
     },
