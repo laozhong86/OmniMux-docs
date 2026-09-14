@@ -40,6 +40,16 @@ Base URL：`https://api.omnimux.ai`
 | `n` | integer | 否 | 生成张数（受网关上限约束） |
 | `size` | string | 否 | 尺寸或宽高比（模型相关） |
 | `quality` | string | 否 | 质量档位（模型相关） |
+| `images` | string[] | 否 | 参考图：图片 URL 或 base64；`image`、`image_urls`、`input_reference` 为可接受的别名，调用上游前统一归一为 `images`。 |
+
+### 参考图限制
+
+| 项目 | 值 |
+| --- | --- |
+| 单次参考图上限 | 14 张 |
+| 单次参考图下限 | 无 —— 文生图不传 `images` |
+| 接受格式 | `image/png`、`image/jpeg`、`image/webp`、`image/heic`、`image/heif` |
+| 单文件大小上限 | 内联（base64）上传 7 MB；经 Google Cloud Storage 导入 30 MB |
 
 ## 响应
 

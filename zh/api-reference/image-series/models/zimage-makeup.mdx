@@ -39,6 +39,11 @@ Base URL：`https://api.omnimux.ai`
 | `model` | string | 是 | 固定为 `zimage-makeup` |
 | `prompt` | string | 是 | 图像描述 |
 | `metadata.nodeInfoList` | array | 否 | 需要自定义节点时传入；多数情况 prompt-only 即可 |
+| `images` | string[] | 否 | **本接口不使用。** 参考图不通过顶层字段传入：App 路径只接受 `metadata.nodeInfoList` 中的节点。 |
+
+### 参考图限制
+
+本模型尚无模型档案，参考图能力与上限**未核验**：此处不声明张数、接受格式与单文件大小上限。
 
 ## 响应
 

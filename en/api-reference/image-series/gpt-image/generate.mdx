@@ -15,6 +15,15 @@ Read image results when `data` is returned. An `image.generation.task` response 
 
 Flare and Sunburst are separate token-billed models. They are not part of this per-call contract and are not yet available.
 
+## Reference image limits
+
+The reference-image field is `images` (an array of image URLs or base64 strings); `image`, `image_urls` and `input_reference` are accepted aliases and are normalized to `images`.
+
+- `gpt-image-2.5`: up to 16 images per request; no minimum (omit `images` for text-to-image); the vendor publishes no accepted-format list or per-file size limit for reference images.
+- `gpt-image-2.5-hd`: no model spec exists yet, so its reference-image limits are **unverified** and no image count, format or per-file size limit is stated here.
+
+The 50 MB figure in the vendor's image guide is scoped to the image being edited together with its mask, not to a single reference image; no per-file ceiling is stated here.
+
 <Panel>
 <RequestExample>
 

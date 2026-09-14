@@ -7,65 +7,34 @@ rss: true
 
 跟踪 OmniMux 网关的模型上新与平台变更。完整可调用模型以[控制台定价](https://omnimux.ai) / [定价与账户](/zh/api-reference/account/pricing)为准。
 
-<a id="2026-09-13-midjourney-two-ids"></a>
+<a id="2026-09-14-image-reference-fields"></a>
 
-<Update label="2026 年 9 月 13 日" tags={["不兼容变更", "图像"]} rss={{ title: "Midjourney 收敛为两个版本 ID，动作改为按请求选择" }}>
+<Update label="2026 年 9 月 14 日" tags={["能力更新", "图像"]} rss={{ title: "生图模型页补充参考图字段与上限说明" }}>
 
-  ## 必须迁移
+  ## 本次变更
 
-  - 将旧的 `midjourney` ID 以及所有按动作的 ID（例如 `mj-v7-upscale`、`mj-v8-1-remove-bg`）替换为两个版本 ID 之一：`mj-v7` 或 `mj-v8-1`。
-  - 动作改在请求体中选择：`model_params.operation` 取 `generate` | `enhance` | `pan` | `outpaint` | `remove-bg` | `upscale` | `variation` | `edit` | `inpaint` | `remix` | `retexture` | `upload-paint`；不传即为普通生成。
-  - 继续使用 `POST /v1/images/generations`；请求形态、异步任务 id 与轮询方式均不变。
+  - 生图模型页新增参考图请求字段 `images`（`string[]`，图片 URL 或 base64），并写明可接受的别名 `image`、`image_urls`、`input_reference`；网关会在调用上游前统一归一为 `images`。
+  - 每页按厂商口径给出该模型的参考图上限：单次张数、下限、接受格式与单文件大小上限。
 
-  旧 ID 不是兼容别名。未知或无法定价的 `operation` 一律返回 **400**，绝不静默降级为普通生成。
+  ## 不声明的上限
 
-  ## 价格
+  - 厂商未公布的项直接写“官方未公布”，不给数字，也不从同系列其他模型套用或取整。
+  - 尚无模型档案的模型，参考图说明标注为**未核验**，且完全不声明上限。
 
-  按次价格改为按动作分档，两个版本的档位一致：
+  ## 撤回的数字
 
-  | 动作档位 | 价格 | 积分 |
-  | --- | --- | --- |
-  | `generate`、`enhance`、`pan`、`outpaint`、`remove-bg` | USD 0.113446 | 1.134 |
-  | `upscale`、`variation`、`edit`、`inpaint`、`remix`、`retexture`、`upload-paint` | USD 0.170169 | 1.702 |
+  - 此前写出的单张参考图 50 MB 上限撤回。厂商图像指南中的该数字位于遮罩（mask）要求下，覆盖的是“被编辑图 + 其遮罩”，不是参考图上限。因此 `gpt-image-2.5` 不声明单文件大小上限。
 
-  在动作档位之上叠加乘子：`quality: "hd"`（仅 mj-v8-1）×1.5、`model_params.speed: "turbo"` ×2、upscale `type: "creative"` ×4/3；`draft`/`fast` 与 `type: "standard"` 为 ×1。实测例：mj-v8-1 + hd + upscale + creative = USD 0.255251/次。
+  ## 文档
 
-  `mj-v7` 的按次价由 USD 0.056723 调整为 USD 0.113446，与上游生成档实际扣费对齐；上述各动作档的绝对价不变。
-
-  ## 局部重绘
-
-  请使用图片 mask：`model_params.mask.url`（图片 URL 或 `data:` URL，黑色=保留，白色=重绘）。多边形写法 `model_params.mask.areas[]` 在我们 2026-09-13 的实测中被上游以 `invalid_parameters: Image dimensions out of range` 拒绝，连上游文档自带的示例坐标也一样。
+  - 图像系列模型页：`/zh/api-reference/image-series/models/*`
+  - GPT Image 图像生成：`/zh/api-reference/image-series/gpt-image/generate`
 
   ### 链接
 
-  - [Midjourney 图像生成](/zh/api-reference/image-series/models/midjourney)
-
-</Update>
-
-<a id="2026-09-12-console-playground-generation"></a>
-
-<Update label="2026 年 9 月 12 日" tags={["平台"]} rss={{ title: "模型详情页 Playground 支持以网关登录态直接发起生成" }}>
-
-  ## 概述
-
-  位于 `omnimux.ai/pricing/<模型 ID>` 的模型详情页现已支持真实生成。页面中的 **Playground** 区块以浏览器登录态经网关提交，因此已登录 OmniMux 的用户无需先创建 API 令牌即可试用模型。
-
-  ## 该调用哪条路径
-
-  - **在控制台内**：页面调用会话鉴权的 `POST /pg/video/generations`。该路径只接受浏览器登录态，不属于令牌 API 面。
-  - **在自己的代码里**：继续使用带 API 令牌的 `POST /v1/video/generations`，契约与视频系列模型页所述一致。令牌路径没有任何改动。
-
-  ## 任务结果
-
-  提交后的任务同样以登录态读取：`GET /api/task/self` 取状态、进度与额度，`GET /api/task/:task_id/artifacts` 取媒体投影。控制台提交的任务会和其他任务一样出现在账户任务列表中。
-
-  ## 计费
-
-  控制台提交走标准预扣与结算路径，不为控制台单独引入账本、定价规则或配额池。
-
-  ### 链接
-
-  - [视频生成 API](/zh/api-reference/video-series/models/seedance-2-5)
+  - [图像系列模型页](/zh/api-reference/image-series/models/nano-banana-2)
+  - [GPT Image 图像生成](/zh/api-reference/image-series/gpt-image/generate)
+  - [Midjourney 生图](/zh/api-reference/image-series/models/midjourney)
 
 </Update>
 

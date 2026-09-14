@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "id": "2026-09-14-image-reference-fields",
+  "published_at": "2026-09-14",
+  "type": "capability",
+  "modality": ["image"],
+  "title": {
+    "en": "Image model pages now document the reference-image field and its limits",
+    "zh": "生图模型页补充参考图字段与上限说明"
+  },
+  "summary": {
+    "en": "Image-generation model pages now list the reference-image request field `images` (with its accepted aliases) and state the limits each vendor actually publishes. A previously stated per-file size cap is withdrawn: the 50 MB figure is scoped to mask editing, not to reference images.",
+    "zh": "生图模型页新增参考图请求字段 `images`（含可接受别名），并按模型给出厂商确实公布的上限。此前写出的单文件大小上限撤回：50 MB 属于遮罩编辑口径，不是参考图口径。"
+  },
+  "models": [
+    "gpt-image-2.5",
+    "mj-v7",
+    "mj-v8-1",
+    "nano-banana-2",
+    "nano-banana-pro",
+    "qwen-image-3-0",
+    "seedream-5-0-pro"
+  ],
+  "links": [
+    {
+      "label": {"en": "Image series model pages", "zh": "图像系列模型页"},
+      "href": {
+        "en": "/en/api-reference/image-series/models/nano-banana-2",
+        "zh": "/zh/api-reference/image-series/models/nano-banana-2"
+      }
+    },
+    {
+      "label": {"en": "GPT Image generation", "zh": "GPT Image 图像生成"},
+      "href": {
+        "en": "/en/api-reference/image-series/gpt-image/generate",
+        "zh": "/zh/api-reference/image-series/gpt-image/generate"
+      }
+    },
+    {
+      "label": {"en": "Midjourney image generation", "zh": "Midjourney 生图"},
+      "href": {
+        "en": "/en/api-reference/image-series/models/midjourney",
+        "zh": "/zh/api-reference/image-series/models/midjourney"
+      }
+    }
+  ],
+  "tags": ["image", "reference-images", "docs"],
+  "body": {
+    "en": "## What changed\n\n- Image-generation model pages now document the reference-image request field `images` (`string[]`, image URL or base64) together with the accepted aliases `image`, `image_urls` and `input_reference`, which the gateway normalizes to `images` before the upstream call.\n- Each page states the limits its vendor publishes for that model: maximum count, minimum, accepted formats and per-file size ceiling.\n\n## Limits we do not state\n\n- Where a value is not published by the vendor, the page says so instead of carrying a number; nothing is rounded or copied from a sibling model.\n- Where no model spec exists yet, the reference-image note marks the capability **unverified** and states no limit at all.\n\n## Withdrawn figure\n\n- The previously stated per-file reference-image cap of 50 MB is withdrawn. In the vendor's image guide that figure sits under mask requirements and covers the image being edited together with its mask; it is not a reference-image ceiling. `gpt-image-2.5` therefore carries no per-file size limit.\n\n## Documentation\n\n- Image series model pages: `/en/api-reference/image-series/models/*`\n- GPT Image generation: `/en/api-reference/image-series/gpt-image/generate`",
+    "zh": "## 本次变更\n\n- 生图模型页新增参考图请求字段 `images`（`string[]`，图片 URL 或 base64），并写明可接受的别名 `image`、`image_urls`、`input_reference`；网关会在调用上游前统一归一为 `images`。\n- 每页按厂商口径给出该模型的参考图上限：单次张数、下限、接受格式与单文件大小上限。\n\n## 不声明的上限\n\n- 厂商未公布的项直接写“官方未公布”，不给数字，也不从同系列其他模型套用或取整。\n- 尚无模型档案的模型，参考图说明标注为**未核验**，且完全不声明上限。\n\n## 撤回的数字\n\n- 此前写出的单张参考图 50 MB 上限撤回。厂商图像指南中的该数字位于遮罩（mask）要求下，覆盖的是“被编辑图 + 其遮罩”，不是参考图上限。因此 `gpt-image-2.5` 不声明单文件大小上限。\n\n## 文档\n\n- 图像系列模型页：`/zh/api-reference/image-series/models/*`\n- GPT Image 图像生成：`/zh/api-reference/image-series/gpt-image/generate`"
+  }
+}

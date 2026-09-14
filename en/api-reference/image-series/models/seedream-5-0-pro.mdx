@@ -40,6 +40,16 @@ Base URL: `https://api.omnimux.ai`
 | `n` | integer | no | Number of images (gateway-capped) |
 | `size` | string | no | Size or aspect ratio (model-specific) |
 | `quality` | string | no | Quality tier (model-specific) |
+| `images` | string[] | no | Reference images: image URL or base64. `image`, `image_urls` and `input_reference` are accepted aliases and are normalized to `images` before the upstream call. |
+
+### Reference image limits
+
+| Limit | Value |
+| --- | --- |
+| Max images per request | 10 |
+| Min images per request | 2 for multi-image input, 1 for single-image input; omit `images` for text-to-image |
+| Accepted formats | not published by the vendor |
+| Max size per file | not published by the vendor |
 
 ## Response
 

@@ -53,6 +53,13 @@
                   "quality": {
                     "type": "string",
                     "description": "Quality options depend on the selected model and route."
+                  },
+                  "images": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Reference images: image URL or base64. image / image_urls / input_reference are accepted aliases and are normalized to images."
                   }
                 }
               },

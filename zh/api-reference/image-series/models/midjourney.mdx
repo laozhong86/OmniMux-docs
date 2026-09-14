@@ -1,26 +1,23 @@
 ---
-title: "Midjourney 图像生成"
-sidebarTitle: "Midjourney 图像生成"
-description: "Midjourney 生成与编辑动作 · 模型 `mj-v7` 与 `mj-v8-1`"
+title: "Midjourney 生图"
+sidebarTitle: "Midjourney 生图"
+description: "Midjourney 生图 · model `midjourney`"
 api: "POST https://api.omnimux.ai/v1/images/generations"
 ---
 
-- 调用 `POST /v1/images/generations`，`model` 取 `mj-v7` 或 `mj-v8-1`
-- 所有编辑动作走 `model_params.operation`；不传即为普通生成
-- 返回的是异步任务，凭任务 id 在控制台用量日志中查看结果
+- 调用 `POST /v1/images/generations`，`model` 为 `midjourney`
+- 请求体至少包含 `model` 与 `prompt`
+- 同步或异步以线上响应为准；若返回 task id，请用任务查询接口轮询
 
-## 基本信息
+## 身份
 
 | 字段 | 值 |
 | --- | --- |
 | 系列 | 图像系列 |
 | 品牌 | Midjourney |
-| 模型 | `mj-v7`、`mj-v8-1` |
-| 计费量纲 | 按次 |
+| model | `midjourney` |
 
-两个模型 ID 就是两个模型版本。动作**不是**独立模型 ID，而是按请求选择的参数，因此一套接入即可覆盖该版本的全部能力。
-
-## 端点
+## 接口
 
 | 方法 | 路径 |
 | --- | --- |
@@ -38,60 +35,23 @@ Base URL：`https://api.omnimux.ai`
 
 | 字段 | 类型 | 必填 | 说明 |
 | --- | --- | --- | --- |
-| `model` | string | 是 | `mj-v7` 或 `mj-v8-1` |
-| `prompt` | string | 否 | 画面描述；或所选动作的指令 |
-| `quality` | string | 否 | `standard`（默认）或 `hd`（**仅 v8.1**，原生高清） |
-| `model_params.operation` | string | 否 | 要执行的动作；不传即普通生成（每次任务出 4 张） |
-| `model_params.task_id` | string | 动作必填 | 上一次生成返回的源任务 id |
-| `model_params.image_number` | integer | 动作必填 | 使用 4 张中的第几张（`0`–`3`） |
-| `image_urls` | array | 部分动作 | 图片 URL，`remove-bg`、`retexture`、`upload-paint` 使用 |
-| `model_params.mask` | object | `inpaint` | 局部重绘区域，见下方 **局部重绘** |
-| `model_params.speed` | string | 否 | `fast`（默认）、`draft` 或 `turbo` |
-| `model_params.type` | string | 否 | `upscale`：`standard`（默认）或 `creative`；`variation`/`remix`：`subtle` 或 `strong` |
+| `model` | string | 是 | 固定为 `midjourney` |
+| `prompt` | string | 是 | 图像描述 / 编辑说明 |
+| `n` | integer | 否 | 生成张数（受网关上限约束） |
+| `size` | string | 否 | 尺寸或宽高比（模型相关） |
+| `quality` | string | 否 | 质量档位（模型相关） |
+| `images` | string[] | 否 | 参考图：图片 URL 或 base64；`image`、`image_urls`、`input_reference` 为可接受的别名，调用上游前统一归一为 `images`。 |
 
-### 动作一览
+### 参考图限制
 
-| `model_params.operation` | 依赖 | 说明 |
-| --- | --- | --- |
-| _（不传）_ / `generate` | `prompt` | 普通生成，每次任务出 4 张 |
-| `enhance`、`pan`、`outpaint` | `task_id` + `image_number` | 扩图或精修现有图片 |
-| `remove-bg` | `image_urls` | 抠出透明背景 |
-| `upscale` | `task_id` + `image_number` | `type: creative` 会增加艺术细节 |
-| `variation` | `task_id` + `image_number` | `type` 取 `subtle` / `strong` |
-| `edit`、`remix`、`inpaint`、`retexture`、`upload-paint` | `task_id` + `image_number` | `inpaint` 还需 `mask` |
-
-未知的 `operation`、或我们无法定价的参数取值，一律返回 **400** 拒绝，不会静默降级——`variation`、`upscale`、`enhance` 的请求体同形，猜错会跑错动作并收错档位。
-
-### 局部重绘（inpaint）
-
-Mask 有两种形态，但在我们的链路上表现不同：
-
-| 形态 | 写法 | 状态 |
-| --- | --- | --- |
-| **图片 mask**（推荐） | `model_params.mask.url`，可为图片 URL 或 `data:` URL；黑色=保留，白色=重绘 | 可用 |
-| 多边形 | `model_params.mask.areas[]`（`width`、`height`、`points`） | 我们实测（2026-09-13）被上游以 `invalid_parameters: Image dimensions out of range` 拒绝，连上游文档自带的示例坐标也一样 |
-
-请优先使用图片 mask。实测可行的例子：一张 1024×1024 的黑底 PNG、中心为白色方块，以 `data:image/png;base64,...` 作为 `mask.url` 传入即成功。
-
-## 价格
-
-按次计费，下表 `积分` 按控制台定价展示（1 USD = 10 积分）：
-
-| 基础动作 | 价格 | 积分 |
-| --- | --- | --- |
-| `generate`、`enhance`、`pan`、`outpaint`、`remove-bg` | USD 0.113446 | 1.134 |
-| `upscale`、`variation`、`edit`、`inpaint`、`remix`、`retexture`、`upload-paint` | USD 0.170169 | 1.702 |
-
-在动作档位之上再叠加乘子：
-
-| 参数 | 乘子 |
+| 项目 | 值 |
 | --- | --- |
-| `quality: "hd"`（仅 `mj-v8-1`） | ×1.5 |
-| `model_params.speed: "turbo"` | ×2 |
-| `model_params.type: "creative"`（upscale） | ×4/3 |
-| `model_params.speed: "draft"` / `"fast"`、`type: "standard"` | ×1 |
+| 单次参考图上限 | 官方未公布 —— 官方只说明可一次使用多张参考图 |
+| 单次参考图下限 | 无 |
+| 接受格式 | `.png`、`.gif`、`.webp`、`.jpg`、`.jpeg` |
+| 单文件大小上限 | 官方未公布 |
 
-例：`mj-v8-1` + `quality: "hd"` + `operation: "upscale"` + `type: "creative"` = 0.113446 × 1.5 × 1.5 × 4/3 = **USD 0.255251/次**。余额不足时计费动作返回 **402**。
+版本在提示词中用 `--v` 选择；已有档案的两个版本 `mj-v7` 与 `mj-v8-1` 公布的参考图格式口径一致。
 
 ## 响应
 
@@ -99,28 +59,26 @@ Mask 有两种形态，但在我们的链路上表现不同：
 
 | 字段 | 类型 | 说明 |
 | --- | --- | --- |
-| `created` | integer | 任务创建时间戳 |
-| `id` | string | 异步任务 id——轮询该 id，或在控制台用量日志查看结果 |
-| `model` | string | 实际执行的上游模型（如 `mj-v8.1-upscale`） |
-| `status` | string | 任务执行中为 `processing` |
-| `usage.billing_rule` | string | `per_call` |
-| `usage.credits_reserved` | number | 本次任务预留的上游额度 |
+| `created` | integer | 创建时间戳（若返回） |
+| `data` | array | 图像结果（`url` 或 `b64_json`） |
+| `task_id` / `id` | string | 异步时的任务 id（若返回） |
+
+错误形态见右栏示例。异步任务以创建响应中的 `task_id` / 控制台日志为准（公开文档不提供独立图像 query 路径）。
 
 <Panel>
 
 <RequestExample>
 
-```bash curl
-curl --request POST \\
-  --url https://api.omnimux.ai/v1/images/generations \\
-  --header 'Authorization: Bearer sk-...' \\
-  --header 'Content-Type: application/json' \\
+```bash cURL
+curl --request POST \
+  --url https://api.omnimux.ai/v1/images/generations \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
   --data '{
-    "model": "mj-v8-1",
-    "prompt": "木桌上的素色陶瓷杯，柔和日光",
-    "quality": "hd",
-    "model_params": { "operation": "upscale", "task_id": "task-...", "image_number": 0, "type": "creative" }
-  }'
+  "model": "midjourney",
+  "prompt": "a product photo on white background",
+  "n": 1
+}'
 ```
 
 </RequestExample>
@@ -129,14 +87,50 @@ curl --request POST \\
 
 ```json 200
 {
-  "created": 1789223231,
-  "id": "task-unified-...",
-  "model": "mj-v8.1-upscale",
-  "object": "image.generation.task",
-  "progress": 1,
-  "status": "processing",
-  "type": "image",
-  "usage": { "billing_rule": "per_call", "credits_reserved": 8.1, "user_group": "vip" }
+  "created": 1741428397,
+  "data": [
+    { "url": "https://example.com/image.png" }
+  ]
+}
+```
+
+```json 400
+{
+  "error": { "message": "Invalid request", "type": "invalid_request_error", "code": "bad_request" }
+}
+```
+
+```json 401
+{
+  "error": { "message": "Invalid token", "type": "authentication_error", "code": "unauthorized" }
+}
+```
+
+```json 402
+{
+  "error": {
+    "message": "Insufficient quota. Please top up your account.",
+    "type": "insufficient_quota",
+    "code": "insufficient_quota"
+  }
+}
+```
+
+```json 403
+{
+  "error": { "message": "Model not allowed", "type": "permission_error", "code": "forbidden" }
+}
+```
+
+```json 429
+{
+  "error": { "message": "Rate limit exceeded", "type": "rate_limit_error", "code": "rate_limit_exceeded" }
+}
+```
+
+```json 500
+{
+  "error": { "message": "Internal server error", "type": "server_error", "code": "internal_error" }
 }
 ```
 

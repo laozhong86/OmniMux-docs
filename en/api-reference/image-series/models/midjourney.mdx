@@ -1,13 +1,13 @@
 ---
 title: "Midjourney Image Generation"
 sidebarTitle: "Midjourney Image Generation"
-description: "Midjourney generation and edit actions · models `mj-v7` and `mj-v8-1`"
+description: "Midjourney Image Generation · model `midjourney`"
 api: "POST https://api.omnimux.ai/v1/images/generations"
 ---
 
-- Call `POST /v1/images/generations` with `model` `mj-v7` or `mj-v8-1`
-- Every edit action rides in `model_params.operation`; omit it for plain generation
-- The response is an async task; follow its id in the console usage logs
+- Call `POST /v1/images/generations` with `model` `midjourney`
+- Body requires at least `model` and `prompt`
+- If async, follow `task_id` in the create response and console usage logs
 
 ## Identity
 
@@ -15,10 +15,7 @@ api: "POST https://api.omnimux.ai/v1/images/generations"
 | --- | --- |
 | Series | Image series |
 | Brand | Midjourney |
-| Models | `mj-v7`, `mj-v8-1` |
-| Billing dimension | per call |
-
-The two model IDs are the two model versions. Actions are **not** separate model IDs — they are selected per request, so one integration covers the whole version.
+| model | `midjourney` |
 
 ## Endpoint
 
@@ -38,60 +35,23 @@ Base URL: `https://api.omnimux.ai`
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `model` | string | yes | `mj-v7` or `mj-v8-1` |
-| `prompt` | string | no | Image description, or the instruction for the selected action |
-| `quality` | string | no | `standard` (default) or `hd` (**v8.1 only**, native HD) |
-| `model_params.operation` | string | no | Action to run; omit for plain generation (4 images per task) |
-| `model_params.task_id` | string | for actions | Source task id from a previous generation |
-| `model_params.image_number` | integer | for actions | Which of the 4 generated images to use (`0`–`3`) |
-| `image_urls` | array | some actions | Image URLs; used by `remove-bg`, `retexture`, `upload-paint` |
-| `model_params.mask` | object | `inpaint` | Inpaint region — see **Inpaint** below |
-| `model_params.speed` | string | no | `fast` (default), `draft`, or `turbo` |
-| `model_params.type` | string | no | `upscale`: `standard` (default) or `creative`; `variation`/`remix`: `subtle` or `strong` |
+| `model` | string | yes | Must be `midjourney` |
+| `prompt` | string | yes | Image description / edit instruction |
+| `n` | integer | no | Number of images (gateway-capped) |
+| `size` | string | no | Size or aspect ratio (model-specific) |
+| `quality` | string | no | Quality tier (model-specific) |
+| `images` | string[] | no | Reference images: image URL or base64. `image`, `image_urls` and `input_reference` are accepted aliases and are normalized to `images` before the upstream call. |
 
-### Actions
+### Reference image limits
 
-| `model_params.operation` | Source | Notes |
-| --- | --- | --- |
-| _(omitted)_ / `generate` | `prompt` | Plain generation, 4 images per task |
-| `enhance`, `pan`, `outpaint` | `task_id` + `image_number` | Extend or refine an existing image |
-| `remove-bg` | `image_urls` | Transparent-background cutout |
-| `upscale` | `task_id` + `image_number` | `type: creative` adds artistic detail |
-| `variation` | `task_id` + `image_number` | `type: subtle` / `strong` |
-| `edit`, `remix`, `inpaint`, `retexture`, `upload-paint` | `task_id` + `image_number` | `inpaint` also needs `mask` |
-
-An unknown `operation`, or a value we cannot price, is rejected with **400** instead of being silently downgraded — `variation`, `upscale` and `enhance` share one request shape, so guessing would run the wrong action and bill the wrong tier.
-
-### Inpaint
-
-Two mask forms are accepted upstream, but they do not behave the same on our route:
-
-| Form | Shape | Status |
-| --- | --- | --- |
-| **Mask image** (use this) | `model_params.mask.url` — an image URL or `data:` URL, black = keep, white = regenerate | Works |
-| Polygon | `model_params.mask.areas[]` (`width`, `height`, `points`) | Rejected upstream with `invalid_parameters: Image dimensions out of range` in our measurements (2026-09-13), including with the upstream documentation's own example coordinates |
-
-Prefer the mask-image form. Measured example: a 1024×1024 black PNG with a white centred square, passed as a `data:image/png;base64,...` URL, completes.
-
-## Pricing
-
-Per call, `credits` column as shown in console pricing (1 USD = 10 credits):
-
-| Base action | Price | Credits |
-| --- | --- | --- |
-| `generate`, `enhance`, `pan`, `outpaint`, `remove-bg` | USD 0.113446 | 1.134 |
-| `upscale`, `variation`, `edit`, `inpaint`, `remix`, `retexture`, `upload-paint` | USD 0.170169 | 1.702 |
-
-Multipliers apply on top of the action tier:
-
-| Parameter | Multiplier |
+| Limit | Value |
 | --- | --- |
-| `quality: "hd"` (`mj-v8-1` only) | ×1.5 |
-| `model_params.speed: "turbo"` | ×2 |
-| `model_params.type: "creative"` (upscale) | ×4/3 |
-| `model_params.speed: "draft"` / `"fast"`, `type: "standard"` | ×1 |
+| Max images per request | not published by the vendor — the official docs only describe using more than one image |
+| Min images per request | none |
+| Accepted formats | `.png`, `.gif`, `.webp`, `.jpg`, `.jpeg` |
+| Max size per file | not published by the vendor |
 
-Example: `mj-v8-1` + `quality: "hd"` + `operation: "upscale"` + `type: "creative"` = 0.113446 × 1.5 × 1.5 × 4/3 = **USD 0.255251** per call. Billed actions return **402** when the account balance is insufficient.
+The Midjourney version is selected inside the prompt (`--v`); the two documented versions `mj-v7` and `mj-v8-1` publish the same reference-image format list.
 
 ## Response
 
@@ -99,45 +59,71 @@ Example: `mj-v8-1` + `quality: "hd"` + `operation: "upscale"` + `type: "creative
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created` | integer | Task creation timestamp |
-| `id` | string | Async task id — poll it, or read the result in console usage logs |
-| `model` | string | Upstream model that served the request (e.g. `mj-v8.1-upscale`) |
-| `status` | string | `processing` while the task runs |
-| `usage.billing_rule` | string | `per_call` |
-| `usage.credits_reserved` | number | Upstream credits reserved for this task |
+| `created` | integer | Creation timestamp when present |
+| `data` | array | Results (`url` or `b64_json`) |
+| `task_id` / `id` | string | Async task id when present |
+
+Errors: see right-rail examples. Async: use `task_id` from create response / console logs (no separate public image-query page).
 
 <Panel>
 
 <RequestExample>
 
-```bash curl
-curl --request POST \\
-  --url https://api.omnimux.ai/v1/images/generations \\
-  --header 'Authorization: Bearer sk-...' \\
-  --header 'Content-Type: application/json' \\
-  --data '{
-    "model": "mj-v8-1",
-    "prompt": "a plain ceramic cup on a wooden table, soft daylight",
-    "quality": "hd",
-    "model_params": { "operation": "upscale", "task_id": "task-...", "image_number": 0, "type": "creative" }
-  }'
+```bash curl --request POST \
+  --url https://api.omnimux.ai/v1/images/generations \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --data '{"model":"midjourney","prompt":"a product photo on white background","n":1}'
 ```
 
 </RequestExample>
+
 
 <ResponseExample>
 
 ```json 200
 {
-  "created": 1789223231,
-  "id": "task-unified-...",
-  "model": "mj-v8.1-upscale",
-  "object": "image.generation.task",
-  "progress": 1,
-  "status": "processing",
-  "type": "image",
-  "usage": { "billing_rule": "per_call", "credits_reserved": 8.1, "user_group": "vip" }
+  "id": "chatcmpl-example",
+  "object": "chat.completion",
+  "model": "midjourney",
+  "choices": [
+    {
+      "index": 0,
+      "message": { "role": "assistant", "content": "…" },
+      "finish_reason": "stop"
+    }
+  ]
 }
+```
+
+```json 400
+{ "error": { "message": "Invalid request", "type": "invalid_request_error", "code": "bad_request" } }
+```
+
+```json 401
+{ "error": { "message": "Invalid token", "type": "authentication_error", "code": "unauthorized" } }
+```
+
+```json 402
+{
+  "error": {
+    "message": "Insufficient quota. Please top up your account.",
+    "type": "insufficient_quota",
+    "code": "insufficient_quota"
+  }
+}
+```
+
+```json 403
+{ "error": { "message": "Forbidden", "type": "permission_error", "code": "forbidden" } }
+```
+
+```json 429
+{ "error": { "message": "Rate limit exceeded", "type": "rate_limit_error", "code": "rate_limit_exceeded" } }
+```
+
+```json 500
+{ "error": { "message": "Internal server error", "type": "server_error", "code": "internal_error" } }
 ```
 
 </ResponseExample>

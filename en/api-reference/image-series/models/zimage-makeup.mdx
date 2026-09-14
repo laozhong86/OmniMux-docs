@@ -39,6 +39,11 @@ Base URL: `https://api.omnimux.ai`
 | `model` | string | yes | Must be `zimage-makeup` |
 | `prompt` | string | yes | Image description |
 | `metadata.nodeInfoList` | array | no | Custom nodes when needed; prompt-only works for defaults |
+| `images` | string[] | no | **Not used by this surface.** Reference images are not taken from a top-level field: the App route only accepts nodes inside `metadata.nodeInfoList`. |
+
+### Reference image limits
+
+No model spec exists for this model yet, so its reference-image capability and limits are **unverified**: no image count, accepted formats or per-file size ceiling is stated here.
 
 ## Response
 
