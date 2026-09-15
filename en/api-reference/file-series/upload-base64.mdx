@@ -44,3 +44,9 @@ api: "POST https://api.omnimux.ai/api/v1/files/upload/base64"
 ## Using the returned URL
 
 Use `file_url` or `download_url` from the **response** to access the uploaded file; do not reconstruct a storage URL. See [download isolation](/en/api-reference/file-series/download#uploaded-content-isolation-after-upgrade) for upgrade requirements. After the isolation update is deployed, unsafe or unverifiable public-storage settings reject uploads before a storage write.
+
+## Request limits after upgrade
+
+These limits apply after the upload request-limit update is deployed. Documentation publication does not confirm gateway production deployment. 1 MiB = 1,048,576 bytes. The file limit remains **100 MiB**. A stricter gateway or proxy limit still takes precedence; in particular, the existing global limit on the `/v1/files/upload/` aliases may reject a large Base64 request before it reaches this limit.
+
+The JSON request budget is **140,858,712 bytes**: standard Base64 encoding of a 100 MiB file, plus 1 MiB for JSON metadata and encoding overhead. Decoded file data must not exceed 100 MiB. An over-limit declared body, a body whose parsing exceeds the budget, or over-limit decoded data returns **HTTP 413**. Malformed JSON or invalid Base64 remains **HTTP 400**.

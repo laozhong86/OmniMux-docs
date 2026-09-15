@@ -7,6 +7,26 @@ rss: true
 
 Stay up to date with OmniMux gateway model launches and platform changes. The full callable catalog is on [console pricing](https://omnimux.ai) / [Pricing](/en/api-reference/account/pricing).
 
+<a id="2026-09-15-upload-request-limits"></a>
+
+<Update label="September 15, 2026" tags={["Platform"]} rss={{ title: "Upgrade guide: file upload request limits" }}>
+
+  These limits apply after the upload request-limit update is deployed. Documentation publication does not confirm gateway production deployment. 1 MiB = 1,048,576 bytes. The file limit remains **100 MiB**. A stricter gateway or proxy limit still takes precedence; in particular, the existing global limit on the `/v1/files/upload/` aliases may reject a large Base64 request before it reaches this limit.
+
+  The JSON request budget is **140,858,712 bytes**: standard Base64 encoding of a 100 MiB file, plus 1 MiB for JSON metadata and encoding overhead. Decoded file data must not exceed 100 MiB. An over-limit declared body, a body whose parsing exceeds the budget, or over-limit decoded data returns **HTTP 413**. Malformed JSON or invalid Base64 remains **HTTP 400**.
+
+  The multipart request budget is **101 MiB** (100 MiB file + 1 MiB overhead). It covers bytes consumed during parsing, including extra file parts, form fields, and multipart boundaries. The selected file must not exceed 100 MiB. An over-limit declared body, parsing that exceeds the budget, or an over-limit selected file returns **HTTP 413**. A malformed form remains **HTTP 400**.
+
+  The JSON request containing the URL and metadata has a **1 MiB** budget. An over-limit declared body or parsing that exceeds this budget returns **HTTP 413**. The remotely downloaded file remains limited to **100 MiB**; an oversized remote file continues to return **HTTP 400**. Malformed JSON and invalid URLs also remain **HTTP 400**.
+
+  ### Links
+
+  - [Base64 upload](/en/api-reference/file-series/upload-base64)
+  - [Multipart upload](/en/api-reference/file-series/upload-stream)
+  - [URL upload](/en/api-reference/file-series/upload-url)
+
+</Update>
+
 <a id="2026-09-15-upload-content-isolation"></a>
 
 <Update label="September 15, 2026" tags={["Platform"]} rss={{ title: "Upgrade guide: uploaded-content isolation" }}>

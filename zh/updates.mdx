@@ -7,6 +7,26 @@ rss: true
 
 跟踪 OmniMux 网关的模型上新与平台变更。完整可调用模型以[控制台定价](https://omnimux.ai) / [定价与账户](/zh/api-reference/account/pricing)为准。
 
+<a id="2026-09-15-upload-request-limits"></a>
+
+<Update label="2026 年 9 月 15 日" tags={["平台"]} rss={{ title: "升级说明：文件上传请求大小限制" }}>
+
+  以下限制在上传请求限制更新部署后生效；文档发布不代表正式网关已经部署。1 MiB = 1,048,576 字节。文件上限仍为 **100 MiB**。网关或代理设置的更严格限制仍优先生效，尤其是 `/v1/files/upload/` 别名现有的全局限制，可能在大体积 Base64 请求达到此处上限前拒绝请求。
+
+  JSON 请求预算为 **140,858,712 字节**：100 MiB 文件的标准 Base64 编码长度，再加 1 MiB 的 JSON 元数据及编码开销。解码后的文件不得超过 100 MiB。声明的请求体超限、解析时读取的内容超限，或解码后文件超限，均返回 **HTTP 413**；JSON 格式错误或 Base64 无效仍返回 **HTTP 400**。
+
+  multipart 请求预算为 **101 MiB**（100 MiB 文件 + 1 MiB 开销），覆盖解析时读取的内容，包括额外文件、表单字段和分隔符。选中的文件不得超过 100 MiB。声明的请求体超限、解析时读取的内容超限，或选中的文件超限，均返回 **HTTP 413**；表单格式错误仍返回 **HTTP 400**。
+
+  包含链接和元数据的 JSON 请求预算为 **1 MiB**。声明的请求体超限或解析时读取的内容超限，返回 **HTTP 413**。远程下载的文件仍不得超过 **100 MiB**，远程文件超限继续返回 **HTTP 400**；JSON 格式错误或链接无效也仍返回 **HTTP 400**。
+
+  ### 链接
+
+  - [Base64 上传](/zh/api-reference/file-series/upload-base64)
+  - [表单上传](/zh/api-reference/file-series/upload-stream)
+  - [链接上传](/zh/api-reference/file-series/upload-url)
+
+</Update>
+
 <a id="2026-09-15-upload-content-isolation"></a>
 
 <Update label="2026 年 9 月 15 日" tags={["平台"]} rss={{ title: "升级说明：上传内容隔离" }}>

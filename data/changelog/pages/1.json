@@ -2,9 +2,67 @@
   "schema_version": 1,
   "page": 1,
   "page_size": 50,
-  "total": 36,
+  "total": 37,
   "total_pages": 1,
   "items": [
+    {
+      "id": "2026-09-15-upload-request-limits",
+      "published_at": "2026-09-15",
+      "type": "platform",
+      "modality": [
+        "platform"
+      ],
+      "title": {
+        "en": "Upgrade guide: file upload request limits",
+        "zh": "升级说明：文件上传请求大小限制"
+      },
+      "summary": {
+        "en": "After the corresponding gateway update is deployed, oversized upload requests return HTTP 413; file limits remain 100 MiB. Documentation publication does not confirm production deployment.",
+        "zh": "对应网关更新部署后，上传请求超限返回 HTTP 413，文件上限仍为 100 MiB。文档发布不代表正式服务已经部署。"
+      },
+      "models": [],
+      "tags": [
+        "upgrade-guide",
+        "upload-request-limits"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "Base64 upload",
+            "zh": "Base64 上传"
+          },
+          "href": {
+            "en": "/en/api-reference/file-series/upload-base64",
+            "zh": "/zh/api-reference/file-series/upload-base64"
+          }
+        },
+        {
+          "label": {
+            "en": "Multipart upload",
+            "zh": "表单上传"
+          },
+          "href": {
+            "en": "/en/api-reference/file-series/upload-stream",
+            "zh": "/zh/api-reference/file-series/upload-stream"
+          }
+        },
+        {
+          "label": {
+            "en": "URL upload",
+            "zh": "链接上传"
+          },
+          "href": {
+            "en": "/en/api-reference/file-series/upload-url",
+            "zh": "/zh/api-reference/file-series/upload-url"
+          }
+        }
+      ],
+      "body": {
+        "en": "These limits apply after the upload request-limit update is deployed. Documentation publication does not confirm gateway production deployment. 1 MiB = 1,048,576 bytes. The file limit remains **100 MiB**. A stricter gateway or proxy limit still takes precedence; in particular, the existing global limit on the `/v1/files/upload/` aliases may reject a large Base64 request before it reaches this limit.\n\nThe JSON request budget is **140,858,712 bytes**: standard Base64 encoding of a 100 MiB file, plus 1 MiB for JSON metadata and encoding overhead. Decoded file data must not exceed 100 MiB. An over-limit declared body, a body whose parsing exceeds the budget, or over-limit decoded data returns **HTTP 413**. Malformed JSON or invalid Base64 remains **HTTP 400**.\n\nThe multipart request budget is **101 MiB** (100 MiB file + 1 MiB overhead). It covers bytes consumed during parsing, including extra file parts, form fields, and multipart boundaries. The selected file must not exceed 100 MiB. An over-limit declared body, parsing that exceeds the budget, or an over-limit selected file returns **HTTP 413**. A malformed form remains **HTTP 400**.\n\nThe JSON request containing the URL and metadata has a **1 MiB** budget. An over-limit declared body or parsing that exceeds this budget returns **HTTP 413**. The remotely downloaded file remains limited to **100 MiB**; an oversized remote file continues to return **HTTP 400**. Malformed JSON and invalid URLs also remain **HTTP 400**.",
+        "zh": "以下限制在上传请求限制更新部署后生效；文档发布不代表正式网关已经部署。1 MiB = 1,048,576 字节。文件上限仍为 **100 MiB**。网关或代理设置的更严格限制仍优先生效，尤其是 `/v1/files/upload/` 别名现有的全局限制，可能在大体积 Base64 请求达到此处上限前拒绝请求。\n\nJSON 请求预算为 **140,858,712 字节**：100 MiB 文件的标准 Base64 编码长度，再加 1 MiB 的 JSON 元数据及编码开销。解码后的文件不得超过 100 MiB。声明的请求体超限、解析时读取的内容超限，或解码后文件超限，均返回 **HTTP 413**；JSON 格式错误或 Base64 无效仍返回 **HTTP 400**。\n\nmultipart 请求预算为 **101 MiB**（100 MiB 文件 + 1 MiB 开销），覆盖解析时读取的内容，包括额外文件、表单字段和分隔符。选中的文件不得超过 100 MiB。声明的请求体超限、解析时读取的内容超限，或选中的文件超限，均返回 **HTTP 413**；表单格式错误仍返回 **HTTP 400**。\n\n包含链接和元数据的 JSON 请求预算为 **1 MiB**。声明的请求体超限或解析时读取的内容超限，返回 **HTTP 413**。远程下载的文件仍不得超过 **100 MiB**，远程文件超限继续返回 **HTTP 400**；JSON 格式错误或链接无效也仍返回 **HTTP 400**。"
+      },
+      "schema_version": 1
+    },
     {
       "id": "2026-09-15-upload-content-isolation",
       "published_at": "2026-09-15",
