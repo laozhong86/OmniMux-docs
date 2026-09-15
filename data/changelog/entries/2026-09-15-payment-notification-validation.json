@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "id": "2026-09-15-payment-notification-validation",
+  "published_at": "2026-09-15",
+  "type": "platform",
+  "modality": [
+    "platform"
+  ],
+  "title": {
+    "en": "Upgrade guide: payment notification validation",
+    "zh": "升级说明：支付通知核验"
+  },
+  "summary": {
+    "en": "After deployment, payment settlement requires verified production notifications matching the current store and saved order details. Documentation publication does not confirm production deployment.",
+    "zh": "对应更新部署后，支付结算须通过正式通知验证，并匹配当前店铺与已保存的订单信息。文档发布不代表正式服务已经部署。"
+  },
+  "models": [],
+  "links": [
+    {
+      "label": {
+        "en": "Account and billing",
+        "zh": "账户与账单"
+      },
+      "href": {
+        "en": "/en/faqs/account-billing",
+        "zh": "/zh/faqs/account-billing"
+      }
+    }
+  ],
+  "tags": [
+    "upgrade-guide",
+    "payment-validation"
+  ],
+  "body": {
+    "en": "This is an upgrade guide for Waffo Pancake payment notifications. The checks apply after the corresponding gateway update is deployed; documentation publication does not confirm production deployment.\n\nWallet top-ups and subscription activation accept only production payment notifications verified with production signing keys. The signed event must identify production mode, exactly match the currently configured store, use USD, and match the local order’s payment provider, buyer and order reference.\n\nThe signed gross payment amount minus its separately reported tax must equal the order’s persisted pre-tax checkout price, rounded to two decimal places as at checkout. The current plan price is not substituted for the saved order price. Invalid or mismatched payment details do not credit the wallet or activate a subscription. Repeated valid notifications retain the existing once-only settlement behavior.\n\nTest-mode orders no longer settle automatically. After a store configuration change, pending orders from the previous store also no longer settle automatically. If payment is not reflected, contact support with the order reference and payment time for review; do not pay again solely because a notification was rejected.",
+    "zh": "以下为 Waffo Pancake（支付服务）的支付回调升级说明。相关核验在对应网关更新部署后生效；文档发布不代表正式服务已经部署。\n\n充值到账和套餐开通仅接受使用正式环境签名密钥验证通过的正式支付通知。已签名的通知还必须标明正式环境、与当前配置的店铺完全一致、使用美元（USD），并与本地订单记录的支付服务商、买家和订单编号匹配。\n\n已签名通知中的含税总金额减去单独列出的税额，必须等于订单保存的税前结账价格；该价格按结账时的规则保留两位小数，不用套餐当前价格替代。支付信息无效或不匹配时，不增加余额、不启用套餐。重复的有效通知仍只结算一次。\n\n测试环境订单不再自动结算。切换店铺配置后，先前店铺的待完成订单也不再自动结算。若支付结果未到账，请提供订单编号和支付时间联系支持核查，不要仅因通知被拒绝就再次付款。"
+  }
+}

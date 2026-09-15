@@ -65,6 +65,24 @@ Stay up to date with OmniMux gateway model launches and platform changes. The fu
 
 </Update>
 
+<a id="2026-09-15-payment-notification-validation"></a>
+
+<Update label="September 15, 2026" tags={["Platform"]} rss={{ title: "Upgrade guide: payment notification validation" }}>
+
+  This is an upgrade guide for Waffo Pancake payment notifications. The checks apply after the corresponding gateway update is deployed; documentation publication does not confirm production deployment.
+
+  Wallet top-ups and subscription activation accept only production payment notifications verified with production signing keys. The signed event must identify production mode, exactly match the currently configured store, use USD, and match the local order’s payment provider, buyer and order reference.
+
+  The signed gross payment amount minus its separately reported tax must equal the order’s persisted pre-tax checkout price, rounded to two decimal places as at checkout. The current plan price is not substituted for the saved order price. Invalid or mismatched payment details do not credit the wallet or activate a subscription. Repeated valid notifications retain the existing once-only settlement behavior.
+
+  Test-mode orders no longer settle automatically. After a store configuration change, pending orders from the previous store also no longer settle automatically. If payment is not reflected, contact support with the order reference and payment time for review; do not pay again solely because a notification was rejected.
+
+  ### Links
+
+  - [Account and billing](/en/faqs/account-billing)
+
+</Update>
+
 <a id="2026-09-14-image-reference-fields"></a>
 
 <Update label="September 14, 2026" tags={["Improvements", "Image"]} rss={{ title: "Image model pages now document the reference-image field and its limits" }}>
