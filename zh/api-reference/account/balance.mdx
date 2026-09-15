@@ -40,6 +40,12 @@ Base URL：`https://omnimux.ai`
 
 成功时返回账户相关字段（如 `quota` / `used_quota`）。错误见右栏与 [错误码](/zh/faqs/connection-usage)。
 
+## 升级后的钱包余额
+
+`quota` 是钱包余额的原始单位：除以 500000 得到美元，再将美元乘以 10 得到积分。负值表示欠款，不是可用套餐额度。充值先抵扣欠款，剩余部分才计为可用余额。详见[套餐超额与还款规则](/zh/faqs/account-billing#升级后的套餐超额与欠费处理)。
+
+以下为升级说明，相关保护在对应网关更新部署后适用；本文发布不代表正式服务已经部署。
+
 <Panel>
 
 <RequestExample>

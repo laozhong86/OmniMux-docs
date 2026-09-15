@@ -21,3 +21,15 @@ Follow the console checkout flow for real payments.
 - Email `hello@omnimux.ai` when listed on the site  
 
 Include time, request id if any, model, and redacted error bodies.
+
+## Subscription overrun and wallet debt after upgrade
+
+This is an upgrade guide. These safeguards apply after the corresponding gateway update is deployed; publication of this page does not confirm production deployment.
+
+Completed requests are settled at their actual cost. If the remaining subscription allowance cannot cover a completed request, the excess is deducted from the existing account wallet, which can become negative. New generation is blocked while the wallet is negative, regardless of billing preference or subscription changes. Login, recharge, task retrieval, and settlement of already-admitted work remain available.
+
+Recharge first offsets outstanding debt. Only the net remainder is available. For example, **−$50 (−500 credits)** becomes **−$30 (−300 credits)** after a **$20 (200 credits)** recharge; generation remains blocked. A later **$40 (400 credits)** recharge leaves **$10 (100 credits)**. A zero wallet cannot fund paid wallet requests; users with a valid prepaid subscription and no wallet debt can still use their subscription allowance.
+
+Subscription resets, expiry, or replacement do not erase wallet debt. Refunds follow the request’s recorded subscription and wallet allocation; a subscription reset does not erase the wallet refund allocation. Duplicate payment notifications do not credit the wallet twice. Consumption records distinguish the actual subscription and wallet deductions.
+
+For an existing Realtime connection, new generation events are checked again for debt. A rejected event ends the connection; reconnect after clearing the debt. If you increase a finite API-key quota during a Realtime session, reconnect to use the higher quota.

@@ -40,3 +40,7 @@ api: "POST https://api.omnimux.ai/api/v1/files/upload/stream"
   }
 }
 ```
+
+## 使用返回的文件地址
+
+请使用**响应**中的 `file_url` 或 `download_url` 访问上传文件，不要自行拼接存储地址。升级要求见[下载隔离说明](/zh/api-reference/file-series/download#升级后的上传内容隔离)。隔离更新部署后，不安全或无法确认隔离的公开存储配置会在写入文件前拒绝上传。

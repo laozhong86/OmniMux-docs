@@ -40,3 +40,7 @@ api: "POST https://api.omnimux.ai/api/v1/files/upload/base64"
   }
 }
 ```
+
+## Using the returned URL
+
+Use `file_url` or `download_url` from the **response** to access the uploaded file; do not reconstruct a storage URL. See [download isolation](/en/api-reference/file-series/download#uploaded-content-isolation-after-upgrade) for upgrade requirements. After the isolation update is deployed, unsafe or unverifiable public-storage settings reject uploads before a storage write.

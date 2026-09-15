@@ -7,6 +7,44 @@ rss: true
 
 Stay up to date with OmniMux gateway model launches and platform changes. The full callable catalog is on [console pricing](https://omnimux.ai) / [Pricing](/en/api-reference/account/pricing).
 
+<a id="2026-09-15-upload-content-isolation"></a>
+
+<Update label="September 15, 2026" tags={["Platform"]} rss={{ title: "Upgrade guide: uploaded-content isolation" }}>
+
+  This is an upgrade guide. These safeguards apply after the corresponding gateway update is deployed; publication of this page does not confirm production deployment.
+
+  Public object-storage redirects are retained only when the storage origin is separate from the application and trusted session origins. A shared hostname remains unsafe even with a different scheme or port. Invalid public-storage settings, overlapping hosts, or settings whose isolation cannot be established reject new uploads before storage writes.
+
+  Existing files accessed through the gateway are streamed when a safe redirect is unavailable. Gateway responses apply a browser sandbox policy that blocks active scripts in HTML and SVG content. File bytes, media types, public file identifiers, and expiry rules stay unchanged.
+
+  Use the upload response’s `file_url` or `download_url`; do not reconstruct a direct storage URL. Previously exposed unsafe object URLs require private or isolated storage, or isolation at the original serving endpoint. Changing a returned URL does not revoke an old public URL.
+
+  ### Links
+
+  - [Upgrade details](/en/api-reference/file-series/download)
+
+</Update>
+
+<a id="2026-09-15-subscription-overrun-debt"></a>
+
+<Update label="September 15, 2026" tags={["Platform"]} rss={{ title: "Upgrade guide: subscription overrun and repayment" }}>
+
+  This is an upgrade guide. These safeguards apply after the corresponding gateway update is deployed; publication of this page does not confirm production deployment.
+
+  Completed requests are settled at their actual cost. If the remaining subscription allowance cannot cover a completed request, the excess is deducted from the existing account wallet, which can become negative. New generation is blocked while the wallet is negative, regardless of billing preference or subscription changes. Login, recharge, task retrieval, and settlement of already-admitted work remain available.
+
+  Recharge first offsets outstanding debt. Only the net remainder is available. For example, **−$50 (−500 credits)** becomes **−$30 (−300 credits)** after a **$20 (200 credits)** recharge; generation remains blocked. A later **$40 (400 credits)** recharge leaves **$10 (100 credits)**. A zero wallet cannot fund paid wallet requests; users with a valid prepaid subscription and no wallet debt can still use their subscription allowance.
+
+  Subscription resets, expiry, or replacement do not erase wallet debt. Refunds follow the request’s recorded subscription and wallet allocation; a subscription reset does not erase the wallet refund allocation. Duplicate payment notifications do not credit the wallet twice. Consumption records distinguish the actual subscription and wallet deductions.
+
+  For an existing Realtime connection, new generation events are checked again for debt. A rejected event ends the connection; reconnect after clearing the debt. If you increase a finite API-key quota during a Realtime session, reconnect to use the higher quota.
+
+  ### Links
+
+  - [Upgrade details](/en/faqs/account-billing)
+
+</Update>
+
 <a id="2026-09-14-image-reference-fields"></a>
 
 <Update label="September 14, 2026" tags={["Improvements", "Image"]} rss={{ title: "Image model pages now document the reference-image field and its limits" }}>

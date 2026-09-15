@@ -40,6 +40,12 @@ Follow the right-rail cURL.
 
 Account fields such as `quota` / `used_quota` when applicable. Errors: right rail and [Error codes](/en/faqs/connection-usage).
 
+## Wallet balance after upgrade
+
+`quota` is the wallet balance in raw units: divide by 500000 for USD, then multiply USD by 10 for credits. A negative value is outstanding debt, not usable subscription allowance. Recharges offset this debt before creating available wallet balance. See [subscription overrun and repayment](/en/faqs/account-billing#subscription-overrun-and-wallet-debt-after-upgrade).
+
+This is an upgrade guide. These safeguards apply after the corresponding gateway update is deployed; publication of this page does not confirm production deployment.
+
 <Panel>
 
 <RequestExample>
