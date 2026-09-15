@@ -83,6 +83,42 @@ Stay up to date with OmniMux gateway model launches and platform changes. The fu
 
 </Update>
 
+<a id="2026-09-15-oauth-browser-binding"></a>
+
+<Update label="September 15, 2026" tags={["Platform"]} rss={{ title: "Upgrade guide: browser-bound third-party login" }}>
+
+  This is an upgrade guide. These safeguards apply after the corresponding gateway update is deployed; documentation publication does not confirm production deployment.
+
+  Complete third-party login in the same browser and browser profile that started it, and allow that browser to retain the cookie this site sets for the login attempt. The login state and callback URL alone are insufficient: the return to this site must also carry the matching browser cookie issued when that attempt started.
+
+  Do not continue an unfinished callback link in another browser, another browser profile or a private window. If the cookie is missing or cleared, or the login has expired, return to the login page and start again. Outstanding pre-upgrade login attempts without browser binding must also restart.
+
+  Separately initiated attempts retain separate cookies; completing one does not clear the other attempt’s cookie. Third-party account binding and security verification for signed-in users still require the account session that initiated the operation.
+
+  ### Links
+
+  - [Upgrade details](/en/faqs/security)
+
+</Update>
+
+<a id="2026-09-15-device-approval-verification"></a>
+
+<Update label="September 15, 2026" tags={["Platform"]} rss={{ title: "Upgrade guide: device approval security verification" }}>
+
+  This is an upgrade guide. These safeguards apply after the corresponding gateway update is deployed; documentation publication does not confirm production deployment.
+
+  Open the device confirmation page, choose to authorize, and complete the account’s existing security verification when prompted. Being signed in alone is insufficient to approve a device. Available verification methods follow the account’s existing security settings. Cancelling verification does not approve the device; denying authorization does not require this verification.
+
+  Verification approves only the current account and device code. If the account, browser session or device code changes while verification is pending, start confirmation again. After approval, revocation or expiry of the approving session, a change to account security state, or replacement or revocation of the account access token prevents the original device flow from issuing a token. Restart device login. Previously approved but unfinished flows without the new authorization record must also restart after upgrade.
+
+  The device continues polling at the existing interval. A valid approval can issue the account access token only once; repeated polling does not rotate it again. The account access token remains a credential for user APIs and does not replace gateway `sk-` keys.
+
+  ### Links
+
+  - [Upgrade details](/en/api-reference/account/device-login)
+
+</Update>
+
 <a id="2026-09-14-image-reference-fields"></a>
 
 <Update label="September 14, 2026" tags={["Improvements", "Image"]} rss={{ title: "Image model pages now document the reference-image field and its limits" }}>

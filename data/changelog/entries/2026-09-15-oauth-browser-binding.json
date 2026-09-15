@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "id": "2026-09-15-oauth-browser-binding",
+  "published_at": "2026-09-15",
+  "type": "platform",
+  "modality": [
+    "platform"
+  ],
+  "title": {
+    "en": "Upgrade guide: browser-bound third-party login",
+    "zh": "升级说明：网页登录绑定发起浏览器"
+  },
+  "summary": {
+    "en": "After deployment, third-party login requires the browser cookie issued for that attempt; outstanding unbound pre-upgrade attempts must restart. Documentation publication does not confirm production deployment.",
+    "zh": "对应更新部署后，第三方登录须在发起登录的浏览器凭据仍有效时完成；升级前未绑定的登录流程需重新开始。文档发布不代表正式服务已经部署。"
+  },
+  "models": [],
+  "links": [
+    {
+      "label": {
+        "en": "Upgrade details",
+        "zh": "升级说明"
+      },
+      "href": {
+        "en": "/en/faqs/security",
+        "zh": "/zh/faqs/security"
+      }
+    }
+  ],
+  "tags": [
+    "upgrade-guide",
+    "oauth-browser-binding"
+  ],
+  "body": {
+    "zh": "以下为升级说明，相关保护在对应网关更新部署后生效；文档发布不代表正式服务已经部署。\n\n使用第三方账号登录时，请在发起登录的同一浏览器及同一浏览器资料中完成登录，并允许该浏览器保留本站为本次登录设置的 Cookie（浏览器凭据）。登录状态参数和返回地址本身不足以完成登录；回到本站时，还必须携带发起该次登录时设置的对应浏览器凭据。\n\n不要把未完成的登录回调链接复制到另一浏览器、另一浏览器资料或无痕窗口中继续。若凭据丢失、被清除或登录已过期，请回到登录页重新发起登录。升级前尚未完成且未绑定浏览器凭据的登录流程也需要重新开始。\n\n多次分别发起的登录各自保存凭据；完成一次不会清除另一次的对应凭据。已登录账户的第三方账号绑定和安全验证仍要求使用发起操作时的账户会话。",
+    "en": "This is an upgrade guide. These safeguards apply after the corresponding gateway update is deployed; documentation publication does not confirm production deployment.\n\nComplete third-party login in the same browser and browser profile that started it, and allow that browser to retain the cookie this site sets for the login attempt. The login state and callback URL alone are insufficient: the return to this site must also carry the matching browser cookie issued when that attempt started.\n\nDo not continue an unfinished callback link in another browser, another browser profile or a private window. If the cookie is missing or cleared, or the login has expired, return to the login page and start again. Outstanding pre-upgrade login attempts without browser binding must also restart.\n\nSeparately initiated attempts retain separate cookies; completing one does not clear the other attempt’s cookie. Third-party account binding and security verification for signed-in users still require the account session that initiated the operation."
+  }
+}
