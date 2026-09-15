@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "id": "2026-09-15-upload-content-isolation",
+  "published_at": "2026-09-15",
+  "type": "platform",
+  "modality": [
+    "platform"
+  ],
+  "title": {
+    "en": "Upgrade guide: uploaded-content isolation",
+    "zh": "升级说明：上传内容隔离"
+  },
+  "summary": {
+    "en": "This is an upgrade guide. These safeguards apply after the corresponding gateway update is deployed; publication of this page does not confirm production deployment.",
+    "zh": "以下为升级说明，相关保护在对应网关更新部署后适用；本文发布不代表正式服务已经部署。"
+  },
+  "models": [],
+  "links": [
+    {
+      "label": {
+        "en": "Upgrade details",
+        "zh": "升级说明"
+      },
+      "href": {
+        "en": "/en/api-reference/file-series/download",
+        "zh": "/zh/api-reference/file-series/download"
+      }
+    }
+  ],
+  "tags": [
+    "upgrade-guide",
+    "upload-content-isolation"
+  ],
+  "body": {
+    "en": "This is an upgrade guide. These safeguards apply after the corresponding gateway update is deployed; publication of this page does not confirm production deployment.\n\nPublic object-storage redirects are retained only when the storage origin is separate from the application and trusted session origins. A shared hostname remains unsafe even with a different scheme or port. Invalid public-storage settings, overlapping hosts, or settings whose isolation cannot be established reject new uploads before storage writes.\n\nExisting files accessed through the gateway are streamed when a safe redirect is unavailable. Gateway responses apply a browser sandbox policy that blocks active scripts in HTML and SVG content. File bytes, media types, public file identifiers, and expiry rules stay unchanged.\n\nUse the upload response’s `file_url` or `download_url`; do not reconstruct a direct storage URL. Previously exposed unsafe object URLs require private or isolated storage, or isolation at the original serving endpoint. Changing a returned URL does not revoke an old public URL.",
+    "zh": "以下为升级说明，相关保护在对应网关更新部署后适用；本文发布不代表正式服务已经部署。\n\n仅当公开对象存储来源与应用及可信登录来源相互独立时，才保留存储直链重定向。同一主机即使使用不同协议或端口，仍不视为安全隔离。公开存储配置无效、主机重叠或无法确认隔离时，新上传会在写入存储前被拒绝。\n\n既有文件通过网关访问时，无法安全重定向的文件由网关输出。网关响应带有浏览器沙箱策略，阻止网页和矢量图片中的脚本运行。文件字节、媒体类型、公开文件标识和过期规则不变。\n\n请使用上传响应中的 `file_url` 或 `download_url`，不要自行拼接存储直链。既有不安全公开对象需要迁移到私有或独立存储，或在原始出口施加隔离；改写返回地址不能撤销旧的公开地址。"
+  }
+}

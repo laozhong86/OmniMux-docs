@@ -6,7 +6,7 @@ api: "POST https://omnimux.ai/api/user/device/code"
 ---
 
 - 账户管理用户 API（CLI / 无头环境登录）
-- **申请码与轮询换 token 无需鉴权**；浏览器侧批准/拒绝需已登录用户会话
+- **申请码与轮询换取令牌无需鉴权**；浏览器侧批准或拒绝需要已登录用户会话。对应安全更新部署后，批准还必须完成下方说明的安全验证；拒绝不需要额外验证。
 - 换取的 `access_token` 用于后续 `https://omnimux.ai` 用户 API（配合 `New-Api-User`）
 
 ## 身份
@@ -21,9 +21,9 @@ api: "POST https://omnimux.ai/api/user/device/code"
 | 步骤 | 方法 | 路径 | 鉴权 |
 | --- | --- | --- | --- |
 | 1. 申请设备码 | `POST` | `/api/user/device/code` | 无 |
-| 2. 用户浏览器确认 | 打开 `verification_uri` | 控制台 / CLI 登录页 | 浏览器会话 |
+| 2. 用户浏览器确认 | 打开 `verification_uri` | 控制台 / CLI 登录页 | 浏览器会话；升级后还需安全验证 |
 | 3. 轮询换 token | `POST` | `/api/user/device/token` | 无 |
-| 4. 批准 / 拒绝（可选，已登录会话） | `POST` | `/api/user/device/approve` · `/api/user/device/deny` | 用户会话 |
+| 4. 批准 / 拒绝（可选，已登录会话） | `POST` | `/api/user/device/approve` · `/api/user/device/deny` | 浏览器会话；升级后批准还需安全验证 |
 
 Base URL：`https://omnimux.ai`
 
@@ -32,10 +32,21 @@ Base URL：`https://omnimux.ai`
 | 步骤 | 要求 |
 | --- | --- |
 | `device/code` · `device/token` | **不需要** `Authorization` / `New-Api-User` |
-| `device/approve` · `device/deny` | 已登录用户（控制台会话）；body 含 `user_code` |
+| `device/approve` | 已登录浏览器会话，正文含 `user_code`；升级后还须提交原生安全验证返回的 `X-Security-Proof`，验证用途为 `access_token.generate`。 |
+| `device/deny` | 已登录浏览器会话，正文含 `user_code`；无需生成令牌的安全验证。 |
 | 换得 token 之后 | 其他用户 API：`Authorization: Bearer <access_token>` + `New-Api-User: <user_id>` |
 
 网关 AI / 社交数据仍使用 `https://api.omnimux.ai` 的 `sk-` 令牌，与设备码 access token **不是同一套凭证**。见 [连接与使用](/zh/faqs/connection-usage)。
+
+## 升级后的设备授权验证
+
+以下为升级说明，相关保护在对应网关更新部署后生效；文档发布不代表正式服务已经部署。
+
+打开设备确认页并点击授权后，按页面提示完成账户已有的安全验证。只有登录状态不足以批准设备授权；系统会按账户现有安全设置提供可用验证方式。取消验证不会批准设备，拒绝授权不需要完成此项验证。
+
+通过验证只批准当前账户和当前设备码。等待验证期间切换账户、登录会话或设备码，需要重新确认。批准后，若批准时的会话被撤销或失效、账户安全状态发生变化，或账户访问令牌被更换或撤销，原设备流程不能继续签发令牌，请重新发起设备登录。升级前已批准但未完成、缺少新授权记录的流程也需重新开始。
+
+设备端仍按原有间隔轮询。有效授权只换取一次账户访问令牌，重复轮询不会再次更换令牌。账户访问令牌仍用于用户接口，不替代网关的 `sk-` 密钥。
 
 ## 请求体 / 参数
 

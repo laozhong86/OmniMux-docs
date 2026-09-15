@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "id": "2026-09-15-device-approval-verification",
+  "published_at": "2026-09-15",
+  "type": "platform",
+  "modality": [
+    "platform"
+  ],
+  "title": {
+    "en": "Upgrade guide: device approval security verification",
+    "zh": "升级说明：设备授权安全验证"
+  },
+  "summary": {
+    "en": "After deployment, device approval requires native account security verification; invalidated unfinished flows and those without the new authorization record must restart. Documentation publication does not confirm production deployment.",
+    "zh": "对应更新部署后，批准设备授权须完成账户原生安全验证；已失效或缺少新授权记录的未完成流程需重新开始。文档发布不代表正式服务已经部署。"
+  },
+  "models": [],
+  "links": [
+    {
+      "label": {
+        "en": "Upgrade details",
+        "zh": "升级说明"
+      },
+      "href": {
+        "en": "/en/api-reference/account/device-login",
+        "zh": "/zh/api-reference/account/device-login"
+      }
+    }
+  ],
+  "tags": [
+    "upgrade-guide",
+    "device-approval-verification"
+  ],
+  "body": {
+    "zh": "以下为升级说明，相关保护在对应网关更新部署后生效；文档发布不代表正式服务已经部署。\n\n打开设备确认页并点击授权后，按页面提示完成账户已有的安全验证。只有登录状态不足以批准设备授权；系统会按账户现有安全设置提供可用验证方式。取消验证不会批准设备，拒绝授权不需要完成此项验证。\n\n通过验证只批准当前账户和当前设备码。等待验证期间切换账户、登录会话或设备码，需要重新确认。批准后，若批准时的会话被撤销或失效、账户安全状态发生变化，或账户访问令牌被更换或撤销，原设备流程不能继续签发令牌，请重新发起设备登录。升级前已批准但未完成、缺少新授权记录的流程也需重新开始。\n\n设备端仍按原有间隔轮询。有效授权只换取一次账户访问令牌，重复轮询不会再次更换令牌。账户访问令牌仍用于用户接口，不替代网关的 `sk-` 密钥。",
+    "en": "This is an upgrade guide. These safeguards apply after the corresponding gateway update is deployed; documentation publication does not confirm production deployment.\n\nOpen the device confirmation page, choose to authorize, and complete the account’s existing security verification when prompted. Being signed in alone is insufficient to approve a device. Available verification methods follow the account’s existing security settings. Cancelling verification does not approve the device; denying authorization does not require this verification.\n\nVerification approves only the current account and device code. If the account, browser session or device code changes while verification is pending, start confirmation again. After approval, revocation or expiry of the approving session, a change to account security state, or replacement or revocation of the account access token prevents the original device flow from issuing a token. Restart device login. Previously approved but unfinished flows without the new authorization record must also restart after upgrade.\n\nThe device continues polling at the existing interval. A valid approval can issue the account access token only once; repeated polling does not rotate it again. The account access token remains a credential for user APIs and does not replace gateway `sk-` keys."
+  }
+}

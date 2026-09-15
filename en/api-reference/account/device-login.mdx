@@ -6,7 +6,7 @@ api: "POST https://omnimux.ai/api/user/device/code"
 ---
 
 - Account management user API (CLI / headless login)
-- **Code request and token poll need no auth**; approve/deny need a logged-in browser session
+- **Code requests and token polling need no authentication**; approval and denial require a logged-in browser session. After the corresponding security update is deployed, approval also requires the security verification described below; denial does not require this additional verification.
 - The returned `access_token` is for `https://omnimux.ai` user APIs (with `New-Api-User`)
 
 ## Identity
@@ -21,9 +21,9 @@ api: "POST https://omnimux.ai/api/user/device/code"
 | Step | Method | Path | Auth |
 | --- | --- | --- | --- |
 | 1. Request device code | `POST` | `/api/user/device/code` | None |
-| 2. Browser approval | Open `verification_uri` | Console / CLI login page | Browser session |
+| 2. Browser approval | Open `verification_uri` | Console / CLI login page | Browser session; after upgrade, security verification |
 | 3. Poll for token | `POST` | `/api/user/device/token` | None |
-| 4. Approve / deny (optional, logged-in) | `POST` | `/api/user/device/approve` · `/api/user/device/deny` | User session |
+| 4. Approve / deny (optional, logged-in) | `POST` | `/api/user/device/approve` · `/api/user/device/deny` | Browser session; after upgrade, approval also requires security verification |
 
 Base URL: `https://omnimux.ai`
 
@@ -32,10 +32,21 @@ Base URL: `https://omnimux.ai`
 | Step | Requirement |
 | --- | --- |
 | `device/code` · `device/token` | **No** `Authorization` / `New-Api-User` |
-| `device/approve` · `device/deny` | Logged-in user (console session); body includes `user_code` |
+| `device/approve` | Logged-in browser session and `user_code` in the body; after upgrade, also supply the native verification result as `X-Security-Proof` for the `access_token.generate` operation. |
+| `device/deny` | Logged-in browser session and `user_code` in the body; no token-generation security proof required. |
 | After token issued | Other user APIs: `Authorization: Bearer <access_token>` + `New-Api-User: <user_id>` |
 
 AI gateway and social-data APIs still use `sk-` tokens on `https://api.omnimux.ai` — a different credential surface. See [Connection & usage](/en/faqs/connection-usage).
+
+## Device approval verification after upgrade
+
+This is an upgrade guide. These safeguards apply after the corresponding gateway update is deployed; documentation publication does not confirm production deployment.
+
+Open the device confirmation page, choose to authorize, and complete the account’s existing security verification when prompted. Being signed in alone is insufficient to approve a device. Available verification methods follow the account’s existing security settings. Cancelling verification does not approve the device; denying authorization does not require this verification.
+
+Verification approves only the current account and device code. If the account, browser session or device code changes while verification is pending, start confirmation again. After approval, revocation or expiry of the approving session, a change to account security state, or replacement or revocation of the account access token prevents the original device flow from issuing a token. Restart device login. Previously approved but unfinished flows without the new authorization record must also restart after upgrade.
+
+The device continues polling at the existing interval. A valid approval can issue the account access token only once; repeated polling does not rotate it again. The account access token remains a credential for user APIs and does not replace gateway `sk-` keys.
 
 ## Body / parameters
 

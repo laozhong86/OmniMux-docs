@@ -25,3 +25,13 @@ Do not mix them casually.
 - Limit automation tokens to required models/groups  
 - Never log full secrets  
 - Use `<token>` placeholders in shared examples
+
+## Third-party browser login after upgrade
+
+This is an upgrade guide. These safeguards apply after the corresponding gateway update is deployed; documentation publication does not confirm production deployment.
+
+Complete third-party login in the same browser and browser profile that started it, and allow that browser to retain the cookie this site sets for the login attempt. The login state and callback URL alone are insufficient: the return to this site must also carry the matching browser cookie issued when that attempt started.
+
+Do not continue an unfinished callback link in another browser, another browser profile or a private window. If the cookie is missing or cleared, or the login has expired, return to the login page and start again. Outstanding pre-upgrade login attempts without browser binding must also restart.
+
+Separately initiated attempts retain separate cookies; completing one does not clear the other attempt’s cookie. Third-party account binding and security verification for signed-in users still require the account session that initiated the operation.

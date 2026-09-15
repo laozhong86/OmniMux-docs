@@ -6,8 +6,8 @@ api: "GET https://api.omnimux.ai/api/v1/files/download/{file_id}"
 ---
 
 > - Public access by unique `file_id` (no login required)
-> - Automatically responds with **302 Redirect** to Cloudflare R2 CDN URL when public domain is configured
-> - Streams file directly with correct `Content-Type` and `Content-Disposition` in local storage mode
+> - Supports **302 Redirect** to public object storage; upgraded gateways require isolated storage origins
+> - Streams files with the correct `Content-Type` and `Content-Disposition` when served through the gateway
 > - Returns `404 Not Found` when file has expired past **72 hours**
 
 ## Path Parameters
@@ -27,3 +27,13 @@ api: "GET https://api.omnimux.ai/api/v1/files/download/{file_id}"
     "msg": "文件已过期"
   }
   ```
+
+## Uploaded-content isolation after upgrade
+
+This is an upgrade guide. These safeguards apply after the corresponding gateway update is deployed; publication of this page does not confirm production deployment.
+
+Public object-storage redirects are retained only when the storage origin is separate from the application and trusted session origins. A shared hostname remains unsafe even with a different scheme or port. Invalid public-storage settings, overlapping hosts, or settings whose isolation cannot be established reject new uploads before storage writes.
+
+Existing files accessed through the gateway are streamed when a safe redirect is unavailable. Gateway responses apply a browser sandbox policy that blocks active scripts in HTML and SVG content. File bytes, media types, public file identifiers, and expiry rules stay unchanged.
+
+Use the upload response’s `file_url` or `download_url`; do not reconstruct a direct storage URL. Previously exposed unsafe object URLs require private or isolated storage, or isolation at the original serving endpoint. Changing a returned URL does not revoke an old public URL.

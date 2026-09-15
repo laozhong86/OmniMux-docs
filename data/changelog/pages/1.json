@@ -2,9 +2,257 @@
   "schema_version": 1,
   "page": 1,
   "page_size": 50,
-  "total": 34,
+  "total": 40,
   "total_pages": 1,
   "items": [
+    {
+      "id": "2026-09-15-upload-request-limits",
+      "published_at": "2026-09-15",
+      "type": "platform",
+      "modality": [
+        "platform"
+      ],
+      "title": {
+        "en": "Upgrade guide: file upload request limits",
+        "zh": "升级说明：文件上传请求大小限制"
+      },
+      "summary": {
+        "en": "After the corresponding gateway update is deployed, oversized upload requests return HTTP 413; file limits remain 100 MiB. Documentation publication does not confirm production deployment.",
+        "zh": "对应网关更新部署后，上传请求超限返回 HTTP 413，文件上限仍为 100 MiB。文档发布不代表正式服务已经部署。"
+      },
+      "models": [],
+      "tags": [
+        "upgrade-guide",
+        "upload-request-limits"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "Base64 upload",
+            "zh": "Base64 上传"
+          },
+          "href": {
+            "en": "/en/api-reference/file-series/upload-base64",
+            "zh": "/zh/api-reference/file-series/upload-base64"
+          }
+        },
+        {
+          "label": {
+            "en": "Multipart upload",
+            "zh": "表单上传"
+          },
+          "href": {
+            "en": "/en/api-reference/file-series/upload-stream",
+            "zh": "/zh/api-reference/file-series/upload-stream"
+          }
+        },
+        {
+          "label": {
+            "en": "URL upload",
+            "zh": "链接上传"
+          },
+          "href": {
+            "en": "/en/api-reference/file-series/upload-url",
+            "zh": "/zh/api-reference/file-series/upload-url"
+          }
+        }
+      ],
+      "body": {
+        "en": "These limits apply after the upload request-limit update is deployed. Documentation publication does not confirm gateway production deployment. 1 MiB = 1,048,576 bytes. The file limit remains **100 MiB**. A stricter gateway or proxy limit still takes precedence; in particular, the existing global limit on the `/v1/files/upload/` aliases may reject a large Base64 request before it reaches this limit.\n\nThe JSON request budget is **140,858,712 bytes**: standard Base64 encoding of a 100 MiB file, plus 1 MiB for JSON metadata and encoding overhead. Decoded file data must not exceed 100 MiB. An over-limit declared body, a body whose parsing exceeds the budget, or over-limit decoded data returns **HTTP 413**. Malformed JSON or invalid Base64 remains **HTTP 400**.\n\nThe multipart request budget is **101 MiB** (100 MiB file + 1 MiB overhead). It covers bytes consumed during parsing, including extra file parts, form fields, and multipart boundaries. The selected file must not exceed 100 MiB. An over-limit declared body, parsing that exceeds the budget, or an over-limit selected file returns **HTTP 413**. A malformed form remains **HTTP 400**.\n\nThe JSON request containing the URL and metadata has a **1 MiB** budget. An over-limit declared body or parsing that exceeds this budget returns **HTTP 413**. The remotely downloaded file remains limited to **100 MiB**; an oversized remote file continues to return **HTTP 400**. Malformed JSON and invalid URLs also remain **HTTP 400**.",
+        "zh": "以下限制在上传请求限制更新部署后生效；文档发布不代表正式网关已经部署。1 MiB = 1,048,576 字节。文件上限仍为 **100 MiB**。网关或代理设置的更严格限制仍优先生效，尤其是 `/v1/files/upload/` 别名现有的全局限制，可能在大体积 Base64 请求达到此处上限前拒绝请求。\n\nJSON 请求预算为 **140,858,712 字节**：100 MiB 文件的标准 Base64 编码长度，再加 1 MiB 的 JSON 元数据及编码开销。解码后的文件不得超过 100 MiB。声明的请求体超限、解析时读取的内容超限，或解码后文件超限，均返回 **HTTP 413**；JSON 格式错误或 Base64 无效仍返回 **HTTP 400**。\n\nmultipart 请求预算为 **101 MiB**（100 MiB 文件 + 1 MiB 开销），覆盖解析时读取的内容，包括额外文件、表单字段和分隔符。选中的文件不得超过 100 MiB。声明的请求体超限、解析时读取的内容超限，或选中的文件超限，均返回 **HTTP 413**；表单格式错误仍返回 **HTTP 400**。\n\n包含链接和元数据的 JSON 请求预算为 **1 MiB**。声明的请求体超限或解析时读取的内容超限，返回 **HTTP 413**。远程下载的文件仍不得超过 **100 MiB**，远程文件超限继续返回 **HTTP 400**；JSON 格式错误或链接无效也仍返回 **HTTP 400**。"
+      },
+      "schema_version": 1
+    },
+    {
+      "id": "2026-09-15-upload-content-isolation",
+      "published_at": "2026-09-15",
+      "type": "platform",
+      "modality": [
+        "platform"
+      ],
+      "title": {
+        "en": "Upgrade guide: uploaded-content isolation",
+        "zh": "升级说明：上传内容隔离"
+      },
+      "summary": {
+        "en": "This is an upgrade guide. These safeguards apply after the corresponding gateway update is deployed; publication of this page does not confirm production deployment.",
+        "zh": "以下为升级说明，相关保护在对应网关更新部署后适用；本文发布不代表正式服务已经部署。"
+      },
+      "models": [],
+      "tags": [
+        "upgrade-guide",
+        "upload-content-isolation"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "Upgrade details",
+            "zh": "升级说明"
+          },
+          "href": {
+            "en": "/en/api-reference/file-series/download",
+            "zh": "/zh/api-reference/file-series/download"
+          }
+        }
+      ],
+      "body": {
+        "en": "This is an upgrade guide. These safeguards apply after the corresponding gateway update is deployed; publication of this page does not confirm production deployment.\n\nPublic object-storage redirects are retained only when the storage origin is separate from the application and trusted session origins. A shared hostname remains unsafe even with a different scheme or port. Invalid public-storage settings, overlapping hosts, or settings whose isolation cannot be established reject new uploads before storage writes.\n\nExisting files accessed through the gateway are streamed when a safe redirect is unavailable. Gateway responses apply a browser sandbox policy that blocks active scripts in HTML and SVG content. File bytes, media types, public file identifiers, and expiry rules stay unchanged.\n\nUse the upload response’s `file_url` or `download_url`; do not reconstruct a direct storage URL. Previously exposed unsafe object URLs require private or isolated storage, or isolation at the original serving endpoint. Changing a returned URL does not revoke an old public URL.",
+        "zh": "以下为升级说明，相关保护在对应网关更新部署后适用；本文发布不代表正式服务已经部署。\n\n仅当公开对象存储来源与应用及可信登录来源相互独立时，才保留存储直链重定向。同一主机即使使用不同协议或端口，仍不视为安全隔离。公开存储配置无效、主机重叠或无法确认隔离时，新上传会在写入存储前被拒绝。\n\n既有文件通过网关访问时，无法安全重定向的文件由网关输出。网关响应带有浏览器沙箱策略，阻止网页和矢量图片中的脚本运行。文件字节、媒体类型、公开文件标识和过期规则不变。\n\n请使用上传响应中的 `file_url` 或 `download_url`，不要自行拼接存储直链。既有不安全公开对象需要迁移到私有或独立存储，或在原始出口施加隔离；改写返回地址不能撤销旧的公开地址。"
+      },
+      "schema_version": 1
+    },
+    {
+      "id": "2026-09-15-subscription-overrun-debt",
+      "published_at": "2026-09-15",
+      "type": "platform",
+      "modality": [
+        "platform"
+      ],
+      "title": {
+        "en": "Upgrade guide: subscription overrun and repayment",
+        "zh": "升级说明：套餐超额与还款"
+      },
+      "summary": {
+        "en": "This is an upgrade guide. These safeguards apply after the corresponding gateway update is deployed; publication of this page does not confirm production deployment.",
+        "zh": "以下为升级说明，相关保护在对应网关更新部署后适用；本文发布不代表正式服务已经部署。"
+      },
+      "models": [],
+      "tags": [
+        "upgrade-guide",
+        "subscription-overrun-debt"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "Upgrade details",
+            "zh": "升级说明"
+          },
+          "href": {
+            "en": "/en/faqs/account-billing",
+            "zh": "/zh/faqs/account-billing"
+          }
+        }
+      ],
+      "body": {
+        "en": "This is an upgrade guide. These safeguards apply after the corresponding gateway update is deployed; publication of this page does not confirm production deployment.\n\nCompleted requests are settled at their actual cost. If the remaining subscription allowance cannot cover a completed request, the excess is deducted from the existing account wallet, which can become negative. New generation is blocked while the wallet is negative, regardless of billing preference or subscription changes. Login, recharge, task retrieval, and settlement of already-admitted work remain available.\n\nRecharge first offsets outstanding debt. Only the net remainder is available. For example, **−$50 (−500 credits)** becomes **−$30 (−300 credits)** after a **$20 (200 credits)** recharge; generation remains blocked. A later **$40 (400 credits)** recharge leaves **$10 (100 credits)**. A zero wallet cannot fund paid wallet requests; users with a valid prepaid subscription and no wallet debt can still use their subscription allowance.\n\nSubscription resets, expiry, or replacement do not erase wallet debt. Refunds follow the request’s recorded subscription and wallet allocation; a subscription reset does not erase the wallet refund allocation. Duplicate payment notifications do not credit the wallet twice. Consumption records distinguish the actual subscription and wallet deductions.\n\nFor an existing Realtime connection, new generation events are checked again for debt. A rejected event ends the connection; reconnect after clearing the debt. If you increase a finite API-key quota during a Realtime session, reconnect to use the higher quota.",
+        "zh": "以下为升级说明，相关保护在对应网关更新部署后适用；本文发布不代表正式服务已经部署。\n\n已完成的请求按实际费用结算。套餐剩余额度不足以覆盖该请求时，超出部分从现有账户余额扣除，余额可能变为负数。负余额表示待补足的费用；欠款清零前，账户不能发起新的生成，切换套餐或计费偏好也不会绕过限制。登录、充值、已有任务查询和已受理请求的结算仍可使用。\n\n充值先抵扣欠款，抵扣后剩下的金额才是可用余额。例如余额为 **−50 美元（−500 积分）**，充值 **20 美元（200 积分）**后为 **−30 美元（−300 积分）**，仍无法生成；再充值 **40 美元（400 积分）**后为 **10 美元（100 积分）**。余额恰好为零时不能使用钱包付费生成；原有有效预付套餐且无钱包欠款的账户仍可使用套餐额度。\n\n套餐刷新、到期或替换不会清除钱包欠款。退款按该请求记录的套餐和钱包扣款份额返还；套餐刷新不会抹去应退回钱包的份额。重复到账通知不会重复增加余额，消费记录区分套餐与钱包实际扣除额。\n\n实时会话中的新生成事件也会再次检查欠费；生成事件被拒绝后连接结束，补足欠款后需重新连接。在实时会话期间提高有限额密钥的额度，也需要重新连接才能使用提高后的额度。"
+      },
+      "schema_version": 1
+    },
+    {
+      "id": "2026-09-15-payment-notification-validation",
+      "published_at": "2026-09-15",
+      "type": "platform",
+      "modality": [
+        "platform"
+      ],
+      "title": {
+        "en": "Upgrade guide: payment notification validation",
+        "zh": "升级说明：支付通知核验"
+      },
+      "summary": {
+        "en": "After deployment, payment settlement requires verified production notifications matching the current store and saved order details. Documentation publication does not confirm production deployment.",
+        "zh": "对应更新部署后，支付结算须通过正式通知验证，并匹配当前店铺与已保存的订单信息。文档发布不代表正式服务已经部署。"
+      },
+      "models": [],
+      "tags": [
+        "upgrade-guide",
+        "payment-validation"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "Account and billing",
+            "zh": "账户与账单"
+          },
+          "href": {
+            "en": "/en/faqs/account-billing",
+            "zh": "/zh/faqs/account-billing"
+          }
+        }
+      ],
+      "body": {
+        "en": "This is an upgrade guide for Waffo Pancake payment notifications. The checks apply after the corresponding gateway update is deployed; documentation publication does not confirm production deployment.\n\nWallet top-ups and subscription activation accept only production payment notifications verified with production signing keys. The signed event must identify production mode, exactly match the currently configured store, use USD, and match the local order’s payment provider, buyer and order reference.\n\nThe signed gross payment amount minus its separately reported tax must equal the order’s persisted pre-tax checkout price, rounded to two decimal places as at checkout. The current plan price is not substituted for the saved order price. Invalid or mismatched payment details do not credit the wallet or activate a subscription. Repeated valid notifications retain the existing once-only settlement behavior.\n\nTest-mode orders no longer settle automatically. After a store configuration change, pending orders from the previous store also no longer settle automatically. If payment is not reflected, contact support with the order reference and payment time for review; do not pay again solely because a notification was rejected.",
+        "zh": "以下为 Waffo Pancake（支付服务）的支付回调升级说明。相关核验在对应网关更新部署后生效；文档发布不代表正式服务已经部署。\n\n充值到账和套餐开通仅接受使用正式环境签名密钥验证通过的正式支付通知。已签名的通知还必须标明正式环境、与当前配置的店铺完全一致、使用美元（USD），并与本地订单记录的支付服务商、买家和订单编号匹配。\n\n已签名通知中的含税总金额减去单独列出的税额，必须等于订单保存的税前结账价格；该价格按结账时的规则保留两位小数，不用套餐当前价格替代。支付信息无效或不匹配时，不增加余额、不启用套餐。重复的有效通知仍只结算一次。\n\n测试环境订单不再自动结算。切换店铺配置后，先前店铺的待完成订单也不再自动结算。若支付结果未到账，请提供订单编号和支付时间联系支持核查，不要仅因通知被拒绝就再次付款。"
+      },
+      "schema_version": 1
+    },
+    {
+      "id": "2026-09-15-oauth-browser-binding",
+      "published_at": "2026-09-15",
+      "type": "platform",
+      "modality": [
+        "platform"
+      ],
+      "title": {
+        "en": "Upgrade guide: browser-bound third-party login",
+        "zh": "升级说明：网页登录绑定发起浏览器"
+      },
+      "summary": {
+        "en": "After deployment, third-party login requires the browser cookie issued for that attempt; outstanding unbound pre-upgrade attempts must restart. Documentation publication does not confirm production deployment.",
+        "zh": "对应更新部署后，第三方登录须在发起登录的浏览器凭据仍有效时完成；升级前未绑定的登录流程需重新开始。文档发布不代表正式服务已经部署。"
+      },
+      "models": [],
+      "tags": [
+        "upgrade-guide",
+        "oauth-browser-binding"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "Upgrade details",
+            "zh": "升级说明"
+          },
+          "href": {
+            "en": "/en/faqs/security",
+            "zh": "/zh/faqs/security"
+          }
+        }
+      ],
+      "body": {
+        "zh": "以下为升级说明，相关保护在对应网关更新部署后生效；文档发布不代表正式服务已经部署。\n\n使用第三方账号登录时，请在发起登录的同一浏览器及同一浏览器资料中完成登录，并允许该浏览器保留本站为本次登录设置的 Cookie（浏览器凭据）。登录状态参数和返回地址本身不足以完成登录；回到本站时，还必须携带发起该次登录时设置的对应浏览器凭据。\n\n不要把未完成的登录回调链接复制到另一浏览器、另一浏览器资料或无痕窗口中继续。若凭据丢失、被清除或登录已过期，请回到登录页重新发起登录。升级前尚未完成且未绑定浏览器凭据的登录流程也需要重新开始。\n\n多次分别发起的登录各自保存凭据；完成一次不会清除另一次的对应凭据。已登录账户的第三方账号绑定和安全验证仍要求使用发起操作时的账户会话。",
+        "en": "This is an upgrade guide. These safeguards apply after the corresponding gateway update is deployed; documentation publication does not confirm production deployment.\n\nComplete third-party login in the same browser and browser profile that started it, and allow that browser to retain the cookie this site sets for the login attempt. The login state and callback URL alone are insufficient: the return to this site must also carry the matching browser cookie issued when that attempt started.\n\nDo not continue an unfinished callback link in another browser, another browser profile or a private window. If the cookie is missing or cleared, or the login has expired, return to the login page and start again. Outstanding pre-upgrade login attempts without browser binding must also restart.\n\nSeparately initiated attempts retain separate cookies; completing one does not clear the other attempt’s cookie. Third-party account binding and security verification for signed-in users still require the account session that initiated the operation."
+      },
+      "schema_version": 1
+    },
+    {
+      "id": "2026-09-15-device-approval-verification",
+      "published_at": "2026-09-15",
+      "type": "platform",
+      "modality": [
+        "platform"
+      ],
+      "title": {
+        "en": "Upgrade guide: device approval security verification",
+        "zh": "升级说明：设备授权安全验证"
+      },
+      "summary": {
+        "en": "After deployment, device approval requires native account security verification; invalidated unfinished flows and those without the new authorization record must restart. Documentation publication does not confirm production deployment.",
+        "zh": "对应更新部署后，批准设备授权须完成账户原生安全验证；已失效或缺少新授权记录的未完成流程需重新开始。文档发布不代表正式服务已经部署。"
+      },
+      "models": [],
+      "tags": [
+        "upgrade-guide",
+        "device-approval-verification"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "Upgrade details",
+            "zh": "升级说明"
+          },
+          "href": {
+            "en": "/en/api-reference/account/device-login",
+            "zh": "/zh/api-reference/account/device-login"
+          }
+        }
+      ],
+      "body": {
+        "zh": "以下为升级说明，相关保护在对应网关更新部署后生效；文档发布不代表正式服务已经部署。\n\n打开设备确认页并点击授权后，按页面提示完成账户已有的安全验证。只有登录状态不足以批准设备授权；系统会按账户现有安全设置提供可用验证方式。取消验证不会批准设备，拒绝授权不需要完成此项验证。\n\n通过验证只批准当前账户和当前设备码。等待验证期间切换账户、登录会话或设备码，需要重新确认。批准后，若批准时的会话被撤销或失效、账户安全状态发生变化，或账户访问令牌被更换或撤销，原设备流程不能继续签发令牌，请重新发起设备登录。升级前已批准但未完成、缺少新授权记录的流程也需重新开始。\n\n设备端仍按原有间隔轮询。有效授权只换取一次账户访问令牌，重复轮询不会再次更换令牌。账户访问令牌仍用于用户接口，不替代网关的 `sk-` 密钥。",
+        "en": "This is an upgrade guide. These safeguards apply after the corresponding gateway update is deployed; documentation publication does not confirm production deployment.\n\nOpen the device confirmation page, choose to authorize, and complete the account’s existing security verification when prompted. Being signed in alone is insufficient to approve a device. Available verification methods follow the account’s existing security settings. Cancelling verification does not approve the device; denying authorization does not require this verification.\n\nVerification approves only the current account and device code. If the account, browser session or device code changes while verification is pending, start confirmation again. After approval, revocation or expiry of the approving session, a change to account security state, or replacement or revocation of the account access token prevents the original device flow from issuing a token. Restart device login. Previously approved but unfinished flows without the new authorization record must also restart after upgrade.\n\nThe device continues polling at the existing interval. A valid approval can issue the account access token only once; repeated polling does not rotate it again. The account access token remains a credential for user APIs and does not replace gateway `sk-` keys."
+      },
+      "schema_version": 1
+    },
     {
       "id": "2026-09-14-image-reference-fields",
       "published_at": "2026-09-14",

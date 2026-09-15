@@ -7,6 +7,118 @@ rss: true
 
 Stay up to date with OmniMux gateway model launches and platform changes. The full callable catalog is on [console pricing](https://omnimux.ai) / [Pricing](/en/api-reference/account/pricing).
 
+<a id="2026-09-15-upload-request-limits"></a>
+
+<Update label="September 15, 2026" tags={["Platform"]} rss={{ title: "Upgrade guide: file upload request limits" }}>
+
+  These limits apply after the upload request-limit update is deployed. Documentation publication does not confirm gateway production deployment. 1 MiB = 1,048,576 bytes. The file limit remains **100 MiB**. A stricter gateway or proxy limit still takes precedence; in particular, the existing global limit on the `/v1/files/upload/` aliases may reject a large Base64 request before it reaches this limit.
+
+  The JSON request budget is **140,858,712 bytes**: standard Base64 encoding of a 100 MiB file, plus 1 MiB for JSON metadata and encoding overhead. Decoded file data must not exceed 100 MiB. An over-limit declared body, a body whose parsing exceeds the budget, or over-limit decoded data returns **HTTP 413**. Malformed JSON or invalid Base64 remains **HTTP 400**.
+
+  The multipart request budget is **101 MiB** (100 MiB file + 1 MiB overhead). It covers bytes consumed during parsing, including extra file parts, form fields, and multipart boundaries. The selected file must not exceed 100 MiB. An over-limit declared body, parsing that exceeds the budget, or an over-limit selected file returns **HTTP 413**. A malformed form remains **HTTP 400**.
+
+  The JSON request containing the URL and metadata has a **1 MiB** budget. An over-limit declared body or parsing that exceeds this budget returns **HTTP 413**. The remotely downloaded file remains limited to **100 MiB**; an oversized remote file continues to return **HTTP 400**. Malformed JSON and invalid URLs also remain **HTTP 400**.
+
+  ### Links
+
+  - [Base64 upload](/en/api-reference/file-series/upload-base64)
+  - [Multipart upload](/en/api-reference/file-series/upload-stream)
+  - [URL upload](/en/api-reference/file-series/upload-url)
+
+</Update>
+
+<a id="2026-09-15-upload-content-isolation"></a>
+
+<Update label="September 15, 2026" tags={["Platform"]} rss={{ title: "Upgrade guide: uploaded-content isolation" }}>
+
+  This is an upgrade guide. These safeguards apply after the corresponding gateway update is deployed; publication of this page does not confirm production deployment.
+
+  Public object-storage redirects are retained only when the storage origin is separate from the application and trusted session origins. A shared hostname remains unsafe even with a different scheme or port. Invalid public-storage settings, overlapping hosts, or settings whose isolation cannot be established reject new uploads before storage writes.
+
+  Existing files accessed through the gateway are streamed when a safe redirect is unavailable. Gateway responses apply a browser sandbox policy that blocks active scripts in HTML and SVG content. File bytes, media types, public file identifiers, and expiry rules stay unchanged.
+
+  Use the upload response’s `file_url` or `download_url`; do not reconstruct a direct storage URL. Previously exposed unsafe object URLs require private or isolated storage, or isolation at the original serving endpoint. Changing a returned URL does not revoke an old public URL.
+
+  ### Links
+
+  - [Upgrade details](/en/api-reference/file-series/download)
+
+</Update>
+
+<a id="2026-09-15-subscription-overrun-debt"></a>
+
+<Update label="September 15, 2026" tags={["Platform"]} rss={{ title: "Upgrade guide: subscription overrun and repayment" }}>
+
+  This is an upgrade guide. These safeguards apply after the corresponding gateway update is deployed; publication of this page does not confirm production deployment.
+
+  Completed requests are settled at their actual cost. If the remaining subscription allowance cannot cover a completed request, the excess is deducted from the existing account wallet, which can become negative. New generation is blocked while the wallet is negative, regardless of billing preference or subscription changes. Login, recharge, task retrieval, and settlement of already-admitted work remain available.
+
+  Recharge first offsets outstanding debt. Only the net remainder is available. For example, **−$50 (−500 credits)** becomes **−$30 (−300 credits)** after a **$20 (200 credits)** recharge; generation remains blocked. A later **$40 (400 credits)** recharge leaves **$10 (100 credits)**. A zero wallet cannot fund paid wallet requests; users with a valid prepaid subscription and no wallet debt can still use their subscription allowance.
+
+  Subscription resets, expiry, or replacement do not erase wallet debt. Refunds follow the request’s recorded subscription and wallet allocation; a subscription reset does not erase the wallet refund allocation. Duplicate payment notifications do not credit the wallet twice. Consumption records distinguish the actual subscription and wallet deductions.
+
+  For an existing Realtime connection, new generation events are checked again for debt. A rejected event ends the connection; reconnect after clearing the debt. If you increase a finite API-key quota during a Realtime session, reconnect to use the higher quota.
+
+  ### Links
+
+  - [Upgrade details](/en/faqs/account-billing)
+
+</Update>
+
+<a id="2026-09-15-payment-notification-validation"></a>
+
+<Update label="September 15, 2026" tags={["Platform"]} rss={{ title: "Upgrade guide: payment notification validation" }}>
+
+  This is an upgrade guide for Waffo Pancake payment notifications. The checks apply after the corresponding gateway update is deployed; documentation publication does not confirm production deployment.
+
+  Wallet top-ups and subscription activation accept only production payment notifications verified with production signing keys. The signed event must identify production mode, exactly match the currently configured store, use USD, and match the local order’s payment provider, buyer and order reference.
+
+  The signed gross payment amount minus its separately reported tax must equal the order’s persisted pre-tax checkout price, rounded to two decimal places as at checkout. The current plan price is not substituted for the saved order price. Invalid or mismatched payment details do not credit the wallet or activate a subscription. Repeated valid notifications retain the existing once-only settlement behavior.
+
+  Test-mode orders no longer settle automatically. After a store configuration change, pending orders from the previous store also no longer settle automatically. If payment is not reflected, contact support with the order reference and payment time for review; do not pay again solely because a notification was rejected.
+
+  ### Links
+
+  - [Account and billing](/en/faqs/account-billing)
+
+</Update>
+
+<a id="2026-09-15-oauth-browser-binding"></a>
+
+<Update label="September 15, 2026" tags={["Platform"]} rss={{ title: "Upgrade guide: browser-bound third-party login" }}>
+
+  This is an upgrade guide. These safeguards apply after the corresponding gateway update is deployed; documentation publication does not confirm production deployment.
+
+  Complete third-party login in the same browser and browser profile that started it, and allow that browser to retain the cookie this site sets for the login attempt. The login state and callback URL alone are insufficient: the return to this site must also carry the matching browser cookie issued when that attempt started.
+
+  Do not continue an unfinished callback link in another browser, another browser profile or a private window. If the cookie is missing or cleared, or the login has expired, return to the login page and start again. Outstanding pre-upgrade login attempts without browser binding must also restart.
+
+  Separately initiated attempts retain separate cookies; completing one does not clear the other attempt’s cookie. Third-party account binding and security verification for signed-in users still require the account session that initiated the operation.
+
+  ### Links
+
+  - [Upgrade details](/en/faqs/security)
+
+</Update>
+
+<a id="2026-09-15-device-approval-verification"></a>
+
+<Update label="September 15, 2026" tags={["Platform"]} rss={{ title: "Upgrade guide: device approval security verification" }}>
+
+  This is an upgrade guide. These safeguards apply after the corresponding gateway update is deployed; documentation publication does not confirm production deployment.
+
+  Open the device confirmation page, choose to authorize, and complete the account’s existing security verification when prompted. Being signed in alone is insufficient to approve a device. Available verification methods follow the account’s existing security settings. Cancelling verification does not approve the device; denying authorization does not require this verification.
+
+  Verification approves only the current account and device code. If the account, browser session or device code changes while verification is pending, start confirmation again. After approval, revocation or expiry of the approving session, a change to account security state, or replacement or revocation of the account access token prevents the original device flow from issuing a token. Restart device login. Previously approved but unfinished flows without the new authorization record must also restart after upgrade.
+
+  The device continues polling at the existing interval. A valid approval can issue the account access token only once; repeated polling does not rotate it again. The account access token remains a credential for user APIs and does not replace gateway `sk-` keys.
+
+  ### Links
+
+  - [Upgrade details](/en/api-reference/account/device-login)
+
+</Update>
+
 <a id="2026-09-14-image-reference-fields"></a>
 
 <Update label="September 14, 2026" tags={["Improvements", "Image"]} rss={{ title: "Image model pages now document the reference-image field and its limits" }}>
