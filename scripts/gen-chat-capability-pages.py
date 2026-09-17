@@ -33,6 +33,7 @@ BRANDS: dict[str, tuple[str, str, str]] = {
     "deepseek": ("DeepSeek", "DeepSeek", r"^deepseek"),
     "minimax": ("MiniMax", "MiniMax", r"^minimax"),
     "glm": ("GLM", "GLM", r"^glm"),
+    "doubao": ("Doubao", "Doubao", r"^(doubao|seed-)"),
 }
 
 ERROR_EXAMPLES = {
@@ -471,7 +472,7 @@ def update_docs_json() -> None:
     d = json.loads(path.read_text(encoding="utf-8"))
 
     def brand_pages(loc: str) -> list[dict[str, Any]]:
-        order = ["claude", "gemini", "gpt", "grok", "kimi", "deepseek", "minimax", "glm"]
+        order = ["claude", "gemini", "gpt", "grok", "kimi", "deepseek", "minimax", "glm", "doubao"]
         out = []
         labels = {
             "zh": {k: v[0] for k, v in BRANDS.items()},

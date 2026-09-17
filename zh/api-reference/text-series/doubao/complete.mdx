@@ -1,0 +1,44 @@
+---
+title: "Doubao · 完整参数"
+sidebarTitle: "Doubao · 完整参数"
+description: "Doubao · Chat Completions 完整参数（同合同，model 枚举）"
+openapi: "openapi/ops/chat/doubao.json POST /v1/chat/completions"
+---
+
+> - 协议：OpenAI Chat Completions（`POST /v1/chat/completions`）
+> - 本页为 **Doubao 共用合同**；换模型只改 body 的 `model`
+> - 默认同步；`stream: true` 流式
+> - 规格特性：1024K 上下文窗口、256K 最大回答输出、支持多模态（文本 / 图像 / 视频）与深度思考
+
+## 可用 model
+
+| model id | 说明 |
+| --- | --- |
+| `seed-evolving` | 字节跳动火山方舟官方直连多模态深度思考模型（100 万字上下文） |
+
+Base URL：`https://api.omnimux.ai`
+
+## 本地 OmniMux CLI 命令行测试与验证
+
+通过本地官方 `omnimux` 命令行工具可直接查验与发起调用验证：
+
+```bash
+# 1. 检查网关模型可见性
+omnimux models
+
+# 2. 查询最新官方原价与计费表达式
+omnimux pricing
+
+# 3. 使用安全令牌注入发起端到端真实对话测试（密钥不出现于命令行与日志中）
+omnimux tokens exec <TOKEN_ID> --yes -- curl -sS https://api.omnimux.ai/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer __OMNIMUX_TOKEN_<TOKEN_ID>__" \
+  -H "X-Omnimux-Group: default" \
+  -d '{
+    "model": "seed-evolving",
+    "messages": [
+      {"role": "user", "content": "你好，请确认服务状态可用并简要介绍自我能力。"}
+    ],
+    "max_tokens": 100
+  }'
+```

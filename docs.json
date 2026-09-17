@@ -53,57 +53,55 @@
                     "group": "Claude",
                     "pages": [
                       "en/api-reference/text-series/claude/complete"
-                    ],
-                    "icon": "message-square"
+                    ]
                   },
                   {
                     "group": "Gemini",
                     "pages": [
                       "en/api-reference/text-series/gemini/complete"
-                    ],
-                    "icon": "message-square"
+                    ]
                   },
                   {
                     "group": "GPT",
                     "pages": [
                       "en/api-reference/text-series/gpt/complete"
-                    ],
-                    "icon": "message-square"
+                    ]
                   },
                   {
                     "group": "Grok",
                     "pages": [
                       "en/api-reference/text-series/grok/complete"
-                    ],
-                    "icon": "message-square"
+                    ]
                   },
                   {
                     "group": "Kimi",
                     "pages": [
                       "en/api-reference/text-series/kimi/complete"
-                    ],
-                    "icon": "message-square"
+                    ]
                   },
                   {
                     "group": "DeepSeek",
                     "pages": [
                       "en/api-reference/text-series/deepseek/complete"
-                    ],
-                    "icon": "message-square"
+                    ]
                   },
                   {
                     "group": "MiniMax",
                     "pages": [
                       "en/api-reference/text-series/minimax/complete"
-                    ],
-                    "icon": "message-square"
+                    ]
                   },
                   {
                     "group": "GLM",
                     "pages": [
                       "en/api-reference/text-series/glm/complete"
-                    ],
-                    "icon": "message-square"
+                    ]
+                  },
+                  {
+                    "group": "Doubao",
+                    "pages": [
+                      "en/api-reference/text-series/doubao/complete"
+                    ]
                   }
                 ],
                 "icon": "message-square"
@@ -530,57 +528,55 @@
                     "group": "Claude",
                     "pages": [
                       "zh/api-reference/text-series/claude/complete"
-                    ],
-                    "icon": "message-square"
+                    ]
                   },
                   {
                     "group": "Gemini",
                     "pages": [
                       "zh/api-reference/text-series/gemini/complete"
-                    ],
-                    "icon": "message-square"
+                    ]
                   },
                   {
                     "group": "GPT",
                     "pages": [
                       "zh/api-reference/text-series/gpt/complete"
-                    ],
-                    "icon": "message-square"
+                    ]
                   },
                   {
                     "group": "Grok",
                     "pages": [
                       "zh/api-reference/text-series/grok/complete"
-                    ],
-                    "icon": "message-square"
+                    ]
                   },
                   {
                     "group": "Kimi",
                     "pages": [
                       "zh/api-reference/text-series/kimi/complete"
-                    ],
-                    "icon": "message-square"
+                    ]
                   },
                   {
                     "group": "DeepSeek",
                     "pages": [
                       "zh/api-reference/text-series/deepseek/complete"
-                    ],
-                    "icon": "message-square"
+                    ]
                   },
                   {
                     "group": "MiniMax",
                     "pages": [
                       "zh/api-reference/text-series/minimax/complete"
-                    ],
-                    "icon": "message-square"
+                    ]
                   },
                   {
                     "group": "GLM",
                     "pages": [
                       "zh/api-reference/text-series/glm/complete"
-                    ],
-                    "icon": "message-square"
+                    ]
+                  },
+                  {
+                    "group": "Doubao",
+                    "pages": [
+                      "zh/api-reference/text-series/doubao/complete"
+                    ]
                   }
                 ],
                 "icon": "message-square"

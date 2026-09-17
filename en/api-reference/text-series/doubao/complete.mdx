@@ -1,0 +1,44 @@
+---
+title: "Doubao · Complete API Reference"
+sidebarTitle: "Doubao · Complete API Reference"
+description: "Doubao · Chat Completions complete API reference (shared contract, model enum)"
+openapi: "openapi/ops/chat/doubao.json POST /v1/chat/completions"
+---
+
+> - Protocol: OpenAI Chat Completions (`POST /v1/chat/completions`)
+> - **Shared contract** for all Doubao ids below; only body `model` changes
+> - Synchronous by default; `stream: true` for SSE
+> - Key specs: 1024K context window, 256K max answer tokens, supports multimodal inputs (text / image / video) & deep reasoning
+
+## Available models
+
+| model id | Description |
+| --- | --- |
+| `seed-evolving` | ByteDance Doubao official direct multimodal reasoning model (1M context window) |
+
+Base URL: `https://api.omnimux.ai`
+
+## Local OmniMux CLI Verification
+
+You can verify and invoke the model securely using the local `omnimux` CLI:
+
+```bash
+# 1. Check model availability
+omnimux models
+
+# 2. Query public pricing and billing expression
+omnimux pricing
+
+# 3. Execute chat completion with secure token injection (no cleartext API keys)
+omnimux tokens exec <TOKEN_ID> --yes -- curl -sS https://api.omnimux.ai/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer __OMNIMUX_TOKEN_<TOKEN_ID>__" \
+  -H "X-Omnimux-Group: default" \
+  -d '{
+    "model": "seed-evolving",
+    "messages": [
+      {"role": "user", "content": "Hello, please confirm status and introduce capabilities briefly."}
+    ],
+    "max_tokens": 100
+  }'
+```

@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "id": "2026-09-18-doubao-seed-evolving",
+  "published_at": "2026-09-18",
+  "type": "model_launch",
+  "modality": [
+    "text"
+  ],
+  "title": {
+    "en": "ByteDance Doubao official direct model seed-evolving is now live",
+    "zh": "字节跳动火山方舟官方直连大模型 seed-evolving 正式上线"
+  },
+  "summary": {
+    "en": "OmniMux adds official direct channel #73 for ByteDance Doubao seed-evolving. Features 1024K context window, 256K max output, deep reasoning, and transparent 1:1 parity pricing with billing expressions, fully verified via local OmniMux CLI.",
+    "zh": "OmniMux 新增字节跳动火山方舟官方直连渠道 #73，正式上线豆包多模态推理大模型 seed-evolving。具备 1024K 上下文窗口、256K 最大输出、深度思考与多模态理解能力，按官方原价 1:1 表达式透明计量，已通过本地 OmniMux CLI 端到端验证可用。"
+  },
+  "models": [
+    "seed-evolving"
+  ],
+  "links": [
+    {
+      "label": {
+        "en": "Doubao Complete API Reference",
+        "zh": "Doubao 完整参数手册"
+      },
+      "href": {
+        "en": "/en/api-reference/text-series/doubao/complete",
+        "zh": "/zh/api-reference/text-series/doubao/complete"
+      }
+    }
+  ],
+  "tags": [
+    "doubao",
+    "seed-evolving",
+    "llm",
+    "bytedance",
+    "volcengine",
+    "cli"
+  ],
+  "body": {
+    "en": "## What is new\n\n- **Official Direct Channel**: Added VolcEngine Ark direct route `#73` for ByteDance Doubao `seed-evolving`.\n- **Full Multimodal Reasoning**: 1024K context window, 256K max output tokens, native deep thinking, tool calling, and structured outputs.\n- **Transparent 1:1 Parity Pricing**: Token billing expressions anchor official list prices ($0.8824/M input, $4.4118/M output, $0.1765/M cache hit; FX 6.8).\n- **Local OmniMux CLI Verification**: Verified live invocation and pricing queries using the local `omnimux` CLI (`omnimux models`, `omnimux pricing`, `omnimux tokens exec`).\n\n## Documentation\n\n- Doubao API Reference: `/en/api-reference/text-series/doubao/complete`",
+    "zh": "## 本次更新\n\n- **官方直连专线**：新增火山方舟官方直连渠道 `#73`，直通字节跳动豆包 `seed-evolving` 模型。\n- **全模态深度思考**：提供 1024K 上下文窗口、256K 最大回答输出、原生深度思考、工具调用与多模态理解能力。\n- **透明官方同价**：计费表达式严格锚定官方刊例原价（输入 6.00 元/M、输出 30.00 元/M、缓存命中 1.20 元/M，按 6.8 汇率透明折算）。\n- **本地 OmniMux CLI 验证通过**：使用官方命令行工具 `omnimux` 完成模型可见性、定价核验与安全令牌端到端对话全流程实测验证。\n\n## 参考文档\n\n- Doubao 完整参数手册：`/zh/api-reference/text-series/doubao/complete`"
+  }
+}
