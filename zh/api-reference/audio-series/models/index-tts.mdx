@@ -1,31 +1,30 @@
 ---
 title: "Index TTS 声音克隆"
 sidebarTitle: "Index TTS 声音克隆"
-description: "GxgenAI Index-TTS 声音克隆 · model `index-tts`"
-api: "POST https://api.omnimux.ai/v1/video/generations"
+description: "AutoDL Index-TTS 声音克隆 · model `indextts-2`"
+api: "POST https://api.omnimux.ai/v1/tasks/autodl"
 ---
 
-- 创建：`POST /v1/video/generations`，`model` 为 `index-tts`
-- 轮询：`GET /v1/video/generations/{task_id}`（**不要**使用 `*-async` / `*-query` 模型名）
-- GxgenAI 任务共用这条路径，即使产物是音频
-- 必须传 `metadata.nodeInfoList`（参考音 + 文稿）
-- 参考音先用公网 URL 或上游 fileName；不要传 `data:` URI
-- 产物 URL 请及时落盘
+- 创建：`POST /v1/tasks/autodl`，`model` 为 `indextts-2`
+- 轮询：`GET /v1/tasks/{task_id}`（产物通过 `GET /v1/tasks/{task_id}/artifacts` 获取）
+- 任务专属通道，支持参考音频声音克隆与精细化情绪控制
+- 推荐：如需 3 秒极速出音，可优先使用官方主力模型 `seed-audio-1.0` 的声音克隆模式
 
 ## 身份
 
 | 字段 | 值 |
 | --- | --- |
 | 系列 | 音频系列 |
-| 品牌 | Index TTS / GxgenAI |
-| model | `index-tts` |
+| 品牌 | Index TTS / AutoDL |
+| model | `indextts-2` |
 
 ## 接口
 
 | 方法 | 路径 |
 | --- | --- |
-| `POST` | `/v1/video/generations` |
-| `GET` | `/v1/video/generations/{task_id}` |
+| `POST` | `/v1/tasks/autodl` |
+| `GET` | `/v1/tasks/{task_id}` |
+| `GET` | `/v1/tasks/{task_id}/artifacts` |
 
 Base URL：`https://api.omnimux.ai`
 
@@ -39,16 +38,13 @@ Base URL：`https://api.omnimux.ai`
 
 | 字段 | 类型 | 必填 | 说明 |
 | --- | --- | --- | --- |
-| `model` | string | 是 | 固定为 `index-tts` |
-| `prompt` | string | 否 | 仅作标签；文稿写在节点 `7` |
-| `metadata.nodeInfoList` | array | **是** | 参考音 + 文稿 |
-
-必填节点：
-
-| nodeId | fieldName | 含义 |
-| --- | --- | --- |
-| `4` | `audio` | 克隆参考音（自动截取前约 15 秒） |
-| `7` | `text` | 要朗读的文字 |
+| `model` | string | 是 | 固定为 `indextts-2` |
+| `prompt_text` | string | 是 | 要朗读合成的台词文本 |
+| `prompt_simple` | string | 是 | 音色参考音频链接（支持公网 URL） |
+| `emo_control_method` | string | 是 | 情绪控制方式，推荐 `"与音色参考音频相同"` |
+| `emo_happy` | number | 否 | 开心情绪强度 [0, 1]，如 `0.5` |
+| `emo_sad` | number | 否 | 悲伤情绪强度 [0, 1] |
+| `emo_angry` | number | 否 | 愤怒情绪强度 [0, 1] |
 
 ## 响应
 
@@ -56,10 +52,12 @@ Base URL：`https://api.omnimux.ai`
 
 | 字段 | 类型 | 说明 |
 | --- | --- | --- |
-| `id` / `task_id` | string | 任务 id |
-| `status` | string | `queued` / `in_progress` / `completed` |
+| `id` / `task_id` | string | 任务单号 |
+| `status` | string | `queued`（排队中） |
 
-轮询见 [查询视频任务](/zh/api-reference/tasks/video-task)。错误见 [错误码](/zh/faqs/connection-usage)。
+### 轮询产物
+
+任务完成后通过 `GET /v1/tasks/{task_id}/artifacts` 提取最终生成的 WAV 音频直链。
 
 <Panel>
 
@@ -67,18 +65,14 @@ Base URL：`https://api.omnimux.ai`
 
 ```bash cURL
 curl --request POST \
-  --url https://api.omnimux.ai/v1/video/generations \
+  --url https://api.omnimux.ai/v1/tasks/autodl \
   --header 'Authorization: Bearer <token>' \
   --header 'Content-Type: application/json' \
   --data '{
-  "model": "index-tts",
-  "prompt": "index-tts-run",
-  "metadata": {
-    "nodeInfoList": [
-      { "nodeId": "4", "fieldName": "audio", "fieldValue": "https://example.com/voice.mp3" },
-      { "nodeId": "7", "fieldName": "text", "fieldValue": "你好，这是一段声音克隆测试。" }
-    ]
-  }
+  "model": "indextts-2",
+  "prompt_text": "你好，这是一段使用声音克隆生成的测试语音。",
+  "prompt_simple": "https://example.com/voice.wav",
+  "emo_control_method": "与音色参考音频相同"
 }'
 ```
 
@@ -88,40 +82,12 @@ curl --request POST \
 
 ```json 200
 {
-  "id": "task_xxx",
-  "status": "in_progress",
-  "model": "index-tts"
+  "id": "task_sl8rnyewmb1O2ygKljRFnSIFnnmUSdeu",
+  "task_id": "task_sl8rnyewmb1O2ygKljRFnSIFnnmUSdeu",
+  "model": "indextts-2",
+  "status": "queued",
+  "created_at": 1789704195
 }
-```
-
-```json 400
-{ "error": { "message": "metadata.nodeInfoList is required for model index-tts", "type": "invalid_request_error", "code": "bad_request" } }
-```
-
-```json 401
-{ "error": { "message": "Invalid token", "type": "authentication_error", "code": "unauthorized" } }
-```
-
-```json 402
-{
-  "error": {
-    "message": "Insufficient quota. Please top up your account.",
-    "type": "insufficient_quota",
-    "code": "insufficient_quota"
-  }
-}
-```
-
-```json 403
-{ "error": { "message": "Forbidden", "type": "permission_error", "code": "forbidden" } }
-```
-
-```json 429
-{ "error": { "message": "Rate limit exceeded", "type": "rate_limit_error", "code": "rate_limit_exceeded" } }
-```
-
-```json 500
-{ "error": { "message": "Internal server error", "type": "server_error", "code": "internal_error" } }
 ```
 
 </ResponseExample>

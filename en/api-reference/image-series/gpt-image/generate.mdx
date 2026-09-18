@@ -21,6 +21,8 @@ The reference-image field is `images` (an array of image URLs or base64 strings)
 
 - `gpt-image-2.5`: up to 16 images per request; no minimum (omit `images` for text-to-image); the vendor publishes no accepted-format list or per-file size limit for reference images.
 - `gpt-image-2.5-hd`: no model spec exists yet, so its reference-image limits are **unverified** and no image count, format or per-file size limit is stated here.
+- `gpt-image-2.5-flare`: discounted tier image model route; reference image specifications follow baseline.
+- `gpt-image-2.5-sunburst`: economy tier image model route; reference image specifications follow baseline.
 
 The 50 MB figure in the vendor's image guide is scoped to the image being edited together with its mask, not to a single reference image; no per-file ceiling is stated here.
 

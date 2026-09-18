@@ -5,7 +5,7 @@ description: "Seedance 2.5 Video Generation · model `seedance-2-5`"
 api: "POST https://api.omnimux.ai/v1/video/generations"
 ---
 
-- Create: `POST /v1/video/generations` with `model` `seedance-2-5`
+- Create: `POST /v1/video/generations` with `model` `seedance-2-5` (standard) or `seedance-2-5-task` (fixed per-call task path)
 - Async: poll [Video task](/en/api-reference/tasks/video-task) with returned `task_id`
 - Persist result URLs promptly (upstream links may expire)
 
@@ -15,7 +15,7 @@ api: "POST https://api.omnimux.ai/v1/video/generations"
 | --- | --- |
 | Series | Video series |
 | Brand | Seedance |
-| model | `seedance-2-5` |
+| model | `seedance-2-5`, `seedance-2-5-task` |
 
 ## Endpoint
 

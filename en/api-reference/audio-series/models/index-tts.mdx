@@ -1,31 +1,30 @@
 ---
 title: "Index TTS voice clone"
 sidebarTitle: "Index TTS voice clone"
-description: "GxgenAI Index-TTS voice clone · model `index-tts`"
-api: "POST https://api.omnimux.ai/v1/video/generations"
+description: "AutoDL Index-TTS voice clone · model `indextts-2`"
+api: "POST https://api.omnimux.ai/v1/tasks/autodl"
 ---
 
-- Create: `POST /v1/video/generations` with `model` `index-tts`
-- Poll: `GET /v1/video/generations/{task_id}` (do **not** use `*-async` / `*-query` names)
-- GxgenAI tasks share this path even when the result is audio
-- `metadata.nodeInfoList` is required (reference audio + script)
-- Upload the reference clip first (public URL or upstream file name). Raw `data:` URIs fail
-- Persist result URLs promptly
+- Create: `POST /v1/tasks/autodl` with `model` `indextts-2`
+- Poll: `GET /v1/tasks/{task_id}` (fetch output audio through `GET /v1/tasks/{task_id}/artifacts`)
+- Dedicated workflow channel supporting reference voice clone and emotional nuance control
+- Recommended: For 3-second instant generation, prefer official mainstream `seed-audio-1.0` voice clone mode
 
 ## Identity
 
 | Field | Value |
 | --- | --- |
 | Series | Audio |
-| Brand | Index TTS / GxgenAI |
-| model | `index-tts` |
+| Brand | Index TTS / AutoDL |
+| model | `indextts-2` |
 
 ## Endpoint
 
 | Method | Path |
 | --- | --- |
-| `POST` | `/v1/video/generations` |
-| `GET` | `/v1/video/generations/{task_id}` |
+| `POST` | `/v1/tasks/autodl` |
+| `GET` | `/v1/tasks/{task_id}` |
+| `GET` | `/v1/tasks/{task_id}/artifacts` |
 
 Base URL: `https://api.omnimux.ai`
 
@@ -39,27 +38,26 @@ Base URL: `https://api.omnimux.ai`
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `model` | string | yes | Must be `index-tts` |
-| `prompt` | string | no | Label only; script goes in node `7` |
-| `metadata.nodeInfoList` | array | **yes** | Reference audio + text |
-
-Required nodes:
-
-| nodeId | fieldName | Meaning |
-| --- | --- | --- |
-| `4` | `audio` | Reference voice (first ~15s is used) |
-| `7` | `text` | Script to speak |
+| `model` | string | yes | Must be `indextts-2` |
+| `prompt_text` | string | yes | Text script to read and synthesize |
+| `prompt_simple` | string | yes | Voice timbre reference audio URL |
+| `emo_control_method` | string | yes | Emotion mode, recommended `"与音色参考音频相同"` |
+| `emo_happy` | number | no | Happiness intensity [0, 1], e.g. `0.5` |
+| `emo_sad` | number | no | Sadness intensity [0, 1] |
+| `emo_angry` | number | no | Anger intensity [0, 1] |
 
 ## Response
 
-### 200 (create)
+### 200 (Create)
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `id` / `task_id` | string | Task id |
-| `status` | string | `queued` / `in_progress` / `completed` |
+| `id` / `task_id` | string | Task identifier |
+| `status` | string | `queued` |
 
-Poll [Video task](/en/api-reference/tasks/video-task). Errors: [Error codes](/en/faqs/connection-usage).
+### Poll & Artifacts
+
+After completion, fetch the synthesized WAV audio through `GET /v1/tasks/{task_id}/artifacts`.
 
 <Panel>
 
@@ -67,18 +65,14 @@ Poll [Video task](/en/api-reference/tasks/video-task). Errors: [Error codes](/en
 
 ```bash cURL
 curl --request POST \
-  --url https://api.omnimux.ai/v1/video/generations \
+  --url https://api.omnimux.ai/v1/tasks/autodl \
   --header 'Authorization: Bearer <token>' \
   --header 'Content-Type: application/json' \
   --data '{
-  "model": "index-tts",
-  "prompt": "index-tts-run",
-  "metadata": {
-    "nodeInfoList": [
-      { "nodeId": "4", "fieldName": "audio", "fieldValue": "https://example.com/voice.mp3" },
-      { "nodeId": "7", "fieldName": "text", "fieldValue": "Hello, this is a voice clone test." }
-    ]
-  }
+  "model": "indextts-2",
+  "prompt_text": "Hello, this is a voice clone test.",
+  "prompt_simple": "https://example.com/voice.wav",
+  "emo_control_method": "与音色参考音频相同"
 }'
 ```
 
@@ -88,40 +82,12 @@ curl --request POST \
 
 ```json 200
 {
-  "id": "task_xxx",
-  "status": "in_progress",
-  "model": "index-tts"
+  "id": "task_sl8rnyewmb1O2ygKljRFnSIFnnmUSdeu",
+  "task_id": "task_sl8rnyewmb1O2ygKljRFnSIFnnmUSdeu",
+  "model": "indextts-2",
+  "status": "queued",
+  "created_at": 1789704195
 }
-```
-
-```json 400
-{ "error": { "message": "metadata.nodeInfoList is required for model index-tts", "type": "invalid_request_error", "code": "bad_request" } }
-```
-
-```json 401
-{ "error": { "message": "Invalid token", "type": "authentication_error", "code": "unauthorized" } }
-```
-
-```json 402
-{
-  "error": {
-    "message": "Insufficient quota. Please top up your account.",
-    "type": "insufficient_quota",
-    "code": "insufficient_quota"
-  }
-}
-```
-
-```json 403
-{ "error": { "message": "Forbidden", "type": "permission_error", "code": "forbidden" } }
-```
-
-```json 429
-{ "error": { "message": "Rate limit exceeded", "type": "rate_limit_error", "code": "rate_limit_exceeded" } }
-```
-
-```json 500
-{ "error": { "message": "Internal server error", "type": "server_error", "code": "internal_error" } }
 ```
 
 </ResponseExample>

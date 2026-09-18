@@ -7,6 +7,77 @@ rss: true
 
 Stay up to date with OmniMux gateway model launches and platform changes. The full callable catalog is on [console pricing](https://omnimux.ai) / [Pricing](/en/api-reference/account/pricing).
 
+<a id="2026-09-18-gpt-image-tiers"></a>
+
+<Update label="September 18, 2026" tags={["New models", "Image"]} rss={{ title: "GPT Image 2.5 Flare & Sunburst Tier Routes Live" }}>
+
+  ## GPT Image Tiers
+
+  OmniMux now supports dedicated tier routing models `gpt-image-2.5-flare` and `gpt-image-2.5-sunburst` under the standard image generation endpoint.
+
+  ### Model specification
+
+  - **Endpoint:** `POST /v1/images/generations`
+  - **Authentication:** Bearer token (`sk-...`)
+  - **Tier models:** `gpt-image-2.5-flare` (discounted tier), `gpt-image-2.5-sunburst` (economy tier)
+  - **Parameters:** Fully compatible with baseline `gpt-image-2.5`
+
+  ### Request example
+
+  ```bash
+  curl --request POST \
+    --url https://api.omnimux.ai/v1/images/generations \
+    --header 'Authorization: Bearer sk-...' \
+    --header 'Content-Type: application/json' \
+    --data '{
+      "model": "gpt-image-2.5-flare",
+      "prompt": "A clean studio product photograph on white background",
+      "n": 1
+    }'
+  ```
+
+  Parameter details are documented in the [GPT Image Reference](/en/api-reference/image-series/gpt-image/generate).
+
+  ### Links
+
+  - [GPT Image Reference](/en/api-reference/image-series/gpt-image/generate)
+
+</Update>
+
+<a id="2026-09-18-video-task-models"></a>
+
+<Update label="September 18, 2026" tags={["New models", "Video"]} rss={{ title: "Video Per-Call Task Channels and H3 Variants Available" }}>
+
+  ## Video Task and Variant Models
+
+  OmniMux now supports dedicated per-call video task channels and H3 model variants under the standard video endpoint.
+
+  ### Model specification
+
+  - **Endpoint:** `POST /v1/video/generations`
+  - **Polling endpoint:** `GET /v1/video/generations/{task_id}`
+  - **Per-call models:** `seedance-2-0-task`, `seedance-2-5-task`, `minimax-h3-task` (billed per task call)
+  - **H3 variants:** `minimax-h3-turbo` (turbo rendering), `minimax-h3-video` (dedicated video pipeline)
+
+  ### Request example
+
+  ```json
+  {
+    "model": "seedance-2-0-task",
+    "prompt": "A cinematic drone shot of coastal mountains at sunset",
+    "seconds": 5
+  }
+  ```
+
+  Full parameter definitions are documented in the [Seedance 2.0 Reference](/en/api-reference/video-series/models/seedance-2-0) and [MiniMax H3 Reference](/en/api-reference/video-series/models/minimax-h3).
+
+  ### Links
+
+  - [Seedance 2.0 Reference](/en/api-reference/video-series/models/seedance-2-0)
+  - [MiniMax H3 Reference](/en/api-reference/video-series/models/minimax-h3)
+
+</Update>
+
 <a id="2026-09-18-volc-doubao-asr"></a>
 
 <Update label="September 18, 2026" tags={["New models", "Audio"]} rss={{ title: "Doubao ASR Speech Recognition Series Available" }}>

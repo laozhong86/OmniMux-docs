@@ -5,7 +5,7 @@ description: "Seedance 2.5 视频生成 · model `seedance-2-5`"
 api: "POST https://api.omnimux.ai/v1/video/generations"
 ---
 
-- 创建：`POST /v1/video/generations`，`model` 为 `seedance-2-5`
+- 创建：`POST /v1/video/generations`，`model` 可选 `seedance-2-5`（标准通道）或 `seedance-2-5-task`（按次任务固定计费通道）
 - 异步任务：用返回的 `task_id` 查询 [查询视频任务](/zh/api-reference/tasks/video-task)
 - 产物 URL 请及时落盘（上游链接可能有时效）
 
@@ -15,7 +15,7 @@ api: "POST https://api.omnimux.ai/v1/video/generations"
 | --- | --- |
 | 系列 | 视频系列 |
 | 品牌 | Seedance |
-| model | `seedance-2-5` |
+| model | `seedance-2-5`, `seedance-2-5-task` |
 
 ## 接口
 

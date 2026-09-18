@@ -2,9 +2,106 @@
   "schema_version": 1,
   "page": 1,
   "page_size": 50,
-  "total": 40,
+  "total": 42,
   "total_pages": 1,
   "items": [
+    {
+      "id": "2026-09-18-gpt-image-tiers",
+      "published_at": "2026-09-18",
+      "type": "model_launch",
+      "modality": [
+        "image"
+      ],
+      "title": {
+        "en": "GPT Image 2.5 Flare & Sunburst Tier Routes Live",
+        "zh": "GPT Image 2.5 Flare 与 Sunburst 档位路由上线"
+      },
+      "summary": {
+        "en": "Dedicated tier routes `gpt-image-2.5-flare` and `gpt-image-2.5-sunburst` are now available for volume image generation on OmniMux.",
+        "zh": "图像生成特惠档模型 `gpt-image-2.5-flare` 与低价档模型 `gpt-image-2.5-sunburst` 现已接入 OmniMux 提供生图调用。"
+      },
+      "models": [
+        "gpt-image-2.5-flare",
+        "gpt-image-2.5-sunburst"
+      ],
+      "tags": [
+        "image",
+        "openai"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "GPT Image Reference",
+            "zh": "GPT Image 接口文档"
+          },
+          "href": {
+            "en": "/en/api-reference/image-series/gpt-image/generate",
+            "zh": "/zh/api-reference/image-series/gpt-image/generate"
+          }
+        }
+      ],
+      "body": {
+        "en": "## GPT Image Tiers\n\nOmniMux now supports dedicated tier routing models `gpt-image-2.5-flare` and `gpt-image-2.5-sunburst` under the standard image generation endpoint.\n\n### Model specification\n\n- **Endpoint:** `POST /v1/images/generations`\n- **Authentication:** Bearer token (`sk-...`)\n- **Tier models:** `gpt-image-2.5-flare` (discounted tier), `gpt-image-2.5-sunburst` (economy tier)\n- **Parameters:** Fully compatible with baseline `gpt-image-2.5`\n\n### Request example\n\n```bash\ncurl --request POST \\\n  --url https://api.omnimux.ai/v1/images/generations \\\n  --header 'Authorization: Bearer sk-...' \\\n  --header 'Content-Type: application/json' \\\n  --data '{\n    \"model\": \"gpt-image-2.5-flare\",\n    \"prompt\": \"A clean studio product photograph on white background\",\n    \"n\": 1\n  }'\n```\n\nParameter details are documented in the [GPT Image Reference](/en/api-reference/image-series/gpt-image/generate).",
+        "zh": "## GPT Image 计费档位模型\n\nOmniMux 标准生图端点现已支持专属档位模型 `gpt-image-2.5-flare` 与 `gpt-image-2.5-sunburst`。\n\n### 接口规范\n\n- **调用端点：** `POST /v1/images/generations`\n- **鉴权方式：** Bearer 令牌鉴权（`sk-...`）\n- **档位模型：** `gpt-image-2.5-flare`（特惠档）、`gpt-image-2.5-sunburst`（经济档）\n- **调用参数：** 与基准版 `gpt-image-2.5` 保持完全一致\n\n### 请求示例\n\n```bash\ncurl --request POST \\\n  --url https://api.omnimux.ai/v1/images/generations \\\n  --header 'Authorization: Bearer sk-...' \\\n  --header 'Content-Type: application/json' \\\n  --data '{\n    \"model\": \"gpt-image-2.5-flare\",\n    \"prompt\": \"白底商品棚拍静物摄影图\",\n    \"n\": 1\n  }'\n```\n\n完整参数规范请参阅 [GPT Image 接口文档](/zh/api-reference/image-series/gpt-image/generate)。"
+      },
+      "schema_version": 1
+    },
+    {
+      "id": "2026-09-18-video-task-models",
+      "published_at": "2026-09-18",
+      "type": "model_launch",
+      "modality": [
+        "video"
+      ],
+      "title": {
+        "en": "Video Per-Call Task Channels and H3 Variants Available",
+        "zh": "视频按次生成任务通道与 H3 衍生变体模型上线"
+      },
+      "summary": {
+        "en": "Per-call fixed billing task models `seedance-2-0-task`, `seedance-2-5-task`, `minimax-h3-task`, along with variants `minimax-h3-turbo` and `minimax-h3-video`, are now live on OmniMux.",
+        "zh": "按次计费视频任务模型 `seedance-2-0-task`、`seedance-2-5-task`、`minimax-h3-task` 及 H3 系列变体 `minimax-h3-turbo`、`minimax-h3-video` 现已接入 OmniMux 提供异步调用。"
+      },
+      "models": [
+        "seedance-2-0-task",
+        "seedance-2-5-task",
+        "minimax-h3-task",
+        "minimax-h3-turbo",
+        "minimax-h3-video"
+      ],
+      "tags": [
+        "video",
+        "task",
+        "seedance",
+        "minimax"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "Seedance 2.0 Reference",
+            "zh": "Seedance 2.0 接口文档"
+          },
+          "href": {
+            "en": "/en/api-reference/video-series/models/seedance-2-0",
+            "zh": "/zh/api-reference/video-series/models/seedance-2-0"
+          }
+        },
+        {
+          "label": {
+            "en": "MiniMax H3 Reference",
+            "zh": "MiniMax H3 接口文档"
+          },
+          "href": {
+            "en": "/en/api-reference/video-series/models/minimax-h3",
+            "zh": "/zh/api-reference/video-series/models/minimax-h3"
+          }
+        }
+      ],
+      "body": {
+        "en": "## Video Task and Variant Models\n\nOmniMux now supports dedicated per-call video task channels and H3 model variants under the standard video endpoint.\n\n### Model specification\n\n- **Endpoint:** `POST /v1/video/generations`\n- **Polling endpoint:** `GET /v1/video/generations/{task_id}`\n- **Per-call models:** `seedance-2-0-task`, `seedance-2-5-task`, `minimax-h3-task` (billed per task call)\n- **H3 variants:** `minimax-h3-turbo` (turbo rendering), `minimax-h3-video` (dedicated video pipeline)\n\n### Request example\n\n```json\n{\n  \"model\": \"seedance-2-0-task\",\n  \"prompt\": \"A cinematic drone shot of coastal mountains at sunset\",\n  \"seconds\": 5\n}\n```\n\nFull parameter definitions are documented in the [Seedance 2.0 Reference](/en/api-reference/video-series/models/seedance-2-0) and [MiniMax H3 Reference](/en/api-reference/video-series/models/minimax-h3).",
+        "zh": "## 视频按次任务通道与变体模型\n\nOmniMux 标准视频端点现已支持按次任务计费模型与 H3 系列衍生变体。\n\n### 接口规范\n\n- **创建端点：** `POST /v1/video/generations`\n- **轮询端点：** `GET /v1/video/generations/{task_id}`\n- **按次计费模型：** `seedance-2-0-task`、`seedance-2-5-task`、`minimax-h3-task`（固定单次扣费）\n- **H3 衍生变体：** `minimax-h3-turbo`（极速出片）、`minimax-h3-video`（高画质专线）\n\n### 请求示例\n\n```json\n{\n  \"model\": \"seedance-2-0-task\",\n  \"prompt\": \"海边山脉日落航拍全景镜头\",\n  \"seconds\": 5\n}\n```\n\n完整参数定义请参阅 [Seedance 2.0 接口文档](/zh/api-reference/video-series/models/seedance-2-0) 与 [MiniMax H3 接口文档](/zh/api-reference/video-series/models/minimax-h3)。"
+      },
+      "schema_version": 1
+    },
     {
       "id": "2026-09-18-volc-doubao-asr",
       "published_at": "2026-09-18",

@@ -5,7 +5,7 @@ description: "MiniMax H3 视频生成 · model `minimax-h3`"
 api: "POST https://api.omnimux.ai/v1/video/generations"
 ---
 
-- 创建：`POST /v1/video/generations`，`model` 为 `minimax-h3`
+- 创建：`POST /v1/video/generations`，`model` 可选 `minimax-h3`（标准）、`minimax-h3-task`（按次任务通道）、`minimax-h3-turbo`（极速版）或 `minimax-h3-video`（高画质视频专线）
 - 异步任务：用返回的 `task_id` 查询 [查询视频任务](/zh/api-reference/tasks/video-task)
 - 产物 URL 请及时落盘（上游链接可能有时效）
 
@@ -15,7 +15,7 @@ api: "POST https://api.omnimux.ai/v1/video/generations"
 | --- | --- |
 | 系列 | 视频系列 |
 | 品牌 | MiniMax |
-| model | `minimax-h3` |
+| model | `minimax-h3`, `minimax-h3-task`, `minimax-h3-turbo`, `minimax-h3-video` |
 
 ## 接口
 

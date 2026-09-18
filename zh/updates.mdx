@@ -7,6 +7,77 @@ rss: true
 
 跟踪 OmniMux 网关的模型上新与平台变更。完整可调用模型以[控制台定价](https://omnimux.ai) / [定价与账户](/zh/api-reference/account/pricing)为准。
 
+<a id="2026-09-18-gpt-image-tiers"></a>
+
+<Update label="2026 年 9 月 18 日" tags={["新模型", "图像"]} rss={{ title: "GPT Image 2.5 Flare 与 Sunburst 档位路由上线" }}>
+
+  ## GPT Image 计费档位模型
+
+  OmniMux 标准生图端点现已支持专属档位模型 `gpt-image-2.5-flare` 与 `gpt-image-2.5-sunburst`。
+
+  ### 接口规范
+
+  - **调用端点：** `POST /v1/images/generations`
+  - **鉴权方式：** Bearer 令牌鉴权（`sk-...`）
+  - **档位模型：** `gpt-image-2.5-flare`（特惠档）、`gpt-image-2.5-sunburst`（经济档）
+  - **调用参数：** 与基准版 `gpt-image-2.5` 保持完全一致
+
+  ### 请求示例
+
+  ```bash
+  curl --request POST \
+    --url https://api.omnimux.ai/v1/images/generations \
+    --header 'Authorization: Bearer sk-...' \
+    --header 'Content-Type: application/json' \
+    --data '{
+      "model": "gpt-image-2.5-flare",
+      "prompt": "白底商品棚拍静物摄影图",
+      "n": 1
+    }'
+  ```
+
+  完整参数规范请参阅 [GPT Image 接口文档](/zh/api-reference/image-series/gpt-image/generate)。
+
+  ### 链接
+
+  - [GPT Image 接口文档](/zh/api-reference/image-series/gpt-image/generate)
+
+</Update>
+
+<a id="2026-09-18-video-task-models"></a>
+
+<Update label="2026 年 9 月 18 日" tags={["新模型", "视频"]} rss={{ title: "视频按次生成任务通道与 H3 衍生变体模型上线" }}>
+
+  ## 视频按次任务通道与变体模型
+
+  OmniMux 标准视频端点现已支持按次任务计费模型与 H3 系列衍生变体。
+
+  ### 接口规范
+
+  - **创建端点：** `POST /v1/video/generations`
+  - **轮询端点：** `GET /v1/video/generations/{task_id}`
+  - **按次计费模型：** `seedance-2-0-task`、`seedance-2-5-task`、`minimax-h3-task`（固定单次扣费）
+  - **H3 衍生变体：** `minimax-h3-turbo`（极速出片）、`minimax-h3-video`（高画质专线）
+
+  ### 请求示例
+
+  ```json
+  {
+    "model": "seedance-2-0-task",
+    "prompt": "海边山脉日落航拍全景镜头",
+    "seconds": 5
+  }
+  ```
+
+  完整参数定义请参阅 [Seedance 2.0 接口文档](/zh/api-reference/video-series/models/seedance-2-0) 与 [MiniMax H3 接口文档](/zh/api-reference/video-series/models/minimax-h3)。
+
+  ### 链接
+
+  - [Seedance 2.0 接口文档](/zh/api-reference/video-series/models/seedance-2-0)
+  - [MiniMax H3 接口文档](/zh/api-reference/video-series/models/minimax-h3)
+
+</Update>
+
 <a id="2026-09-18-volc-doubao-asr"></a>
 
 <Update label="2026 年 9 月 18 日" tags={["新模型", "音频"]} rss={{ title: "豆包语音识别大模型系列接口上线" }}>

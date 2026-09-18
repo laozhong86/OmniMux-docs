@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "2026-09-18-gpt-image-tiers",
+  "published_at": "2026-09-18",
+  "rank": 6,
+  "type": "model_launch",
+  "modality": [
+    "image"
+  ],
+  "title": {
+    "en": "GPT Image 2.5 Flare & Sunburst Tier Routes Live",
+    "zh": "GPT Image 2.5 Flare 与 Sunburst 档位路由上线"
+  },
+  "summary": {
+    "en": "Dedicated tier routes `gpt-image-2.5-flare` and `gpt-image-2.5-sunburst` are now available for volume image generation on OmniMux.",
+    "zh": "图像生成特惠档模型 `gpt-image-2.5-flare` 与低价档模型 `gpt-image-2.5-sunburst` 现已接入 OmniMux 提供生图调用。"
+  },
+  "models": [
+    "gpt-image-2.5-flare",
+    "gpt-image-2.5-sunburst"
+  ],
+  "tags": [
+    "image",
+    "openai"
+  ],
+  "links": [
+    {
+      "label": {
+        "en": "GPT Image Reference",
+        "zh": "GPT Image 接口文档"
+      },
+      "href": {
+        "en": "/en/api-reference/image-series/gpt-image/generate",
+        "zh": "/zh/api-reference/image-series/gpt-image/generate"
+      }
+    }
+  ],
+  "body": {
+    "en": "## GPT Image Tiers\n\nOmniMux now supports dedicated tier routing models `gpt-image-2.5-flare` and `gpt-image-2.5-sunburst` under the standard image generation endpoint.\n\n### Model specification\n\n- **Endpoint:** `POST /v1/images/generations`\n- **Authentication:** Bearer token (`sk-...`)\n- **Tier models:** `gpt-image-2.5-flare` (discounted tier), `gpt-image-2.5-sunburst` (economy tier)\n- **Parameters:** Fully compatible with baseline `gpt-image-2.5`\n\n### Request example\n\n```bash\ncurl --request POST \\\n  --url https://api.omnimux.ai/v1/images/generations \\\n  --header 'Authorization: Bearer sk-...' \\\n  --header 'Content-Type: application/json' \\\n  --data '{\n    \"model\": \"gpt-image-2.5-flare\",\n    \"prompt\": \"A clean studio product photograph on white background\",\n    \"n\": 1\n  }'\n```\n\nParameter details are documented in the [GPT Image Reference](/en/api-reference/image-series/gpt-image/generate).",
+    "zh": "## GPT Image 计费档位模型\n\nOmniMux 标准生图端点现已支持专属档位模型 `gpt-image-2.5-flare` 与 `gpt-image-2.5-sunburst`。\n\n### 接口规范\n\n- **调用端点：** `POST /v1/images/generations`\n- **鉴权方式：** Bearer 令牌鉴权（`sk-...`）\n- **档位模型：** `gpt-image-2.5-flare`（特惠档）、`gpt-image-2.5-sunburst`（经济档）\n- **调用参数：** 与基准版 `gpt-image-2.5` 保持完全一致\n\n### 请求示例\n\n```bash\ncurl --request POST \\\n  --url https://api.omnimux.ai/v1/images/generations \\\n  --header 'Authorization: Bearer sk-...' \\\n  --header 'Content-Type: application/json' \\\n  --data '{\n    \"model\": \"gpt-image-2.5-flare\",\n    \"prompt\": \"白底商品棚拍静物摄影图\",\n    \"n\": 1\n  }'\n```\n\n完整参数规范请参阅 [GPT Image 接口文档](/zh/api-reference/image-series/gpt-image/generate)。"
+  }
+}
