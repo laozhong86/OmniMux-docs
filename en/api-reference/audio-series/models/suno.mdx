@@ -5,9 +5,9 @@ description: "Suno Music Generation · model `suno`"
 api: "POST https://api.omnimux.ai/v1/video/generations"
 ---
 
-- Create: `POST /v1/video/generations` with `model` `suno`
+- Create: `POST /v1/video/generations` with `model` `suno` (music generation) or `suno-sounds` (sound effects generation)
 - Async: poll [Video task](/en/api-reference/tasks/video-task) with returned `task_id`
-- Music generations share the unified media task endpoint and task polling contract
+- Music and sound effect generations share the unified media task endpoint and task polling contract
 
 ## Identity
 
@@ -15,7 +15,7 @@ api: "POST https://api.omnimux.ai/v1/video/generations"
 | --- | --- |
 | Series | Audio series |
 | Brand | Suno |
-| model | `suno` |
+| model | `suno`, `suno-sounds` |
 
 ## Endpoint
 

@@ -1,0 +1,81 @@
+---
+title: "Seed Audio 语音生成"
+sidebarTitle: "Seed Audio 语音生成"
+description: "火山引擎 Seed Audio 语音与音频生成 · model `seed-audio-1.0`"
+api: "POST https://api.omnimux.ai/v1/audio/speech"
+---
+
+- 接口：`POST /v1/audio/speech`，`model` 为 `seed-audio-1.0`
+- 协议：兼容 OpenAI 语音合成（TTS）接口协议
+- 支持单次文本转语音合成、音色参考以及场景音效生成，单次输出最长 120 秒
+
+## 身份
+
+| 字段 | 值 |
+| --- | --- |
+| 系列 | 音频系列 |
+| 品牌 | 火山引擎 / BytePlus |
+| model | `seed-audio-1.0` |
+
+## 接口
+
+| 方法 | 路径 |
+| --- | --- |
+| `POST` | `/v1/audio/speech` |
+
+Base URL：`https://api.omnimux.ai`
+
+## 鉴权
+
+| 名称 | 位置 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | 是 | `Bearer sk-...`（API Key） |
+
+## 请求体
+
+| 字段 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| `model` | string | 是 | 固定为 `seed-audio-1.0` |
+| `input` | string | 是 | 要合成为语音的文本内容，上限 3000 字符 |
+| `voice` | string | 否 | 音色标识，支持预设音色 ID 或克隆音色 ID |
+| `response_format` | string | 否 | 音频输出格式，可选 `wav`、`mp3`、`pcm`、`ogg_opus`，默认 `wav` |
+| `speed` | number | 否 | 语速控制，范围 [0.25, 4.0]，默认 `1.0` |
+
+## 响应
+
+### 200
+
+返回二进制音频文件数据流（对应 `Content-Type: audio/wav` 等）。
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url https://api.omnimux.ai/v1/audio/speech \
+  --header 'Authorization: Bearer sk-...' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "model": "seed-audio-1.0",
+    "input": "欢迎使用火山引擎语音生成接口。",
+    "voice": "zh_female_cancan",
+    "response_format": "mp3"
+  }' \
+  --output output.mp3
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```http 200 OK
+Content-Type: audio/mpeg
+Content-Length: 48291
+
+<binary audio data>
+```
+
+</ResponseExample>
+
+</Panel>

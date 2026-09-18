@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "id": "2026-09-18-volc-doubao-asr",
+  "published_at": "2026-09-18",
+  "rank": 4,
+  "type": "model_launch",
+  "modality": [
+    "audio"
+  ],
+  "title": {
+    "en": "Doubao ASR Speech Recognition Series Available",
+    "zh": "豆包语音识别大模型系列接口上线"
+  },
+  "summary": {
+    "en": "Speech-to-text models `doubao-asr-bigmodel`, `seedasr-auc`, and `bigasr-auc` are now available on OmniMux via POST /v1/audio/transcriptions.",
+    "zh": "语音识别模型 `doubao-asr-bigmodel`、`seedasr-auc` 与 `bigasr-auc` 现已接入 OmniMux，支持通过 POST /v1/audio/transcriptions 端点进行录音转写。"
+  },
+  "models": [
+    "doubao-asr-bigmodel",
+    "seedasr-auc",
+    "bigasr-auc"
+  ],
+  "tags": [
+    "audio",
+    "asr",
+    "doubao",
+    "volcengine"
+  ],
+  "links": [
+    {
+      "label": {
+        "en": "Doubao ASR Reference",
+        "zh": "豆包语音识别文档"
+      },
+      "href": {
+        "en": "/en/api-reference/audio-series/models/doubao-asr",
+        "zh": "/zh/api-reference/audio-series/models/doubao-asr"
+      }
+    }
+  ],
+  "body": {
+    "en": "## Doubao Speech Recognition\n\nThe `doubao-asr-bigmodel`, `seedasr-auc`, and `bigasr-auc` models are now supported on OmniMux.\n\n### Model specification\n\n- **Model IDs:** `doubao-asr-bigmodel`, `seedasr-auc`, `bigasr-auc`\n- **Protocol:** OpenAI-compatible Audio Transcriptions (`POST /v1/audio/transcriptions`)\n- **Authentication:** Bearer token (`sk-...`)\n- **Input format:** Audio file multipart upload (`wav`, `mp3`, `ogg`, `m4a`)\n\n### Request example\n\n```bash\ncurl --request POST \\\n  --url https://api.omnimux.ai/v1/audio/transcriptions \\\n  --header 'Authorization: Bearer sk-...' \\\n  --header 'Content-Type: multipart/form-data' \\\n  --form 'file=@audio.mp3' \\\n  --form 'model=doubao-asr-bigmodel'\n```\n\nFull parameter specifications are documented in the [Doubao ASR Reference](/en/api-reference/audio-series/models/doubao-asr).",
+    "zh": "## 豆包语音识别\n\n`doubao-asr-bigmodel`、`seedasr-auc` 与 `bigasr-auc` 语音转文字模型现已在 OmniMux 正式提供调用。\n\n### 接口规范\n\n- **模型标识：** `doubao-asr-bigmodel`, `seedasr-auc`, `bigasr-auc`\n- **调用协议：** 兼容 OpenAI 语音转文字（`POST /v1/audio/transcriptions`）\n- **鉴权方式：** Bearer 令牌鉴权（`sk-...`）\n- **音频格式：** 支持通过分段上传提交 `wav`, `mp3`, `ogg`, `m4a` 等常见格式\n\n### 请求示例\n\n```bash\ncurl --request POST \\\n  --url https://api.omnimux.ai/v1/audio/transcriptions \\\n  --header 'Authorization: Bearer sk-...' \\\n  --header 'Content-Type: multipart/form-data' \\\n  --form 'file=@audio.mp3' \\\n  --form 'model=doubao-asr-bigmodel'\n```\n\n完整参数定义详见 [豆包语音识别参考文档](/zh/api-reference/audio-series/models/doubao-asr)。"
+  }
+}

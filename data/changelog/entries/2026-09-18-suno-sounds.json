@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "2026-09-18-suno-sounds",
+  "published_at": "2026-09-18",
+  "rank": 1,
+  "type": "model_launch",
+  "modality": [
+    "audio"
+  ],
+  "title": {
+    "en": "Suno Sound Effects Generation (suno-sounds) Available",
+    "zh": "Suno 独立音效生成接口 (suno-sounds) 上线"
+  },
+  "summary": {
+    "en": "Dedicated sound effects generation model `suno-sounds` is now available on OmniMux via POST /v1/video/generations.",
+    "zh": "独立音效生成模型 `suno-sounds` 现已接入 OmniMux，支持通过 POST /v1/video/generations 端点生成场景音效。"
+  },
+  "models": [
+    "suno-sounds"
+  ],
+  "tags": [
+    "audio",
+    "sound-effects",
+    "suno"
+  ],
+  "links": [
+    {
+      "label": {
+        "en": "Suno API Reference",
+        "zh": "Suno 接口文档"
+      },
+      "href": {
+        "en": "/en/api-reference/audio-series/models/suno",
+        "zh": "/zh/api-reference/audio-series/models/suno"
+      }
+    }
+  ],
+  "body": {
+    "en": "## Suno Sound Effects\n\nThe dedicated sound effect generation model `suno-sounds` is now supported on OmniMux.\n\n### Model specification\n\n- **Model ID:** `suno-sounds`\n- **Endpoint:** `POST /v1/video/generations`\n- **Polling endpoint:** `GET /v1/video/generations/{task_id}`\n- **Authentication:** Bearer token (`sk-...`)\n- **Modality:** Ambient and scene sound effects without vocal lyrics\n\n### Request example\n\n```bash\ncurl --request POST \\\n  --url https://api.omnimux.ai/v1/video/generations \\\n  --header 'Authorization: Bearer sk-...' \\\n  --header 'Content-Type: application/json' \\\n  --data '{\n    \"model\": \"suno-sounds\",\n    \"prompt\": \"footsteps on gravel followed by heavy rain and distant thunder\"\n  }'\n```\n\nDetails are available in the [Suno API Reference](/en/api-reference/audio-series/models/suno).",
+    "zh": "## Suno 音效生成\n\n独立场景音效生成模型 `suno-sounds` 现已在 OmniMux 提供异步调用支持。\n\n### 接口规范\n\n- **模型标识：** `suno-sounds`\n- **创建端点：** `POST /v1/video/generations`\n- **任务轮询端点：** `GET /v1/video/generations/{task_id}`\n- **鉴权方式：** Bearer 令牌鉴权（`sk-...`）\n- **生成模态：** 纯场景音效与环境音（无声乐伴奏与人声歌词）\n\n### 请求示例\n\n```bash\ncurl --request POST \\\n  --url https://api.omnimux.ai/v1/video/generations \\\n  --header 'Authorization: Bearer sk-...' \\\n  --header 'Content-Type: application/json' \\\n  --data '{\n    \"model\": \"suno-sounds\",\n    \"prompt\": \"碎石路上的脚步声，伴随暴雨和远处的雷声\"\n  }'\n```\n\n完整参数定义与状态说明请参阅 [Suno 接口参考文档](/zh/api-reference/audio-series/models/suno)。"
+  }
+}

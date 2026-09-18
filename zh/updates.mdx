@@ -7,6 +7,152 @@ rss: true
 
 跟踪 OmniMux 网关的模型上新与平台变更。完整可调用模型以[控制台定价](https://omnimux.ai) / [定价与账户](/zh/api-reference/account/pricing)为准。
 
+<a id="2026-09-18-volc-doubao-asr"></a>
+
+<Update label="2026 年 9 月 18 日" tags={["新模型", "音频"]} rss={{ title: "豆包语音识别大模型系列接口上线" }}>
+
+  ## 豆包语音识别
+
+  `doubao-asr-bigmodel`、`seedasr-auc` 与 `bigasr-auc` 语音转文字模型现已在 OmniMux 正式提供调用。
+
+  ### 接口规范
+
+  - **模型标识：** `doubao-asr-bigmodel`, `seedasr-auc`, `bigasr-auc`
+  - **调用协议：** 兼容 OpenAI 语音转文字（`POST /v1/audio/transcriptions`）
+  - **鉴权方式：** Bearer 令牌鉴权（`sk-...`）
+  - **音频格式：** 支持通过分段上传提交 `wav`, `mp3`, `ogg`, `m4a` 等常见格式
+
+  ### 请求示例
+
+  ```bash
+  curl --request POST \
+    --url https://api.omnimux.ai/v1/audio/transcriptions \
+    --header 'Authorization: Bearer sk-...' \
+    --header 'Content-Type: multipart/form-data' \
+    --form 'file=@audio.mp3' \
+    --form 'model=doubao-asr-bigmodel'
+  ```
+
+  完整参数定义详见 [豆包语音识别参考文档](/zh/api-reference/audio-series/models/doubao-asr)。
+
+  ### 链接
+
+  - [豆包语音识别文档](/zh/api-reference/audio-series/models/doubao-asr)
+
+</Update>
+
+<a id="2026-09-18-volc-seed-audio"></a>
+
+<Update label="2026 年 9 月 18 日" tags={["新模型", "音频"]} rss={{ title: "火山引擎 Seed Audio (seed-audio-1.0) 语音生成接口上线" }}>
+
+  ## Seed Audio 1.0
+
+  火山引擎 `seed-audio-1.0` 语音生成大模型已接入 OmniMux 标准语音合成端点。
+
+  ### 接口规范
+
+  - **模型标识：** `seed-audio-1.0`
+  - **调用协议：** 兼容 OpenAI 语音合成（`POST /v1/audio/speech`）
+  - **鉴权方式：** Bearer 令牌鉴权（`sk-...`）
+  - **生成上限：** 单次合成最长 120 秒
+  - **文本上限：** 提示文本最长 3000 字符
+
+  ### 请求示例
+
+  ```bash
+  curl --request POST \
+    --url https://api.omnimux.ai/v1/audio/speech \
+    --header 'Authorization: Bearer sk-...' \
+    --header 'Content-Type: application/json' \
+    --data '{
+      "model": "seed-audio-1.0",
+      "input": "要合成的文本内容",
+      "voice": "zh_female_cancan",
+      "response_format": "mp3"
+    }' \
+    --output output.mp3
+  ```
+
+  完整参数定义与支持格式请参阅 [Seed Audio 接口参考文档](/zh/api-reference/audio-series/models/seed-audio)。
+
+  ### 链接
+
+  - [Seed Audio 接口文档](/zh/api-reference/audio-series/models/seed-audio)
+
+</Update>
+
+<a id="2026-09-18-indextts-2"></a>
+
+<Update label="2026 年 9 月 18 日" tags={["新模型", "音频"]} rss={{ title: "Index TTS 声音克隆 (indextts-2) 接口上线" }}>
+
+  ## Index TTS 2
+
+  声音克隆模型 `indextts-2` 现已接入 OmniMux 提供异步调用。
+
+  ### 接口规范
+
+  - **模型标识：** `indextts-2`
+  - **任务提交端点：** `POST /v1/tasks/autodl`
+  - **任务状态查询：** `GET /v1/tasks/{task_id}`
+  - **生成产物获取：** `GET /v1/tasks/{task_id}/artifacts`
+  - **鉴权方式：** Bearer 令牌鉴权（`sk-...`）
+
+  ### 请求示例
+
+  ```json
+  {
+    "model": "indextts-2",
+    "prompt_text": "你好，这是一段声音克隆合成测试台词。",
+    "prompt_simple": "https://example.com/reference_audio.wav",
+    "emo_control_method": "与音色参考音频相同"
+  }
+  ```
+
+  完整参数定义与情绪调节字段详见 [Index TTS 接口参考文档](/zh/api-reference/audio-series/models/index-tts)。
+
+  ### 链接
+
+  - [Index TTS 接口参考](/zh/api-reference/audio-series/models/index-tts)
+
+</Update>
+
+<a id="2026-09-18-suno-sounds"></a>
+
+<Update label="2026 年 9 月 18 日" tags={["新模型", "音频"]} rss={{ title: "Suno 独立音效生成接口 (suno-sounds) 上线" }}>
+
+  ## Suno 音效生成
+
+  独立场景音效生成模型 `suno-sounds` 现已在 OmniMux 提供异步调用支持。
+
+  ### 接口规范
+
+  - **模型标识：** `suno-sounds`
+  - **创建端点：** `POST /v1/video/generations`
+  - **任务轮询端点：** `GET /v1/video/generations/{task_id}`
+  - **鉴权方式：** Bearer 令牌鉴权（`sk-...`）
+  - **生成模态：** 纯场景音效与环境音（无声乐伴奏与人声歌词）
+
+  ### 请求示例
+
+  ```bash
+  curl --request POST \
+    --url https://api.omnimux.ai/v1/video/generations \
+    --header 'Authorization: Bearer sk-...' \
+    --header 'Content-Type: application/json' \
+    --data '{
+      "model": "suno-sounds",
+      "prompt": "碎石路上的脚步声，伴随暴雨和远处的雷声"
+    }'
+  ```
+
+  完整参数定义与状态说明请参阅 [Suno 接口参考文档](/zh/api-reference/audio-series/models/suno)。
+
+  ### 链接
+
+  - [Suno 接口文档](/zh/api-reference/audio-series/models/suno)
+
+</Update>
+
 <a id="2026-09-18-gemini-3-8-flash"></a>
 
 <Update label="2026 年 9 月 18 日" tags={["新模型", "文本"]} rss={{ title: "Gemini 3.8 Flash 对话补全接口上线" }}>

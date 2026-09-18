@@ -5,9 +5,9 @@ description: "Suno 音乐生成 · model `suno`"
 api: "POST https://api.omnimux.ai/v1/video/generations"
 ---
 
-- 创建：`POST /v1/video/generations`，`model` 为 `suno`
+- 创建：`POST /v1/video/generations`，`model` 为 `suno`（音乐生成）或 `suno-sounds`（独立音效生成）
 - 异步任务：用返回的 `task_id` 查询 [查询视频任务](/zh/api-reference/tasks/video-task)
-- 音乐生成任务共用统一媒体任务端点与轮询约定
+- 音乐与音效生成任务共用统一媒体任务端点与轮询约定
 
 ## 身份
 
@@ -15,7 +15,7 @@ api: "POST https://api.omnimux.ai/v1/video/generations"
 | --- | --- |
 | 系列 | 音频系列 |
 | 品牌 | Suno |
-| model | `suno` |
+| model | `suno`, `suno-sounds` |
 
 ## 接口
 

@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "2026-09-18-indextts-2",
+  "published_at": "2026-09-18",
+  "rank": 2,
+  "type": "model_launch",
+  "modality": [
+    "audio"
+  ],
+  "title": {
+    "en": "Index TTS Voice Clone (indextts-2) Available",
+    "zh": "Index TTS 声音克隆 (indextts-2) 接口上线"
+  },
+  "summary": {
+    "en": "Dedicated voice clone and emotional TTS model `indextts-2` is now available on OmniMux via POST /v1/tasks/autodl.",
+    "zh": "声音克隆与情绪语音合成模型 `indextts-2` 现已接入 OmniMux，支持通过 POST /v1/tasks/autodl 端点进行异步调用。"
+  },
+  "models": [
+    "indextts-2"
+  ],
+  "tags": [
+    "audio",
+    "voice-clone",
+    "tts"
+  ],
+  "links": [
+    {
+      "label": {
+        "en": "Index TTS Reference",
+        "zh": "Index TTS 接口参考"
+      },
+      "href": {
+        "en": "/en/api-reference/audio-series/models/index-tts",
+        "zh": "/zh/api-reference/audio-series/models/index-tts"
+      }
+    }
+  ],
+  "body": {
+    "en": "## Index TTS 2\n\nThe `indextts-2` voice clone model is now supported on OmniMux.\n\n### Model specification\n\n- **Model ID:** `indextts-2`\n- **Create endpoint:** `POST /v1/tasks/autodl`\n- **Polling endpoint:** `GET /v1/tasks/{task_id}`\n- **Artifact endpoint:** `GET /v1/tasks/{task_id}/artifacts`\n- **Authentication:** Bearer token (`sk-...`)\n\n### Request example\n\n```json\n{\n  \"model\": \"indextts-2\",\n  \"prompt_text\": \"Hello, this is a cloned voice generation test.\",\n  \"prompt_simple\": \"https://example.com/reference_audio.wav\",\n  \"emo_control_method\": \"same_as_reference\"\n}\n```\n\nFull parameter specifications are documented in the [Index TTS Reference](/en/api-reference/audio-series/models/index-tts).",
+    "zh": "## Index TTS 2\n\n声音克隆模型 `indextts-2` 现已接入 OmniMux 提供异步调用。\n\n### 接口规范\n\n- **模型标识：** `indextts-2`\n- **任务提交端点：** `POST /v1/tasks/autodl`\n- **任务状态查询：** `GET /v1/tasks/{task_id}`\n- **生成产物获取：** `GET /v1/tasks/{task_id}/artifacts`\n- **鉴权方式：** Bearer 令牌鉴权（`sk-...`）\n\n### 请求示例\n\n```json\n{\n  \"model\": \"indextts-2\",\n  \"prompt_text\": \"你好，这是一段声音克隆合成测试台词。\",\n  \"prompt_simple\": \"https://example.com/reference_audio.wav\",\n  \"emo_control_method\": \"与音色参考音频相同\"\n}\n```\n\n完整参数定义与情绪调节字段详见 [Index TTS 接口参考文档](/zh/api-reference/audio-series/models/index-tts)。"
+  }
+}

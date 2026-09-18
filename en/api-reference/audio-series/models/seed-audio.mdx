@@ -1,0 +1,81 @@
+---
+title: "Seed Audio Generation"
+sidebarTitle: "Seed Audio Generation"
+description: "VolcEngine / BytePlus Seed Audio speech and sound effects · model `seed-audio-1.0`"
+api: "POST https://api.omnimux.ai/v1/audio/speech"
+---
+
+- Endpoint: `POST /v1/audio/speech` with `model` `seed-audio-1.0`
+- Protocol: OpenAI-compatible Audio Speech (TTS) endpoint
+- Supports text-to-speech synthesis, timbre reference, and scene sound design up to 120 seconds per generation
+
+## Identity
+
+| Field | Value |
+| --- | --- |
+| Series | Audio series |
+| Brand | VolcEngine / BytePlus |
+| model | `seed-audio-1.0` |
+
+## Endpoint
+
+| Method | Path |
+| --- | --- |
+| `POST` | `/v1/audio/speech` |
+
+Base URL: `https://api.omnimux.ai`
+
+## Authorizations
+
+| Name | In | Type | Required | Description |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | yes | `Bearer sk-...` (API key) |
+
+## Body
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `model` | string | yes | Must be `seed-audio-1.0` |
+| `input` | string | yes | The text to synthesize into audio, up to 3000 characters |
+| `voice` | string | no | Voice identifier (preset timbre ID or cloned voice ID) |
+| `response_format` | string | no | Audio format (`wav`, `mp3`, `pcm`, `ogg_opus`). Default `wav` |
+| `speed` | number | no | Playback speed multiplier [0.25, 4.0]. Default `1.0` |
+
+## Response
+
+### 200
+
+Returns binary audio data stream (with `Content-Type: audio/wav` etc.).
+
+<Panel>
+
+<RequestExample>
+
+```bash curl
+curl --request POST \
+  --url https://api.omnimux.ai/v1/audio/speech \
+  --header 'Authorization: Bearer sk-...' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "model": "seed-audio-1.0",
+    "input": "Welcome to VolcEngine Seed Audio synthesis.",
+    "voice": "zh_female_cancan",
+    "response_format": "mp3"
+  }' \
+  --output output.mp3
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```http 200 OK
+Content-Type: audio/mpeg
+Content-Length: 48291
+
+<binary audio data>
+```
+
+</ResponseExample>
+
+</Panel>

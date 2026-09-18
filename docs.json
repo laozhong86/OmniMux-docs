@@ -297,6 +297,20 @@
                       "en/api-reference/audio-series/models/index-tts"
                     ],
                     "icon": "audio-lines"
+                  },
+                  {
+                    "group": "VolcEngine Seed Audio",
+                    "pages": [
+                      "en/api-reference/audio-series/models/seed-audio"
+                    ],
+                    "icon": "audio-lines"
+                  },
+                  {
+                    "group": "Doubao Speech Recognition",
+                    "pages": [
+                      "en/api-reference/audio-series/models/doubao-asr"
+                    ],
+                    "icon": "audio-lines"
                   }
                 ]
               },
@@ -770,6 +784,20 @@
                     "group": "Index TTS",
                     "pages": [
                       "zh/api-reference/audio-series/models/index-tts"
+                    ],
+                    "icon": "audio-lines"
+                  },
+                  {
+                    "group": "火山语音生成",
+                    "pages": [
+                      "zh/api-reference/audio-series/models/seed-audio"
+                    ],
+                    "icon": "audio-lines"
+                  },
+                  {
+                    "group": "豆包语音识别",
+                    "pages": [
+                      "zh/api-reference/audio-series/models/doubao-asr"
                     ],
                     "icon": "audio-lines"
                   }

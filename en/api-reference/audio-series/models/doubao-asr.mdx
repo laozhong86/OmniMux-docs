@@ -1,0 +1,78 @@
+---
+title: "Doubao Speech Recognition"
+sidebarTitle: "Doubao ASR"
+description: "VolcEngine / Doubao speech recognition · model `doubao-asr-bigmodel`, `seedasr-auc`, `bigasr-auc`"
+api: "POST https://api.omnimux.ai/v1/audio/transcriptions"
+---
+
+- Endpoint: `POST /v1/audio/transcriptions`
+- Protocol: OpenAI-compatible Audio Transcriptions endpoint
+- Supports recorded audio file speech-to-text transcription
+
+## Identity
+
+| Field | Value |
+| --- | --- |
+| Series | Audio series |
+| Brand | VolcEngine / Doubao |
+| model | `doubao-asr-bigmodel`, `seedasr-auc`, `bigasr-auc` |
+
+## Endpoint
+
+| Method | Path |
+| --- | --- |
+| `POST` | `/v1/audio/transcriptions` |
+
+Base URL: `https://api.omnimux.ai`
+
+## Authorizations
+
+| Name | In | Type | Required | Description |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | yes | `Bearer sk-...` (API key) |
+
+## Body (multipart/form-data)
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `file` | file | yes | The audio file object to transcribe (supports wav, mp3, ogg, m4a, etc.) |
+| `model` | string | yes | One of `doubao-asr-bigmodel`, `seedasr-auc`, `bigasr-auc` |
+| `language` | string | no | The language of the input audio in ISO-639-1 format (e.g. `en`, `zh`) |
+| `response_format` | string | no | Format of output (`json`, `text`). Default `json` |
+
+## Response
+
+### 200
+
+```json
+{
+  "text": "Transcribed text output from Doubao ASR speech recognition model."
+}
+```
+
+<Panel>
+
+<RequestExample>
+
+```bash curl
+curl --request POST \
+  --url https://api.omnimux.ai/v1/audio/transcriptions \
+  --header 'Authorization: Bearer sk-...' \
+  --header 'Content-Type: multipart/form-data' \
+  --form 'file=@audio.mp3' \
+  --form 'model=doubao-asr-bigmodel'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200 OK
+{
+  "text": "Transcribed text output from Doubao ASR speech recognition model."
+}
+```
+
+</ResponseExample>
+
+</Panel>

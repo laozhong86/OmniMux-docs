@@ -1,0 +1,78 @@
+---
+title: "豆包语音识别大模型"
+sidebarTitle: "豆包语音识别"
+description: "火山引擎 / 豆包语音识别大模型 · model `doubao-asr-bigmodel`, `seedasr-auc`, `bigasr-auc`"
+api: "POST https://api.omnimux.ai/v1/audio/transcriptions"
+---
+
+- 接口：`POST /v1/audio/transcriptions`
+- 协议：兼容 OpenAI 语音转文字（Audio Transcription）接口协议
+- 支持录音文件识别与快速转写，输出文本转录结果
+
+## 身份
+
+| 字段 | 值 |
+| --- | --- |
+| 系列 | 音频系列 |
+| 品牌 | 火山引擎 / 豆包 |
+| model | `doubao-asr-bigmodel`, `seedasr-auc`, `bigasr-auc` |
+
+## 接口
+
+| 方法 | 路径 |
+| --- | --- |
+| `POST` | `/v1/audio/transcriptions` |
+
+Base URL：`https://api.omnimux.ai`
+
+## 鉴权
+
+| 名称 | 位置 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | 是 | `Bearer sk-...`（API Key） |
+
+## 请求体（multipart/form-data）
+
+| 字段 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| `file` | file | 是 | 要转录的音频二进制文件（支持 wav, mp3, ogg, m4a 等） |
+| `model` | string | 是 | 可选 `doubao-asr-bigmodel`、`seedasr-auc`、`bigasr-auc` |
+| `language` | string | 否 | 音频主语言代码（如 `zh`, `en`），缺省自动识别 |
+| `response_format` | string | 否 | 响应格式，可选 `json`, `text`，默认 `json` |
+
+## 响应
+
+### 200
+
+```json
+{
+  "text": "这是一段通过豆包大模型语音识别转写的文本内容。"
+}
+```
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url https://api.omnimux.ai/v1/audio/transcriptions \
+  --header 'Authorization: Bearer sk-...' \
+  --header 'Content-Type: multipart/form-data' \
+  --form 'file=@audio.mp3' \
+  --form 'model=doubao-asr-bigmodel'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200 OK
+{
+  "text": "这是一段通过豆包大模型语音识别转写的文本内容。"
+}
+```
+
+</ResponseExample>
+
+</Panel>
