@@ -1,1 +1,4 @@
 .tmp-ia/
+.worktrees/
+__pycache__/
+scripts/__pycache__/

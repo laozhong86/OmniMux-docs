@@ -4,9 +4,9 @@
   "name": "OmniMux",
   "description": "Social media operations infrastructure for agents — API, CLI, Skill, and MCP. Console omnimux.ai · API api.omnimux.ai",
   "colors": {
-    "primary": "#C8F135",
-    "light": "#D4F75A",
-    "dark": "#9BC422"
+    "primary": "#6757e7",
+    "light": "#6757e7",
+    "dark": "#ffffff"
   },
   "favicon": "/favicon.svg",
   "logo": {
