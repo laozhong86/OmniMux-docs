@@ -7,6 +7,44 @@ rss: true
 
 Stay up to date with OmniMux gateway model launches and platform changes. The full callable catalog is on [console pricing](https://omnimux.ai) / [Pricing](/en/api-reference/account/pricing).
 
+<a id="2026-09-18-gemini-3-8-flash"></a>
+
+<Update label="September 18, 2026" tags={["New models", "Text"]} rss={{ title: "Gemini 3.8 Flash Available via Chat Completions" }}>
+
+  ## Gemini 3.8 Flash
+
+  The `gemini-3.8-flash` model is now supported on OmniMux under the standard Gemini Chat Completions endpoint.
+
+  ### Model specification
+
+  - **Model ID:** `gemini-3.8-flash`
+  - **Protocol:** OpenAI-compatible Chat Completions
+  - **Endpoint:** `POST /v1/chat/completions`
+  - **Authentication:** Bearer token (`sk-...`)
+  - **Streaming:** Supported via `"stream": true`
+
+  ### Request example
+
+  ```json
+  {
+    "model": "gemini-3.8-flash",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Hello"
+      }
+    ]
+  }
+  ```
+
+  Full parameter schema and status codes are documented in the [Gemini Complete API Reference](/en/api-reference/text-series/gemini/complete).
+
+  ### Links
+
+  - [Gemini Complete Reference](/en/api-reference/text-series/gemini/complete)
+
+</Update>
+
 <a id="2026-09-18-doubao-seed-evolving"></a>
 
 <Update label="September 18, 2026" tags={["New models", "Text"]} rss={{ title: "ByteDance Doubao official direct model seed-evolving is now live" }}>
@@ -438,6 +476,7 @@ Stay up to date with OmniMux gateway model launches and platform changes. The fu
 
   | Model ID | Role |
   | --- | --- |
+  | `minimax-h3` | Standard text/image-to-video |
   | `minimax-h3-t2v` | Text-to-video |
   | `minimax-h3-flf` | First/last-frame style I2V |
   | `minimax-h3-fl2va` | FL2VA-oriented path |
@@ -452,6 +491,7 @@ Stay up to date with OmniMux gateway model launches and platform changes. The fu
 
   ### Links
 
+  - [MiniMax H3 Video](/en/api-reference/video-series/models/minimax-h3)
   - [MiniMax H3 T2V](/en/api-reference/video-series/models/minimax-h3-t2v)
   - [Video task poll](/en/api-reference/tasks/video-task)
 

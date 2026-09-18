@@ -2,9 +2,50 @@
   "schema_version": 1,
   "page": 1,
   "page_size": 50,
-  "total": 35,
+  "total": 36,
   "total_pages": 1,
   "items": [
+    {
+      "id": "2026-09-18-gemini-3-8-flash",
+      "published_at": "2026-09-18",
+      "type": "model_launch",
+      "modality": [
+        "text"
+      ],
+      "title": {
+        "en": "Gemini 3.8 Flash Available via Chat Completions",
+        "zh": "Gemini 3.8 Flash 对话补全接口上线"
+      },
+      "summary": {
+        "en": "Gemini 3.8 Flash (model `gemini-3.8-flash`) is now available on OmniMux via OpenAI-compatible Chat Completions.",
+        "zh": "Gemini 3.8 Flash（模型标识 `gemini-3.8-flash`）现已通过兼容 OpenAI 的对话补全接口在 OmniMux 正式提供调用。"
+      },
+      "models": [
+        "gemini-3.8-flash"
+      ],
+      "tags": [
+        "gemini",
+        "google",
+        "text"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "Gemini Complete Reference",
+            "zh": "Gemini 完整参数参考"
+          },
+          "href": {
+            "en": "/en/api-reference/text-series/gemini/complete",
+            "zh": "/zh/api-reference/text-series/gemini/complete"
+          }
+        }
+      ],
+      "body": {
+        "en": "## Gemini 3.8 Flash\n\nThe `gemini-3.8-flash` model is now supported on OmniMux under the standard Gemini Chat Completions endpoint.\n\n### Model specification\n\n- **Model ID:** `gemini-3.8-flash`\n- **Protocol:** OpenAI-compatible Chat Completions\n- **Endpoint:** `POST /v1/chat/completions`\n- **Authentication:** Bearer token (`sk-...`)\n- **Streaming:** Supported via `\"stream\": true`\n\n### Request example\n\n```json\n{\n  \"model\": \"gemini-3.8-flash\",\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": \"Hello\"\n    }\n  ]\n}\n```\n\nFull parameter schema and status codes are documented in the [Gemini Complete API Reference](/en/api-reference/text-series/gemini/complete).",
+        "zh": "## Gemini 3.8 Flash\n\n`gemini-3.8-flash` 模型已接入 OmniMux 标准对话补全服务。\n\n### 接口规范\n\n- **模型标识：** `gemini-3.8-flash`\n- **接口协议：** 兼容 OpenAI 对话补全协议\n- **调用端点：** `POST /v1/chat/completions`\n- **鉴权方式：** Bearer 令牌鉴权（`sk-...`）\n- **流式传输：** 支持通过 `\"stream\": true` 启用\n\n### 请求体示例\n\n```json\n{\n  \"model\": \"gemini-3.8-flash\",\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": \"你好\"\n    }\n  ]\n}\n```\n\n完整参数定义与状态码说明请查阅 [Gemini 完整参数参考文档](/zh/api-reference/text-series/gemini/complete)。"
+      },
+      "schema_version": 1
+    },
     {
       "id": "2026-09-18-doubao-seed-evolving",
       "published_at": "2026-09-18",
@@ -892,6 +933,7 @@
         "zh": "MiniMax H3 视频路由已在 OmniMux 上线。"
       },
       "models": [
+        "minimax-h3",
         "minimax-h3-t2v",
         "minimax-h3-flf",
         "minimax-h3-fl2va",
@@ -901,6 +943,16 @@
         "video"
       ],
       "links": [
+        {
+          "label": {
+            "en": "MiniMax H3 Video",
+            "zh": "MiniMax H3 视频"
+          },
+          "href": {
+            "en": "/en/api-reference/video-series/models/minimax-h3",
+            "zh": "/zh/api-reference/video-series/models/minimax-h3"
+          }
+        },
         {
           "label": {
             "en": "MiniMax H3 T2V",
@@ -923,8 +975,8 @@
         }
       ],
       "body": {
-        "en": "## MiniMax H3\n\n**MiniMax H3** video models are now available on OmniMux.\n\n### New models\n\n| Model ID | Role |\n| --- | --- |\n| `minimax-h3-t2v` | Text-to-video |\n| `minimax-h3-flf` | First/last-frame style I2V |\n| `minimax-h3-fl2va` | FL2VA-oriented path |\n| `minimax-h3-endframe` | End-frame reference I2V |\n\n### API\n\n- **Create:** `POST /v1/video/generations`\n- **Poll:** `GET /v1/video/generations/{task_id}`\n\nAsync only — submit once, then poll task status.",
-        "zh": "## MiniMax H3\n\n**MiniMax H3** 视频模型现已在 OmniMux 可调用。\n\n### 新模型\n\n| 模型 ID | 角色 |\n| --- | --- |\n| `minimax-h3-t2v` | 文生视频 |\n| `minimax-h3-flf` | 首末帧类 I2V |\n| `minimax-h3-fl2va` | FL2VA 路径 |\n| `minimax-h3-endframe` | 尾帧参考 I2V |\n\n### 调用\n\n- **创建：** `POST /v1/video/generations`\n- **查询：** `GET /v1/video/generations/{task_id}`\n\n异步任务：提交后轮询状态。"
+        "en": "## MiniMax H3\n\n**MiniMax H3** video models are now available on OmniMux.\n\n### New models\n\n| Model ID | Role |\n| --- | --- |\n| `minimax-h3` | Standard text/image-to-video |\n| `minimax-h3-t2v` | Text-to-video |\n| `minimax-h3-flf` | First/last-frame style I2V |\n| `minimax-h3-fl2va` | FL2VA-oriented path |\n| `minimax-h3-endframe` | End-frame reference I2V |\n\n### API\n\n- **Create:** `POST /v1/video/generations`\n- **Poll:** `GET /v1/video/generations/{task_id}`\n\nAsync only — submit once, then poll task status.",
+        "zh": "## MiniMax H3\n\n**MiniMax H3** 视频模型现已在 OmniMux 可调用。\n\n### 新模型\n\n| 模型 ID | 角色 |\n| --- | --- |\n| `minimax-h3` | 标准文/图生视频统一路由 |\n| `minimax-h3-t2v` | 文生视频 |\n| `minimax-h3-flf` | 首末帧类 I2V |\n| `minimax-h3-fl2va` | FL2VA 路径 |\n| `minimax-h3-endframe` | 尾帧参考 I2V |\n\n### 调用\n\n- **创建：** `POST /v1/video/generations`\n- **查询：** `GET /v1/video/generations/{task_id}`\n\n异步任务：提交后轮询状态。"
       },
       "schema_version": 1
     },

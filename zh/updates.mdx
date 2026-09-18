@@ -7,6 +7,44 @@ rss: true
 
 跟踪 OmniMux 网关的模型上新与平台变更。完整可调用模型以[控制台定价](https://omnimux.ai) / [定价与账户](/zh/api-reference/account/pricing)为准。
 
+<a id="2026-09-18-gemini-3-8-flash"></a>
+
+<Update label="2026 年 9 月 18 日" tags={["新模型", "文本"]} rss={{ title: "Gemini 3.8 Flash 对话补全接口上线" }}>
+
+  ## Gemini 3.8 Flash
+
+  `gemini-3.8-flash` 模型已接入 OmniMux 标准对话补全服务。
+
+  ### 接口规范
+
+  - **模型标识：** `gemini-3.8-flash`
+  - **接口协议：** 兼容 OpenAI 对话补全协议
+  - **调用端点：** `POST /v1/chat/completions`
+  - **鉴权方式：** Bearer 令牌鉴权（`sk-...`）
+  - **流式传输：** 支持通过 `"stream": true` 启用
+
+  ### 请求体示例
+
+  ```json
+  {
+    "model": "gemini-3.8-flash",
+    "messages": [
+      {
+        "role": "user",
+        "content": "你好"
+      }
+    ]
+  }
+  ```
+
+  完整参数定义与状态码说明请查阅 [Gemini 完整参数参考文档](/zh/api-reference/text-series/gemini/complete)。
+
+  ### 链接
+
+  - [Gemini 完整参数参考](/zh/api-reference/text-series/gemini/complete)
+
+</Update>
+
 <a id="2026-09-18-doubao-seed-evolving"></a>
 
 <Update label="2026 年 9 月 18 日" tags={["新模型", "文本"]} rss={{ title: "字节跳动火山方舟官方直连大模型 seed-evolving 正式上线" }}>
@@ -438,6 +476,7 @@ rss: true
 
   | 模型 ID | 角色 |
   | --- | --- |
+  | `minimax-h3` | 标准文/图生视频统一路由 |
   | `minimax-h3-t2v` | 文生视频 |
   | `minimax-h3-flf` | 首末帧类 I2V |
   | `minimax-h3-fl2va` | FL2VA 路径 |
@@ -452,6 +491,7 @@ rss: true
 
   ### 链接
 
+  - [MiniMax H3 视频](/zh/api-reference/video-series/models/minimax-h3)
   - [MiniMax H3 文生视频](/zh/api-reference/video-series/models/minimax-h3-t2v)
   - [视频任务查询](/zh/api-reference/tasks/video-task)
 
