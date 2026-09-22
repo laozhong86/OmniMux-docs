@@ -17,8 +17,8 @@
         "zh": "DeepSeek Flash（deepseek-flash）正式上线"
       },
       "summary": {
-        "en": "OmniMux lists DeepSeek-V4.1-Flash under its official current id `deepseek-flash`, replacing the retired `deepseek-v4-flash` alias. 1M context, 384K max output, image understanding, tool calling and prompt cache, billed at official retail prices with peak/off-peak parity.",
-        "zh": "OmniMux 以官方现网正式编号 `deepseek-flash` 上线 DeepSeek-V4.1-Flash：1M 上下文、384K 最大输出、图像理解、工具调用与缓存计费，售价锚定官方零售价并同步官方高峰/空闲峰谷规则；官方已下线的旧编号 deepseek-v4-flash 由本编号承接。"
+        "en": "OmniMux lists DeepSeek-V4.1-Flash under its official current id `deepseek-flash`, replacing the retired `deepseek-v4-flash` alias. 1M context, 384K max output, image understanding, tool calling and prompt cache, billed at 60% of the official retail price with matching peak/off-peak rules.",
+        "zh": "OmniMux 以官方现网正式编号 `deepseek-flash` 上线 DeepSeek-V4.1-Flash：1M 上下文、384K 最大输出、图像理解、工具调用与缓存计费；售价为官方零售价的 6 折，并同步官方高峰/空闲峰谷规则。官方已下线的旧编号 deepseek-v4-flash 由本编号承接。"
       },
       "models": [
         "deepseek-flash"
