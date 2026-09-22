@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "DeepSeek · Chat Completions",
-    "description": "OpenAI-compatible Chat Completions for DeepSeek models on OmniMux. Supported model ids: `deepseek-v4-flash`, `deepseek-v4-flash-vision-exp`, `deepseek-v4-pro`.",
+    "description": "OpenAI-compatible Chat Completions for DeepSeek models on OmniMux. Supported model ids: `deepseek-flash`, `deepseek-v4-flash`, `deepseek-v4-flash-vision-exp`, `deepseek-v4-pro`.",
     "version": "1.0.0"
   },
   "servers": [
@@ -42,7 +42,7 @@
                 "simple_text": {
                   "summary": "Single-turn text",
                   "value": {
-                    "model": "deepseek-v4-flash",
+                    "model": "deepseek-flash",
                     "messages": [
                       {
                         "role": "user",
@@ -54,7 +54,7 @@
                 "system_prompt": {
                   "summary": "System + user",
                   "value": {
-                    "model": "deepseek-v4-flash",
+                    "model": "deepseek-flash",
                     "messages": [
                       {
                         "role": "system",
@@ -70,7 +70,7 @@
                 "streaming": {
                   "summary": "Streaming",
                   "value": {
-                    "model": "deepseek-v4-flash",
+                    "model": "deepseek-flash",
                     "stream": true,
                     "messages": [
                       {
@@ -96,7 +96,7 @@
                   "id": "chatcmpl-example",
                   "object": "chat.completion",
                   "created": 1741428397,
-                  "model": "deepseek-v4-flash",
+                  "model": "deepseek-flash",
                   "choices": [
                     {
                       "index": 0,
@@ -293,12 +293,13 @@
             "type": "string",
             "description": "Model id for this brand on OmniMux. Same request/response shape for all ids below; only the `model` value changes.",
             "enum": [
+              "deepseek-flash",
               "deepseek-v4-flash",
               "deepseek-v4-flash-vision-exp",
               "deepseek-v4-pro"
             ],
-            "default": "deepseek-v4-flash",
-            "example": "deepseek-v4-flash"
+            "default": "deepseek-flash",
+            "example": "deepseek-flash"
           },
           "messages": {
             "type": "array",

@@ -7,6 +7,36 @@ rss: true
 
 Stay up to date with OmniMux gateway model launches and platform changes. The full callable catalog is on [console pricing](https://omnimux.ai) / [Pricing](/en/api-reference/account/pricing).
 
+<a id="2026-09-22-deepseek-flash"></a>
+
+<Update label="September 22, 2026" tags={["New models", "Text"]} rss={{ title: "DeepSeek Flash (deepseek-flash) is now live" }}>
+
+  ## What is new
+
+  - **Official current model id**: OmniMux now lists `deepseek-flash` (DeepSeek-V4.1-Flash). The retired ids `deepseek-v4-flash` and `deepseek-v4-flash-vision-exp` remain accepted upstream but are served by this model.
+  - **Long context and vision**: 1M token context window, up to 384K output tokens, image understanding, JSON output, tool calls, and both thinking and non-thinking modes.
+  - **Prompt cache billing**: cache hits are priced separately at the official cache rate, so repeated long prompts cost far less.
+  - **Official peak/off-peak pricing**: sell price anchors the official retail list price — off-peak input 1 CNY / output 4 CNY / cache hit 0.02 CNY per 1M tokens, doubling during Beijing-time peak hours (Mon-Fri 09:00-12:00 and 14:00-18:00), exactly as the official schedule does.
+
+  ## Usage
+
+  ```json
+  {
+    "model": "deepseek-flash",
+    "messages": [{ "role": "user", "content": "Hello" }]
+  }
+  ```
+
+  ## Documentation
+
+  - DeepSeek API Reference: `/en/api-reference/text-series/deepseek/complete`
+
+  ### Links
+
+  - [DeepSeek Complete API Reference](/en/api-reference/text-series/deepseek/complete)
+
+</Update>
+
 <a id="2026-09-18-gpt-image-tiers"></a>
 
 <Update label="September 18, 2026" tags={["New models", "Image"]} rss={{ title: "GPT Image 2.5 Flare & Sunburst Tier Routes Live" }}>
