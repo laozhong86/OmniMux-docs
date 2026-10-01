@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "id": "2026-10-01-volc-image-upscale",
+  "published_at": "2026-10-01",
+  "rank": 0,
+  "type": "model_launch",
+  "modality": [
+    "image"
+  ],
+  "title": {
+    "en": "VolcEngine Image Upscaling",
+    "zh": "火山引擎 图片超分"
+  },
+  "summary": {
+    "en": "VolcEngine image super-resolution integration on OmniMux.",
+    "zh": "火山引擎图片超分辨率能力接入 OmniMux。"
+  },
+  "models": [
+    "volc-image-upscale"
+  ],
+  "tags": [
+    "image"
+  ],
+  "links": [
+    {
+      "label": {
+        "en": "VolcEngine Image Upscaling",
+        "zh": "火山引擎 图片超分"
+      },
+      "href": {
+        "en": "/en/api-reference/image-series/models/volc-image-upscale",
+        "zh": "/zh/api-reference/image-series/models/volc-image-upscale"
+      }
+    }
+  ],
+  "body": {
+    "en": "## VolcEngine Image Upscaling\n\n**VolcEngine Image Upscaling** (`volc-image-upscale`) is integrated on OmniMux.\n\n### Model Details\n\n- **Model ID:** `volc-image-upscale`\n- **Endpoint:** `POST /v1/images/edits`\n- **Modality:** image super-resolution (fixed 2x upscaling)\n- **Pricing:** 0.006 CNY / call\n\nSee the model reference page for specifications and parameters.",
+    "zh": "## 火山引擎 图片超分\n\n**火山引擎 图片超分**（`volc-image-upscale`）已接入 OmniMux。\n\n### 模型详情\n\n- **模型 ID：** `volc-image-upscale`\n- **接口：** `POST /v1/images/edits`\n- **模态：** 图像超分辨率（固定 2 倍放大）\n- **定价：** 0.006 元/次\n\n请求规格与参数说明见各模型文档页。"
+  }
+}

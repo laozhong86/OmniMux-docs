@@ -1,0 +1,114 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "VolcEngine · Image Upscaling",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.omnimux.ai"
+    }
+  ],
+  "paths": {
+    "/v1/images/edits": {
+      "post": {
+        "summary": "VolcEngine Image Upscaling",
+        "operationId": "upscaleImageVolcEn",
+        "description": "Upscale one existing image to twice its width and height. No prompt is required.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "model",
+                  "image"
+                ],
+                "properties": {
+                  "model": {
+                    "type": "string",
+                    "enum": [
+                      "volc-image-upscale"
+                    ],
+                    "default": "volc-image-upscale",
+                    "description": "Model identifier, fixed to volc-image-upscale"
+                  },
+                  "image": {
+                    "type": "string",
+                    "description": "Provide one public HTTPS image URL that is accessible without authentication. The OmniMux API request still requires authentication. Supported image formats: JPG, JPEG, PNG, BMP. File size must not exceed 5 MB. Input width must be 50 to 2128 pixels and height 50 to 4064 pixels, inclusive."
+                  }
+                }
+              },
+              "example": {
+                "model": "volc-image-upscale",
+                "image": "https://example.com/sample.png"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Super-resolution succeeded, synchronously returning the 2x upscaled temporary image URL (valid for 24 hours).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "created": {
+                      "type": "integer",
+                      "description": "Response timestamp"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "url": {
+                            "type": "string",
+                            "description": "Upscaled image result URL (valid for 24 hours)"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "created": 1727740800,
+                  "data": [
+                    {
+                      "url": "https://visual.volcengine.com/upscaled_result_2x.png"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid parameters, non-HTTPS scheme, dimensions out of bounds, file exceeds 5 MB, or unsupported format."
+          },
+          "403": {
+            "description": "Insufficient user quota."
+          },
+          "502": {
+            "description": "Upstream Volcengine service error; quota is fully refunded."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "API Key"
+      }
+    }
+  }
+}

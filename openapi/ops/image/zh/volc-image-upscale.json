@@ -1,0 +1,114 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "火山引擎 · 图片超分",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.omnimux.ai"
+    }
+  ],
+  "paths": {
+    "/v1/images/edits": {
+      "post": {
+        "summary": "火山引擎 图片超分",
+        "operationId": "upscaleImageVolcZh",
+        "description": "将一张已有图片的宽与高各放大至原来的两倍，无需提示词。",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "model",
+                  "image"
+                ],
+                "properties": {
+                  "model": {
+                    "type": "string",
+                    "enum": [
+                      "volc-image-upscale"
+                    ],
+                    "default": "volc-image-upscale",
+                    "description": "模型标识，固定为 volc-image-upscale"
+                  },
+                  "image": {
+                    "type": "string",
+                    "description": "输入为一张免鉴权的公网 HTTPS 图片 URL。OmniMux API 请求仍需鉴权。支持 JPG、JPEG、PNG、BMP；文件大小不超过 5 MB；宽度 50 至 2128 像素，高度 50 至 4064 像素。"
+                  }
+                }
+              },
+              "example": {
+                "model": "volc-image-upscale",
+                "image": "https://example.com/sample.png"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "超分辨率处理成功，同步返回 2 倍放大图片临时 URL（有效期 24 小时）。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "created": {
+                      "type": "integer",
+                      "description": "响应时间戳"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "url": {
+                            "type": "string",
+                            "description": "超分后图片结果 URL（有效期 24 小时）"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "created": 1727740800,
+                  "data": [
+                    {
+                      "url": "https://visual.volcengine.com/upscaled_result_2x.png"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "请求参数无效、非公网 HTTPS、尺寸超出范围或格式不受支持。"
+          },
+          "403": {
+            "description": "账户额度不足。"
+          },
+          "502": {
+            "description": "上游火山引擎服务异常，已全额退款。"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "API Key"
+      }
+    }
+  }
+}

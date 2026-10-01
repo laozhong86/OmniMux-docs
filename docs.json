@@ -139,6 +139,13 @@
                     "icon": "image"
                   },
                   {
+                    "group": "VolcEngine",
+                    "pages": [
+                      "en/api-reference/image-series/models/volc-image-upscale"
+                    ],
+                    "icon": "image"
+                  },
+                  {
                     "group": "Qwen Image",
                     "pages": [
                       "en/api-reference/image-series/models/qwen-image-3-0"
@@ -624,6 +631,13 @@
                     "group": "Seedream",
                     "pages": [
                       "zh/api-reference/image-series/models/seedream-5-0-pro"
+                    ],
+                    "icon": "image"
+                  },
+                  {
+                    "group": "火山引擎",
+                    "pages": [
+                      "zh/api-reference/image-series/models/volc-image-upscale"
                     ],
                     "icon": "image"
                   },

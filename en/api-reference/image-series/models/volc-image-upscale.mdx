@@ -1,0 +1,26 @@
+---
+title: "VolcEngine Image Upscaling"
+sidebarTitle: "VolcEngine Image Upscaling"
+description: "Upscale one existing image to twice its width and height. No prompt is required."
+openapi: "openapi/ops/image/en/volc-image-upscale.json POST /v1/images/edits"
+---
+
+Upscale one existing image to twice its width and height. No prompt is required. API access only.
+
+## Specifications
+
+| Item | Specification |
+| --- | --- |
+| Model ID | `volc-image-upscale` |
+| Input Source | Provide one public HTTPS image URL that is accessible without authentication. The OmniMux API request still requires authentication. |
+| Supported Formats | Supported image formats: JPG, JPEG, PNG, BMP. |
+| File Size | File size must not exceed 5 MB. |
+| Input Dimensions | Input width must be 50 to 2128 pixels and height 50 to 4064 pixels, inclusive. |
+| Magnification | Only fixed 2x upscaling is supported. Text-to-image generation, masks, multiple images, and custom output sizes are not supported. |
+| Result Validity | Upstream result URLs are valid for 24 hours and are not permanent. |
+
+## Billing Details
+
+- Official Baseline: 0.006 CNY / call.
+- Billing Mode: Fixed per-call billing (UsePrice).
+- Refund Protection: Upstream errors, timeouts, or empty image outputs trigger an immediate 100% refund of the reserved quota.
