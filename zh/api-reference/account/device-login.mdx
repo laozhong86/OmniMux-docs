@@ -9,9 +9,7 @@ api: "POST https://omnimux.ai/api/user/device/code"
 - **申请码与轮询换 token 无需鉴权**；浏览器侧批准/拒绝需已登录用户会话
 - 换取的 `access_token` 用于后续 `https://omnimux.ai` 用户接口，不用于收费模型生成请求
 
-<Warning>
-  下述限定权限设备凭据行为为第 3 批发布草稿，尚非部署公告。
-</Warning>
+下述限定权限设备凭据行为已于 **2026 年 10 月 4 日上线**。
 
 ## 身份
 
@@ -41,7 +39,7 @@ Base URL：`https://omnimux.ai`
 
 网关 AI / 社交数据仍使用 `https://api.omnimux.ai` 的 `sk-` 令牌，与设备码 access token **不是同一套凭证**。见 [连接与使用](/zh/faqs/connection-usage)。
 
-## 限定权限设备批准——发布草稿
+## 限定权限设备批准
 
 浏览器须核对**准确设备码**，并完成 `cli.device.approve` 专用安全验证。它与手动创建凭据不是同一个操作。验证内容绑定 `device_flow_id`、规范化的 `user_code`、授权 `scopes` 和凭据的绝对到期时间 `expires_at`。原样使用服务端返回的信息，不在客户端重算期限或扩大权限。换设备、账户、会话、权限或到期时间的证明不能批准本次请求。批准和拒绝都仅限浏览器会话，个人凭据不能批准其他设备。
 
@@ -49,7 +47,7 @@ Base URL：`https://omnimux.ai`
 
 新设备登录成功时只替换该用户的**设备凭据槽**，并清除旧单凭据，保留独立手动创建的个人凭据。设备槽被替换后，原设备凭据失效，使用它的其他设备须重新登录。过期或撤销后也须重新执行设备码登录，不会无声签发永久凭据。
 
-原 CLI 响应字段 `access_token`、`user_id`、`username`、`token_type` 保持不变，原客户端可保存新的 `nap_` 字符串，无须因返回格式升级客户端；这不代表所有外部客户端的业务流程都已实测。明文只签发一次，之后无法从列表再次取回。仍持有旧单凭据的客户端须在统一过渡截止前重新登录。
+原 CLI 响应字段 `access_token`、`user_id`、`username`、`token_type` 保持不变，原客户端可保存新的 `nap_` 字符串，无须因返回格式升级客户端；这不代表所有外部客户端的业务流程都已实测。明文只签发一次，之后无法从列表再次取回。仍持有旧单凭据的客户端须在 **2026 年 11 月 3 日 13:52:36 UTC**（`2026-11-03T13:52:36Z`）统一截止前重新登录。
 
 ## 请求体 / 参数
 
@@ -58,7 +56,7 @@ Base URL：`https://omnimux.ai`
 | 字段 | 类型 | 必填 | 说明 |
 | --- | --- | --- | --- |
 | `client_name` | string | 否 | 客户端标识（如 `my-cli`）；不带 `user_code` 时申请新设备流程 |
-| `user_code` | string | 否 | 候选版本：查询已有待批准流程的公开验证信息；不创建新流程，也不返回设备保密码 |
+| `user_code` | string | 否 | 查询已有待批准流程的公开验证信息；不创建新流程，也不返回设备保密码 |
 
 ### `POST /api/user/device/token`
 
@@ -81,8 +79,8 @@ Base URL：`https://omnimux.ai`
 | `data.verification_uri_complete` | 预填 `user_code` 的完整 URL |
 | `data.expires_in` | 有效期（秒，默认 900） |
 | `data.interval` | 建议轮询间隔（秒） |
-| `data.verification_scope` | 候选版本：`cli.device.approve` |
-| `data.verification_context` | 候选版本：准确设备流程 ID、规范化用户码、授权权限和凭据绝对到期时间；原样传给安全验证 |
+| `data.verification_scope` | `cli.device.approve` |
+| `data.verification_context` | 准确设备流程 ID、规范化用户码、授权权限和凭据绝对到期时间；原样传给安全验证 |
 
 ### 步骤 3 · 成功（已批准）
 

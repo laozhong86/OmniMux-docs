@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "id": "2026-10-04-scoped-personal-access-tokens",
+  "published_at": "2026-10-04",
+  "type": "platform",
+  "modality": [
+    "platform"
+  ],
+  "title": {
+    "en": "Scoped personal access tokens and device login",
+    "zh": "个人限定权限访问凭据与设备码登录"
+  },
+  "summary": {
+    "en": "Released on October 4, 2026: personal permissions, one-time secrets, explicit expiry, and device-specific browser approval. Legacy credentials retire on November 3, 2026 at 13:52:36 UTC; no new model or price announcement.",
+    "zh": "2026 年 10 月 4 日上线：个人权限选择、明文仅一次、明确有效期与浏览器准确设备批准。旧凭据于 2026 年 11 月 3 日 13:52:36 UTC 停用；不宣告新模型或价格。"
+  },
+  "models": [],
+  "links": [
+    {
+      "label": {
+        "en": "Security and keys",
+        "zh": "安全与密钥"
+      },
+      "href": {
+        "en": "/en/faqs/security",
+        "zh": "/zh/faqs/security"
+      }
+    },
+    {
+      "label": {
+        "en": "Device Code Login",
+        "zh": "设备码登录"
+      },
+      "href": {
+        "en": "/en/api-reference/account/device-login",
+        "zh": "/zh/api-reference/account/device-login"
+      }
+    }
+  ],
+  "tags": [
+    "auth",
+    "device-login"
+  ],
+  "body": {
+    "en": "**Deployed on October 4, 2026.**\n\n## Personal access tokens\n\nThe release introduces named `nap_` personal tokens with selected permissions, independent revocation, and a secret returned only once. The browser creation form defaults to 30 days; never-expiring manual tokens require an explicit selection and warning. Token creation rejects an omitted or null expires_at rather than silently issuing a permanent credential. Token and browser-session management require a logged-in browser session. These credentials do not replace `sk-` keys for billed model requests. Existing `New-Api-User` headers may remain for compatibility but do not participate in authentication.\n\n## Device login and migration\n\nDevice approval uses browser-only verification bound to the exact device, account/session, permissions, and expiry. Device tokens have a fixed 30-day expiry and personal business grants, without administrator/system or wallet-write permissions. A successful new login replaces only the device-token slot and the old single credential, preserving manual tokens. Existing CLI response fields remain unchanged. Legacy single access tokens have one shared retirement deadline, initialized once as 30 days later. The production deadline is **November 3, 2026 at 13:52:36 UTC** (`2026-11-03T13:52:36Z`); affected clients must sign in again rather than expect automatic conversion.\n\n## Small compatibility fixes\n\nThe release preserves an explicitly disabled Responses WebSocket channel setting when saved and reopened. Unchanged saved pricing expressions/overrides can be retained under the supported usage-profile narrowing conditions. When removed fields prevent a safe visual conversion, the original expression is kept rather than guessing a replacement price. This is not a new price or a claim that all charges remain equivalent.\n\nThis release does not announce model launches, paid-generation acceptance, or later moejs work.",
+    "zh": "**已于 2026 年 10 月 4 日部署。**\n\n## 个人访问凭据\n\n本次发布引入可命名的 `nap_` 个人凭据，可选择权限、独立撤销，明文只返回一次。浏览器创建表单默认 30 天；手动凭据要永不过期须明确选择并看到风险提示。创建时漏填 expires_at 或传 null 会被拒绝，不会无声签发永久凭据。凭据管理和浏览器会话管理均需要已登录浏览器。这套凭据不能替代用于收费模型请求的 `sk-`。旧 `New-Api-User` 请求头可为兼容保留，但不参与鉴权。\n\n## 设备登录与迁移\n\n设备批准使用浏览器专用安全验证，绑定准确设备、账户及会话、权限和到期时间。设备凭据固定 30 天，只授予个人业务权限，不含管理员、系统或钱包写入权限。新登录成功只替换设备凭据槽及旧单凭据，保留手动凭据。原 CLI 响应字段保持不变。旧单访问凭据采用首次初始化起 30 天后的统一停用时间。生产环境截止为 **2026 年 11 月 3 日 13:52:36 UTC**（`2026-11-03T13:52:36Z`）；受影响客户端须重新登录，不能期待自动转换。\n\n## 必要兼容小修\n\n本次发布保存并重开渠道设置时保留明确关闭的 Responses WebSocket 值。符合用量范围缩窄条件时，可保留原样已保存定价表达式及覆盖价。已移除字段导致无法安全转为可视化编辑时，保留原式，不猜测替代价格。这不代表新价格，也不承诺所有场景扣费自然等价。\n\n本次发布不宣告模型上新、真实收费生成验收或后续 moejs 工作。"
+  }
+}

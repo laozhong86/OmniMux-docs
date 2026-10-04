@@ -20,11 +20,9 @@ description: "API keys, scoped personal access tokens, and safe credential stora
 
 Do not replace a gateway `sk-` key with a user access token. The personal-token permissions below restrict access to existing features; they do not launch models, change prices, or grant administrator access.
 
-## Scoped personal access tokens — release draft
+## Scoped personal access tokens
 
-<Warning>
-  This section describes the batch-3 release candidate. It is not a deployment announcement. Keep using the currently deployed sign-in flow until this release is confirmed.
-</Warning>
+Scoped personal access tokens and the device-login behavior below are available as of **October 4, 2026**.
 
 ### Create and manage a token
 
@@ -63,7 +61,7 @@ A missing/invalid, expired, or revoked token cannot authorize a request. A valid
 
 Legacy single access tokens have **one service-wide retirement deadline**, set when the upgraded service first initializes it: 30 days later. Restarting the service or adding another node does not extend it. This is not a fresh 30-day period for each client or each request, and reaching the deadline does not erase the old stored record.
 
-Before the deadline, reconnect automation using a new scoped token or [device login](/en/api-reference/account/device-login). After the deadline, a client holding the old token must **sign in again**. Old tokens are not automatically converted to new tokens. This migration does not retire `sk-` gateway keys, and changing `New-Api-User` cannot bypass it. No actual retirement date is announced in this unreleased draft.
+Before the deadline, reconnect automation using a new scoped token or [device login](/en/api-reference/account/device-login). After the deadline, a client holding the old token must **sign in again**. Old tokens are not automatically converted to new tokens. This migration does not retire `sk-` gateway keys, and changing `New-Api-User` cannot bypass it. The production retirement deadline is **November 3, 2026 at 13:52:36 UTC** (`2026-11-03T13:52:36Z`).
 
 ## Hygiene
 
