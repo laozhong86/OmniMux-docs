@@ -36,7 +36,7 @@ Base URL: `https://omnimux.ai`
 | Step | Requirement |
 | --- | --- |
 | `device/code` · `device/token` | **No** `Authorization` / `New-Api-User` |
-| `device/approve` · `device/deny` | Logged-in user (console session); body includes `user_code` |
+| `device/approve` · `device/deny` | Logged-in browser session; body includes `user_code`. Approval additionally sends the exact-device verification proof in `X-Security-Proof`; denial does not require a proof |
 | After token issued | Allowed user APIs: `Authorization: Bearer <access_token>`; `New-Api-User` is optional compatibility metadata and does not participate in authentication |
 
 AI gateway and social-data APIs still use `sk-` tokens on `https://api.omnimux.ai` — a different credential surface. See [Connection & usage](/en/faqs/connection-usage).

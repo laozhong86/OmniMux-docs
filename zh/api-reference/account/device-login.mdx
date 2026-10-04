@@ -36,7 +36,7 @@ Base URL：`https://omnimux.ai`
 | 步骤 | 要求 |
 | --- | --- |
 | `device/code` · `device/token` | **不需要** `Authorization` / `New-Api-User` |
-| `device/approve` · `device/deny` | 已登录用户（控制台会话）；body 含 `user_code` |
+| `device/approve` · `device/deny` | 已登录浏览器会话；请求体含 `user_code`。批准还须在 `X-Security-Proof` 传入准确设备的验证证明；拒绝不需要证明 |
 | 换得凭据之后 | 允许访问的用户接口：`Authorization: Bearer <access_token>`；`New-Api-User` 可为兼容保留，但不参与鉴权 |
 
 网关 AI / 社交数据仍使用 `https://api.omnimux.ai` 的 `sk-` 令牌，与设备码 access token **不是同一套凭证**。见 [连接与使用](/zh/faqs/connection-usage)。
