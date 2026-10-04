@@ -15,12 +15,12 @@
         "platform"
       ],
       "title": {
-        "en": "Unreleased: image routing and token reservation",
-        "zh": "未发布：图片选路与文本预扣调整"
+        "en": "Image routing and token reservation",
+        "zh": "图片选路与文本预扣调整"
       },
       "summary": {
-        "en": "Prepared gateway changes for request-scoped image groups, input-only token reservation, and passthrough precautions; deployment is not yet confirmed.",
-        "zh": "准备调整图片请求分组选路、仅按输入预估的文本预扣，并补充透传警告；尚未确认部署。"
+        "en": "Deployed request-scoped image groups and input-only token reservation; final prices are unchanged. Channel passthrough precautions are documented.",
+        "zh": "已部署图片请求分组选路与仅按输入预估的文本预扣，最终价格不变，并补充渠道透传注意事项。"
       },
       "models": [],
       "tags": [],
