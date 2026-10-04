@@ -61,7 +61,7 @@ A missing/invalid, expired, or revoked token cannot authorize a request. A valid
 
 Legacy single access tokens have **one service-wide retirement deadline**, set when the upgraded service first initializes it: 30 days later. Restarting the service or adding another node does not extend it. This is not a fresh 30-day period for each client or each request, and reaching the deadline does not erase the old stored record.
 
-Before the deadline, reconnect automation using a new scoped token or [device login](/en/api-reference/account/device-login). After the deadline, a client holding the old token must **sign in again**. Old tokens are not automatically converted to new tokens. This migration does not retire `sk-` gateway keys, and changing `New-Api-User` cannot bypass it. The production retirement deadline is **November 3, 2026 at 13:52:36 UTC** (`2026-11-03T13:52:36Z`).
+Before the deadline, reconnect automation using a new scoped token or [device login](/en/api-reference/account/device-login). After the deadline, a client holding the old token must **sign in again**. Old tokens are not automatically converted to new tokens. This migration does not retire `sk-` gateway keys, and changing `New-Api-User` cannot bypass it. The production retirement deadline, shared by all legacy clients, is **November 3, 2026 at 13:52:36 UTC** (`2026-11-03T13:52:36Z`).
 
 ## Hygiene
 
