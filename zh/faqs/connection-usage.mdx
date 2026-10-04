@@ -9,9 +9,9 @@ description: "Base URL、鉴权与常见 HTTP 错误"
 | 场景 | Base |
 | --- | --- |
 | AI 网关 / 社交数据（`sk-`） | `https://api.omnimux.ai` 或客户端常用 `https://api.omnimux.ai/v1` |
-| 社媒发布 / 设备码用户 API | `https://omnimux.ai`（需 access token + `New-Api-User`） |
+| 社媒发布 / 设备码用户 API | `https://omnimux.ai`（`Authorization: Bearer <access_token>`） |
 
-不要混用两套域名与两套凭证。
+不要混用两套域名与两套凭据。[限定权限访问凭据发布草稿](/zh/faqs/security)尚非部署公告；该候选版本中的 `nap_...` 只允许选定的用户接口权限。旧示例可为兼容保留 `New-Api-User`，但它不参与鉴权，也不能指定用户身份。
 
 ## 401 / 403 / 402 / 429 分别是什么？
 
@@ -23,6 +23,12 @@ description: "Base URL、鉴权与常见 HTTP 错误"
 | **429** | 触发限流，稍后重试 |
 
 各模型/合同页的 Response 示例含上述状态。
+
+### 个人凭据被拒绝时怎么办——发布草稿
+
+过期或已撤销的个人凭据不能靠修改请求头恢复。请在浏览器登录后创建替代凭据；设备凭据则重新执行设备码登录。旧单凭据到全服务统一的 30 天过渡截止时间后停止使用，客户端须重新登录，不应无限重试。
+
+权限拒绝时检查响应 `code`：`ACCESS_TOKEN_SCOPE_DENIED` 表示缺少所需权限，`AUTH_SESSION_REQUIRED` 表示必须使用浏览器会话，`ACCESS_TOKEN_ROUTE_UNDECLARED` 表示该路径不支持个人凭据。安全验证不能绕过这些限制。社媒发布的查询需要 `social:read`；连接、发布、上传媒体和同步需要 `social:write`。通俗权限说明见[安全与密钥](/zh/faqs/security)。
 
 ## OpenAI 文本接口的账户额度错误
 

@@ -1,27 +1,72 @@
 ---
 title: "Security and keys"
 sidebarTitle: "Security and keys"
-description: "API keys and access tokens"
+description: "API keys, scoped personal access tokens, and safe credential storage"
 ---
 
 ## Protect `sk-` keys
 
-- Never commit keys to public repos or ship them in frontend bundles  
-- Prefer env vars / secret managers  
-- Rotate immediately if leaked  
-- Separate keys for dev/stage/prod  
+- Never commit keys to public repos or ship them in frontend bundles
+- Prefer environment variables or secret managers
+- Rotate immediately if leaked
+- Separate keys for development, staging, and production
 
 ## Two credential surfaces
 
 | Credential | Use |
 | --- | --- |
-| `sk-` API key | Gateway inference, social-data reads |
-| User access token + `New-Api-User` | Device-login user APIs, publishing |
+| `sk-` API key | Model requests on `https://api.omnimux.ai`; requests can spend account quota |
+| Personal access token | Your user APIs on `https://omnimux.ai`, such as publishing and account queries; not a model-generation key |
 
-Do not mix them casually.
+Do not replace a gateway `sk-` key with a user access token. The personal-token permissions below restrict access to existing features; they do not launch models, change prices, or grant administrator access.
+
+## Scoped personal access tokens — release draft
+
+<Warning>
+  This section describes the batch-3 release candidate. It is not a deployment announcement. Keep using the currently deployed sign-in flow until this release is confirmed.
+</Warning>
+
+### Create and manage a token
+
+Sign in in the browser, open the account security page, and create an access token with a recognizable name, only the permissions you need, and an expiration date. The form defaults to **30 days**. A non-expiring manual token requires explicitly selecting **Never expires**, which displays a warning; the default is not permanent.
+
+The full `nap_...` value is returned **only once**, when created. Copy it into private storage before closing the dialog. Later lists show the name, permissions, expiration, usage information, and a masked hint, not the full secret. If you lose it, create a replacement; it cannot be revealed again.
+
+Each manual token can be revoked independently. Revoking one does not revoke your other manual tokens. Token listing, creation, renaming, and revocation require a **logged-in browser session**; a token cannot create or revoke another token. Browser-session management and playground generation also remain browser-only. Creating or revoking a token requires security verification for that exact action; verification does not grant additional permissions.
+
+The personal-token management API is `/api/user/access_tokens`, with `/catalog` for currently selectable permissions and `/scopes` for permission labels. Creation requires an explicit `expires_at`: omission or `null` is rejected; `0` is an explicit non-expiring choice, not the default. It is browser-only, not a new administration API. Do not use the retired single-token creation flow at `/api/user/token` to provision new credentials.
+
+### Choose permissions by purpose
+
+`read` means viewing or querying; `write` means changing or creating the named resource. `api_key:reveal` separately allows reading complete **gateway API keys**, not revealing a personal token again. Granting this permission can expose keys that spend quota.
+
+| Resource | Permission examples | What it covers |
+| --- | --- | --- |
+| Your profile | `profile:read` | Your profile, groups, and available models |
+| Gateway API keys | `api_key:read`, `api_key:write`, `api_key:reveal` | Key settings; creating/editing/deleting keys; revealing full keys |
+| Your usage | `usage:read` | Usage logs, statistics, tasks, and audit records |
+| Social publishing | `social:read`, `social:write` | Connected accounts, posts, and analytics; connecting/disconnecting, publishing, media upload, and syncing |
+| Hosted channels | `hosted:read`, `hosted:write` | Your orders, channels, and tasks; ordering/renewing, brand changes, tasks, and media upload |
+| Inspiration library | `inspiration:read`, `inspiration:write` | Private queries and media; creating direct-link shares, not editing the managed library |
+| Your files | `files:read`, `files:write` | Storage quota; uploads and upload tickets. `/api/v1/files` and `/v1/files` use the same permissions |
+| Influencer workbench categories | `influencer:read` | Category lookup, not a generation permission |
+
+The browser catalog is the authority for permissions you can currently select. A token never expands your account role, resource ownership, or balance. A read-only token cannot make a write request. Existing business charges still apply to operations such as publishing or ordering; granting a permission does not make them free.
+
+### Send the right credential
+
+For an allowed user API, send `Authorization: Bearer <personal_access_token>` to `https://omnimux.ai`. The credential determines the user. Older examples may retain `New-Api-User: <user_id>` for client compatibility, but this header **does not participate in authentication**, select another user, or grant a permission.
+
+A missing/invalid, expired, or revoked token cannot authorize a request. A valid token with insufficient permissions, a browser-only route, or a route not declared for personal-token use is denied. See [Connection and usage](/en/faqs/connection-usage) for recovery guidance.
+
+### Existing single-token credentials
+
+Legacy single access tokens have **one service-wide retirement deadline**, set when the upgraded service first initializes it: 30 days later. Restarting the service or adding another node does not extend it. This is not a fresh 30-day period for each client or each request, and reaching the deadline does not erase the old stored record.
+
+Before the deadline, reconnect automation using a new scoped token or [device login](/en/api-reference/account/device-login). After the deadline, a client holding the old token must **sign in again**. Old tokens are not automatically converted to new tokens. This migration does not retire `sk-` gateway keys, and changing `New-Api-User` cannot bypass it. No actual retirement date is announced in this unreleased draft.
 
 ## Hygiene
 
-- Limit automation tokens to required models/groups  
-- Never log full secrets  
+- Keep both credential types out of logs and screenshots
+- Limit permissions, models, and groups to the actual task
 - Use `<token>` placeholders in shared examples

@@ -7,7 +7,11 @@ api: "POST https://omnimux.ai/api/user/device/code"
 
 - Account management user API (CLI / headless login)
 - **Code request and token poll need no auth**; approve/deny need a logged-in browser session
-- The returned `access_token` is for `https://omnimux.ai` user APIs (with `New-Api-User`)
+- The returned `access_token` is for `https://omnimux.ai` user APIs, not paid model-generation requests
+
+<Warning>
+  The scoped device-token behavior below is a batch-3 release draft, not a deployment announcement.
+</Warning>
 
 ## Identity
 
@@ -33,9 +37,19 @@ Base URL: `https://omnimux.ai`
 | --- | --- |
 | `device/code` · `device/token` | **No** `Authorization` / `New-Api-User` |
 | `device/approve` · `device/deny` | Logged-in user (console session); body includes `user_code` |
-| After token issued | Other user APIs: `Authorization: Bearer <access_token>` + `New-Api-User: <user_id>` |
+| After token issued | Allowed user APIs: `Authorization: Bearer <access_token>`; `New-Api-User` is optional compatibility metadata and does not participate in authentication |
 
 AI gateway and social-data APIs still use `sk-` tokens on `https://api.omnimux.ai` — a different credential surface. See [Connection & usage](/en/faqs/connection-usage).
+
+## Scoped device approval — release draft
+
+The browser must confirm the **exact device code** and complete security verification for `cli.device.approve`. This operation is separate from manual token creation. The verification context binds `device_flow_id`, normalized `user_code`, the granted `scopes`, and the token's absolute `expires_at`. Use the metadata returned by the server unchanged; do not calculate a new deadline or broaden permissions in the client. A proof for another device, account, session, permission set, or expiry cannot approve this request. Both approval and denial are browser-session-only; personal tokens cannot approve other devices.
+
+The new device token expires **30 days from device-flow creation**. It grants personal business permissions only, even when an administrator signs in: profile lookup; gateway-key management and full-key access; social publishing; hosted channels; inspiration queries/sharing; and file uploads. The exact grant is `api_key:read`, `api_key:reveal`, `api_key:write`, `files:read`, `files:write`, `hosted:read`, `hosted:write`, `inspiration:read`, `inspiration:write`, `profile:read`, `social:read`, and `social:write`. It does **not** grant `usage:read`, `influencer:read`, administrator/system permissions, wallet writes, profile writes, account-security changes, or playground generation. See the [permission guide](/en/faqs/security). Existing ownership, role, and billing checks still apply.
+
+A successful new device login replaces only that user's **device-token slot** and clears the old single-token credential. It preserves independently created manual personal tokens. Replacing the device slot invalidates the prior device token, so other devices using it must sign in again. Expiry or revocation also requires another device login; no permanent credential is silently issued.
+
+The existing CLI response fields `access_token`, `user_id`, `username`, and `token_type` remain unchanged. Existing clients can store the new `nap_` string without a client-format bump; this does not promise that every external client's business flow has been verified. The secret is issued once and cannot later be revealed from the token list. Legacy clients still holding a single-token credential must sign in again by the shared transition deadline.
 
 ## Body / parameters
 
@@ -43,7 +57,8 @@ AI gateway and social-data APIs still use `sk-` tokens on `https://api.omnimux.a
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `client_name` | string | no | Client label (e.g. `my-cli`) |
+| `client_name` | string | no | Client label (e.g. `my-cli`); omitting `user_code` requests a new device flow |
+| `user_code` | string | no | Release candidate: look up an existing pending flow's public verification metadata; does not create another flow or return its device secret |
 
 ### `POST /api/user/device/token`
 
@@ -66,14 +81,16 @@ Poll at the response `interval` (default ~5s); polling faster returns `slow_down
 | `data.verification_uri_complete` | URL with prefilled `user_code` |
 | `data.expires_in` | Lifetime in seconds (default 900) |
 | `data.interval` | Recommended poll interval (seconds) |
+| `data.verification_scope` | Release candidate: `cli.device.approve` |
+| `data.verification_context` | Release candidate: exact device-flow ID, normalized user code, selected permissions, and absolute token expiry; pass unchanged to security verification |
 
 ### Step 3 · success (approved)
 
 | Field | Description |
 | --- | --- |
-| `data.access_token` | System access token (PAT) |
+| `data.access_token` | Scoped personal access token beginning with `nap_`; store the returned secret privately |
 | `data.token_type` | `Bearer` |
-| `data.user_id` | User id (use as `New-Api-User`) |
+| `data.user_id` | Signed-in user ID; existing clients may keep it without using it as authentication |
 | `data.username` | Username |
 
 ### Step 3 · pending / errors (often HTTP 200 with `success: false`)
