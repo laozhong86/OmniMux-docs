@@ -7,6 +7,52 @@ rss: true
 
 跟踪 OmniMux 网关的模型上新与平台变更。完整可调用模型以[控制台定价](https://omnimux.ai) / [定价与账户](/zh/api-reference/account/pricing)为准。
 
+<a id="2026-10-04-image-routing-token-reservation"></a>
+
+<Update label="2026 年 10 月 4 日" tags={["平台", "文本", "图像"]} rss={{ title: "未发布：图片选路与文本预扣调整" }}>
+
+  ## 发布状态
+
+  **未发布的分支草案。** 展示日期为草案准备日期，不是正式发布日期。本条为待发布说明，不是部署确认、新模型上架公告或真实收费生成通过报告。
+
+  ## 接入变化
+
+  - 图片请求通过 `model@group` 或 `X-Omnimux-Group` 选择有权限的单请求分组，请求头优先。匹配的已启用图片插件可承接请求，未被承接的请求保留兼容图片处理；响应与轮询能力以已发布模型合同为准。
+  - 需要文本预扣时，按预计输入费用乘以配置倍率预留额度，倍率默认 1，不再加入输出长度上限。本项改变预留金额，不改变最终单价或实际用量结算；固定按次和任务用量计费不受该倍率影响。
+  - 请求体透传绕过通常的改写与格式转换；请求头透传可能把客户端信息和自定义请求头交给上游，渠道明确配置的覆盖规则优先。
+
+  新增内置插件能力不会自动把模型上架可售。可用性和价格须由实时目录及部署后实际生效配置确认，实际生成输出与扣费对账须另有验收证据。
+
+  ### 链接
+
+  - [成本优化](/zh/faqs/cost-optimization)
+  - [连接与使用](/zh/faqs/connection-usage)
+
+</Update>
+
+<a id="2026-10-01-volc-image-upscale"></a>
+
+<Update label="2026 年 10 月 1 日" tags={["新模型", "图像"]} rss={{ title: "火山引擎 图片超分" }}>
+
+  ## 火山引擎 图片超分
+
+  **火山引擎 图片超分**（`volc-image-upscale`）已接入 OmniMux。
+
+  ### 模型详情
+
+  - **模型 ID：** `volc-image-upscale`
+  - **接口：** `POST /v1/images/edits`
+  - **模态：** 图像超分辨率（固定 2 倍放大）
+  - **定价：** 0.006 元/次
+
+  请求规格与参数说明见各模型文档页。
+
+  ### 链接
+
+  - [火山引擎 图片超分](/zh/api-reference/image-series/models/volc-image-upscale)
+
+</Update>
+
 <a id="2026-09-22-deepseek-flash"></a>
 
 <Update label="2026 年 9 月 22 日" tags={["新模型", "文本"]} rss={{ title: "DeepSeek Flash（deepseek-flash）正式上线" }}>

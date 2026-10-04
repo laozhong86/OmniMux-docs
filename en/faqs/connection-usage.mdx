@@ -41,6 +41,18 @@ A streaming request receives the same JSON error **before** an SSE stream starts
 
 This normalization is limited to local account-quota failures on these endpoints. Token validity/quota errors, upstream provider errors, and other API protocols keep their existing contracts. A genuine 401 or permission 403 still requires an authentication/access check; an ordinary 429 remains a rate-limit response.
 
+## Unreleased: channel passthrough precautions
+
+<Warning>
+  These channel-setting changes are prepared but not yet confirmed deployed. Passthrough is controlled by the service operator, not enabled by an ordinary API caller.
+</Warning>
+
+**Body passthrough** forwards the request body without the usual gateway rewriting. Do not rely on model redirection, parameter overrides, injected system prompts, or format conversion in that mode; the client must use a format and model name the upstream supports. Use `X-Omnimux-Group` for group selection when the upstream does not understand a `model@group` suffix.
+
+**Header passthrough** can disclose client version, session information, User-Agent, IP-related headers, and custom header values to the upstream. The wildcard/regex forwarding rules exclude standard authentication, cookie, and transport headers; this is not a guarantee that every custom secret header is filtered. Do not put secrets or unnecessary personal information in custom headers. Forwarded headers can override gateway defaults and cause upstream errors; explicit channel header overrides take precedence.
+
+A successful connection or a model listed locally is not proof of successful generation, availability in a particular group, or correct billing. Use the live catalog and the published model contract, and verify the actual output and final charge for your integration.
+
 ## Unexpected content
 
 - Use live model ids  

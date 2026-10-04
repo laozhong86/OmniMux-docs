@@ -7,6 +7,52 @@ rss: true
 
 Stay up to date with OmniMux gateway model launches and platform changes. The full callable catalog is on [console pricing](https://omnimux.ai) / [Pricing](/en/api-reference/account/pricing).
 
+<a id="2026-10-04-image-routing-token-reservation"></a>
+
+<Update label="October 4, 2026" tags={["Platform", "Text", "Image"]} rss={{ title: "Unreleased: image routing and token reservation" }}>
+
+  ## Release status
+
+  **Unreleased branch draft.** The date shown is the draft preparation date, not a public release date. This entry is a prepared change notice, not a deployment confirmation, model launch, or successful paid-generation report.
+
+  ## Integration changes
+
+  - Image requests use `model@group` or `X-Omnimux-Group` for an allowed request-scoped group; the header takes precedence. Matching enabled image plugins can handle requests, while unclaimed requests retain compatible image processing. Published model contracts determine response and polling support.
+  - Where token precharge applies, the reservation is estimated input cost multiplied by the configured reservation multiplier, default 1. Output limits are not included. This changes reservation size, not final unit prices or actual-usage settlement; fixed per-call and task-usage billing are not affected by this multiplier.
+  - Body passthrough bypasses normal rewriting and conversion. Header passthrough can expose client information and custom headers to the upstream; explicit channel header overrides take precedence.
+
+  New built-in plugin capabilities do not automatically publish models for sale. Availability and pricing require the live catalog and effective deployed configuration; actual generated output and reconciled charges require separate acceptance evidence.
+
+  ### Links
+
+  - [Cost optimization](/en/faqs/cost-optimization)
+  - [Connection and usage](/en/faqs/connection-usage)
+
+</Update>
+
+<a id="2026-10-01-volc-image-upscale"></a>
+
+<Update label="October 1, 2026" tags={["New models", "Image"]} rss={{ title: "VolcEngine Image Upscaling" }}>
+
+  ## VolcEngine Image Upscaling
+
+  **VolcEngine Image Upscaling** (`volc-image-upscale`) is integrated on OmniMux.
+
+  ### Model Details
+
+  - **Model ID:** `volc-image-upscale`
+  - **Endpoint:** `POST /v1/images/edits`
+  - **Modality:** image super-resolution (fixed 2x upscaling)
+  - **Pricing:** 0.006 CNY / call
+
+  See the model reference page for specifications and parameters.
+
+  ### Links
+
+  - [VolcEngine Image Upscaling](/en/api-reference/image-series/models/volc-image-upscale)
+
+</Update>
+
 <a id="2026-09-22-deepseek-flash"></a>
 
 <Update label="September 22, 2026" tags={["New models", "Text"]} rss={{ title: "DeepSeek Flash (deepseek-flash) is now live" }}>

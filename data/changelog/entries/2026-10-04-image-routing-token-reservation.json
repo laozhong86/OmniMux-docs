@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "id": "2026-10-04-image-routing-token-reservation",
+  "published_at": "2026-10-04",
+  "rank": 0,
+  "type": "platform",
+  "modality": [
+    "text",
+    "image",
+    "platform"
+  ],
+  "title": {
+    "en": "Unreleased: image routing and token reservation",
+    "zh": "未发布：图片选路与文本预扣调整"
+  },
+  "summary": {
+    "en": "Prepared gateway changes for request-scoped image groups, input-only token reservation, and passthrough precautions; deployment is not yet confirmed.",
+    "zh": "准备调整图片请求分组选路、仅按输入预估的文本预扣，并补充透传警告；尚未确认部署。"
+  },
+  "models": [],
+  "links": [
+    {
+      "label": {
+        "en": "Cost optimization",
+        "zh": "成本优化"
+      },
+      "href": {
+        "en": "/en/faqs/cost-optimization",
+        "zh": "/zh/faqs/cost-optimization"
+      }
+    },
+    {
+      "label": {
+        "en": "Connection and usage",
+        "zh": "连接与使用"
+      },
+      "href": {
+        "en": "/en/faqs/connection-usage",
+        "zh": "/zh/faqs/connection-usage"
+      }
+    }
+  ],
+  "tags": [],
+  "body": {
+    "en": "## Release status\n\n**Unreleased branch draft.** The date shown is the draft preparation date, not a public release date. This entry is a prepared change notice, not a deployment confirmation, model launch, or successful paid-generation report.\n\n## Integration changes\n\n- Image requests use `model@group` or `X-Omnimux-Group` for an allowed request-scoped group; the header takes precedence. Matching enabled image plugins can handle requests, while unclaimed requests retain compatible image processing. Published model contracts determine response and polling support.\n- Where token precharge applies, the reservation is estimated input cost multiplied by the configured reservation multiplier, default 1. Output limits are not included. This changes reservation size, not final unit prices or actual-usage settlement; fixed per-call and task-usage billing are not affected by this multiplier.\n- Body passthrough bypasses normal rewriting and conversion. Header passthrough can expose client information and custom headers to the upstream; explicit channel header overrides take precedence.\n\nNew built-in plugin capabilities do not automatically publish models for sale. Availability and pricing require the live catalog and effective deployed configuration; actual generated output and reconciled charges require separate acceptance evidence.",
+    "zh": "## 发布状态\n\n**未发布的分支草案。** 展示日期为草案准备日期，不是正式发布日期。本条为待发布说明，不是部署确认、新模型上架公告或真实收费生成通过报告。\n\n## 接入变化\n\n- 图片请求通过 `model@group` 或 `X-Omnimux-Group` 选择有权限的单请求分组，请求头优先。匹配的已启用图片插件可承接请求，未被承接的请求保留兼容图片处理；响应与轮询能力以已发布模型合同为准。\n- 需要文本预扣时，按预计输入费用乘以配置倍率预留额度，倍率默认 1，不再加入输出长度上限。本项改变预留金额，不改变最终单价或实际用量结算；固定按次和任务用量计费不受该倍率影响。\n- 请求体透传绕过通常的改写与格式转换；请求头透传可能把客户端信息和自定义请求头交给上游，渠道明确配置的覆盖规则优先。\n\n新增内置插件能力不会自动把模型上架可售。可用性和价格须由实时目录及部署后实际生效配置确认，实际生成输出与扣费对账须另有验收证据。"
+  }
+}
