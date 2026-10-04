@@ -16,7 +16,7 @@ This guide covers: create an API key → set the Base URL → send a request.
   <Step title="Create an API key">
     Sign in to the [console](https://omnimux.ai/dashboard), open **Tokens / API Keys**, and create a key.
 
-    Keys look like `sk-...`. Store them only on the server or in private environment variables — never in frontend code or public repos.
+    Keys look like `sk-...` and authorize model requests that can spend quota. Store them only on the server or in private environment variables — never in frontend code or public repos. A `nap_...` personal access token is for user APIs, not a replacement for this key. The [scoped-token guide](/en/faqs/security) explains permission selection, expiry, and migration from legacy credentials.
   </Step>
 
   <Step title="Set the Base URL">

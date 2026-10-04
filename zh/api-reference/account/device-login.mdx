@@ -7,7 +7,9 @@ api: "POST https://omnimux.ai/api/user/device/code"
 
 - 账户管理用户 API（CLI / 无头环境登录）
 - **申请码与轮询换 token 无需鉴权**；浏览器侧批准/拒绝需已登录用户会话
-- 换取的 `access_token` 用于后续 `https://omnimux.ai` 用户 API（配合 `New-Api-User`）
+- 换取的 `access_token` 用于后续 `https://omnimux.ai` 用户接口，不用于收费模型生成请求
+
+下述限定权限设备凭据行为已于 **2026 年 10 月 4 日上线**。
 
 ## 身份
 
@@ -32,10 +34,20 @@ Base URL：`https://omnimux.ai`
 | 步骤 | 要求 |
 | --- | --- |
 | `device/code` · `device/token` | **不需要** `Authorization` / `New-Api-User` |
-| `device/approve` · `device/deny` | 已登录用户（控制台会话）；body 含 `user_code` |
-| 换得 token 之后 | 其他用户 API：`Authorization: Bearer <access_token>` + `New-Api-User: <user_id>` |
+| `device/approve` · `device/deny` | 已登录浏览器会话；请求体含 `user_code`。批准还须在 `X-Security-Proof` 传入准确设备的验证证明；拒绝不需要证明 |
+| 换得凭据之后 | 允许访问的用户接口：`Authorization: Bearer <access_token>`；`New-Api-User` 可为兼容保留，但不参与鉴权 |
 
 网关 AI / 社交数据仍使用 `https://api.omnimux.ai` 的 `sk-` 令牌，与设备码 access token **不是同一套凭证**。见 [连接与使用](/zh/faqs/connection-usage)。
+
+## 限定权限设备批准
+
+浏览器须核对**准确设备码**，并完成 `cli.device.approve` 专用安全验证。它与手动创建凭据不是同一个操作。验证内容绑定 `device_flow_id`、规范化的 `user_code`、授权 `scopes` 和凭据的绝对到期时间 `expires_at`。原样使用服务端返回的信息，不在客户端重算期限或扩大权限。换设备、账户、会话、权限或到期时间的证明不能批准本次请求。批准和拒绝都仅限浏览器会话，个人凭据不能批准其他设备。
+
+新设备凭据在**设备登录流程创建起 30 天**到期。即使管理员登录，也只授予个人业务权限：查询本人资料；管理和读取完整网关密钥；社媒发布；托管频道；灵感查询与分享；文件上传。准确权限为 `api_key:read`、`api_key:reveal`、`api_key:write`、`files:read`、`files:write`、`hosted:read`、`hosted:write`、`inspiration:read`、`inspiration:write`、`profile:read`、`social:read`、`social:write`。**不**授予 `usage:read`、`influencer:read`、管理员、系统、钱包写入、资料修改、账户安全修改或试用区生成权限。通俗说明见[权限指南](/zh/faqs/security)。已有资源归属、角色和计费检查仍有效。
+
+新设备登录成功时只替换该用户的**设备凭据槽**，并清除旧单凭据，保留独立手动创建的个人凭据。设备槽被替换后，原设备凭据失效，使用它的其他设备须重新登录。过期或撤销后也须重新执行设备码登录，不会无声签发永久凭据。
+
+原 CLI 响应字段 `access_token`、`user_id`、`username`、`token_type` 保持不变，原客户端可保存新的 `nap_` 字符串，无须因返回格式升级客户端；这不代表所有外部客户端的业务流程都已实测。明文只签发一次，之后无法从列表再次取回。仍持有旧单凭据的客户端须在 **2026 年 11 月 3 日 13:52:36 UTC**（`2026-11-03T13:52:36Z`）统一截止前重新登录。
 
 ## 请求体 / 参数
 
@@ -43,7 +55,8 @@ Base URL：`https://omnimux.ai`
 
 | 字段 | 类型 | 必填 | 说明 |
 | --- | --- | --- | --- |
-| `client_name` | string | 否 | 客户端标识（如 `my-cli`） |
+| `client_name` | string | 否 | 客户端标识（如 `my-cli`）；不带 `user_code` 时申请新设备流程 |
+| `user_code` | string | 否 | 查询已有待批准流程的公开验证信息；不创建新流程，也不返回设备保密码 |
 
 ### `POST /api/user/device/token`
 
@@ -66,14 +79,16 @@ Base URL：`https://omnimux.ai`
 | `data.verification_uri_complete` | 预填 `user_code` 的完整 URL |
 | `data.expires_in` | 有效期（秒，默认 900） |
 | `data.interval` | 建议轮询间隔（秒） |
+| `data.verification_scope` | `cli.device.approve` |
+| `data.verification_context` | 准确设备流程 ID、规范化用户码、授权权限和凭据绝对到期时间；原样传给安全验证 |
 
 ### 步骤 3 · 成功（已批准）
 
 | 字段 | 说明 |
 | --- | --- |
-| `data.access_token` | 系统 access token（PAT） |
+| `data.access_token` | `nap_` 开头的限定权限个人访问凭据；私密保存本次返回的明文 |
 | `data.token_type` | `Bearer` |
-| `data.user_id` | 用户 id（后续作 `New-Api-User`） |
+| `data.user_id` | 已登录用户 ID；原客户端可保留，不用它作为鉴权依据 |
 | `data.username` | 用户名 |
 
 ### 步骤 3 · 进行中 / 错误（HTTP 多为 200 + `success: false`）

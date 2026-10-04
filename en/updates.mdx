@@ -7,6 +7,33 @@ rss: true
 
 Stay up to date with OmniMux gateway model launches and platform changes. The full callable catalog is on [console pricing](https://omnimux.ai) / [Pricing](/en/api-reference/account/pricing).
 
+<a id="2026-10-04-scoped-personal-access-tokens"></a>
+
+<Update label="October 4, 2026" tags={["Platform"]} rss={{ title: "Scoped personal access tokens and device login" }}>
+
+  **Deployed on October 4, 2026.**
+
+  ## Personal access tokens
+
+  The release introduces named `nap_` personal tokens with selected permissions, independent revocation, and a secret returned only once. The browser creation form defaults to 30 days; never-expiring manual tokens require an explicit selection and warning. Token creation rejects an omitted or null expires_at rather than silently issuing a permanent credential. Token and browser-session management require a logged-in browser session. These credentials do not replace `sk-` keys for billed model requests. Existing `New-Api-User` headers may remain for compatibility but do not participate in authentication.
+
+  ## Device login and migration
+
+  Device approval uses browser-only verification bound to the exact device, account/session, permissions, and expiry. Device tokens have a fixed 30-day expiry and personal business grants, without administrator/system or wallet-write permissions. A successful new login replaces only the device-token slot and the old single credential, preserving manual tokens. Existing CLI response fields remain unchanged. Legacy single access tokens have one shared retirement deadline, initialized once as 30 days later. The production deadline is **November 3, 2026 at 13:52:36 UTC** (`2026-11-03T13:52:36Z`); affected clients must sign in again rather than expect automatic conversion.
+
+  ## Small compatibility fixes
+
+  The release preserves an explicitly disabled Responses WebSocket channel setting when saved and reopened. Unchanged saved pricing expressions/overrides can be retained under the supported usage-profile narrowing conditions. When removed fields prevent a safe visual conversion, the original expression is kept rather than guessing a replacement price. This is not a new price or a claim that all charges remain equivalent.
+
+  This release does not announce model launches, paid-generation acceptance, or later moejs work.
+
+  ### Links
+
+  - [Security and keys](/en/faqs/security)
+  - [Device Code Login](/en/api-reference/account/device-login)
+
+</Update>
+
 <a id="2026-10-04-image-routing-token-reservation"></a>
 
 <Update label="October 4, 2026" tags={["Platform", "Text", "Image"]} rss={{ title: "Image routing and token reservation" }}>

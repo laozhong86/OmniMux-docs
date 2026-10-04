@@ -16,7 +16,7 @@ description: "5 分钟内用 OmniMux 发出第一条 Chat Completions 请求。"
   <Step title="创建 API Key">
     登录 [控制台](https://omnimux.ai/dashboard)，打开 **令牌 / API Keys**，创建新密钥。
 
-    密钥形如 `sk-...`。只在服务端或私密环境变量中保存，不要写入前端或公开仓库。
+    密钥形如 `sk-...`，用于可消费额度的模型请求。只在服务端或私密环境变量中保存，不要写入前端或公开仓库。`nap_...` 个人访问凭据用于用户接口，不能替代这里的密钥。[限定权限凭据指南](/zh/faqs/security)说明权限选择、有效期与旧凭据迁移。
   </Step>
 
   <Step title="确认 Base URL">

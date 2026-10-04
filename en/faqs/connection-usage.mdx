@@ -9,9 +9,9 @@ description: "Base URL, auth, and common HTTP errors"
 | Surface | Base |
 | --- | --- |
 | AI gateway / social data (`sk-`) | `https://api.omnimux.ai` or `https://api.omnimux.ai/v1` |
-| Publishing / device-login user APIs | `https://omnimux.ai` (access token + `New-Api-User`) |
+| Publishing / device-login user APIs | `https://omnimux.ai` (`Authorization: Bearer <access_token>`) |
 
-Do not mix the two credential surfaces.
+Do not mix the two credential surfaces. The [scoped personal-token guide](/en/faqs/security) explains the released behavior: `nap_...` grants only selected user-API permissions. Older examples may retain `New-Api-User` for compatibility, but it does not participate in authentication or select the user.
 
 ## 401 / 403 / 402 / 429
 
@@ -21,6 +21,12 @@ Do not mix the two credential surfaces.
 | **403** | Model or group not allowed for this token |
 | **402** | Insufficient quota on pre-consume |
 | **429** | Rate limited |
+
+### Personal-token recovery
+
+An expired or revoked personal token cannot be repaired by changing headers. Sign in in the browser to create a replacement, or run device login again for a device token. A legacy single token stops working at the shared deadline of **November 3, 2026 at 13:52:36 UTC** (`2026-11-03T13:52:36Z`); clients must sign in again, not retry indefinitely.
+
+For a permission denial, inspect the response `code`: `ACCESS_TOKEN_SCOPE_DENIED` means the required permission is missing, `AUTH_SESSION_REQUIRED` requires a browser session, and `ACCESS_TOKEN_ROUTE_UNDECLARED` means that route is not available to personal tokens. Security verification does not bypass these restrictions. For publishing, `social:read` covers queries and `social:write` covers connecting, publishing, media uploads, and syncing. The complete user-facing permission guide is in [Security and keys](/en/faqs/security).
 
 ## Account quota errors on OpenAI text endpoints
 
