@@ -49,6 +49,24 @@ curl -X POST "https://api.omnimux.ai/v1/chat/completions" \
 
 ---
 
+## Image routing and token reservation
+
+<Info>
+  These gateway changes were deployed on October 4, 2026. New plugin capabilities do not constitute a model launch or proof of successful paid generation.
+</Info>
+
+### Image requests and groups
+
+For `POST /v1/images/generations` and `/v1/images/edits`, choose an allowed group with `model@group` or `X-Omnimux-Group`. The header takes precedence over the suffix; a group your token cannot use returns 403. Group selection is request-scoped and does not create a new model ID.
+
+An enabled image plugin can handle a matching model; otherwise the gateway retains its existing compatible image processing. Use the published contract for the selected model and group: a plugin capability alone does not make a model available for sale, and not every image response is a pollable task. A timeout or disconnected client does not necessarily cancel an upstream task or guarantee a full refund; check the final task status and billing record before resubmitting.
+
+### Token reservation is not the final charge
+
+Where precharge applies, token-priced requests reserve **estimated input cost × the configured reservation multiplier** (default 1). The output limit (`max_tokens` / `max_completion_tokens`) is no longer added to this estimate. A smaller reservation is not a price reduction or a maximum charge: final settlement still follows actual billable usage and the applicable group price. Keep sensible output limits and sufficient balance.
+
+This multiplier does not change fixed per-call charges or task-usage billing. Quota exemptions and insufficient-quota errors still follow the applicable account and endpoint rules.
+
 ## How to reduce cost
 
 1. **Pick the right model** — cheaper/smaller models for simple jobs; enum lists capability, not equal price.  

@@ -70,5 +70,421 @@
     "source": "https://omnimux.ai/api/pricing",
     "historical_commit": "83c10ae8e1fb024f969f70f732b5d9bf50b467b4",
     "reason": "The unchanged dated launch entry exists at this commit. The public ID was renamed on 2026-09-10; current pricing omits the old ID. Preserve historical facts; see 2026-09-10-gpt-image-25-rename for required migration."
+  },
+  {
+    "entry_id": "2026-03-06-gpt-5-4",
+    "model": "gpt-5.4",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3",
+    "reason": "Unchanged dated release record historical at commit fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-03-06-gpt-5-4",
+    "model": "gpt-5.4-mini",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3",
+    "reason": "Unchanged dated release record historical at commit fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-03-08-minimax-m2-5",
+    "model": "minimax-m2.5",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3",
+    "reason": "Unchanged dated release record historical at commit fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-03-08-minimax-m2-5",
+    "model": "minimax-m2.7",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3",
+    "reason": "Unchanged dated release record historical at commit fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-05-05-claude-opus-4-7-deepseek-v4",
+    "model": "claude-opus-4-7",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3",
+    "reason": "Unchanged dated release record historical at commit fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-05-05-claude-opus-4-7-deepseek-v4",
+    "model": "deepseek-v4-flash",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3",
+    "reason": "Unchanged dated release record historical at commit fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-05-05-claude-opus-4-7-deepseek-v4",
+    "model": "deepseek-v4-pro",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3",
+    "reason": "Unchanged dated release record historical at commit fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-05-20-omni-flash",
+    "model": "gemini-omni-flash",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "48e8b6203bb008786fbc04b445c7646286f29f9b",
+    "reason": "Unchanged dated release record historical at commit 48e8b6203bb008786fbc04b445c7646286f29f9b; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-05-20-veo-3-1",
+    "model": "veo-3.1",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "48e8b6203bb008786fbc04b445c7646286f29f9b",
+    "reason": "Unchanged dated release record historical at commit 48e8b6203bb008786fbc04b445c7646286f29f9b; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-06-01-minimax-m3",
+    "model": "minimax-m3",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3",
+    "reason": "Unchanged dated release record historical at commit fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-06-16-kling",
+    "model": "kling-v2-6",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3",
+    "reason": "Unchanged dated release record historical at commit fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-06-16-kling",
+    "model": "kling-v3",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3",
+    "reason": "Unchanged dated release record historical at commit fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-06-17-glm-5-2",
+    "model": "glm-5.1",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3",
+    "reason": "Unchanged dated release record historical at commit fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-06-17-glm-5-2",
+    "model": "glm-5.2",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3",
+    "reason": "Unchanged dated release record historical at commit fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-06-25-seedance-2-0",
+    "model": "seedance-2-0-fast",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3",
+    "reason": "Unchanged dated release record historical at commit fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-06-25-seedance-2-0",
+    "model": "seedance-2-0-mini",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3",
+    "reason": "Unchanged dated release record historical at commit fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-07-01-nano-banana",
+    "model": "nano-banana-2",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "48e8b6203bb008786fbc04b445c7646286f29f9b",
+    "reason": "Unchanged dated release record historical at commit 48e8b6203bb008786fbc04b445c7646286f29f9b; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-07-01-nano-banana",
+    "model": "nano-banana-pro",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "48e8b6203bb008786fbc04b445c7646286f29f9b",
+    "reason": "Unchanged dated release record historical at commit 48e8b6203bb008786fbc04b445c7646286f29f9b; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-07-17-kimi-k3",
+    "model": "kimi-k3",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3",
+    "reason": "Unchanged dated release record historical at commit fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-07-22-gemini-3-6-flash",
+    "model": "gemini-3.5-flash",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3",
+    "reason": "Unchanged dated release record historical at commit fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-07-22-gemini-3-6-flash",
+    "model": "gemini-3.6-flash",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3",
+    "reason": "Unchanged dated release record historical at commit fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-07-25-claude-opus-5",
+    "model": "claude-opus-5",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3",
+    "reason": "Unchanged dated release record historical at commit fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-07-28-grok-imagine-video-1-5",
+    "model": "grok-imagine-video-1-5",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "48e8b6203bb008786fbc04b445c7646286f29f9b",
+    "reason": "Unchanged dated release record historical at commit 48e8b6203bb008786fbc04b445c7646286f29f9b; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-08-31-catalog-sync",
+    "model": "deepseek-v4-flash-vision-exp",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "48e8b6203bb008786fbc04b445c7646286f29f9b",
+    "reason": "Unchanged dated release record historical at commit 48e8b6203bb008786fbc04b445c7646286f29f9b; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-08-31-catalog-sync",
+    "model": "gemini-3.7-flash",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "48e8b6203bb008786fbc04b445c7646286f29f9b",
+    "reason": "Unchanged dated release record historical at commit 48e8b6203bb008786fbc04b445c7646286f29f9b; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-08-31-catalog-sync",
+    "model": "glm-5.3",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "48e8b6203bb008786fbc04b445c7646286f29f9b",
+    "reason": "Unchanged dated release record historical at commit 48e8b6203bb008786fbc04b445c7646286f29f9b; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-08-31-catalog-sync",
+    "model": "gpt-4o-mini-tts",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "48e8b6203bb008786fbc04b445c7646286f29f9b",
+    "reason": "Unchanged dated release record historical at commit 48e8b6203bb008786fbc04b445c7646286f29f9b; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-08-31-catalog-sync",
+    "model": "grok-4.6",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "48e8b6203bb008786fbc04b445c7646286f29f9b",
+    "reason": "Unchanged dated release record historical at commit 48e8b6203bb008786fbc04b445c7646286f29f9b; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-08-31-catalog-sync",
+    "model": "wan-3.0",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "48e8b6203bb008786fbc04b445c7646286f29f9b",
+    "reason": "Unchanged dated release record historical at commit 48e8b6203bb008786fbc04b445c7646286f29f9b; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-08-31-catalog-sync",
+    "model": "whisper-1",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "48e8b6203bb008786fbc04b445c7646286f29f9b",
+    "reason": "Unchanged dated release record historical at commit 48e8b6203bb008786fbc04b445c7646286f29f9b; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-08-31-media-catalog",
+    "model": "gemini-omni-1.1",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "48e8b6203bb008786fbc04b445c7646286f29f9b",
+    "reason": "Unchanged dated release record historical at commit 48e8b6203bb008786fbc04b445c7646286f29f9b; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-08-31-media-catalog",
+    "model": "grok-imagine-image-2-0",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "48e8b6203bb008786fbc04b445c7646286f29f9b",
+    "reason": "Unchanged dated release record historical at commit 48e8b6203bb008786fbc04b445c7646286f29f9b; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-08-31-media-catalog",
+    "model": "kling-o3",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "48e8b6203bb008786fbc04b445c7646286f29f9b",
+    "reason": "Unchanged dated release record historical at commit 48e8b6203bb008786fbc04b445c7646286f29f9b; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-08-31-media-catalog",
+    "model": "pixverse-v6",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "48e8b6203bb008786fbc04b445c7646286f29f9b",
+    "reason": "Unchanged dated release record historical at commit 48e8b6203bb008786fbc04b445c7646286f29f9b; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-08-31-media-catalog",
+    "model": "qwen-image-3-0",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "48e8b6203bb008786fbc04b445c7646286f29f9b",
+    "reason": "Unchanged dated release record historical at commit 48e8b6203bb008786fbc04b445c7646286f29f9b; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-08-31-media-catalog",
+    "model": "seedream-5-0-pro",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "48e8b6203bb008786fbc04b445c7646286f29f9b",
+    "reason": "Unchanged dated release record historical at commit 48e8b6203bb008786fbc04b445c7646286f29f9b; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-08-31-media-catalog",
+    "model": "vidu-q3",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "48e8b6203bb008786fbc04b445c7646286f29f9b",
+    "reason": "Unchanged dated release record historical at commit 48e8b6203bb008786fbc04b445c7646286f29f9b; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-09-08-fal-minimax-h3",
+    "model": "minimax/h3-max",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "fab6847667195b92068f4f943f82abe78b5a8bd5",
+    "reason": "Unchanged dated release record historical at commit fab6847667195b92068f4f943f82abe78b5a8bd5; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-09-08-fal-minimax-h3",
+    "model": "minimax/h3-max-turbo",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "fab6847667195b92068f4f943f82abe78b5a8bd5",
+    "reason": "Unchanged dated release record historical at commit fab6847667195b92068f4f943f82abe78b5a8bd5; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-09-09-h3-media-task-contracts",
+    "model": "minimax/h3-max",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "b1f13d37a08e5d11493c9a8021373cdf411bc525",
+    "reason": "Unchanged dated release record historical at commit b1f13d37a08e5d11493c9a8021373cdf411bc525; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-09-09-h3-media-task-contracts",
+    "model": "minimax/h3-max-turbo",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "b1f13d37a08e5d11493c9a8021373cdf411bc525",
+    "reason": "Unchanged dated release record historical at commit b1f13d37a08e5d11493c9a8021373cdf411bc525; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-09-10-gpt-image-25-rename",
+    "model": "gpt-image-2.5-hd",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "4b6101729283d60628179f197252d714e42e5985",
+    "reason": "Unchanged dated release record historical at commit 4b6101729283d60628179f197252d714e42e5985; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-09-13-midjourney-two-ids",
+    "model": "mj-v7",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "13fbee9bce207fc2861db6ec9132e8d4943fd8e0",
+    "reason": "Unchanged dated release record historical at commit 13fbee9bce207fc2861db6ec9132e8d4943fd8e0; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-09-13-midjourney-two-ids",
+    "model": "mj-v8-1",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "13fbee9bce207fc2861db6ec9132e8d4943fd8e0",
+    "reason": "Unchanged dated release record historical at commit 13fbee9bce207fc2861db6ec9132e8d4943fd8e0; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-09-14-image-reference-fields",
+    "model": "mj-v7",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "28cbca8f92af863a48e8f456be951407fdcd1fee",
+    "reason": "Unchanged dated release record historical at commit 28cbca8f92af863a48e8f456be951407fdcd1fee; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-09-14-image-reference-fields",
+    "model": "mj-v8-1",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "28cbca8f92af863a48e8f456be951407fdcd1fee",
+    "reason": "Unchanged dated release record historical at commit 28cbca8f92af863a48e8f456be951407fdcd1fee; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-09-14-image-reference-fields",
+    "model": "nano-banana-2",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "28cbca8f92af863a48e8f456be951407fdcd1fee",
+    "reason": "Unchanged dated release record historical at commit 28cbca8f92af863a48e8f456be951407fdcd1fee; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-09-14-image-reference-fields",
+    "model": "nano-banana-pro",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "28cbca8f92af863a48e8f456be951407fdcd1fee",
+    "reason": "Unchanged dated release record historical at commit 28cbca8f92af863a48e8f456be951407fdcd1fee; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-09-14-image-reference-fields",
+    "model": "qwen-image-3-0",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "28cbca8f92af863a48e8f456be951407fdcd1fee",
+    "reason": "Unchanged dated release record historical at commit 28cbca8f92af863a48e8f456be951407fdcd1fee; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-09-14-image-reference-fields",
+    "model": "seedream-5-0-pro",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "28cbca8f92af863a48e8f456be951407fdcd1fee",
+    "reason": "Unchanged dated release record historical at commit 28cbca8f92af863a48e8f456be951407fdcd1fee; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-09-18-video-task-models",
+    "model": "seedance-2-0-task",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "1bdbe7936e302cb4b47783ab76e364175246059c",
+    "reason": "Unchanged dated release record historical at commit 1bdbe7936e302cb4b47783ab76e364175246059c; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-09-18-video-task-models",
+    "model": "seedance-2-5-task",
+    "checked_at": "2026-10-04T07:36:31.796Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "1bdbe7936e302cb4b47783ab76e364175246059c",
+    "reason": "Unchanged dated release record historical at commit 1bdbe7936e302cb4b47783ab76e364175246059c; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
   }
 ]
