@@ -7,6 +7,32 @@ rss: true
 
 跟踪 OmniMux 网关的模型上新与平台变更。完整可调用模型以[控制台定价](https://omnimux.ai) / [定价与账户](/zh/api-reference/account/pricing)为准。
 
+<a id="2026-10-05-batch4-moejs-auth"></a>
+
+<Update label="2026 年 10 月 5 日" tags={["平台"]} rss={{ title: "个人令牌权限动态调整与 MoeJS 任务插件引擎" }}>
+
+  **已于 2026 年 10 月 5 日部署。**
+
+  ## 个人访问令牌动态调整
+
+  个人访问令牌（`nap_`）现已支持名称修改与权限矩阵更新（`PATCH /api/user/access_tokens/:id`）。纯名称修改无需额外验证；调整令牌权限时，必须通过与该令牌 ID 及新权限集合严格绑定的二次安全验证，杜绝证明重放攻击。控制台安全设置中的权限矩阵提供按个人（Personal）与管理（Administration）分类的分组折叠面板，支持一键全部选择与语义切换按钮交互。
+
+  ## MoeJS 任务插件引擎升级
+
+  JavaScript 任务插件执行引擎全面由 Sobek 迁移至 `github.com/Calcium-Ion/moejs v0.1.0-alpha.3`。新引擎消除了反射包装开销，实现主机数据的零拷贝高效传输与原生 JSON 状态直通，并在沙箱内严格禁止动态 `eval` 与 `Function` 构造函数，杜绝任意代码执行风险。
+
+  ## 控制台与网关体验优化
+
+  - **渠道管理**：渠道列表顶部新增独立的手动表格刷新按钮，与 5 秒自动刷新机制互补；优化了自动禁用状态提示框的文字换行排版。
+  - **任务插件**：豆包 Ark 任务插件更新，支持 Seedream 5.0 Flash 图像生成与各模型分档阶梯定价。
+  - **协议转换**：完善 Responses 协议中自定义工具定义向 Chat Completions、Claude Messages 与 Gemini Chat 上游代理时的完整透传。
+
+  ### 链接
+
+  - [安全与密钥](/zh/faqs/security)
+
+</Update>
+
 <a id="2026-10-04-scoped-personal-access-tokens"></a>
 
 <Update label="2026 年 10 月 4 日" tags={["平台"]} rss={{ title: "个人限定权限访问凭据与设备码登录" }}>
