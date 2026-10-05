@@ -1,0 +1,27 @@
+---
+title: "Nano Banana 2 Image Generation"
+sidebarTitle: "Nano Banana 2 (gemini-3.1-flash-image)"
+description: "Google 官方 Nano Banana 2 Image Generation · model `gemini-3.1-flash-image`"
+api: "POST https://api.omnimux.ai/v1/images/generations"
+---
+
+- 调用 `POST /v1/images/generations`，`model` 为 `gemini-3.1-flash-image`
+- 请求体至少包含 `model` 与 `prompt`
+- 支持自由长宽比设置（如 `1:1`, `9:16`, `16:9` 等）与最高 4K 超清分辨率
+
+## 身份
+
+| 字段 | 值 |
+| --- | --- |
+| 系列 | 图像系列 |
+| 品牌 | Google / Nano Banana |
+| model | `gemini-3.1-flash-image` |
+| 基准定价 | $0.067 / 张（1K 分辨率） |
+
+## 请求体
+
+| 字段 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| `model` | string | 是 | 固定为 `gemini-3.1-flash-image` |
+| `prompt` | string | 是 | Image generation prompt description |
+| `size` | string | 否 | 长宽比，如 `1:1`, `9:16`, `16:9`，默认为 `1:1` |

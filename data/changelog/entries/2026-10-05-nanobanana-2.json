@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "2026-10-05-nanobanana-2",
+  "published_at": "2026-10-05",
+  "rank": 0,
+  "type": "model_launch",
+  "modality": [
+    "image"
+  ],
+  "title": {
+    "en": "Google Nano Banana 2 & 2 Lite Models",
+    "zh": "Google Nano Banana 2 与 2 Lite 生图模型上线"
+  },
+  "summary": {
+    "en": "Google official Nano Banana 2 (gemini-3.1-flash-image) and Nano Banana 2 Lite (gemini-3.1-flash-lite-image) are now available on OmniMux.",
+    "zh": "Google 官方新一代生图模型 Nano Banana 2（gemini-3.1-flash-image）与 Nano Banana 2 Lite（gemini-3.1-flash-lite-image）已正式上线 OmniMux。"
+  },
+  "models": [
+    "gemini-3.1-flash-image",
+    "gemini-3.1-flash-lite-image"
+  ],
+  "tags": [
+    "image",
+    "google"
+  ],
+  "links": [
+    {
+      "label": {
+        "en": "Nano Banana 2",
+        "zh": "Nano Banana 2"
+      },
+      "href": {
+        "en": "/en/api-reference/image-series/models/gemini-3.1-flash-image",
+        "zh": "/zh/api-reference/image-series/models/gemini-3.1-flash-image"
+      }
+    }
+  ],
+  "body": {
+    "en": "## Google Nano Banana 2 Series\n\nGoogle official Nano Banana 2 series image generation models are now live on OmniMux.\n\n### Model Details\n\n- **Nano Banana 2 (Standard):** `gemini-3.1-flash-image` ($0.067 / image at 1K)\n- **Nano Banana 2 Lite (Economy):** `gemini-3.1-flash-lite-image` ($0.0336 / image at 1K)\n- **Endpoint:** `POST /v1/images/generations`\n\nHigh-speed generation with up to 4K resolution support and multi-aspect-ratio outputs.",
+    "zh": "## Google Nano Banana 2 系列生图模型\n\nGoogle 官方新一代 Nano Banana 2 系列生图模型已正式在 OmniMux 上线。\n\n### 模型规格\n\n- **Nano Banana 2 稳定版：** `gemini-3.1-flash-image`（官方 1K 基准价 $0.067/张）\n- **Nano Banana 2 Lite 低价跑量版：** `gemini-3.1-flash-lite-image`（官方 1K 基准价 $0.0336/张）\n- **调用端点：** `POST /v1/images/generations`\n\n支持极速超清出图与多种自由长宽比。"
+  }
+}

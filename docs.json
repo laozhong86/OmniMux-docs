@@ -113,6 +113,8 @@
                     "group": "Nano Banana",
                     "pages": [
                       "en/api-reference/image-series/models/nano-banana-2",
+                      "en/api-reference/image-series/models/gemini-3.1-flash-image",
+                      "en/api-reference/image-series/models/gemini-3.1-flash-lite-image",
                       "en/api-reference/image-series/models/nano-banana-pro"
                     ],
                     "icon": "image"
@@ -609,6 +611,8 @@
                     "group": "Nano Banana",
                     "pages": [
                       "zh/api-reference/image-series/models/nano-banana-2",
+                      "zh/api-reference/image-series/models/gemini-3.1-flash-image",
+                      "zh/api-reference/image-series/models/gemini-3.1-flash-lite-image",
                       "zh/api-reference/image-series/models/nano-banana-pro"
                     ],
                     "icon": "image"
