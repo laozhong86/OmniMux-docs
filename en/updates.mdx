@@ -7,6 +7,32 @@ rss: true
 
 Stay up to date with OmniMux gateway model launches and platform changes. The full callable catalog is on [console pricing](https://omnimux.ai) / [Pricing](/en/api-reference/account/pricing).
 
+<a id="2026-10-05-batch4-moejs-auth"></a>
+
+<Update label="October 5, 2026" tags={["Platform"]} rss={{ title: "Scoped personal access token editing and MoeJS plugin engine" }}>
+
+  **Deployed on October 5, 2026.**
+
+  ## Scoped personal access token editing
+
+  Personal access tokens (`nap_`) now support editing names and updating granted permissions via `PATCH /api/user/access_tokens/:id`. Renaming a token does not require verification. Updating the permission grant requires step-up security verification bound to the token ID and the exact new normalized permissions set, preventing proof replay attacks. The permission matrix in the dashboard UI provides categorized collapsible groups (Personal and Administration) with granular toggle buttons.
+
+  ## MoeJS task plugin engine upgrade
+
+  The JavaScript task plugin execution engine has been migrated from Sobek to `github.com/Calcium-Ion/moejs v0.1.0-alpha.3`. The upgraded runtime eliminates reflection-based overhead, provides zero-copy host value transmission, passes raw JSON protocol states directly to handlers, and strictly prohibits dynamic `eval` and `Function` constructors to prevent arbitrary code execution.
+
+  ## Console and gateway enhancements
+
+  - **Channels management**: Added a dedicated table refresh button alongside the 5-second automatic refresh mechanism, and resolved status tooltip text wrapping issues.
+  - **Task plugins**: Doubao Ark task plugin updated to support Seedream 5.0 Flash with per-model tiered pricing definitions.
+  - **Relay conversion**: Preserved custom tools in OpenAI Responses format when proxying to Chat Completions, Claude Messages, and Gemini Chat backends.
+
+  ### Links
+
+  - [Security and keys](/en/faqs/security)
+
+</Update>
+
 <a id="2026-10-04-scoped-personal-access-tokens"></a>
 
 <Update label="October 4, 2026" tags={["Platform"]} rss={{ title: "Scoped personal access tokens and device login" }}>
