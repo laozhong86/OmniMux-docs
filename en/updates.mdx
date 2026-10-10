@@ -7,6 +7,46 @@ rss: true
 
 Stay up to date with OmniMux gateway model launches and platform changes. The full callable catalog is on [console pricing](https://omnimux.ai) / [Pricing](/en/api-reference/account/pricing).
 
+<a id="2026-10-10-influencer-style-reference"></a>
+
+<Update label="October 10, 2026" tags={["Improvements", "Image"]} rss={{ title: "Style-reference image for Create influencer" }}>
+
+  Create influencer accepts one optional JPEG, PNG or WebP style-reference image, up to 5 MiB (5,242,880 bytes). This limit belongs to the website flow, not to public image-generation APIs.
+
+  The image guides silhouette, styling, colors, clothing and mood; it does not lock identity. A new character or a different person is allowed. Explicit description takes priority over selected traits; selected traits take priority over image inspiration. The selected exaggeration level still applies.
+
+  A reference image alone, without a description or traits, is valid. This path requests one full-body character on a plain white background without copying reference backgrounds, text or logos. Checks covering image-only input, an image with text and traits, and the same text and traits without an image all completed successfully. These results do not guarantee success on every request. Other modes, including multi-view output, are not promised.
+
+  The website uses the internal session path `/pg/influencer/sheet`, not a public gateway Bearer or `/v1` API. No public generation endpoint request shape changes.
+
+  ### Links
+
+  - [Features and compatibility](/en/faqs/features)
+
+</Update>
+
+<a id="2026-10-05-nanobanana-2"></a>
+
+<Update label="October 5, 2026" tags={["New models", "Image"]} rss={{ title: "Google Nano Banana 2 & 2 Lite Models" }}>
+
+  ## Google Nano Banana 2 Series
+
+  Google official Nano Banana 2 series image generation models are now live on OmniMux.
+
+  ### Model Details
+
+  - **Nano Banana 2 (Standard):** `gemini-3.1-flash-image` ($0.067 / image at 1K)
+  - **Nano Banana 2 Lite (Economy):** `gemini-3.1-flash-lite-image` ($0.0336 / image at 1K)
+  - **Endpoint:** `POST /v1/images/generations`
+
+  High-speed generation with up to 4K resolution support and multi-aspect-ratio outputs.
+
+  ### Links
+
+  - [Nano Banana 2](/en/api-reference/image-series/models/gemini-3.1-flash-image)
+
+</Update>
+
 <a id="2026-10-05-batch4-moejs-auth"></a>
 
 <Update label="October 5, 2026" tags={["Platform"]} rss={{ title: "Scoped personal access token editing and MoeJS plugin engine" }}>
