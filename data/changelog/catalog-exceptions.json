@@ -486,5 +486,261 @@
     "source": "https://omnimux.ai/api/pricing",
     "historical_commit": "1bdbe7936e302cb4b47783ab76e364175246059c",
     "reason": "Unchanged dated release record historical at commit 1bdbe7936e302cb4b47783ab76e364175246059c; observed current pricing absence in public GET 200 (61 models, request-id 202610040736315752245598268d9d6160ZL4E4); preserve fact only, not current availability or removal time."
+  },
+  {
+    "entry_id": "2026-10-05-nanobanana-2",
+    "model": "gemini-3.1-flash-image",
+    "checked_at": "2026-10-10T04:16:36.265403+00:00",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "e807fdab8cb6f1546807df82de522f19de05316d",
+    "reason": "Exact dated entry/model pair exists at the historical commit and the entire entry is unchanged. Public GET 200 observed 7 current models without this ID (snapshot SHA256 b02140dda8a7270257d99f1d35ab4618c52f4720a5c95a97f390c5b7ceb92046). Preserve the historical record only; this does not establish current availability, the exact removal date, or a new model launch."
+  },
+  {
+    "entry_id": "2026-10-01-volc-image-upscale",
+    "model": "volc-image-upscale",
+    "checked_at": "2026-10-10T04:16:36.265403+00:00",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "8a467f9132de1c0827838b0caa783d6a908dd36b",
+    "reason": "Exact dated entry/model pair exists at the historical commit and the entire entry is unchanged. Public GET 200 observed 7 current models without this ID (snapshot SHA256 b02140dda8a7270257d99f1d35ab4618c52f4720a5c95a97f390c5b7ceb92046). Preserve the historical record only; this does not establish current availability, the exact removal date, or a new model launch."
+  },
+  {
+    "entry_id": "2026-09-22-deepseek-flash",
+    "model": "deepseek-flash",
+    "checked_at": "2026-10-10T04:16:36.265403+00:00",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "90f38562cbd10746e7f3da01ea0af2eefb88d0b8",
+    "reason": "Exact dated entry/model pair exists at the historical commit and the entire entry is unchanged. Public GET 200 observed 7 current models without this ID (snapshot SHA256 b02140dda8a7270257d99f1d35ab4618c52f4720a5c95a97f390c5b7ceb92046). Preserve the historical record only; this does not establish current availability, the exact removal date, or a new model launch."
+  },
+  {
+    "entry_id": "2026-09-18-gpt-image-tiers",
+    "model": "gpt-image-2.5-flare",
+    "checked_at": "2026-10-10T04:16:36.265403+00:00",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "1bdbe7936e302cb4b47783ab76e364175246059c",
+    "reason": "Exact dated entry/model pair exists at the historical commit and the entire entry is unchanged. Public GET 200 observed 7 current models without this ID (snapshot SHA256 b02140dda8a7270257d99f1d35ab4618c52f4720a5c95a97f390c5b7ceb92046). Preserve the historical record only; this does not establish current availability, the exact removal date, or a new model launch."
+  },
+  {
+    "entry_id": "2026-09-18-gpt-image-tiers",
+    "model": "gpt-image-2.5-sunburst",
+    "checked_at": "2026-10-10T04:16:36.265403+00:00",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "1bdbe7936e302cb4b47783ab76e364175246059c",
+    "reason": "Exact dated entry/model pair exists at the historical commit and the entire entry is unchanged. Public GET 200 observed 7 current models without this ID (snapshot SHA256 b02140dda8a7270257d99f1d35ab4618c52f4720a5c95a97f390c5b7ceb92046). Preserve the historical record only; this does not establish current availability, the exact removal date, or a new model launch."
+  },
+  {
+    "entry_id": "2026-09-18-video-task-models",
+    "model": "minimax-h3-task",
+    "checked_at": "2026-10-10T04:16:36.265403+00:00",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "1bdbe7936e302cb4b47783ab76e364175246059c",
+    "reason": "Exact dated entry/model pair exists at the historical commit and the entire entry is unchanged. Public GET 200 observed 7 current models without this ID (snapshot SHA256 b02140dda8a7270257d99f1d35ab4618c52f4720a5c95a97f390c5b7ceb92046). Preserve the historical record only; this does not establish current availability, the exact removal date, or a new model launch."
+  },
+  {
+    "entry_id": "2026-09-18-video-task-models",
+    "model": "minimax-h3-turbo",
+    "checked_at": "2026-10-10T04:16:36.265403+00:00",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "1bdbe7936e302cb4b47783ab76e364175246059c",
+    "reason": "Exact dated entry/model pair exists at the historical commit and the entire entry is unchanged. Public GET 200 observed 7 current models without this ID (snapshot SHA256 b02140dda8a7270257d99f1d35ab4618c52f4720a5c95a97f390c5b7ceb92046). Preserve the historical record only; this does not establish current availability, the exact removal date, or a new model launch."
+  },
+  {
+    "entry_id": "2026-09-18-video-task-models",
+    "model": "minimax-h3-video",
+    "checked_at": "2026-10-10T04:16:36.265403+00:00",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "1bdbe7936e302cb4b47783ab76e364175246059c",
+    "reason": "Exact dated entry/model pair exists at the historical commit and the entire entry is unchanged. Public GET 200 observed 7 current models without this ID (snapshot SHA256 b02140dda8a7270257d99f1d35ab4618c52f4720a5c95a97f390c5b7ceb92046). Preserve the historical record only; this does not establish current availability, the exact removal date, or a new model launch."
+  },
+  {
+    "entry_id": "2026-09-18-volc-doubao-asr",
+    "model": "doubao-asr-bigmodel",
+    "checked_at": "2026-10-10T04:16:36.265403+00:00",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "a90c352a705a6dc37290d3d8cf49fa62d83cec69",
+    "reason": "Exact dated entry/model pair exists at the historical commit and the entire entry is unchanged. Public GET 200 observed 7 current models without this ID (snapshot SHA256 b02140dda8a7270257d99f1d35ab4618c52f4720a5c95a97f390c5b7ceb92046). Preserve the historical record only; this does not establish current availability, the exact removal date, or a new model launch."
+  },
+  {
+    "entry_id": "2026-09-18-volc-doubao-asr",
+    "model": "seedasr-auc",
+    "checked_at": "2026-10-10T04:16:36.265403+00:00",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "a90c352a705a6dc37290d3d8cf49fa62d83cec69",
+    "reason": "Exact dated entry/model pair exists at the historical commit and the entire entry is unchanged. Public GET 200 observed 7 current models without this ID (snapshot SHA256 b02140dda8a7270257d99f1d35ab4618c52f4720a5c95a97f390c5b7ceb92046). Preserve the historical record only; this does not establish current availability, the exact removal date, or a new model launch."
+  },
+  {
+    "entry_id": "2026-09-18-volc-doubao-asr",
+    "model": "bigasr-auc",
+    "checked_at": "2026-10-10T04:16:36.265403+00:00",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "a90c352a705a6dc37290d3d8cf49fa62d83cec69",
+    "reason": "Exact dated entry/model pair exists at the historical commit and the entire entry is unchanged. Public GET 200 observed 7 current models without this ID (snapshot SHA256 b02140dda8a7270257d99f1d35ab4618c52f4720a5c95a97f390c5b7ceb92046). Preserve the historical record only; this does not establish current availability, the exact removal date, or a new model launch."
+  },
+  {
+    "entry_id": "2026-09-18-volc-seed-audio",
+    "model": "seed-audio-1.0",
+    "checked_at": "2026-10-10T04:16:36.265403+00:00",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "a90c352a705a6dc37290d3d8cf49fa62d83cec69",
+    "reason": "Exact dated entry/model pair exists at the historical commit and the entire entry is unchanged. Public GET 200 observed 7 current models without this ID (snapshot SHA256 b02140dda8a7270257d99f1d35ab4618c52f4720a5c95a97f390c5b7ceb92046). Preserve the historical record only; this does not establish current availability, the exact removal date, or a new model launch."
+  },
+  {
+    "entry_id": "2026-09-18-indextts-2",
+    "model": "indextts-2",
+    "checked_at": "2026-10-10T04:16:36.265403+00:00",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "a90c352a705a6dc37290d3d8cf49fa62d83cec69",
+    "reason": "Exact dated entry/model pair exists at the historical commit and the entire entry is unchanged. Public GET 200 observed 7 current models without this ID (snapshot SHA256 b02140dda8a7270257d99f1d35ab4618c52f4720a5c95a97f390c5b7ceb92046). Preserve the historical record only; this does not establish current availability, the exact removal date, or a new model launch."
+  },
+  {
+    "entry_id": "2026-09-18-doubao-seed-evolving",
+    "model": "seed-evolving",
+    "checked_at": "2026-10-10T04:16:36.265403+00:00",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "37caa9b4bdadcb361d0ecea8411704b4013230eb",
+    "reason": "Exact dated entry/model pair exists at the historical commit and the entire entry is unchanged. Public GET 200 observed 7 current models without this ID (snapshot SHA256 b02140dda8a7270257d99f1d35ab4618c52f4720a5c95a97f390c5b7ceb92046). Preserve the historical record only; this does not establish current availability, the exact removal date, or a new model launch."
+  },
+  {
+    "entry_id": "2026-08-25-social-analytics-reader-seats",
+    "model": "jina-reader-v1",
+    "checked_at": "2026-10-10T04:16:36.265403+00:00",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "48e8b6203bb008786fbc04b445c7646286f29f9b",
+    "reason": "Exact dated entry/model pair exists at the historical commit and the entire entry is unchanged. Public GET 200 observed 7 current models without this ID (snapshot SHA256 b02140dda8a7270257d99f1d35ab4618c52f4720a5c95a97f390c5b7ceb92046). Preserve the historical record only; this does not establish current availability, the exact removal date, or a new model launch."
+  },
+  {
+    "entry_id": "2026-08-09-social-data",
+    "model": "tiktok-user",
+    "checked_at": "2026-10-10T04:16:36.265403+00:00",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3",
+    "reason": "Exact dated entry/model pair exists at the historical commit and the entire entry is unchanged. Public GET 200 observed 7 current models without this ID (snapshot SHA256 b02140dda8a7270257d99f1d35ab4618c52f4720a5c95a97f390c5b7ceb92046). Preserve the historical record only; this does not establish current availability, the exact removal date, or a new model launch."
+  },
+  {
+    "entry_id": "2026-08-09-social-data",
+    "model": "tiktok-posts",
+    "checked_at": "2026-10-10T04:16:36.265403+00:00",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3",
+    "reason": "Exact dated entry/model pair exists at the historical commit and the entire entry is unchanged. Public GET 200 observed 7 current models without this ID (snapshot SHA256 b02140dda8a7270257d99f1d35ab4618c52f4720a5c95a97f390c5b7ceb92046). Preserve the historical record only; this does not establish current availability, the exact removal date, or a new model launch."
+  },
+  {
+    "entry_id": "2026-08-09-social-data",
+    "model": "tiktok-video",
+    "checked_at": "2026-10-10T04:16:36.265403+00:00",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3",
+    "reason": "Exact dated entry/model pair exists at the historical commit and the entire entry is unchanged. Public GET 200 observed 7 current models without this ID (snapshot SHA256 b02140dda8a7270257d99f1d35ab4618c52f4720a5c95a97f390c5b7ceb92046). Preserve the historical record only; this does not establish current availability, the exact removal date, or a new model launch."
+  },
+  {
+    "entry_id": "2026-08-09-social-data",
+    "model": "tiktok-search",
+    "checked_at": "2026-10-10T04:16:36.265403+00:00",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3",
+    "reason": "Exact dated entry/model pair exists at the historical commit and the entire entry is unchanged. Public GET 200 observed 7 current models without this ID (snapshot SHA256 b02140dda8a7270257d99f1d35ab4618c52f4720a5c95a97f390c5b7ceb92046). Preserve the historical record only; this does not establish current availability, the exact removal date, or a new model launch."
+  },
+  {
+    "entry_id": "2026-08-09-social-data",
+    "model": "instagram-user",
+    "checked_at": "2026-10-10T04:16:36.265403+00:00",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3",
+    "reason": "Exact dated entry/model pair exists at the historical commit and the entire entry is unchanged. Public GET 200 observed 7 current models without this ID (snapshot SHA256 b02140dda8a7270257d99f1d35ab4618c52f4720a5c95a97f390c5b7ceb92046). Preserve the historical record only; this does not establish current availability, the exact removal date, or a new model launch."
+  },
+  {
+    "entry_id": "2026-08-09-social-data",
+    "model": "instagram-posts",
+    "checked_at": "2026-10-10T04:16:36.265403+00:00",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3",
+    "reason": "Exact dated entry/model pair exists at the historical commit and the entire entry is unchanged. Public GET 200 observed 7 current models without this ID (snapshot SHA256 b02140dda8a7270257d99f1d35ab4618c52f4720a5c95a97f390c5b7ceb92046). Preserve the historical record only; this does not establish current availability, the exact removal date, or a new model launch."
+  },
+  {
+    "entry_id": "2026-08-09-social-data",
+    "model": "instagram-post",
+    "checked_at": "2026-10-10T04:16:36.265403+00:00",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3",
+    "reason": "Exact dated entry/model pair exists at the historical commit and the entire entry is unchanged. Public GET 200 observed 7 current models without this ID (snapshot SHA256 b02140dda8a7270257d99f1d35ab4618c52f4720a5c95a97f390c5b7ceb92046). Preserve the historical record only; this does not establish current availability, the exact removal date, or a new model launch."
+  },
+  {
+    "entry_id": "2026-08-09-social-data",
+    "model": "instagram-search",
+    "checked_at": "2026-10-10T04:16:36.265403+00:00",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3",
+    "reason": "Exact dated entry/model pair exists at the historical commit and the entire entry is unchanged. Public GET 200 observed 7 current models without this ID (snapshot SHA256 b02140dda8a7270257d99f1d35ab4618c52f4720a5c95a97f390c5b7ceb92046). Preserve the historical record only; this does not establish current availability, the exact removal date, or a new model launch."
+  },
+  {
+    "entry_id": "2026-08-09-social-data",
+    "model": "x-user",
+    "checked_at": "2026-10-10T04:16:36.265403+00:00",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3",
+    "reason": "Exact dated entry/model pair exists at the historical commit and the entire entry is unchanged. Public GET 200 observed 7 current models without this ID (snapshot SHA256 b02140dda8a7270257d99f1d35ab4618c52f4720a5c95a97f390c5b7ceb92046). Preserve the historical record only; this does not establish current availability, the exact removal date, or a new model launch."
+  },
+  {
+    "entry_id": "2026-08-09-social-data",
+    "model": "x-posts",
+    "checked_at": "2026-10-10T04:16:36.265403+00:00",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3",
+    "reason": "Exact dated entry/model pair exists at the historical commit and the entire entry is unchanged. Public GET 200 observed 7 current models without this ID (snapshot SHA256 b02140dda8a7270257d99f1d35ab4618c52f4720a5c95a97f390c5b7ceb92046). Preserve the historical record only; this does not establish current availability, the exact removal date, or a new model launch."
+  },
+  {
+    "entry_id": "2026-08-09-social-data",
+    "model": "x-tweet",
+    "checked_at": "2026-10-10T04:16:36.265403+00:00",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3",
+    "reason": "Exact dated entry/model pair exists at the historical commit and the entire entry is unchanged. Public GET 200 observed 7 current models without this ID (snapshot SHA256 b02140dda8a7270257d99f1d35ab4618c52f4720a5c95a97f390c5b7ceb92046). Preserve the historical record only; this does not establish current availability, the exact removal date, or a new model launch."
+  },
+  {
+    "entry_id": "2026-08-09-social-data",
+    "model": "x-search",
+    "checked_at": "2026-10-10T04:16:36.265403+00:00",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3",
+    "reason": "Exact dated entry/model pair exists at the historical commit and the entire entry is unchanged. Public GET 200 observed 7 current models without this ID (snapshot SHA256 b02140dda8a7270257d99f1d35ab4618c52f4720a5c95a97f390c5b7ceb92046). Preserve the historical record only; this does not establish current availability, the exact removal date, or a new model launch."
+  },
+  {
+    "entry_id": "2026-08-09-social-data",
+    "model": "youtube-user",
+    "checked_at": "2026-10-10T04:16:36.265403+00:00",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3",
+    "reason": "Exact dated entry/model pair exists at the historical commit and the entire entry is unchanged. Public GET 200 observed 7 current models without this ID (snapshot SHA256 b02140dda8a7270257d99f1d35ab4618c52f4720a5c95a97f390c5b7ceb92046). Preserve the historical record only; this does not establish current availability, the exact removal date, or a new model launch."
+  },
+  {
+    "entry_id": "2026-08-09-social-data",
+    "model": "youtube-posts",
+    "checked_at": "2026-10-10T04:16:36.265403+00:00",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3",
+    "reason": "Exact dated entry/model pair exists at the historical commit and the entire entry is unchanged. Public GET 200 observed 7 current models without this ID (snapshot SHA256 b02140dda8a7270257d99f1d35ab4618c52f4720a5c95a97f390c5b7ceb92046). Preserve the historical record only; this does not establish current availability, the exact removal date, or a new model launch."
+  },
+  {
+    "entry_id": "2026-08-09-social-data",
+    "model": "youtube-video",
+    "checked_at": "2026-10-10T04:16:36.265403+00:00",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3",
+    "reason": "Exact dated entry/model pair exists at the historical commit and the entire entry is unchanged. Public GET 200 observed 7 current models without this ID (snapshot SHA256 b02140dda8a7270257d99f1d35ab4618c52f4720a5c95a97f390c5b7ceb92046). Preserve the historical record only; this does not establish current availability, the exact removal date, or a new model launch."
+  },
+  {
+    "entry_id": "2026-08-09-social-data",
+    "model": "youtube-search",
+    "checked_at": "2026-10-10T04:16:36.265403+00:00",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "fb03ceaf3c3011fa3526cc2cdd19d8ca3e928fb3",
+    "reason": "Exact dated entry/model pair exists at the historical commit and the entire entry is unchanged. Public GET 200 observed 7 current models without this ID (snapshot SHA256 b02140dda8a7270257d99f1d35ab4618c52f4720a5c95a97f390c5b7ceb92046). Preserve the historical record only; this does not establish current availability, the exact removal date, or a new model launch."
+  },
+  {
+    "entry_id": "2026-07-30-minimax-h3",
+    "model": "minimax-h3",
+    "checked_at": "2026-10-10T04:16:36.265403+00:00",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "a23adf499f5924304d7246066f3dfe35c6ce91d4",
+    "reason": "Exact dated entry/model pair exists at the historical commit and the entire entry is unchanged. Public GET 200 observed 7 current models without this ID (snapshot SHA256 b02140dda8a7270257d99f1d35ab4618c52f4720a5c95a97f390c5b7ceb92046). Preserve the historical record only; this does not establish current availability, the exact removal date, or a new model launch."
   }
 ]
