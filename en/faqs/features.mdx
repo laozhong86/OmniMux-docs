@@ -22,6 +22,20 @@ Create: `POST /v1/video/generations`
 Poll: `GET /v1/video/generations/{task_id}`  
 Do not confuse with `/v1/videos/{id}/content` download.
 
+## Can I use a style reference when creating an influencer?
+
+<Note>
+Unreleased documentation draft. The behavior below was checked in an isolated development environment; this is not a website launch announcement.
+</Note>
+
+The candidate **Create influencer** flow accepts one optional **JPEG, PNG or WebP** style-reference image, up to **5 MiB (5,242,880 bytes)**. This is a limit for that website flow, not a new limit for public image-generation APIs.
+
+The reference guides silhouette, styling, colors, clothing and overall mood. It does **not** lock the person's identity: the result may be a new character or a different person. When inputs conflict, **explicit description takes priority over selected traits, and selected traits take priority over image inspiration**. The selected exaggeration level still applies.
+
+A reference image alone is valid, without a description or selected traits. This path requests **one full-body character on a plain white background**, not a copy of the reference background, text or logos. Other modes, including multi-view output, are not promised by this note.
+
+`/pg/influencer/sheet` is an internal website-session path, not a public gateway Bearer (`sk-`) or `/v1` API. This change does **not** add or change any public generation endpoint's request shape. For integrations, continue to use the existing [GPT Image generation contract](/en/api-reference/image-series/gpt-image/generate).
+
 ## Agent-readable docs?
 
 Mintlify auto-generates machine-readable surfaces (no hand-maintained index):
