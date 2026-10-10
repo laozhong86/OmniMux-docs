@@ -1,7 +1,13 @@
 {
   "candidate_schema_version": 1,
-  "status": "awaiting_product_release_evidence",
+  "status": "product_released_docs_gate_failed",
   "publishable": false,
+  "actual_product_release": {
+    "timestamp": "2026-10-10T04:03:45Z",
+    "date": "2026-10-10",
+    "evidence": "/Users/x/Desktop/Project/OmniMux/.agent-reports/influencer-reference-release-20261010/production-acceptance.md",
+    "product_commit": "66ba1fb07bff060a30692373b5f0e8b7bcb693d8"
+  },
   "type": "capability",
   "modality": [
     "image"
@@ -42,6 +48,6 @@
       "id",
       "published_at"
     ],
-    "date_source": "Parent-provided actual product release evidence; no date assigned before release."
+    "date_source": "actual_product_release.date (2026-10-10), backed by the parent-provided production-acceptance.md; promotion remains blocked by the existing documentation gates and current no-publication instruction."
   }
 }
