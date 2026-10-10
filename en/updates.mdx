@@ -7,6 +7,26 @@ rss: true
 
 Stay up to date with OmniMux gateway model launches and platform changes. The full callable catalog is on [console pricing](https://omnimux.ai) / [Pricing](/en/api-reference/account/pricing).
 
+<a id="2026-10-10-reference-media-checks"></a>
+
+<Update label="October 10, 2026" tags={["Improvements", "Video"]} rss={{ title: "Reference-video preparation checks" }}>
+
+  The checks are scoped to reference-video preparation in the character workbench, not all generic video API requests. The workbench checks the complete actual media for a duration of 4 to 30 seconds, without trimming an overlong video or audio tail or speeding it up. Submitted integer duration must match the rounded actual media duration; an explicit aspect ratio must match the displayed frame.
+
+  The intake ceiling remains 100 MiB (104857600 bytes), not a verified limit shared by every supplier option. Complete supplier input contracts remain unverified. Valid small files do not require compression; automatic compression is not enabled.
+
+  Generation uses a copy of the same validated video bytes without transcoding and keeps the complete embedded audio. A separate optional audio reference is attached only for a fully extractable reference of at most 15 seconds; longer references are not replaced with shortened audio. Original-sound reproduction is not guaranteed.
+
+  Media-preparation rejection precedes generation billing. Safe 400/408/503 preparation errors distinguish invalid media, mismatched submitted fields, cancellation or timeout, and temporary unavailability without reflecting signed URLs or raw diagnostics. This does not promise free failures after generation submission.
+
+  Uploads keep the original filename, including spaces or `#`, without requiring you to rename a valid file. Upload and preparation errors show the safe reason returned by the service rather than automatically suggesting a smaller file. If the actual duration exceeds 30 seconds, generation does not start and the message explains that the video will not be shortened automatically. File and media checks still apply.
+
+  ### Links
+
+  - [Reference-video requirements](/en/faqs/features)
+
+</Update>
+
 <a id="2026-10-10-influencer-style-reference"></a>
 
 <Update label="October 10, 2026" tags={["Improvements", "Image"]} rss={{ title: "Style-reference image for Create influencer" }}>
