@@ -1,30 +1,47 @@
 {
   "candidate_schema_version": 1,
-  "status": "unreleased",
+  "status": "awaiting_product_release_evidence",
   "publishable": false,
   "type": "capability",
-  "modality": ["image"],
+  "modality": [
+    "image"
+  ],
   "title": {
-    "en": "Style-reference image for Create influencer (unreleased candidate)",
-    "zh": "创建网红风格参考图（未发布候选）"
+    "en": "Style-reference image for Create influencer",
+    "zh": "创建网红支持风格参考图"
   },
   "summary": {
-    "en": "The candidate website flow accepts one optional JPEG, PNG or WebP image up to 5 MiB as style inspiration, not an identity lock. Public generation endpoint request shapes are unchanged.",
-    "zh": "候选网站流程支持一张不超过 5 MiB 的可选 JPEG、PNG 或 WebP 图片，用于风格借鉴，不锁定身份。公开生成接口的请求格式不变。"
+    "en": "Create influencer accepts one optional JPEG, PNG or WebP image up to 5 MiB as style inspiration, not an identity lock. Public generation request shapes are unchanged.",
+    "zh": "创建网红支持一张不超过 5 MiB 的可选 JPEG、PNG 或 WebP 图片，用于风格借鉴，不锁定身份。公开生成接口的请求格式不变。"
   },
   "models": [],
   "links": [
     {
-      "label": {"en": "Features and compatibility draft", "zh": "能力与兼容性草稿"},
-      "href": {"en": "/en/faqs/features", "zh": "/zh/faqs/features"}
+      "label": {
+        "en": "Features and compatibility",
+        "zh": "能力与兼容性"
+      },
+      "href": {
+        "en": "/en/faqs/features",
+        "zh": "/zh/faqs/features"
+      }
     }
   ],
   "body": {
-    "en": "## Unreleased candidate\n\nChecked in an isolated development environment, not announced as live. Create influencer accepts one optional JPEG, PNG or WebP style-reference image, up to 5 MiB (5,242,880 bytes). This limit belongs to the website flow, not to public image-generation APIs.\n\nThe image guides silhouette, styling, colors, clothing and mood; it does not lock identity. A new character or a different person is allowed. Explicit description takes priority over selected traits; selected traits take priority over image inspiration. The selected exaggeration level still applies.\n\nA reference image alone, without a description or traits, is valid. This path requests one full-body character on a plain white background without copying reference backgrounds, text or logos. Other modes, including multi-view output, are not promised.\n\nThe website uses the internal session path `/pg/influencer/sheet`, not a public gateway Bearer or `/v1` API. No public generation endpoint request shape changes.",
-    "zh": "## 未发布候选\n\n相关行为在隔离开发环境中核验，未宣称上线。创建网红支持一张可选的 JPEG、PNG 或 WebP 风格参考图，大小不超过 5 MiB（5,242,880 字节）。这是网站流程的限制，不是公开生图接口的限制。\n\n图片用于借鉴轮廓、造型、配色、服装和整体气质，不锁定身份，允许生成新角色或不同人物。明确文字描述优先于所选特征，所选特征优先于图片参考，所选夸张程度仍然适用。\n\n只提供参考图、不填写描述或选择特征，也可以提交。这一路径要求白底单人全身图，不照搬参考图的背景、文字或标志，不承诺多视图等其他模式效果。\n\n网站使用内部登录会话路径 `/pg/influencer/sheet`，不是公开网关 Bearer 或 `/v1` 接口。公开生成接口的请求格式不变。"
+    "en": "Create influencer accepts one optional JPEG, PNG or WebP style-reference image, up to 5 MiB (5,242,880 bytes). This limit belongs to the website flow, not to public image-generation APIs.\n\nThe image guides silhouette, styling, colors, clothing and mood; it does not lock identity. A new character or a different person is allowed. Explicit description takes priority over selected traits; selected traits take priority over image inspiration. The selected exaggeration level still applies.\n\nA reference image alone, without a description or traits, is valid. This path requests one full-body character on a plain white background without copying reference backgrounds, text or logos. Checks covering image-only input, an image with text and traits, and the same text and traits without an image all completed successfully. These results do not guarantee success on every request. Other modes, including multi-view output, are not promised.\n\nThe website uses the internal session path `/pg/influencer/sheet`, not a public gateway Bearer or `/v1` API. No public generation endpoint request shape changes.",
+    "zh": "创建网红支持一张可选的 JPEG、PNG 或 WebP 风格参考图，大小不超过 5 MiB（5,242,880 字节）。这是网站流程的限制，不是公开生图接口的限制。\n\n图片用于借鉴轮廓、造型、配色、服装和整体气质，不锁定身份，允许生成新角色或不同人物。明确文字描述优先于所选特征，所选特征优先于图片参考，所选夸张程度仍然适用。\n\n只提供参考图、不填写描述或选择特征，也可以提交。这一路径要求白底单人全身图，不照搬参考图的背景、文字或标志，仅图、图片加文字及特征、同样文字及特征但不带图片的三类核验均生成成功；这不代表每次请求都保证成功。不承诺多视图等其他模式效果。\n\n网站使用内部登录会话路径 `/pg/influencer/sheet`，不是公开网关 Bearer 或 `/v1` 接口。公开生成接口的请求格式不变。"
   },
   "publication_gate": {
     "en": "Do not copy this candidate into data/changelog/entries or regenerate the public feed. The formal schema requires a real publication date and has no unreleased filter. A parent owner must verify product release evidence and documentation deployment authorization before promotion.",
     "zh": "不得将候选复制到 data/changelog/entries 或生成公开更新记录。正式格式要求真实发布日期，且没有未发布过滤机制。转正式前须由父任务核对产品发布证据与文档部署授权。"
+  },
+  "promotion_schema": {
+    "schema_version": 1,
+    "slug": "influencer-style-reference",
+    "required_after_release": [
+      "id",
+      "published_at"
+    ],
+    "date_source": "Parent-provided actual product release evidence; no date assigned before release."
   }
 }
