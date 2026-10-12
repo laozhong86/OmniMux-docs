@@ -9,6 +9,22 @@ rss: true
 
 分页：**第 1 页** · [第 2 页](/zh/updates/page-2)
 
+<a id="2026-10-12-reference-video-timing-compatibility"></a>
+
+<Update label="2026 年 10 月 12 日" tags={["能力更新", "视频"]} rss={{ title: "参考视频时间记录兼容性" }}>
+
+  本条说明角色工作台参考视频准备的兼容性调整，不代表上线已完成。
+
+  AAC 容器时间记录与解码音频每段最多允许一个采样点的差异，前提是时间线连续，累计漂移始终不超过一个采样点。更大的偏差、空隙或重叠仍会拒绝。末尾长度与编码补齐部分约束同一段音频，按两者交集只计算一次，不连续扣除两次，也不裁去真实内容来让素材符合要求。
+
+  实际视频及音轨仍须在安全隔离环境中完整解码；完整参考素材仍限定为 4 至 30 秒，包含两个端点，接收上限仍为 100 MiB（104857600 字节）。本次不承诺所有供应商均兼容。公开接口路径、请求与响应格式、模型路由及价格均不变。
+
+  ### 链接
+
+  - [参考视频要求](/zh/faqs/features)
+
+</Update>
+
 <a id="2026-10-12-r2-direct-transfer"></a>
 
 <Update label="2026 年 10 月 12 日" tags={["平台"]} rss={{ title: "R2 浏览器直传直下已上线" }}>
@@ -1243,28 +1259,6 @@ rss: true
 
   - [Claude 完整参数](/zh/api-reference/text-series/claude/complete)
   - [DeepSeek 完整参数](/zh/api-reference/text-series/deepseek/complete)
-
-</Update>
-
-<a id="2026-04-28-gpt-image-2"></a>
-
-<Update label="2026 年 4 月 28 日" tags={["新模型", "图像"]} rss={{ title: "GPT Image 2" }}>
-
-  ## GPT Image 2
-
-  **GPT Image 2** 现已在 OmniMux 可调用。
-
-  ### 新模型
-
-  - **模型 ID：** `gpt-image2`、`gpt-image2-hd`
-  - **模态：** 图像生成
-
-  尺寸 / 画质等参数见模型文档。
-
-  ### 链接
-
-  - [GPT Image 2](/zh/api-reference/image-series/models/gpt-image-2)
-  - [GPT Image 2 HD](/zh/api-reference/image-series/models/gpt-image-2-hd)
 
 </Update>
 

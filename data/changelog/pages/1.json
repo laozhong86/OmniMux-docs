@@ -2,9 +2,46 @@
   "schema_version": 1,
   "page": 1,
   "page_size": 50,
-  "total": 52,
+  "total": 53,
   "total_pages": 2,
   "items": [
+    {
+      "id": "2026-10-12-reference-video-timing-compatibility",
+      "published_at": "2026-10-12",
+      "type": "capability",
+      "modality": [
+        "video"
+      ],
+      "title": {
+        "en": "Reference-video timing compatibility",
+        "zh": "参考视频时间记录兼容性"
+      },
+      "summary": {
+        "en": "Documents narrowly bounded AAC timing rounding and a single calculation of the playable audio tail, with full decoding, safety isolation and existing limits retained. Deployment remains subject to post-release verification.",
+        "zh": "说明 AAC 时间记录的有限舍入兼容与音频末尾一次计算规则，保留完整解码、安全隔离和既有限制；上线状态仍须部署后核验。"
+      },
+      "models": [],
+      "tags": [
+        "video"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "Reference-video requirements",
+            "zh": "参考视频要求"
+          },
+          "href": {
+            "en": "/en/faqs/features",
+            "zh": "/zh/faqs/features"
+          }
+        }
+      ],
+      "body": {
+        "en": "This note documents a compatibility adjustment for reference-video preparation in the character workbench; it does not confirm deployment.\n\nAAC container timing may differ from decoded audio by at most one sample per block, provided the timeline remains continuous and cumulative drift never exceeds one sample. Larger discrepancies, gaps and overlaps remain invalid. The container's tail length and encoder padding bound the same audio block: use their intersection once, not two successive reductions. Real content is not trimmed to make a reference eligible.\n\nFull decoding of the actual video and audio in a safety-isolated environment remains required. The complete reference stays within 4 to 30 seconds, inclusive, and the intake ceiling remains 100 MiB (104857600 bytes). This does not establish universal supplier compatibility. Public API paths and request/response shapes, model routing and pricing are unchanged.",
+        "zh": "本条说明角色工作台参考视频准备的兼容性调整，不代表上线已完成。\n\nAAC 容器时间记录与解码音频每段最多允许一个采样点的差异，前提是时间线连续，累计漂移始终不超过一个采样点。更大的偏差、空隙或重叠仍会拒绝。末尾长度与编码补齐部分约束同一段音频，按两者交集只计算一次，不连续扣除两次，也不裁去真实内容来让素材符合要求。\n\n实际视频及音轨仍须在安全隔离环境中完整解码；完整参考素材仍限定为 4 至 30 秒，包含两个端点，接收上限仍为 100 MiB（104857600 字节）。本次不承诺所有供应商均兼容。公开接口路径、请求与响应格式、模型路由及价格均不变。"
+      },
+      "schema_version": 1
+    },
     {
       "id": "2026-10-12-r2-direct-transfer",
       "published_at": "2026-10-12",
@@ -2283,56 +2320,6 @@
       "body": {
         "en": "## Claude Opus 4.7 and DeepSeek V4\n\nNew language models are available on OmniMux Chat Completions.\n\n### New models\n\n| Model ID | Brand |\n| --- | --- |\n| `claude-opus-4-7` | Claude |\n| `deepseek-v4-flash` | DeepSeek |\n| `deepseek-v4-pro` | DeepSeek |\n\n### API\n\n- **Endpoint:** `https://api.omnimux.ai/v1` (Chat Completions)",
         "zh": "## Claude Opus 4.7 与 DeepSeek V4\n\n新的语言模型已通过 Chat Completions 在 OmniMux 可调用。\n\n### 新模型\n\n| 模型 ID | 品牌 |\n| --- | --- |\n| `claude-opus-4-7` | Claude |\n| `deepseek-v4-flash` | DeepSeek |\n| `deepseek-v4-pro` | DeepSeek |\n\n### 调用\n\n- **端点：** `https://api.omnimux.ai/v1`（Chat Completions）"
-      },
-      "schema_version": 1
-    },
-    {
-      "id": "2026-04-28-gpt-image-2",
-      "published_at": "2026-04-28",
-      "type": "model_launch",
-      "modality": [
-        "image"
-      ],
-      "title": {
-        "en": "GPT Image 2",
-        "zh": "GPT Image 2"
-      },
-      "summary": {
-        "en": "GPT Image 2 and HD tier on OmniMux.",
-        "zh": "GPT Image 2 及 HD 档已在 OmniMux 可调用。"
-      },
-      "models": [
-        "gpt-image-2",
-        "gpt-image-2-hd"
-      ],
-      "tags": [
-        "image"
-      ],
-      "links": [
-        {
-          "label": {
-            "en": "GPT Image 2",
-            "zh": "GPT Image 2"
-          },
-          "href": {
-            "en": "/en/api-reference/image-series/models/gpt-image-2",
-            "zh": "/zh/api-reference/image-series/models/gpt-image-2"
-          }
-        },
-        {
-          "label": {
-            "en": "GPT Image 2 HD",
-            "zh": "GPT Image 2 HD"
-          },
-          "href": {
-            "en": "/en/api-reference/image-series/models/gpt-image-2-hd",
-            "zh": "/zh/api-reference/image-series/models/gpt-image-2-hd"
-          }
-        }
-      ],
-      "body": {
-        "en": "## GPT Image 2\n\n**GPT Image 2** is now available on OmniMux.\n\n### New models\n\n- **Model IDs:** `gpt-image2`, `gpt-image2-hd`\n- **Modality:** image generation\n\nSee model docs for size / quality parameters.",
-        "zh": "## GPT Image 2\n\n**GPT Image 2** 现已在 OmniMux 可调用。\n\n### 新模型\n\n- **模型 ID：** `gpt-image2`、`gpt-image2-hd`\n- **模态：** 图像生成\n\n尺寸 / 画质等参数见模型文档。"
       },
       "schema_version": 1
     }
