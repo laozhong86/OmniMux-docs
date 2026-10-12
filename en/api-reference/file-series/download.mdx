@@ -6,9 +6,27 @@ api: "GET https://api.omnimux.ai/api/v1/files/download/{file_id}"
 ---
 
 > - Public access by unique `file_id` (no login required)
-> - Automatically responds with **302 Redirect** to Cloudflare R2 CDN URL when public domain is configured
+> - Responds with **302 Redirect** to an isolated R2 public URL when configured; this is link-readable storage, not private storage
 > - Streams file directly with correct `Content-Type` and `Content-Disposition` in local storage mode
 > - Returns `404 Not Found` when file has expired past **72 hours**
+
+## Task-content direct delivery
+
+<Note>
+Browser direct delivery of stored task artifacts is live as of October 12, 2026.
+</Note>
+
+Task artifacts are a separate contract from the public `file_id` route above. On the recognized canonical path `GET /v1/tasks/{task_id}/artifacts/{artifact_key}/content`, a browser may append `delivery=direct`; downloads also append `download=1`. Preserve existing access query values and the route's existing authorization. Do not append these options to unrelated URLs, and do not replace canonical reference URLs sent to an upstream model with browser-only direct URLs. This note does not extend direct delivery to the OpenAI Videos `/v1/videos/{id}/content` compatibility route.
+
+After existing task ownership/access, status, retention, and artifact checks, an R2 storage hit with supported image/video metadata can return **307 Temporary Redirect** to a signed R2 GET valid for **5 minutes**. The redirect uses `Cache-Control: private, no-store` and `Referrer-Policy: no-referrer`; the signed final response binds content type, `private, no-store`, and safe disposition. With `download=1`, the **final cross-origin R2 response** sets `Content-Disposition: attachment`, rather than relying on the HTML `download` attribute. Image/video previews and stored covers can use the same direct path.
+
+Default canonical requests, including URLs supplied as model references, retain byte-serving behavior; HEAD does not use the direct redirect. Local storage, unsupported direct delivery, or signing failure retain the existing server path. Initial upstream collection into storage and reference-media inspection/processing still pass through the server: this optimization does not promise zero server payload bytes or a measured speed improvement.
+
+For ordinary file downloads, an explicit `delivery=direct` GET can return **307** to a signed R2 GET valid for **5 minutes**, including when no isolated public URL is configured. This path preserves active-status, expiration, and independent-content-origin checks and signs the final response as an attachment. Without this option, existing public-URL delivery and local/unsupported fallbacks remain unchanged. Ordinary file downloads do not require the task route's `download=1` option.
+
+<Warning>
+The current bucket's public URLs remain readable by anyone who holds them. A signed GET limits that ticket's lifetime, not all access to the underlying public object. Gateway authorization and expiration checks do not make the bucket private or guarantee immediate revocation of a known public URL.
+</Warning>
 
 ## Path Parameters
 

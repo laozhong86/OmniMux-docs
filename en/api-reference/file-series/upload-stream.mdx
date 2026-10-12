@@ -6,10 +6,53 @@ api: "POST https://api.omnimux.ai/api/v1/files/upload/stream"
 ---
 
 > - Upload local files or raw binary data via `multipart/form-data`
-> - Optimized for large file streams (supports up to **100MB**)
+> - Supports files up to **100 MiB (104857600 bytes)**
 > - Files automatically expire and are purged after **72 hours**
 > - Limit of **2,000** active files per user; returns 429 when quota is exhausted
 > - Auth: `Authorization: Bearer sk-...`
+
+## Browser direct upload
+
+<Note>
+Browser direct uploads are live as of October 12, 2026. The multipart endpoint remains available.
+</Note>
+
+Use the existing `POST /api/v1/files/upload/presign` and `POST /api/v1/files/upload/confirm` endpoints (also available under `/v1/files/upload/*`), not the publishing media-presign endpoint. Ticket and confirmation calls use the existing file-upload authentication. Both accept JSON: presign requires non-empty string `file_name` and `mime_type`, a positive integer `file_size`, and optional string `upload_path`; confirm requires string `file_id` and the same integer `file_size`. The standard response uses `success` (boolean), `code` (integer), `msg` (string), and `data` on success. Ticket data contains `file_id`, `upload_url`, `upload_method`, `upload_headers` (a string-to-string map), `resource_url`, `download_url`, and `expires_at`.
+
+Upload tickets default to **15 minutes** and cannot exceed **1 hour**. Ticket `data.expires_at` is the upload deadline, not the confirmed file's retention deadline.
+
+1. Request a ticket with `file_name`, `mime_type`, positive `file_size` in bytes, and optional `upload_path`. The ceiling is **100 MiB (104857600 bytes)**; a website flow may impose a lower limit.
+2. PUT the original browser `File` as the request body to `data.upload_url`, using `data.upload_method` and every returned `data.upload_headers` value unchanged. These are the required signed headers, including `If-None-Match: *`, which prevents replay from overwriting an existing object. Do not wrap the file in `FormData`, use the site's authenticated client, or add an OmniMux Bearer header. Set `credentials: "omit"`.
+3. After PUT succeeds, confirm with `file_id` and the same `file_size`. Use the confirmed URL and retention in the existing upload library only after confirmation succeeds. A ticket's `resource_url` is not proof of a confirmed file.
+
+Fall back to multipart **only** if the ticket endpoint returns the documented **501** unsupported-storage response. Authentication, quota, network, PUT, and confirmation failures must not silently relay or retry the file; preserve the service's safe `msg`.
+
+Confirmation checks object existence, positive size, and stored `Content-Type` metadata through R2 **HEAD**, without reading the complete object body. Actual size must equal the original ticket declaration, even if confirmation supplies a different size; type metadata must equal the ticket's normalized MIME type. Confirmation atomically activates only an owned, pending, unexpired record. Repeated or conflicting confirmation cannot replace an active object. These metadata checks do **not** validate the actual media format, duration, or safety; separate reference-media preparation still applies.
+
+<Panel>
+<RequestExample>
+```javascript Browser PUT
+// ticket is data from a successful presign response; file is the original File.
+const uploaded = await fetch(ticket.upload_url, {
+  method: ticket.upload_method,
+  headers: ticket.upload_headers,
+  body: file,
+  credentials: "omit",
+});
+if (!uploaded.ok) throw new Error("Direct upload failed");
+// Call the authenticated confirm endpoint only after this succeeds.
+```
+</RequestExample>
+<ResponseExample>
+```json 501 Unsupported storage
+{
+  "success": false,
+  "code": 501,
+  "msg": "当前存储后端不支持直传，请改用 /upload/stream"
+}
+```
+</ResponseExample>
+</Panel>
 
 ## Form Fields (multipart/form-data)
 

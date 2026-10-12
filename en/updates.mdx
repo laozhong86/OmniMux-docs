@@ -7,6 +7,26 @@ rss: true
 
 Stay up to date with OmniMux gateway model launches and platform changes. The full callable catalog is on [console pricing](https://omnimux.ai) / [Pricing](/en/api-reference/account/pricing).
 
+Pages: **Page 1** · [Page 2](/en/updates/page-2)
+
+<a id="2026-10-12-r2-direct-transfer"></a>
+
+<Update label="October 12, 2026" tags={["Platform"]} rss={{ title: "R2 browser direct uploads and downloads are live" }}>
+
+  R2 browser direct transfers went live on October 12, 2026. Production browser acceptance covered image/video uploads, saved image/video attachments, and video playback and seeking.
+
+  - Browser uploads reuse presign → PUT the original File with the returned required signed `upload_headers` and `credentials: "omit"` → confirm. Do not send OmniMux Bearer credentials to R2. Only the documented 501 unsupported-storage response permits multipart fallback. Signed `If-None-Match: *` prevents overwriting an existing object. Upload tickets default to 15 minutes and cannot exceed 1 hour.
+  - Uploads must be non-empty and no larger than 100 MiB (104857600 bytes). Confirmation compares R2 HEAD size with the original ticket declaration and checks matching type metadata; it does not inspect the full body or prove valid media. Only a pending, owned, unexpired record becomes active. Existing retention, quota, and separate reference-media checks remain.
+  - A recognized task-content GET can request `delivery=direct`, plus `download=1` for a final R2 attachment response. Existing authorization and an eligible storage hit precede a signed GET valid for 5 minutes via 307. Default canonical model references keep bytes; HEAD, local storage, and unsupported direct delivery keep existing behavior. Initial upstream collection and reference processing still use the server.
+  - Current public bucket URLs remain readable by their holders. Signed GET does not make public objects private or guarantee immediate revocation. No measured speed improvement is claimed.
+
+  ### Links
+
+  - [Upload rules](/en/api-reference/file-series/upload-stream)
+  - [Download and access boundaries](/en/api-reference/file-series/download)
+
+</Update>
+
 <a id="2026-10-10-reference-media-checks"></a>
 
 <Update label="October 10, 2026" tags={["Improvements", "Video"]} rss={{ title: "Reference-video preparation checks" }}>
@@ -1248,27 +1268,6 @@ Stay up to date with OmniMux gateway model launches and platform changes. The fu
   ### Links
 
   - [MiniMax complete](/en/api-reference/text-series/minimax/complete)
-
-</Update>
-
-<a id="2026-03-06-gpt-5-4"></a>
-
-<Update label="March 6, 2026" tags={["New models", "Text"]} rss={{ title: "GPT-5.4 series" }}>
-
-  ## GPT-5.4
-
-  **GPT-5.4** series models are available on OmniMux Chat Completions.
-
-  ### New models
-
-  - **Model IDs:** `gpt-5.4`, `gpt-5.4-mini`
-  - **API:** `https://api.omnimux.ai/v1`
-
-  Later GPT-5.x IDs (for example `gpt-5.5`, `gpt-5.6-terra`) may also appear on live pricing — always pin the ID from the console.
-
-  ### Links
-
-  - [GPT complete](/en/api-reference/text-series/gpt/complete)
 
 </Update>
 
