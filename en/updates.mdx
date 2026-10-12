@@ -9,6 +9,22 @@ Stay up to date with OmniMux gateway model launches and platform changes. The fu
 
 Pages: **Page 1** · [Page 2](/en/updates/page-2)
 
+<a id="2026-10-12-reference-video-timing-compatibility"></a>
+
+<Update label="October 12, 2026" tags={["Improvements", "Video"]} rss={{ title: "Reference-video timing compatibility" }}>
+
+  This compatibility adjustment for reference-video preparation is live in the character workbench. The original reference that triggered a timing rejection now passes preparation and is accepted into the generation queue; this does not assert that generation has completed.
+
+  AAC container timing may differ from decoded audio by at most one sample per block, provided the timeline remains continuous and cumulative drift never exceeds one sample. Larger discrepancies, gaps and overlaps remain invalid. The container's tail length and encoder padding bound the same audio block: use their intersection once, not two successive reductions. Real content is not trimmed to make a reference eligible.
+
+  Full decoding of the actual video and audio in a safety-isolated environment remains required. The complete reference stays within 4 to 30 seconds, inclusive, and the intake ceiling remains 100 MiB (104857600 bytes). This does not establish universal supplier compatibility. Public API paths and request/response shapes, model routing and pricing are unchanged.
+
+  ### Links
+
+  - [Reference-video requirements](/en/faqs/features)
+
+</Update>
+
 <a id="2026-10-12-r2-direct-transfer"></a>
 
 <Update label="October 12, 2026" tags={["Platform"]} rss={{ title: "R2 browser direct uploads and downloads are live" }}>
@@ -1243,28 +1259,6 @@ Pages: **Page 1** · [Page 2](/en/updates/page-2)
 
   - [Claude complete](/en/api-reference/text-series/claude/complete)
   - [DeepSeek complete](/en/api-reference/text-series/deepseek/complete)
-
-</Update>
-
-<a id="2026-04-28-gpt-image-2"></a>
-
-<Update label="April 28, 2026" tags={["New models", "Image"]} rss={{ title: "GPT Image 2" }}>
-
-  ## GPT Image 2
-
-  **GPT Image 2** is now available on OmniMux.
-
-  ### New models
-
-  - **Model IDs:** `gpt-image2`, `gpt-image2-hd`
-  - **Modality:** image generation
-
-  See model docs for size / quality parameters.
-
-  ### Links
-
-  - [GPT Image 2](/en/api-reference/image-series/models/gpt-image-2)
-  - [GPT Image 2 HD](/en/api-reference/image-series/models/gpt-image-2-hd)
 
 </Update>
 

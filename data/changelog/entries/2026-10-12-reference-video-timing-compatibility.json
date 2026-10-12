@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "id": "2026-10-12-reference-video-timing-compatibility",
+  "published_at": "2026-10-12",
+  "rank": 0,
+  "type": "capability",
+  "modality": ["video"],
+  "title": {
+    "en": "Reference-video timing compatibility",
+    "zh": "参考视频时间记录兼容性"
+  },
+  "summary": {
+    "en": "Reference-video preparation now supports narrowly bounded AAC timing rounding and calculates the playable audio tail once, with full decoding, safety isolation and existing limits retained.",
+    "zh": "参考视频准备已支持 AAC 时间记录的有限舍入兼容，并按音频末尾的可播放范围只计算一次；完整解码、安全隔离和既有限制保持不变。"
+  },
+  "models": [],
+  "links": [
+    {
+      "label": {"en": "Reference-video requirements", "zh": "参考视频要求"},
+      "href": {"en": "/en/faqs/features", "zh": "/zh/faqs/features"}
+    }
+  ],
+  "tags": ["video"],
+  "body": {
+    "en": "This compatibility adjustment for reference-video preparation is live in the character workbench. The original reference that triggered a timing rejection now passes preparation and is accepted into the generation queue; this does not assert that generation has completed.\n\nAAC container timing may differ from decoded audio by at most one sample per block, provided the timeline remains continuous and cumulative drift never exceeds one sample. Larger discrepancies, gaps and overlaps remain invalid. The container's tail length and encoder padding bound the same audio block: use their intersection once, not two successive reductions. Real content is not trimmed to make a reference eligible.\n\nFull decoding of the actual video and audio in a safety-isolated environment remains required. The complete reference stays within 4 to 30 seconds, inclusive, and the intake ceiling remains 100 MiB (104857600 bytes). This does not establish universal supplier compatibility. Public API paths and request/response shapes, model routing and pricing are unchanged.",
+    "zh": "角色工作台参考视频准备的兼容性调整已上线。此前因时间记录被拒绝的原始参考素材现已通过准备检查并进入生成队列；这不代表成片生成已经完成。\n\nAAC 容器时间记录与解码音频每段最多允许一个采样点的差异，前提是时间线连续，累计漂移始终不超过一个采样点。更大的偏差、空隙或重叠仍会拒绝。末尾长度与编码补齐部分约束同一段音频，按两者交集只计算一次，不连续扣除两次，也不裁去真实内容来让素材符合要求。\n\n实际视频及音轨仍须在安全隔离环境中完整解码；完整参考素材仍限定为 4 至 30 秒，包含两个端点，接收上限仍为 100 MiB（104857600 字节）。本次不承诺所有供应商均兼容。公开接口路径、请求与响应格式、模型路由及价格均不变。"
+  }
+}

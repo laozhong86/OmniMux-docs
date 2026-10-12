@@ -27,7 +27,9 @@ Do not confuse with `/v1/videos/{id}/content` download.
 <Note>
 These checks apply to the character workbench's reference-video preparation, not to every request on the generic video API paths above.
 
-The workbench checks the actual media before generation, rather than trusting a filename, browser metadata, or caller-provided duration. The complete original reference must be **4 to 30 seconds**, inclusive. An overlong video or audio tail is rejected, not trimmed or sped up. A submitted integer duration must match the rounded actual duration.
+The workbench fully decodes the actual reference video and any audio in a safety-isolated environment before generation, rather than trusting a filename, browser metadata, or caller-provided duration. The complete original reference must be **4 to 30 seconds**, inclusive. An overlong video or audio tail is rejected, not trimmed or sped up. A submitted integer duration must match the rounded actual duration.
+
+AAC audio permits container timing rounding of at most **one sample per block**, only while the timeline stays continuous and cumulative drift stays within **one sample**. Larger discrepancies, gaps and overlaps remain invalid. At the end, the container's stated length and encoder padding constrain the same audio block: their intersection determines the playable span, counted once rather than shortened twice. These timing rules do not trim real content or relax the 30-second ceiling.
 
 The reference clip's own aspect ratio is **input metadata**, separate from the output framing of the generated video: a reference clip does not have to match one specific ratio. Motion transfer exposes **Frame** as an independent output setting; object swap must preserve the reference framing, so the clip's own ratio must be a standard value the bound line can produce (480p: 16:9, 9:16, 3:4 — 720p: 16:9, 9:16). A non-standard clip can drive motion transfer but cannot be framing-preserved for object swap, and the form says so instead of claiming the input is unsupported. The workbench never crops, stretches, or letterboxes the clip silently.
 
