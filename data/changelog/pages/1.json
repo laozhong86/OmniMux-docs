@@ -2,9 +2,58 @@
   "schema_version": 1,
   "page": 1,
   "page_size": 50,
-  "total": 51,
+  "total": 52,
   "total_pages": 2,
   "items": [
+    {
+      "id": "2026-10-12-r2-direct-transfer",
+      "published_at": "2026-10-12",
+      "type": "platform",
+      "modality": [
+        "platform"
+      ],
+      "title": {
+        "en": "R2 browser direct uploads and downloads are live",
+        "zh": "R2 浏览器直传直下已上线"
+      },
+      "summary": {
+        "en": "Browser uploads and stored task previews/downloads now transfer directly with R2. Existing authorization, confirmation, retention, and media-preparation checks remain.",
+        "zh": "浏览器上传及已存任务预览、下载现可直接与 R2 传输，既有授权、确认、保留期限和媒体准备检查仍保留。"
+      },
+      "models": [],
+      "tags": [
+        "storage",
+        "r2",
+        "direct-transfer"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "Upload rules",
+            "zh": "上传规则"
+          },
+          "href": {
+            "en": "/en/api-reference/file-series/upload-stream",
+            "zh": "/zh/api-reference/file-series/upload-stream"
+          }
+        },
+        {
+          "label": {
+            "en": "Download and access boundaries",
+            "zh": "下载与访问边界"
+          },
+          "href": {
+            "en": "/en/api-reference/file-series/download",
+            "zh": "/zh/api-reference/file-series/download"
+          }
+        }
+      ],
+      "body": {
+        "en": "R2 browser direct transfers went live on October 12, 2026. Production browser acceptance covered image/video uploads, saved image/video attachments, and video playback and seeking.\n\n- Browser uploads reuse presign → PUT the original File with the returned required signed `upload_headers` and `credentials: \"omit\"` → confirm. Do not send OmniMux Bearer credentials to R2. Only the documented 501 unsupported-storage response permits multipart fallback. Signed `If-None-Match: *` prevents overwriting an existing object. Upload tickets default to 15 minutes and cannot exceed 1 hour.\n- Uploads must be non-empty and no larger than 100 MiB (104857600 bytes). Confirmation compares R2 HEAD size with the original ticket declaration and checks matching type metadata; it does not inspect the full body or prove valid media. Only a pending, owned, unexpired record becomes active. Existing retention, quota, and separate reference-media checks remain.\n- A recognized task-content GET can request `delivery=direct`, plus `download=1` for a final R2 attachment response. Existing authorization and an eligible storage hit precede a signed GET valid for 5 minutes via 307. Default canonical model references keep bytes; HEAD, local storage, and unsupported direct delivery keep existing behavior. Initial upstream collection and reference processing still use the server.\n- Current public bucket URLs remain readable by their holders. Signed GET does not make public objects private or guarantee immediate revocation. No measured speed improvement is claimed.",
+        "zh": "R2 浏览器直传直下已于 2026 年 10 月 12 日上线。生产浏览器验收已覆盖图片和视频上传、图片和视频附件保存，以及视频播放与拖动。\n\n- 浏览器上传复用申请凭证 → 携带返回的必需签名 `upload_headers`，以 `credentials: \"omit\"` PUT 原始 File → 确认。不要向 R2 发送本站 Bearer 凭证。只有明确的 501 存储不支持响应才回退表单上传；签名的 `If-None-Match: *` 防止覆盖已存在对象。上传凭证默认有效 15 分钟，最长不超过 1 小时。\n- 文件须大于零且不超过 100 MiB（104857600 字节）。确认用 R2 HEAD 比较实际大小与最初凭证声明，检查类型元数据一致，不完整读取正文，也不证明真实媒体合法。只有属于当前用户、待确认且未过期的记录转为可用；既有保留期限、配额及独立参考媒体检查仍保留。\n- 受支持的任务产物 GET 可请求 `delivery=direct`，下载再加 `download=1`，让最终 R2 响应按附件返回。既有授权和符合条件的存储命中在先，再经 307 转向有效期为 5 分钟的签名 GET。提供给模型的默认规范参考地址仍返回字节；HEAD、本地存储和不支持直下时保留既有行为。首次上游回存和参考处理仍经服务器。\n- 当前公开桶地址仍可由持有链接的人读取。签名 GET 不会让公开对象变私密，也不保证立即撤销；本条不声称已经测得速度提升。"
+      },
+      "schema_version": 1
+    },
     {
       "id": "2026-10-12-motion-framing-contract",
       "published_at": "2026-10-12",
@@ -2284,46 +2333,6 @@
       "body": {
         "en": "## GPT Image 2\n\n**GPT Image 2** is now available on OmniMux.\n\n### New models\n\n- **Model IDs:** `gpt-image2`, `gpt-image2-hd`\n- **Modality:** image generation\n\nSee model docs for size / quality parameters.",
         "zh": "## GPT Image 2\n\n**GPT Image 2** 现已在 OmniMux 可调用。\n\n### 新模型\n\n- **模型 ID：** `gpt-image2`、`gpt-image2-hd`\n- **模态：** 图像生成\n\n尺寸 / 画质等参数见模型文档。"
-      },
-      "schema_version": 1
-    },
-    {
-      "id": "2026-03-08-minimax-m2-5",
-      "published_at": "2026-03-08",
-      "type": "model_launch",
-      "modality": [
-        "text"
-      ],
-      "title": {
-        "en": "MiniMax M2.5",
-        "zh": "MiniMax M2.5"
-      },
-      "summary": {
-        "en": "MiniMax M2.5 language model on OmniMux.",
-        "zh": "MiniMax M2.5 语言模型已在 OmniMux 可调用。"
-      },
-      "models": [
-        "minimax-m2.5",
-        "minimax-m2.7"
-      ],
-      "tags": [
-        "text"
-      ],
-      "links": [
-        {
-          "label": {
-            "en": "MiniMax complete",
-            "zh": "MiniMax 完整参数"
-          },
-          "href": {
-            "en": "/en/api-reference/text-series/minimax/complete",
-            "zh": "/zh/api-reference/text-series/minimax/complete"
-          }
-        }
-      ],
-      "body": {
-        "en": "## MiniMax M2.5\n\n**MiniMax M2.5** (and related MiniMax text IDs) are available on OmniMux.\n\n### New models\n\n- **Model IDs:** `minimax-m2.5`, `minimax-m2.7`\n- **API:** Chat Completions",
-        "zh": "## MiniMax M2.5\n\n**MiniMax M2.5**（及同族文本 ID）已在 OmniMux 可调用。\n\n### 新模型\n\n- **模型 ID：** `minimax-m2.5`、`minimax-m2.7`\n- **API：** Chat Completions"
       },
       "schema_version": 1
     }

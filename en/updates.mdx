@@ -9,6 +9,24 @@ Stay up to date with OmniMux gateway model launches and platform changes. The fu
 
 Pages: **Page 1** · [Page 2](/en/updates/page-2)
 
+<a id="2026-10-12-r2-direct-transfer"></a>
+
+<Update label="October 12, 2026" tags={["Platform"]} rss={{ title: "R2 browser direct uploads and downloads are live" }}>
+
+  R2 browser direct transfers went live on October 12, 2026. Production browser acceptance covered image/video uploads, saved image/video attachments, and video playback and seeking.
+
+  - Browser uploads reuse presign → PUT the original File with the returned required signed `upload_headers` and `credentials: "omit"` → confirm. Do not send OmniMux Bearer credentials to R2. Only the documented 501 unsupported-storage response permits multipart fallback. Signed `If-None-Match: *` prevents overwriting an existing object. Upload tickets default to 15 minutes and cannot exceed 1 hour.
+  - Uploads must be non-empty and no larger than 100 MiB (104857600 bytes). Confirmation compares R2 HEAD size with the original ticket declaration and checks matching type metadata; it does not inspect the full body or prove valid media. Only a pending, owned, unexpired record becomes active. Existing retention, quota, and separate reference-media checks remain.
+  - A recognized task-content GET can request `delivery=direct`, plus `download=1` for a final R2 attachment response. Existing authorization and an eligible storage hit precede a signed GET valid for 5 minutes via 307. Default canonical model references keep bytes; HEAD, local storage, and unsupported direct delivery keep existing behavior. Initial upstream collection and reference processing still use the server.
+  - Current public bucket URLs remain readable by their holders. Signed GET does not make public objects private or guarantee immediate revocation. No measured speed improvement is claimed.
+
+  ### Links
+
+  - [Upload rules](/en/api-reference/file-series/upload-stream)
+  - [Download and access boundaries](/en/api-reference/file-series/download)
+
+</Update>
+
 <a id="2026-10-12-motion-framing-contract"></a>
 
 <Update label="October 12, 2026" tags={["Improvements", "Video"]} rss={{ title: "Reference video and output framing contracts separated" }}>
@@ -1247,25 +1265,6 @@ Pages: **Page 1** · [Page 2](/en/updates/page-2)
 
   - [GPT Image 2](/en/api-reference/image-series/models/gpt-image-2)
   - [GPT Image 2 HD](/en/api-reference/image-series/models/gpt-image-2-hd)
-
-</Update>
-
-<a id="2026-03-08-minimax-m2-5"></a>
-
-<Update label="March 8, 2026" tags={["New models", "Text"]} rss={{ title: "MiniMax M2.5" }}>
-
-  ## MiniMax M2.5
-
-  **MiniMax M2.5** (and related MiniMax text IDs) are available on OmniMux.
-
-  ### New models
-
-  - **Model IDs:** `minimax-m2.5`, `minimax-m2.7`
-  - **API:** Chat Completions
-
-  ### Links
-
-  - [MiniMax complete](/en/api-reference/text-series/minimax/complete)
 
 </Update>
 
