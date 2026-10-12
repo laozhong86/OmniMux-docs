@@ -7,6 +7,24 @@ rss: true
 
 Stay up to date with OmniMux gateway model launches and platform changes. The full callable catalog is on [console pricing](https://omnimux.ai) / [Pricing](/en/api-reference/account/pricing).
 
+Pages: **Page 1** · [Page 2](/en/updates/page-2)
+
+<a id="2026-10-12-motion-framing-contract"></a>
+
+<Update label="October 12, 2026" tags={["Improvements", "Video"]} rss={{ title: "Reference video and output framing contracts separated" }}>
+
+  Input media and output framing were previously coupled: the reference clip had to match one of 16:9, 9:16, or 3:4, and the same value was sent as the output ratio. That produced a misleading "unsupported aspect ratio" error for clips such as 5:4, and let the form offer 3:4 on 720p even though the bound 720p line only evidences 16:9 and 9:16.
+
+  The contracts are now separate. The clip's own ratio is input metadata, not an eligibility gate: a non-standard clip can still drive motion transfer, which gains an independent Frame setting bounded to what the bound line can produce. Object swap must preserve the reference framing, so it submits only when the clip's own ratio is standard and producible on the chosen tier — 480p allows 16:9, 9:16, 3:4; 720p allows 16:9, 9:16 — and otherwise stops before generation with an accurate reason. The workbench never crops, stretches, or letterboxes the clip silently.
+
+  The workbench now also exposes GET /pg/influencer/motion/options (session-only), so the form offers only the output framings the bound lines evidence, without revealing channel or vendor details. Server-side media inspection, duration bounds, audio extraction and native billing are unchanged.
+
+  ### Links
+
+  - [Reference-video requirements](/en/faqs/features)
+
+</Update>
+
 <a id="2026-10-10-reference-media-checks"></a>
 
 <Update label="October 10, 2026" tags={["Improvements", "Video"]} rss={{ title: "Reference-video preparation checks" }}>
@@ -1248,27 +1266,6 @@ Stay up to date with OmniMux gateway model launches and platform changes. The fu
   ### Links
 
   - [MiniMax complete](/en/api-reference/text-series/minimax/complete)
-
-</Update>
-
-<a id="2026-03-06-gpt-5-4"></a>
-
-<Update label="March 6, 2026" tags={["New models", "Text"]} rss={{ title: "GPT-5.4 series" }}>
-
-  ## GPT-5.4
-
-  **GPT-5.4** series models are available on OmniMux Chat Completions.
-
-  ### New models
-
-  - **Model IDs:** `gpt-5.4`, `gpt-5.4-mini`
-  - **API:** `https://api.omnimux.ai/v1`
-
-  Later GPT-5.x IDs (for example `gpt-5.5`, `gpt-5.6-terra`) may also appear on live pricing — always pin the ID from the console.
-
-  ### Links
-
-  - [GPT complete](/en/api-reference/text-series/gpt/complete)
 
 </Update>
 
