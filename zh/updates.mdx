@@ -7,6 +7,26 @@ rss: true
 
 跟踪 OmniMux 网关的模型上新与平台变更。完整可调用模型以[控制台定价](https://omnimux.ai) / [定价与账户](/zh/api-reference/account/pricing)为准。
 
+分页：**第 1 页** · [第 2 页](/zh/updates/page-2)
+
+<a id="2026-10-12-r2-direct-transfer"></a>
+
+<Update label="2026 年 10 月 12 日" tags={["平台"]} rss={{ title: "R2 浏览器直传直下已上线" }}>
+
+  R2 浏览器直传直下已于 2026 年 10 月 12 日上线。生产浏览器验收已覆盖图片和视频上传、图片和视频附件保存，以及视频播放与拖动。
+
+  - 浏览器上传复用申请凭证 → 携带返回的必需签名 `upload_headers`，以 `credentials: "omit"` PUT 原始 File → 确认。不要向 R2 发送本站 Bearer 凭证。只有明确的 501 存储不支持响应才回退表单上传；签名的 `If-None-Match: *` 防止覆盖已存在对象。上传凭证默认有效 15 分钟，最长不超过 1 小时。
+  - 文件须大于零且不超过 100 MiB（104857600 字节）。确认用 R2 HEAD 比较实际大小与最初凭证声明，检查类型元数据一致，不完整读取正文，也不证明真实媒体合法。只有属于当前用户、待确认且未过期的记录转为可用；既有保留期限、配额及独立参考媒体检查仍保留。
+  - 受支持的任务产物 GET 可请求 `delivery=direct`，下载再加 `download=1`，让最终 R2 响应按附件返回。既有授权和符合条件的存储命中在先，再经 307 转向有效期为 5 分钟的签名 GET。提供给模型的默认规范参考地址仍返回字节；HEAD、本地存储和不支持直下时保留既有行为。首次上游回存和参考处理仍经服务器。
+  - 当前公开桶地址仍可由持有链接的人读取。签名 GET 不会让公开对象变私密，也不保证立即撤销；本条不声称已经测得速度提升。
+
+  ### 链接
+
+  - [上传规则](/zh/api-reference/file-series/upload-stream)
+  - [下载与访问边界](/zh/api-reference/file-series/download)
+
+</Update>
+
 <a id="2026-10-10-reference-media-checks"></a>
 
 <Update label="2026 年 10 月 10 日" tags={["能力更新", "视频"]} rss={{ title: "参考视频准备检查" }}>
@@ -1248,27 +1268,6 @@ rss: true
   ### 链接
 
   - [MiniMax 完整参数](/zh/api-reference/text-series/minimax/complete)
-
-</Update>
-
-<a id="2026-03-06-gpt-5-4"></a>
-
-<Update label="2026 年 3 月 6 日" tags={["新模型", "文本"]} rss={{ title: "GPT-5.4 系列" }}>
-
-  ## GPT-5.4
-
-  **GPT-5.4** 系列模型已通过 Chat Completions 在 OmniMux 可调用。
-
-  ### 新模型
-
-  - **模型 ID：** `gpt-5.4`、`gpt-5.4-mini`
-  - **API：** `https://api.omnimux.ai/v1`
-
-  后续 GPT-5.x ID（如 `gpt-5.5`、`gpt-5.6-terra`）也可能出现在线上定价——请始终以控制台 ID 为准。
-
-  ### 链接
-
-  - [GPT 完整参数](/zh/api-reference/text-series/gpt/complete)
 
 </Update>
 

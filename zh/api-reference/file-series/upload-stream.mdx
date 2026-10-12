@@ -6,10 +6,53 @@ api: "POST https://api.omnimux.ai/api/v1/files/upload/stream"
 ---
 
 > - 使用 `multipart/form-data` 格式直接上传本地文件或二进制数据流
-> - 适用于大文件流式上传（最大支持 **100MB**）
+> - 最大支持 **100 MiB（104857600 字节）**
 > - 文件会在 **72 小时** 后自动过期并由后台服务物理清理
 > - 单用户最多存储 **2,000** 个活跃文件，配额耗尽时会返回 429 提示
 > - 鉴权：`Authorization: Bearer sk-...`
+
+## 浏览器直传
+
+<Note>
+浏览器直传已于 2026 年 10 月 12 日上线，既有表单上传接口仍保留。
+</Note>
+
+使用既有 `POST /api/v1/files/upload/presign` 和 `POST /api/v1/files/upload/confirm`（也支持 `/v1/files/upload/*`），不要混用社媒发布的媒体预签名接口。申请凭证和确认请求沿用文件上传的既有鉴权，正文均为 JSON：申请凭证要求非空字符串 `file_name` 和 `mime_type`、正整数字节数 `file_size`，以及可选字符串 `upload_path`；确认要求字符串 `file_id` 和相同的整数 `file_size`。标准响应使用 `success`（布尔值）、`code`（整数）、`msg`（字符串），成功时包含 `data`。凭证数据包含 `file_id`、`upload_url`、`upload_method`、`upload_headers`（字符串到字符串的映射）、`resource_url`、`download_url` 和 `expires_at`。
+
+上传凭证默认有效 **15 分钟**，最长不超过 **1 小时**。凭证的 `data.expires_at` 是上传截止时间，不是确认后文件的保留截止时间。
+
+1. 申请凭证时传入 `file_name`、`mime_type`、大于零的字节数 `file_size`，以及可选的 `upload_path`。上限为 **100 MiB（104857600 字节）**，具体网站流程可以有更低限制。
+2. 将浏览器原始 `File` 作为请求正文，按 `data.upload_method` 直接 PUT 到 `data.upload_url`，原样携带所有 `data.upload_headers`。这些是必需的签名请求头，包括 `If-None-Match: *`，重复使用凭证不能覆盖已存在的对象。不要使用 `FormData` 包装文件，不要使用本站已鉴权的请求客户端，也不要附加本站 Bearer 请求头；设置 `credentials: "omit"`。
+3. PUT 成功后，用 `file_id` 和相同的 `file_size` 确认。只有确认成功后，才将返回的文件地址和保留期限加入既有上传库；凭证里的 `resource_url` 不能证明文件已确认。
+
+**只有**申请凭证接口返回明确的 **501** 存储不支持响应，才改用表单上传。鉴权、配额、网络、PUT 或确认失败都不能静默转为服务器中转或重试文件，应保留服务返回的安全 `msg` 提示。
+
+确认通过 R2 **HEAD** 检查对象存在、正数大小和保存的 `Content-Type` 元数据，不完整读取对象正文。实际大小必须等于最初申请凭证的声明，即使确认时填写另一大小也不能改写原声明；类型元数据须与凭证归一化后的 MIME 类型一致。只有属于当前用户、待确认且未过期的记录才能原子转为可用，重复或冲突确认不会替换已可用对象。这些元数据检查**不代表**真实媒体格式、时长或安全校验；独立的参考媒体准备检查仍然适用。
+
+<Panel>
+<RequestExample>
+```javascript 浏览器 PUT
+// ticket 是申请凭证成功响应中的 data；file 是原始 File。
+const uploaded = await fetch(ticket.upload_url, {
+  method: ticket.upload_method,
+  headers: ticket.upload_headers,
+  body: file,
+  credentials: "omit",
+});
+if (!uploaded.ok) throw new Error("直传失败");
+// 仅在上述请求成功后调用带既有鉴权的确认接口。
+```
+</RequestExample>
+<ResponseExample>
+```json 501 存储不支持
+{
+  "success": false,
+  "code": 501,
+  "msg": "当前存储后端不支持直传，请改用 /upload/stream"
+}
+```
+</ResponseExample>
+</Panel>
 
 ## 表单字段 (multipart/form-data)
 
