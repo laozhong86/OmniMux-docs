@@ -17,8 +17,8 @@
         "zh": "参考视频时间记录兼容性"
       },
       "summary": {
-        "en": "Documents narrowly bounded AAC timing rounding and a single calculation of the playable audio tail, with full decoding, safety isolation and existing limits retained. Deployment remains subject to post-release verification.",
-        "zh": "说明 AAC 时间记录的有限舍入兼容与音频末尾一次计算规则，保留完整解码、安全隔离和既有限制；上线状态仍须部署后核验。"
+        "en": "Reference-video preparation now supports narrowly bounded AAC timing rounding and calculates the playable audio tail once, with full decoding, safety isolation and existing limits retained.",
+        "zh": "参考视频准备已支持 AAC 时间记录的有限舍入兼容，并按音频末尾的可播放范围只计算一次；完整解码、安全隔离和既有限制保持不变。"
       },
       "models": [],
       "tags": [

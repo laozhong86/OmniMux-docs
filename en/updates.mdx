@@ -13,7 +13,7 @@ Pages: **Page 1** · [Page 2](/en/updates/page-2)
 
 <Update label="October 12, 2026" tags={["Improvements", "Video"]} rss={{ title: "Reference-video timing compatibility" }}>
 
-  This note documents a compatibility adjustment for reference-video preparation in the character workbench; it does not confirm deployment.
+  This compatibility adjustment for reference-video preparation is live in the character workbench. The original reference that triggered a timing rejection now passes preparation and is accepted into the generation queue; this does not assert that generation has completed.
 
   AAC container timing may differ from decoded audio by at most one sample per block, provided the timeline remains continuous and cumulative drift never exceeds one sample. Larger discrepancies, gaps and overlaps remain invalid. The container's tail length and encoder padding bound the same audio block: use their intersection once, not two successive reductions. Real content is not trimmed to make a reference eligible.
 
