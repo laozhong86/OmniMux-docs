@@ -27,6 +27,22 @@ rss: true
 
 </Update>
 
+<a id="2026-10-12-motion-framing-contract"></a>
+
+<Update label="2026 年 10 月 12 日" tags={["能力更新", "视频"]} rss={{ title: "参考视频与成片画幅契约分离" }}>
+
+  此前输入素材与输出画幅是绑定的：参考视频必须匹配 16:9、9:16 或 3:4 之一，且同一值直接作为成片比例提交。这让 5:4 等素材收到误导性的“比例不支持”提示，也让表单在 720p 档位提供了其实际线路只证实 16:9、9:16 的 3:4。
+
+  现在两项契约已分离：参考视频自身比例只是输入元数据，不再是准入门槛——非标准比例的素材仍可用于动作迁移，且该模式新增独立的成片画幅设置，仅提供当前线路已证实的选项。对象替换必须保留参考画幅，因此仅当参考视频自身比例是当前档位可产出的标准值时才可提交——480p 支持 16:9、9:16、3:4，720p 支持 16:9、9:16——否则在生成前以准确原因拒绝。工作台不会对特殊画幅静默裁切、拉伸或补边。
+
+  工作台同时新增 GET /pg/influencer/motion/options（仅限登录会话），让表单只展示当前线路已证实的成片画幅，且不暴露渠道或供应商细节。服务端真实媒体检查、时长边界、音频提取和原生计费保持不变。
+
+  ### 链接
+
+  - [参考视频要求](/zh/faqs/features)
+
+</Update>
+
 <a id="2026-10-10-reference-media-checks"></a>
 
 <Update label="2026 年 10 月 10 日" tags={["能力更新", "视频"]} rss={{ title: "参考视频准备检查" }}>
@@ -1249,25 +1265,6 @@ rss: true
 
   - [GPT Image 2](/zh/api-reference/image-series/models/gpt-image-2)
   - [GPT Image 2 HD](/zh/api-reference/image-series/models/gpt-image-2-hd)
-
-</Update>
-
-<a id="2026-03-08-minimax-m2-5"></a>
-
-<Update label="2026 年 3 月 8 日" tags={["新模型", "文本"]} rss={{ title: "MiniMax M2.5" }}>
-
-  ## MiniMax M2.5
-
-  **MiniMax M2.5**（及同族文本 ID）已在 OmniMux 可调用。
-
-  ### 新模型
-
-  - **模型 ID：** `minimax-m2.5`、`minimax-m2.7`
-  - **API：** Chat Completions
-
-  ### 链接
-
-  - [MiniMax 完整参数](/zh/api-reference/text-series/minimax/complete)
 
 </Update>
 

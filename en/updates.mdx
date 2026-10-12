@@ -27,6 +27,22 @@ Pages: **Page 1** · [Page 2](/en/updates/page-2)
 
 </Update>
 
+<a id="2026-10-12-motion-framing-contract"></a>
+
+<Update label="October 12, 2026" tags={["Improvements", "Video"]} rss={{ title: "Reference video and output framing contracts separated" }}>
+
+  Input media and output framing were previously coupled: the reference clip had to match one of 16:9, 9:16, or 3:4, and the same value was sent as the output ratio. That produced a misleading "unsupported aspect ratio" error for clips such as 5:4, and let the form offer 3:4 on 720p even though the bound 720p line only evidences 16:9 and 9:16.
+
+  The contracts are now separate. The clip's own ratio is input metadata, not an eligibility gate: a non-standard clip can still drive motion transfer, which gains an independent Frame setting bounded to what the bound line can produce. Object swap must preserve the reference framing, so it submits only when the clip's own ratio is standard and producible on the chosen tier — 480p allows 16:9, 9:16, 3:4; 720p allows 16:9, 9:16 — and otherwise stops before generation with an accurate reason. The workbench never crops, stretches, or letterboxes the clip silently.
+
+  The workbench now also exposes GET /pg/influencer/motion/options (session-only), so the form offers only the output framings the bound lines evidence, without revealing channel or vendor details. Server-side media inspection, duration bounds, audio extraction and native billing are unchanged.
+
+  ### Links
+
+  - [Reference-video requirements](/en/faqs/features)
+
+</Update>
+
 <a id="2026-10-10-reference-media-checks"></a>
 
 <Update label="October 10, 2026" tags={["Improvements", "Video"]} rss={{ title: "Reference-video preparation checks" }}>
@@ -1249,25 +1265,6 @@ Pages: **Page 1** · [Page 2](/en/updates/page-2)
 
   - [GPT Image 2](/en/api-reference/image-series/models/gpt-image-2)
   - [GPT Image 2 HD](/en/api-reference/image-series/models/gpt-image-2-hd)
-
-</Update>
-
-<a id="2026-03-08-minimax-m2-5"></a>
-
-<Update label="March 8, 2026" tags={["New models", "Text"]} rss={{ title: "MiniMax M2.5" }}>
-
-  ## MiniMax M2.5
-
-  **MiniMax M2.5** (and related MiniMax text IDs) are available on OmniMux.
-
-  ### New models
-
-  - **Model IDs:** `minimax-m2.5`, `minimax-m2.7`
-  - **API:** Chat Completions
-
-  ### Links
-
-  - [MiniMax complete](/en/api-reference/text-series/minimax/complete)
 
 </Update>
 
