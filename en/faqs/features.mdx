@@ -12,6 +12,14 @@ Primary text path follows **OpenAI Chat Completions**. Point clients at `https:/
 
 Live catalog only: language / image / video, plus social-data (read) and publishing (write, different auth).
 
+## What does the system update checker show?
+
+The administrator’s update checker reads the latest successfully deployed **OmniMux site release announcement**. The announcement is published automatically after deployment and health checks succeed, independently of the running application. It includes the released version, publication time and a fixed public description.
+
+This is not a list of upstream changes waiting to be deployed, and checking it does not upgrade the system. Release details open the [API Updates](/en/updates) page in the current language. If two site builds share the same upstream version but have different build identifiers, that difference alone does not establish which is newer or recommend a rollback.
+
+An unavailable or invalid announcement still produces an error. Any previous result is marked as cached; it does not establish that the latest check succeeded. Results from the retired update source are not reused as results from the new source.
+
 ## Plugin installation compatibility
 
 A marketplace plugin can require a newer host capability than the installed gateway provides. An installation error such as `unsupported or duplicate required capability "json-order@1"` identifies an unsupported or repeated capability declaration; it is unrelated to an API key or account balance. The operator must check the exact plugin version and host support before enabling it. Removing the declaration is not a compatibility fix: order-sensitive integrations need the complete request-preservation path.

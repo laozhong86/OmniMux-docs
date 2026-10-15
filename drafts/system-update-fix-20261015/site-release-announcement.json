@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "id": "2026-10-15-site-release-announcements",
+  "published_at": "2026-10-15",
+  "rank": 4,
+  "type": "platform",
+  "modality": [
+    "platform"
+  ],
+  "title": {
+    "en": "System updates use site release announcements",
+    "zh": "系统更新改用本站上线公告"
+  },
+  "summary": {
+    "en": "The administrator update checker uses announcements of successfully deployed site releases and distinguishes cached results and incomparable builds.",
+    "zh": "管理员更新检查读取本站成功上线公告，区分缓存结果及无法比较先后的构建。"
+  },
+  "models": [],
+  "links": [
+    {
+      "label": {
+        "en": "Documentation",
+        "zh": "文档"
+      },
+      "href": {
+        "en": "/en/faqs/features",
+        "zh": "/zh/faqs/features"
+      }
+    }
+  ],
+  "tags": [],
+  "body": {
+    "en": "## Site release announcements\n\nThe administrator update checker reads the latest successfully deployed OmniMux site announcement. A successful deployment and its health checks publish the version, publication time and fixed public description automatically. The announcement is independent of the running application; it is neither an upstream upgrade inventory nor an automatic upgrade. Release details open the existing API Updates page in the current language.\n\nAnnouncement failures remain errors. Previous results are marked as cached, and results from the retired source are not reused for the new source. Different site build identifiers with the same upstream version do not establish a newer or older release. This change does not activate models or alter pricing or sign-in.",
+    "zh": "## 本站上线版本公告\n\n管理员更新检查改读 OmniMux 本站最近成功上线的公告。部署及健康检查成功后，系统自动发布版本、发布时间和固定公开说明。公告独立于当前运行的应用，不是上游可升级清单，也不会自动升级；查看详情会打开当前语言现有的 API 更新页。\n\n公告读取失败仍会报错，上次结果明确标为缓存，旧来源结果不再用于新来源。上游版本相同但本站构建标识不同，不能据此声称较新或较旧。本次不启用模型、不改变价格或登录方式。"
+  }
+}
