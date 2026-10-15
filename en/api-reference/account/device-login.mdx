@@ -6,7 +6,7 @@ api: "POST https://omnimux.ai/api/user/device/code"
 ---
 
 <Warning>
-Unpublished revision draft. The existing historical release dates below describe earlier credential behavior only; the character/video creation addition has no release date yet.
+Unpublished documentation revision. The dates below distinguish the original credential mechanism from the later character/video creation permissions.
 </Warning>
 
 
@@ -14,7 +14,7 @@ Unpublished revision draft. The existing historical release dates below describe
 - **Code request and token poll need no auth**; approve/deny need a logged-in browser session
 - The returned `access_token` is for `https://omnimux.ai` user APIs, not a replacement for sk- relay keys; explicitly authorized character/video user APIs can consume account allowance
 
-The scoped device-token behavior below is available as of **October 4, 2026**.
+Scoped personal tokens and the original device-login mechanism were introduced on **October 4, 2026**. Character/video creation permissions were added on **October 15, 2026**.
 
 ## Identity
 

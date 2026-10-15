@@ -30,7 +30,9 @@ The server inspects true duration (4–30 seconds), framing, frame rate, dimensi
 | `480p` | `16:9`, `9:16`, `3:4` |
 | `720p` | `16:9`, `9:16` |
 
-Defaults: `motion` and `480p`. In motion mode an explicit ratio wins; when omitted, a supported source ratio is used, otherwise `9:16`. Replace mode preserves a supported source ratio and rejects conflicts. Keep ordered images and reference audio. When using a saved character, its stored human/cat/dog identity is retained.
+Defaults: `motion` and `480p`. In motion mode an explicit ratio wins; when omitted, a supported source ratio is used, otherwise `9:16`. Replace mode preserves a supported source ratio and rejects conflicts.
+
+The request preserves image order, passes the reference audio, and uses the saved character's human/cat/dog type. Inspect the finished video to verify appearance, movement, framing and audio; task success alone does not establish creative fidelity.
 
 <Panel>
 
