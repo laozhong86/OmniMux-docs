@@ -427,7 +427,8 @@
                     "group": "Account info",
                     "pages": [
                       "en/api-reference/account/balance",
-                      "en/api-reference/account/pricing"
+                      "en/api-reference/account/pricing",
+                      "en/api-reference/account/usage-log-export"
                     ],
                     "icon": "user"
                   }
@@ -925,7 +926,8 @@
                     "group": "账户信息",
                     "pages": [
                       "zh/api-reference/account/balance",
-                      "zh/api-reference/account/pricing"
+                      "zh/api-reference/account/pricing",
+                      "zh/api-reference/account/usage-log-export"
                     ],
                     "icon": "user"
                   }

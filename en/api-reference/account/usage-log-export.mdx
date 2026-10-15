@@ -1,0 +1,24 @@
+---
+title: "Export My Usage Logs"
+sidebarTitle: "Export My Usage Logs"
+description: "Stream the authenticated user’s visible logs; verify the terminal success record."
+openapi: "openapi/ops/account/en/usage-log-export.json GET /api/log/self/export"
+---
+
+- This account-management user API accepts a permitted user access token or dashboard login session; an `sk-` generation key is not accepted. Personal access tokens require `usage:read`; see [Security and keys](/en/faqs/security).
+- It exports only the authenticated account’s own visible logs, under the same visibility rules as that account’s log list. Supplying another username or channel filter does not grant other users’ records.
+- The operator controls regular-user export availability. Each account can run one export at a time. Business rejections such as a busy export, excessive time span or disabled export can still return **HTTP 200**; read `success`.
+
+## Confirming a complete export
+
+A successful stream uses `application/x-ndjson`, with one log object per line and a **terminal result object**, for example `{"success":true,"message":"","data":{"count":1}}`. The count excludes the result object. No matching records still produces a successful count of 0.
+
+Treat the export as complete only after reading terminal `success: true` and verifying that the record count matches `data.count`. A later failure can end the stream with `success: false`. A disconnection, cancellation or missing terminal result leaves a partial export. HTTP 200 or a few records alone do not establish completion.
+
+## Time span and record fields
+
+The operator sets the maximum span, defaulting to 365 days. Negative timestamps, a start after the effective end, invalid search patterns, and an excessive span are rejected before streaming; divide a longer interval into permitted ranges. This does not set retention or delete logs. An omitted start reaches back the maximum range from the effective end; an omitted end uses now.
+
+Records follow the own-account list order. `id` is an export-local display position, not a database row ID or a cursor for incremental synchronization. `quota` is raw internal quota: `quota ÷ 500000 = USD`, `1 USD = 10 积分`; do not label the raw number as points. Internal administrative information retains the own-account list’s visibility rules.
+
+This read operation does not generate content or incur generation charges. Cross-account administrator exports are outside this contract.
