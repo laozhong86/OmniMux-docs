@@ -1795,7 +1795,7 @@
           },
           "duration_sec": {
             "type": "integer",
-            "description": "后台识别后记录的时长，不接受调用方作为创建参数传入。"
+            "description": "后台根据参考视频推导的整数生成请求秒数，小数秒可能被四舍五入。不是调用方可传入的创建参数，也不代表参考视频的精确时长或成品实测时长。"
           },
           "character_task_id": {
             "type": "string",

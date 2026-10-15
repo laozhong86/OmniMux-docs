@@ -1795,7 +1795,7 @@
           },
           "duration_sec": {
             "type": "integer",
-            "description": "Server-inspected duration recorded for the task; never accepted as a creation input."
+            "description": "Integer generation duration in seconds derived by the server from the reference video; fractional seconds may be rounded. Not a creation input, the exact reference duration, or a measurement of the finished video."
           },
           "character_task_id": {
             "type": "string",
