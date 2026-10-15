@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "id": "2026-10-15-reference-video-input-compatibility",
+  "published_at": "2026-10-15",
+  "rank": 0,
+  "type": "capability",
+  "modality": [
+    "video"
+  ],
+  "title": {
+    "en": "Reference-video input requirements separated from output framing",
+    "zh": "参考视频按输入要求接收，具体问题统一顶部提示"
+  },
+  "summary": {
+    "en": "The character workbench checks continuous 0.4–2.5 reference ratios and video-specific media limits, keeps output settings separate, and reports specific problems through top notifications.",
+    "zh": "角色工作台按 0.4 至 2.5 连续参考比例与视频专用媒体要求检查，输入与成片设置分别处理，具体问题使用顶部气泡消息提示。"
+  },
+  "models": [
+    "seedance-2-5"
+  ],
+  "links": [
+    {
+      "label": {
+        "en": "Reference-video requirements",
+        "zh": "参考视频要求"
+      },
+      "href": {
+        "en": "/en/faqs/features",
+        "zh": "/zh/faqs/features"
+      }
+    },
+    {
+      "label": {
+        "en": "File-upload rules",
+        "zh": "文件上传规则"
+      },
+      "href": {
+        "en": "/en/api-reference/file-series/upload-stream",
+        "zh": "/zh/api-reference/file-series/upload-stream"
+      }
+    }
+  ],
+  "tags": [
+    "video"
+  ],
+  "body": {
+    "en": "The character workbench checks a reference video's actual input properties independently of ordinary output framing. A 5:4, 1:1, 4:3, 21:9 or other ratio within **0.4–2.5** is not rejected merely because it is absent from the output menu; the clip must also meet the format, dimensions, pixel count, frame-rate and duration requirements.\n\n- Reference files support MP4/MOV with H.264/H.265, up to **200 MiB (209,715,200 bytes)**. Ordinary files and decoded Base64 uploads keep their **100 MiB** ceiling. Large video uploads must pass actual MP4/MOV container checks; a filename alone does not establish validity.\n- Motion transfer accepts **2–30-second reference input** while the output duration remains an independent **4–30-second** setting. Object swap uses the **4–30-second editing input** policy and submits automatic source framing and duration, rather than using the ordinary output-ratio list to reject valid input.\n- Browser metadata or playback failure alone does not mark a supported reference invalid. A session-only server preflight checks without model generation or generation billing; generation validates the media again.\n- The Desert Duo preset uses its corresponding full-resolution reference instead of its small card preview. Failed candidate checks keep the last valid selection. Specific upload, media or service problems use the **top notification**; temporary failures can be retried without blaming a valid aspect ratio.\n\nThese changes concern the website workbench and file-upload limits. The internal `/pg/influencer/motion/inspect` preflight is not a public gateway-token or `/v1` API; this release does not announce new public video-generation parameters. A successful media check is not a completed generation, and editing instructions do not guarantee an exact reconstruction. Existing generation billing rules remain in force.",
+    "zh": "角色工作台按参考视频真实的输入属性检查，与普通成片画幅分别处理。5:4、1:1、4:3、21:9 或其他位于 **0.4 至 2.5** 内的比例，不会仅因未出现在成片选项中而被拒绝；素材还须同时满足格式、边长、总像素、帧率与时长要求。\n\n- MP4/MOV、H.264/H.265 参考视频最大 **200 MiB（209,715,200 字节）**；普通文件与 Base64 解码后文件仍为 **100 MiB**。大视频须通过真实 MP4/MOV 容器检查，文件名本身不代表合规。\n- 动作迁移接收 **2 至 30 秒参考输入**，独立设置的成片时长仍为 **4 至 30 秒**。对象替换按 **4 至 30 秒编辑输入**检查，自动跟随原视频画幅与时长提交，不再用普通成片比例名单否决合法输入。\n- 浏览器无法读取元数据或播放，不会单独作为素材不合法的依据。登录会话使用的服务器预检不调用生成模型、不扣生成积分，正式生成仍会再次校验。\n- Desert Duo 预设改用对应高清参考片，卡片保留轻量预览。候选素材检查失败时，保留最后一次有效选择；具体上传、媒体或服务问题统一使用**顶部气泡消息**，临时失败可重试，不归咎于合法画幅。\n\n本次调整涉及网站工作台与文件上传额度。内部 `/pg/influencer/motion/inspect` 预检不是公开网关令牌或 `/v1` 接口，本次不宣告新增公开视频生成参数。媒体检查通过不代表成片已经完成，编辑要求也不保证精确复刻每一处内容；既有生成计费规则仍然适用。"
+  }
+}

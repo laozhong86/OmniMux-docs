@@ -25,22 +25,37 @@ Do not confuse with `/v1/videos/{id}/content` download.
 ### Reference-video checks in the character workbench
 
 <Note>
-These checks apply to the character workbench's reference-video preparation, not to every request on the generic video API paths above.
-
-The workbench fully decodes the actual reference video and any audio in a safety-isolated environment before generation, rather than trusting a filename, browser metadata, or caller-provided duration. The complete original reference must be **4 to 30 seconds**, inclusive. An overlong video or audio tail is rejected, not trimmed or sped up. A submitted integer duration must match the rounded actual duration.
-
-AAC audio permits container timing rounding of at most **one sample per block**, only while the timeline stays continuous and cumulative drift stays within **one sample**. Larger discrepancies, gaps and overlaps remain invalid. At the end, the container's stated length and encoder padding constrain the same audio block: their intersection determines the playable span, counted once rather than shortened twice. These timing rules do not trim real content or relax the 30-second ceiling.
-
-The reference clip's own aspect ratio is **input metadata**, separate from the output framing of the generated video: a reference clip does not have to match one specific ratio. Motion transfer exposes **Frame** as an independent output setting; object swap must preserve the reference framing, so the clip's own ratio must be a standard value the bound line can produce (480p: 16:9, 9:16, 3:4 — 720p: 16:9, 9:16). A non-standard clip can drive motion transfer but cannot be framing-preserved for object swap, and the form says so instead of claiming the input is unsupported. The workbench never crops, stretches, or letterboxes the clip silently.
-
-The intake ceiling remains **100 MiB (104857600 bytes)**. This workbench ceiling is not a confirmed limit for every supplier option: their complete input-size, format, frame-rate, and resolution contracts remain unverified. A valid small file does not need compression. Automatic compression is not enabled; arbitrary large files and universal format compatibility are not promised. The workbench supports a complete single-video-stream MP4/MOV with H.264/H.265 and supported audio; ambiguous timelines or unsupported media can be rejected.
-
-Generation uses a server-prepared copy of the same validated video bytes, without transcoding. The full embedded audio stays in the video. A separate optional audio reference is attached only when it can be extracted in full from a short reference of at most **15 seconds**; longer references are not replaced with a shortened audio attachment. This does not guarantee reproduction of every original sound or word.
-
-Media-preparation rejection happens **before generation billing**. Invalid media receives `400 reference_video_invalid`; a mismatched duration or a non-preservable object-swap framing receives `400 invalid_request`. Cancellation or a media-check timeout receives `408 reference_video_invalid`; busy preparation or temporarily unavailable checking, storage, or download receives `503 reference_video_invalid`. Errors use safe messages and do not expose signed media URLs or raw diagnostic details. These are media-preparation rules, not a promise that all later generation failures are free.
-
-Uploads keep the original filename, including spaces or `#`, without requiring you to rename a valid file. Upload and preparation errors show the safe reason returned by the service rather than automatically suggesting a smaller file. If the actual duration exceeds 30 seconds, generation does not start and the message explains that the video will not be shortened automatically. File and media checks still apply.
+These checks apply to the character workbench's reference-video preparation, not to every request on the generic video API paths above. The workbench currently accepts **one reference video**; the model's multi-video allowance does not add a multi-video website feature.
 </Note>
+
+The workbench checks the actual media on the server before generation. A valid reference does not have to match an output ratio such as 16:9 or 9:16. All of the following requirements must hold:
+
+| Input | Accepted range |
+| --- | --- |
+| Container and video codec | MP4 or MOV, with H.264/AVC or H.265/HEVC |
+| Embedded audio, if present | MP4: AAC or MP3; MOV: AAC, MP3 or PCM |
+| File size | At most **200 MiB (209,715,200 bytes)** |
+| Clip duration | Motion transfer: **2–30 seconds**; object swap / original-video editing: **4–30 seconds** |
+| Display aspect ratio, width ÷ height | **0.4–2.5**, inclusive; this is a continuous range, not a fixed list |
+| Width and height | Each **300–6000 pixels** |
+| Total pixels, width × height | **407,696–8,295,044** |
+| Frame rate | **24–60 frames per second** |
+
+For example, 5:4, 1:1, 4:3 and 21:9 can be valid reference ratios when the other requirements are also met. The workbench uses an explicit byte ceiling; a file's displayed “MB” value may use another unit.
+
+Reference input and generated output are separate. In **motion transfer**, the source may be shorter than the generated video; the independently selected output duration remains **4–30 seconds**. Output framing remains limited to the choices shown for the selected resolution (480p: 16:9, 9:16, 3:4; 720p: 16:9, 9:16). In **object swap**, the request uses original-video editing with automatic source framing and duration, rather than forcing the source into one of those ordinary output choices. This is a generation request, not a guarantee that every scene, face or sound will be reproduced exactly. The workbench does not silently crop, stretch, letterbox, trim, speed up, or switch creation modes to make an input fit.
+
+Browser playback or metadata-reading failure alone does not make a reference invalid: the server checks it. The Desert Duo preset uses its corresponding full-resolution reference for generation while its card retains a lightweight preview. A failed candidate check preserves the last valid selection. Specific upload, preparation or service problems appear in the workbench's **top notification**, rather than as persistent red text in the reference area. A temporary service failure offers a retry and does not label a valid aspect ratio as unsupported.
+
+`POST /pg/influencer/motion/inspect` is an internal, signed-in website-session preflight. It checks the reference without calling the generation model or charging generation quota. It is **not** a public gateway Bearer (`sk-`) or `/v1` integration endpoint. Generation validates the media again; a successful preflight is not proof that a later generation will complete.
+
+The complete original video and any audio are decoded in a safety-isolated environment, rather than trusting a filename or caller-provided duration. Overlong video or audio tails are rejected, not shortened. Invalid or ambiguous timelines remain invalid. AAC permits only bounded container timing rounding: no more than one sample per block, a continuous timeline, and no more than one sample of cumulative drift. Container tail length and encoder padding constrain the same playable span and are counted once.
+
+Generation uses a server-prepared copy of the validated bytes without transcoding, retaining the full embedded audio. A separate optional audio reference is attached only when it can be extracted in full from a reference no longer than **15 seconds**. Longer references are not replaced with a shortened audio attachment. This does not guarantee reproduction of every original sound or word.
+
+Media-preparation rejection happens **before generation billing**. Invalid media checks return a safe `400 reference_video_invalid`; invalid request settings, including mode, output choices or editing-specific preparation, can return `400 invalid_request`. Cancellation or a media-check timeout receives `408 reference_video_invalid`; busy preparation or temporarily unavailable checking, storage, or download receives `503 reference_video_invalid`. Safe messages do not expose signed media URLs or raw diagnostics. These preparation rules do not promise that every later generation failure is free.
+
+Uploads keep the original filename, including spaces or `#`. A valid file does not need compression or renaming. Automatic compression and conversion of unsupported formats are not enabled. File ownership, expiry, download limits and media checks still apply.
 
 ### Browser transfers
 
