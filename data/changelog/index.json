@@ -17,8 +17,8 @@
         "zh": "参考视频按输入要求接收，具体问题统一顶部提示"
       },
       "summary": {
-        "en": "The character workbench checks continuous 0.4–2.5 reference ratios and video-specific media limits, keeps output settings separate, and reports specific problems through top notifications.",
-        "zh": "角色工作台按 0.4 至 2.5 连续参考比例与视频专用媒体要求检查，输入与成片设置分别处理，具体问题使用顶部气泡消息提示。"
+        "en": "The character workbench accepts compliant reference ratios independently of output settings. Standard-framing object swap remains available; an unsupported preservation request is explained only in a top notification on submission.",
+        "zh": "角色工作台按输入要求接收合法参考比例；保留现有标准画幅对象替换，无法保留原画幅时只在实际提交后通过顶部气泡说明。"
       },
       "models": [
         "seedance-2-5"

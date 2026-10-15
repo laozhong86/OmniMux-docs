@@ -35,7 +35,7 @@ The workbench checks the actual media on the server before generation. A valid r
 | Container and video codec | MP4 or MOV, with H.264/AVC or H.265/HEVC |
 | Embedded audio, if present | MP4: AAC or MP3; MOV: AAC, MP3 or PCM |
 | File size | At most **200 MiB (209,715,200 bytes)** |
-| Clip duration | Motion transfer: **2–30 seconds**; object swap / original-video editing: **4–30 seconds** |
+| Clip duration | Motion transfer: **2–30 seconds**; object swap: **4–30 seconds** |
 | Display aspect ratio, width ÷ height | **0.4–2.5**, inclusive; this is a continuous range, not a fixed list |
 | Width and height | Each **300–6000 pixels** |
 | Total pixels, width × height | **407,696–8,295,044** |
@@ -43,7 +43,11 @@ The workbench checks the actual media on the server before generation. A valid r
 
 For example, 5:4, 1:1, 4:3 and 21:9 can be valid reference ratios when the other requirements are also met. The workbench uses an explicit byte ceiling; a file's displayed “MB” value may use another unit.
 
-Reference input and generated output are separate. In **motion transfer**, the source may be shorter than the generated video; the independently selected output duration remains **4–30 seconds**. Output framing remains limited to the choices shown for the selected resolution (480p: 16:9, 9:16, 3:4; 720p: 16:9, 9:16). For **object swap**, the **4–30-second** editing-input requirements are separate from whether the current generation service can preserve the original framing and duration. Passing the input check does not establish that editing capability. Compatibility of original-framing editing with the current service is still being verified; no successful completed edit is claimed here. If the requested edit cannot run, report the specific service problem in the top notification and retain the valid reference, rather than calling its ratio unsupported or silently switching to motion transfer. Generated content may also differ from the source. The workbench does not silently crop, stretch, letterbox, trim, speed up, or switch creation modes to make an input fit.
+Reference input and generated output are separate. In **motion transfer**, the source may be shorter than the generated video; the independently selected output duration remains **4–30 whole seconds**. Output framing remains limited to the choices shown for the selected resolution (480p: 16:9, 9:16, 3:4; 720p: 16:9, 9:16).
+
+**Object swap** retains its existing standard-framing workflow. On submission, the server checks whether the source framing matches an available output for the selected resolution: **480p supports 16:9, 9:16 and 3:4; 720p supports 16:9 and 9:16**. The actual **4–30-second** source duration is rounded to the nearest whole second for the generation request; for example, a 9.708-second source requests 10 seconds. Existing billing uses that requested duration. Automatic original-video editing is **not enabled in this release**.
+
+A valid 5:4 reference can be selected and kept without an inline framing warning. If object swap cannot preserve its framing, only the actual submission shows a **top notification** explaining that the reference passed validation but the current service cannot preserve this framing for object swap. The reference stays selected, and you may choose motion transfer. This rejection occurs before task distribution or generation billing. The workbench does not silently crop, stretch, letterbox, trim, speed up, or switch creation modes to make an input fit. Generated content may differ from the source.
 
 Browser playback or metadata-reading failure alone does not make a reference invalid: the server checks it. The Desert Duo preset uses its corresponding full-resolution reference for generation while its card retains a lightweight preview. A failed candidate check preserves the last valid selection. Specific upload, preparation or service problems appear in the workbench's **top notification**, rather than as persistent red text in the reference area. A temporary service failure offers a retry and does not label a valid aspect ratio as unsupported.
 
