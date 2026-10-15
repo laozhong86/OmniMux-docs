@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "id": "2026-10-15-usage-export-and-schema-compatibility",
+  "published_at": "2026-10-15",
+  "rank": 3,
+  "type": "platform",
+  "modality": [
+    "text",
+    "platform"
+  ],
+  "title": {
+    "en": "Own-account usage export and schema compatibility",
+    "zh": "本人用量导出与结构定义兼容"
+  },
+  "summary": {
+    "en": "Usage-log export preserves account visibility and requires a terminal success record; model-specific format conversion preserves supported constraints.",
+    "zh": "用量日志导出保留账户可见范围，并须以末行成功结果确认完成；格式转换按模型能力保留受支持约束。"
+  },
+  "models": [],
+  "links": [
+    {
+      "label": {
+        "en": "Documentation",
+        "zh": "文档"
+      },
+      "href": {
+        "en": "/en/api-reference/account/usage-log-export",
+        "zh": "/zh/api-reference/account/usage-log-export"
+      }
+    }
+  ],
+  "tags": [
+    "compatibility"
+  ],
+  "body": {
+    "en": "User-API usage export is separate from model generation APIs. It exports the authenticated user’s own visible logs as newline-delimited JSON, followed by a terminal success/count object. An HTTP 200 or partial records alone do not establish completion. Export availability is operator-controlled, each account has one concurrent export, and the configured time-range limit does not set retention or delete logs.\n\nGemini schemas that cannot fit its legacy typed schema can use original JSON Schema on compatible v1beta or Vertex AI routes; older routes may lose unsupported constraints. Thinking settings are matched to the exact model, not a universal effort budget. No catalog activation or pricing change is claimed.\n\nBrowser chat history and settings are isolated per account. Legacy shared records remain in the original browser without automatic loading, assignment or deletion; signing out clears the visible conversation and unsent draft. Server tasks, artifacts and billing records are not cleanup targets.",
+    "zh": "用户接口的用量导出与模型生成接口分开，按逐行 JSON 导出已认证用户本人可见的日志，并以包含成功状态和数量的末行结束。仅收到 200 或部分记录不能认定完成。导出是否开放由管理员控制，每账户仅一个并发导出；时间跨度限制不设置保留期，也不删除日志。\n\n无法装入 Gemini 旧式结构定义的约束，可在兼容的 v1beta 或 Vertex AI 线路使用原始 JSON Schema；旧式线路可能丢失不支持的约束。思考设置按具体模型匹配，不代表统一计算预算。本次不宣称模型启用或价格变化。\n\n浏览器聊天记录及设置按账户隔离。旧共享记录保留在原浏览器，不自动加载、分配或删除；退出时清空可见聊天和未发送草稿。服务器任务、作品和账单不是清理对象。"
+  }
+}

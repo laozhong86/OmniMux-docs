@@ -67,6 +67,12 @@ Where precharge applies, token-priced requests reserve **estimated input cost ×
 
 This multiplier does not change fixed per-call charges or task-usage billing. Quota exemptions and insufficient-quota errors still follow the applicable account and endpoint rules.
 
+## Interrupted streams and tool usage
+
+For Chat Completions served through Responses, and Responses served through Chat Completions, a disconnect can still settle output already delivered. An upstream failure before any output reaches the client is not charged by this converted-stream rule; after output has been delivered, settlement can use reported upstream usage or an estimate of the delivered text, reasoning and tool arguments. This is not a universal refund rule for other endpoints or asynchronous jobs. Inspect the final usage record before resubmitting.
+
+Hosted-search charges follow the provider's reported usage and the applicable tool price. The number of citations is not a reliable search-call count. Gemini grounding can distinguish unique non-empty search queries from a grounded prompt, with the model's configured tool price determining the billing unit. No fixed search price or price reduction is implied by this change.
+
 ## How to reduce cost
 
 1. **Pick the right model** — cheaper/smaller models for simple jobs; enum lists capability, not equal price.  

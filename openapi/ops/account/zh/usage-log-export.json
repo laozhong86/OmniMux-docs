@@ -1,0 +1,242 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "导出本人用量日志",
+    "version": "1.0.0",
+    "description": "导出已认证用户本人可见日志；逐行 JSON 末尾须有成功结果。"
+  },
+  "servers": [
+    {
+      "url": "https://omnimux.ai"
+    }
+  ],
+  "paths": {
+    "/api/log/self/export": {
+      "get": {
+        "operationId": "exportOwnUsageLogs",
+        "summary": "导出本人用量日志",
+        "description": "导出已认证用户本人可见日志；逐行 JSON 末尾须有成功结果。",
+        "security": [
+          {
+            "UserAccessToken": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "type",
+            "in": "query",
+            "required": false,
+            "description": "日志类型，0 表示所有类型。",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "start_timestamp",
+            "in": "query",
+            "required": false,
+            "description": "起点，Unix 秒。省略时按有效终点向前取系统允许的最大跨度。",
+            "schema": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "end_timestamp",
+            "in": "query",
+            "required": false,
+            "description": "终点，Unix 秒。省略时使用当前时间；跨度检查不会把未来时间算在当前时间之后。",
+            "schema": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "model_name",
+            "in": "query",
+            "required": false,
+            "description": "模型名称筛选。",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "token_name",
+            "in": "query",
+            "required": false,
+            "description": "网关密钥名称筛选。",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "group",
+            "in": "query",
+            "required": false,
+            "description": "请求分组筛选。",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "request_id",
+            "in": "query",
+            "required": false,
+            "description": "网关请求编号筛选。",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "upstream_request_id",
+            "in": "query",
+            "required": false,
+            "description": "上游请求编号筛选。",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "导出流，或开始输出前的业务拒绝。收到 200 本身不代表完成。",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "no-store"
+              }
+            },
+            "content": {
+              "application/x-ndjson": {
+                "schema": {
+                  "type": "string",
+                  "description": "每行一个日志对象；最后一行是 success/message/data.count 结果。中途失败可输出 success:false；缺失末行也不完整。"
+                },
+                "example": "{\"id\":1,\"user_id\":42,\"created_at\":1791979200,\"type\":2,\"content\":\"\",\"username\":\"example-user\",\"token_name\":\"example-key\",\"model_name\":\"\",\"quota\":500,\"prompt_tokens\":10,\"completion_tokens\":5,\"use_time\":1,\"is_stream\":false,\"channel\":0,\"channel_name\":\"\",\"token_id\":1,\"group\":\"\",\"ip\":\"\",\"request_id\":\"example-request-id\",\"other\":\"{}\"}\n{\"success\":true,\"message\":\"\",\"data\":{\"count\":1}}\n"
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExportResult"
+                },
+                "example": {
+                  "success": false,
+                  "message": "Another log export is running. Try again after it finishes."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "身份凭证失效或缺失。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "success": false,
+                  "code": "AUTH_UNAUTHORIZED",
+                  "message": "Invalid user credential"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "凭证无对应权限。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "success": false,
+                  "code": "ACCESS_TOKEN_SCOPE_DENIED",
+                  "message": "Permission denied"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "身份认证内部错误。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "success": false,
+                  "code": "AUTH_INTERNAL_ERROR",
+                  "message": "Internal authentication error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "UserAccessToken": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "user access token",
+        "description": "具有 usage:read 权限的用户接口访问令牌，不是 sk- 网关生成密钥。也可使用网站登录会话。"
+      }
+    },
+    "schemas": {
+      "ExportResult": {
+        "type": "object",
+        "required": [
+          "success",
+          "message"
+        ],
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          },
+          "message_key": {
+            "type": "string",
+            "description": "本地化提示键，可能存在。"
+          },
+          "message_params": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "count": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          }
+        }
+      },
+      "AuthError": {
+        "type": "object",
+        "required": [
+          "success",
+          "message"
+        ],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "const": false
+          },
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

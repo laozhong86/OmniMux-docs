@@ -11,6 +11,16 @@ description: "Balance, points display, and support"
 
 User-facing display: **积分** and USD (`raw_quota ÷ 500000 = USD`, `1 USD = 10 积分`). Do not call raw_quota “积分”.
 
+## Exporting usage logs
+
+When the operator allows user exports, you can export **your own** usage logs. The export retains the visibility rules of your normal log list; supplying another username does not select another account. See [Export My Usage Logs](/en/api-reference/account/usage-log-export) for the user-API contract, authentication and streamed result handling. Gateway generation keys (`sk-`) are not user-API credentials.
+
+The configured maximum time range applies to regular-user queries and every single export. Its default is 365 days; this is a query/export-span limit, **not a log-retention period or a deletion schedule**. Only one export per account can run at a time. Split a longer interval into permitted ranges.
+
+## Browser chat history
+
+Chat history, parameters and toggles are stored in that browser separately for each signed-in account. Signing out or switching accounts clears the visible conversation and unsent draft; signing in again loads only that account’s records. Legacy shared records without a verified account owner remain stored in the original browser and are not automatically deleted, loaded or assigned to the current account. This does not add a legacy-history import feature or clean up server tasks, artifacts or billing records.
+
 ## Top-up
 
 Follow the console checkout flow for real payments.

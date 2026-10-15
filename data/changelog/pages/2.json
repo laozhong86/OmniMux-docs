@@ -2,9 +2,146 @@
   "schema_version": 1,
   "page": 2,
   "page_size": 50,
-  "total": 54,
+  "total": 57,
   "total_pages": 2,
   "items": [
+    {
+      "id": "2026-06-01-minimax-m3",
+      "published_at": "2026-06-01",
+      "type": "model_launch",
+      "modality": [
+        "text"
+      ],
+      "title": {
+        "en": "MiniMax M3",
+        "zh": "MiniMax M3"
+      },
+      "summary": {
+        "en": "MiniMax M3 language model on OmniMux.",
+        "zh": "MiniMax M3 语言模型已在 OmniMux 可调用。"
+      },
+      "models": [
+        "minimax-m3"
+      ],
+      "tags": [
+        "text"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "MiniMax complete",
+            "zh": "MiniMax 完整参数"
+          },
+          "href": {
+            "en": "/en/api-reference/text-series/minimax/complete",
+            "zh": "/zh/api-reference/text-series/minimax/complete"
+          }
+        }
+      ],
+      "body": {
+        "en": "## MiniMax M3\n\n**MiniMax M3** is now available on OmniMux Chat Completions.\n\n### New model\n\n- **Model ID:** `minimax-m3`\n- **API:** `https://api.omnimux.ai/v1`",
+        "zh": "## MiniMax M3\n\n**MiniMax M3** 现已通过 Chat Completions 在 OmniMux 可调用。\n\n### 新模型\n\n- **模型 ID：** `minimax-m3`\n- **API：** `https://api.omnimux.ai/v1`"
+      },
+      "schema_version": 1
+    },
+    {
+      "id": "2026-05-20-omni-flash",
+      "published_at": "2026-05-20",
+      "type": "model_launch",
+      "modality": [
+        "video"
+      ],
+      "title": {
+        "en": "Omni Flash — duration video family",
+        "zh": "Omni Flash — 时长视频族"
+      },
+      "summary": {
+        "en": "Omni Flash and duration SKUs on OmniMux.",
+        "zh": "Omni Flash 及按时长 SKU 已在 OmniMux 可调用。"
+      },
+      "models": [
+        "gemini-omni-flash"
+      ],
+      "tags": [
+        "video"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "Omni Flash",
+            "zh": "Omni Flash"
+          },
+          "href": {
+            "en": "/en/api-reference/video-series/models/gemini-omni-flash",
+            "zh": "/zh/api-reference/video-series/models/gemini-omni-flash"
+          }
+        },
+        {
+          "label": {
+            "en": "Video task poll",
+            "zh": "视频任务查询"
+          },
+          "href": {
+            "en": "/en/api-reference/tasks/video-task",
+            "zh": "/zh/api-reference/tasks/video-task"
+          }
+        }
+      ],
+      "body": {
+        "en": "## Omni Flash\n\n**Omni Flash** (`gemini-omni-flash`) is available on OmniMux for fast video generation.\n\n### Model\n\n- **Model ID:** `gemini-omni-flash`\n- **API:** `POST /v1/video/generations` + poll `GET /v1/video/generations/{task_id}`",
+        "zh": "## Omni Flash\n\n**Omni Flash**（`gemini-omni-flash`）已在 OmniMux 可调用，用于快速视频生成。\n\n### 模型\n\n- **模型 ID：** `gemini-omni-flash`\n- **调用：** `POST /v1/video/generations` + 轮询 `GET /v1/video/generations/{task_id}`"
+      },
+      "schema_version": 1
+    },
+    {
+      "id": "2026-05-20-veo-3-1",
+      "published_at": "2026-05-20",
+      "type": "model_launch",
+      "modality": [
+        "video"
+      ],
+      "title": {
+        "en": "Veo 3.1",
+        "zh": "Veo 3.1"
+      },
+      "summary": {
+        "en": "Veo 3.1 video generation on OmniMux.",
+        "zh": "Veo 3.1 视频生成已在 OmniMux 可调用。"
+      },
+      "models": [
+        "veo-3.1"
+      ],
+      "tags": [
+        "video"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "Veo 3.1",
+            "zh": "Veo 3.1"
+          },
+          "href": {
+            "en": "/en/api-reference/video-series/models/veo-3.1",
+            "zh": "/zh/api-reference/video-series/models/veo-3.1"
+          }
+        },
+        {
+          "label": {
+            "en": "Video task poll",
+            "zh": "视频任务查询"
+          },
+          "href": {
+            "en": "/en/api-reference/tasks/video-task",
+            "zh": "/zh/api-reference/tasks/video-task"
+          }
+        }
+      ],
+      "body": {
+        "en": "## Veo 3.1\n\n**Veo 3.1** is now available on OmniMux.\n\n### New model\n\n- **Model ID:** `veo-3.1`\n- **API:** async video create + poll on `/v1/video/generations`",
+        "zh": "## Veo 3.1\n\n**Veo 3.1** 现已在 OmniMux 可调用。\n\n### 新模型\n\n- **模型 ID：** `veo-3.1`\n- **API：** `/v1/video/generations` 异步创建 + 查询"
+      },
+      "schema_version": 1
+    },
     {
       "id": "2026-05-05-claude-opus-4-7-deepseek-v4",
       "published_at": "2026-05-05",

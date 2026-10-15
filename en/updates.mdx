@@ -9,6 +9,50 @@ Stay up to date with OmniMux gateway model launches and platform changes. The fu
 
 Pages: **Page 1** · [Page 2](/en/updates/page-2)
 
+<a id="2026-10-15-usage-export-and-schema-compatibility"></a>
+
+<Update label="October 15, 2026" tags={["Platform", "Text"]} rss={{ title: "Own-account usage export and schema compatibility" }}>
+
+  User-API usage export is separate from model generation APIs. It exports the authenticated user’s own visible logs as newline-delimited JSON, followed by a terminal success/count object. An HTTP 200 or partial records alone do not establish completion. Export availability is operator-controlled, each account has one concurrent export, and the configured time-range limit does not set retention or delete logs.
+
+  Gemini schemas that cannot fit its legacy typed schema can use original JSON Schema on compatible v1beta or Vertex AI routes; older routes may lose unsupported constraints. Thinking settings are matched to the exact model, not a universal effort budget. No catalog activation or pricing change is claimed.
+
+  Browser chat history and settings are isolated per account. Legacy shared records remain in the original browser without automatic loading, assignment or deletion; signing out clears the visible conversation and unsent draft. Server tasks, artifacts and billing records are not cleanup targets.
+
+  ### Links
+
+  - [Documentation](/en/api-reference/account/usage-log-export)
+
+</Update>
+
+<a id="2026-10-15-video-plugin-compatibility"></a>
+
+<Update label="October 15, 2026" tags={["Platform", "Video"]} rss={{ title: "Video plugin duration and upload compatibility" }}>
+
+  Automatic duration (`-1`) is accepted only by an installed plugin that declares the capability and a model contract that permits it. Reservation uses the supported maximum and completion settles reported usage. Positive durations retain their model-specific limits.
+
+  Plugin multipart uploads use the body boundary generated for the forwarded request. This does not change the character workbench’s reference rules (2–30-second motion-transfer input, 4–30-second object-swap input and 4–30-whole-second output), media checks, or upload limits, and does not launch or enable a video model.
+
+  ### Links
+
+  - [Documentation](/en/faqs/features)
+
+</Update>
+
+<a id="2026-10-15-plugin-request-compatibility"></a>
+
+<Update label="October 15, 2026" tags={["Platform", "Text"]} rss={{ title: "Plugin request compatibility and converted-stream billing" }}>
+
+  The gateway can load plugins that require ordered request members when the installed plugin and host versions are compatible. This does not activate or launch TypeSafe models.
+
+  Cross-protocol requests map media by MIME type. Converted Chat Completions and Responses streams can settle delivered output after interruption; an upstream failure before any output reaches the client is not charged by this specific rule. Hosted-search charges follow reported usage and the applicable tool price. No model prices or catalog entries are changed by this documentation update.
+
+  ### Links
+
+  - [Documentation](/en/faqs/features)
+
+</Update>
+
 <a id="2026-10-15-reference-video-input-compatibility"></a>
 
 <Update label="October 15, 2026" tags={["Improvements", "Video"]} rss={{ title: "Reference-video input requirements separated from output framing" }}>
@@ -1194,65 +1238,6 @@ Pages: **Page 1** · [Page 2](/en/updates/page-2)
   ### Links
 
   - [Pricing](/en/api-reference/account/pricing)
-
-</Update>
-
-<a id="2026-06-01-minimax-m3"></a>
-
-<Update label="June 1, 2026" tags={["New models", "Text"]} rss={{ title: "MiniMax M3" }}>
-
-  ## MiniMax M3
-
-  **MiniMax M3** is now available on OmniMux Chat Completions.
-
-  ### New model
-
-  - **Model ID:** `minimax-m3`
-  - **API:** `https://api.omnimux.ai/v1`
-
-  ### Links
-
-  - [MiniMax complete](/en/api-reference/text-series/minimax/complete)
-
-</Update>
-
-<a id="2026-05-20-omni-flash"></a>
-
-<Update label="May 20, 2026" tags={["New models", "Video"]} rss={{ title: "Omni Flash — duration video family" }}>
-
-  ## Omni Flash
-
-  **Omni Flash** (`gemini-omni-flash`) is available on OmniMux for fast video generation.
-
-  ### Model
-
-  - **Model ID:** `gemini-omni-flash`
-  - **API:** `POST /v1/video/generations` + poll `GET /v1/video/generations/{task_id}`
-
-  ### Links
-
-  - [Omni Flash](/en/api-reference/video-series/models/gemini-omni-flash)
-  - [Video task poll](/en/api-reference/tasks/video-task)
-
-</Update>
-
-<a id="2026-05-20-veo-3-1"></a>
-
-<Update label="May 20, 2026" tags={["New models", "Video"]} rss={{ title: "Veo 3.1" }}>
-
-  ## Veo 3.1
-
-  **Veo 3.1** is now available on OmniMux.
-
-  ### New model
-
-  - **Model ID:** `veo-3.1`
-  - **API:** async video create + poll on `/v1/video/generations`
-
-  ### Links
-
-  - [Veo 3.1](/en/api-reference/video-series/models/veo-3.1)
-  - [Video task poll](/en/api-reference/tasks/video-task)
 
 </Update>
 
