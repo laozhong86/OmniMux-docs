@@ -2,9 +2,44 @@
   "schema_version": 1,
   "page": 1,
   "page_size": 50,
-  "total": 57,
+  "total": 58,
   "total_pages": 2,
   "items": [
+    {
+      "id": "2026-10-16-site-release-announcements",
+      "published_at": "2026-10-16",
+      "type": "platform",
+      "modality": [
+        "platform"
+      ],
+      "title": {
+        "en": "System updates use site release announcements",
+        "zh": "系统更新改用本站上线公告"
+      },
+      "summary": {
+        "en": "The administrator update checker uses announcements of successfully deployed site releases and distinguishes cached results and incomparable builds.",
+        "zh": "管理员更新检查读取本站成功上线公告，区分缓存结果及无法比较先后的构建。"
+      },
+      "models": [],
+      "tags": [],
+      "links": [
+        {
+          "label": {
+            "en": "Documentation",
+            "zh": "文档"
+          },
+          "href": {
+            "en": "/en/faqs/features",
+            "zh": "/zh/faqs/features"
+          }
+        }
+      ],
+      "body": {
+        "en": "## Site release announcements\n\nThe administrator update checker reads the latest successfully deployed OmniMux site announcement. A successful deployment and its health checks publish the version and publication time automatically. The announcement is independent of the running application; it is neither an upstream upgrade inventory nor an automatic upgrade. Release details open the existing API Updates page in the current language.\n\nAnnouncement failures remain errors. Previous results are marked as cached, and results from the retired source are not reused for the new source. Different site build identifiers with the same upstream version do not establish a newer or older release. This change does not activate models or alter pricing or sign-in.",
+        "zh": "## 本站上线版本公告\n\n管理员更新检查改读 OmniMux 本站最近成功上线的公告。部署及健康检查成功后，系统自动发布版本和发布时间。公告独立于当前运行的应用，不是上游可升级清单，也不会自动升级；查看详情会打开当前语言现有的 API 更新页。\n\n公告读取失败仍会报错，上次结果明确标为缓存，旧来源结果不再用于新来源。上游版本相同但本站构建标识不同，不能据此声称较新或较旧。本次不启用模型、不改变价格或登录方式。"
+      },
+      "schema_version": 1
+    },
     {
       "id": "2026-10-15-usage-export-and-schema-compatibility",
       "published_at": "2026-10-15",
@@ -2256,45 +2291,6 @@
       "body": {
         "en": "## Kling\n\n**Kling** video models are available on OmniMux.\n\n### New models\n\n- **Model IDs:** `kling-v3`, `kling-v2-6`\n- **API:** async `POST` / `GET` `/v1/video/generations`\n\nPin IDs from live pricing; request parameters follow the video task contract.",
         "zh": "## Kling\n\n**Kling** 视频模型已在 OmniMux 可调用。\n\n### 新模型\n\n- **模型 ID：** `kling-v3`、`kling-v2-6`\n- **API：** 异步 `POST` / `GET` `/v1/video/generations`\n\n精确 ID 以线上定价为准；请求形态遵循视频任务约定。"
-      },
-      "schema_version": 1
-    },
-    {
-      "id": "2026-06-15-midjourney",
-      "published_at": "2026-06-15",
-      "type": "model_launch",
-      "modality": [
-        "image"
-      ],
-      "title": {
-        "en": "Midjourney",
-        "zh": "Midjourney"
-      },
-      "summary": {
-        "en": "Midjourney image path on OmniMux live pricing.",
-        "zh": "Midjourney 图像路径已在 OmniMux 线上定价可调用。"
-      },
-      "models": [
-        "midjourney"
-      ],
-      "tags": [
-        "image"
-      ],
-      "links": [
-        {
-          "label": {
-            "en": "Pricing",
-            "zh": "定价"
-          },
-          "href": {
-            "en": "/en/api-reference/account/pricing",
-            "zh": "/zh/api-reference/account/pricing"
-          }
-        }
-      ],
-      "body": {
-        "en": "## Midjourney\n\n**Midjourney** is available on OmniMux as model ID `midjourney`.\n\n### New model\n\n- **Model ID:** `midjourney`\n- **Modality:** image generation via the gateway catalog\n\nConfirm request shape and billing on console pricing before production use.",
-        "zh": "## Midjourney\n\n**Midjourney** 已在 OmniMux 可调用，模型 ID 为 `midjourney`。\n\n### 新模型\n\n- **模型 ID：** `midjourney`\n- **模态：** 网关目录中的图像生成\n\n上线生产前请在控制台定价确认请求形态与计费。"
       },
       "schema_version": 1
     }
