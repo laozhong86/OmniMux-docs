@@ -9,6 +9,27 @@ Stay up to date with OmniMux gateway model launches and platform changes. The fu
 
 Pages: **Page 1** · [Page 2](/en/updates/page-2)
 
+<a id="2026-10-15-reference-video-input-compatibility"></a>
+
+<Update label="October 15, 2026" tags={["Improvements", "Video"]} rss={{ title: "Reference-video input requirements separated from output framing" }}>
+
+  The character workbench checks a reference video's actual input properties independently of ordinary output framing. A 5:4, 1:1, 4:3, 21:9 or other ratio within **0.4–2.5** is not rejected at selection merely because it is absent from the output menu; the clip must also meet the format, dimensions, pixel count, frame-rate and duration requirements.
+
+  - Reference files support MP4/MOV with H.264/H.265, up to **200 MiB (209,715,200 bytes)**. Ordinary files and decoded Base64 uploads keep their **100 MiB** ceiling. Large video uploads must pass actual MP4/MOV container checks; a filename alone does not establish validity.
+  - Motion transfer accepts **2–30-second reference input** while the output duration remains an independent **4–30 whole seconds** setting. Object swap accepts **4–30-second input** and retains the existing standard-framing workflow: 480p allows source framing matching 16:9, 9:16 or 3:4; 720p allows 16:9 or 9:16. Its actual source duration is rounded to whole seconds for the request, with existing request-duration billing. **Automatic original-video editing is not enabled.**
+  - A valid 5:4 reference can be selected without an inline framing warning. If object swap cannot preserve its framing, only actual submission produces a **top notification** explaining the current service limitation. This stops before task distribution or generation billing, keeps the reference, and lets you choose motion transfer. No silent cropping, stretching, trimming or mode switching occurs.
+  - Browser metadata or playback failure alone does not mark a supported reference invalid. A session-only server preflight checks without model generation or generation billing; generation validates the media again.
+  - The Desert Duo preset uses its corresponding full-resolution reference instead of its small card preview. Failed candidate checks keep the last valid selection. Specific upload, media or service problems use the **top notification**, and temporary failures can be retried.
+
+  These changes concern the website workbench and file-upload limits. The internal `/pg/influencer/motion/inspect` preflight is not a public gateway-token or `/v1` API; this release does not announce new public video-generation parameters. A successful media check is not a completed generation or a guarantee of every editing capability. Existing generation billing rules remain in force.
+
+  ### Links
+
+  - [Reference-video requirements](/en/faqs/features)
+  - [File-upload rules](/en/api-reference/file-series/upload-stream)
+
+</Update>
+
 <a id="2026-10-12-reference-video-timing-compatibility"></a>
 
 <Update label="October 12, 2026" tags={["Improvements", "Video"]} rss={{ title: "Reference-video timing compatibility" }}>
@@ -1232,33 +1253,6 @@ Pages: **Page 1** · [Page 2](/en/updates/page-2)
 
   - [Veo 3.1](/en/api-reference/video-series/models/veo-3.1)
   - [Video task poll](/en/api-reference/tasks/video-task)
-
-</Update>
-
-<a id="2026-05-05-claude-opus-4-7-deepseek-v4"></a>
-
-<Update label="May 5, 2026" tags={["New models", "Text"]} rss={{ title: "Claude Opus 4.7 and DeepSeek V4" }}>
-
-  ## Claude Opus 4.7 and DeepSeek V4
-
-  New language models are available on OmniMux Chat Completions.
-
-  ### New models
-
-  | Model ID | Brand |
-  | --- | --- |
-  | `claude-opus-4-7` | Claude |
-  | `deepseek-v4-flash` | DeepSeek |
-  | `deepseek-v4-pro` | DeepSeek |
-
-  ### API
-
-  - **Endpoint:** `https://api.omnimux.ai/v1` (Chat Completions)
-
-  ### Links
-
-  - [Claude complete](/en/api-reference/text-series/claude/complete)
-  - [DeepSeek complete](/en/api-reference/text-series/deepseek/complete)
 
 </Update>
 
