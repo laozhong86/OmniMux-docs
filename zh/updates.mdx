@@ -9,6 +9,27 @@ rss: true
 
 分页：**第 1 页** · [第 2 页](/zh/updates/page-2)
 
+<a id="2026-10-15-reference-video-input-compatibility"></a>
+
+<Update label="2026 年 10 月 15 日" tags={["能力更新", "视频"]} rss={{ title: "参考视频按输入要求接收，具体问题统一顶部提示" }}>
+
+  角色工作台按参考视频真实的输入属性检查，与普通成片画幅分别处理。5:4、1:1、4:3、21:9 或其他位于 **0.4 至 2.5** 内的比例，不会仅因未出现在成片选项中而在选择时被拒绝；素材还须同时满足格式、边长、总像素、帧率与时长要求。
+
+  - MP4/MOV、H.264/H.265 参考视频最大 **200 MiB（209,715,200 字节）**；普通文件与 Base64 解码后文件仍为 **100 MiB**。大视频须通过真实 MP4/MOV 容器检查，文件名本身不代表合规。
+  - 动作迁移接收 **2 至 30 秒参考输入**，独立设置的成片时长仍为 **4 至 30 整数秒**。对象替换接收 **4 至 30 秒输入**，保留现有标准画幅方式：480P 原片须匹配 16:9、9:16、3:4；720P 须匹配 16:9、9:16。原片真实时长四舍五入为整数秒请求，沿用按请求时长计费的规则。**本次不启用自动原片编辑。**
+  - 合法 5:4 参考视频可以选入，不在素材区显示画幅红字。对象替换无法保留该画幅时，只在实际提交后通过**顶部气泡消息**说明当前服务限制；该拒绝发生在任务分发与生成扣费之前，保留素材，用户可选择动作迁移。不静默裁切、拉伸、截短或切换模式。
+  - 浏览器无法读取元数据或播放，不会单独作为素材不合法的依据。登录会话使用的服务器预检不调用生成模型、不扣生成积分，正式生成仍会再次校验。
+  - Desert Duo 预设改用对应高清参考片，卡片保留轻量预览。候选素材检查失败时，保留最后一次有效选择；具体上传、媒体或服务问题统一使用**顶部气泡消息**，临时失败可重试。
+
+  本次调整涉及网站工作台与文件上传额度。内部 `/pg/influencer/motion/inspect` 预检不是公开网关令牌或 `/v1` 接口，本次不宣告新增公开视频生成参数。媒体检查通过不代表成片已经完成，也不代表任意编辑目标均可执行；既有生成计费规则仍然适用。
+
+  ### 链接
+
+  - [参考视频要求](/zh/faqs/features)
+  - [文件上传规则](/zh/api-reference/file-series/upload-stream)
+
+</Update>
+
 <a id="2026-10-12-reference-video-timing-compatibility"></a>
 
 <Update label="2026 年 10 月 12 日" tags={["能力更新", "视频"]} rss={{ title: "参考视频时间记录兼容性" }}>
@@ -1232,33 +1253,6 @@ rss: true
 
   - [Veo 3.1](/zh/api-reference/video-series/models/veo-3.1)
   - [视频任务查询](/zh/api-reference/tasks/video-task)
-
-</Update>
-
-<a id="2026-05-05-claude-opus-4-7-deepseek-v4"></a>
-
-<Update label="2026 年 5 月 5 日" tags={["新模型", "文本"]} rss={{ title: "Claude Opus 4.7 与 DeepSeek V4" }}>
-
-  ## Claude Opus 4.7 与 DeepSeek V4
-
-  新的语言模型已通过 Chat Completions 在 OmniMux 可调用。
-
-  ### 新模型
-
-  | 模型 ID | 品牌 |
-  | --- | --- |
-  | `claude-opus-4-7` | Claude |
-  | `deepseek-v4-flash` | DeepSeek |
-  | `deepseek-v4-pro` | DeepSeek |
-
-  ### 调用
-
-  - **端点：** `https://api.omnimux.ai/v1`（Chat Completions）
-
-  ### 链接
-
-  - [Claude 完整参数](/zh/api-reference/text-series/claude/complete)
-  - [DeepSeek 完整参数](/zh/api-reference/text-series/deepseek/complete)
 
 </Update>
 

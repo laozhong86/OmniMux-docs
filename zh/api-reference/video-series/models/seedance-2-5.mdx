@@ -9,6 +9,10 @@ api: "POST https://api.omnimux.ai/v1/video/generations"
 - 异步任务：用返回的 `task_id` 查询 [查询视频任务](/zh/api-reference/tasks/video-task)
 - 产物 URL 请及时落盘（上游链接可能有时效）
 
+<Note>
+角色工作台的参考视频有独立的[输入要求与编辑能力边界说明](/zh/faqs/features#角色工作台的参考视频检查)。这些检查与网站登录会话预检，不代表新增公开 `/v1` 接口或本接口的新参数；参考输入比例与生成输出比例须分别判断。
+</Note>
+
 ## 身份
 
 | 字段 | 值 |

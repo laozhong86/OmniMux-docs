@@ -6,7 +6,7 @@ api: "POST https://api.omnimux.ai/api/v1/files/upload/stream"
 ---
 
 > - Upload local files or raw binary data via `multipart/form-data`
-> - Supports files up to **100 MiB (104857600 bytes)**
+> - MP4/MOV video: up to **200 MiB (209,715,200 bytes)**; other files: **100 MiB (104,857,600 bytes)**
 > - Files automatically expire and are purged after **72 hours**
 > - Limit of **2,000** active files per user; returns 429 when quota is exhausted
 > - Auth: `Authorization: Bearer sk-...`
@@ -21,13 +21,13 @@ Use the existing `POST /api/v1/files/upload/presign` and `POST /api/v1/files/upl
 
 Upload tickets default to **15 minutes** and cannot exceed **1 hour**. Ticket `data.expires_at` is the upload deadline, not the confirmed file's retention deadline.
 
-1. Request a ticket with `file_name`, `mime_type`, positive `file_size` in bytes, and optional `upload_path`. The ceiling is **100 MiB (104857600 bytes)**; a website flow may impose a lower limit.
+1. Request a ticket with `file_name`, `mime_type`, positive `file_size` in bytes, and optional `upload_path`. The ceiling is **200 MiB (209,715,200 bytes)** for MP4/MOV video and **100 MiB (104,857,600 bytes)** for other files; a website flow may impose a lower limit. A video MIME type or `.mp4`/`.mov` filename selects the video reading budget, but files larger than 100 MiB must also pass actual MP4/MOV container checks. Renaming a non-video file does not raise its valid limit. Base64 uploads retain the 100 MiB decoded-file limit.
 2. PUT the original browser `File` as the request body to `data.upload_url`, using `data.upload_method` and every returned `data.upload_headers` value unchanged. These are the required signed headers, including `If-None-Match: *`, which prevents replay from overwriting an existing object. Do not wrap the file in `FormData`, use the site's authenticated client, or add an OmniMux Bearer header. Set `credentials: "omit"`.
 3. After PUT succeeds, confirm with `file_id` and the same `file_size`. Use the confirmed URL and retention in the existing upload library only after confirmation succeeds. A ticket's `resource_url` is not proof of a confirmed file.
 
 Fall back to multipart **only** if the ticket endpoint returns the documented **501** unsupported-storage response. Authentication, quota, network, PUT, and confirmation failures must not silently relay or retry the file; preserve the service's safe `msg`.
 
-Confirmation checks object existence, positive size, and stored `Content-Type` metadata through R2 **HEAD**, without reading the complete object body. Actual size must equal the original ticket declaration, even if confirmation supplies a different size; type metadata must equal the ticket's normalized MIME type. Confirmation atomically activates only an owned, pending, unexpired record. Repeated or conflicting confirmation cannot replace an active object. These metadata checks do **not** validate the actual media format, duration, or safety; separate reference-media preparation still applies.
+Confirmation checks object existence, positive size, and stored `Content-Type` metadata through R2 **HEAD**, without reading the complete object body. Actual size must equal the original ticket declaration, even if confirmation supplies a different size; type metadata must equal the ticket's normalized MIME type. Confirmation atomically activates only an owned, pending, unexpired record. Repeated or conflicting confirmation cannot replace an active object. For video uploads above 100 MiB, confirmation also reads the object to verify the complete stored size and an MP4/MOV container; a temporary read failure can be retried. This container check does **not** establish codec or decodability. These metadata checks do **not** validate the actual media format, duration, or safety; separate reference-media preparation still applies.
 
 <Panel>
 <RequestExample>
