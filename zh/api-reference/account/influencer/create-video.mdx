@@ -1,0 +1,145 @@
+---
+title: "创建角色视频"
+sidebarTitle: "创建角色视频"
+description: "未发布草稿：通过账号限定的创作接口创建角色视频。"
+openapi: "openapi/ops/influencer/zh/creation.json POST /api/influencer/v1/videos"
+---
+
+<Warning>
+未发布草稿，不代表已经上线，也不宣告发布日期。仅在服务、发布验收和公开文档更新获得相应授权并核验后发布。
+</Warning>
+
+使用 `character_task_id` 加可选有序补充 `image_urls`，或直接用图片且第一张为主要角色。总数不超过 30 张。参考视频来源必须二选一：`video_url` 或本人成功的 `video_task_id`。
+
+- 服务地址为 `https://omnimux.ai`，使用限定权限个人凭据，不使用 `sk-` 网关密钥。
+- 所需权限：`influencer_creation:write`.
+- `New-Api-User` 只作可选兼容信息。账号由凭据确定，此请求头不能选择其他归属。
+
+新增权限须重新明确完成设备授权；已有和旧式凭据不会自动扩权。见[设备码登录](/zh/api-reference/account/device-login)。
+
+<Note>
+200 代表已持久受理排队或恢复，不代表成片或扣费确认。生成沿用账号积分/订阅额度。原生执行阶段对额度不足采用需要额度（402）的语义，但此受理入口不会同步返回 402；排队后仍可能失败。请查询任务状态和公开失败原因；不承诺视频生成前的精确报价。
+</Note>
+
+未知顶层请求字段返回 400。不要传入 `model`、`group`、`seed`、`size` 或手填时长。使用同一账号的相同 `request_id` 与内容恢复原任务；改内容返回 409，恢复过期返回 410。生成开关关闭时新请求返回 503 `influencer_creation_disabled`，已受理请求的原样恢复和本人读取仍可使用。
+
+后台在受理生成前识别真实时长（4–30 秒）、画幅、帧率、尺寸、编码及声音。支持 MP4/MOV、H.264/HEVC；24–60 帧/秒；每边 300–6000 像素；总像素 407696–8295044；来源宽高比 0.4–2.5。不合格素材直接拒绝，不悄悄裁剪或补时。
+
+| 清晰度 | 支持的输出画幅 |
+| --- | --- |
+| `480p` | `16:9`, `9:16`, `3:4` |
+| `720p` | `16:9`, `9:16` |
+
+默认 `motion`、`480p`。动作迁移明确画幅优先；省略时使用受支持的来源画幅，否则 `9:16`。对象交换保持受支持的来源画幅，冲突时拒绝。保留图片顺序及参考原声；引用已存角色时保留人物/猫/狗的已存身份。
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url 'https://omnimux.ai/api/influencer/v1/videos' \
+  --header 'Authorization: Bearer <user-access-token>' \
+  --header 'Content-Type: application/json' \
+  --data '{"request_id":"creator-video-0001","character_task_id":"task_example_character","video_url":"https://omnimux.ai/REPLACE_WITH_OWN_REFERENCE.mp4","mode":"motion","resolution":"480p"}'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200 仅示例
+{
+  "success": true,
+  "data": {
+    "request_id": "creator-video-0001",
+    "task_id": "task_example_video",
+    "kind": "video",
+    "status": "waiting",
+    "raw_status": "WAITING",
+    "artifact_status": "pending",
+    "input": {},
+    "recovery_expires_at": 0,
+    "created_at": 1792000000,
+    "finished_at": 0,
+    "artifacts": [],
+    "replayed": false
+  }
+}
+```
+
+```json 400
+{
+  "success": false,
+  "code": "invalid_request",
+  "message": "产品参数、未知请求字段或素材规格不符合要求。"
+}
+```
+
+```json 401
+{
+  "success": false,
+  "code": "AUTH_UNAUTHORIZED",
+  "message": "需要有效账号凭据；过期、已撤销或被停用账号的凭据会被拒绝。"
+}
+```
+
+```json 403
+{
+  "success": false,
+  "code": "ACCESS_TOKEN_SCOPE_DENIED",
+  "message": "缺少明确的创作读取/生成权限；旧凭据不会自动扩权。"
+}
+```
+
+```json 404
+{
+  "success": false,
+  "code": "task_not_found",
+  "message": "未找到本人可用任务、角色或请求；不会透露其他账号的资源是否存在。"
+}
+```
+
+```json 408
+{
+  "success": false,
+  "code": "reference_video_invalid",
+  "message": "参考素材准备超时或被取消；如果受理结果不明，重试前先按请求编号恢复。"
+}
+```
+
+```json 409
+{
+  "success": false,
+  "code": "creation_request_conflict",
+  "message": "同一账号的请求编号已有不同创作内容；不要自动换号再次生成。"
+}
+```
+
+```json 410
+{
+  "success": false,
+  "code": "creation_request_expired",
+  "message": "已超过恢复期或保留任务不可用；编号仍被保留，不能据此新建第二笔生成。"
+}
+```
+
+```json 500
+{
+  "success": false,
+  "code": "internal_error",
+  "message": "无法准备本次创作。"
+}
+```
+
+```json 503
+{
+  "success": false,
+  "code": "influencer_creation_disabled",
+  "message": "new command-line creations are currently disabled; accepted requests remain recoverable"
+}
+```
+
+</ResponseExample>
+
+</Panel>

@@ -1,0 +1,174 @@
+---
+title: "Get Creation Options"
+sidebarTitle: "Get Creation Options"
+description: "Unpublished draft: get creation options through the account-scoped creation API."
+openapi: "openapi/ops/influencer/en/creation.json GET /api/influencer/v1/options"
+---
+
+<Warning>
+Unpublished draft. No public availability or release date is claimed. Publish only after the service, release gates and documentation update are authorized and verified.
+</Warning>
+
+<Note>
+These pages describe the account HTTP API. The associated new CLI commands are implemented in the project source but are not included in the public 0.4.4 installer release. This documentation does not announce a new CLI distribution release.
+</Note>
+
+
+Read current character options, defaults, media limits and supported resolution/aspect pairs. Check both `creation_enabled` and the relevant `availability` or resolution `available` value. No supplier/model picker is exposed.
+
+- Base URL: `https://omnimux.ai`; use a scoped personal access token, not an `sk-` relay key.
+- Required permission: `influencer_creation:read`.
+- `New-Api-User` is optional compatibility metadata. The credential determines the account; this header cannot choose another owner.
+
+New permissions require a fresh, explicit device approval. Existing and legacy credentials do not expand automatically. See [device login](/en/api-reference/account/device-login).
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url 'https://omnimux.ai/api/influencer/v1/options' \
+  --header 'Authorization: Bearer <user-access-token>'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200 Illustrative only
+{
+  "success": true,
+  "data": {
+    "version": 1,
+    "taxonomy": {
+      "version": 1,
+      "categories": [
+        {
+          "id": "gender",
+          "options": [
+            {
+              "id": "female",
+              "label_en": "Female",
+              "visibleIn": [
+                "normal",
+                "freak",
+                "total",
+                "cats",
+                "dogs"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "taxonomy_etag": "EXAMPLE_ONLY",
+    "defaults": {
+      "tier": "normal",
+      "mode": "motion",
+      "resolution": "480p",
+      "aspect_ratio": "9:16",
+      "wait_timeout_seconds": 600
+    },
+    "creation_enabled": false,
+    "availability": {
+      "character": false,
+      "reference_image": false,
+      "multiview": false
+    },
+    "character": {
+      "types": [
+        "normal",
+        "freak",
+        "total",
+        "cats",
+        "dogs"
+      ],
+      "aspect_ratio": "16:9",
+      "max_brief_characters": 4000
+    },
+    "video": {
+      "modes": [
+        "motion",
+        "replace"
+      ],
+      "resolutions": {
+        "480p": {
+          "aspect_ratios": [
+            "16:9",
+            "9:16",
+            "3:4"
+          ],
+          "available": false
+        },
+        "720p": {
+          "aspect_ratios": [
+            "16:9",
+            "9:16"
+          ],
+          "available": false
+        }
+      },
+      "min_seconds": 4,
+      "max_seconds": 30,
+      "min_images": 1,
+      "max_images": 30,
+      "max_prompt_characters": 4000,
+      "preserves_reference_audio": true,
+      "server_inspects_media": true
+    },
+    "media": {
+      "reference_image_max_bytes": 5242880,
+      "reference_image_mime_types": [
+        "image/jpeg",
+        "image/png",
+        "image/webp"
+      ],
+      "video_containers": [
+        "mp4",
+        "mov"
+      ],
+      "video_codecs": [
+        "h264",
+        "hevc"
+      ],
+      "min_dimension": 300,
+      "max_dimension": 6000,
+      "min_pixels": 407696,
+      "max_pixels": 8295044,
+      "min_fps": 24,
+      "max_fps": 60,
+      "min_aspect_ratio": 0.4,
+      "max_aspect_ratio": 2.5
+    }
+  }
+}
+```
+
+```json 401
+{
+  "success": false,
+  "code": "AUTH_UNAUTHORIZED",
+  "message": "A valid live account credential is required. Expired, revoked or disabled-account credentials are rejected."
+}
+```
+
+```json 403
+{
+  "success": false,
+  "code": "ACCESS_TOKEN_SCOPE_DENIED",
+  "message": "The explicit creation read/write scope is missing. Old/legacy credentials do not gain access automatically."
+}
+```
+
+```json 503
+{
+  "success": false,
+  "code": "generation_queue_unavailable",
+  "message": "Creation/read infrastructure is temporarily unavailable; new creation may also be disabled or have no compatible active route."
+}
+```
+
+</ResponseExample>
+
+</Panel>

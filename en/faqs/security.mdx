@@ -4,6 +4,11 @@ sidebarTitle: "Security and keys"
 description: "API keys, scoped personal access tokens, and safe credential storage"
 ---
 
+<Warning>
+Unpublished revision draft. The existing historical release dates below describe earlier credential behavior only; the character/video creation addition has no release date yet.
+</Warning>
+
+
 ## Protect `sk-` keys
 
 - Never commit keys to public repos or ship them in frontend bundles
@@ -48,6 +53,7 @@ The personal-token management API is `/api/user/access_tokens`, with `/catalog` 
 | Inspiration library | `inspiration:read`, `inspiration:write` | Private queries and media; creating direct-link shares, not editing the managed library |
 | Your files | `files:read`, `files:write` | Storage quota; uploads and upload tickets. `/api/v1/files` and `/v1/files` use the same permissions |
 | Influencer workbench categories | `influencer:read` | Category lookup, not a generation permission |
+| Character/video creation | `influencer_creation:read`, `influencer_creation:write` | Your character/video creations and their narrow task history; creation can spend account credits/subscription allowance |
 
 The browser catalog is the authority for permissions you can currently select. A token never expands your account role, resource ownership, or balance. A read-only token cannot make a write request. Existing business charges still apply to operations such as publishing or ordering; granting a permission does not make them free.
 
@@ -68,3 +74,7 @@ Before the deadline, reconnect automation using a new scoped token or [device lo
 - Keep both credential types out of logs and screenshots
 - Limit permissions, models, and groups to the actual task
 - Use `<token>` placeholders in shared examples
+
+## Explicit approval for character/video creation
+
+The new creation grants do not inherit from `influencer:read`, `usage:read`, administrator permissions or legacy credentials. Re-authorize device login to receive them. Reads are limited to your creation records; they do not expose unrelated account history. Read [creation options](/en/api-reference/account/influencer/options) before submitting. Queue acceptance is not delivery or a final charge/refund statement.

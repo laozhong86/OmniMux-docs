@@ -1,0 +1,174 @@
+---
+title: "查询创作选项"
+sidebarTitle: "查询创作选项"
+description: "未发布草稿：通过账号限定的创作接口查询创作选项。"
+openapi: "openapi/ops/influencer/zh/creation.json GET /api/influencer/v1/options"
+---
+
+<Warning>
+未发布草稿，不代表已经上线，也不宣告发布日期。仅在服务、发布验收和公开文档更新获得相应授权并核验后发布。
+</Warning>
+
+<Note>
+本组页面说明账号 HTTP 接口。配套的新命令已经在项目源码实现，但公开的 0.4.4 安装版尚不包含这些命令。本次文档不宣告新的命令行发行版本。
+</Note>
+
+
+读取当前角色选项、默认值、素材限制和支持的清晰度与画幅组合。同时检查 `creation_enabled` 与对应的 `availability` 或清晰度 `available` 值，不提供供应商或模型选择。
+
+- 服务地址为 `https://omnimux.ai`，使用限定权限个人凭据，不使用 `sk-` 网关密钥。
+- 所需权限：`influencer_creation:read`.
+- `New-Api-User` 只作可选兼容信息。账号由凭据确定，此请求头不能选择其他归属。
+
+新增权限须重新明确完成设备授权；已有和旧式凭据不会自动扩权。见[设备码登录](/zh/api-reference/account/device-login)。
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url 'https://omnimux.ai/api/influencer/v1/options' \
+  --header 'Authorization: Bearer <user-access-token>'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200 仅示例
+{
+  "success": true,
+  "data": {
+    "version": 1,
+    "taxonomy": {
+      "version": 1,
+      "categories": [
+        {
+          "id": "gender",
+          "options": [
+            {
+              "id": "female",
+              "label_en": "Female",
+              "visibleIn": [
+                "normal",
+                "freak",
+                "total",
+                "cats",
+                "dogs"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "taxonomy_etag": "EXAMPLE_ONLY",
+    "defaults": {
+      "tier": "normal",
+      "mode": "motion",
+      "resolution": "480p",
+      "aspect_ratio": "9:16",
+      "wait_timeout_seconds": 600
+    },
+    "creation_enabled": false,
+    "availability": {
+      "character": false,
+      "reference_image": false,
+      "multiview": false
+    },
+    "character": {
+      "types": [
+        "normal",
+        "freak",
+        "total",
+        "cats",
+        "dogs"
+      ],
+      "aspect_ratio": "16:9",
+      "max_brief_characters": 4000
+    },
+    "video": {
+      "modes": [
+        "motion",
+        "replace"
+      ],
+      "resolutions": {
+        "480p": {
+          "aspect_ratios": [
+            "16:9",
+            "9:16",
+            "3:4"
+          ],
+          "available": false
+        },
+        "720p": {
+          "aspect_ratios": [
+            "16:9",
+            "9:16"
+          ],
+          "available": false
+        }
+      },
+      "min_seconds": 4,
+      "max_seconds": 30,
+      "min_images": 1,
+      "max_images": 30,
+      "max_prompt_characters": 4000,
+      "preserves_reference_audio": true,
+      "server_inspects_media": true
+    },
+    "media": {
+      "reference_image_max_bytes": 5242880,
+      "reference_image_mime_types": [
+        "image/jpeg",
+        "image/png",
+        "image/webp"
+      ],
+      "video_containers": [
+        "mp4",
+        "mov"
+      ],
+      "video_codecs": [
+        "h264",
+        "hevc"
+      ],
+      "min_dimension": 300,
+      "max_dimension": 6000,
+      "min_pixels": 407696,
+      "max_pixels": 8295044,
+      "min_fps": 24,
+      "max_fps": 60,
+      "min_aspect_ratio": 0.4,
+      "max_aspect_ratio": 2.5
+    }
+  }
+}
+```
+
+```json 401
+{
+  "success": false,
+  "code": "AUTH_UNAUTHORIZED",
+  "message": "需要有效账号凭据；过期、已撤销或被停用账号的凭据会被拒绝。"
+}
+```
+
+```json 403
+{
+  "success": false,
+  "code": "ACCESS_TOKEN_SCOPE_DENIED",
+  "message": "缺少明确的创作读取/生成权限；旧凭据不会自动扩权。"
+}
+```
+
+```json 503
+{
+  "success": false,
+  "code": "generation_queue_unavailable",
+  "message": "创作或读取暂不可用；也可能是新生成尚未启用或当前没有兼容能力。"
+}
+```
+
+</ResponseExample>
+
+</Panel>

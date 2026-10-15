@@ -5,9 +5,14 @@ description: "RFC 8628-style device login: request device_code → browser appro
 api: "POST https://omnimux.ai/api/user/device/code"
 ---
 
+<Warning>
+Unpublished revision draft. The existing historical release dates below describe earlier credential behavior only; the character/video creation addition has no release date yet.
+</Warning>
+
+
 - Account management user API (CLI / headless login)
 - **Code request and token poll need no auth**; approve/deny need a logged-in browser session
-- The returned `access_token` is for `https://omnimux.ai` user APIs, not paid model-generation requests
+- The returned `access_token` is for `https://omnimux.ai` user APIs, not a replacement for sk- relay keys; explicitly authorized character/video user APIs can consume account allowance
 
 The scoped device-token behavior below is available as of **October 4, 2026**.
 
@@ -43,11 +48,15 @@ AI gateway and social-data APIs still use `sk-` tokens on `https://api.omnimux.a
 
 The browser must confirm the **exact device code** and complete security verification for `cli.device.approve`. This operation is separate from manual token creation. The verification context binds `device_flow_id`, normalized `user_code`, the granted `scopes`, and the token's absolute `expires_at`. Use the metadata returned by the server unchanged; do not calculate a new deadline or broaden permissions in the client. A proof for another device, account, session, permission set, or expiry cannot approve this request. Both approval and denial are browser-session-only; personal tokens cannot approve other devices.
 
-The new device token expires **30 days from device-flow creation**. It grants personal business permissions only, even when an administrator signs in: profile lookup; gateway-key management and full-key access; social publishing; hosted channels; inspiration queries/sharing; and file uploads. The exact grant is `api_key:read`, `api_key:reveal`, `api_key:write`, `files:read`, `files:write`, `hosted:read`, `hosted:write`, `inspiration:read`, `inspiration:write`, `profile:read`, `social:read`, and `social:write`. It does **not** grant `usage:read`, `influencer:read`, administrator/system permissions, wallet writes, profile writes, account-security changes, or playground generation. See the [permission guide](/en/faqs/security). Existing ownership, role, and billing checks still apply.
+The new device token expires **30 days from device-flow creation**. It grants personal business permissions only, even when an administrator signs in: profile lookup; gateway-key management and full-key access; social publishing; hosted channels; inspiration queries/sharing; file uploads; and explicitly approved character/video creation. The exact grant is `api_key:read`, `api_key:reveal`, `api_key:write`, `files:read`, `files:write`, `hosted:read`, `hosted:write`, `influencer_creation:read`, `influencer_creation:write`, `inspiration:read`, `inspiration:write`, `profile:read`, `social:read`, and `social:write`. It does **not** grant `usage:read`, `influencer:read`, administrator/system permissions, wallet writes, profile writes, account-security changes, or playground generation. See the [permission guide](/en/faqs/security). Existing ownership, role, and billing checks still apply.
 
 A successful new device login replaces only that user's **device-token slot** and clears the old single-token credential. It preserves independently created manual personal tokens. Replacing the device slot invalidates the prior device token, so other devices using it must sign in again. Expiry or revocation also requires another device login; no permanent credential is silently issued.
 
 The existing CLI response fields `access_token`, `user_id`, `username`, and `token_type` remain unchanged. Existing clients can store the new `nap_` string without a client-format bump; this does not promise that every external client's business flow has been verified. The secret is issued once and cannot later be revealed from the token list. Legacy clients still holding a single-token credential must sign in again by **November 3, 2026 at 13:52:36 UTC** (`2026-11-03T13:52:36Z`).
+
+## Character and video creation approval
+
+New device approvals include `influencer_creation:read` and `influencer_creation:write` and disclose creation, owned-history access and consumption of account credits/subscription allowance. Existing tokens are never expanded automatically; sign in again and approve the new grant. Pending older device flows must restart. These scopes cover only the new [creation API](/en/api-reference/account/influencer/options), not all account usage or browser-only playground generation. An already accepted task continues after token revocation, while new protected requests are denied.
 
 ## Body / parameters
 
