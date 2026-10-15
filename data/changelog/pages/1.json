@@ -2,9 +2,123 @@
   "schema_version": 1,
   "page": 1,
   "page_size": 50,
-  "total": 54,
+  "total": 57,
   "total_pages": 2,
   "items": [
+    {
+      "id": "2026-10-15-usage-export-and-schema-compatibility",
+      "published_at": "2026-10-15",
+      "type": "platform",
+      "modality": [
+        "text",
+        "platform"
+      ],
+      "title": {
+        "en": "Own-account usage export and schema compatibility",
+        "zh": "本人用量导出与结构定义兼容"
+      },
+      "summary": {
+        "en": "Usage-log export preserves account visibility and requires a terminal success record; model-specific format conversion preserves supported constraints.",
+        "zh": "用量日志导出保留账户可见范围，并须以末行成功结果确认完成；格式转换按模型能力保留受支持约束。"
+      },
+      "models": [],
+      "tags": [
+        "compatibility"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "Documentation",
+            "zh": "文档"
+          },
+          "href": {
+            "en": "/en/api-reference/account/usage-log-export",
+            "zh": "/zh/api-reference/account/usage-log-export"
+          }
+        }
+      ],
+      "body": {
+        "en": "User-API usage export is separate from model generation APIs. It exports the authenticated user’s own visible logs as newline-delimited JSON, followed by a terminal success/count object. An HTTP 200 or partial records alone do not establish completion. Export availability is operator-controlled, each account has one concurrent export, and the configured time-range limit does not set retention or delete logs.\n\nGemini schemas that cannot fit its legacy typed schema can use original JSON Schema on compatible v1beta or Vertex AI routes; older routes may lose unsupported constraints. Thinking settings are matched to the exact model, not a universal effort budget. No catalog activation or pricing change is claimed.\n\nBrowser chat history and settings are isolated per account. Legacy shared records remain in the original browser without automatic loading, assignment or deletion; signing out clears the visible conversation and unsent draft. Server tasks, artifacts and billing records are not cleanup targets.",
+        "zh": "用户接口的用量导出与模型生成接口分开，按逐行 JSON 导出已认证用户本人可见的日志，并以包含成功状态和数量的末行结束。仅收到 200 或部分记录不能认定完成。导出是否开放由管理员控制，每账户仅一个并发导出；时间跨度限制不设置保留期，也不删除日志。\n\n无法装入 Gemini 旧式结构定义的约束，可在兼容的 v1beta 或 Vertex AI 线路使用原始 JSON Schema；旧式线路可能丢失不支持的约束。思考设置按具体模型匹配，不代表统一计算预算。本次不宣称模型启用或价格变化。\n\n浏览器聊天记录及设置按账户隔离。旧共享记录保留在原浏览器，不自动加载、分配或删除；退出时清空可见聊天和未发送草稿。服务器任务、作品和账单不是清理对象。"
+      },
+      "schema_version": 1
+    },
+    {
+      "id": "2026-10-15-video-plugin-compatibility",
+      "published_at": "2026-10-15",
+      "type": "platform",
+      "modality": [
+        "video",
+        "platform"
+      ],
+      "title": {
+        "en": "Video plugin duration and upload compatibility",
+        "zh": "视频插件时长与上传兼容"
+      },
+      "summary": {
+        "en": "Automatic duration remains opt-in per installed plugin and model contract; character-workbench media limits remain in force.",
+        "zh": "自动时长仍以已安装插件及模型说明允许为前提，角色工作台媒体限制继续有效。"
+      },
+      "models": [],
+      "tags": [
+        "compatibility"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "Documentation",
+            "zh": "文档"
+          },
+          "href": {
+            "en": "/en/faqs/features",
+            "zh": "/zh/faqs/features"
+          }
+        }
+      ],
+      "body": {
+        "en": "Automatic duration (`-1`) is accepted only by an installed plugin that declares the capability and a model contract that permits it. Reservation uses the supported maximum and completion settles reported usage. Positive durations retain their model-specific limits.\n\nPlugin multipart uploads use the body boundary generated for the forwarded request. This does not change the character workbench’s reference rules (2–30-second motion-transfer input, 4–30-second object-swap input and 4–30-whole-second output), media checks, or upload limits, and does not launch or enable a video model.",
+        "zh": "只有已安装插件声明能力且模型说明允许时，自动时长（`-1`）才会被接受。预扣使用支持的最长时长，完成后结算报告的实际用量；正数时长仍遵循模型各自限制。\n\n插件表单上传采用转发请求实际生成的内容边界。本次不改变角色工作台参考规则（动作迁移输入 2 至 30 秒、对象替换输入 4 至 30 秒、成片 4 至 30 整数秒）、媒体检查或上传上限，也不代表新视频模型启用或上架。"
+      },
+      "schema_version": 1
+    },
+    {
+      "id": "2026-10-15-plugin-request-compatibility",
+      "published_at": "2026-10-15",
+      "type": "platform",
+      "modality": [
+        "text",
+        "platform"
+      ],
+      "title": {
+        "en": "Plugin request compatibility and converted-stream billing",
+        "zh": "插件请求兼容与转换流结算"
+      },
+      "summary": {
+        "en": "Plugin hosts support ordered requests; converted text streams settle delivered output under their documented failure rules.",
+        "zh": "插件宿主支持保留请求顺序；转换文本流按已交付内容及规定的失败规则结算。"
+      },
+      "models": [],
+      "tags": [
+        "compatibility"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "Documentation",
+            "zh": "文档"
+          },
+          "href": {
+            "en": "/en/faqs/features",
+            "zh": "/zh/faqs/features"
+          }
+        }
+      ],
+      "body": {
+        "en": "The gateway can load plugins that require ordered request members when the installed plugin and host versions are compatible. This does not activate or launch TypeSafe models.\n\nCross-protocol requests map media by MIME type. Converted Chat Completions and Responses streams can settle delivered output after interruption; an upstream failure before any output reaches the client is not charged by this specific rule. Hosted-search charges follow reported usage and the applicable tool price. No model prices or catalog entries are changed by this documentation update.",
+        "zh": "宿主与插件版本匹配时，网关可加载要求保留请求成员顺序的插件。这不代表 TypeSafe 模型已启用或上架。\n\n跨格式请求按媒体实际类型映射内容。Chat Completions 与 Responses 之间转换的流在中断后仍可结算已交付内容；按该特定规则，上游在内容送达客户端之前失败不收费。托管搜索按报告用量和适用工具价格结算。本次文档不更改模型价格或模型目录。"
+      },
+      "schema_version": 1
+    },
     {
       "id": "2026-10-15-reference-video-input-compatibility",
       "published_at": "2026-10-15",
@@ -2181,143 +2295,6 @@
       "body": {
         "en": "## Midjourney\n\n**Midjourney** is available on OmniMux as model ID `midjourney`.\n\n### New model\n\n- **Model ID:** `midjourney`\n- **Modality:** image generation via the gateway catalog\n\nConfirm request shape and billing on console pricing before production use.",
         "zh": "## Midjourney\n\n**Midjourney** 已在 OmniMux 可调用，模型 ID 为 `midjourney`。\n\n### 新模型\n\n- **模型 ID：** `midjourney`\n- **模态：** 网关目录中的图像生成\n\n上线生产前请在控制台定价确认请求形态与计费。"
-      },
-      "schema_version": 1
-    },
-    {
-      "id": "2026-06-01-minimax-m3",
-      "published_at": "2026-06-01",
-      "type": "model_launch",
-      "modality": [
-        "text"
-      ],
-      "title": {
-        "en": "MiniMax M3",
-        "zh": "MiniMax M3"
-      },
-      "summary": {
-        "en": "MiniMax M3 language model on OmniMux.",
-        "zh": "MiniMax M3 语言模型已在 OmniMux 可调用。"
-      },
-      "models": [
-        "minimax-m3"
-      ],
-      "tags": [
-        "text"
-      ],
-      "links": [
-        {
-          "label": {
-            "en": "MiniMax complete",
-            "zh": "MiniMax 完整参数"
-          },
-          "href": {
-            "en": "/en/api-reference/text-series/minimax/complete",
-            "zh": "/zh/api-reference/text-series/minimax/complete"
-          }
-        }
-      ],
-      "body": {
-        "en": "## MiniMax M3\n\n**MiniMax M3** is now available on OmniMux Chat Completions.\n\n### New model\n\n- **Model ID:** `minimax-m3`\n- **API:** `https://api.omnimux.ai/v1`",
-        "zh": "## MiniMax M3\n\n**MiniMax M3** 现已通过 Chat Completions 在 OmniMux 可调用。\n\n### 新模型\n\n- **模型 ID：** `minimax-m3`\n- **API：** `https://api.omnimux.ai/v1`"
-      },
-      "schema_version": 1
-    },
-    {
-      "id": "2026-05-20-omni-flash",
-      "published_at": "2026-05-20",
-      "type": "model_launch",
-      "modality": [
-        "video"
-      ],
-      "title": {
-        "en": "Omni Flash — duration video family",
-        "zh": "Omni Flash — 时长视频族"
-      },
-      "summary": {
-        "en": "Omni Flash and duration SKUs on OmniMux.",
-        "zh": "Omni Flash 及按时长 SKU 已在 OmniMux 可调用。"
-      },
-      "models": [
-        "gemini-omni-flash"
-      ],
-      "tags": [
-        "video"
-      ],
-      "links": [
-        {
-          "label": {
-            "en": "Omni Flash",
-            "zh": "Omni Flash"
-          },
-          "href": {
-            "en": "/en/api-reference/video-series/models/gemini-omni-flash",
-            "zh": "/zh/api-reference/video-series/models/gemini-omni-flash"
-          }
-        },
-        {
-          "label": {
-            "en": "Video task poll",
-            "zh": "视频任务查询"
-          },
-          "href": {
-            "en": "/en/api-reference/tasks/video-task",
-            "zh": "/zh/api-reference/tasks/video-task"
-          }
-        }
-      ],
-      "body": {
-        "en": "## Omni Flash\n\n**Omni Flash** (`gemini-omni-flash`) is available on OmniMux for fast video generation.\n\n### Model\n\n- **Model ID:** `gemini-omni-flash`\n- **API:** `POST /v1/video/generations` + poll `GET /v1/video/generations/{task_id}`",
-        "zh": "## Omni Flash\n\n**Omni Flash**（`gemini-omni-flash`）已在 OmniMux 可调用，用于快速视频生成。\n\n### 模型\n\n- **模型 ID：** `gemini-omni-flash`\n- **调用：** `POST /v1/video/generations` + 轮询 `GET /v1/video/generations/{task_id}`"
-      },
-      "schema_version": 1
-    },
-    {
-      "id": "2026-05-20-veo-3-1",
-      "published_at": "2026-05-20",
-      "type": "model_launch",
-      "modality": [
-        "video"
-      ],
-      "title": {
-        "en": "Veo 3.1",
-        "zh": "Veo 3.1"
-      },
-      "summary": {
-        "en": "Veo 3.1 video generation on OmniMux.",
-        "zh": "Veo 3.1 视频生成已在 OmniMux 可调用。"
-      },
-      "models": [
-        "veo-3.1"
-      ],
-      "tags": [
-        "video"
-      ],
-      "links": [
-        {
-          "label": {
-            "en": "Veo 3.1",
-            "zh": "Veo 3.1"
-          },
-          "href": {
-            "en": "/en/api-reference/video-series/models/veo-3.1",
-            "zh": "/zh/api-reference/video-series/models/veo-3.1"
-          }
-        },
-        {
-          "label": {
-            "en": "Video task poll",
-            "zh": "视频任务查询"
-          },
-          "href": {
-            "en": "/en/api-reference/tasks/video-task",
-            "zh": "/zh/api-reference/tasks/video-task"
-          }
-        }
-      ],
-      "body": {
-        "en": "## Veo 3.1\n\n**Veo 3.1** is now available on OmniMux.\n\n### New model\n\n- **Model ID:** `veo-3.1`\n- **API:** async video create + poll on `/v1/video/generations`",
-        "zh": "## Veo 3.1\n\n**Veo 3.1** 现已在 OmniMux 可调用。\n\n### 新模型\n\n- **模型 ID：** `veo-3.1`\n- **API：** `/v1/video/generations` 异步创建 + 查询"
       },
       "schema_version": 1
     }

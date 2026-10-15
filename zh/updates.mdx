@@ -9,6 +9,50 @@ rss: true
 
 分页：**第 1 页** · [第 2 页](/zh/updates/page-2)
 
+<a id="2026-10-15-usage-export-and-schema-compatibility"></a>
+
+<Update label="2026 年 10 月 15 日" tags={["平台", "文本"]} rss={{ title: "本人用量导出与结构定义兼容" }}>
+
+  用户接口的用量导出与模型生成接口分开，按逐行 JSON 导出已认证用户本人可见的日志，并以包含成功状态和数量的末行结束。仅收到 200 或部分记录不能认定完成。导出是否开放由管理员控制，每账户仅一个并发导出；时间跨度限制不设置保留期，也不删除日志。
+
+  无法装入 Gemini 旧式结构定义的约束，可在兼容的 v1beta 或 Vertex AI 线路使用原始 JSON Schema；旧式线路可能丢失不支持的约束。思考设置按具体模型匹配，不代表统一计算预算。本次不宣称模型启用或价格变化。
+
+  浏览器聊天记录及设置按账户隔离。旧共享记录保留在原浏览器，不自动加载、分配或删除；退出时清空可见聊天和未发送草稿。服务器任务、作品和账单不是清理对象。
+
+  ### 链接
+
+  - [文档](/zh/api-reference/account/usage-log-export)
+
+</Update>
+
+<a id="2026-10-15-video-plugin-compatibility"></a>
+
+<Update label="2026 年 10 月 15 日" tags={["平台", "视频"]} rss={{ title: "视频插件时长与上传兼容" }}>
+
+  只有已安装插件声明能力且模型说明允许时，自动时长（`-1`）才会被接受。预扣使用支持的最长时长，完成后结算报告的实际用量；正数时长仍遵循模型各自限制。
+
+  插件表单上传采用转发请求实际生成的内容边界。本次不改变角色工作台参考规则（动作迁移输入 2 至 30 秒、对象替换输入 4 至 30 秒、成片 4 至 30 整数秒）、媒体检查或上传上限，也不代表新视频模型启用或上架。
+
+  ### 链接
+
+  - [文档](/zh/faqs/features)
+
+</Update>
+
+<a id="2026-10-15-plugin-request-compatibility"></a>
+
+<Update label="2026 年 10 月 15 日" tags={["平台", "文本"]} rss={{ title: "插件请求兼容与转换流结算" }}>
+
+  宿主与插件版本匹配时，网关可加载要求保留请求成员顺序的插件。这不代表 TypeSafe 模型已启用或上架。
+
+  跨格式请求按媒体实际类型映射内容。Chat Completions 与 Responses 之间转换的流在中断后仍可结算已交付内容；按该特定规则，上游在内容送达客户端之前失败不收费。托管搜索按报告用量和适用工具价格结算。本次文档不更改模型价格或模型目录。
+
+  ### 链接
+
+  - [文档](/zh/faqs/features)
+
+</Update>
+
 <a id="2026-10-15-reference-video-input-compatibility"></a>
 
 <Update label="2026 年 10 月 15 日" tags={["能力更新", "视频"]} rss={{ title: "参考视频按输入要求接收，具体问题统一顶部提示" }}>
@@ -1194,65 +1238,6 @@ rss: true
   ### 链接
 
   - [定价](/zh/api-reference/account/pricing)
-
-</Update>
-
-<a id="2026-06-01-minimax-m3"></a>
-
-<Update label="2026 年 6 月 1 日" tags={["新模型", "文本"]} rss={{ title: "MiniMax M3" }}>
-
-  ## MiniMax M3
-
-  **MiniMax M3** 现已通过 Chat Completions 在 OmniMux 可调用。
-
-  ### 新模型
-
-  - **模型 ID：** `minimax-m3`
-  - **API：** `https://api.omnimux.ai/v1`
-
-  ### 链接
-
-  - [MiniMax 完整参数](/zh/api-reference/text-series/minimax/complete)
-
-</Update>
-
-<a id="2026-05-20-omni-flash"></a>
-
-<Update label="2026 年 5 月 20 日" tags={["新模型", "视频"]} rss={{ title: "Omni Flash — 时长视频族" }}>
-
-  ## Omni Flash
-
-  **Omni Flash**（`gemini-omni-flash`）已在 OmniMux 可调用，用于快速视频生成。
-
-  ### 模型
-
-  - **模型 ID：** `gemini-omni-flash`
-  - **调用：** `POST /v1/video/generations` + 轮询 `GET /v1/video/generations/{task_id}`
-
-  ### 链接
-
-  - [Omni Flash](/zh/api-reference/video-series/models/gemini-omni-flash)
-  - [视频任务查询](/zh/api-reference/tasks/video-task)
-
-</Update>
-
-<a id="2026-05-20-veo-3-1"></a>
-
-<Update label="2026 年 5 月 20 日" tags={["新模型", "视频"]} rss={{ title: "Veo 3.1" }}>
-
-  ## Veo 3.1
-
-  **Veo 3.1** 现已在 OmniMux 可调用。
-
-  ### 新模型
-
-  - **模型 ID：** `veo-3.1`
-  - **API：** `/v1/video/generations` 异步创建 + 查询
-
-  ### 链接
-
-  - [Veo 3.1](/zh/api-reference/video-series/models/veo-3.1)
-  - [视频任务查询](/zh/api-reference/tasks/video-task)
 
 </Update>
 

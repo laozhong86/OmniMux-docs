@@ -22,3 +22,36 @@ The operator sets the maximum span, defaulting to 365 days. Negative timestamps,
 Records follow the own-account list order. `id` is an export-local display position, not a database row ID or a cursor for incremental synchronization. `quota` is raw internal quota: `quota ÷ 500000 = USD`, `1 USD = 10 积分`; do not label the raw number as points. Internal administrative information retains the own-account list’s visibility rules.
 
 This read operation does not generate content or incur generation charges. Cross-account administrator exports are outside this contract.
+
+<ResponseExample>
+
+```json 200 NDJSON
+{"id":1,"user_id":42,"created_at":1791979200,"type":2,"content":"","username":"example-user","token_name":"example-key","model_name":"","quota":500,"prompt_tokens":10,"completion_tokens":5,"use_time":1,"is_stream":false,"channel":0,"channel_name":"","token_id":1,"group":"","ip":"","request_id":"example-request-id","other":"{}"}
+{"success":true,"message":"","data":{"count":1}}
+```
+
+```json 401
+{
+  "success": false,
+  "code": "AUTH_UNAUTHORIZED",
+  "message": "Invalid user credential"
+}
+```
+
+```json 403
+{
+  "success": false,
+  "code": "ACCESS_TOKEN_SCOPE_DENIED",
+  "message": "Permission denied"
+}
+```
+
+```json 500
+{
+  "success": false,
+  "code": "AUTH_INTERNAL_ERROR",
+  "message": "Internal authentication error"
+}
+```
+
+</ResponseExample>
