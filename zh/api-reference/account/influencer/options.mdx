@@ -1,0 +1,218 @@
+---
+title: "查询创作选项"
+sidebarTitle: "查询创作选项"
+description: "通过账号限定的创作接口查询创作选项。"
+openapi: "openapi/ops/influencer/zh/creation.json GET /api/influencer/v1/options"
+---
+
+<Note>
+本组页面说明账号 HTTP 接口。命令行 **0.5.0** 已通过官方安装脚本和 npm 发行。服务仍须支持并启用创作，旧凭据须重新明确同意新增创作权限。
+</Note>
+
+
+读取当前角色选项、默认值、素材限制和支持的清晰度与画幅组合。同时检查 `creation_enabled` 与对应的 `availability` 或清晰度 `available` 值，不提供供应商或模型选择。
+
+- 服务地址为 `https://omnimux.ai`，使用限定权限个人凭据，不使用 `sk-` 网关密钥。
+- 所需权限：`influencer_creation:read`.
+- `New-Api-User` 只作可选兼容信息。账号由凭据确定，此请求头不能选择其他归属。
+
+新增权限须重新明确完成设备授权；已有和旧式凭据不会自动扩权。见[设备码登录](/zh/api-reference/account/device-login)。
+
+## 命令行流程
+
+通过 npm 安装或更新：
+
+```bash
+npm install -g @omnimux/cli@0.5.0
+omnimux --version
+```
+
+macOS/Linux 的独立程序可使用官方安装脚本：
+
+```bash
+curl -fsSL https://omnimux.ai/install.sh | bash
+```
+
+重新登录，明确同意新增创作权限；提交前检查 `creation_enabled` 与相应能力的可用状态。
+
+```bash
+omnimux login
+omnimux influencer options
+omnimux influencer character create --brief '一位穿蓝色外套、神态友好的成年角色' --request-id creator-character-0001 --dry-run
+omnimux influencer character create --brief '一位穿蓝色外套、神态友好的成年角色' --request-id creator-character-0001 --yes
+omnimux influencer request get creator-character-0001
+omnimux influencer task wait task_example_character --timeout 600
+omnimux influencer character list
+```
+
+请将示例作品编号替换为实际返回的编号。`--dry-run` 只检查本地输入，不上传、不创建任务，也不代表后台素材检查通过。带 `--yes` 的创建命令会提交收费创作。如需一张可选风格参考图，在角色命令中加入 `--reference-image ./style.png`，并确保文件存在。
+
+多角度是可选步骤，会另行消耗生成额度；创建视频不必先做多角度：
+
+```bash
+omnimux influencer character multiview task_example_character --request-id creator-multiview-0001 --yes
+```
+
+使用成功的原角色主图和真实参考视频创建视频。默认采用运动交换和 480 档，后台会识别参考视频真实的 4–30 秒时长；对象交换可加 `--mode replace`。不传模型、供应商分组或手填时长。
+
+图片实际像素、视频实际时长和声音以下载成品为准。成片时长和音量可能与参考不同，详见[视频成品限制](/zh/api-reference/account/influencer/create-video)。
+
+```bash
+omnimux influencer video create --character task_example_character --video ./reference.mp4 --request-id creator-video-0001 --yes
+omnimux influencer request get creator-video-0001
+omnimux influencer task wait task_example_video --timeout 600
+omnimux influencer task download task_example_video --output ./result.mp4
+```
+
+中断或提交结果不明时，按原请求编号查回，不要另开新单。等待超时不会取消云端任务。下载默认拒绝覆盖已有文件，完整写入后才报告成功。详见[请求恢复说明](/zh/api-reference/account/influencer/get-request)和[成品读取说明](/zh/api-reference/account/influencer/get-artifacts)。
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url 'https://omnimux.ai/api/influencer/v1/options' \
+  --header 'Authorization: Bearer <user-access-token>'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200 仅示例
+{
+  "success": true,
+  "data": {
+    "version": 1,
+    "taxonomy": {
+      "version": 1,
+      "categories": [
+        {
+          "id": "gender",
+          "options": [
+            {
+              "id": "female",
+              "label_en": "Female",
+              "visibleIn": [
+                "normal",
+                "freak",
+                "total",
+                "cats",
+                "dogs"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "taxonomy_etag": "EXAMPLE_ONLY",
+    "defaults": {
+      "tier": "normal",
+      "mode": "motion",
+      "resolution": "480p",
+      "aspect_ratio": "9:16",
+      "wait_timeout_seconds": 600
+    },
+    "creation_enabled": false,
+    "availability": {
+      "character": false,
+      "reference_image": false,
+      "multiview": false
+    },
+    "character": {
+      "types": [
+        "normal",
+        "freak",
+        "total",
+        "cats",
+        "dogs"
+      ],
+      "aspect_ratio": "16:9",
+      "max_brief_characters": 4000
+    },
+    "video": {
+      "modes": [
+        "motion",
+        "replace"
+      ],
+      "resolutions": {
+        "480p": {
+          "aspect_ratios": [
+            "16:9",
+            "9:16",
+            "3:4"
+          ],
+          "available": false
+        },
+        "720p": {
+          "aspect_ratios": [
+            "16:9",
+            "9:16"
+          ],
+          "available": false
+        }
+      },
+      "min_seconds": 4,
+      "max_seconds": 30,
+      "min_images": 1,
+      "max_images": 30,
+      "max_prompt_characters": 4000,
+      "preserves_reference_audio": true,
+      "server_inspects_media": true
+    },
+    "media": {
+      "reference_image_max_bytes": 5242880,
+      "reference_image_mime_types": [
+        "image/jpeg",
+        "image/png",
+        "image/webp"
+      ],
+      "video_containers": [
+        "mp4",
+        "mov"
+      ],
+      "video_codecs": [
+        "h264",
+        "hevc"
+      ],
+      "min_dimension": 300,
+      "max_dimension": 6000,
+      "min_pixels": 407696,
+      "max_pixels": 8295044,
+      "min_fps": 24,
+      "max_fps": 60,
+      "min_aspect_ratio": 0.4,
+      "max_aspect_ratio": 2.5
+    }
+  }
+}
+```
+
+```json 401
+{
+  "success": false,
+  "code": "AUTH_UNAUTHORIZED",
+  "message": "需要有效账号凭据；过期、已撤销或被停用账号的凭据会被拒绝。"
+}
+```
+
+```json 403
+{
+  "success": false,
+  "code": "ACCESS_TOKEN_SCOPE_DENIED",
+  "message": "缺少明确的创作读取/生成权限；旧凭据不会自动扩权。"
+}
+```
+
+```json 503
+{
+  "success": false,
+  "code": "generation_queue_unavailable",
+  "message": "创作或读取暂不可用；也可能是新生成尚未启用或当前没有兼容能力。"
+}
+```
+
+</ResponseExample>
+
+</Panel>

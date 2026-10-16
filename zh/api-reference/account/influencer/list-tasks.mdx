@@ -1,0 +1,76 @@
+---
+title: "列出创作任务"
+sidebarTitle: "列出创作任务"
+description: "通过账号限定的创作接口列出创作任务。"
+openapi: "openapi/ops/influencer/zh/creation.json GET /api/influencer/v1/tasks"
+---
+
+只列出本人的角色、多角度设定图和参考视频创作任务，包括网页创建的任务。此读取权限不会开放无关业务日志或全部账号任务历史。
+
+- 服务地址为 `https://omnimux.ai`，使用限定权限个人凭据，不使用 `sk-` 网关密钥。
+- 所需权限：`influencer_creation:read`.
+- `New-Api-User` 只作可选兼容信息。账号由凭据确定，此请求头不能选择其他归属。
+
+新增权限须重新明确完成设备授权；已有和旧式凭据不会自动扩权。见[设备码登录](/zh/api-reference/account/device-login)。
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url 'https://omnimux.ai/api/influencer/v1/tasks' \
+  --header 'Authorization: Bearer <user-access-token>'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200 仅示例
+{
+  "success": true,
+  "data": {
+    "items": [],
+    "total": 0,
+    "page": 1,
+    "page_size": 20
+  }
+}
+```
+
+```json 400
+{
+  "success": false,
+  "code": "invalid_request",
+  "message": "产品参数、未知请求字段或素材规格不符合要求。"
+}
+```
+
+```json 401
+{
+  "success": false,
+  "code": "AUTH_UNAUTHORIZED",
+  "message": "需要有效账号凭据；过期、已撤销或被停用账号的凭据会被拒绝。"
+}
+```
+
+```json 403
+{
+  "success": false,
+  "code": "ACCESS_TOKEN_SCOPE_DENIED",
+  "message": "缺少明确的创作读取/生成权限；旧凭据不会自动扩权。"
+}
+```
+
+```json 503
+{
+  "success": false,
+  "code": "generation_queue_unavailable",
+  "message": "创作或读取暂不可用；也可能是新生成尚未启用或当前没有兼容能力。"
+}
+```
+
+</ResponseExample>
+
+</Panel>

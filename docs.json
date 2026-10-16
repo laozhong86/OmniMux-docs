@@ -431,6 +431,22 @@
                       "en/api-reference/account/usage-log-export"
                     ],
                     "icon": "user"
+                  },
+                  {
+                    "group": "Character and video creation",
+                    "icon": "user",
+                    "pages": [
+                      "en/api-reference/account/influencer/options",
+                      "en/api-reference/account/influencer/create-character",
+                      "en/api-reference/account/influencer/list-characters",
+                      "en/api-reference/account/influencer/get-character",
+                      "en/api-reference/account/influencer/create-multiview",
+                      "en/api-reference/account/influencer/create-video",
+                      "en/api-reference/account/influencer/list-tasks",
+                      "en/api-reference/account/influencer/get-task",
+                      "en/api-reference/account/influencer/get-artifacts",
+                      "en/api-reference/account/influencer/get-request"
+                    ]
                   }
                 ],
                 "icon": "user"
@@ -930,6 +946,22 @@
                       "zh/api-reference/account/usage-log-export"
                     ],
                     "icon": "user"
+                  },
+                  {
+                    "group": "角色与视频创作",
+                    "icon": "user",
+                    "pages": [
+                      "zh/api-reference/account/influencer/options",
+                      "zh/api-reference/account/influencer/create-character",
+                      "zh/api-reference/account/influencer/list-characters",
+                      "zh/api-reference/account/influencer/get-character",
+                      "zh/api-reference/account/influencer/create-multiview",
+                      "zh/api-reference/account/influencer/create-video",
+                      "zh/api-reference/account/influencer/list-tasks",
+                      "zh/api-reference/account/influencer/get-task",
+                      "zh/api-reference/account/influencer/get-artifacts",
+                      "zh/api-reference/account/influencer/get-request"
+                    ]
                   }
                 ],
                 "icon": "user"

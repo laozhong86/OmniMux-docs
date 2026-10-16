@@ -1,0 +1,76 @@
+---
+title: "List Characters"
+sidebarTitle: "List Characters"
+description: "List characters through the account-scoped creation API."
+openapi: "openapi/ops/influencer/en/creation.json GET /api/influencer/v1/characters"
+---
+
+Returns only your successful original characters with reusable images. Multiview sheets, waiting jobs and failed jobs are excluded from this list; use creation task history for those records.
+
+- Base URL: `https://omnimux.ai`; use a scoped personal access token, not an `sk-` relay key.
+- Required permission: `influencer_creation:read`.
+- `New-Api-User` is optional compatibility metadata. The credential determines the account; this header cannot choose another owner.
+
+New permissions require a fresh, explicit device approval. Existing and legacy credentials do not expand automatically. See [device login](/en/api-reference/account/device-login).
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url 'https://omnimux.ai/api/influencer/v1/characters' \
+  --header 'Authorization: Bearer <user-access-token>'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200 Illustrative only
+{
+  "success": true,
+  "data": {
+    "items": [],
+    "total": 0,
+    "page": 1,
+    "page_size": 20
+  }
+}
+```
+
+```json 400
+{
+  "success": false,
+  "code": "invalid_request",
+  "message": "Invalid product fields, unknown body fields or unsupported media/specifications."
+}
+```
+
+```json 401
+{
+  "success": false,
+  "code": "AUTH_UNAUTHORIZED",
+  "message": "A valid live account credential is required. Expired, revoked or disabled-account credentials are rejected."
+}
+```
+
+```json 403
+{
+  "success": false,
+  "code": "ACCESS_TOKEN_SCOPE_DENIED",
+  "message": "The explicit creation read/write scope is missing. Old/legacy credentials do not gain access automatically."
+}
+```
+
+```json 503
+{
+  "success": false,
+  "code": "generation_queue_unavailable",
+  "message": "Creation/read infrastructure is temporarily unavailable; new creation may also be disabled or have no compatible active route."
+}
+```
+
+</ResponseExample>
+
+</Panel>

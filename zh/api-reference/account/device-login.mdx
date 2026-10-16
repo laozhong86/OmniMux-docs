@@ -5,11 +5,12 @@ description: "RFC 8628 风格设备码登录：申请 device_code → 浏览器�
 api: "POST https://omnimux.ai/api/user/device/code"
 ---
 
+
 - 账户管理用户 API（CLI / 无头环境登录）
 - **申请码与轮询换 token 无需鉴权**；浏览器侧批准/拒绝需已登录用户会话
-- 换取的 `access_token` 用于后续 `https://omnimux.ai` 用户接口，不用于收费模型生成请求
+- 换取的 `access_token` 用于后续 `https://omnimux.ai` 用户接口，不替代网关收费模型请求的 sk- 密钥；明确授权后可用于消耗账号额度的角色与视频创作用户接口
 
-下述限定权限设备凭据行为已于 **2026 年 10 月 4 日上线**。
+个人限定权限凭据与原有设备登录机制已于 **2026 年 10 月 4 日上线**；角色与视频创作权限于 **2026 年 10 月 15 日新增**。
 
 ## 身份
 
@@ -43,11 +44,15 @@ Base URL：`https://omnimux.ai`
 
 浏览器须核对**准确设备码**，并完成 `cli.device.approve` 专用安全验证。它与手动创建凭据不是同一个操作。验证内容绑定 `device_flow_id`、规范化的 `user_code`、授权 `scopes` 和凭据的绝对到期时间 `expires_at`。原样使用服务端返回的信息，不在客户端重算期限或扩大权限。换设备、账户、会话、权限或到期时间的证明不能批准本次请求。批准和拒绝都仅限浏览器会话，个人凭据不能批准其他设备。
 
-新设备凭据在**设备登录流程创建起 30 天**到期。即使管理员登录，也只授予个人业务权限：查询本人资料；管理和读取完整网关密钥；社媒发布；托管频道；灵感查询与分享；文件上传。准确权限为 `api_key:read`、`api_key:reveal`、`api_key:write`、`files:read`、`files:write`、`hosted:read`、`hosted:write`、`inspiration:read`、`inspiration:write`、`profile:read`、`social:read`、`social:write`。**不**授予 `usage:read`、`influencer:read`、管理员、系统、钱包写入、资料修改、账户安全修改或试用区生成权限。通俗说明见[权限指南](/zh/faqs/security)。已有资源归属、角色和计费检查仍有效。
+新设备凭据在**设备登录流程创建起 30 天**到期。即使管理员登录，也只授予个人业务权限：查询本人资料；管理和读取完整网关密钥；社媒发布；托管频道；灵感查询与分享；文件上传；以及明确批准的角色与视频创作。准确权限为 `api_key:read`、`api_key:reveal`、`api_key:write`、`files:read`、`files:write`、`hosted:read`、`hosted:write`、`influencer_creation:read`、`influencer_creation:write`、`inspiration:read`、`inspiration:write`、`profile:read`、`social:read`、`social:write`。**不**授予 `usage:read`、`influencer:read`、管理员、系统、钱包写入、资料修改、账户安全修改或试用区生成权限。通俗说明见[权限指南](/zh/faqs/security)。已有资源归属、角色和计费检查仍有效。
 
 新设备登录成功时只替换该用户的**设备凭据槽**，并清除旧单凭据，保留独立手动创建的个人凭据。设备槽被替换后，原设备凭据失效，使用它的其他设备须重新登录。过期或撤销后也须重新执行设备码登录，不会无声签发永久凭据。
 
 原 CLI 响应字段 `access_token`、`user_id`、`username`、`token_type` 保持不变，原客户端可保存新的 `nap_` 字符串，无须因返回格式升级客户端；这不代表所有外部客户端的业务流程都已实测。明文只签发一次，之后无法从列表再次取回。仍持有旧单凭据的客户端须在 **2026 年 11 月 3 日 13:52:36 UTC**（`2026-11-03T13:52:36Z`）统一截止前重新登录。
+
+## 角色与视频创作授权
+
+新设备授权包含 `influencer_creation:read` 与 `influencer_creation:write`，明确披露创作、本人作品读取及账号积分/订阅额度消耗。已有凭据绝不自动扩权，须重新登录并明确授权；旧的待授权设备流程须重新发起。新增权限只覆盖[创作接口](/zh/api-reference/account/influencer/options)，不开放全部账号用量或仅限网页的试用区生成。撤销凭据后已受理任务继续执行，但新的受保护请求被拒绝。
 
 ## 请求体 / 参数
 

@@ -1,0 +1,90 @@
+---
+title: "查询创作任务"
+sidebarTitle: "查询创作任务"
+description: "通过账号限定的创作接口查询创作任务。"
+openapi: "openapi/ops/influencer/zh/creation.json GET /api/influencer/v1/tasks/{task_id}"
+---
+
+自动处理使用归一化 `status`，成品是否可用看 `artifact_status`。单独的 `succeeded` 不保证有可用文件。任务失败或 `quota_status: reconciling` 不代表积分已经退回。
+
+- 服务地址为 `https://omnimux.ai`，使用限定权限个人凭据，不使用 `sk-` 网关密钥。
+- 所需权限：`influencer_creation:read`.
+- `New-Api-User` 只作可选兼容信息。账号由凭据确定，此请求头不能选择其他归属。
+
+新增权限须重新明确完成设备授权；已有和旧式凭据不会自动扩权。见[设备码登录](/zh/api-reference/account/device-login)。
+
+状态包括 `waiting`、`submitting`、`queued`、`running`、`succeeded`、`failed`；`reconciling` 表示提交结果待核对，不能自动另开任务。停止本地等待或撤销凭据不会取消已受理任务。
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url 'https://omnimux.ai/api/influencer/v1/tasks/task_example_character' \
+  --header 'Authorization: Bearer <user-access-token>'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200 仅示例
+{
+  "success": true,
+  "data": {
+    "request_id": "creator-character-0001",
+    "task_id": "task_example_character",
+    "kind": "character",
+    "status": "waiting",
+    "raw_status": "WAITING",
+    "artifact_status": "pending",
+    "input": {
+      "tier": "normal",
+      "selection": {},
+      "brief": "A friendly adult character"
+    },
+    "recovery_expires_at": 0,
+    "created_at": 1792000000,
+    "finished_at": 0,
+    "artifacts": [],
+    "replayed": false
+  }
+}
+```
+
+```json 401
+{
+  "success": false,
+  "code": "AUTH_UNAUTHORIZED",
+  "message": "需要有效账号凭据；过期、已撤销或被停用账号的凭据会被拒绝。"
+}
+```
+
+```json 403
+{
+  "success": false,
+  "code": "ACCESS_TOKEN_SCOPE_DENIED",
+  "message": "缺少明确的创作读取/生成权限；旧凭据不会自动扩权。"
+}
+```
+
+```json 404
+{
+  "success": false,
+  "code": "task_not_found",
+  "message": "未找到本人可用任务、角色或请求；不会透露其他账号的资源是否存在。"
+}
+```
+
+```json 503
+{
+  "success": false,
+  "code": "generation_queue_unavailable",
+  "message": "创作或读取暂不可用；也可能是新生成尚未启用或当前没有兼容能力。"
+}
+```
+
+</ResponseExample>
+
+</Panel>

@@ -1,0 +1,2626 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "OmniMux character and video creation",
+    "version": "1"
+  },
+  "servers": [
+    {
+      "url": "https://omnimux.ai"
+    }
+  ],
+  "security": [
+    {
+      "accessToken": []
+    }
+  ],
+  "x-publication-status": "published",
+  "x-publication-date": "2026-10-16",
+  "paths": {
+    "/api/influencer/v1/options": {
+      "get": {
+        "operationId": "InfluencerOptions",
+        "summary": "Get Creation Options",
+        "description": "Requires explicit influencer_creation:read. Valid website sessions may use the same owner-scoped route. Unknown top-level creation fields are rejected; clients cannot choose model, supplier group, size or duration.",
+        "x-required-scopes": [
+          "influencer_creation:read"
+        ],
+        "parameters": [
+          {
+            "name": "New-Api-User",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Optional compatibility header. Ignored for authentication and ownership; the server derives the account from the credential."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Owner-scoped product projection.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "const": true
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Options"
+                    }
+                  },
+                  "required": [
+                    "success",
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "A valid live account credential is required. Expired, revoked or disabled-account credentials are rejected.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "AUTH_UNAUTHORIZED",
+                  "message": "A valid live account credential is required. Expired, revoked or disabled-account credentials are rejected."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The explicit creation read/write scope is missing. Old/legacy credentials do not gain access automatically.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "ACCESS_TOKEN_SCOPE_DENIED",
+                  "message": "The explicit creation read/write scope is missing. Old/legacy credentials do not gain access automatically."
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Creation/read infrastructure is temporarily unavailable; new creation may also be disabled or have no compatible active route.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "generation_queue_unavailable",
+                  "message": "Creation/read infrastructure is temporarily unavailable; new creation may also be disabled or have no compatible active route."
+                }
+              }
+            }
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl --request GET \\\n  --url 'https://omnimux.ai/api/influencer/v1/options' \\\n  --header 'Authorization: Bearer <user-access-token>'"
+          }
+        ]
+      }
+    },
+    "/api/influencer/v1/characters": {
+      "post": {
+        "operationId": "InfluencerCreateCharacter",
+        "summary": "Create Character",
+        "description": "Requires explicit influencer_creation:write. Valid website sessions may use the same owner-scoped route. Unknown top-level creation fields are rejected; clients cannot choose model, supplier group, size or duration. Requests one landscape character sheet at 1920x1088. Actual output pixel dimensions may differ; inspect the downloaded file. The character brief is limited to 4000 characters.",
+        "x-required-scopes": [
+          "influencer_creation:write"
+        ],
+        "parameters": [
+          {
+            "name": "New-Api-User",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Optional compatibility header. Ignored for authentication and ownership; the server derives the account from the credential."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Accepted or recovered task, not a delivered file.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "const": true
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Task"
+                    }
+                  },
+                  "required": [
+                    "success",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "success": true,
+                  "data": {
+                    "request_id": "creator-character-0001",
+                    "task_id": "task_example_character",
+                    "kind": "character",
+                    "status": "waiting",
+                    "raw_status": "WAITING",
+                    "artifact_status": "pending",
+                    "input": {
+                      "tier": "normal",
+                      "selection": {},
+                      "brief": "A friendly adult character"
+                    },
+                    "recovery_expires_at": 0,
+                    "created_at": 1792000000,
+                    "finished_at": 0,
+                    "artifacts": [],
+                    "replayed": false
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid product fields, unknown body fields or unsupported media/specifications.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "invalid_request",
+                  "message": "Invalid product fields, unknown body fields or unsupported media/specifications."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "A valid live account credential is required. Expired, revoked or disabled-account credentials are rejected.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "AUTH_UNAUTHORIZED",
+                  "message": "A valid live account credential is required. Expired, revoked or disabled-account credentials are rejected."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The explicit creation read/write scope is missing. Old/legacy credentials do not gain access automatically.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "ACCESS_TOKEN_SCOPE_DENIED",
+                  "message": "The explicit creation read/write scope is missing. Old/legacy credentials do not gain access automatically."
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The account/request ID already belongs to different creation inputs. Do not generate a new request ID automatically.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "creation_request_conflict",
+                  "message": "The account/request ID already belongs to different creation inputs. Do not generate a new request ID automatically."
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Recovery has expired or the retained task is unavailable. This ID remains reserved and cannot create another bill.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "creation_request_expired",
+                  "message": "Recovery has expired or the retained task is unavailable. This ID remains reserved and cannot create another bill."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "The creation could not be prepared.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "internal_error",
+                  "message": "The creation could not be prepared."
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Creation/read infrastructure is temporarily unavailable; new creation may also be disabled or have no compatible active route.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "disabled": {
+                    "value": {
+                      "success": false,
+                      "code": "influencer_creation_disabled",
+                      "message": "new command-line creations are currently disabled; accepted requests remain recoverable"
+                    }
+                  },
+                  "route": {
+                    "value": {
+                      "success": false,
+                      "code": "creation_route_unavailable",
+                      "message": "a compatible creation route is currently unavailable"
+                    }
+                  },
+                  "records": {
+                    "value": {
+                      "success": false,
+                      "code": "generation_queue_unavailable",
+                      "message": "creation records are temporarily unavailable"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-native-execution-errors": {
+          "402": {
+            "description": "Native insufficient-quota/payment-required semantics apply during queue execution. The current acceptance endpoint does not emit synchronous 402; a queued task can later fail for insufficient allowance. Inspect task status and public failure reason. Do not treat HTTP 200 acceptance as successful payment or generation."
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CharacterRequest"
+              },
+              "example": {
+                "request_id": "creator-character-0001",
+                "tier": "normal",
+                "brief": "A friendly adult character",
+                "selection": {
+                  "gender": [
+                    "female"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl --request POST \\\n  --url 'https://omnimux.ai/api/influencer/v1/characters' \\\n  --header 'Authorization: Bearer <user-access-token>' \\\n  --header 'Content-Type: application/json' \\\n  --data '{\"request_id\":\"creator-character-0001\",\"tier\":\"normal\",\"brief\":\"A friendly adult character\",\"selection\":{\"gender\":[\"female\"]}}'"
+          }
+        ]
+      },
+      "get": {
+        "operationId": "InfluencerListCharacters",
+        "summary": "List Characters",
+        "description": "Requires explicit influencer_creation:read. Valid website sessions may use the same owner-scoped route. Unknown top-level creation fields are rejected; clients cannot choose model, supplier group, size or duration.",
+        "x-required-scopes": [
+          "influencer_creation:read"
+        ],
+        "parameters": [
+          {
+            "name": "New-Api-User",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Optional compatibility header. Ignored for authentication and ownership; the server derives the account from the credential."
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000000,
+              "default": 1
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          },
+          {
+            "name": "kind",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "character",
+                "multiview",
+                "video"
+              ]
+            },
+            "description": "Optional. Character list still includes only reusable original character sheets."
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "waiting",
+                "submitting",
+                "reconciling",
+                "queued",
+                "running",
+                "succeeded",
+                "failed",
+                "unknown"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Owner-scoped product projection.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "const": true
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/TaskList"
+                    }
+                  },
+                  "required": [
+                    "success",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "success": true,
+                  "data": {
+                    "items": [],
+                    "total": 0,
+                    "page": 1,
+                    "page_size": 20
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid product fields, unknown body fields or unsupported media/specifications.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "invalid_request",
+                  "message": "Invalid product fields, unknown body fields or unsupported media/specifications."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "A valid live account credential is required. Expired, revoked or disabled-account credentials are rejected.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "AUTH_UNAUTHORIZED",
+                  "message": "A valid live account credential is required. Expired, revoked or disabled-account credentials are rejected."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The explicit creation read/write scope is missing. Old/legacy credentials do not gain access automatically.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "ACCESS_TOKEN_SCOPE_DENIED",
+                  "message": "The explicit creation read/write scope is missing. Old/legacy credentials do not gain access automatically."
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Creation/read infrastructure is temporarily unavailable; new creation may also be disabled or have no compatible active route.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "generation_queue_unavailable",
+                  "message": "Creation/read infrastructure is temporarily unavailable; new creation may also be disabled or have no compatible active route."
+                }
+              }
+            }
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl --request GET \\\n  --url 'https://omnimux.ai/api/influencer/v1/characters' \\\n  --header 'Authorization: Bearer <user-access-token>'"
+          }
+        ]
+      }
+    },
+    "/api/influencer/v1/characters/{task_id}": {
+      "get": {
+        "operationId": "InfluencerGetCharacter",
+        "summary": "Get Character",
+        "description": "Requires explicit influencer_creation:read. Valid website sessions may use the same owner-scoped route. Unknown top-level creation fields are rejected; clients cannot choose model, supplier group, size or duration.",
+        "x-required-scopes": [
+          "influencer_creation:read"
+        ],
+        "parameters": [
+          {
+            "name": "New-Api-User",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Optional compatibility header. Ignored for authentication and ownership; the server derives the account from the credential."
+          },
+          {
+            "name": "task_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "task_example_character"
+            },
+            "description": "Owned task ID, not provider ID or request ID."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Owner-scoped product projection.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "const": true
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/CharacterDetail"
+                    }
+                  },
+                  "required": [
+                    "success",
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "A valid live account credential is required. Expired, revoked or disabled-account credentials are rejected.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "AUTH_UNAUTHORIZED",
+                  "message": "A valid live account credential is required. Expired, revoked or disabled-account credentials are rejected."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The explicit creation read/write scope is missing. Old/legacy credentials do not gain access automatically.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "ACCESS_TOKEN_SCOPE_DENIED",
+                  "message": "The explicit creation read/write scope is missing. Old/legacy credentials do not gain access automatically."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Owned usable task/character/request was not found. Other accounts are not distinguishable.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "task_not_found",
+                  "message": "Owned usable task/character/request was not found. Other accounts are not distinguishable."
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Creation/read infrastructure is temporarily unavailable; new creation may also be disabled or have no compatible active route.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "generation_queue_unavailable",
+                  "message": "Creation/read infrastructure is temporarily unavailable; new creation may also be disabled or have no compatible active route."
+                }
+              }
+            }
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl --request GET \\\n  --url 'https://omnimux.ai/api/influencer/v1/characters/task_example_character' \\\n  --header 'Authorization: Bearer <user-access-token>'"
+          }
+        ]
+      }
+    },
+    "/api/influencer/v1/characters/{task_id}/multiview": {
+      "post": {
+        "operationId": "InfluencerCreateMultiview",
+        "summary": "Create Multiview Sheet",
+        "description": "Requires explicit influencer_creation:write. Valid website sessions may use the same owner-scoped route. Unknown top-level creation fields are rejected; clients cannot choose model, supplier group, size or duration. Requests one landscape multiview sheet at 1920x1088, with several views in one image. Actual output pixel dimensions may differ; inspect the downloaded file.",
+        "x-required-scopes": [
+          "influencer_creation:write"
+        ],
+        "parameters": [
+          {
+            "name": "New-Api-User",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Optional compatibility header. Ignored for authentication and ownership; the server derives the account from the credential."
+          },
+          {
+            "name": "task_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "task_example_character"
+            },
+            "description": "Owned task ID, not provider ID or request ID."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Accepted or recovered task, not a delivered file.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "const": true
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Task"
+                    }
+                  },
+                  "required": [
+                    "success",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "success": true,
+                  "data": {
+                    "request_id": "creator-multiview-0001",
+                    "task_id": "task_example_multiview",
+                    "kind": "multiview",
+                    "status": "waiting",
+                    "raw_status": "WAITING",
+                    "artifact_status": "pending",
+                    "input": {},
+                    "recovery_expires_at": 0,
+                    "created_at": 1792000000,
+                    "finished_at": 0,
+                    "artifacts": [],
+                    "replayed": false,
+                    "parent_task_id": "task_example_character"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid product fields, unknown body fields or unsupported media/specifications.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "invalid_request",
+                  "message": "Invalid product fields, unknown body fields or unsupported media/specifications."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "A valid live account credential is required. Expired, revoked or disabled-account credentials are rejected.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "AUTH_UNAUTHORIZED",
+                  "message": "A valid live account credential is required. Expired, revoked or disabled-account credentials are rejected."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The explicit creation read/write scope is missing. Old/legacy credentials do not gain access automatically.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "ACCESS_TOKEN_SCOPE_DENIED",
+                  "message": "The explicit creation read/write scope is missing. Old/legacy credentials do not gain access automatically."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Owned usable task/character/request was not found. Other accounts are not distinguishable.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "task_not_found",
+                  "message": "Owned usable task/character/request was not found. Other accounts are not distinguishable."
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The account/request ID already belongs to different creation inputs. Do not generate a new request ID automatically.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "creation_request_conflict",
+                  "message": "The account/request ID already belongs to different creation inputs. Do not generate a new request ID automatically."
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Recovery has expired or the retained task is unavailable. This ID remains reserved and cannot create another bill.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "creation_request_expired",
+                  "message": "Recovery has expired or the retained task is unavailable. This ID remains reserved and cannot create another bill."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "The creation could not be prepared.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "internal_error",
+                  "message": "The creation could not be prepared."
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Creation/read infrastructure is temporarily unavailable; new creation may also be disabled or have no compatible active route.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "disabled": {
+                    "value": {
+                      "success": false,
+                      "code": "influencer_creation_disabled",
+                      "message": "new command-line creations are currently disabled; accepted requests remain recoverable"
+                    }
+                  },
+                  "route": {
+                    "value": {
+                      "success": false,
+                      "code": "creation_route_unavailable",
+                      "message": "a compatible creation route is currently unavailable"
+                    }
+                  },
+                  "records": {
+                    "value": {
+                      "success": false,
+                      "code": "generation_queue_unavailable",
+                      "message": "creation records are temporarily unavailable"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-native-execution-errors": {
+          "402": {
+            "description": "Native insufficient-quota/payment-required semantics apply during queue execution. The current acceptance endpoint does not emit synchronous 402; a queued task can later fail for insufficient allowance. Inspect task status and public failure reason. Do not treat HTTP 200 acceptance as successful payment or generation."
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MultiviewRequest"
+              },
+              "example": {
+                "request_id": "creator-multiview-0001"
+              }
+            }
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl --request POST \\\n  --url 'https://omnimux.ai/api/influencer/v1/characters/task_example_character/multiview' \\\n  --header 'Authorization: Bearer <user-access-token>' \\\n  --header 'Content-Type: application/json' \\\n  --data '{\"request_id\":\"creator-multiview-0001\"}'"
+          }
+        ]
+      }
+    },
+    "/api/influencer/v1/videos": {
+      "post": {
+        "operationId": "InfluencerCreateVideo",
+        "summary": "Create Character Video",
+        "description": "Requires explicit influencer_creation:write. Valid website sessions may use the same owner-scoped route. Unknown top-level creation fields are rejected; clients cannot choose model, supplier group, size or duration. The 4–30-second limit is for the reference clip; finished video duration may differ. Reference audio is supplied to generation, but output loudness may change and lossless preservation is not guaranteed. Inspect the downloaded result.",
+        "x-required-scopes": [
+          "influencer_creation:write"
+        ],
+        "parameters": [
+          {
+            "name": "New-Api-User",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Optional compatibility header. Ignored for authentication and ownership; the server derives the account from the credential."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Accepted or recovered task, not a delivered file.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "const": true
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Task"
+                    }
+                  },
+                  "required": [
+                    "success",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "success": true,
+                  "data": {
+                    "request_id": "creator-video-0001",
+                    "task_id": "task_example_video",
+                    "kind": "video",
+                    "status": "waiting",
+                    "raw_status": "WAITING",
+                    "artifact_status": "pending",
+                    "input": {},
+                    "recovery_expires_at": 0,
+                    "created_at": 1792000000,
+                    "finished_at": 0,
+                    "artifacts": [],
+                    "replayed": false
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid product fields, unknown body fields or unsupported media/specifications.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "invalid_request",
+                  "message": "Invalid product fields, unknown body fields or unsupported media/specifications."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "A valid live account credential is required. Expired, revoked or disabled-account credentials are rejected.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "AUTH_UNAUTHORIZED",
+                  "message": "A valid live account credential is required. Expired, revoked or disabled-account credentials are rejected."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The explicit creation read/write scope is missing. Old/legacy credentials do not gain access automatically.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "ACCESS_TOKEN_SCOPE_DENIED",
+                  "message": "The explicit creation read/write scope is missing. Old/legacy credentials do not gain access automatically."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Owned usable task/character/request was not found. Other accounts are not distinguishable.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "task_not_found",
+                  "message": "Owned usable task/character/request was not found. Other accounts are not distinguishable."
+                }
+              }
+            }
+          },
+          "408": {
+            "description": "Reference preparation timed out or was canceled before acceptance. Recover by request ID before any retry if acceptance is uncertain.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "reference_video_invalid",
+                  "message": "Reference preparation timed out or was canceled before acceptance. Recover by request ID before any retry if acceptance is uncertain."
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The account/request ID already belongs to different creation inputs. Do not generate a new request ID automatically.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "creation_request_conflict",
+                  "message": "The account/request ID already belongs to different creation inputs. Do not generate a new request ID automatically."
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Recovery has expired or the retained task is unavailable. This ID remains reserved and cannot create another bill.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "creation_request_expired",
+                  "message": "Recovery has expired or the retained task is unavailable. This ID remains reserved and cannot create another bill."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "The creation could not be prepared.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "internal_error",
+                  "message": "The creation could not be prepared."
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Creation/read infrastructure is temporarily unavailable; new creation may also be disabled or have no compatible active route.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "disabled": {
+                    "value": {
+                      "success": false,
+                      "code": "influencer_creation_disabled",
+                      "message": "new command-line creations are currently disabled; accepted requests remain recoverable"
+                    }
+                  },
+                  "route": {
+                    "value": {
+                      "success": false,
+                      "code": "creation_route_unavailable",
+                      "message": "a compatible creation route is currently unavailable"
+                    }
+                  },
+                  "records": {
+                    "value": {
+                      "success": false,
+                      "code": "generation_queue_unavailable",
+                      "message": "creation records are temporarily unavailable"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-native-execution-errors": {
+          "402": {
+            "description": "Native insufficient-quota/payment-required semantics apply during queue execution. The current acceptance endpoint does not emit synchronous 402; a queued task can later fail for insufficient allowance. Inspect task status and public failure reason. Do not treat HTTP 200 acceptance as successful payment or generation."
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VideoRequest"
+              },
+              "example": {
+                "request_id": "creator-video-0001",
+                "character_task_id": "task_example_character",
+                "video_url": "https://omnimux.ai/REPLACE_WITH_OWN_REFERENCE.mp4",
+                "mode": "motion",
+                "resolution": "480p"
+              }
+            }
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl --request POST \\\n  --url 'https://omnimux.ai/api/influencer/v1/videos' \\\n  --header 'Authorization: Bearer <user-access-token>' \\\n  --header 'Content-Type: application/json' \\\n  --data '{\"request_id\":\"creator-video-0001\",\"character_task_id\":\"task_example_character\",\"video_url\":\"https://omnimux.ai/REPLACE_WITH_OWN_REFERENCE.mp4\",\"mode\":\"motion\",\"resolution\":\"480p\"}'"
+          }
+        ]
+      }
+    },
+    "/api/influencer/v1/tasks": {
+      "get": {
+        "operationId": "InfluencerListTasks",
+        "summary": "List Creation Tasks",
+        "description": "Requires explicit influencer_creation:read. Valid website sessions may use the same owner-scoped route. Unknown top-level creation fields are rejected; clients cannot choose model, supplier group, size or duration.",
+        "x-required-scopes": [
+          "influencer_creation:read"
+        ],
+        "parameters": [
+          {
+            "name": "New-Api-User",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Optional compatibility header. Ignored for authentication and ownership; the server derives the account from the credential."
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000000,
+              "default": 1
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          },
+          {
+            "name": "kind",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "character",
+                "multiview",
+                "video"
+              ]
+            },
+            "description": "Optional. Character list still includes only reusable original character sheets."
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "waiting",
+                "submitting",
+                "reconciling",
+                "queued",
+                "running",
+                "succeeded",
+                "failed",
+                "unknown"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Owner-scoped product projection.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "const": true
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/TaskList"
+                    }
+                  },
+                  "required": [
+                    "success",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "success": true,
+                  "data": {
+                    "items": [],
+                    "total": 0,
+                    "page": 1,
+                    "page_size": 20
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid product fields, unknown body fields or unsupported media/specifications.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "invalid_request",
+                  "message": "Invalid product fields, unknown body fields or unsupported media/specifications."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "A valid live account credential is required. Expired, revoked or disabled-account credentials are rejected.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "AUTH_UNAUTHORIZED",
+                  "message": "A valid live account credential is required. Expired, revoked or disabled-account credentials are rejected."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The explicit creation read/write scope is missing. Old/legacy credentials do not gain access automatically.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "ACCESS_TOKEN_SCOPE_DENIED",
+                  "message": "The explicit creation read/write scope is missing. Old/legacy credentials do not gain access automatically."
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Creation/read infrastructure is temporarily unavailable; new creation may also be disabled or have no compatible active route.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "generation_queue_unavailable",
+                  "message": "Creation/read infrastructure is temporarily unavailable; new creation may also be disabled or have no compatible active route."
+                }
+              }
+            }
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl --request GET \\\n  --url 'https://omnimux.ai/api/influencer/v1/tasks' \\\n  --header 'Authorization: Bearer <user-access-token>'"
+          }
+        ]
+      }
+    },
+    "/api/influencer/v1/tasks/{task_id}": {
+      "get": {
+        "operationId": "InfluencerGetTask",
+        "summary": "Get Creation Task",
+        "description": "Requires explicit influencer_creation:read. Valid website sessions may use the same owner-scoped route. Unknown top-level creation fields are rejected; clients cannot choose model, supplier group, size or duration.",
+        "x-required-scopes": [
+          "influencer_creation:read"
+        ],
+        "parameters": [
+          {
+            "name": "New-Api-User",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Optional compatibility header. Ignored for authentication and ownership; the server derives the account from the credential."
+          },
+          {
+            "name": "task_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "task_example_character"
+            },
+            "description": "Owned task ID, not provider ID or request ID."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Owner-scoped product projection.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "const": true
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Task"
+                    }
+                  },
+                  "required": [
+                    "success",
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "A valid live account credential is required. Expired, revoked or disabled-account credentials are rejected.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "AUTH_UNAUTHORIZED",
+                  "message": "A valid live account credential is required. Expired, revoked or disabled-account credentials are rejected."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The explicit creation read/write scope is missing. Old/legacy credentials do not gain access automatically.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "ACCESS_TOKEN_SCOPE_DENIED",
+                  "message": "The explicit creation read/write scope is missing. Old/legacy credentials do not gain access automatically."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Owned usable task/character/request was not found. Other accounts are not distinguishable.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "task_not_found",
+                  "message": "Owned usable task/character/request was not found. Other accounts are not distinguishable."
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Creation/read infrastructure is temporarily unavailable; new creation may also be disabled or have no compatible active route.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "generation_queue_unavailable",
+                  "message": "Creation/read infrastructure is temporarily unavailable; new creation may also be disabled or have no compatible active route."
+                }
+              }
+            }
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl --request GET \\\n  --url 'https://omnimux.ai/api/influencer/v1/tasks/task_example_character' \\\n  --header 'Authorization: Bearer <user-access-token>'"
+          }
+        ]
+      }
+    },
+    "/api/influencer/v1/tasks/{task_id}/artifacts": {
+      "get": {
+        "operationId": "InfluencerGetArtifacts",
+        "summary": "Get Creation Artifacts",
+        "description": "Requires explicit influencer_creation:read. Valid website sessions may use the same owner-scoped route. Unknown top-level creation fields are rejected; clients cannot choose model, supplier group, size or duration.",
+        "x-required-scopes": [
+          "influencer_creation:read"
+        ],
+        "parameters": [
+          {
+            "name": "New-Api-User",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Optional compatibility header. Ignored for authentication and ownership; the server derives the account from the credential."
+          },
+          {
+            "name": "task_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "task_example_character"
+            },
+            "description": "Owned task ID, not provider ID or request ID."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Owner-scoped product projection.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "const": true
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Task"
+                    }
+                  },
+                  "required": [
+                    "success",
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "A valid live account credential is required. Expired, revoked or disabled-account credentials are rejected.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "AUTH_UNAUTHORIZED",
+                  "message": "A valid live account credential is required. Expired, revoked or disabled-account credentials are rejected."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The explicit creation read/write scope is missing. Old/legacy credentials do not gain access automatically.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "ACCESS_TOKEN_SCOPE_DENIED",
+                  "message": "The explicit creation read/write scope is missing. Old/legacy credentials do not gain access automatically."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Owned usable task/character/request was not found. Other accounts are not distinguishable.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "task_not_found",
+                  "message": "Owned usable task/character/request was not found. Other accounts are not distinguishable."
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Creation/read infrastructure is temporarily unavailable; new creation may also be disabled or have no compatible active route.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "generation_queue_unavailable",
+                  "message": "Creation/read infrastructure is temporarily unavailable; new creation may also be disabled or have no compatible active route."
+                }
+              }
+            }
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl --request GET \\\n  --url 'https://omnimux.ai/api/influencer/v1/tasks/task_example_character/artifacts' \\\n  --header 'Authorization: Bearer <user-access-token>'"
+          }
+        ]
+      }
+    },
+    "/api/influencer/v1/requests/{request_id}": {
+      "get": {
+        "operationId": "InfluencerGetRequest",
+        "summary": "Recover Creation Request",
+        "description": "Requires explicit influencer_creation:read. Valid website sessions may use the same owner-scoped route. Unknown top-level creation fields are rejected; clients cannot choose model, supplier group, size or duration.",
+        "x-required-scopes": [
+          "influencer_creation:read"
+        ],
+        "parameters": [
+          {
+            "name": "New-Api-User",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Optional compatibility header. Ignored for authentication and ownership; the server derives the account from the credential."
+          },
+          {
+            "name": "request_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 128,
+              "pattern": "^[A-Za-z0-9._:-]{8,128}$",
+              "example": "creator-character-0001"
+            },
+            "description": "Exact case-sensitive client request ID. Invalid or never-accepted IDs return 404."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Owner-scoped product projection.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "const": true
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Task"
+                    }
+                  },
+                  "required": [
+                    "success",
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "A valid live account credential is required. Expired, revoked or disabled-account credentials are rejected.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "AUTH_UNAUTHORIZED",
+                  "message": "A valid live account credential is required. Expired, revoked or disabled-account credentials are rejected."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The explicit creation read/write scope is missing. Old/legacy credentials do not gain access automatically.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "ACCESS_TOKEN_SCOPE_DENIED",
+                  "message": "The explicit creation read/write scope is missing. Old/legacy credentials do not gain access automatically."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Owned usable task/character/request was not found. Other accounts are not distinguishable.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "creation_request_not_found",
+                  "message": "Owned usable task/character/request was not found. Other accounts are not distinguishable."
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Recovery has expired or the retained task is unavailable. This ID remains reserved and cannot create another bill.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "creation_request_expired",
+                  "message": "Recovery has expired or the retained task is unavailable. This ID remains reserved and cannot create another bill."
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Creation/read infrastructure is temporarily unavailable; new creation may also be disabled or have no compatible active route.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "generation_queue_unavailable",
+                  "message": "Creation/read infrastructure is temporarily unavailable; new creation may also be disabled or have no compatible active route."
+                }
+              }
+            }
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl --request GET \\\n  --url 'https://omnimux.ai/api/influencer/v1/requests/creator-character-0001' \\\n  --header 'Authorization: Bearer <user-access-token>'"
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "accessToken": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "nap_",
+        "description": "Scoped OmniMux personal credential. Each operation lists its exact influencer_creation grant. No automatic expansion for old or legacy tokens. Do not use an sk- relay key. Website sessions are validated separately by the existing account authentication."
+      }
+    },
+    "schemas": {
+      "Error": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "const": false
+          },
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "success",
+          "code",
+          "message"
+        ]
+      },
+      "Selection": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "description": "Map category IDs to ordered option-ID arrays from options.taxonomy. This is an object, not a flat array. Unknown categories/options and incompatible combinations are rejected; tier visibility and existing selection normalization apply.",
+        "example": {
+          "gender": [
+            "female"
+          ]
+        }
+      },
+      "Artifact": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "examples": [
+              "image",
+              "video"
+            ]
+          },
+          "mime_type": {
+            "type": "string"
+          },
+          "content_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "Short-lived signed artifact URL. Re-read the artifact endpoint if it expires. Never send the account credential to this URL or its storage redirects."
+          }
+        },
+        "required": [
+          "key",
+          "type",
+          "content_url"
+        ]
+      },
+      "ProductInput": {
+        "type": "object",
+        "properties": {
+          "tier": {
+            "type": "string",
+            "enum": [
+              "normal",
+              "freak",
+              "total",
+              "cats",
+              "dogs"
+            ]
+          },
+          "selection": {
+            "$ref": "#/components/schemas/Selection"
+          },
+          "brief": {
+            "type": "string"
+          },
+          "image_url": {
+            "type": "string"
+          },
+          "parent_task_id": {
+            "type": "string",
+            "example": "task_example_character"
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "motion",
+              "replace"
+            ]
+          },
+          "resolution": {
+            "type": "string",
+            "enum": [
+              "480p",
+              "720p"
+            ]
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "enum": [
+              "16:9",
+              "9:16",
+              "3:4"
+            ]
+          },
+          "duration_sec": {
+            "type": "integer",
+            "description": "Integer generation duration in seconds derived by the server from the reference video; fractional seconds may be rounded. Not a creation input, the exact reference duration, or a measurement of the finished video."
+          },
+          "character_task_id": {
+            "type": "string",
+            "example": "task_example_character"
+          },
+          "prompt": {
+            "type": "string"
+          }
+        }
+      },
+      "Task": {
+        "type": "object",
+        "properties": {
+          "request_id": {
+            "type": "string",
+            "description": "Client recovery ID; may be empty for earlier website tasks without a CLI receipt. Distinct from HTTP tracing request IDs."
+          },
+          "task_id": {
+            "type": "string",
+            "example": "task_example_character"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "character",
+              "multiview",
+              "video"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "waiting",
+              "submitting",
+              "reconciling",
+              "queued",
+              "running",
+              "succeeded",
+              "failed",
+              "unknown"
+            ]
+          },
+          "raw_status": {
+            "type": "string",
+            "description": "Native task status; use normalized status for automation."
+          },
+          "artifact_status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "ready",
+              "unavailable"
+            ],
+            "description": "ready requires succeeded plus usable artifacts. An accepted request or empty artifact list is not a delivered result."
+          },
+          "parent_task_id": {
+            "type": "string",
+            "example": "task_example_character"
+          },
+          "input": {
+            "$ref": "#/components/schemas/ProductInput"
+          },
+          "recovery_expires_at": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 0,
+            "description": "Unix seconds. Zero while active or before a terminal deadline is established. Recovery lasts seven days after completion; expiry never permits request-ID reuse."
+          },
+          "created_at": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "finished_at": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "artifacts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Artifact"
+            }
+          },
+          "replayed": {
+            "type": "boolean",
+            "description": "Returned by creation, request recovery and task/artifact detail. Character projections need not include this field."
+          },
+          "raw_quota": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Known native quota record, not credits: raw_quota / 500000 = USD. Omitted if no positive known amount exists."
+          },
+          "credits": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Known raw_quota / 50000. Not an upfront quote or proof of a final refund."
+          },
+          "quota_status": {
+            "type": "string",
+            "enum": [
+              "recorded",
+              "reconciling"
+            ],
+            "description": "reconciling on failed tasks does not confirm a completed refund."
+          },
+          "fail_reason": {
+            "type": "string",
+            "description": "Public failure reason, when available; inspect with status. Never infer successful refund from a failure message."
+          }
+        },
+        "required": [
+          "request_id",
+          "task_id",
+          "kind",
+          "status",
+          "raw_status",
+          "artifact_status",
+          "input",
+          "recovery_expires_at",
+          "created_at",
+          "finished_at",
+          "artifacts"
+        ]
+      },
+      "CharacterDetail": {
+        "type": "object",
+        "properties": {
+          "request_id": {
+            "type": "string",
+            "description": "Client recovery ID; may be empty for earlier website tasks without a CLI receipt. Distinct from HTTP tracing request IDs."
+          },
+          "task_id": {
+            "type": "string",
+            "example": "task_example_character"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "character",
+              "multiview",
+              "video"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "waiting",
+              "submitting",
+              "reconciling",
+              "queued",
+              "running",
+              "succeeded",
+              "failed",
+              "unknown"
+            ]
+          },
+          "raw_status": {
+            "type": "string",
+            "description": "Native task status; use normalized status for automation."
+          },
+          "artifact_status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "ready",
+              "unavailable"
+            ],
+            "description": "ready requires succeeded plus usable artifacts. An accepted request or empty artifact list is not a delivered result."
+          },
+          "parent_task_id": {
+            "type": "string",
+            "example": "task_example_character"
+          },
+          "input": {
+            "$ref": "#/components/schemas/ProductInput"
+          },
+          "recovery_expires_at": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 0,
+            "description": "Unix seconds. Zero while active or before a terminal deadline is established. Recovery lasts seven days after completion; expiry never permits request-ID reuse."
+          },
+          "created_at": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "finished_at": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "artifacts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Artifact"
+            }
+          },
+          "replayed": {
+            "type": "boolean",
+            "description": "Returned by creation, request recovery and task/artifact detail. Character projections need not include this field."
+          },
+          "raw_quota": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Known native quota record, not credits: raw_quota / 500000 = USD. Omitted if no positive known amount exists."
+          },
+          "credits": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Known raw_quota / 50000. Not an upfront quote or proof of a final refund."
+          },
+          "quota_status": {
+            "type": "string",
+            "enum": [
+              "recorded",
+              "reconciling"
+            ],
+            "description": "reconciling on failed tasks does not confirm a completed refund."
+          },
+          "fail_reason": {
+            "type": "string",
+            "description": "Public failure reason, when available; inspect with status. Never infer successful refund from a failure message."
+          },
+          "multiviews": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Task"
+            },
+            "description": "Owned related multiview tasks, including unfinished and failed tasks."
+          }
+        },
+        "required": [
+          "request_id",
+          "task_id",
+          "kind",
+          "status",
+          "raw_status",
+          "artifact_status",
+          "input",
+          "recovery_expires_at",
+          "created_at",
+          "finished_at",
+          "artifacts",
+          "multiviews"
+        ]
+      },
+      "TaskList": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Task"
+            }
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "page": {
+            "type": "integer"
+          },
+          "page_size": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "total",
+          "page",
+          "page_size"
+        ]
+      },
+      "Options": {
+        "type": "object",
+        "properties": {
+          "version": {
+            "type": "integer",
+            "const": 1
+          },
+          "taxonomy": {
+            "type": "object",
+            "properties": {
+              "version": {
+                "type": "integer"
+              },
+              "source": {
+                "type": "string"
+              },
+              "tier_group": {
+                "type": "object",
+                "properties": {
+                  "options": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "label_en": {
+                          "type": "string"
+                        },
+                        "visibleIn": {
+                          "type": [
+                            "array",
+                            "null"
+                          ],
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "slot": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "swatch": {
+                          "type": "string"
+                        },
+                        "imageUrl": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "label_en"
+                      ]
+                    }
+                  },
+                  "comingSoonImageUrls": {
+                    "type": [
+                      "array",
+                      "null"
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "category_priority": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "categories": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "label_en": {
+                      "type": "string"
+                    },
+                    "kind": {
+                      "type": "string"
+                    },
+                    "max": {
+                      "type": "integer"
+                    },
+                    "options": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "label_en": {
+                            "type": "string"
+                          },
+                          "visibleIn": {
+                            "type": [
+                              "array",
+                              "null"
+                            ],
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "slot": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "swatch": {
+                            "type": "string"
+                          },
+                          "imageUrl": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "label_en"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "options"
+                  ]
+                }
+              },
+              "prompt_map": {
+                "type": "object",
+                "description": "Embedded prompt metadata; choose input IDs from categories rather than sending this object."
+              }
+            }
+          },
+          "taxonomy_etag": {
+            "type": "string"
+          },
+          "defaults": {
+            "type": "object",
+            "properties": {
+              "tier": {
+                "type": "string"
+              },
+              "mode": {
+                "type": "string"
+              },
+              "resolution": {
+                "type": "string"
+              },
+              "aspect_ratio": {
+                "type": "string"
+              },
+              "wait_timeout_seconds": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "tier",
+              "mode",
+              "resolution",
+              "aspect_ratio",
+              "wait_timeout_seconds"
+            ]
+          },
+          "creation_enabled": {
+            "type": "boolean",
+            "description": "False disables new CLI creations, not reads or identical accepted replays. True alone does not establish compatible route availability."
+          },
+          "availability": {
+            "type": "object",
+            "properties": {
+              "character": {
+                "type": "boolean"
+              },
+              "reference_image": {
+                "type": "boolean"
+              },
+              "multiview": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "character",
+              "reference_image",
+              "multiview"
+            ]
+          },
+          "character": {
+            "type": "object",
+            "properties": {
+              "types": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "aspect_ratio": {
+                "type": "string"
+              },
+              "max_brief_characters": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "types",
+              "aspect_ratio",
+              "max_brief_characters"
+            ]
+          },
+          "video": {
+            "type": "object",
+            "properties": {
+              "modes": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "resolutions": {
+                "type": "object",
+                "properties": {
+                  "480p": {
+                    "type": "object",
+                    "properties": {
+                      "aspect_ratios": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "available": {
+                        "type": "boolean"
+                      }
+                    },
+                    "required": [
+                      "aspect_ratios",
+                      "available"
+                    ]
+                  },
+                  "720p": {
+                    "type": "object",
+                    "properties": {
+                      "aspect_ratios": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "available": {
+                        "type": "boolean"
+                      }
+                    },
+                    "required": [
+                      "aspect_ratios",
+                      "available"
+                    ]
+                  }
+                }
+              },
+              "min_seconds": {
+                "type": "integer",
+                "description": "Minimum accepted reference-video duration in seconds, not the finished-video duration."
+              },
+              "max_seconds": {
+                "type": "integer",
+                "description": "Maximum accepted reference-video duration in seconds, not a guarantee about the finished-video duration."
+              },
+              "min_images": {
+                "type": "integer"
+              },
+              "max_images": {
+                "type": "integer"
+              },
+              "max_prompt_characters": {
+                "type": "integer"
+              },
+              "preserves_reference_audio": {
+                "type": "boolean",
+                "description": "Reference audio is supplied to generation; output loudness may change. This does not promise lossless or bit-for-bit audio preservation."
+              },
+              "server_inspects_media": {
+                "type": "boolean"
+              }
+            }
+          },
+          "media": {
+            "type": "object",
+            "properties": {
+              "reference_image_max_bytes": {
+                "type": "integer"
+              },
+              "min_dimension": {
+                "type": "integer"
+              },
+              "max_dimension": {
+                "type": "integer"
+              },
+              "min_pixels": {
+                "type": "integer"
+              },
+              "max_pixels": {
+                "type": "integer"
+              },
+              "min_fps": {
+                "type": "integer"
+              },
+              "max_fps": {
+                "type": "integer"
+              },
+              "reference_image_mime_types": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "video_containers": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "video_codecs": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "min_aspect_ratio": {
+                "type": "number"
+              },
+              "max_aspect_ratio": {
+                "type": "number"
+              }
+            }
+          }
+        },
+        "required": [
+          "version",
+          "taxonomy",
+          "taxonomy_etag",
+          "defaults",
+          "creation_enabled",
+          "availability",
+          "character",
+          "video",
+          "media"
+        ]
+      },
+      "CharacterRequest": {
+        "type": "object",
+        "properties": {
+          "request_id": {
+            "type": "string",
+            "minLength": 8,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9._:-]{8,128}$",
+            "example": "creator-character-0001",
+            "description": "Required, case-sensitive account-scoped recovery key. Repeating the same intent returns the original task; changed content returns 409."
+          },
+          "tier": {
+            "type": "string",
+            "enum": [
+              "normal",
+              "freak",
+              "total",
+              "cats",
+              "dogs"
+            ],
+            "default": "normal",
+            "description": "normal: ordinary person; freak: stylized person; total: exaggerated person; cats/dogs: anthropomorphic animal."
+          },
+          "selection": {
+            "$ref": "#/components/schemas/Selection"
+          },
+          "brief": {
+            "type": "string",
+            "maxLength": 4000,
+            "description": "Appearance and wardrobe guidance; the fixed dual-view composition is preserved. For human types provide at least one valid option, a brief, or a style image."
+          },
+          "image_url": {
+            "type": "string",
+            "format": "uri",
+            "pattern": "^https://",
+            "maxLength": 2048,
+            "description": "Optional style-reference image. JPEG/PNG/WebP, at most 5 MiB. It must be publicly fetchable and passes the existing image safety checks."
+          }
+        },
+        "required": [
+          "request_id"
+        ],
+        "additionalProperties": false
+      },
+      "MultiviewRequest": {
+        "type": "object",
+        "properties": {
+          "request_id": {
+            "type": "string",
+            "minLength": 8,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9._:-]{8,128}$",
+            "example": "creator-character-0001"
+          }
+        },
+        "required": [
+          "request_id"
+        ],
+        "additionalProperties": false
+      },
+      "VideoRequest": {
+        "type": "object",
+        "properties": {
+          "request_id": {
+            "type": "string",
+            "minLength": 8,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9._:-]{8,128}$",
+            "example": "creator-character-0001"
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "motion",
+              "replace"
+            ],
+            "default": "motion"
+          },
+          "character_task_id": {
+            "type": "string",
+            "example": "task_example_character",
+            "description": "Successful owned original character. Its image is prepended to image_urls as the primary subject. Multiview outputs cannot be used as this original-character ID."
+          },
+          "image_urls": {
+            "type": "array",
+            "maxItems": 30,
+            "items": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^https://",
+              "maxLength": 2048
+            },
+            "description": "Ordered subject/support images. With character_task_id, at most 29 supplemental images. Otherwise at least one image is required, and image_urls[0] is the primary subject. Total: 1–30."
+          },
+          "video_url": {
+            "type": "string",
+            "format": "uri",
+            "pattern": "^https://",
+            "maxLength": 2048,
+            "description": "Exactly one reference source: this public HTTPS clip or video_task_id. Server inspects actual media; no client duration input."
+          },
+          "video_task_id": {
+            "type": "string",
+            "example": "task_example_character",
+            "description": "Owned successful character-video task used as the reference clip; exclusive with video_url."
+          },
+          "resolution": {
+            "type": "string",
+            "enum": [
+              "480p",
+              "720p"
+            ],
+            "default": "480p"
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "enum": [
+              "16:9",
+              "9:16",
+              "3:4"
+            ],
+            "description": "480p: 16:9, 9:16, 3:4. 720p: 16:9, 9:16. Motion: explicit value wins, otherwise follow a supported source ratio, otherwise 9:16. Replace: keep the supported source ratio and reject a conflicting explicit value."
+          },
+          "prompt": {
+            "type": "string",
+            "maxLength": 4000,
+            "description": "Optional compatible performance/scene guidance. Reference audio and primary character identity/species remain part of the generation contract."
+          }
+        },
+        "required": [
+          "request_id"
+        ],
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "oneOf": [
+              {
+                "required": [
+                  "video_url"
+                ],
+                "not": {
+                  "required": [
+                    "video_task_id"
+                  ]
+                }
+              },
+              {
+                "required": [
+                  "video_task_id"
+                ],
+                "not": {
+                  "required": [
+                    "video_url"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "anyOf": [
+              {
+                "required": [
+                  "character_task_id"
+                ]
+              },
+              {
+                "required": [
+                  "image_urls"
+                ],
+                "properties": {
+                  "image_urls": {
+                    "minItems": 1
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "responses": {
+      "NativePaymentRequired": {
+        "description": "402 is native execution billing semantics, not a synchronous response emitted by current queue acceptance.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "example": {
+              "success": false,
+              "code": "insufficient_user_quota",
+              "message": "insufficient account allowance"
+            }
+          }
+        }
+      }
+    }
+  }
+}

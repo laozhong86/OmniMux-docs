@@ -1,0 +1,2626 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "OmniMux 角色与视频创作",
+    "version": "1"
+  },
+  "servers": [
+    {
+      "url": "https://omnimux.ai"
+    }
+  ],
+  "security": [
+    {
+      "accessToken": []
+    }
+  ],
+  "x-publication-status": "published",
+  "x-publication-date": "2026-10-16",
+  "paths": {
+    "/api/influencer/v1/options": {
+      "get": {
+        "operationId": "InfluencerOptions",
+        "summary": "查询创作选项",
+        "description": "需要明确的 influencer_creation:read 权限；有效网页会话也可使用同一归属受限入口。创建请求拒绝未知顶层字段；调用方不能选择模型、供应商分组、尺寸或手填时长。",
+        "x-required-scopes": [
+          "influencer_creation:read"
+        ],
+        "parameters": [
+          {
+            "name": "New-Api-User",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "可选兼容请求头，不参与身份验证或资源归属；后台从凭据确定账号。"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "仅属于当前账号的创作数据。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "const": true
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Options"
+                    }
+                  },
+                  "required": [
+                    "success",
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "需要有效账号凭据；过期、已撤销或被停用账号的凭据会被拒绝。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "AUTH_UNAUTHORIZED",
+                  "message": "需要有效账号凭据；过期、已撤销或被停用账号的凭据会被拒绝。"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "缺少明确的创作读取/生成权限；旧凭据不会自动扩权。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "ACCESS_TOKEN_SCOPE_DENIED",
+                  "message": "缺少明确的创作读取/生成权限；旧凭据不会自动扩权。"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "创作或读取暂不可用；也可能是新生成尚未启用或当前没有兼容能力。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "generation_queue_unavailable",
+                  "message": "创作或读取暂不可用；也可能是新生成尚未启用或当前没有兼容能力。"
+                }
+              }
+            }
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl --request GET \\\n  --url 'https://omnimux.ai/api/influencer/v1/options' \\\n  --header 'Authorization: Bearer <user-access-token>'"
+          }
+        ]
+      }
+    },
+    "/api/influencer/v1/characters": {
+      "post": {
+        "operationId": "InfluencerCreateCharacter",
+        "summary": "创建角色",
+        "description": "需要明确的 influencer_creation:write 权限；有效网页会话也可使用同一归属受限入口。创建请求拒绝未知顶层字段；调用方不能选择模型、供应商分组、尺寸或手填时长。 后台按1920x1088请求一张横向双视图角色设定图；成品实际像素可能不同，以下载文件为准。角色描述最多4000字符。",
+        "x-required-scopes": [
+          "influencer_creation:write"
+        ],
+        "parameters": [
+          {
+            "name": "New-Api-User",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "可选兼容请求头，不参与身份验证或资源归属；后台从凭据确定账号。"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "已受理或恢复的任务，不代表已交付成品。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "const": true
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Task"
+                    }
+                  },
+                  "required": [
+                    "success",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "success": true,
+                  "data": {
+                    "request_id": "creator-character-0001",
+                    "task_id": "task_example_character",
+                    "kind": "character",
+                    "status": "waiting",
+                    "raw_status": "WAITING",
+                    "artifact_status": "pending",
+                    "input": {
+                      "tier": "normal",
+                      "selection": {},
+                      "brief": "A friendly adult character"
+                    },
+                    "recovery_expires_at": 0,
+                    "created_at": 1792000000,
+                    "finished_at": 0,
+                    "artifacts": [],
+                    "replayed": false
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "产品参数、未知请求字段或素材规格不符合要求。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "invalid_request",
+                  "message": "产品参数、未知请求字段或素材规格不符合要求。"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "需要有效账号凭据；过期、已撤销或被停用账号的凭据会被拒绝。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "AUTH_UNAUTHORIZED",
+                  "message": "需要有效账号凭据；过期、已撤销或被停用账号的凭据会被拒绝。"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "缺少明确的创作读取/生成权限；旧凭据不会自动扩权。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "ACCESS_TOKEN_SCOPE_DENIED",
+                  "message": "缺少明确的创作读取/生成权限；旧凭据不会自动扩权。"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "同一账号的请求编号已有不同创作内容；不要自动换号再次生成。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "creation_request_conflict",
+                  "message": "同一账号的请求编号已有不同创作内容；不要自动换号再次生成。"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "已超过恢复期或保留任务不可用；编号仍被保留，不能据此新建第二笔生成。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "creation_request_expired",
+                  "message": "已超过恢复期或保留任务不可用；编号仍被保留，不能据此新建第二笔生成。"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "无法准备本次创作。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "internal_error",
+                  "message": "无法准备本次创作。"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "创作或读取暂不可用；也可能是新生成尚未启用或当前没有兼容能力。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "disabled": {
+                    "value": {
+                      "success": false,
+                      "code": "influencer_creation_disabled",
+                      "message": "new command-line creations are currently disabled; accepted requests remain recoverable"
+                    }
+                  },
+                  "route": {
+                    "value": {
+                      "success": false,
+                      "code": "creation_route_unavailable",
+                      "message": "a compatible creation route is currently unavailable"
+                    }
+                  },
+                  "records": {
+                    "value": {
+                      "success": false,
+                      "code": "generation_queue_unavailable",
+                      "message": "creation records are temporarily unavailable"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-native-execution-errors": {
+          "402": {
+            "description": "原生队列执行阶段遵循额度不足/需要额度的 402 语义。当前受理入口不直接返回同步 402；排队后仍可能因额度不足失败。请查询任务状态和公开失败原因。受理 200 不代表扣费或生成成功。"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CharacterRequest"
+              },
+              "example": {
+                "request_id": "creator-character-0001",
+                "tier": "normal",
+                "brief": "A friendly adult character",
+                "selection": {
+                  "gender": [
+                    "female"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl --request POST \\\n  --url 'https://omnimux.ai/api/influencer/v1/characters' \\\n  --header 'Authorization: Bearer <user-access-token>' \\\n  --header 'Content-Type: application/json' \\\n  --data '{\"request_id\":\"creator-character-0001\",\"tier\":\"normal\",\"brief\":\"A friendly adult character\",\"selection\":{\"gender\":[\"female\"]}}'"
+          }
+        ]
+      },
+      "get": {
+        "operationId": "InfluencerListCharacters",
+        "summary": "列出角色",
+        "description": "需要明确的 influencer_creation:read 权限；有效网页会话也可使用同一归属受限入口。创建请求拒绝未知顶层字段；调用方不能选择模型、供应商分组、尺寸或手填时长。",
+        "x-required-scopes": [
+          "influencer_creation:read"
+        ],
+        "parameters": [
+          {
+            "name": "New-Api-User",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "可选兼容请求头，不参与身份验证或资源归属；后台从凭据确定账号。"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000000,
+              "default": 1
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          },
+          {
+            "name": "kind",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "character",
+                "multiview",
+                "video"
+              ]
+            },
+            "description": "可选；角色列表仍只列出可复用的原始主图。"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "waiting",
+                "submitting",
+                "reconciling",
+                "queued",
+                "running",
+                "succeeded",
+                "failed",
+                "unknown"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "仅属于当前账号的创作数据。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "const": true
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/TaskList"
+                    }
+                  },
+                  "required": [
+                    "success",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "success": true,
+                  "data": {
+                    "items": [],
+                    "total": 0,
+                    "page": 1,
+                    "page_size": 20
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "产品参数、未知请求字段或素材规格不符合要求。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "invalid_request",
+                  "message": "产品参数、未知请求字段或素材规格不符合要求。"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "需要有效账号凭据；过期、已撤销或被停用账号的凭据会被拒绝。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "AUTH_UNAUTHORIZED",
+                  "message": "需要有效账号凭据；过期、已撤销或被停用账号的凭据会被拒绝。"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "缺少明确的创作读取/生成权限；旧凭据不会自动扩权。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "ACCESS_TOKEN_SCOPE_DENIED",
+                  "message": "缺少明确的创作读取/生成权限；旧凭据不会自动扩权。"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "创作或读取暂不可用；也可能是新生成尚未启用或当前没有兼容能力。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "generation_queue_unavailable",
+                  "message": "创作或读取暂不可用；也可能是新生成尚未启用或当前没有兼容能力。"
+                }
+              }
+            }
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl --request GET \\\n  --url 'https://omnimux.ai/api/influencer/v1/characters' \\\n  --header 'Authorization: Bearer <user-access-token>'"
+          }
+        ]
+      }
+    },
+    "/api/influencer/v1/characters/{task_id}": {
+      "get": {
+        "operationId": "InfluencerGetCharacter",
+        "summary": "查询角色",
+        "description": "需要明确的 influencer_creation:read 权限；有效网页会话也可使用同一归属受限入口。创建请求拒绝未知顶层字段；调用方不能选择模型、供应商分组、尺寸或手填时长。",
+        "x-required-scopes": [
+          "influencer_creation:read"
+        ],
+        "parameters": [
+          {
+            "name": "New-Api-User",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "可选兼容请求头，不参与身份验证或资源归属；后台从凭据确定账号。"
+          },
+          {
+            "name": "task_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "task_example_character"
+            },
+            "description": "本人作品任务编号，不是供应商编号或请求编号。"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "仅属于当前账号的创作数据。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "const": true
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/CharacterDetail"
+                    }
+                  },
+                  "required": [
+                    "success",
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "需要有效账号凭据；过期、已撤销或被停用账号的凭据会被拒绝。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "AUTH_UNAUTHORIZED",
+                  "message": "需要有效账号凭据；过期、已撤销或被停用账号的凭据会被拒绝。"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "缺少明确的创作读取/生成权限；旧凭据不会自动扩权。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "ACCESS_TOKEN_SCOPE_DENIED",
+                  "message": "缺少明确的创作读取/生成权限；旧凭据不会自动扩权。"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "未找到本人可用任务、角色或请求；不会透露其他账号的资源是否存在。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "task_not_found",
+                  "message": "未找到本人可用任务、角色或请求；不会透露其他账号的资源是否存在。"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "创作或读取暂不可用；也可能是新生成尚未启用或当前没有兼容能力。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "generation_queue_unavailable",
+                  "message": "创作或读取暂不可用；也可能是新生成尚未启用或当前没有兼容能力。"
+                }
+              }
+            }
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl --request GET \\\n  --url 'https://omnimux.ai/api/influencer/v1/characters/task_example_character' \\\n  --header 'Authorization: Bearer <user-access-token>'"
+          }
+        ]
+      }
+    },
+    "/api/influencer/v1/characters/{task_id}/multiview": {
+      "post": {
+        "operationId": "InfluencerCreateMultiview",
+        "summary": "创建多角度设定图",
+        "description": "需要明确的 influencer_creation:write 权限；有效网页会话也可使用同一归属受限入口。创建请求拒绝未知顶层字段；调用方不能选择模型、供应商分组、尺寸或手填时长。 后台按1920x1088请求一张横向多角度设定图，在同一张图片中呈现多个视图；成品实际像素可能不同，以下载文件为准。",
+        "x-required-scopes": [
+          "influencer_creation:write"
+        ],
+        "parameters": [
+          {
+            "name": "New-Api-User",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "可选兼容请求头，不参与身份验证或资源归属；后台从凭据确定账号。"
+          },
+          {
+            "name": "task_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "task_example_character"
+            },
+            "description": "本人作品任务编号，不是供应商编号或请求编号。"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "已受理或恢复的任务，不代表已交付成品。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "const": true
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Task"
+                    }
+                  },
+                  "required": [
+                    "success",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "success": true,
+                  "data": {
+                    "request_id": "creator-multiview-0001",
+                    "task_id": "task_example_multiview",
+                    "kind": "multiview",
+                    "status": "waiting",
+                    "raw_status": "WAITING",
+                    "artifact_status": "pending",
+                    "input": {},
+                    "recovery_expires_at": 0,
+                    "created_at": 1792000000,
+                    "finished_at": 0,
+                    "artifacts": [],
+                    "replayed": false,
+                    "parent_task_id": "task_example_character"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "产品参数、未知请求字段或素材规格不符合要求。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "invalid_request",
+                  "message": "产品参数、未知请求字段或素材规格不符合要求。"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "需要有效账号凭据；过期、已撤销或被停用账号的凭据会被拒绝。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "AUTH_UNAUTHORIZED",
+                  "message": "需要有效账号凭据；过期、已撤销或被停用账号的凭据会被拒绝。"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "缺少明确的创作读取/生成权限；旧凭据不会自动扩权。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "ACCESS_TOKEN_SCOPE_DENIED",
+                  "message": "缺少明确的创作读取/生成权限；旧凭据不会自动扩权。"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "未找到本人可用任务、角色或请求；不会透露其他账号的资源是否存在。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "task_not_found",
+                  "message": "未找到本人可用任务、角色或请求；不会透露其他账号的资源是否存在。"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "同一账号的请求编号已有不同创作内容；不要自动换号再次生成。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "creation_request_conflict",
+                  "message": "同一账号的请求编号已有不同创作内容；不要自动换号再次生成。"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "已超过恢复期或保留任务不可用；编号仍被保留，不能据此新建第二笔生成。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "creation_request_expired",
+                  "message": "已超过恢复期或保留任务不可用；编号仍被保留，不能据此新建第二笔生成。"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "无法准备本次创作。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "internal_error",
+                  "message": "无法准备本次创作。"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "创作或读取暂不可用；也可能是新生成尚未启用或当前没有兼容能力。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "disabled": {
+                    "value": {
+                      "success": false,
+                      "code": "influencer_creation_disabled",
+                      "message": "new command-line creations are currently disabled; accepted requests remain recoverable"
+                    }
+                  },
+                  "route": {
+                    "value": {
+                      "success": false,
+                      "code": "creation_route_unavailable",
+                      "message": "a compatible creation route is currently unavailable"
+                    }
+                  },
+                  "records": {
+                    "value": {
+                      "success": false,
+                      "code": "generation_queue_unavailable",
+                      "message": "creation records are temporarily unavailable"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-native-execution-errors": {
+          "402": {
+            "description": "原生队列执行阶段遵循额度不足/需要额度的 402 语义。当前受理入口不直接返回同步 402；排队后仍可能因额度不足失败。请查询任务状态和公开失败原因。受理 200 不代表扣费或生成成功。"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MultiviewRequest"
+              },
+              "example": {
+                "request_id": "creator-multiview-0001"
+              }
+            }
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl --request POST \\\n  --url 'https://omnimux.ai/api/influencer/v1/characters/task_example_character/multiview' \\\n  --header 'Authorization: Bearer <user-access-token>' \\\n  --header 'Content-Type: application/json' \\\n  --data '{\"request_id\":\"creator-multiview-0001\"}'"
+          }
+        ]
+      }
+    },
+    "/api/influencer/v1/videos": {
+      "post": {
+        "operationId": "InfluencerCreateVideo",
+        "summary": "创建角色视频",
+        "description": "需要明确的 influencer_creation:write 权限；有效网页会话也可使用同一归属受限入口。创建请求拒绝未知顶层字段；调用方不能选择模型、供应商分组、尺寸或手填时长。 4–30秒限制针对参考视频，成片时长可能不同。参考原声会传入生成，但成片音量可能变化，不承诺无损保留；请检查下载成片。",
+        "x-required-scopes": [
+          "influencer_creation:write"
+        ],
+        "parameters": [
+          {
+            "name": "New-Api-User",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "可选兼容请求头，不参与身份验证或资源归属；后台从凭据确定账号。"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "已受理或恢复的任务，不代表已交付成品。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "const": true
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Task"
+                    }
+                  },
+                  "required": [
+                    "success",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "success": true,
+                  "data": {
+                    "request_id": "creator-video-0001",
+                    "task_id": "task_example_video",
+                    "kind": "video",
+                    "status": "waiting",
+                    "raw_status": "WAITING",
+                    "artifact_status": "pending",
+                    "input": {},
+                    "recovery_expires_at": 0,
+                    "created_at": 1792000000,
+                    "finished_at": 0,
+                    "artifacts": [],
+                    "replayed": false
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "产品参数、未知请求字段或素材规格不符合要求。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "invalid_request",
+                  "message": "产品参数、未知请求字段或素材规格不符合要求。"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "需要有效账号凭据；过期、已撤销或被停用账号的凭据会被拒绝。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "AUTH_UNAUTHORIZED",
+                  "message": "需要有效账号凭据；过期、已撤销或被停用账号的凭据会被拒绝。"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "缺少明确的创作读取/生成权限；旧凭据不会自动扩权。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "ACCESS_TOKEN_SCOPE_DENIED",
+                  "message": "缺少明确的创作读取/生成权限；旧凭据不会自动扩权。"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "未找到本人可用任务、角色或请求；不会透露其他账号的资源是否存在。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "task_not_found",
+                  "message": "未找到本人可用任务、角色或请求；不会透露其他账号的资源是否存在。"
+                }
+              }
+            }
+          },
+          "408": {
+            "description": "参考素材准备超时或被取消；如果受理结果不明，重试前先按请求编号恢复。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "reference_video_invalid",
+                  "message": "参考素材准备超时或被取消；如果受理结果不明，重试前先按请求编号恢复。"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "同一账号的请求编号已有不同创作内容；不要自动换号再次生成。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "creation_request_conflict",
+                  "message": "同一账号的请求编号已有不同创作内容；不要自动换号再次生成。"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "已超过恢复期或保留任务不可用；编号仍被保留，不能据此新建第二笔生成。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "creation_request_expired",
+                  "message": "已超过恢复期或保留任务不可用；编号仍被保留，不能据此新建第二笔生成。"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "无法准备本次创作。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "internal_error",
+                  "message": "无法准备本次创作。"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "创作或读取暂不可用；也可能是新生成尚未启用或当前没有兼容能力。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "disabled": {
+                    "value": {
+                      "success": false,
+                      "code": "influencer_creation_disabled",
+                      "message": "new command-line creations are currently disabled; accepted requests remain recoverable"
+                    }
+                  },
+                  "route": {
+                    "value": {
+                      "success": false,
+                      "code": "creation_route_unavailable",
+                      "message": "a compatible creation route is currently unavailable"
+                    }
+                  },
+                  "records": {
+                    "value": {
+                      "success": false,
+                      "code": "generation_queue_unavailable",
+                      "message": "creation records are temporarily unavailable"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-native-execution-errors": {
+          "402": {
+            "description": "原生队列执行阶段遵循额度不足/需要额度的 402 语义。当前受理入口不直接返回同步 402；排队后仍可能因额度不足失败。请查询任务状态和公开失败原因。受理 200 不代表扣费或生成成功。"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VideoRequest"
+              },
+              "example": {
+                "request_id": "creator-video-0001",
+                "character_task_id": "task_example_character",
+                "video_url": "https://omnimux.ai/REPLACE_WITH_OWN_REFERENCE.mp4",
+                "mode": "motion",
+                "resolution": "480p"
+              }
+            }
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl --request POST \\\n  --url 'https://omnimux.ai/api/influencer/v1/videos' \\\n  --header 'Authorization: Bearer <user-access-token>' \\\n  --header 'Content-Type: application/json' \\\n  --data '{\"request_id\":\"creator-video-0001\",\"character_task_id\":\"task_example_character\",\"video_url\":\"https://omnimux.ai/REPLACE_WITH_OWN_REFERENCE.mp4\",\"mode\":\"motion\",\"resolution\":\"480p\"}'"
+          }
+        ]
+      }
+    },
+    "/api/influencer/v1/tasks": {
+      "get": {
+        "operationId": "InfluencerListTasks",
+        "summary": "列出创作任务",
+        "description": "需要明确的 influencer_creation:read 权限；有效网页会话也可使用同一归属受限入口。创建请求拒绝未知顶层字段；调用方不能选择模型、供应商分组、尺寸或手填时长。",
+        "x-required-scopes": [
+          "influencer_creation:read"
+        ],
+        "parameters": [
+          {
+            "name": "New-Api-User",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "可选兼容请求头，不参与身份验证或资源归属；后台从凭据确定账号。"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000000,
+              "default": 1
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          },
+          {
+            "name": "kind",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "character",
+                "multiview",
+                "video"
+              ]
+            },
+            "description": "可选；角色列表仍只列出可复用的原始主图。"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "waiting",
+                "submitting",
+                "reconciling",
+                "queued",
+                "running",
+                "succeeded",
+                "failed",
+                "unknown"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "仅属于当前账号的创作数据。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "const": true
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/TaskList"
+                    }
+                  },
+                  "required": [
+                    "success",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "success": true,
+                  "data": {
+                    "items": [],
+                    "total": 0,
+                    "page": 1,
+                    "page_size": 20
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "产品参数、未知请求字段或素材规格不符合要求。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "invalid_request",
+                  "message": "产品参数、未知请求字段或素材规格不符合要求。"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "需要有效账号凭据；过期、已撤销或被停用账号的凭据会被拒绝。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "AUTH_UNAUTHORIZED",
+                  "message": "需要有效账号凭据；过期、已撤销或被停用账号的凭据会被拒绝。"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "缺少明确的创作读取/生成权限；旧凭据不会自动扩权。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "ACCESS_TOKEN_SCOPE_DENIED",
+                  "message": "缺少明确的创作读取/生成权限；旧凭据不会自动扩权。"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "创作或读取暂不可用；也可能是新生成尚未启用或当前没有兼容能力。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "generation_queue_unavailable",
+                  "message": "创作或读取暂不可用；也可能是新生成尚未启用或当前没有兼容能力。"
+                }
+              }
+            }
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl --request GET \\\n  --url 'https://omnimux.ai/api/influencer/v1/tasks' \\\n  --header 'Authorization: Bearer <user-access-token>'"
+          }
+        ]
+      }
+    },
+    "/api/influencer/v1/tasks/{task_id}": {
+      "get": {
+        "operationId": "InfluencerGetTask",
+        "summary": "查询创作任务",
+        "description": "需要明确的 influencer_creation:read 权限；有效网页会话也可使用同一归属受限入口。创建请求拒绝未知顶层字段；调用方不能选择模型、供应商分组、尺寸或手填时长。",
+        "x-required-scopes": [
+          "influencer_creation:read"
+        ],
+        "parameters": [
+          {
+            "name": "New-Api-User",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "可选兼容请求头，不参与身份验证或资源归属；后台从凭据确定账号。"
+          },
+          {
+            "name": "task_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "task_example_character"
+            },
+            "description": "本人作品任务编号，不是供应商编号或请求编号。"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "仅属于当前账号的创作数据。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "const": true
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Task"
+                    }
+                  },
+                  "required": [
+                    "success",
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "需要有效账号凭据；过期、已撤销或被停用账号的凭据会被拒绝。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "AUTH_UNAUTHORIZED",
+                  "message": "需要有效账号凭据；过期、已撤销或被停用账号的凭据会被拒绝。"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "缺少明确的创作读取/生成权限；旧凭据不会自动扩权。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "ACCESS_TOKEN_SCOPE_DENIED",
+                  "message": "缺少明确的创作读取/生成权限；旧凭据不会自动扩权。"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "未找到本人可用任务、角色或请求；不会透露其他账号的资源是否存在。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "task_not_found",
+                  "message": "未找到本人可用任务、角色或请求；不会透露其他账号的资源是否存在。"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "创作或读取暂不可用；也可能是新生成尚未启用或当前没有兼容能力。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "generation_queue_unavailable",
+                  "message": "创作或读取暂不可用；也可能是新生成尚未启用或当前没有兼容能力。"
+                }
+              }
+            }
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl --request GET \\\n  --url 'https://omnimux.ai/api/influencer/v1/tasks/task_example_character' \\\n  --header 'Authorization: Bearer <user-access-token>'"
+          }
+        ]
+      }
+    },
+    "/api/influencer/v1/tasks/{task_id}/artifacts": {
+      "get": {
+        "operationId": "InfluencerGetArtifacts",
+        "summary": "查询创作成品",
+        "description": "需要明确的 influencer_creation:read 权限；有效网页会话也可使用同一归属受限入口。创建请求拒绝未知顶层字段；调用方不能选择模型、供应商分组、尺寸或手填时长。",
+        "x-required-scopes": [
+          "influencer_creation:read"
+        ],
+        "parameters": [
+          {
+            "name": "New-Api-User",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "可选兼容请求头，不参与身份验证或资源归属；后台从凭据确定账号。"
+          },
+          {
+            "name": "task_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "task_example_character"
+            },
+            "description": "本人作品任务编号，不是供应商编号或请求编号。"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "仅属于当前账号的创作数据。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "const": true
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Task"
+                    }
+                  },
+                  "required": [
+                    "success",
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "需要有效账号凭据；过期、已撤销或被停用账号的凭据会被拒绝。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "AUTH_UNAUTHORIZED",
+                  "message": "需要有效账号凭据；过期、已撤销或被停用账号的凭据会被拒绝。"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "缺少明确的创作读取/生成权限；旧凭据不会自动扩权。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "ACCESS_TOKEN_SCOPE_DENIED",
+                  "message": "缺少明确的创作读取/生成权限；旧凭据不会自动扩权。"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "未找到本人可用任务、角色或请求；不会透露其他账号的资源是否存在。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "task_not_found",
+                  "message": "未找到本人可用任务、角色或请求；不会透露其他账号的资源是否存在。"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "创作或读取暂不可用；也可能是新生成尚未启用或当前没有兼容能力。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "generation_queue_unavailable",
+                  "message": "创作或读取暂不可用；也可能是新生成尚未启用或当前没有兼容能力。"
+                }
+              }
+            }
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl --request GET \\\n  --url 'https://omnimux.ai/api/influencer/v1/tasks/task_example_character/artifacts' \\\n  --header 'Authorization: Bearer <user-access-token>'"
+          }
+        ]
+      }
+    },
+    "/api/influencer/v1/requests/{request_id}": {
+      "get": {
+        "operationId": "InfluencerGetRequest",
+        "summary": "恢复创作请求",
+        "description": "需要明确的 influencer_creation:read 权限；有效网页会话也可使用同一归属受限入口。创建请求拒绝未知顶层字段；调用方不能选择模型、供应商分组、尺寸或手填时长。",
+        "x-required-scopes": [
+          "influencer_creation:read"
+        ],
+        "parameters": [
+          {
+            "name": "New-Api-User",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "可选兼容请求头，不参与身份验证或资源归属；后台从凭据确定账号。"
+          },
+          {
+            "name": "request_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 128,
+              "pattern": "^[A-Za-z0-9._:-]{8,128}$",
+              "example": "creator-character-0001"
+            },
+            "description": "准确且区分大小写的调用方请求编号；无效或从未受理的编号返回 404。"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "仅属于当前账号的创作数据。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "const": true
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Task"
+                    }
+                  },
+                  "required": [
+                    "success",
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "需要有效账号凭据；过期、已撤销或被停用账号的凭据会被拒绝。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "AUTH_UNAUTHORIZED",
+                  "message": "需要有效账号凭据；过期、已撤销或被停用账号的凭据会被拒绝。"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "缺少明确的创作读取/生成权限；旧凭据不会自动扩权。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "ACCESS_TOKEN_SCOPE_DENIED",
+                  "message": "缺少明确的创作读取/生成权限；旧凭据不会自动扩权。"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "未找到本人可用任务、角色或请求；不会透露其他账号的资源是否存在。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "creation_request_not_found",
+                  "message": "未找到本人可用任务、角色或请求；不会透露其他账号的资源是否存在。"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "已超过恢复期或保留任务不可用；编号仍被保留，不能据此新建第二笔生成。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "creation_request_expired",
+                  "message": "已超过恢复期或保留任务不可用；编号仍被保留，不能据此新建第二笔生成。"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "创作或读取暂不可用；也可能是新生成尚未启用或当前没有兼容能力。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "generation_queue_unavailable",
+                  "message": "创作或读取暂不可用；也可能是新生成尚未启用或当前没有兼容能力。"
+                }
+              }
+            }
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl --request GET \\\n  --url 'https://omnimux.ai/api/influencer/v1/requests/creator-character-0001' \\\n  --header 'Authorization: Bearer <user-access-token>'"
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "accessToken": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "nap_",
+        "description": "OmniMux 限定权限个人凭据；每个操作标明准确的 influencer_creation 权限。旧凭据不会自动扩权，不使用 sk- 网关密钥；网页会话沿用既有账号验证。"
+      }
+    },
+    "schemas": {
+      "Error": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "const": false
+          },
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "success",
+          "code",
+          "message"
+        ]
+      },
+      "Selection": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "description": "类别编号到有序选项编号数组的映射；请使用创作选项返回的 taxonomy。这是对象，不是平铺数组。未知类别或选项、冲突组合会被拒绝；沿用角色类型可见性与现有选项规范化规则。",
+        "example": {
+          "gender": [
+            "female"
+          ]
+        }
+      },
+      "Artifact": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "examples": [
+              "image",
+              "video"
+            ]
+          },
+          "mime_type": {
+            "type": "string"
+          },
+          "content_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "短期签名成品地址；失效时重新查询成品入口。不要向该地址或其存储重定向转发账号凭据。"
+          }
+        },
+        "required": [
+          "key",
+          "type",
+          "content_url"
+        ]
+      },
+      "ProductInput": {
+        "type": "object",
+        "properties": {
+          "tier": {
+            "type": "string",
+            "enum": [
+              "normal",
+              "freak",
+              "total",
+              "cats",
+              "dogs"
+            ]
+          },
+          "selection": {
+            "$ref": "#/components/schemas/Selection"
+          },
+          "brief": {
+            "type": "string"
+          },
+          "image_url": {
+            "type": "string"
+          },
+          "parent_task_id": {
+            "type": "string",
+            "example": "task_example_character"
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "motion",
+              "replace"
+            ]
+          },
+          "resolution": {
+            "type": "string",
+            "enum": [
+              "480p",
+              "720p"
+            ]
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "enum": [
+              "16:9",
+              "9:16",
+              "3:4"
+            ]
+          },
+          "duration_sec": {
+            "type": "integer",
+            "description": "后台根据参考视频推导的整数生成请求秒数，小数秒可能被四舍五入。不是调用方可传入的创建参数，也不代表参考视频的精确时长或成品实测时长。"
+          },
+          "character_task_id": {
+            "type": "string",
+            "example": "task_example_character"
+          },
+          "prompt": {
+            "type": "string"
+          }
+        }
+      },
+      "Task": {
+        "type": "object",
+        "properties": {
+          "request_id": {
+            "type": "string",
+            "description": "调用方恢复编号；无命令行回执的既有网页任务可能为空，与请求追踪编号不同。"
+          },
+          "task_id": {
+            "type": "string",
+            "example": "task_example_character"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "character",
+              "multiview",
+              "video"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "waiting",
+              "submitting",
+              "reconciling",
+              "queued",
+              "running",
+              "succeeded",
+              "failed",
+              "unknown"
+            ]
+          },
+          "raw_status": {
+            "type": "string",
+            "description": "原生任务状态；自动处理请使用归一化后的 status。"
+          },
+          "artifact_status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "ready",
+              "unavailable"
+            ],
+            "description": "ready 要求任务成功且存在可用成品。受理成功或成品数组为空不代表已交付。"
+          },
+          "parent_task_id": {
+            "type": "string",
+            "example": "task_example_character"
+          },
+          "input": {
+            "$ref": "#/components/schemas/ProductInput"
+          },
+          "recovery_expires_at": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 0,
+            "description": "秒级时间戳；进行中或尚未建立结束恢复期限时为零。结束后可恢复七天；过期不允许重用请求编号。"
+          },
+          "created_at": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "finished_at": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "artifacts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Artifact"
+            }
+          },
+          "replayed": {
+            "type": "boolean",
+            "description": "创建、请求恢复及任务/成品详情会返回；角色投影不保证包含此字段。"
+          },
+          "raw_quota": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "已知的原生额度记录，不是积分：raw_quota ÷ 500000 = 美元。没有已知正数时省略。"
+          },
+          "credits": {
+            "type": "number",
+            "minimum": 0,
+            "description": "已知 raw_quota ÷ 50000，不是生成前报价，也不是最终退款凭证。"
+          },
+          "quota_status": {
+            "type": "string",
+            "enum": [
+              "recorded",
+              "reconciling"
+            ],
+            "description": "失败任务的 reconciling 不代表积分已经退回。"
+          },
+          "fail_reason": {
+            "type": "string",
+            "description": "可用时返回的公开失败原因，请结合状态判断；失败说明不代表退款已经完成。"
+          }
+        },
+        "required": [
+          "request_id",
+          "task_id",
+          "kind",
+          "status",
+          "raw_status",
+          "artifact_status",
+          "input",
+          "recovery_expires_at",
+          "created_at",
+          "finished_at",
+          "artifacts"
+        ]
+      },
+      "CharacterDetail": {
+        "type": "object",
+        "properties": {
+          "request_id": {
+            "type": "string",
+            "description": "调用方恢复编号；无命令行回执的既有网页任务可能为空，与请求追踪编号不同。"
+          },
+          "task_id": {
+            "type": "string",
+            "example": "task_example_character"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "character",
+              "multiview",
+              "video"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "waiting",
+              "submitting",
+              "reconciling",
+              "queued",
+              "running",
+              "succeeded",
+              "failed",
+              "unknown"
+            ]
+          },
+          "raw_status": {
+            "type": "string",
+            "description": "原生任务状态；自动处理请使用归一化后的 status。"
+          },
+          "artifact_status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "ready",
+              "unavailable"
+            ],
+            "description": "ready 要求任务成功且存在可用成品。受理成功或成品数组为空不代表已交付。"
+          },
+          "parent_task_id": {
+            "type": "string",
+            "example": "task_example_character"
+          },
+          "input": {
+            "$ref": "#/components/schemas/ProductInput"
+          },
+          "recovery_expires_at": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 0,
+            "description": "秒级时间戳；进行中或尚未建立结束恢复期限时为零。结束后可恢复七天；过期不允许重用请求编号。"
+          },
+          "created_at": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "finished_at": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "artifacts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Artifact"
+            }
+          },
+          "replayed": {
+            "type": "boolean",
+            "description": "创建、请求恢复及任务/成品详情会返回；角色投影不保证包含此字段。"
+          },
+          "raw_quota": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "已知的原生额度记录，不是积分：raw_quota ÷ 500000 = 美元。没有已知正数时省略。"
+          },
+          "credits": {
+            "type": "number",
+            "minimum": 0,
+            "description": "已知 raw_quota ÷ 50000，不是生成前报价，也不是最终退款凭证。"
+          },
+          "quota_status": {
+            "type": "string",
+            "enum": [
+              "recorded",
+              "reconciling"
+            ],
+            "description": "失败任务的 reconciling 不代表积分已经退回。"
+          },
+          "fail_reason": {
+            "type": "string",
+            "description": "可用时返回的公开失败原因，请结合状态判断；失败说明不代表退款已经完成。"
+          },
+          "multiviews": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Task"
+            },
+            "description": "本人关联的多角度设定图任务，可能包含进行中或失败记录。"
+          }
+        },
+        "required": [
+          "request_id",
+          "task_id",
+          "kind",
+          "status",
+          "raw_status",
+          "artifact_status",
+          "input",
+          "recovery_expires_at",
+          "created_at",
+          "finished_at",
+          "artifacts",
+          "multiviews"
+        ]
+      },
+      "TaskList": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Task"
+            }
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "page": {
+            "type": "integer"
+          },
+          "page_size": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "total",
+          "page",
+          "page_size"
+        ]
+      },
+      "Options": {
+        "type": "object",
+        "properties": {
+          "version": {
+            "type": "integer",
+            "const": 1
+          },
+          "taxonomy": {
+            "type": "object",
+            "properties": {
+              "version": {
+                "type": "integer"
+              },
+              "source": {
+                "type": "string"
+              },
+              "tier_group": {
+                "type": "object",
+                "properties": {
+                  "options": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "label_en": {
+                          "type": "string"
+                        },
+                        "visibleIn": {
+                          "type": [
+                            "array",
+                            "null"
+                          ],
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "slot": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "swatch": {
+                          "type": "string"
+                        },
+                        "imageUrl": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "label_en"
+                      ]
+                    }
+                  },
+                  "comingSoonImageUrls": {
+                    "type": [
+                      "array",
+                      "null"
+                    ],
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "category_priority": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "categories": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "label_en": {
+                      "type": "string"
+                    },
+                    "kind": {
+                      "type": "string"
+                    },
+                    "max": {
+                      "type": "integer"
+                    },
+                    "options": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "label_en": {
+                            "type": "string"
+                          },
+                          "visibleIn": {
+                            "type": [
+                              "array",
+                              "null"
+                            ],
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "slot": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "swatch": {
+                            "type": "string"
+                          },
+                          "imageUrl": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "label_en"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "options"
+                  ]
+                }
+              },
+              "prompt_map": {
+                "type": "object",
+                "description": "随选项集返回的描述元数据；从 categories 选择输入编号，不要把此对象作为创建参数发送。"
+              }
+            }
+          },
+          "taxonomy_etag": {
+            "type": "string"
+          },
+          "defaults": {
+            "type": "object",
+            "properties": {
+              "tier": {
+                "type": "string"
+              },
+              "mode": {
+                "type": "string"
+              },
+              "resolution": {
+                "type": "string"
+              },
+              "aspect_ratio": {
+                "type": "string"
+              },
+              "wait_timeout_seconds": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "tier",
+              "mode",
+              "resolution",
+              "aspect_ratio",
+              "wait_timeout_seconds"
+            ]
+          },
+          "creation_enabled": {
+            "type": "boolean",
+            "description": "false 只禁止命令行新创作，不禁止读取和已受理请求原样恢复。true 本身不代表兼容生成能力可用。"
+          },
+          "availability": {
+            "type": "object",
+            "properties": {
+              "character": {
+                "type": "boolean"
+              },
+              "reference_image": {
+                "type": "boolean"
+              },
+              "multiview": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "character",
+              "reference_image",
+              "multiview"
+            ]
+          },
+          "character": {
+            "type": "object",
+            "properties": {
+              "types": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "aspect_ratio": {
+                "type": "string"
+              },
+              "max_brief_characters": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "types",
+              "aspect_ratio",
+              "max_brief_characters"
+            ]
+          },
+          "video": {
+            "type": "object",
+            "properties": {
+              "modes": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "resolutions": {
+                "type": "object",
+                "properties": {
+                  "480p": {
+                    "type": "object",
+                    "properties": {
+                      "aspect_ratios": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "available": {
+                        "type": "boolean"
+                      }
+                    },
+                    "required": [
+                      "aspect_ratios",
+                      "available"
+                    ]
+                  },
+                  "720p": {
+                    "type": "object",
+                    "properties": {
+                      "aspect_ratios": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "available": {
+                        "type": "boolean"
+                      }
+                    },
+                    "required": [
+                      "aspect_ratios",
+                      "available"
+                    ]
+                  }
+                }
+              },
+              "min_seconds": {
+                "type": "integer",
+                "description": "允许的参考视频最短秒数，不代表生成成片时长。"
+              },
+              "max_seconds": {
+                "type": "integer",
+                "description": "允许的参考视频最长秒数，不保证生成成片具有相同时长。"
+              },
+              "min_images": {
+                "type": "integer"
+              },
+              "max_images": {
+                "type": "integer"
+              },
+              "max_prompt_characters": {
+                "type": "integer"
+              },
+              "preserves_reference_audio": {
+                "type": "boolean",
+                "description": "参考原声会传入生成，成片音量可能变化；不承诺无损或逐个音频采样完全相同。"
+              },
+              "server_inspects_media": {
+                "type": "boolean"
+              }
+            }
+          },
+          "media": {
+            "type": "object",
+            "properties": {
+              "reference_image_max_bytes": {
+                "type": "integer"
+              },
+              "min_dimension": {
+                "type": "integer"
+              },
+              "max_dimension": {
+                "type": "integer"
+              },
+              "min_pixels": {
+                "type": "integer"
+              },
+              "max_pixels": {
+                "type": "integer"
+              },
+              "min_fps": {
+                "type": "integer"
+              },
+              "max_fps": {
+                "type": "integer"
+              },
+              "reference_image_mime_types": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "video_containers": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "video_codecs": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "min_aspect_ratio": {
+                "type": "number"
+              },
+              "max_aspect_ratio": {
+                "type": "number"
+              }
+            }
+          }
+        },
+        "required": [
+          "version",
+          "taxonomy",
+          "taxonomy_etag",
+          "defaults",
+          "creation_enabled",
+          "availability",
+          "character",
+          "video",
+          "media"
+        ]
+      },
+      "CharacterRequest": {
+        "type": "object",
+        "properties": {
+          "request_id": {
+            "type": "string",
+            "minLength": 8,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9._:-]{8,128}$",
+            "example": "creator-character-0001",
+            "description": "必填、区分大小写、按账号隔离的恢复编号。同号同内容返回原任务，改内容返回 409。"
+          },
+          "tier": {
+            "type": "string",
+            "enum": [
+              "normal",
+              "freak",
+              "total",
+              "cats",
+              "dogs"
+            ],
+            "default": "normal",
+            "description": "normal：普通人物；freak：风格化人物；total：夸张人物；cats/dogs：拟人猫/狗。"
+          },
+          "selection": {
+            "$ref": "#/components/schemas/Selection"
+          },
+          "brief": {
+            "type": "string",
+            "maxLength": 4000,
+            "description": "外观与服装描述，保留固定双视图构图。人物类型至少提供一个有效选项、描述或风格参考图。"
+          },
+          "image_url": {
+            "type": "string",
+            "format": "uri",
+            "pattern": "^https://",
+            "maxLength": 2048,
+            "description": "可选风格参考图，JPEG/PNG/WebP，最多 5 MiB。必须能公开读取，并通过既有图片检查。"
+          }
+        },
+        "required": [
+          "request_id"
+        ],
+        "additionalProperties": false
+      },
+      "MultiviewRequest": {
+        "type": "object",
+        "properties": {
+          "request_id": {
+            "type": "string",
+            "minLength": 8,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9._:-]{8,128}$",
+            "example": "creator-character-0001"
+          }
+        },
+        "required": [
+          "request_id"
+        ],
+        "additionalProperties": false
+      },
+      "VideoRequest": {
+        "type": "object",
+        "properties": {
+          "request_id": {
+            "type": "string",
+            "minLength": 8,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9._:-]{8,128}$",
+            "example": "creator-character-0001"
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "motion",
+              "replace"
+            ],
+            "default": "motion"
+          },
+          "character_task_id": {
+            "type": "string",
+            "example": "task_example_character",
+            "description": "本人成功的角色主图编号；其图片会作为主要角色前置到 image_urls。此处不能填写多角度结果编号。"
+          },
+          "image_urls": {
+            "type": "array",
+            "maxItems": 30,
+            "items": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^https://",
+              "maxLength": 2048
+            },
+            "description": "保持顺序的角色/补充图片。有 character_task_id 时最多再加 29 张；否则至少一张，第一张为主要角色。总数为 1–30。"
+          },
+          "video_url": {
+            "type": "string",
+            "format": "uri",
+            "pattern": "^https://",
+            "maxLength": 2048,
+            "description": "与 video_task_id 二选一的参考来源；公开 HTTPS 视频。后台识别真实媒体，不接受调用方手填时长。"
+          },
+          "video_task_id": {
+            "type": "string",
+            "example": "task_example_character",
+            "description": "本人成功的角色视频任务，作为参考视频；与 video_url 互斥。"
+          },
+          "resolution": {
+            "type": "string",
+            "enum": [
+              "480p",
+              "720p"
+            ],
+            "default": "480p"
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "enum": [
+              "16:9",
+              "9:16",
+              "3:4"
+            ],
+            "description": "480p 支持 16:9、9:16、3:4；720p 支持 16:9、9:16。motion 明确值优先，省略则跟随受支持的来源画幅，否则 9:16。replace 保持受支持的来源画幅，拒绝冲突明确值。"
+          },
+          "prompt": {
+            "type": "string",
+            "maxLength": 4000,
+            "description": "可选的兼容动作/场景补充描述。参考原声和主要角色身份、物种仍属于生成要求。"
+          }
+        },
+        "required": [
+          "request_id"
+        ],
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "oneOf": [
+              {
+                "required": [
+                  "video_url"
+                ],
+                "not": {
+                  "required": [
+                    "video_task_id"
+                  ]
+                }
+              },
+              {
+                "required": [
+                  "video_task_id"
+                ],
+                "not": {
+                  "required": [
+                    "video_url"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "anyOf": [
+              {
+                "required": [
+                  "character_task_id"
+                ]
+              },
+              {
+                "required": [
+                  "image_urls"
+                ],
+                "properties": {
+                  "image_urls": {
+                    "minItems": 1
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "responses": {
+      "NativePaymentRequired": {
+        "description": "402 是原生执行阶段的额度语义，不是当前排队受理入口直接产生的同步响应。",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "example": {
+              "success": false,
+              "code": "insufficient_user_quota",
+              "message": "insufficient account allowance"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,127 @@
+---
+title: "创建多角度设定图"
+sidebarTitle: "创建多角度设定图"
+description: "通过账号限定的创作接口创建多角度设定图。"
+openapi: "openapi/ops/influencer/zh/creation.json POST /api/influencer/v1/characters/{task_id}/multiview"
+---
+
+路径编号必须是本人成功且有可用图片的角色主图；后台读取其图片和已保存外观。多角度结果不能继续作为父图。这是可选创作，会建立独立任务并按正常生成规则消耗额度。
+
+多角度设定图在同一张图片中呈现多个视图，并非多张独立出图。实际像素以下载文件为准；输入不符合适用要求时会明确报错。
+
+- 服务地址为 `https://omnimux.ai`，使用限定权限个人凭据，不使用 `sk-` 网关密钥。
+- 所需权限：`influencer_creation:write`.
+- `New-Api-User` 只作可选兼容信息。账号由凭据确定，此请求头不能选择其他归属。
+
+新增权限须重新明确完成设备授权；已有和旧式凭据不会自动扩权。见[设备码登录](/zh/api-reference/account/device-login)。
+
+<Note>
+200 代表已持久受理排队或恢复，不代表成片或扣费确认。生成沿用账号积分/订阅额度。原生执行阶段对额度不足采用需要额度（402）的语义，但此受理入口不会同步返回 402；排队后仍可能失败。请查询任务状态和公开失败原因；不承诺视频生成前的精确报价。
+</Note>
+
+未知顶层请求字段返回 400。不要传入 `model`、`group`、`seed`、`size` 或手填时长。使用同一账号的相同 `request_id` 与内容恢复原任务；改内容返回 409，恢复过期返回 410。生成开关关闭时新请求返回 503 `influencer_creation_disabled`，已受理请求的原样恢复和本人读取仍可使用。
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url 'https://omnimux.ai/api/influencer/v1/characters/task_example_character/multiview' \
+  --header 'Authorization: Bearer <user-access-token>' \
+  --header 'Content-Type: application/json' \
+  --data '{"request_id":"creator-multiview-0001"}'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200 仅示例
+{
+  "success": true,
+  "data": {
+    "request_id": "creator-multiview-0001",
+    "task_id": "task_example_multiview",
+    "kind": "multiview",
+    "status": "waiting",
+    "raw_status": "WAITING",
+    "artifact_status": "pending",
+    "input": {},
+    "recovery_expires_at": 0,
+    "created_at": 1792000000,
+    "finished_at": 0,
+    "artifacts": [],
+    "replayed": false,
+    "parent_task_id": "task_example_character"
+  }
+}
+```
+
+```json 400
+{
+  "success": false,
+  "code": "invalid_request",
+  "message": "产品参数、未知请求字段或素材规格不符合要求。"
+}
+```
+
+```json 401
+{
+  "success": false,
+  "code": "AUTH_UNAUTHORIZED",
+  "message": "需要有效账号凭据；过期、已撤销或被停用账号的凭据会被拒绝。"
+}
+```
+
+```json 403
+{
+  "success": false,
+  "code": "ACCESS_TOKEN_SCOPE_DENIED",
+  "message": "缺少明确的创作读取/生成权限；旧凭据不会自动扩权。"
+}
+```
+
+```json 404
+{
+  "success": false,
+  "code": "task_not_found",
+  "message": "未找到本人可用任务、角色或请求；不会透露其他账号的资源是否存在。"
+}
+```
+
+```json 409
+{
+  "success": false,
+  "code": "creation_request_conflict",
+  "message": "同一账号的请求编号已有不同创作内容；不要自动换号再次生成。"
+}
+```
+
+```json 410
+{
+  "success": false,
+  "code": "creation_request_expired",
+  "message": "已超过恢复期或保留任务不可用；编号仍被保留，不能据此新建第二笔生成。"
+}
+```
+
+```json 500
+{
+  "success": false,
+  "code": "internal_error",
+  "message": "无法准备本次创作。"
+}
+```
+
+```json 503
+{
+  "success": false,
+  "code": "influencer_creation_disabled",
+  "message": "new command-line creations are currently disabled; accepted requests remain recoverable"
+}
+```
+
+</ResponseExample>
+
+</Panel>
