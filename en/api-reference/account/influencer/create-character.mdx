@@ -11,7 +11,7 @@ Unpublished draft. No public availability or release date is claimed. Publish on
 
 The default `normal` tier creates an ordinary human. Other tiers are `freak`, `total`, `cats` and `dogs`. Human types require at least one valid selection, a brief, or a style image. The original sheet keeps the fixed 16:9 two-view composition.
 
-The character sheet is one 1920x1088 PNG with two views. The complete assembled prompt must also meet the [standard image service limits](/en/api-reference/image-series/gpt-image/generate): 8192 Unicode code points, 16384 UTF-8 bytes, and 5000 service-counted tokens. The 4000-character brief limit alone does not guarantee acceptance. Over-limit inputs fail explicitly; they are not truncated or replaced.
+The character sheet is one landscape image with two views. Read its actual pixel dimensions from the downloaded file. The character brief is limited to 4000 characters. Inputs that do not meet the applicable requirements return explicit errors.
 
 - Base URL: `https://omnimux.ai`; use a scoped personal access token, not an `sk-` relay key.
 - Required permission: `influencer_creation:write`.

@@ -11,7 +11,7 @@ Unpublished draft. No public availability or release date is claimed. Publish on
 
 The path ID must be your successful original character with a reusable image. The server resolves the image and saved appearance. A multiview sheet cannot be a parent. This optional creation has its own task and normal generation charges.
 
-A multiview sheet is one 1920x1088 PNG containing several views, not several output images. The complete assembled prompt must meet the [standard image service limits](/en/api-reference/image-series/gpt-image/generate): 8192 Unicode code points, 16384 UTF-8 bytes, and 5000 service-counted tokens. Over-limit inputs fail explicitly; they are not truncated or replaced.
+A multiview sheet contains several views in one image, not multiple output images. Read its actual pixel dimensions from the downloaded file. Inputs that do not meet the applicable requirements return explicit errors.
 
 - Base URL: `https://omnimux.ai`; use a scoped personal access token, not an `sk-` relay key.
 - Required permission: `influencer_creation:write`.
