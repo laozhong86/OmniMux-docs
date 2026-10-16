@@ -45,6 +45,26 @@ Pages: **Page 1** · [Page 2](/en/updates/page-2)
 
 </Update>
 
+<a id="2026-10-16-object-swap-reference-instructions"></a>
+
+<Update label="October 16, 2026" tags={["Improvements", "Video"]} rss={{ title: "Object-swap instructions use each reference according to its role" }}>
+
+  The revised default object-swap instructions ask the video-generation model to interpret the original video and all reference images. Image order identifies references rather than forcing image 1 to replace a person. A personal prompt is optional; no separate recognition model or target-selection step is added.
+
+  The instructions distinguish identity, clothing, objects and local appearance. They prioritize the complete primary subject and its intended role, favor a reasonable target of the same type and function, and minimize unrelated changes among equally good matches. When such a same-type target exists, they do not switch to an unrelated category. Clothing edits retain the original wearer; object edits retain the user and environment. Multiple views describe the same object without increasing its count. Necessary target geometry, material and contact may adapt while unrelated content, actions, camera sequence, timing and original sound are requested to stay consistent. These are generation goals, not a guarantee of exact preservation or correct interpretation on every request.
+
+  An explicitly supplied, valid personal supplement takes priority. In the workbench, the personal-prompt switch controls whether the draft is sent. Verified saved-character identity and species apply only when that image is actually used for identity. The current 10 built-in object-swap sidebar presets keep their visible descriptions and reference videos without sending their generic display sentence as a generation supplement. Explore application and community task descriptions retain their existing behavior.
+
+  The default instructions also affect the existing influencer video-creation integration; no public request or response fields change. This does not add a default prompt to arbitrary generic video requests. Standard-framing limits, positive whole-second requests and existing billing remain unchanged; the dedicated mode that automatically inherits original framing and duration is not enabled.
+
+  This entry describes the revised default instructions. Publishing this documentation does not establish that the production workbench has received the update; availability depends on the deployed site version.
+
+  ### Links
+
+  - [Object-swap reference behavior](/en/faqs/features)
+
+</Update>
+
 <a id="2026-10-15-usage-export-and-schema-compatibility"></a>
 
 <Update label="October 15, 2026" tags={["Platform", "Text"]} rss={{ title: "Own-account usage export and schema compatibility" }}>
@@ -1212,25 +1232,6 @@ Pages: **Page 1** · [Page 2](/en/updates/page-2)
 
   - [Video task poll](/en/api-reference/tasks/video-task)
   - [Pricing](/en/api-reference/account/pricing)
-
-</Update>
-
-<a id="2026-06-17-glm-5-2"></a>
-
-<Update label="June 17, 2026" tags={["New models", "Text"]} rss={{ title: "GLM-5.2" }}>
-
-  ## GLM-5.2
-
-  **GLM-5.2** is now available on OmniMux (with related GLM IDs on pricing).
-
-  ### New models
-
-  - **Model IDs:** `glm-5.2`, `glm-5.1`
-  - **API:** Chat Completions at `https://api.omnimux.ai/v1`
-
-  ### Links
-
-  - [GLM complete](/en/api-reference/text-series/glm/complete)
 
 </Update>
 

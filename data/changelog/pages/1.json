@@ -2,7 +2,7 @@
   "schema_version": 1,
   "page": 1,
   "page_size": 50,
-  "total": 59,
+  "total": 60,
   "total_pages": 2,
   "items": [
     {
@@ -76,6 +76,45 @@
       "body": {
         "zh": "标准服务路线按单张报价，仅接受 JSON 请求，质量为 `medium`，输出为 PNG。支持七种画幅及对应精确像素：1:1（1024x1024）、2:3（1024x1536）、3:2（1536x1024）、3:4（1024x1360）、4:3（1360x1024）、9:16（1088x1920）、16:9（1920x1088）。3:4 / 4:3 的旧 1365 像素边调整为 1360；旧显式尺寸明确拒绝，不静默换规格。\n\n文生图可不带参考；编辑最多使用一张公开 HTTPS 的 JPEG、PNG 或 WebP 图片，单张最多 5 MiB、解码后最多 4000 万像素、任一边最多 23170 像素。角色板和多视角板继续保留，多视角为同一张图中的多个视图。\n\n完整提示词须同时满足 **8192 个 Unicode 码点、16384 个 UTF-8 字节，以及本服务使用 `o200k_base` 计算的 5000 个词元**上限。这会拒绝部分包含大量四字节字符或词元较多的原 4000 字符工作台长描述；不截断、不压缩、不替换输入。本服务的词元计数用于请求准入，不代表供应商最终计费量，也不保证单次采购成本上限。独立 Flare / Sunburst 型号的官方 32000 字符事实与既有合同不因本标准路线收窄而改变。\n\n多张输出、多参考、更高质量、其他输出格式及未审核扩展会明确拒绝。已识别标准路线的公开请求在创建供应商任务和预留资金前拒绝；工作台排队任务可能随后明确无费失败。实际普通及会员价格以提交前报价为准，同档位的合格换线不追加客户费用。\n\n只有能够确定首选未创建供应商任务，并符合内置重试规则和总预算时才会尝试已审核备用；不承诺始终有两条健康线路。已接单、超时、断连或缺回执的原任务继续核对，不会自动重复生成，旧失败任务也不会自动重发。",
         "en": "The standard service is quoted per image and accepts JSON requests only, with `medium` quality and PNG output. Seven aspect ratios map to exact pixels: 1:1 (1024x1024), 2:3 (1024x1536), 3:2 (1536x1024), 3:4 (1024x1360), 4:3 (1360x1024), 9:16 (1088x1920), and 16:9 (1920x1088). The old 1365-pixel edge for 3:4 / 4:3 changes to 1360. Old explicit sizes are rejected rather than silently replaced.\n\nText-to-image requests may omit a reference; editing accepts at most one public HTTPS JPEG, PNG, or WebP image, up to 5 MiB, 40 million decoded pixels, and 23170 pixels on either edge. Character sheets and multi-view boards remain available; multiple views are rendered within one image.\n\nThe complete prompt must satisfy all three limits: **8192 Unicode code points, 16384 UTF-8 bytes, and 5000 tokens counted by this service with `o200k_base`**. This rejects some existing 4000-character workbench descriptions containing many four-byte characters or a high token count. Inputs are not truncated, compressed, or replaced. The service token count determines request eligibility; it does not represent final supplier billing usage or guarantee a per-request procurement cost ceiling. The vendor's 32000-character fact and existing contracts for the separate Flare / Sunburst models are not changed by this standard-service restriction.\n\nMultiple output images, multiple references, higher quality, other output formats, and unreviewed extensions are explicitly rejected. Identified standard-route public requests are rejected before creating a supplier task or reserving funds; queued workbench tasks may fail explicitly without a charge after validation. Standard and member prices are shown before submission. Switching an eligible route within the same account tier does not add a customer charge.\n\nA reviewed backup may be attempted only when no supplier task was created on the preferred route and native retry rules and the total attempt budget allow it. Two healthy routes are not guaranteed at all times. Accepted tasks and tasks with timeouts, disconnections, or missing acknowledgements are reconciled against the original request without automatic duplicate generation. Old failed tasks are not automatically resubmitted."
+      },
+      "schema_version": 1
+    },
+    {
+      "id": "2026-10-16-object-swap-reference-instructions",
+      "published_at": "2026-10-16",
+      "type": "capability",
+      "modality": [
+        "video"
+      ],
+      "title": {
+        "en": "Object-swap instructions use each reference according to its role",
+        "zh": "对象交换按参考内容判断用途，不再默认换人"
+      },
+      "summary": {
+        "en": "The revised object-swap instructions ask the generation model to map all images to the original video for people, clothing or objects, without an extra recognition model or target-selection step. Existing framing, duration and billing rules remain in force.",
+        "zh": "修订后的对象交换指令由生成模型结合全部图片与原视频判断人物、服饰或物品的合理对应，无额外识别模型或目标点选；沿用既有画幅、时长与计费规则。"
+      },
+      "models": [
+        "seedance-2-5"
+      ],
+      "tags": [
+        "video"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "Object-swap reference behavior",
+            "zh": "对象交换参考规则"
+          },
+          "href": {
+            "en": "/en/faqs/features",
+            "zh": "/zh/faqs/features"
+          }
+        }
+      ],
+      "body": {
+        "en": "The revised default object-swap instructions ask the video-generation model to interpret the original video and all reference images. Image order identifies references rather than forcing image 1 to replace a person. A personal prompt is optional; no separate recognition model or target-selection step is added.\n\nThe instructions distinguish identity, clothing, objects and local appearance. They prioritize the complete primary subject and its intended role, favor a reasonable target of the same type and function, and minimize unrelated changes among equally good matches. When such a same-type target exists, they do not switch to an unrelated category. Clothing edits retain the original wearer; object edits retain the user and environment. Multiple views describe the same object without increasing its count. Necessary target geometry, material and contact may adapt while unrelated content, actions, camera sequence, timing and original sound are requested to stay consistent. These are generation goals, not a guarantee of exact preservation or correct interpretation on every request.\n\nAn explicitly supplied, valid personal supplement takes priority. In the workbench, the personal-prompt switch controls whether the draft is sent. Verified saved-character identity and species apply only when that image is actually used for identity. The current 10 built-in object-swap sidebar presets keep their visible descriptions and reference videos without sending their generic display sentence as a generation supplement. Explore application and community task descriptions retain their existing behavior.\n\nThe default instructions also affect the existing influencer video-creation integration; no public request or response fields change. This does not add a default prompt to arbitrary generic video requests. Standard-framing limits, positive whole-second requests and existing billing remain unchanged; the dedicated mode that automatically inherits original framing and duration is not enabled.\n\nThis entry describes the revised default instructions. Publishing this documentation does not establish that the production workbench has received the update; availability depends on the deployed site version.",
+        "zh": "本次对象交换默认指令调整为通用提示，让视频生成模型结合原视频与全部参考图片自行判断对应用途；图片顺序用于指代，不再强制图片 1 替换人物。个人提示词仍可留空，不增加额外识别模型或目标点选。\n\n提示先理解参考图完整主要对象及表达用途，优先同类、同用途合理对应，同等匹配时再最小化无关变化；同类合理目标存在时不跨到无关类别。提示区分身份、服饰、物品与局部外观：换服饰保留原穿着者，换物品保留使用者与环境，同物多个角度不增加数量。目标的形状、材质与接触可以合理适配，同时要求无关内容、动作、镜头顺序、时序与原音保持一致。这些是生成目标，不保证每次都精确保留或正确理解对应关系。\n\n有效且明确传入的个人补充优先；工作台个人提示开关决定是否发送草稿。已核验保存角色的身份与物种，仅在该图实际作为身份参考时适用。当前 10 项内置对象交换侧栏预设保留可见说明与参考视频，但不再把通用展示句作为生成补充发送；探索区应用及社区任务描述沿用原行为。\n\n这些默认规则也影响既有角色视频创建集成入口，不改变公开请求或响应字段，也不会向任意通用视频请求自动添加默认提示。标准画幅限制、正整数秒请求与既有计费保持不变，仍未启用自动沿用原片画幅与时长的专用编辑方式。\n\n本条记录说明修订后的默认指令。文档发布不代表生产工作台已更新，实际可用性以已部署的网站版本为准。"
       },
       "schema_version": 1
     },
@@ -2240,46 +2279,6 @@
       "body": {
         "en": "## Seedance 2.0\n\nThe **Seedance 2.0** family is available on OmniMux for async video generation.\n\n### New models\n\n| Model ID | Role |\n| --- | --- |\n| `seedance-2-0` | Standard |\n| `seedance-2-0-mini` | Lightweight / cost-oriented |\n| `seedance-2-0-fast` | Speed-oriented |\n\n### API\n\n- **Create:** `POST /v1/video/generations`\n- **Poll:** `GET /v1/video/generations/{task_id}`",
         "zh": "## Seedance 2.0\n\n**Seedance 2.0** 系列已在 OmniMux 可调用（异步视频）。\n\n### 新模型\n\n| 模型 ID | 角色 |\n| --- | --- |\n| `seedance-2-0` | 标准档 |\n| `seedance-2-0-mini` | 轻量 / 成本向 |\n| `seedance-2-0-fast` | 速度向 |\n\n### 调用\n\n- **创建：** `POST /v1/video/generations`\n- **查询：** `GET /v1/video/generations/{task_id}`"
-      },
-      "schema_version": 1
-    },
-    {
-      "id": "2026-06-17-glm-5-2",
-      "published_at": "2026-06-17",
-      "type": "model_launch",
-      "modality": [
-        "text"
-      ],
-      "title": {
-        "en": "GLM-5.2",
-        "zh": "GLM-5.2"
-      },
-      "summary": {
-        "en": "GLM-5.2 language model on OmniMux.",
-        "zh": "GLM-5.2 语言模型已在 OmniMux 可调用。"
-      },
-      "models": [
-        "glm-5.2",
-        "glm-5.1"
-      ],
-      "tags": [
-        "text"
-      ],
-      "links": [
-        {
-          "label": {
-            "en": "GLM complete",
-            "zh": "GLM 完整参数"
-          },
-          "href": {
-            "en": "/en/api-reference/text-series/glm/complete",
-            "zh": "/zh/api-reference/text-series/glm/complete"
-          }
-        }
-      ],
-      "body": {
-        "en": "## GLM-5.2\n\n**GLM-5.2** is now available on OmniMux (with related GLM IDs on pricing).\n\n### New models\n\n- **Model IDs:** `glm-5.2`, `glm-5.1`\n- **API:** Chat Completions at `https://api.omnimux.ai/v1`",
-        "zh": "## GLM-5.2\n\n**GLM-5.2** 现已在 OmniMux 可调用（定价上另有同族 GLM ID）。\n\n### 新模型\n\n- **模型 ID：** `glm-5.2`、`glm-5.1`\n- **API：** Chat Completions：`https://api.omnimux.ai/v1`"
       },
       "schema_version": 1
     }

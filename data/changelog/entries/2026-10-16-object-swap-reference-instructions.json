@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "id": "2026-10-16-object-swap-reference-instructions",
+  "published_at": "2026-10-16",
+  "rank": 0,
+  "type": "capability",
+  "modality": [
+    "video"
+  ],
+  "title": {
+    "en": "Object-swap instructions use each reference according to its role",
+    "zh": "对象交换按参考内容判断用途，不再默认换人"
+  },
+  "summary": {
+    "en": "The revised object-swap instructions ask the generation model to map all images to the original video for people, clothing or objects, without an extra recognition model or target-selection step. Existing framing, duration and billing rules remain in force.",
+    "zh": "修订后的对象交换指令由生成模型结合全部图片与原视频判断人物、服饰或物品的合理对应，无额外识别模型或目标点选；沿用既有画幅、时长与计费规则。"
+  },
+  "models": [
+    "seedance-2-5"
+  ],
+  "links": [
+    {
+      "label": {
+        "en": "Object-swap reference behavior",
+        "zh": "对象交换参考规则"
+      },
+      "href": {
+        "en": "/en/faqs/features",
+        "zh": "/zh/faqs/features"
+      }
+    }
+  ],
+  "tags": [
+    "video"
+  ],
+  "body": {
+    "en": "The revised default object-swap instructions ask the video-generation model to interpret the original video and all reference images. Image order identifies references rather than forcing image 1 to replace a person. A personal prompt is optional; no separate recognition model or target-selection step is added.\n\nThe instructions distinguish identity, clothing, objects and local appearance. They prioritize the complete primary subject and its intended role, favor a reasonable target of the same type and function, and minimize unrelated changes among equally good matches. When such a same-type target exists, they do not switch to an unrelated category. Clothing edits retain the original wearer; object edits retain the user and environment. Multiple views describe the same object without increasing its count. Necessary target geometry, material and contact may adapt while unrelated content, actions, camera sequence, timing and original sound are requested to stay consistent. These are generation goals, not a guarantee of exact preservation or correct interpretation on every request.\n\nAn explicitly supplied, valid personal supplement takes priority. In the workbench, the personal-prompt switch controls whether the draft is sent. Verified saved-character identity and species apply only when that image is actually used for identity. The current 10 built-in object-swap sidebar presets keep their visible descriptions and reference videos without sending their generic display sentence as a generation supplement. Explore application and community task descriptions retain their existing behavior.\n\nThe default instructions also affect the existing influencer video-creation integration; no public request or response fields change. This does not add a default prompt to arbitrary generic video requests. Standard-framing limits, positive whole-second requests and existing billing remain unchanged; the dedicated mode that automatically inherits original framing and duration is not enabled.\n\nThis entry describes the revised default instructions. Publishing this documentation does not establish that the production workbench has received the update; availability depends on the deployed site version.",
+    "zh": "本次对象交换默认指令调整为通用提示，让视频生成模型结合原视频与全部参考图片自行判断对应用途；图片顺序用于指代，不再强制图片 1 替换人物。个人提示词仍可留空，不增加额外识别模型或目标点选。\n\n提示先理解参考图完整主要对象及表达用途，优先同类、同用途合理对应，同等匹配时再最小化无关变化；同类合理目标存在时不跨到无关类别。提示区分身份、服饰、物品与局部外观：换服饰保留原穿着者，换物品保留使用者与环境，同物多个角度不增加数量。目标的形状、材质与接触可以合理适配，同时要求无关内容、动作、镜头顺序、时序与原音保持一致。这些是生成目标，不保证每次都精确保留或正确理解对应关系。\n\n有效且明确传入的个人补充优先；工作台个人提示开关决定是否发送草稿。已核验保存角色的身份与物种，仅在该图实际作为身份参考时适用。当前 10 项内置对象交换侧栏预设保留可见说明与参考视频，但不再把通用展示句作为生成补充发送；探索区应用及社区任务描述沿用原行为。\n\n这些默认规则也影响既有角色视频创建集成入口，不改变公开请求或响应字段，也不会向任意通用视频请求自动添加默认提示。标准画幅限制、正整数秒请求与既有计费保持不变，仍未启用自动沿用原片画幅与时长的专用编辑方式。\n\n本条记录说明修订后的默认指令。文档发布不代表生产工作台已更新，实际可用性以已部署的网站版本为准。"
+  }
+}
