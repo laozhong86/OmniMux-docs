@@ -123,12 +123,12 @@
         "video"
       ],
       "title": {
-        "en": "Object-swap instructions use each reference according to its role",
-        "zh": "对象交换按参考内容判断用途，不再默认换人"
+        "en": "Object-swap instructions determine targets and scope from references",
+        "zh": "对象交换按参考内容确定目标与范围"
       },
       "summary": {
-        "en": "The revised object-swap instructions ask the generation model to map all images to the original video for people, clothing or objects, without an extra recognition model or target-selection step. Existing framing, duration and billing rules remain in force.",
-        "zh": "修订后的对象交换指令由生成模型结合全部图片与原视频判断人物、服饰或物品的合理对应，无额外识别模型或目标点选；沿用既有画幅、时长与计费规则。"
+        "en": "The revised object-swap instructions ask the generation model to map all reference images to the original video, use the references for complete target appearance and retain the original dynamic structure and non-target content. Existing framing, duration and billing rules remain in force.",
+        "zh": "修订后的对象交换指令由生成模型结合全部参考图片与原视频自主对应，以图片定义目标完整外观，保留原片动态结构与非目标内容；沿用既有画幅、时长与计费规则。"
       },
       "models": [
         "seedance-2-5"
