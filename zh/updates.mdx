@@ -25,6 +25,25 @@ rss: true
 
 </Update>
 
+<a id="2026-10-16-character-video-cli"></a>
+
+<Update label="2026 年 10 月 16 日" tags={["能力更新", "图像", "视频", "平台"]} rss={{ title: "OmniMux 命令行0.5.0：角色创建与参考视频生成" }}>
+
+  **0.5.0** 增加账号角色创建与复用、可选多角度设定图、参考视频生成、有期限等待、原请求恢复及完整文件下载。新设备授权会明确说明创作权限及账号积分/订阅额度使用；旧凭据不会自动扩权。
+
+  角色和多角度作品与网页本人历史互通。多角度是在同一张图片中的多个视图，会另行消耗生成额度；图片实际像素以下载文件为准。不要求用户选择模型或供应商分组。
+
+  视频默认采用运动交换和480档，后台识别4–30秒参考视频，不接受用户手填时长。成片时长可能不同，已观察到4秒参考及请求返回约3.71秒成片。参考原声会传入生成，但成片音量可能变化，不承诺无损或逐个音频采样完全相同。请检查下载成片，不将任务成功或请求参数当作成品验收。
+
+  创建需要服务支持并启用相应能力。提交结果不明时按原请求编号查回，不另开收费新单；等待超时不取消云端任务，下载默认拒绝覆盖已有文件。
+
+  ### 链接
+
+  - [创作流程](/zh/api-reference/account/influencer/options)
+  - [视频调用与成品限制](/zh/api-reference/account/influencer/create-video)
+
+</Update>
+
 <a id="2026-10-16-gpt-image-standard-scope"></a>
 
 <Update label="2026 年 10 月 16 日" tags={["不兼容变更", "图像"]} rss={{ title: "GPT Image 标准规格与自动选路保护" }}>
@@ -1204,34 +1223,6 @@ rss: true
 
   - [Nano Banana 2](/zh/api-reference/image-series/models/nano-banana-2)
   - [Nano Banana Pro](/zh/api-reference/image-series/models/nano-banana-pro)
-
-</Update>
-
-<a id="2026-06-25-seedance-2-0"></a>
-
-<Update label="2026 年 6 月 25 日" tags={["新模型", "视频"]} rss={{ title: "Seedance 2.0 系列 — Standard / Mini / Fast" }}>
-
-  ## Seedance 2.0
-
-  **Seedance 2.0** 系列已在 OmniMux 可调用（异步视频）。
-
-  ### 新模型
-
-  | 模型 ID | 角色 |
-  | --- | --- |
-  | `seedance-2-0` | 标准档 |
-  | `seedance-2-0-mini` | 轻量 / 成本向 |
-  | `seedance-2-0-fast` | 速度向 |
-
-  ### 调用
-
-  - **创建：** `POST /v1/video/generations`
-  - **查询：** `GET /v1/video/generations/{task_id}`
-
-  ### 链接
-
-  - [视频任务查询](/zh/api-reference/tasks/video-task)
-  - [定价](/zh/api-reference/account/pricing)
 
 </Update>
 

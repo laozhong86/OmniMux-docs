@@ -1,0 +1,127 @@
+---
+title: "Create Multiview Sheet"
+sidebarTitle: "Create Multiview Sheet"
+description: "Create multiview sheet through the account-scoped creation API."
+openapi: "openapi/ops/influencer/en/creation.json POST /api/influencer/v1/characters/{task_id}/multiview"
+---
+
+The path ID must be your successful original character with a reusable image. The server resolves the image and saved appearance. A multiview sheet cannot be a parent. This optional creation has its own task and normal generation charges.
+
+A multiview sheet contains several views in one image, not multiple output images. Read its actual pixel dimensions from the downloaded file. Inputs that do not meet the applicable requirements return explicit errors.
+
+- Base URL: `https://omnimux.ai`; use a scoped personal access token, not an `sk-` relay key.
+- Required permission: `influencer_creation:write`.
+- `New-Api-User` is optional compatibility metadata. The credential determines the account; this header cannot choose another owner.
+
+New permissions require a fresh, explicit device approval. Existing and legacy credentials do not expand automatically. See [device login](/en/api-reference/account/device-login).
+
+<Note>
+HTTP 200 means durable queue acceptance or recovery, not a finished file or a confirmed charge. Generation uses the existing account credits/subscription allowance. The native execution path uses payment-required (402) semantics for insufficient quota, but this acceptance endpoint does not synchronously emit 402; a queued task may later fail. Read task state and its public failure reason. No precise upfront video quote is promised.
+</Note>
+
+Unknown top-level body fields are rejected with 400. Do not send `model`, `group`, `seed`, `size`, or a client-written duration. Reuse the same account-scoped `request_id` and intent to restore an accepted task. Changed content returns 409, and expired recovery returns 410. If the creation switch is off, new requests return 503 `influencer_creation_disabled`; identical accepted replays and owner reads remain available.
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url 'https://omnimux.ai/api/influencer/v1/characters/task_example_character/multiview' \
+  --header 'Authorization: Bearer <user-access-token>' \
+  --header 'Content-Type: application/json' \
+  --data '{"request_id":"creator-multiview-0001"}'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200 Illustrative only
+{
+  "success": true,
+  "data": {
+    "request_id": "creator-multiview-0001",
+    "task_id": "task_example_multiview",
+    "kind": "multiview",
+    "status": "waiting",
+    "raw_status": "WAITING",
+    "artifact_status": "pending",
+    "input": {},
+    "recovery_expires_at": 0,
+    "created_at": 1792000000,
+    "finished_at": 0,
+    "artifacts": [],
+    "replayed": false,
+    "parent_task_id": "task_example_character"
+  }
+}
+```
+
+```json 400
+{
+  "success": false,
+  "code": "invalid_request",
+  "message": "Invalid product fields, unknown body fields or unsupported media/specifications."
+}
+```
+
+```json 401
+{
+  "success": false,
+  "code": "AUTH_UNAUTHORIZED",
+  "message": "A valid live account credential is required. Expired, revoked or disabled-account credentials are rejected."
+}
+```
+
+```json 403
+{
+  "success": false,
+  "code": "ACCESS_TOKEN_SCOPE_DENIED",
+  "message": "The explicit creation read/write scope is missing. Old/legacy credentials do not gain access automatically."
+}
+```
+
+```json 404
+{
+  "success": false,
+  "code": "task_not_found",
+  "message": "Owned usable task/character/request was not found. Other accounts are not distinguishable."
+}
+```
+
+```json 409
+{
+  "success": false,
+  "code": "creation_request_conflict",
+  "message": "The account/request ID already belongs to different creation inputs. Do not generate a new request ID automatically."
+}
+```
+
+```json 410
+{
+  "success": false,
+  "code": "creation_request_expired",
+  "message": "Recovery has expired or the retained task is unavailable. This ID remains reserved and cannot create another bill."
+}
+```
+
+```json 500
+{
+  "success": false,
+  "code": "internal_error",
+  "message": "The creation could not be prepared."
+}
+```
+
+```json 503
+{
+  "success": false,
+  "code": "influencer_creation_disabled",
+  "message": "new command-line creations are currently disabled; accepted requests remain recoverable"
+}
+```
+
+</ResponseExample>
+
+</Panel>

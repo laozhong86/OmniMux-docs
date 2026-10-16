@@ -25,6 +25,25 @@ Pages: **Page 1** · [Page 2](/en/updates/page-2)
 
 </Update>
 
+<a id="2026-10-16-character-video-cli"></a>
+
+<Update label="October 16, 2026" tags={["Improvements", "Image", "Video", "Platform"]} rss={{ title: "OmniMux CLI 0.5.0: character and reference-video creation" }}>
+
+  Version **0.5.0** adds account-scoped character creation and reuse, optional multiview sheets, reference-video generation, bounded waits, original-request recovery and verified downloads. New device approvals explicitly include creative permissions and account credits/subscription usage; existing credentials are not expanded automatically.
+
+  Character and multiview outputs share owned workbench history. A multiview sheet contains several views in one image and has a separate generation charge. Actual image dimensions are determined by the downloaded file. Consumers do not choose models or supplier groups.
+
+  Video defaults are motion mode and 480p. The server inspects reference clips of 4–30 seconds; callers do not provide a duration override. Finished duration may differ, and a four-second reference/request has produced about 3.71 seconds. Reference audio is supplied to generation, but output loudness may change; lossless or bit-for-bit audio preservation is not promised. Inspect the completed file rather than treating task success or request metadata as media acceptance.
+
+  Creation requires a compatible enabled service. Reuse the original request ID after uncertain submission instead of opening a new billable request. Waiting timeout does not cancel cloud work; downloads refuse overwrite by default.
+
+  ### Links
+
+  - [Creation workflow](/en/api-reference/account/influencer/options)
+  - [Video contract and output limitations](/en/api-reference/account/influencer/create-video)
+
+</Update>
+
 <a id="2026-10-16-gpt-image-standard-scope"></a>
 
 <Update label="October 16, 2026" tags={["Breaking", "Image"]} rss={{ title: "GPT Image standard specifications and routing safeguards" }}>
@@ -1204,34 +1223,6 @@ Pages: **Page 1** · [Page 2](/en/updates/page-2)
 
   - [Nano Banana 2](/en/api-reference/image-series/models/nano-banana-2)
   - [Nano Banana Pro](/en/api-reference/image-series/models/nano-banana-pro)
-
-</Update>
-
-<a id="2026-06-25-seedance-2-0"></a>
-
-<Update label="June 25, 2026" tags={["New models", "Video"]} rss={{ title: "Seedance 2.0 family — Standard, Mini, Fast" }}>
-
-  ## Seedance 2.0
-
-  The **Seedance 2.0** family is available on OmniMux for async video generation.
-
-  ### New models
-
-  | Model ID | Role |
-  | --- | --- |
-  | `seedance-2-0` | Standard |
-  | `seedance-2-0-mini` | Lightweight / cost-oriented |
-  | `seedance-2-0-fast` | Speed-oriented |
-
-  ### API
-
-  - **Create:** `POST /v1/video/generations`
-  - **Poll:** `GET /v1/video/generations/{task_id}`
-
-  ### Links
-
-  - [Video task poll](/en/api-reference/tasks/video-task)
-  - [Pricing](/en/api-reference/account/pricing)
 
 </Update>
 

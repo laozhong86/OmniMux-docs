@@ -1,0 +1,218 @@
+---
+title: "Get Creation Options"
+sidebarTitle: "Get Creation Options"
+description: "Get creation options through the account-scoped creation API."
+openapi: "openapi/ops/influencer/en/creation.json GET /api/influencer/v1/options"
+---
+
+<Note>
+These pages describe the account HTTP API. CLI **0.5.0** is available through the official installer and npm. The service must support and enable creation; existing credentials must explicitly approve the new creation permissions.
+</Note>
+
+
+Read current character options, defaults, media limits and supported resolution/aspect pairs. Check both `creation_enabled` and the relevant `availability` or resolution `available` value. No supplier/model picker is exposed.
+
+- Base URL: `https://omnimux.ai`; use a scoped personal access token, not an `sk-` relay key.
+- Required permission: `influencer_creation:read`.
+- `New-Api-User` is optional compatibility metadata. The credential determines the account; this header cannot choose another owner.
+
+New permissions require a fresh, explicit device approval. Existing and legacy credentials do not expand automatically. See [device login](/en/api-reference/account/device-login).
+
+## CLI workflow
+
+Install or update through npm:
+
+```bash
+npm install -g @omnimux/cli@0.5.0
+omnimux --version
+```
+
+For the standalone macOS/Linux binary, use the official installer:
+
+```bash
+curl -fsSL https://omnimux.ai/install.sh | bash
+```
+
+Sign in again to explicitly approve the creation permissions. Read `creation_enabled` and the relevant availability values before submitting.
+
+```bash
+omnimux login
+omnimux influencer options
+omnimux influencer character create --brief 'A friendly adult character in a blue coat' --request-id creator-character-0001 --dry-run
+omnimux influencer character create --brief 'A friendly adult character in a blue coat' --request-id creator-character-0001 --yes
+omnimux influencer request get creator-character-0001
+omnimux influencer task wait task_example_character --timeout 600
+omnimux influencer character list
+```
+
+Replace illustrative task IDs with the IDs actually returned. `--dry-run` validates only local inputs; it does not upload files, create a task, or verify server-side media eligibility. Commands with `--yes` submit billable creation. Add `--reference-image ./style.png` to the character command for one optional style reference; the file must exist.
+
+The optional multiview step has its own generation charge and is not required for video creation:
+
+```bash
+omnimux influencer character multiview task_example_character --request-id creator-multiview-0001 --yes
+```
+
+Use a successful original character and a real reference clip to create a video. The defaults are motion mode and 480p; the service inspects the clip's actual 4–30-second duration. Choose `--mode replace` for object replacement. Do not supply a model, supplier group, or duration override.
+
+Check the downloaded result for actual image dimensions, video duration and sound. Generated duration and audio loudness may differ from the reference; see [video output limitations](/en/api-reference/account/influencer/create-video).
+
+```bash
+omnimux influencer video create --character task_example_character --video ./reference.mp4 --request-id creator-video-0001 --yes
+omnimux influencer request get creator-video-0001
+omnimux influencer task wait task_example_video --timeout 600
+omnimux influencer task download task_example_video --output ./result.mp4
+```
+
+After an interruption or unknown submission result, query the original request ID instead of opening a new request. Waiting timeout does not cancel cloud work. Downloads refuse to overwrite an existing file by default and report success only after the complete file is written. Read the [request recovery contract](/en/api-reference/account/influencer/get-request) and [artifact contract](/en/api-reference/account/influencer/get-artifacts).
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url 'https://omnimux.ai/api/influencer/v1/options' \
+  --header 'Authorization: Bearer <user-access-token>'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200 Illustrative only
+{
+  "success": true,
+  "data": {
+    "version": 1,
+    "taxonomy": {
+      "version": 1,
+      "categories": [
+        {
+          "id": "gender",
+          "options": [
+            {
+              "id": "female",
+              "label_en": "Female",
+              "visibleIn": [
+                "normal",
+                "freak",
+                "total",
+                "cats",
+                "dogs"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "taxonomy_etag": "EXAMPLE_ONLY",
+    "defaults": {
+      "tier": "normal",
+      "mode": "motion",
+      "resolution": "480p",
+      "aspect_ratio": "9:16",
+      "wait_timeout_seconds": 600
+    },
+    "creation_enabled": false,
+    "availability": {
+      "character": false,
+      "reference_image": false,
+      "multiview": false
+    },
+    "character": {
+      "types": [
+        "normal",
+        "freak",
+        "total",
+        "cats",
+        "dogs"
+      ],
+      "aspect_ratio": "16:9",
+      "max_brief_characters": 4000
+    },
+    "video": {
+      "modes": [
+        "motion",
+        "replace"
+      ],
+      "resolutions": {
+        "480p": {
+          "aspect_ratios": [
+            "16:9",
+            "9:16",
+            "3:4"
+          ],
+          "available": false
+        },
+        "720p": {
+          "aspect_ratios": [
+            "16:9",
+            "9:16"
+          ],
+          "available": false
+        }
+      },
+      "min_seconds": 4,
+      "max_seconds": 30,
+      "min_images": 1,
+      "max_images": 30,
+      "max_prompt_characters": 4000,
+      "preserves_reference_audio": true,
+      "server_inspects_media": true
+    },
+    "media": {
+      "reference_image_max_bytes": 5242880,
+      "reference_image_mime_types": [
+        "image/jpeg",
+        "image/png",
+        "image/webp"
+      ],
+      "video_containers": [
+        "mp4",
+        "mov"
+      ],
+      "video_codecs": [
+        "h264",
+        "hevc"
+      ],
+      "min_dimension": 300,
+      "max_dimension": 6000,
+      "min_pixels": 407696,
+      "max_pixels": 8295044,
+      "min_fps": 24,
+      "max_fps": 60,
+      "min_aspect_ratio": 0.4,
+      "max_aspect_ratio": 2.5
+    }
+  }
+}
+```
+
+```json 401
+{
+  "success": false,
+  "code": "AUTH_UNAUTHORIZED",
+  "message": "A valid live account credential is required. Expired, revoked or disabled-account credentials are rejected."
+}
+```
+
+```json 403
+{
+  "success": false,
+  "code": "ACCESS_TOKEN_SCOPE_DENIED",
+  "message": "The explicit creation read/write scope is missing. Old/legacy credentials do not gain access automatically."
+}
+```
+
+```json 503
+{
+  "success": false,
+  "code": "generation_queue_unavailable",
+  "message": "Creation/read infrastructure is temporarily unavailable; new creation may also be disabled or have no compatible active route."
+}
+```
+
+</ResponseExample>
+
+</Panel>

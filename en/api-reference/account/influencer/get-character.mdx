@@ -1,0 +1,96 @@
+---
+title: "Get Character"
+sidebarTitle: "Get Character"
+description: "Get character through the account-scoped creation API."
+openapi: "openapi/ops/influencer/en/creation.json GET /api/influencer/v1/characters/{task_id}"
+---
+
+Reads one successful owned original character and its `multiviews` relations. Related multiview tasks may still be running or may have failed. A multiview sheet is not an original character. Older website tasks can have an empty client `request_id`.
+
+- Base URL: `https://omnimux.ai`; use a scoped personal access token, not an `sk-` relay key.
+- Required permission: `influencer_creation:read`.
+- `New-Api-User` is optional compatibility metadata. The credential determines the account; this header cannot choose another owner.
+
+New permissions require a fresh, explicit device approval. Existing and legacy credentials do not expand automatically. See [device login](/en/api-reference/account/device-login).
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url 'https://omnimux.ai/api/influencer/v1/characters/task_example_character' \
+  --header 'Authorization: Bearer <user-access-token>'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200 Illustrative only
+{
+  "success": true,
+  "data": {
+    "request_id": "creator-character-0001",
+    "task_id": "task_example_character",
+    "kind": "character",
+    "status": "succeeded",
+    "raw_status": "SUCCESS",
+    "artifact_status": "ready",
+    "input": {
+      "tier": "normal",
+      "selection": {},
+      "brief": "A friendly adult character"
+    },
+    "recovery_expires_at": 1792605400,
+    "created_at": 1792000000,
+    "finished_at": 1792000600,
+    "artifacts": [
+      {
+        "key": "image",
+        "type": "image",
+        "mime_type": "image/png",
+        "content_url": "https://omnimux.ai/v1/tasks/task_example_character/artifacts/image/content?access=EXAMPLE_ONLY"
+      }
+    ],
+    "replayed": false,
+    "multiviews": []
+  }
+}
+```
+
+```json 401
+{
+  "success": false,
+  "code": "AUTH_UNAUTHORIZED",
+  "message": "A valid live account credential is required. Expired, revoked or disabled-account credentials are rejected."
+}
+```
+
+```json 403
+{
+  "success": false,
+  "code": "ACCESS_TOKEN_SCOPE_DENIED",
+  "message": "The explicit creation read/write scope is missing. Old/legacy credentials do not gain access automatically."
+}
+```
+
+```json 404
+{
+  "success": false,
+  "code": "task_not_found",
+  "message": "Owned usable task/character/request was not found. Other accounts are not distinguishable."
+}
+```
+
+```json 503
+{
+  "success": false,
+  "code": "generation_queue_unavailable",
+  "message": "Creation/read infrastructure is temporarily unavailable; new creation may also be disabled or have no compatible active route."
+}
+```
+
+</ResponseExample>
+
+</Panel>
