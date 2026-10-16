@@ -11,6 +11,8 @@ openapi: "openapi/ops/influencer/zh/creation.json POST /api/influencer/v1/charac
 
 路径编号必须是本人成功且有可用图片的角色主图；后台读取其图片和已保存外观。多角度结果不能继续作为父图。这是可选创作，会建立独立任务并按正常生成规则消耗额度。
 
+多角度设定图是一张 1920x1088 的 PNG，在同一张图片中呈现多个视图，并非多张独立出图。最终拼装的完整提示词须满足[标准图片服务限制](/zh/api-reference/image-series/gpt-image/generate)：8192 个 Unicode 码点、16384 个 UTF-8 字节，以及本服务计数的 5000 个词元。超限时明确失败，不截断或替换输入。
+
 - 服务地址为 `https://omnimux.ai`，使用限定权限个人凭据，不使用 `sk-` 网关密钥。
 - 所需权限：`influencer_creation:write`.
 - `New-Api-User` 只作可选兼容信息。账号由凭据确定，此请求头不能选择其他归属。

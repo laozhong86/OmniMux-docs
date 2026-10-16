@@ -10,7 +10,7 @@ Unpublished draft. No public availability or release date is claimed. Publish on
 </Warning>
 
 <Note>
-These pages describe the account HTTP API. The associated new CLI commands are implemented in the project source but are not included in the public 0.4.4 installer release. This documentation does not announce a new CLI distribution release.
+These pages describe the account HTTP API. The current public npm release is 0.4.0 and does not include these commands. Version 0.5.0 is a release candidate for this delivery and remains subject to real CLI acceptance and publication; this draft does not announce an available release.
 </Note>
 
 
@@ -21,6 +21,39 @@ Read current character options, defaults, media limits and supported resolution/
 - `New-Api-User` is optional compatibility metadata. The credential determines the account; this header cannot choose another owner.
 
 New permissions require a fresh, explicit device approval. Existing and legacy credentials do not expand automatically. See [device login](/en/api-reference/account/device-login).
+
+## CLI workflow — release candidate
+
+These examples match the implemented command contract; they do not establish release availability. Use them only with a version that includes these commands and a service with creation enabled. Sign in again to explicitly approve the creation permissions. Read `creation_enabled` and the relevant availability values before submitting.
+
+```bash
+omnimux login
+omnimux influencer options
+omnimux influencer character create --brief 'A friendly adult character in a blue coat' --request-id creator-character-0001 --dry-run
+omnimux influencer character create --brief 'A friendly adult character in a blue coat' --request-id creator-character-0001 --yes
+omnimux influencer request get creator-character-0001
+omnimux influencer task wait task_example_character --timeout 600
+omnimux influencer character list
+```
+
+Replace illustrative task IDs with the IDs actually returned. `--dry-run` validates only local inputs; it does not upload files, create a task, or verify server-side media eligibility. Commands with `--yes` submit billable creation. Add `--reference-image ./style.png` to the character command for one optional style reference; the file must exist.
+
+The optional multiview step has its own generation charge and is not required for video creation:
+
+```bash
+omnimux influencer character multiview task_example_character --request-id creator-multiview-0001 --yes
+```
+
+Use a successful original character and a real reference clip to create a video. The defaults are motion mode and 480p; the service inspects the clip's actual 4–30-second duration. Choose `--mode replace` for object replacement. Do not supply a model, supplier group, or duration override.
+
+```bash
+omnimux influencer video create --character task_example_character --video ./reference.mp4 --request-id creator-video-0001 --yes
+omnimux influencer request get creator-video-0001
+omnimux influencer task wait task_example_video --timeout 600
+omnimux influencer task download task_example_video --output ./result.mp4
+```
+
+After an interruption or unknown submission result, query the original request ID instead of opening a new request. Waiting timeout does not cancel cloud work. Downloads refuse to overwrite an existing file by default and report success only after the complete file is written. Read the [request recovery contract](/en/api-reference/account/influencer/get-request) and [artifact contract](/en/api-reference/account/influencer/get-artifacts).
 
 <Panel>
 

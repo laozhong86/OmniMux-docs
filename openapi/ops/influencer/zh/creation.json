@@ -119,7 +119,7 @@
       "post": {
         "operationId": "InfluencerCreateCharacter",
         "summary": "创建角色",
-        "description": "未发布草稿。需要明确的 influencer_creation:write 权限；有效网页会话也可使用同一归属受限入口。创建请求拒绝未知顶层字段；调用方不能选择模型、供应商分组、尺寸或手填时长。",
+        "description": "未发布草稿。需要明确的 influencer_creation:write 权限；有效网页会话也可使用同一归属受限入口。创建请求拒绝未知顶层字段；调用方不能选择模型、供应商分组、尺寸或手填时长。 输出为一张 1920x1088 的 PNG。最终拼装的完整提示词须同时满足标准服务的 8192 个 Unicode 码点、16384 个 UTF-8 字节和本服务计数 5000 个词元限制。描述字段上限不保证所有拼装提示词均可提交；超限时明确失败，不截断或替换输入。",
         "x-required-scopes": [
           "influencer_creation:write"
         ],
@@ -634,7 +634,7 @@
       "post": {
         "operationId": "InfluencerCreateMultiview",
         "summary": "创建多角度设定图",
-        "description": "未发布草稿。需要明确的 influencer_creation:write 权限；有效网页会话也可使用同一归属受限入口。创建请求拒绝未知顶层字段；调用方不能选择模型、供应商分组、尺寸或手填时长。",
+        "description": "未发布草稿。需要明确的 influencer_creation:write 权限；有效网页会话也可使用同一归属受限入口。创建请求拒绝未知顶层字段；调用方不能选择模型、供应商分组、尺寸或手填时长。 输出为一张 1920x1088 的 PNG。多角度表示同一张图片中的多个视图，并非多张独立出图。最终拼装的完整提示词须同时满足标准服务的 8192 个 Unicode 码点、16384 个 UTF-8 字节和本服务计数 5000 个词元限制。超限时明确失败，不截断或替换输入。",
         "x-required-scopes": [
           "influencer_creation:write"
         ],

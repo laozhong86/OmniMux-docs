@@ -119,7 +119,7 @@
       "post": {
         "operationId": "InfluencerCreateCharacter",
         "summary": "Create Character",
-        "description": "UNPUBLISHED DRAFT. Requires explicit influencer_creation:write. Valid website sessions may use the same owner-scoped route. Unknown top-level creation fields are rejected; clients cannot choose model, supplier group, size or duration.",
+        "description": "UNPUBLISHED DRAFT. Requires explicit influencer_creation:write. Valid website sessions may use the same owner-scoped route. Unknown top-level creation fields are rejected; clients cannot choose model, supplier group, size or duration. Produces one 1920x1088 PNG. The complete assembled prompt must satisfy the standard service limits of 8192 Unicode code points, 16384 UTF-8 bytes, and 5000 service-counted tokens. The brief field limit does not guarantee that every assembled prompt is eligible; over-limit inputs fail explicitly without truncation or replacement.",
         "x-required-scopes": [
           "influencer_creation:write"
         ],
@@ -634,7 +634,7 @@
       "post": {
         "operationId": "InfluencerCreateMultiview",
         "summary": "Create Multiview Sheet",
-        "description": "UNPUBLISHED DRAFT. Requires explicit influencer_creation:write. Valid website sessions may use the same owner-scoped route. Unknown top-level creation fields are rejected; clients cannot choose model, supplier group, size or duration.",
+        "description": "UNPUBLISHED DRAFT. Requires explicit influencer_creation:write. Valid website sessions may use the same owner-scoped route. Unknown top-level creation fields are rejected; clients cannot choose model, supplier group, size or duration. Produces one 1920x1088 PNG. Multiview means several views within one image, not multiple output images. The complete assembled prompt must satisfy the standard service limits of 8192 Unicode code points, 16384 UTF-8 bytes, and 5000 service-counted tokens. Over-limit inputs fail explicitly without truncation or replacement.",
         "x-required-scopes": [
           "influencer_creation:write"
         ],

@@ -10,7 +10,7 @@ openapi: "openapi/ops/influencer/zh/creation.json GET /api/influencer/v1/options
 </Warning>
 
 <Note>
-本组页面说明账号 HTTP 接口。配套的新命令已经在项目源码实现，但公开的 0.4.4 安装版尚不包含这些命令。本次文档不宣告新的命令行发行版本。
+本组页面说明账号 HTTP 接口。当前公开的 npm 版本为 0.4.0，尚不包含这些命令。0.5.0 是本次交付的候选版本，仍须通过命令行真实验收并完成发行；本草稿不宣告该版本已经可用。
 </Note>
 
 
@@ -21,6 +21,39 @@ openapi: "openapi/ops/influencer/zh/creation.json GET /api/influencer/v1/options
 - `New-Api-User` 只作可选兼容信息。账号由凭据确定，此请求头不能选择其他归属。
 
 新增权限须重新明确完成设备授权；已有和旧式凭据不会自动扩权。见[设备码登录](/zh/api-reference/account/device-login)。
+
+## 命令行流程：候选版本
+
+以下示例与已实现的命令约定一致，不代表已经公开发行。使用时须安装包含这些命令的版本，并连接已启用创作的服务。重新登录，明确同意新增创作权限；提交前检查 `creation_enabled` 与相应能力的可用状态。
+
+```bash
+omnimux login
+omnimux influencer options
+omnimux influencer character create --brief '一位穿蓝色外套、神态友好的成年角色' --request-id creator-character-0001 --dry-run
+omnimux influencer character create --brief '一位穿蓝色外套、神态友好的成年角色' --request-id creator-character-0001 --yes
+omnimux influencer request get creator-character-0001
+omnimux influencer task wait task_example_character --timeout 600
+omnimux influencer character list
+```
+
+请将示例作品编号替换为实际返回的编号。`--dry-run` 只检查本地输入，不上传、不创建任务，也不代表后台素材检查通过。带 `--yes` 的创建命令会提交收费创作。如需一张可选风格参考图，在角色命令中加入 `--reference-image ./style.png`，并确保文件存在。
+
+多角度是可选步骤，会另行消耗生成额度；创建视频不必先做多角度：
+
+```bash
+omnimux influencer character multiview task_example_character --request-id creator-multiview-0001 --yes
+```
+
+使用成功的原角色主图和真实参考视频创建视频。默认采用运动交换和 480 档，后台会识别参考视频真实的 4–30 秒时长；对象交换可加 `--mode replace`。不传模型、供应商分组或手填时长。
+
+```bash
+omnimux influencer video create --character task_example_character --video ./reference.mp4 --request-id creator-video-0001 --yes
+omnimux influencer request get creator-video-0001
+omnimux influencer task wait task_example_video --timeout 600
+omnimux influencer task download task_example_video --output ./result.mp4
+```
+
+中断或提交结果不明时，按原请求编号查回，不要另开新单。等待超时不会取消云端任务。下载默认拒绝覆盖已有文件，完整写入后才报告成功。详见[请求恢复说明](/zh/api-reference/account/influencer/get-request)和[成品读取说明](/zh/api-reference/account/influencer/get-artifacts)。
 
 <Panel>
 
