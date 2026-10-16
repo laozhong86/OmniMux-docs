@@ -25,6 +25,26 @@ Pages: **Page 1** · [Page 2](/en/updates/page-2)
 
 </Update>
 
+<a id="2026-10-16-gpt-image-standard-scope"></a>
+
+<Update label="October 16, 2026" tags={["Breaking", "Image"]} rss={{ title: "GPT Image standard specifications and routing safeguards" }}>
+
+  The standard service is quoted per image and accepts JSON requests only, with `medium` quality and PNG output. Seven aspect ratios map to exact pixels: 1:1 (1024x1024), 2:3 (1024x1536), 3:2 (1536x1024), 3:4 (1024x1360), 4:3 (1360x1024), 9:16 (1088x1920), and 16:9 (1920x1088). The old 1365-pixel edge for 3:4 / 4:3 changes to 1360. Old explicit sizes are rejected rather than silently replaced.
+
+  Text-to-image requests may omit a reference; editing accepts at most one public HTTPS JPEG, PNG, or WebP image, up to 5 MiB, 40 million decoded pixels, and 23170 pixels on either edge. Character sheets and multi-view boards remain available; multiple views are rendered within one image.
+
+  The complete prompt must satisfy all three limits: **8192 Unicode code points, 16384 UTF-8 bytes, and 5000 tokens counted by this service with `o200k_base`**. This rejects some existing 4000-character workbench descriptions containing many four-byte characters or a high token count. Inputs are not truncated, compressed, or replaced. The service token count determines request eligibility; it does not represent final supplier billing usage or guarantee a per-request procurement cost ceiling. The vendor's 32000-character fact and existing contracts for the separate Flare / Sunburst models are not changed by this standard-service restriction.
+
+  Multiple output images, multiple references, higher quality, other output formats, and unreviewed extensions are explicitly rejected. Identified standard-route public requests are rejected before creating a supplier task or reserving funds; queued workbench tasks may fail explicitly without a charge after validation. Standard and member prices are shown before submission. Switching an eligible route within the same account tier does not add a customer charge.
+
+  A reviewed backup may be attempted only when no supplier task was created on the preferred route and native retry rules and the total attempt budget allow it. Two healthy routes are not guaranteed at all times. Accepted tasks and tasks with timeouts, disconnections, or missing acknowledgements are reconciled against the original request without automatic duplicate generation. Old failed tasks are not automatically resubmitted.
+
+  ### Links
+
+  - [GPT Image reference](/en/api-reference/image-series/gpt-image/generate)
+
+</Update>
+
 <a id="2026-10-15-usage-export-and-schema-compatibility"></a>
 
 <Update label="October 15, 2026" tags={["Platform", "Text"]} rss={{ title: "Own-account usage export and schema compatibility" }}>
@@ -1211,28 +1231,6 @@ Pages: **Page 1** · [Page 2](/en/updates/page-2)
   ### Links
 
   - [GLM complete](/en/api-reference/text-series/glm/complete)
-
-</Update>
-
-<a id="2026-06-16-kling"></a>
-
-<Update label="June 16, 2026" tags={["New models", "Video"]} rss={{ title: "Kling V3 and Kling V2.6" }}>
-
-  ## Kling
-
-  **Kling** video models are available on OmniMux.
-
-  ### New models
-
-  - **Model IDs:** `kling-v3`, `kling-v2-6`
-  - **API:** async `POST` / `GET` `/v1/video/generations`
-
-  Pin IDs from live pricing; request parameters follow the video task contract.
-
-  ### Links
-
-  - [Video task poll](/en/api-reference/tasks/video-task)
-  - [Pricing](/en/api-reference/account/pricing)
 
 </Update>
 

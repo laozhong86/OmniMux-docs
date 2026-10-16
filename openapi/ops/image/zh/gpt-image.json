@@ -2,7 +2,7 @@
   "openapi": "3.0.3",
   "info": {
     "title": "GPT Image · 图像生成",
-    "version": "1.0.0"
+    "version": "1.1.0"
   },
   "servers": [
     {
@@ -14,7 +14,7 @@
       "post": {
         "summary": "GPT Image · 图像生成",
         "operationId": "generateGPTImage",
-        "description": "使用 GPT Image 2.5 按次模型生成图像。",
+        "description": "GPT Image 标准生图与既有独立型号的调用规范。",
         "security": [
           {
             "BearerAuth": []
@@ -25,62 +25,534 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "required": [
-                  "model",
-                  "prompt"
-                ],
-                "properties": {
-                  "model": {
-                    "type": "string",
-                    "enum": [
-                      "gpt-image-2.5",
-                      "gpt-image-2.5-hd",
-                      "gpt-image-2.5-flare",
-                      "gpt-image-2.5-sunburst"
+                "oneOf": [
+                  {
+                    "title": "标准服务",
+                    "type": "object",
+                    "required": [
+                      "model",
+                      "prompt"
                     ],
-                    "default": "gpt-image-2.5"
+                    "additionalProperties": false,
+                    "properties": {
+                      "model": {
+                        "type": "string",
+                        "enum": [
+                          "gpt-image-2.5"
+                        ],
+                        "default": "gpt-image-2.5"
+                      },
+                      "prompt": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 8192,
+                        "description": "完整提示词须同时不超过 8192 个 Unicode 码点、16384 个 UTF-8 字节和本服务按 o200k_base 计数的 5000 个词元，空白也计入上限，且不得全为空白。这是标准服务的运营限制，不是官方独立 Flare / Sunburst 型号的 32000 字符上限；本地词元计数不代表供应商最终计费量，也不保证单次采购成本上限。超限在预留费用和发送供应商请求前明确拒绝，不截断、压缩或替换。"
+                      },
+                      "n": {
+                        "type": "integer",
+                        "enum": [
+                          1
+                        ],
+                        "default": 1
+                      },
+                      "size": {
+                        "type": "string",
+                        "enum": [
+                          "1:1",
+                          "2:3",
+                          "3:2",
+                          "3:4",
+                          "4:3",
+                          "9:16",
+                          "16:9",
+                          "1024x1024",
+                          "1024x1536",
+                          "1536x1024",
+                          "1024x1360",
+                          "1360x1024",
+                          "1088x1920",
+                          "1920x1088",
+                          ""
+                        ],
+                        "default": "1024x1024",
+                        "description": "仅支持所列七种画幅和精确像素。省略或空字符串使用 1024x1024；3:4 与 4:3 是近似画幅，旧 1024x1365 和 1365x1024 不再接受。size 和 aspect_ratio 同时提供时必须对应相同像素。"
+                      },
+                      "aspect_ratio": {
+                        "type": "string",
+                        "enum": [
+                          "1:1",
+                          "2:3",
+                          "3:2",
+                          "3:4",
+                          "4:3",
+                          "9:16",
+                          "16:9",
+                          "1024x1024",
+                          "1024x1536",
+                          "1536x1024",
+                          "1024x1360",
+                          "1360x1024",
+                          "1088x1920",
+                          "1920x1088",
+                          ""
+                        ],
+                        "description": "仅支持所列七种画幅和精确像素。省略或空字符串使用 1024x1024；3:4 与 4:3 是近似画幅，旧 1024x1365 和 1365x1024 不再接受。size 和 aspect_ratio 同时提供时必须对应相同像素。"
+                      },
+                      "quality": {
+                        "type": "string",
+                        "enum": [
+                          "medium"
+                        ],
+                        "default": "medium"
+                      },
+                      "output_format": {
+                        "type": "string",
+                        "enum": [
+                          "png"
+                        ],
+                        "default": "png",
+                        "description": "仅 PNG 输出。JPEG / WebP 仅为可接受的参考图格式。"
+                      },
+                      "group": {
+                        "type": "string",
+                        "description": "可选的既有授权路由覆盖字段；标准用法无需选择供应商。不会作为供应商参数发送。"
+                      },
+                      "seed": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "description": "非负整数，须在服务接受的整数范围内。"
+                      },
+                      "metadata": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "seed": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "description": "非负整数，须在服务接受的整数范围内。"
+                          }
+                        }
+                      },
+                      "image": {
+                        "oneOf": [
+                          {
+                            "oneOf": [
+                              {
+                                "type": "string",
+                                "format": "uri",
+                                "pattern": "^https://",
+                                "description": "公开 HTTPS 参考图：JPEG、PNG 或 WebP，单张最多 5 MiB（5242880 字节），解码后最多 40000000 像素，任一边最多 23170 像素。URL 不得包含凭据或片段，最终地址也必须符合公网访问检查。所有参考别名合计最多一张，重复值也计数；不接受 base64 或文件上传。"
+                              },
+                              {
+                                "type": "object",
+                                "required": [
+                                  "url"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                  "url": {
+                                    "type": "string",
+                                    "format": "uri",
+                                    "pattern": "^https://",
+                                    "description": "公开 HTTPS 参考图：JPEG、PNG 或 WebP，单张最多 5 MiB（5242880 字节），解码后最多 40000000 像素，任一边最多 23170 像素。URL 不得包含凭据或片段，最终地址也必须符合公网访问检查。所有参考别名合计最多一张，重复值也计数；不接受 base64 或文件上传。"
+                                  }
+                                }
+                              },
+                              {
+                                "type": "object",
+                                "required": [
+                                  "image_url"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                  "image_url": {
+                                    "type": "string",
+                                    "format": "uri",
+                                    "pattern": "^https://",
+                                    "description": "公开 HTTPS 参考图：JPEG、PNG 或 WebP，单张最多 5 MiB（5242880 字节），解码后最多 40000000 像素，任一边最多 23170 像素。URL 不得包含凭据或片段，最终地址也必须符合公网访问检查。所有参考别名合计最多一张，重复值也计数；不接受 base64 或文件上传。"
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "type": "array",
+                            "maxItems": 1,
+                            "items": {
+                              "oneOf": [
+                                {
+                                  "type": "string",
+                                  "format": "uri",
+                                  "pattern": "^https://",
+                                  "description": "公开 HTTPS 参考图：JPEG、PNG 或 WebP，单张最多 5 MiB（5242880 字节），解码后最多 40000000 像素，任一边最多 23170 像素。URL 不得包含凭据或片段，最终地址也必须符合公网访问检查。所有参考别名合计最多一张，重复值也计数；不接受 base64 或文件上传。"
+                                },
+                                {
+                                  "type": "object",
+                                  "required": [
+                                    "url"
+                                  ],
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "url": {
+                                      "type": "string",
+                                      "format": "uri",
+                                      "pattern": "^https://",
+                                      "description": "公开 HTTPS 参考图：JPEG、PNG 或 WebP，单张最多 5 MiB（5242880 字节），解码后最多 40000000 像素，任一边最多 23170 像素。URL 不得包含凭据或片段，最终地址也必须符合公网访问检查。所有参考别名合计最多一张，重复值也计数；不接受 base64 或文件上传。"
+                                    }
+                                  }
+                                },
+                                {
+                                  "type": "object",
+                                  "required": [
+                                    "image_url"
+                                  ],
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "image_url": {
+                                      "type": "string",
+                                      "format": "uri",
+                                      "pattern": "^https://",
+                                      "description": "公开 HTTPS 参考图：JPEG、PNG 或 WebP，单张最多 5 MiB（5242880 字节），解码后最多 40000000 像素，任一边最多 23170 像素。URL 不得包含凭据或片段，最终地址也必须符合公网访问检查。所有参考别名合计最多一张，重复值也计数；不接受 base64 或文件上传。"
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        ],
+                        "description": "公开 HTTPS 参考图：JPEG、PNG 或 WebP，单张最多 5 MiB（5242880 字节），解码后最多 40000000 像素，任一边最多 23170 像素。URL 不得包含凭据或片段，最终地址也必须符合公网访问检查。所有参考别名合计最多一张，重复值也计数；不接受 base64 或文件上传。"
+                      },
+                      "images": {
+                        "oneOf": [
+                          {
+                            "oneOf": [
+                              {
+                                "type": "string",
+                                "format": "uri",
+                                "pattern": "^https://",
+                                "description": "公开 HTTPS 参考图：JPEG、PNG 或 WebP，单张最多 5 MiB（5242880 字节），解码后最多 40000000 像素，任一边最多 23170 像素。URL 不得包含凭据或片段，最终地址也必须符合公网访问检查。所有参考别名合计最多一张，重复值也计数；不接受 base64 或文件上传。"
+                              },
+                              {
+                                "type": "object",
+                                "required": [
+                                  "url"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                  "url": {
+                                    "type": "string",
+                                    "format": "uri",
+                                    "pattern": "^https://",
+                                    "description": "公开 HTTPS 参考图：JPEG、PNG 或 WebP，单张最多 5 MiB（5242880 字节），解码后最多 40000000 像素，任一边最多 23170 像素。URL 不得包含凭据或片段，最终地址也必须符合公网访问检查。所有参考别名合计最多一张，重复值也计数；不接受 base64 或文件上传。"
+                                  }
+                                }
+                              },
+                              {
+                                "type": "object",
+                                "required": [
+                                  "image_url"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                  "image_url": {
+                                    "type": "string",
+                                    "format": "uri",
+                                    "pattern": "^https://",
+                                    "description": "公开 HTTPS 参考图：JPEG、PNG 或 WebP，单张最多 5 MiB（5242880 字节），解码后最多 40000000 像素，任一边最多 23170 像素。URL 不得包含凭据或片段，最终地址也必须符合公网访问检查。所有参考别名合计最多一张，重复值也计数；不接受 base64 或文件上传。"
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "type": "array",
+                            "maxItems": 1,
+                            "items": {
+                              "oneOf": [
+                                {
+                                  "type": "string",
+                                  "format": "uri",
+                                  "pattern": "^https://",
+                                  "description": "公开 HTTPS 参考图：JPEG、PNG 或 WebP，单张最多 5 MiB（5242880 字节），解码后最多 40000000 像素，任一边最多 23170 像素。URL 不得包含凭据或片段，最终地址也必须符合公网访问检查。所有参考别名合计最多一张，重复值也计数；不接受 base64 或文件上传。"
+                                },
+                                {
+                                  "type": "object",
+                                  "required": [
+                                    "url"
+                                  ],
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "url": {
+                                      "type": "string",
+                                      "format": "uri",
+                                      "pattern": "^https://",
+                                      "description": "公开 HTTPS 参考图：JPEG、PNG 或 WebP，单张最多 5 MiB（5242880 字节），解码后最多 40000000 像素，任一边最多 23170 像素。URL 不得包含凭据或片段，最终地址也必须符合公网访问检查。所有参考别名合计最多一张，重复值也计数；不接受 base64 或文件上传。"
+                                    }
+                                  }
+                                },
+                                {
+                                  "type": "object",
+                                  "required": [
+                                    "image_url"
+                                  ],
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "image_url": {
+                                      "type": "string",
+                                      "format": "uri",
+                                      "pattern": "^https://",
+                                      "description": "公开 HTTPS 参考图：JPEG、PNG 或 WebP，单张最多 5 MiB（5242880 字节），解码后最多 40000000 像素，任一边最多 23170 像素。URL 不得包含凭据或片段，最终地址也必须符合公网访问检查。所有参考别名合计最多一张，重复值也计数；不接受 base64 或文件上传。"
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        ],
+                        "description": "公开 HTTPS 参考图：JPEG、PNG 或 WebP，单张最多 5 MiB（5242880 字节），解码后最多 40000000 像素，任一边最多 23170 像素。URL 不得包含凭据或片段，最终地址也必须符合公网访问检查。所有参考别名合计最多一张，重复值也计数；不接受 base64 或文件上传。"
+                      },
+                      "image_urls": {
+                        "oneOf": [
+                          {
+                            "oneOf": [
+                              {
+                                "type": "string",
+                                "format": "uri",
+                                "pattern": "^https://",
+                                "description": "公开 HTTPS 参考图：JPEG、PNG 或 WebP，单张最多 5 MiB（5242880 字节），解码后最多 40000000 像素，任一边最多 23170 像素。URL 不得包含凭据或片段，最终地址也必须符合公网访问检查。所有参考别名合计最多一张，重复值也计数；不接受 base64 或文件上传。"
+                              },
+                              {
+                                "type": "object",
+                                "required": [
+                                  "url"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                  "url": {
+                                    "type": "string",
+                                    "format": "uri",
+                                    "pattern": "^https://",
+                                    "description": "公开 HTTPS 参考图：JPEG、PNG 或 WebP，单张最多 5 MiB（5242880 字节），解码后最多 40000000 像素，任一边最多 23170 像素。URL 不得包含凭据或片段，最终地址也必须符合公网访问检查。所有参考别名合计最多一张，重复值也计数；不接受 base64 或文件上传。"
+                                  }
+                                }
+                              },
+                              {
+                                "type": "object",
+                                "required": [
+                                  "image_url"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                  "image_url": {
+                                    "type": "string",
+                                    "format": "uri",
+                                    "pattern": "^https://",
+                                    "description": "公开 HTTPS 参考图：JPEG、PNG 或 WebP，单张最多 5 MiB（5242880 字节），解码后最多 40000000 像素，任一边最多 23170 像素。URL 不得包含凭据或片段，最终地址也必须符合公网访问检查。所有参考别名合计最多一张，重复值也计数；不接受 base64 或文件上传。"
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "type": "array",
+                            "maxItems": 1,
+                            "items": {
+                              "oneOf": [
+                                {
+                                  "type": "string",
+                                  "format": "uri",
+                                  "pattern": "^https://",
+                                  "description": "公开 HTTPS 参考图：JPEG、PNG 或 WebP，单张最多 5 MiB（5242880 字节），解码后最多 40000000 像素，任一边最多 23170 像素。URL 不得包含凭据或片段，最终地址也必须符合公网访问检查。所有参考别名合计最多一张，重复值也计数；不接受 base64 或文件上传。"
+                                },
+                                {
+                                  "type": "object",
+                                  "required": [
+                                    "url"
+                                  ],
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "url": {
+                                      "type": "string",
+                                      "format": "uri",
+                                      "pattern": "^https://",
+                                      "description": "公开 HTTPS 参考图：JPEG、PNG 或 WebP，单张最多 5 MiB（5242880 字节），解码后最多 40000000 像素，任一边最多 23170 像素。URL 不得包含凭据或片段，最终地址也必须符合公网访问检查。所有参考别名合计最多一张，重复值也计数；不接受 base64 或文件上传。"
+                                    }
+                                  }
+                                },
+                                {
+                                  "type": "object",
+                                  "required": [
+                                    "image_url"
+                                  ],
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "image_url": {
+                                      "type": "string",
+                                      "format": "uri",
+                                      "pattern": "^https://",
+                                      "description": "公开 HTTPS 参考图：JPEG、PNG 或 WebP，单张最多 5 MiB（5242880 字节），解码后最多 40000000 像素，任一边最多 23170 像素。URL 不得包含凭据或片段，最终地址也必须符合公网访问检查。所有参考别名合计最多一张，重复值也计数；不接受 base64 或文件上传。"
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        ],
+                        "description": "公开 HTTPS 参考图：JPEG、PNG 或 WebP，单张最多 5 MiB（5242880 字节），解码后最多 40000000 像素，任一边最多 23170 像素。URL 不得包含凭据或片段，最终地址也必须符合公网访问检查。所有参考别名合计最多一张，重复值也计数；不接受 base64 或文件上传。"
+                      },
+                      "input_reference": {
+                        "oneOf": [
+                          {
+                            "oneOf": [
+                              {
+                                "type": "string",
+                                "format": "uri",
+                                "pattern": "^https://",
+                                "description": "公开 HTTPS 参考图：JPEG、PNG 或 WebP，单张最多 5 MiB（5242880 字节），解码后最多 40000000 像素，任一边最多 23170 像素。URL 不得包含凭据或片段，最终地址也必须符合公网访问检查。所有参考别名合计最多一张，重复值也计数；不接受 base64 或文件上传。"
+                              },
+                              {
+                                "type": "object",
+                                "required": [
+                                  "url"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                  "url": {
+                                    "type": "string",
+                                    "format": "uri",
+                                    "pattern": "^https://",
+                                    "description": "公开 HTTPS 参考图：JPEG、PNG 或 WebP，单张最多 5 MiB（5242880 字节），解码后最多 40000000 像素，任一边最多 23170 像素。URL 不得包含凭据或片段，最终地址也必须符合公网访问检查。所有参考别名合计最多一张，重复值也计数；不接受 base64 或文件上传。"
+                                  }
+                                }
+                              },
+                              {
+                                "type": "object",
+                                "required": [
+                                  "image_url"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                  "image_url": {
+                                    "type": "string",
+                                    "format": "uri",
+                                    "pattern": "^https://",
+                                    "description": "公开 HTTPS 参考图：JPEG、PNG 或 WebP，单张最多 5 MiB（5242880 字节），解码后最多 40000000 像素，任一边最多 23170 像素。URL 不得包含凭据或片段，最终地址也必须符合公网访问检查。所有参考别名合计最多一张，重复值也计数；不接受 base64 或文件上传。"
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "type": "array",
+                            "maxItems": 1,
+                            "items": {
+                              "oneOf": [
+                                {
+                                  "type": "string",
+                                  "format": "uri",
+                                  "pattern": "^https://",
+                                  "description": "公开 HTTPS 参考图：JPEG、PNG 或 WebP，单张最多 5 MiB（5242880 字节），解码后最多 40000000 像素，任一边最多 23170 像素。URL 不得包含凭据或片段，最终地址也必须符合公网访问检查。所有参考别名合计最多一张，重复值也计数；不接受 base64 或文件上传。"
+                                },
+                                {
+                                  "type": "object",
+                                  "required": [
+                                    "url"
+                                  ],
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "url": {
+                                      "type": "string",
+                                      "format": "uri",
+                                      "pattern": "^https://",
+                                      "description": "公开 HTTPS 参考图：JPEG、PNG 或 WebP，单张最多 5 MiB（5242880 字节），解码后最多 40000000 像素，任一边最多 23170 像素。URL 不得包含凭据或片段，最终地址也必须符合公网访问检查。所有参考别名合计最多一张，重复值也计数；不接受 base64 或文件上传。"
+                                    }
+                                  }
+                                },
+                                {
+                                  "type": "object",
+                                  "required": [
+                                    "image_url"
+                                  ],
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "image_url": {
+                                      "type": "string",
+                                      "format": "uri",
+                                      "pattern": "^https://",
+                                      "description": "公开 HTTPS 参考图：JPEG、PNG 或 WebP，单张最多 5 MiB（5242880 字节），解码后最多 40000000 像素，任一边最多 23170 像素。URL 不得包含凭据或片段，最终地址也必须符合公网访问检查。所有参考别名合计最多一张，重复值也计数；不接受 base64 或文件上传。"
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        ],
+                        "description": "公开 HTTPS 参考图：JPEG、PNG 或 WebP，单张最多 5 MiB（5242880 字节），解码后最多 40000000 像素，任一边最多 23170 像素。URL 不得包含凭据或片段，最终地址也必须符合公网访问检查。所有参考别名合计最多一张，重复值也计数；不接受 base64 或文件上传。"
+                      }
+                    }
                   },
-                  "prompt": {
-                    "type": "string"
-                  },
-                  "n": {
-                    "type": "integer",
-                    "description": "图像数量，受所选模型和渠道限制。"
-                  },
-                  "size": {
-                    "type": "string",
-                    "description": "可接受的尺寸取决于所选模型与渠道；不保证所有尺寸可用。"
-                  },
-                  "quality": {
-                    "type": "string",
-                    "description": "质量选项取决于所选模型与渠道。"
-                  },
-                  "images": {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    },
-                    "description": "参考图：图片 URL 或 base64。image / image_urls / input_reference 为可接受的别名，网关归一为 images。"
+                  {
+                    "title": "其他既有独立型号",
+                    "type": "object",
+                    "required": [
+                      "model",
+                      "prompt"
+                    ],
+                    "properties": {
+                      "model": {
+                        "type": "string",
+                        "enum": [
+                          "gpt-image-2.5-hd",
+                          "gpt-image-2.5-flare",
+                          "gpt-image-2.5-sunburst"
+                        ]
+                      },
+                      "prompt": {
+                        "type": "string",
+                        "description": "独立 Flare / Sunburst 的官方提示词上限仍为 32000 字符；本次标准服务限制不修改这些型号的合同。hd 上限本页不作未经核验的承诺。"
+                      },
+                      "n": {
+                        "type": "integer",
+                        "description": "图像数量，受所选型号和路线限制。"
+                      },
+                      "size": {
+                        "type": "string",
+                        "description": "尺寸受所选型号和路线限制。"
+                      },
+                      "quality": {
+                        "type": "string",
+                        "description": "质量选项受所选型号和路线限制。"
+                      },
+                      "images": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "description": "保留既有独立型号的参考字段合同；不由标准服务的单参考上限推导其限制。"
+                      }
+                    }
                   }
-                }
+                ]
               },
               "example": {
                 "model": "gpt-image-2.5",
-                "prompt": "A product photo on a white background",
-                "n": 1
+                "prompt": "成年男性角色设定板：白底，左侧面部近景，右侧完整全身，人物外观保持一致。",
+                "n": 1,
+                "size": "16:9",
+                "quality": "medium",
+                "output_format": "png"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "图像结果或已提交的异步任务。",
+            "description": "图像结果或已受理的原异步任务。",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "description": "响应可为图像结果或异步任务；按实际响应处理。",
+                  "description": "按实际响应读取图像结果或异步任务；任务受理不等于图片已完成。",
                   "properties": {
                     "created": {
                       "type": "integer"
@@ -101,7 +573,7 @@
                     },
                     "id": {
                       "type": "string",
-                      "description": "异步任务 ID（若返回）。"
+                      "description": "返回时为原异步任务编号，继续查询该任务。"
                     },
                     "object": {
                       "type": "string"
@@ -118,22 +590,22 @@
             }
           },
           "400": {
-            "description": "Invalid request"
+            "description": "输入无效或超出标准服务已审核范围。"
           },
           "401": {
-            "description": "Authentication required"
+            "description": "需要身份验证。"
           },
           "402": {
-            "description": "Insufficient quota"
+            "description": "额度不足。"
           },
           "403": {
-            "description": "Forbidden"
+            "description": "无权访问。"
           },
           "429": {
-            "description": "Rate limit exceeded"
+            "description": "请求过于频繁。"
           },
           "500": {
-            "description": "Server error"
+            "description": "服务错误。"
           }
         }
       }

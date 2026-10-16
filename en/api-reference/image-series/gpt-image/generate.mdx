@@ -1,30 +1,55 @@
 ---
 title: "GPT Image · Image generation"
 sidebarTitle: "GPT Image · Image generation"
-description: "Generate images with the GPT Image 2.5 per-call models."
+description: "Request contracts for GPT Image standard generation and existing separate models."
 openapi: "openapi/ops/image/en/gpt-image.json POST /v1/images/generations"
 ---
 
 <Warning>
-Since September 10, 2026, `gpt-image-2` and `gpt-image-2-hd` have been renamed to `gpt-image-2.5` and `gpt-image-2.5-hd`. The old model IDs are no longer accepted. Update the `model` in your requests; these are not compatibility aliases.
+Since September 10, 2026, `gpt-image-2` and `gpt-image-2-hd` have been renamed to `gpt-image-2.5` and `gpt-image-2.5-hd`. Old IDs are not accepted; these are not compatibility aliases. The standard-service limits below apply only to the standard route of bare `gpt-image-2.5`, not to other separate models.
 </Warning>
 
-The base prices for these per-call models are USD 0.0441/call and USD 0.005479/call, respectively; group multipliers may affect the final charge. This rename does not change prices.
+## Standard specifications
 
-Read image results when `data` is returned. An `image.generation.task` response means an asynchronous task was submitted, not that an image is ready. The response shape depends on the route; do not treat task acceptance as the final result.
+The standard route supports text-to-image generation and editing with one reference image. Each request produces one medium-quality PNG image. Omitted `n`, `quality`, and `output_format` default to `1`, `medium`, and `png`. Only JSON is accepted; file uploads and form submissions are not supported.
 
-Flare and Sunburst are separate token-billed models. They are not part of this per-call contract and are not yet available.
+| Aspect ratio | Exact output pixels |
+| --- | --- |
+| 1:1 | 1024x1024 |
+| 2:3 | 1024x1536 |
+| 3:2 | 1536x1024 |
+| 3:4 | 1024x1360 |
+| 4:3 | 1360x1024 |
+| 9:16 | 1088x1920 |
+| 16:9 | 1920x1088 |
 
-## Reference image limits
+Use one of the listed aspect-ratio labels or exact pixel sizes for `size`; omission or an empty string defaults to `1024x1024`. The 3:4 and 4:3 labels are approximate: their longer edge changes from 1365 to 1360 pixels, a difference of 5 pixels. The old `1024x1365` / `1365x1024` sizes are explicitly rejected. If both `size` and `aspect_ratio` are supplied, they must resolve to the same pixels. The character workbench explicitly uses a `1920x1088` landscape character sheet or multi-view board. A multi-view board contains several views in one image, not multiple output images.
 
-The reference-image field is `images` (an array of image URLs or base64 strings); `image`, `image_urls` and `input_reference` are accepted aliases and are normalized to `images`.
+## One reference image
 
-- `gpt-image-2.5`: up to 16 images per request; no minimum (omit `images` for text-to-image); the vendor publishes no accepted-format list or per-file size limit for reference images.
-- `gpt-image-2.5-hd`: no model spec exists yet, so its reference-image limits are **unverified** and no image count, format or per-file size limit is stated here.
-- `gpt-image-2.5-flare`: discounted tier image model route; reference image specifications follow baseline.
-- `gpt-image-2.5-sunburst`: economy tier image model route; reference image specifications follow baseline.
+A reference is optional for text-to-image generation and required for editing. Supply one public HTTPS image in JPEG, PNG, or WebP format, up to 5 MiB (5242880 bytes), 40000000 decoded pixels, and 23170 pixels on either edge. Both the URL and its final destination must pass public-network checks.
 
-The 50 MB figure in the vendor's image guide is scoped to the image being edited together with its mask, not to a single reference image; no per-file ceiling is stated here.
+`image`, `images`, `image_urls`, and `input_reference` are reference aliases. An item may be a URL string or an object containing only `url` or `image_url`, optionally wrapped in an array. At most one reference is allowed across all fields, including duplicate URLs. This standard route does not accept base64. JPEG / WebP are reference-input formats; output remains PNG only.
+
+## Prompt limits and rejected requests
+
+The complete prompt must satisfy all three limits: **8192 Unicode code points, 16384 UTF-8 bytes, and 5000 tokens counted by this service with `o200k_base`**. Leading and trailing whitespace counts, and whitespace-only prompts are invalid. These are this standard service's operating limits; the vendor's 32000-character limit for separate Flare / Sunburst models is unchanged. The service token count determines request eligibility; it does not represent final supplier billing usage or guarantee a per-request procurement cost ceiling.
+
+The workbench retains its existing character-description input limit, but the final assembled prompt must also satisfy all three limits above. Some existing 4000-character descriptions containing many four-byte characters or a high token count are therefore rejected. Being able to enter 4000 characters does not guarantee that every combination can be submitted. The service does not truncate, compress, or replace the prompt.
+
+Multiple output images, multiple references, higher quality, JPEG / WebP output, unlisted sizes, masks, transparent backgrounds, and other unreviewed extensions are explicitly rejected without a silent downgrade. Identified standard-route public requests return HTTP 400 without creating a supplier task or reserving generation funds. The workbench may queue a task before validating it; an over-limit task fails explicitly without a charge. This does not promise an immediate HTTP 400 for every workbench input. Malformed requests whose model or group cannot be identified retain the existing routing error.
+
+## Quotes and routing
+
+The character workbench automatically selects reviewed routes compatible with the current input; users do not need to choose a supplier. The same account tier and standard request receive a consistent per-image quote. The amount shown before submission is authoritative; switching to an eligible route does not add a charge. Supplier procurement costs and historical base prices are not presented here as the final customer price.
+
+The system may try the next eligible route only when it can prove that no supplier task was created on the first route and the native retry rules and total attempt budget allow it. A backup must be reviewed. This page does not promise that two healthy routes are always available.
+
+## Task acceptance and completion
+
+An asynchronous task ID confirms acceptance, not image completion. Continue polling the original task until a usable image or an explicit final state is available. Timeouts, disconnections, missing acknowledgements, and accepted tasks are reconciled against the original task rather than automatically submitted again. This update does not automatically resubmit old failed tasks.
+
+Other existing separate models (`gpt-image-2.5-hd`, `gpt-image-2.5-flare`, and `gpt-image-2.5-sunburst`) retain their own contracts. The one-image, one-reference, and operating prompt limits on this page must not be applied to them as new restrictions. Likewise, broader underlying model capabilities do not mean every specification is available through the standard service.
 
 <Panel>
 <RequestExample>
@@ -34,14 +59,18 @@ curl --request POST \
   --url https://api.omnimux.ai/v1/images/generations \
   --header 'Authorization: Bearer <token>' \
   --header 'Content-Type: application/json' \
-  --data '{"model": "gpt-image-2.5", "prompt": "A product photo on a white background", "n": 1}'
+  --data '{"model": "gpt-image-2.5", "prompt": "An adult male character sheet on white: a facial close-up on the left and a full-body view on the right, with a consistent appearance.", "n": 1, "size": "16:9", "quality": "medium", "output_format": "png"}'
 ```
 
 </RequestExample>
 <ResponseExample>
 
 ```json 200 — illustrative async task
-{"id":"task_example","object":"image.generation.task","model":"gpt-image-2.5-hd","status":"pending","created":0}
+{"id": "task_example", "object": "image.generation.task", "model": "gpt-image-2.5", "status": "pending", "created": 0}
+```
+
+```json 400
+{"error":{"message":"Unsupported standard image request","type":"invalid_request"}}
 ```
 
 ```json 402
