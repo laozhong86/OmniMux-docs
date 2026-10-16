@@ -1,13 +1,9 @@
 ---
 title: "Get Creation Artifacts"
 sidebarTitle: "Get Creation Artifacts"
-description: "Unpublished draft: get creation artifacts through the account-scoped creation API."
+description: "Get creation artifacts through the account-scoped creation API."
 openapi: "openapi/ops/influencer/en/creation.json GET /api/influencer/v1/tasks/{task_id}/artifacts"
 ---
-
-<Warning>
-Unpublished draft. No public availability or release date is claimed. Publish only after the service, release gates and documentation update are authorized and verified.
-</Warning>
 
 Returns the same safe task projection as task detail, with an `artifacts` array; it does not return file bytes. Only a successful task with usable artifacts reports `artifact_status: ready`. Re-query this endpoint to refresh expired signed content links.
 

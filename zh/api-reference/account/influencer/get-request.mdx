@@ -1,13 +1,9 @@
 ---
 title: "恢复创作请求"
 sidebarTitle: "恢复创作请求"
-description: "未发布草稿：通过账号限定的创作接口恢复创作请求。"
+description: "通过账号限定的创作接口恢复创作请求。"
 openapi: "openapi/ops/influencer/zh/creation.json GET /api/influencer/v1/requests/{request_id}"
 ---
-
-<Warning>
-未发布草稿，不代表已经上线，也不宣告发布日期。仅在服务、发布验收和公开文档更新获得相应授权并核验后发布。
-</Warning>
 
 提交结果不明或响应丢失时查回原任务；恢复不会新建任务。进行中任务不设恢复期限，结束后可恢复七天。404 表示当前账号未查到已受理请求；410 表示恢复不可用或已过期，该编号仍被保留。
 

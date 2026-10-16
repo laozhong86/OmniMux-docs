@@ -1,13 +1,9 @@
 ---
 title: "Get Creation Task"
 sidebarTitle: "Get Creation Task"
-description: "Unpublished draft: get creation task through the account-scoped creation API."
+description: "Get creation task through the account-scoped creation API."
 openapi: "openapi/ops/influencer/en/creation.json GET /api/influencer/v1/tasks/{task_id}"
 ---
-
-<Warning>
-Unpublished draft. No public availability or release date is claimed. Publish only after the service, release gates and documentation update are authorized and verified.
-</Warning>
 
 Use normalized `status` for automation and `artifact_status` for delivery readiness. `succeeded` alone does not guarantee a usable artifact. A failed task or `quota_status: reconciling` does not confirm that credits were refunded.
 

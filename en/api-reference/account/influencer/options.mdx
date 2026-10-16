@@ -1,16 +1,12 @@
 ---
 title: "Get Creation Options"
 sidebarTitle: "Get Creation Options"
-description: "Unpublished draft: get creation options through the account-scoped creation API."
+description: "Get creation options through the account-scoped creation API."
 openapi: "openapi/ops/influencer/en/creation.json GET /api/influencer/v1/options"
 ---
 
-<Warning>
-Unpublished draft. No public availability or release date is claimed. Publish only after the service, release gates and documentation update are authorized and verified.
-</Warning>
-
 <Note>
-These pages describe the account HTTP API. The current public npm release is 0.4.0 and does not include these commands. Version 0.5.0 is a release candidate for this delivery and remains subject to real CLI acceptance and publication; this draft does not announce an available release.
+These pages describe the account HTTP API. CLI **0.5.0** is available through the official installer and npm. The service must support and enable creation; existing credentials must explicitly approve the new creation permissions.
 </Note>
 
 
@@ -22,9 +18,22 @@ Read current character options, defaults, media limits and supported resolution/
 
 New permissions require a fresh, explicit device approval. Existing and legacy credentials do not expand automatically. See [device login](/en/api-reference/account/device-login).
 
-## CLI workflow — release candidate
+## CLI workflow
 
-These examples match the implemented command contract; they do not establish release availability. Use them only with a version that includes these commands and a service with creation enabled. Sign in again to explicitly approve the creation permissions. Read `creation_enabled` and the relevant availability values before submitting.
+Install or update through npm:
+
+```bash
+npm install -g @omnimux/cli@0.5.0
+omnimux --version
+```
+
+For the standalone macOS/Linux binary, use the official installer:
+
+```bash
+curl -fsSL https://omnimux.ai/install.sh | bash
+```
+
+Sign in again to explicitly approve the creation permissions. Read `creation_enabled` and the relevant availability values before submitting.
 
 ```bash
 omnimux login

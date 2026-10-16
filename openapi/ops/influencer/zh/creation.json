@@ -1,8 +1,8 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "OmniMux 角色与视频创作 — 未发布草稿",
-    "version": "1-draft"
+    "title": "OmniMux 角色与视频创作",
+    "version": "1"
   },
   "servers": [
     {
@@ -14,14 +14,14 @@
       "accessToken": []
     }
   ],
-  "x-publication-status": "unpublished",
-  "x-publication-date": null,
+  "x-publication-status": "published",
+  "x-publication-date": "2026-10-16",
   "paths": {
     "/api/influencer/v1/options": {
       "get": {
         "operationId": "InfluencerOptions",
         "summary": "查询创作选项",
-        "description": "未发布草稿。需要明确的 influencer_creation:read 权限；有效网页会话也可使用同一归属受限入口。创建请求拒绝未知顶层字段；调用方不能选择模型、供应商分组、尺寸或手填时长。",
+        "description": "需要明确的 influencer_creation:read 权限；有效网页会话也可使用同一归属受限入口。创建请求拒绝未知顶层字段；调用方不能选择模型、供应商分组、尺寸或手填时长。",
         "x-required-scopes": [
           "influencer_creation:read"
         ],
@@ -119,7 +119,7 @@
       "post": {
         "operationId": "InfluencerCreateCharacter",
         "summary": "创建角色",
-        "description": "未发布草稿。需要明确的 influencer_creation:write 权限；有效网页会话也可使用同一归属受限入口。创建请求拒绝未知顶层字段；调用方不能选择模型、供应商分组、尺寸或手填时长。 后台按1920x1088请求一张横向双视图角色设定图；成品实际像素可能不同，以下载文件为准。角色描述最多4000字符。",
+        "description": "需要明确的 influencer_creation:write 权限；有效网页会话也可使用同一归属受限入口。创建请求拒绝未知顶层字段；调用方不能选择模型、供应商分组、尺寸或手填时长。 后台按1920x1088请求一张横向双视图角色设定图；成品实际像素可能不同，以下载文件为准。角色描述最多4000字符。",
         "x-required-scopes": [
           "influencer_creation:write"
         ],
@@ -339,7 +339,7 @@
       "get": {
         "operationId": "InfluencerListCharacters",
         "summary": "列出角色",
-        "description": "未发布草稿。需要明确的 influencer_creation:read 权限；有效网页会话也可使用同一归属受限入口。创建请求拒绝未知顶层字段；调用方不能选择模型、供应商分组、尺寸或手填时长。",
+        "description": "需要明确的 influencer_creation:read 权限；有效网页会话也可使用同一归属受限入口。创建请求拒绝未知顶层字段；调用方不能选择模型、供应商分组、尺寸或手填时长。",
         "x-required-scopes": [
           "influencer_creation:read"
         ],
@@ -511,7 +511,7 @@
       "get": {
         "operationId": "InfluencerGetCharacter",
         "summary": "查询角色",
-        "description": "未发布草稿。需要明确的 influencer_creation:read 权限；有效网页会话也可使用同一归属受限入口。创建请求拒绝未知顶层字段；调用方不能选择模型、供应商分组、尺寸或手填时长。",
+        "description": "需要明确的 influencer_creation:read 权限；有效网页会话也可使用同一归属受限入口。创建请求拒绝未知顶层字段；调用方不能选择模型、供应商分组、尺寸或手填时长。",
         "x-required-scopes": [
           "influencer_creation:read"
         ],
@@ -634,7 +634,7 @@
       "post": {
         "operationId": "InfluencerCreateMultiview",
         "summary": "创建多角度设定图",
-        "description": "未发布草稿。需要明确的 influencer_creation:write 权限；有效网页会话也可使用同一归属受限入口。创建请求拒绝未知顶层字段；调用方不能选择模型、供应商分组、尺寸或手填时长。 后台按1920x1088请求一张横向多角度设定图，在同一张图片中呈现多个视图；成品实际像素可能不同，以下载文件为准。",
+        "description": "需要明确的 influencer_creation:write 权限；有效网页会话也可使用同一归属受限入口。创建请求拒绝未知顶层字段；调用方不能选择模型、供应商分组、尺寸或手填时长。 后台按1920x1088请求一张横向多角度设定图，在同一张图片中呈现多个视图；成品实际像素可能不同，以下载文件为准。",
         "x-required-scopes": [
           "influencer_creation:write"
         ],
@@ -871,7 +871,7 @@
       "post": {
         "operationId": "InfluencerCreateVideo",
         "summary": "创建角色视频",
-        "description": "未发布草稿。需要明确的 influencer_creation:write 权限；有效网页会话也可使用同一归属受限入口。创建请求拒绝未知顶层字段；调用方不能选择模型、供应商分组、尺寸或手填时长。 4–30秒限制针对参考视频，成片时长可能不同。参考原声会传入生成，但成片音量可能变化，不承诺无损保留；请检查下载成片。",
+        "description": "需要明确的 influencer_creation:write 权限；有效网页会话也可使用同一归属受限入口。创建请求拒绝未知顶层字段；调用方不能选择模型、供应商分组、尺寸或手填时长。 4–30秒限制针对参考视频，成片时长可能不同。参考原声会传入生成，但成片音量可能变化，不承诺无损保留；请检查下载成片。",
         "x-required-scopes": [
           "influencer_creation:write"
         ],
@@ -1116,7 +1116,7 @@
       "get": {
         "operationId": "InfluencerListTasks",
         "summary": "列出创作任务",
-        "description": "未发布草稿。需要明确的 influencer_creation:read 权限；有效网页会话也可使用同一归属受限入口。创建请求拒绝未知顶层字段；调用方不能选择模型、供应商分组、尺寸或手填时长。",
+        "description": "需要明确的 influencer_creation:read 权限；有效网页会话也可使用同一归属受限入口。创建请求拒绝未知顶层字段；调用方不能选择模型、供应商分组、尺寸或手填时长。",
         "x-required-scopes": [
           "influencer_creation:read"
         ],
@@ -1288,7 +1288,7 @@
       "get": {
         "operationId": "InfluencerGetTask",
         "summary": "查询创作任务",
-        "description": "未发布草稿。需要明确的 influencer_creation:read 权限；有效网页会话也可使用同一归属受限入口。创建请求拒绝未知顶层字段；调用方不能选择模型、供应商分组、尺寸或手填时长。",
+        "description": "需要明确的 influencer_creation:read 权限；有效网页会话也可使用同一归属受限入口。创建请求拒绝未知顶层字段；调用方不能选择模型、供应商分组、尺寸或手填时长。",
         "x-required-scopes": [
           "influencer_creation:read"
         ],
@@ -1411,7 +1411,7 @@
       "get": {
         "operationId": "InfluencerGetArtifacts",
         "summary": "查询创作成品",
-        "description": "未发布草稿。需要明确的 influencer_creation:read 权限；有效网页会话也可使用同一归属受限入口。创建请求拒绝未知顶层字段；调用方不能选择模型、供应商分组、尺寸或手填时长。",
+        "description": "需要明确的 influencer_creation:read 权限；有效网页会话也可使用同一归属受限入口。创建请求拒绝未知顶层字段；调用方不能选择模型、供应商分组、尺寸或手填时长。",
         "x-required-scopes": [
           "influencer_creation:read"
         ],
@@ -1534,7 +1534,7 @@
       "get": {
         "operationId": "InfluencerGetRequest",
         "summary": "恢复创作请求",
-        "description": "未发布草稿。需要明确的 influencer_creation:read 权限；有效网页会话也可使用同一归属受限入口。创建请求拒绝未知顶层字段；调用方不能选择模型、供应商分组、尺寸或手填时长。",
+        "description": "需要明确的 influencer_creation:read 权限；有效网页会话也可使用同一归属受限入口。创建请求拒绝未知顶层字段；调用方不能选择模型、供应商分组、尺寸或手填时长。",
         "x-required-scopes": [
           "influencer_creation:read"
         ],

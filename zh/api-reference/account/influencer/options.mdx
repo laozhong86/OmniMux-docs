@@ -1,16 +1,12 @@
 ---
 title: "查询创作选项"
 sidebarTitle: "查询创作选项"
-description: "未发布草稿：通过账号限定的创作接口查询创作选项。"
+description: "通过账号限定的创作接口查询创作选项。"
 openapi: "openapi/ops/influencer/zh/creation.json GET /api/influencer/v1/options"
 ---
 
-<Warning>
-未发布草稿，不代表已经上线，也不宣告发布日期。仅在服务、发布验收和公开文档更新获得相应授权并核验后发布。
-</Warning>
-
 <Note>
-本组页面说明账号 HTTP 接口。当前公开的 npm 版本为 0.4.0，尚不包含这些命令。0.5.0 是本次交付的候选版本，仍须通过命令行真实验收并完成发行；本草稿不宣告该版本已经可用。
+本组页面说明账号 HTTP 接口。命令行 **0.5.0** 已通过官方安装脚本和 npm 发行。服务仍须支持并启用创作，旧凭据须重新明确同意新增创作权限。
 </Note>
 
 
@@ -22,9 +18,22 @@ openapi: "openapi/ops/influencer/zh/creation.json GET /api/influencer/v1/options
 
 新增权限须重新明确完成设备授权；已有和旧式凭据不会自动扩权。见[设备码登录](/zh/api-reference/account/device-login)。
 
-## 命令行流程：候选版本
+## 命令行流程
 
-以下示例与已实现的命令约定一致，不代表已经公开发行。使用时须安装包含这些命令的版本，并连接已启用创作的服务。重新登录，明确同意新增创作权限；提交前检查 `creation_enabled` 与相应能力的可用状态。
+通过 npm 安装或更新：
+
+```bash
+npm install -g @omnimux/cli@0.5.0
+omnimux --version
+```
+
+macOS/Linux 的独立程序可使用官方安装脚本：
+
+```bash
+curl -fsSL https://omnimux.ai/install.sh | bash
+```
+
+重新登录，明确同意新增创作权限；提交前检查 `creation_enabled` 与相应能力的可用状态。
 
 ```bash
 omnimux login

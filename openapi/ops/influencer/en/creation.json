@@ -1,8 +1,8 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "OmniMux character and video creation — unpublished draft",
-    "version": "1-draft"
+    "title": "OmniMux character and video creation",
+    "version": "1"
   },
   "servers": [
     {
@@ -14,14 +14,14 @@
       "accessToken": []
     }
   ],
-  "x-publication-status": "unpublished",
-  "x-publication-date": null,
+  "x-publication-status": "published",
+  "x-publication-date": "2026-10-16",
   "paths": {
     "/api/influencer/v1/options": {
       "get": {
         "operationId": "InfluencerOptions",
         "summary": "Get Creation Options",
-        "description": "UNPUBLISHED DRAFT. Requires explicit influencer_creation:read. Valid website sessions may use the same owner-scoped route. Unknown top-level creation fields are rejected; clients cannot choose model, supplier group, size or duration.",
+        "description": "Requires explicit influencer_creation:read. Valid website sessions may use the same owner-scoped route. Unknown top-level creation fields are rejected; clients cannot choose model, supplier group, size or duration.",
         "x-required-scopes": [
           "influencer_creation:read"
         ],
@@ -119,7 +119,7 @@
       "post": {
         "operationId": "InfluencerCreateCharacter",
         "summary": "Create Character",
-        "description": "UNPUBLISHED DRAFT. Requires explicit influencer_creation:write. Valid website sessions may use the same owner-scoped route. Unknown top-level creation fields are rejected; clients cannot choose model, supplier group, size or duration. Requests one landscape character sheet at 1920x1088. Actual output pixel dimensions may differ; inspect the downloaded file. The character brief is limited to 4000 characters.",
+        "description": "Requires explicit influencer_creation:write. Valid website sessions may use the same owner-scoped route. Unknown top-level creation fields are rejected; clients cannot choose model, supplier group, size or duration. Requests one landscape character sheet at 1920x1088. Actual output pixel dimensions may differ; inspect the downloaded file. The character brief is limited to 4000 characters.",
         "x-required-scopes": [
           "influencer_creation:write"
         ],
@@ -339,7 +339,7 @@
       "get": {
         "operationId": "InfluencerListCharacters",
         "summary": "List Characters",
-        "description": "UNPUBLISHED DRAFT. Requires explicit influencer_creation:read. Valid website sessions may use the same owner-scoped route. Unknown top-level creation fields are rejected; clients cannot choose model, supplier group, size or duration.",
+        "description": "Requires explicit influencer_creation:read. Valid website sessions may use the same owner-scoped route. Unknown top-level creation fields are rejected; clients cannot choose model, supplier group, size or duration.",
         "x-required-scopes": [
           "influencer_creation:read"
         ],
@@ -511,7 +511,7 @@
       "get": {
         "operationId": "InfluencerGetCharacter",
         "summary": "Get Character",
-        "description": "UNPUBLISHED DRAFT. Requires explicit influencer_creation:read. Valid website sessions may use the same owner-scoped route. Unknown top-level creation fields are rejected; clients cannot choose model, supplier group, size or duration.",
+        "description": "Requires explicit influencer_creation:read. Valid website sessions may use the same owner-scoped route. Unknown top-level creation fields are rejected; clients cannot choose model, supplier group, size or duration.",
         "x-required-scopes": [
           "influencer_creation:read"
         ],
@@ -634,7 +634,7 @@
       "post": {
         "operationId": "InfluencerCreateMultiview",
         "summary": "Create Multiview Sheet",
-        "description": "UNPUBLISHED DRAFT. Requires explicit influencer_creation:write. Valid website sessions may use the same owner-scoped route. Unknown top-level creation fields are rejected; clients cannot choose model, supplier group, size or duration. Requests one landscape multiview sheet at 1920x1088, with several views in one image. Actual output pixel dimensions may differ; inspect the downloaded file.",
+        "description": "Requires explicit influencer_creation:write. Valid website sessions may use the same owner-scoped route. Unknown top-level creation fields are rejected; clients cannot choose model, supplier group, size or duration. Requests one landscape multiview sheet at 1920x1088, with several views in one image. Actual output pixel dimensions may differ; inspect the downloaded file.",
         "x-required-scopes": [
           "influencer_creation:write"
         ],
@@ -871,7 +871,7 @@
       "post": {
         "operationId": "InfluencerCreateVideo",
         "summary": "Create Character Video",
-        "description": "UNPUBLISHED DRAFT. Requires explicit influencer_creation:write. Valid website sessions may use the same owner-scoped route. Unknown top-level creation fields are rejected; clients cannot choose model, supplier group, size or duration. The 4–30-second limit is for the reference clip; finished video duration may differ. Reference audio is supplied to generation, but output loudness may change and lossless preservation is not guaranteed. Inspect the downloaded result.",
+        "description": "Requires explicit influencer_creation:write. Valid website sessions may use the same owner-scoped route. Unknown top-level creation fields are rejected; clients cannot choose model, supplier group, size or duration. The 4–30-second limit is for the reference clip; finished video duration may differ. Reference audio is supplied to generation, but output loudness may change and lossless preservation is not guaranteed. Inspect the downloaded result.",
         "x-required-scopes": [
           "influencer_creation:write"
         ],
@@ -1116,7 +1116,7 @@
       "get": {
         "operationId": "InfluencerListTasks",
         "summary": "List Creation Tasks",
-        "description": "UNPUBLISHED DRAFT. Requires explicit influencer_creation:read. Valid website sessions may use the same owner-scoped route. Unknown top-level creation fields are rejected; clients cannot choose model, supplier group, size or duration.",
+        "description": "Requires explicit influencer_creation:read. Valid website sessions may use the same owner-scoped route. Unknown top-level creation fields are rejected; clients cannot choose model, supplier group, size or duration.",
         "x-required-scopes": [
           "influencer_creation:read"
         ],
@@ -1288,7 +1288,7 @@
       "get": {
         "operationId": "InfluencerGetTask",
         "summary": "Get Creation Task",
-        "description": "UNPUBLISHED DRAFT. Requires explicit influencer_creation:read. Valid website sessions may use the same owner-scoped route. Unknown top-level creation fields are rejected; clients cannot choose model, supplier group, size or duration.",
+        "description": "Requires explicit influencer_creation:read. Valid website sessions may use the same owner-scoped route. Unknown top-level creation fields are rejected; clients cannot choose model, supplier group, size or duration.",
         "x-required-scopes": [
           "influencer_creation:read"
         ],
@@ -1411,7 +1411,7 @@
       "get": {
         "operationId": "InfluencerGetArtifacts",
         "summary": "Get Creation Artifacts",
-        "description": "UNPUBLISHED DRAFT. Requires explicit influencer_creation:read. Valid website sessions may use the same owner-scoped route. Unknown top-level creation fields are rejected; clients cannot choose model, supplier group, size or duration.",
+        "description": "Requires explicit influencer_creation:read. Valid website sessions may use the same owner-scoped route. Unknown top-level creation fields are rejected; clients cannot choose model, supplier group, size or duration.",
         "x-required-scopes": [
           "influencer_creation:read"
         ],
@@ -1534,7 +1534,7 @@
       "get": {
         "operationId": "InfluencerGetRequest",
         "summary": "Recover Creation Request",
-        "description": "UNPUBLISHED DRAFT. Requires explicit influencer_creation:read. Valid website sessions may use the same owner-scoped route. Unknown top-level creation fields are rejected; clients cannot choose model, supplier group, size or duration.",
+        "description": "Requires explicit influencer_creation:read. Valid website sessions may use the same owner-scoped route. Unknown top-level creation fields are rejected; clients cannot choose model, supplier group, size or duration.",
         "x-required-scopes": [
           "influencer_creation:read"
         ],

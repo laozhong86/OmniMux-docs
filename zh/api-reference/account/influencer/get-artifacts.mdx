@@ -1,13 +1,9 @@
 ---
 title: "查询创作成品"
 sidebarTitle: "查询创作成品"
-description: "未发布草稿：通过账号限定的创作接口查询创作成品。"
+description: "通过账号限定的创作接口查询创作成品。"
 openapi: "openapi/ops/influencer/zh/creation.json GET /api/influencer/v1/tasks/{task_id}/artifacts"
 ---
-
-<Warning>
-未发布草稿，不代表已经上线，也不宣告发布日期。仅在服务、发布验收和公开文档更新获得相应授权并核验后发布。
-</Warning>
 
 返回与任务详情相同的安全任务数据，包含 `artifacts` 数组，不直接返回文件内容。只有成功且有可用成品时才显示 `artifact_status: ready`。签名下载地址过期时重新查询此入口。
 

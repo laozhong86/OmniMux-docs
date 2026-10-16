@@ -2,7 +2,7 @@
   "schema_version": 1,
   "page": 1,
   "page_size": 50,
-  "total": 59,
+  "total": 60,
   "total_pages": 2,
   "items": [
     {
@@ -37,6 +37,57 @@
       "body": {
         "en": "## Site release announcements\n\nThe administrator update checker reads the latest successfully deployed OmniMux site announcement. A successful deployment and its health checks publish the version and publication time automatically. The announcement is independent of the running application; it is neither an upstream upgrade inventory nor an automatic upgrade. Release details open the existing API Updates page in the current language.\n\nAnnouncement failures remain errors. Previous results are marked as cached, and results from the retired source are not reused for the new source. Different site build identifiers with the same upstream version do not establish a newer or older release. This change does not activate models or alter pricing or sign-in.",
         "zh": "## 本站上线版本公告\n\n管理员更新检查改读 OmniMux 本站最近成功上线的公告。部署及健康检查成功后，系统自动发布版本和发布时间。公告独立于当前运行的应用，不是上游可升级清单，也不会自动升级；查看详情会打开当前语言现有的 API 更新页。\n\n公告读取失败仍会报错，上次结果明确标为缓存，旧来源结果不再用于新来源。上游版本相同但本站构建标识不同，不能据此声称较新或较旧。本次不启用模型、不改变价格或登录方式。"
+      },
+      "schema_version": 1
+    },
+    {
+      "id": "2026-10-16-character-video-cli",
+      "published_at": "2026-10-16",
+      "type": "capability",
+      "modality": [
+        "image",
+        "video",
+        "platform"
+      ],
+      "title": {
+        "en": "OmniMux CLI 0.5.0: character and reference-video creation",
+        "zh": "OmniMux 命令行0.5.0：角色创建与参考视频生成"
+      },
+      "summary": {
+        "en": "Create and reuse character sheets, optionally generate multiview sheets, submit reference-driven videos, recover original requests and download completed files through the account-scoped CLI.",
+        "zh": "通过账号命令行创建和复用角色、可选生成多角度设定图、结合参考视频生成成片，并按原请求恢复、等待和下载成品。"
+      },
+      "models": [],
+      "tags": [
+        "cli",
+        "characters",
+        "reference-video"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "Creation workflow",
+            "zh": "创作流程"
+          },
+          "href": {
+            "en": "/en/api-reference/account/influencer/options",
+            "zh": "/zh/api-reference/account/influencer/options"
+          }
+        },
+        {
+          "label": {
+            "en": "Video contract and output limitations",
+            "zh": "视频调用与成品限制"
+          },
+          "href": {
+            "en": "/en/api-reference/account/influencer/create-video",
+            "zh": "/zh/api-reference/account/influencer/create-video"
+          }
+        }
+      ],
+      "body": {
+        "en": "Version **0.5.0** adds account-scoped character creation and reuse, optional multiview sheets, reference-video generation, bounded waits, original-request recovery and verified downloads. New device approvals explicitly include creative permissions and account credits/subscription usage; existing credentials are not expanded automatically.\n\nCharacter and multiview outputs share owned workbench history. A multiview sheet contains several views in one image and has a separate generation charge. Actual image dimensions are determined by the downloaded file. Consumers do not choose models or supplier groups.\n\nVideo defaults are motion mode and 480p. The server inspects reference clips of 4–30 seconds; callers do not provide a duration override. Finished duration may differ, and a four-second reference/request has produced about 3.71 seconds. Reference audio is supplied to generation, but output loudness may change; lossless or bit-for-bit audio preservation is not promised. Inspect the completed file rather than treating task success or request metadata as media acceptance.\n\nCreation requires a compatible enabled service. Reuse the original request ID after uncertain submission instead of opening a new billable request. Waiting timeout does not cancel cloud work; downloads refuse overwrite by default.",
+        "zh": "**0.5.0** 增加账号角色创建与复用、可选多角度设定图、参考视频生成、有期限等待、原请求恢复及完整文件下载。新设备授权会明确说明创作权限及账号积分/订阅额度使用；旧凭据不会自动扩权。\n\n角色和多角度作品与网页本人历史互通。多角度是在同一张图片中的多个视图，会另行消耗生成额度；图片实际像素以下载文件为准。不要求用户选择模型或供应商分组。\n\n视频默认采用运动交换和480档，后台识别4–30秒参考视频，不接受用户手填时长。成片时长可能不同，已观察到4秒参考及请求返回约3.71秒成片。参考原声会传入生成，但成片音量可能变化，不承诺无损或逐个音频采样完全相同。请检查下载成片，不将任务成功或请求参数当作成品验收。\n\n创建需要服务支持并启用相应能力。提交结果不明时按原请求编号查回，不另开收费新单；等待超时不取消云端任务，下载默认拒绝覆盖已有文件。"
       },
       "schema_version": 1
     },
@@ -2240,46 +2291,6 @@
       "body": {
         "en": "## Seedance 2.0\n\nThe **Seedance 2.0** family is available on OmniMux for async video generation.\n\n### New models\n\n| Model ID | Role |\n| --- | --- |\n| `seedance-2-0` | Standard |\n| `seedance-2-0-mini` | Lightweight / cost-oriented |\n| `seedance-2-0-fast` | Speed-oriented |\n\n### API\n\n- **Create:** `POST /v1/video/generations`\n- **Poll:** `GET /v1/video/generations/{task_id}`",
         "zh": "## Seedance 2.0\n\n**Seedance 2.0** 系列已在 OmniMux 可调用（异步视频）。\n\n### 新模型\n\n| 模型 ID | 角色 |\n| --- | --- |\n| `seedance-2-0` | 标准档 |\n| `seedance-2-0-mini` | 轻量 / 成本向 |\n| `seedance-2-0-fast` | 速度向 |\n\n### 调用\n\n- **创建：** `POST /v1/video/generations`\n- **查询：** `GET /v1/video/generations/{task_id}`"
-      },
-      "schema_version": 1
-    },
-    {
-      "id": "2026-06-17-glm-5-2",
-      "published_at": "2026-06-17",
-      "type": "model_launch",
-      "modality": [
-        "text"
-      ],
-      "title": {
-        "en": "GLM-5.2",
-        "zh": "GLM-5.2"
-      },
-      "summary": {
-        "en": "GLM-5.2 language model on OmniMux.",
-        "zh": "GLM-5.2 语言模型已在 OmniMux 可调用。"
-      },
-      "models": [
-        "glm-5.2",
-        "glm-5.1"
-      ],
-      "tags": [
-        "text"
-      ],
-      "links": [
-        {
-          "label": {
-            "en": "GLM complete",
-            "zh": "GLM 完整参数"
-          },
-          "href": {
-            "en": "/en/api-reference/text-series/glm/complete",
-            "zh": "/zh/api-reference/text-series/glm/complete"
-          }
-        }
-      ],
-      "body": {
-        "en": "## GLM-5.2\n\n**GLM-5.2** is now available on OmniMux (with related GLM IDs on pricing).\n\n### New models\n\n- **Model IDs:** `glm-5.2`, `glm-5.1`\n- **API:** Chat Completions at `https://api.omnimux.ai/v1`",
-        "zh": "## GLM-5.2\n\n**GLM-5.2** 现已在 OmniMux 可调用（定价上另有同族 GLM ID）。\n\n### 新模型\n\n- **模型 ID：** `glm-5.2`、`glm-5.1`\n- **API：** Chat Completions：`https://api.omnimux.ai/v1`"
       },
       "schema_version": 1
     }

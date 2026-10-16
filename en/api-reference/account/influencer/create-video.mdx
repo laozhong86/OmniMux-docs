@@ -1,13 +1,9 @@
 ---
 title: "Create Character Video"
 sidebarTitle: "Create Character Video"
-description: "Unpublished draft: create character video through the account-scoped creation API."
+description: "Create character video through the account-scoped creation API."
 openapi: "openapi/ops/influencer/en/creation.json POST /api/influencer/v1/videos"
 ---
-
-<Warning>
-Unpublished draft. No public availability or release date is claimed. Publish only after the service, release gates and documentation update are authorized and verified.
-</Warning>
 
 Supply either `character_task_id` plus optional ordered `image_urls`, or images with `image_urls[0]` as the main character. The combined image limit is 30. Supply exactly one reference video source: `video_url` or an owned successful `video_task_id`.
 

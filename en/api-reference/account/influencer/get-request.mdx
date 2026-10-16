@@ -1,13 +1,9 @@
 ---
 title: "Recover Creation Request"
 sidebarTitle: "Recover Creation Request"
-description: "Unpublished draft: recover creation request through the account-scoped creation API."
+description: "Recover creation request through the account-scoped creation API."
 openapi: "openapi/ops/influencer/en/creation.json GET /api/influencer/v1/requests/{request_id}"
 ---
-
-<Warning>
-Unpublished draft. No public availability or release date is claimed. Publish only after the service, release gates and documentation update are authorized and verified.
-</Warning>
 
 Look up the original task after an uncertain submission or lost response. Recovery never creates another task. Active tasks do not expire; completed tasks have a seven-day recovery period. HTTP 404 means no accepted request is found for this account; HTTP 410 means its recovery is unavailable or expired and the ID remains reserved.
 

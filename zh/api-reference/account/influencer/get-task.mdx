@@ -1,13 +1,9 @@
 ---
 title: "查询创作任务"
 sidebarTitle: "查询创作任务"
-description: "未发布草稿：通过账号限定的创作接口查询创作任务。"
+description: "通过账号限定的创作接口查询创作任务。"
 openapi: "openapi/ops/influencer/zh/creation.json GET /api/influencer/v1/tasks/{task_id}"
 ---
-
-<Warning>
-未发布草稿，不代表已经上线，也不宣告发布日期。仅在服务、发布验收和公开文档更新获得相应授权并核验后发布。
-</Warning>
 
 自动处理使用归一化 `status`，成品是否可用看 `artifact_status`。单独的 `succeeded` 不保证有可用文件。任务失败或 `quota_status: reconciling` 不代表积分已经退回。
 
