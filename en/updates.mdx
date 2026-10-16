@@ -9,6 +9,86 @@ Stay up to date with OmniMux gateway model launches and platform changes. The fu
 
 Pages: **Page 1** · [Page 2](/en/updates/page-2)
 
+<a id="2026-10-16-site-release-announcements"></a>
+
+<Update label="October 16, 2026" tags={["Platform"]} rss={{ title: "System updates use site release announcements" }}>
+
+  ## Site release announcements
+
+  The administrator update checker reads the latest successfully deployed OmniMux site announcement. A successful deployment and its health checks publish the version and publication time automatically. The announcement is independent of the running application; it is neither an upstream upgrade inventory nor an automatic upgrade. Release details open the existing API Updates page in the current language.
+
+  Announcement failures remain errors. Previous results are marked as cached, and results from the retired source are not reused for the new source. Different site build identifiers with the same upstream version do not establish a newer or older release. This change does not activate models or alter pricing or sign-in.
+
+  ### Links
+
+  - [Documentation](/en/faqs/features)
+
+</Update>
+
+<a id="2026-10-16-gpt-image-standard-scope"></a>
+
+<Update label="October 16, 2026" tags={["Breaking", "Image"]} rss={{ title: "GPT Image standard specifications and routing safeguards" }}>
+
+  The standard service is quoted per image and accepts JSON requests only, with `medium` quality and PNG output. Seven aspect ratios map to exact pixels: 1:1 (1024x1024), 2:3 (1024x1536), 3:2 (1536x1024), 3:4 (1024x1360), 4:3 (1360x1024), 9:16 (1088x1920), and 16:9 (1920x1088). The old 1365-pixel edge for 3:4 / 4:3 changes to 1360. Old explicit sizes are rejected rather than silently replaced.
+
+  Text-to-image requests may omit a reference; editing accepts at most one public HTTPS JPEG, PNG, or WebP image, up to 5 MiB, 40 million decoded pixels, and 23170 pixels on either edge. Character sheets and multi-view boards remain available; multiple views are rendered within one image.
+
+  The complete prompt must satisfy all three limits: **8192 Unicode code points, 16384 UTF-8 bytes, and 5000 tokens counted by this service with `o200k_base`**. This rejects some existing 4000-character workbench descriptions containing many four-byte characters or a high token count. Inputs are not truncated, compressed, or replaced. The service token count determines request eligibility; it does not represent final supplier billing usage or guarantee a per-request procurement cost ceiling. The vendor's 32000-character fact and existing contracts for the separate Flare / Sunburst models are not changed by this standard-service restriction.
+
+  Multiple output images, multiple references, higher quality, other output formats, and unreviewed extensions are explicitly rejected. Identified standard-route public requests are rejected before creating a supplier task or reserving funds; queued workbench tasks may fail explicitly without a charge after validation. Standard and member prices are shown before submission. Switching an eligible route within the same account tier does not add a customer charge.
+
+  A reviewed backup may be attempted only when no supplier task was created on the preferred route and native retry rules and the total attempt budget allow it. Two healthy routes are not guaranteed at all times. Accepted tasks and tasks with timeouts, disconnections, or missing acknowledgements are reconciled against the original request without automatic duplicate generation. Old failed tasks are not automatically resubmitted.
+
+  ### Links
+
+  - [GPT Image reference](/en/api-reference/image-series/gpt-image/generate)
+
+</Update>
+
+<a id="2026-10-15-usage-export-and-schema-compatibility"></a>
+
+<Update label="October 15, 2026" tags={["Platform", "Text"]} rss={{ title: "Own-account usage export and schema compatibility" }}>
+
+  User-API usage export is separate from model generation APIs. It exports the authenticated user’s own visible logs as newline-delimited JSON, followed by a terminal success/count object. An HTTP 200 or partial records alone do not establish completion. Export availability is operator-controlled, each account has one concurrent export, and the configured time-range limit does not set retention or delete logs.
+
+  Gemini schemas that cannot fit its legacy typed schema can use original JSON Schema on compatible v1beta or Vertex AI routes; older routes may lose unsupported constraints. Thinking settings are matched to the exact model, not a universal effort budget. No catalog activation or pricing change is claimed.
+
+  Browser chat history and settings are isolated per account. Legacy shared records remain in the original browser without automatic loading, assignment or deletion; signing out clears the visible conversation and unsent draft. Server tasks, artifacts and billing records are not cleanup targets.
+
+  ### Links
+
+  - [Documentation](/en/api-reference/account/usage-log-export)
+
+</Update>
+
+<a id="2026-10-15-video-plugin-compatibility"></a>
+
+<Update label="October 15, 2026" tags={["Platform", "Video"]} rss={{ title: "Video plugin duration and upload compatibility" }}>
+
+  Automatic duration (`-1`) is accepted only by an installed plugin that declares the capability and a model contract that permits it. Reservation uses the supported maximum and completion settles reported usage. Positive durations retain their model-specific limits.
+
+  Plugin multipart uploads use the body boundary generated for the forwarded request. This does not change the character workbench’s reference rules (2–30-second motion-transfer input, 4–30-second object-swap input and 4–30-whole-second output), media checks, or upload limits, and does not launch or enable a video model.
+
+  ### Links
+
+  - [Documentation](/en/faqs/features)
+
+</Update>
+
+<a id="2026-10-15-plugin-request-compatibility"></a>
+
+<Update label="October 15, 2026" tags={["Platform", "Text"]} rss={{ title: "Plugin request compatibility and converted-stream billing" }}>
+
+  The gateway can load plugins that require ordered request members when the installed plugin and host versions are compatible. This does not activate or launch TypeSafe models.
+
+  Cross-protocol requests map media by MIME type. Converted Chat Completions and Responses streams can settle delivered output after interruption; an upstream failure before any output reaches the client is not charged by this specific rule. Hosted-search charges follow reported usage and the applicable tool price. No model prices or catalog entries are changed by this documentation update.
+
+  ### Links
+
+  - [Documentation](/en/faqs/features)
+
+</Update>
+
 <a id="2026-10-15-reference-video-input-compatibility"></a>
 
 <Update label="October 15, 2026" tags={["Improvements", "Video"]} rss={{ title: "Reference-video input requirements separated from output framing" }}>
@@ -1151,108 +1231,6 @@ Pages: **Page 1** · [Page 2](/en/updates/page-2)
   ### Links
 
   - [GLM complete](/en/api-reference/text-series/glm/complete)
-
-</Update>
-
-<a id="2026-06-16-kling"></a>
-
-<Update label="June 16, 2026" tags={["New models", "Video"]} rss={{ title: "Kling V3 and Kling V2.6" }}>
-
-  ## Kling
-
-  **Kling** video models are available on OmniMux.
-
-  ### New models
-
-  - **Model IDs:** `kling-v3`, `kling-v2-6`
-  - **API:** async `POST` / `GET` `/v1/video/generations`
-
-  Pin IDs from live pricing; request parameters follow the video task contract.
-
-  ### Links
-
-  - [Video task poll](/en/api-reference/tasks/video-task)
-  - [Pricing](/en/api-reference/account/pricing)
-
-</Update>
-
-<a id="2026-06-15-midjourney"></a>
-
-<Update label="June 15, 2026" tags={["New models", "Image"]} rss={{ title: "Midjourney" }}>
-
-  ## Midjourney
-
-  **Midjourney** is available on OmniMux as model ID `midjourney`.
-
-  ### New model
-
-  - **Model ID:** `midjourney`
-  - **Modality:** image generation via the gateway catalog
-
-  Confirm request shape and billing on console pricing before production use.
-
-  ### Links
-
-  - [Pricing](/en/api-reference/account/pricing)
-
-</Update>
-
-<a id="2026-06-01-minimax-m3"></a>
-
-<Update label="June 1, 2026" tags={["New models", "Text"]} rss={{ title: "MiniMax M3" }}>
-
-  ## MiniMax M3
-
-  **MiniMax M3** is now available on OmniMux Chat Completions.
-
-  ### New model
-
-  - **Model ID:** `minimax-m3`
-  - **API:** `https://api.omnimux.ai/v1`
-
-  ### Links
-
-  - [MiniMax complete](/en/api-reference/text-series/minimax/complete)
-
-</Update>
-
-<a id="2026-05-20-omni-flash"></a>
-
-<Update label="May 20, 2026" tags={["New models", "Video"]} rss={{ title: "Omni Flash — duration video family" }}>
-
-  ## Omni Flash
-
-  **Omni Flash** (`gemini-omni-flash`) is available on OmniMux for fast video generation.
-
-  ### Model
-
-  - **Model ID:** `gemini-omni-flash`
-  - **API:** `POST /v1/video/generations` + poll `GET /v1/video/generations/{task_id}`
-
-  ### Links
-
-  - [Omni Flash](/en/api-reference/video-series/models/gemini-omni-flash)
-  - [Video task poll](/en/api-reference/tasks/video-task)
-
-</Update>
-
-<a id="2026-05-20-veo-3-1"></a>
-
-<Update label="May 20, 2026" tags={["New models", "Video"]} rss={{ title: "Veo 3.1" }}>
-
-  ## Veo 3.1
-
-  **Veo 3.1** is now available on OmniMux.
-
-  ### New model
-
-  - **Model ID:** `veo-3.1`
-  - **API:** async video create + poll on `/v1/video/generations`
-
-  ### Links
-
-  - [Veo 3.1](/en/api-reference/video-series/models/veo-3.1)
-  - [Video task poll](/en/api-reference/tasks/video-task)
 
 </Update>
 

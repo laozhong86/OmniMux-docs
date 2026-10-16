@@ -2,7 +2,7 @@
   "openapi": "3.0.3",
   "info": {
     "title": "GPT Image · Image generation",
-    "version": "1.0.0"
+    "version": "1.1.0"
   },
   "servers": [
     {
@@ -14,7 +14,7 @@
       "post": {
         "summary": "GPT Image · Image generation",
         "operationId": "generateGPTImage",
-        "description": "Generate images with the GPT Image 2.5 per-call models.",
+        "description": "Request contracts for GPT Image standard generation and existing separate models.",
         "security": [
           {
             "BearerAuth": []
@@ -25,62 +25,534 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "required": [
-                  "model",
-                  "prompt"
-                ],
-                "properties": {
-                  "model": {
-                    "type": "string",
-                    "enum": [
-                      "gpt-image-2.5",
-                      "gpt-image-2.5-hd",
-                      "gpt-image-2.5-flare",
-                      "gpt-image-2.5-sunburst"
+                "oneOf": [
+                  {
+                    "title": "Standard service",
+                    "type": "object",
+                    "required": [
+                      "model",
+                      "prompt"
                     ],
-                    "default": "gpt-image-2.5"
+                    "additionalProperties": false,
+                    "properties": {
+                      "model": {
+                        "type": "string",
+                        "enum": [
+                          "gpt-image-2.5"
+                        ],
+                        "default": "gpt-image-2.5"
+                      },
+                      "prompt": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 8192,
+                        "description": "The complete prompt must satisfy all three limits: 8192 Unicode code points, 16384 UTF-8 bytes, and 5000 tokens counted by this service with o200k_base. Whitespace counts toward the limits, and a whitespace-only prompt is invalid. These are the standard service's operating limits, not the 32000-character vendor limit for the separate Flare / Sunburst models. The local token count does not represent final supplier billing usage or guarantee a per-request procurement cost ceiling. Over-limit prompts are rejected before reserving funds or sending a supplier request, without truncating, compressing, or replacing them."
+                      },
+                      "n": {
+                        "type": "integer",
+                        "enum": [
+                          1
+                        ],
+                        "default": 1
+                      },
+                      "size": {
+                        "type": "string",
+                        "enum": [
+                          "1:1",
+                          "2:3",
+                          "3:2",
+                          "3:4",
+                          "4:3",
+                          "9:16",
+                          "16:9",
+                          "1024x1024",
+                          "1024x1536",
+                          "1536x1024",
+                          "1024x1360",
+                          "1360x1024",
+                          "1088x1920",
+                          "1920x1088",
+                          ""
+                        ],
+                        "default": "1024x1024",
+                        "description": "Only the seven listed aspect ratios and exact pixel sizes are supported. Omission or an empty string uses 1024x1024. The 3:4 and 4:3 labels are approximate; the old 1024x1365 and 1365x1024 sizes are no longer accepted. When both size and aspect_ratio are present, they must resolve to the same pixels."
+                      },
+                      "aspect_ratio": {
+                        "type": "string",
+                        "enum": [
+                          "1:1",
+                          "2:3",
+                          "3:2",
+                          "3:4",
+                          "4:3",
+                          "9:16",
+                          "16:9",
+                          "1024x1024",
+                          "1024x1536",
+                          "1536x1024",
+                          "1024x1360",
+                          "1360x1024",
+                          "1088x1920",
+                          "1920x1088",
+                          ""
+                        ],
+                        "description": "Only the seven listed aspect ratios and exact pixel sizes are supported. Omission or an empty string uses 1024x1024. The 3:4 and 4:3 labels are approximate; the old 1024x1365 and 1365x1024 sizes are no longer accepted. When both size and aspect_ratio are present, they must resolve to the same pixels."
+                      },
+                      "quality": {
+                        "type": "string",
+                        "enum": [
+                          "medium"
+                        ],
+                        "default": "medium"
+                      },
+                      "output_format": {
+                        "type": "string",
+                        "enum": [
+                          "png"
+                        ],
+                        "default": "png",
+                        "description": "PNG output only. JPEG / WebP are supported reference-input formats only."
+                      },
+                      "group": {
+                        "type": "string",
+                        "description": "An optional existing authorized routing override; ordinary standard use does not require supplier selection. It is not forwarded as a supplier parameter."
+                      },
+                      "seed": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "description": "A nonnegative integer within the service's accepted integer range."
+                      },
+                      "metadata": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "seed": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "description": "A nonnegative integer within the service's accepted integer range."
+                          }
+                        }
+                      },
+                      "image": {
+                        "oneOf": [
+                          {
+                            "oneOf": [
+                              {
+                                "type": "string",
+                                "format": "uri",
+                                "pattern": "^https://",
+                                "description": "A public HTTPS reference image in JPEG, PNG, or WebP format, up to 5 MiB (5242880 bytes), 40000000 decoded pixels, and 23170 pixels on either edge. The URL must not contain credentials or a fragment; the final destination must also pass public-network checks. At most one reference is allowed across all aliases, including duplicate values. Base64 and file uploads are not accepted."
+                              },
+                              {
+                                "type": "object",
+                                "required": [
+                                  "url"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                  "url": {
+                                    "type": "string",
+                                    "format": "uri",
+                                    "pattern": "^https://",
+                                    "description": "A public HTTPS reference image in JPEG, PNG, or WebP format, up to 5 MiB (5242880 bytes), 40000000 decoded pixels, and 23170 pixels on either edge. The URL must not contain credentials or a fragment; the final destination must also pass public-network checks. At most one reference is allowed across all aliases, including duplicate values. Base64 and file uploads are not accepted."
+                                  }
+                                }
+                              },
+                              {
+                                "type": "object",
+                                "required": [
+                                  "image_url"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                  "image_url": {
+                                    "type": "string",
+                                    "format": "uri",
+                                    "pattern": "^https://",
+                                    "description": "A public HTTPS reference image in JPEG, PNG, or WebP format, up to 5 MiB (5242880 bytes), 40000000 decoded pixels, and 23170 pixels on either edge. The URL must not contain credentials or a fragment; the final destination must also pass public-network checks. At most one reference is allowed across all aliases, including duplicate values. Base64 and file uploads are not accepted."
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "type": "array",
+                            "maxItems": 1,
+                            "items": {
+                              "oneOf": [
+                                {
+                                  "type": "string",
+                                  "format": "uri",
+                                  "pattern": "^https://",
+                                  "description": "A public HTTPS reference image in JPEG, PNG, or WebP format, up to 5 MiB (5242880 bytes), 40000000 decoded pixels, and 23170 pixels on either edge. The URL must not contain credentials or a fragment; the final destination must also pass public-network checks. At most one reference is allowed across all aliases, including duplicate values. Base64 and file uploads are not accepted."
+                                },
+                                {
+                                  "type": "object",
+                                  "required": [
+                                    "url"
+                                  ],
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "url": {
+                                      "type": "string",
+                                      "format": "uri",
+                                      "pattern": "^https://",
+                                      "description": "A public HTTPS reference image in JPEG, PNG, or WebP format, up to 5 MiB (5242880 bytes), 40000000 decoded pixels, and 23170 pixels on either edge. The URL must not contain credentials or a fragment; the final destination must also pass public-network checks. At most one reference is allowed across all aliases, including duplicate values. Base64 and file uploads are not accepted."
+                                    }
+                                  }
+                                },
+                                {
+                                  "type": "object",
+                                  "required": [
+                                    "image_url"
+                                  ],
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "image_url": {
+                                      "type": "string",
+                                      "format": "uri",
+                                      "pattern": "^https://",
+                                      "description": "A public HTTPS reference image in JPEG, PNG, or WebP format, up to 5 MiB (5242880 bytes), 40000000 decoded pixels, and 23170 pixels on either edge. The URL must not contain credentials or a fragment; the final destination must also pass public-network checks. At most one reference is allowed across all aliases, including duplicate values. Base64 and file uploads are not accepted."
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        ],
+                        "description": "A public HTTPS reference image in JPEG, PNG, or WebP format, up to 5 MiB (5242880 bytes), 40000000 decoded pixels, and 23170 pixels on either edge. The URL must not contain credentials or a fragment; the final destination must also pass public-network checks. At most one reference is allowed across all aliases, including duplicate values. Base64 and file uploads are not accepted."
+                      },
+                      "images": {
+                        "oneOf": [
+                          {
+                            "oneOf": [
+                              {
+                                "type": "string",
+                                "format": "uri",
+                                "pattern": "^https://",
+                                "description": "A public HTTPS reference image in JPEG, PNG, or WebP format, up to 5 MiB (5242880 bytes), 40000000 decoded pixels, and 23170 pixels on either edge. The URL must not contain credentials or a fragment; the final destination must also pass public-network checks. At most one reference is allowed across all aliases, including duplicate values. Base64 and file uploads are not accepted."
+                              },
+                              {
+                                "type": "object",
+                                "required": [
+                                  "url"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                  "url": {
+                                    "type": "string",
+                                    "format": "uri",
+                                    "pattern": "^https://",
+                                    "description": "A public HTTPS reference image in JPEG, PNG, or WebP format, up to 5 MiB (5242880 bytes), 40000000 decoded pixels, and 23170 pixels on either edge. The URL must not contain credentials or a fragment; the final destination must also pass public-network checks. At most one reference is allowed across all aliases, including duplicate values. Base64 and file uploads are not accepted."
+                                  }
+                                }
+                              },
+                              {
+                                "type": "object",
+                                "required": [
+                                  "image_url"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                  "image_url": {
+                                    "type": "string",
+                                    "format": "uri",
+                                    "pattern": "^https://",
+                                    "description": "A public HTTPS reference image in JPEG, PNG, or WebP format, up to 5 MiB (5242880 bytes), 40000000 decoded pixels, and 23170 pixels on either edge. The URL must not contain credentials or a fragment; the final destination must also pass public-network checks. At most one reference is allowed across all aliases, including duplicate values. Base64 and file uploads are not accepted."
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "type": "array",
+                            "maxItems": 1,
+                            "items": {
+                              "oneOf": [
+                                {
+                                  "type": "string",
+                                  "format": "uri",
+                                  "pattern": "^https://",
+                                  "description": "A public HTTPS reference image in JPEG, PNG, or WebP format, up to 5 MiB (5242880 bytes), 40000000 decoded pixels, and 23170 pixels on either edge. The URL must not contain credentials or a fragment; the final destination must also pass public-network checks. At most one reference is allowed across all aliases, including duplicate values. Base64 and file uploads are not accepted."
+                                },
+                                {
+                                  "type": "object",
+                                  "required": [
+                                    "url"
+                                  ],
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "url": {
+                                      "type": "string",
+                                      "format": "uri",
+                                      "pattern": "^https://",
+                                      "description": "A public HTTPS reference image in JPEG, PNG, or WebP format, up to 5 MiB (5242880 bytes), 40000000 decoded pixels, and 23170 pixels on either edge. The URL must not contain credentials or a fragment; the final destination must also pass public-network checks. At most one reference is allowed across all aliases, including duplicate values. Base64 and file uploads are not accepted."
+                                    }
+                                  }
+                                },
+                                {
+                                  "type": "object",
+                                  "required": [
+                                    "image_url"
+                                  ],
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "image_url": {
+                                      "type": "string",
+                                      "format": "uri",
+                                      "pattern": "^https://",
+                                      "description": "A public HTTPS reference image in JPEG, PNG, or WebP format, up to 5 MiB (5242880 bytes), 40000000 decoded pixels, and 23170 pixels on either edge. The URL must not contain credentials or a fragment; the final destination must also pass public-network checks. At most one reference is allowed across all aliases, including duplicate values. Base64 and file uploads are not accepted."
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        ],
+                        "description": "A public HTTPS reference image in JPEG, PNG, or WebP format, up to 5 MiB (5242880 bytes), 40000000 decoded pixels, and 23170 pixels on either edge. The URL must not contain credentials or a fragment; the final destination must also pass public-network checks. At most one reference is allowed across all aliases, including duplicate values. Base64 and file uploads are not accepted."
+                      },
+                      "image_urls": {
+                        "oneOf": [
+                          {
+                            "oneOf": [
+                              {
+                                "type": "string",
+                                "format": "uri",
+                                "pattern": "^https://",
+                                "description": "A public HTTPS reference image in JPEG, PNG, or WebP format, up to 5 MiB (5242880 bytes), 40000000 decoded pixels, and 23170 pixels on either edge. The URL must not contain credentials or a fragment; the final destination must also pass public-network checks. At most one reference is allowed across all aliases, including duplicate values. Base64 and file uploads are not accepted."
+                              },
+                              {
+                                "type": "object",
+                                "required": [
+                                  "url"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                  "url": {
+                                    "type": "string",
+                                    "format": "uri",
+                                    "pattern": "^https://",
+                                    "description": "A public HTTPS reference image in JPEG, PNG, or WebP format, up to 5 MiB (5242880 bytes), 40000000 decoded pixels, and 23170 pixels on either edge. The URL must not contain credentials or a fragment; the final destination must also pass public-network checks. At most one reference is allowed across all aliases, including duplicate values. Base64 and file uploads are not accepted."
+                                  }
+                                }
+                              },
+                              {
+                                "type": "object",
+                                "required": [
+                                  "image_url"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                  "image_url": {
+                                    "type": "string",
+                                    "format": "uri",
+                                    "pattern": "^https://",
+                                    "description": "A public HTTPS reference image in JPEG, PNG, or WebP format, up to 5 MiB (5242880 bytes), 40000000 decoded pixels, and 23170 pixels on either edge. The URL must not contain credentials or a fragment; the final destination must also pass public-network checks. At most one reference is allowed across all aliases, including duplicate values. Base64 and file uploads are not accepted."
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "type": "array",
+                            "maxItems": 1,
+                            "items": {
+                              "oneOf": [
+                                {
+                                  "type": "string",
+                                  "format": "uri",
+                                  "pattern": "^https://",
+                                  "description": "A public HTTPS reference image in JPEG, PNG, or WebP format, up to 5 MiB (5242880 bytes), 40000000 decoded pixels, and 23170 pixels on either edge. The URL must not contain credentials or a fragment; the final destination must also pass public-network checks. At most one reference is allowed across all aliases, including duplicate values. Base64 and file uploads are not accepted."
+                                },
+                                {
+                                  "type": "object",
+                                  "required": [
+                                    "url"
+                                  ],
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "url": {
+                                      "type": "string",
+                                      "format": "uri",
+                                      "pattern": "^https://",
+                                      "description": "A public HTTPS reference image in JPEG, PNG, or WebP format, up to 5 MiB (5242880 bytes), 40000000 decoded pixels, and 23170 pixels on either edge. The URL must not contain credentials or a fragment; the final destination must also pass public-network checks. At most one reference is allowed across all aliases, including duplicate values. Base64 and file uploads are not accepted."
+                                    }
+                                  }
+                                },
+                                {
+                                  "type": "object",
+                                  "required": [
+                                    "image_url"
+                                  ],
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "image_url": {
+                                      "type": "string",
+                                      "format": "uri",
+                                      "pattern": "^https://",
+                                      "description": "A public HTTPS reference image in JPEG, PNG, or WebP format, up to 5 MiB (5242880 bytes), 40000000 decoded pixels, and 23170 pixels on either edge. The URL must not contain credentials or a fragment; the final destination must also pass public-network checks. At most one reference is allowed across all aliases, including duplicate values. Base64 and file uploads are not accepted."
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        ],
+                        "description": "A public HTTPS reference image in JPEG, PNG, or WebP format, up to 5 MiB (5242880 bytes), 40000000 decoded pixels, and 23170 pixels on either edge. The URL must not contain credentials or a fragment; the final destination must also pass public-network checks. At most one reference is allowed across all aliases, including duplicate values. Base64 and file uploads are not accepted."
+                      },
+                      "input_reference": {
+                        "oneOf": [
+                          {
+                            "oneOf": [
+                              {
+                                "type": "string",
+                                "format": "uri",
+                                "pattern": "^https://",
+                                "description": "A public HTTPS reference image in JPEG, PNG, or WebP format, up to 5 MiB (5242880 bytes), 40000000 decoded pixels, and 23170 pixels on either edge. The URL must not contain credentials or a fragment; the final destination must also pass public-network checks. At most one reference is allowed across all aliases, including duplicate values. Base64 and file uploads are not accepted."
+                              },
+                              {
+                                "type": "object",
+                                "required": [
+                                  "url"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                  "url": {
+                                    "type": "string",
+                                    "format": "uri",
+                                    "pattern": "^https://",
+                                    "description": "A public HTTPS reference image in JPEG, PNG, or WebP format, up to 5 MiB (5242880 bytes), 40000000 decoded pixels, and 23170 pixels on either edge. The URL must not contain credentials or a fragment; the final destination must also pass public-network checks. At most one reference is allowed across all aliases, including duplicate values. Base64 and file uploads are not accepted."
+                                  }
+                                }
+                              },
+                              {
+                                "type": "object",
+                                "required": [
+                                  "image_url"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                  "image_url": {
+                                    "type": "string",
+                                    "format": "uri",
+                                    "pattern": "^https://",
+                                    "description": "A public HTTPS reference image in JPEG, PNG, or WebP format, up to 5 MiB (5242880 bytes), 40000000 decoded pixels, and 23170 pixels on either edge. The URL must not contain credentials or a fragment; the final destination must also pass public-network checks. At most one reference is allowed across all aliases, including duplicate values. Base64 and file uploads are not accepted."
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "type": "array",
+                            "maxItems": 1,
+                            "items": {
+                              "oneOf": [
+                                {
+                                  "type": "string",
+                                  "format": "uri",
+                                  "pattern": "^https://",
+                                  "description": "A public HTTPS reference image in JPEG, PNG, or WebP format, up to 5 MiB (5242880 bytes), 40000000 decoded pixels, and 23170 pixels on either edge. The URL must not contain credentials or a fragment; the final destination must also pass public-network checks. At most one reference is allowed across all aliases, including duplicate values. Base64 and file uploads are not accepted."
+                                },
+                                {
+                                  "type": "object",
+                                  "required": [
+                                    "url"
+                                  ],
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "url": {
+                                      "type": "string",
+                                      "format": "uri",
+                                      "pattern": "^https://",
+                                      "description": "A public HTTPS reference image in JPEG, PNG, or WebP format, up to 5 MiB (5242880 bytes), 40000000 decoded pixels, and 23170 pixels on either edge. The URL must not contain credentials or a fragment; the final destination must also pass public-network checks. At most one reference is allowed across all aliases, including duplicate values. Base64 and file uploads are not accepted."
+                                    }
+                                  }
+                                },
+                                {
+                                  "type": "object",
+                                  "required": [
+                                    "image_url"
+                                  ],
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "image_url": {
+                                      "type": "string",
+                                      "format": "uri",
+                                      "pattern": "^https://",
+                                      "description": "A public HTTPS reference image in JPEG, PNG, or WebP format, up to 5 MiB (5242880 bytes), 40000000 decoded pixels, and 23170 pixels on either edge. The URL must not contain credentials or a fragment; the final destination must also pass public-network checks. At most one reference is allowed across all aliases, including duplicate values. Base64 and file uploads are not accepted."
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        ],
+                        "description": "A public HTTPS reference image in JPEG, PNG, or WebP format, up to 5 MiB (5242880 bytes), 40000000 decoded pixels, and 23170 pixels on either edge. The URL must not contain credentials or a fragment; the final destination must also pass public-network checks. At most one reference is allowed across all aliases, including duplicate values. Base64 and file uploads are not accepted."
+                      }
+                    }
                   },
-                  "prompt": {
-                    "type": "string"
-                  },
-                  "n": {
-                    "type": "integer",
-                    "description": "Image count, subject to the selected model and route limits."
-                  },
-                  "size": {
-                    "type": "string",
-                    "description": "Accepted sizes depend on the selected model and route; not every size is guaranteed."
-                  },
-                  "quality": {
-                    "type": "string",
-                    "description": "Quality options depend on the selected model and route."
-                  },
-                  "images": {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    },
-                    "description": "Reference images: image URL or base64. image / image_urls / input_reference are accepted aliases and are normalized to images."
+                  {
+                    "title": "Other existing separate models",
+                    "type": "object",
+                    "required": [
+                      "model",
+                      "prompt"
+                    ],
+                    "properties": {
+                      "model": {
+                        "type": "string",
+                        "enum": [
+                          "gpt-image-2.5-hd",
+                          "gpt-image-2.5-flare",
+                          "gpt-image-2.5-sunburst"
+                        ]
+                      },
+                      "prompt": {
+                        "type": "string",
+                        "description": "The vendor prompt limit for separate Flare / Sunburst models remains 32000 characters; this standard-service change does not alter their contracts. This page does not assert an unverified hd limit."
+                      },
+                      "n": {
+                        "type": "integer",
+                        "description": "Image count, subject to the selected model and route limits."
+                      },
+                      "size": {
+                        "type": "string",
+                        "description": "Accepted sizes depend on the selected model and route."
+                      },
+                      "quality": {
+                        "type": "string",
+                        "description": "Quality options depend on the selected model and route."
+                      },
+                      "images": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "description": "Retains the existing separate-model reference-field contract; its limits are not derived from the standard service's one-reference limit."
+                      }
+                    }
                   }
-                }
+                ]
               },
               "example": {
                 "model": "gpt-image-2.5",
-                "prompt": "A product photo on a white background",
-                "n": 1
+                "prompt": "An adult male character sheet on white: a facial close-up on the left and a full-body view on the right, with a consistent appearance.",
+                "n": 1,
+                "size": "16:9",
+                "quality": "medium",
+                "output_format": "png"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Image results or an accepted asynchronous task.",
+            "description": "Image results or the accepted original asynchronous task.",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "description": "The response can contain image results or an asynchronous task; handle the returned shape.",
+                  "description": "Read image results or an asynchronous task according to the returned shape. Task acceptance does not mean an image is complete.",
                   "properties": {
                     "created": {
                       "type": "integer"
@@ -101,7 +573,7 @@
                     },
                     "id": {
                       "type": "string",
-                      "description": "Asynchronous task ID, when returned."
+                      "description": "The original asynchronous task ID, when returned. Continue polling that task."
                     },
                     "object": {
                       "type": "string"
@@ -118,22 +590,22 @@
             }
           },
           "400": {
-            "description": "Invalid request"
+            "description": "Invalid input or parameters outside the standard service's reviewed scope."
           },
           "401": {
-            "description": "Authentication required"
+            "description": "Authentication required."
           },
           "402": {
-            "description": "Insufficient quota"
+            "description": "Insufficient quota."
           },
           "403": {
-            "description": "Forbidden"
+            "description": "Forbidden."
           },
           "429": {
-            "description": "Rate limit exceeded"
+            "description": "Rate limit exceeded."
           },
           "500": {
-            "description": "Server error"
+            "description": "Server error."
           }
         }
       }

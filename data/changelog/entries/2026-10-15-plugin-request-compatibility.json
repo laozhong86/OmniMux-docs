@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "id": "2026-10-15-plugin-request-compatibility",
+  "published_at": "2026-10-15",
+  "rank": 1,
+  "type": "platform",
+  "modality": [
+    "text",
+    "platform"
+  ],
+  "title": {
+    "en": "Plugin request compatibility and converted-stream billing",
+    "zh": "插件请求兼容与转换流结算"
+  },
+  "summary": {
+    "en": "Plugin hosts support ordered requests; converted text streams settle delivered output under their documented failure rules.",
+    "zh": "插件宿主支持保留请求顺序；转换文本流按已交付内容及规定的失败规则结算。"
+  },
+  "models": [],
+  "links": [
+    {
+      "label": {
+        "en": "Documentation",
+        "zh": "文档"
+      },
+      "href": {
+        "en": "/en/faqs/features",
+        "zh": "/zh/faqs/features"
+      }
+    }
+  ],
+  "tags": [
+    "compatibility"
+  ],
+  "body": {
+    "en": "The gateway can load plugins that require ordered request members when the installed plugin and host versions are compatible. This does not activate or launch TypeSafe models.\n\nCross-protocol requests map media by MIME type. Converted Chat Completions and Responses streams can settle delivered output after interruption; an upstream failure before any output reaches the client is not charged by this specific rule. Hosted-search charges follow reported usage and the applicable tool price. No model prices or catalog entries are changed by this documentation update.",
+    "zh": "宿主与插件版本匹配时，网关可加载要求保留请求成员顺序的插件。这不代表 TypeSafe 模型已启用或上架。\n\n跨格式请求按媒体实际类型映射内容。Chat Completions 与 Responses 之间转换的流在中断后仍可结算已交付内容；按该特定规则，上游在内容送达客户端之前失败不收费。托管搜索按报告用量和适用工具价格结算。本次文档不更改模型价格或模型目录。"
+  }
+}

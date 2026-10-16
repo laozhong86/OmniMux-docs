@@ -1,30 +1,55 @@
 ---
 title: "GPT Image · 图像生成"
 sidebarTitle: "GPT Image · 图像生成"
-description: "使用 GPT Image 2.5 按次模型生成图像。"
+description: "GPT Image 标准生图与既有独立型号的调用规范。"
 openapi: "openapi/ops/image/zh/gpt-image.json POST /v1/images/generations"
 ---
 
 <Warning>
-自 2026-09-10 起，`gpt-image-2` 和 `gpt-image-2-hd` 已分别更名为 `gpt-image-2.5` 和 `gpt-image-2.5-hd`。旧 model ID 不再接受；请更新请求中的 `model`。这不是兼容别名。
+自 2026-09-10 起，`gpt-image-2` 和 `gpt-image-2-hd` 已分别更名为 `gpt-image-2.5` 和 `gpt-image-2.5-hd`。旧型号不再接受；这些不是兼容别名。下述标准服务限制仅适用于裸 `gpt-image-2.5` 的标准路线，不修改其他独立型号。
 </Warning>
 
-这两个按次模型的基础价分别为 USD 0.0441/次和 USD 0.005479/次；分组倍率可能影响最终费用。本次更名未改变价格。
+## 标准规格
 
-返回 `data` 时读取图像结果；返回 `image.generation.task` 时表示异步任务已提交，不代表图像已生成。响应形态取决于实际路由，请勿将任务提交响应当作最终结果。
+标准路线支持文生图和单参考图编辑，每次生成一张 `medium` 质量的 PNG 图片。`n`、`quality`、`output_format` 省略时分别为 `1`、`medium`、`png`。仅接受 JSON，不支持文件上传或表单提交。
 
-Flare 和 Sunburst 是独立的 Token 计费模型，不属于此按次契约，目前尚未开放。
+| 画幅 | 精确输出像素 |
+| --- | --- |
+| 1:1 | 1024x1024 |
+| 2:3 | 1024x1536 |
+| 3:2 | 1536x1024 |
+| 3:4 | 1024x1360 |
+| 4:3 | 1360x1024 |
+| 9:16 | 1088x1920 |
+| 16:9 | 1920x1088 |
 
-## 参考图限制
+`size` 可使用上述画幅标签或精确像素值；省略或空字符串默认为 `1024x1024`。3:4 和 4:3 使用近似画幅：长边由旧 1365 调整为 1360 像素，相差 5 像素。旧 `1024x1365` / `1365x1024` 明确拒绝。`size` 与 `aspect_ratio` 同时填写时必须对应相同像素。角色工作台显式使用 `1920x1088` 横版角色板或多视角板；多视角是在同一张图内呈现多个视图，不是多张输出。
 
-参考图字段为 `images`（图片 URL 或 base64 字符串数组）；`image`、`image_urls`、`input_reference` 为可接受的别名，网关会归一为 `images`。
+## 单参考图
 
-- `gpt-image-2.5`：单次最多 16 张；无下限（文生图不传 `images`）；单张参考图的接受格式与大小上限官方未公布。
-- `gpt-image-2.5-hd`：尚无模型档案，参考图上限**未核验**，本页不声明其张数、格式与单文件大小上限。
-- `gpt-image-2.5-flare`：特惠档生图路由模型，参考图规格与基准版一致。
-- `gpt-image-2.5-sunburst`：经济低价档生图路由模型，参考图规格与基准版一致。
+文生图可不传参考；编辑时提供一张公开 HTTPS 图片。接受 JPEG、PNG、WebP，单张最多 5 MiB（5242880 字节），解码后最多 40000000 像素，任一边最多 23170 像素。URL 和最终目的地址须通过公网访问检查。
 
-官方图像指南中的 50 MB 属于「编辑图与其遮罩」的口径，不是单张参考图上限，因此本页不声明单文件上限。
+`image`、`images`、`image_urls`、`input_reference` 是参考别名，每项可为 URL 字符串或仅含 `url` / `image_url` 单键的对象，也可包在数组中；所有字段合计最多一张，重复填写同一 URL 也计为多张。此标准路线不接受 base64。JPEG / WebP 是参考输入格式，输出仍仅为 PNG。
+
+## 提示词与拒绝范围
+
+完整提示词须同时满足三项上限：**8192 个 Unicode 码点、16384 个 UTF-8 字节，以及本服务使用 `o200k_base` 计算的 5000 个词元**。首尾空白也计数，不得全为空白。这是本标准服务的运营限制；独立 Flare / Sunburst 的官方 32000 字符事实保持不变。本服务的词元计数用于请求准入，不代表供应商最终计费量，也不保证单次采购成本上限。
+
+工作台的角色描述仍沿用原输入长度限制，但最终拼接后的完整提示词还要满足上述三项限制。部分包含大量四字节字符或词元较多的原 4000 字符长描述会因此被拒绝；不能把“4000 字符可输入”理解为所有组合都能提交成功。服务不会截断、压缩或替换提示词。
+
+多图输出、多参考、更高质量、JPEG / WebP 输出、未列出尺寸、遮罩、透明背景及其他未经审核的扩展参数会明确拒绝，不自动降级。已识别标准路线的公开请求返回 HTTP 400，且不创建供应商任务、不预留生成费用。工作台可能先排队后检查；超限任务会明确无费失败，不能据此承诺所有工作台输入都即时返回 HTTP 400。无法识别型号或分组的畸形请求沿用原分发错误。
+
+## 报价与线路
+
+角色工作台自动选择已审核且支持本次输入的线路，无需用户选择供应商。同一账户档位、相同标准请求采用统一每张报价，实际金额以提交前报价为准；换用合格候选线路不会追加费用。本页不把供应商采购价或历史基础价当作客户实付价。
+
+系统仅在能够证明首选没有创建供应商任务，且内置重试规则和总预算允许时尝试下一条合格线路。备用必须经过审核；本页不承诺当前始终有两条健康线路。
+
+## 任务受理与完成
+
+返回异步任务编号表示已接单，不代表图片已经完成。继续查询原任务直到取得可打开的图片或明确最终状态。超时、断连、缺回执等结果不明情况，以及已经接单的任务，会继续核对原单，不会自动重复生成。已失败的旧任务不会因本次更新自动重发。
+
+其他既有独立型号（`gpt-image-2.5-hd`、`gpt-image-2.5-flare`、`gpt-image-2.5-sunburst`）保留各自合同；本页的单图、单参考和运营提示词上限不能外推为它们的新限制，也不能由底层更宽能力推导标准服务已开放全部规格。
 
 <Panel>
 <RequestExample>
@@ -34,14 +59,18 @@ curl --request POST \
   --url https://api.omnimux.ai/v1/images/generations \
   --header 'Authorization: Bearer <token>' \
   --header 'Content-Type: application/json' \
-  --data '{"model": "gpt-image-2.5", "prompt": "A product photo on a white background", "n": 1}'
+  --data '{"model": "gpt-image-2.5", "prompt": "成年男性角色设定板：白底，左侧面部近景，右侧完整全身，人物外观保持一致。", "n": 1, "size": "16:9", "quality": "medium", "output_format": "png"}'
 ```
 
 </RequestExample>
 <ResponseExample>
 
 ```json 200 — illustrative async task
-{"id":"task_example","object":"image.generation.task","model":"gpt-image-2.5-hd","status":"pending","created":0}
+{"id": "task_example", "object": "image.generation.task", "model": "gpt-image-2.5", "status": "pending", "created": 0}
+```
+
+```json 400
+{"error":{"message":"Unsupported standard image request","type":"invalid_request"}}
 ```
 
 ```json 402

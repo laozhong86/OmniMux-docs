@@ -12,6 +12,28 @@ Primary text path follows **OpenAI Chat Completions**. Point clients at `https:/
 
 Live catalog only: language / image / video, plus social-data (read) and publishing (write, different auth).
 
+## What does the system update checker show?
+
+The administrator’s update checker reads the latest successfully deployed **OmniMux site release announcement**. The announcement is published automatically after deployment and health checks succeed, independently of the running application. It includes the released version and publication time.
+
+This is not a list of upstream changes waiting to be deployed, and checking it does not upgrade the system. Release details open the [API Updates](/en/updates) page in the current language. If two site builds share the same upstream version but have different build identifiers, that difference alone does not establish which is newer or recommend a rollback.
+
+An unavailable or invalid announcement still produces an error. Any previous result is marked as cached; it does not establish that the latest check succeeded. Results from the retired update source are not reused as results from the new source.
+
+## Plugin installation compatibility
+
+A marketplace plugin can require a newer host capability than the installed gateway provides. An installation error such as `unsupported or duplicate required capability "json-order@1"` identifies an unsupported or repeated capability declaration; it is unrelated to an API key or account balance. The operator must check the exact plugin version and host support before enabling it. Removing the declaration is not a compatibility fix: order-sensitive integrations need the complete request-preservation path.
+
+Plugin compatibility does not launch a model, activate a channel, change its price, or prove a successful supplier request. Continue to use the live catalog and the published contract for the model you can access.
+
+## Cross-protocol requests
+
+When the gateway converts between Chat Completions, Responses, Claude and Gemini, media is mapped according to its actual MIME type and the target protocol. A target that cannot carry a media type can omit it during conversion; successful HTTP delivery alone does not prove that every original input was used. Verify the returned content for your integration.
+
+Thinking controls depend on the exact model and upstream. Unsupported effort levels can be adjusted or removed; a model that cannot disable thinking can use its lowest supported setting instead. A suffix is adapted only when the operator enables that adapter. The same requested effort is not a promise of an identical compute budget across models.
+
+For Gemini tool parameters and structured output, schemas that do not fit the legacy typed schema can use the original JSON Schema on compatible Gemini v1beta or Vertex AI upstreams. Gemini v1 uses the legacy conversion and can lose unsupported constraints; legacy-compatible schemas may still be normalized. This is not a guarantee of every JSON Schema keyword on every route. Validate the returned structure before using it in a workflow.
+
 ## Why not identical to ChatGPT/Claude websites?
 
 APIs expose model capability, not each vendor’s product shell (browsing, memory UI, built-in tools). Manage context, system prompts, and tools yourself.
@@ -21,6 +43,12 @@ APIs expose model capability, not each vendor’s product shell (browsing, memor
 Create: `POST /v1/video/generations`  
 Poll: `GET /v1/video/generations/{task_id}`  
 Do not confuse with `/v1/videos/{id}/content` download.
+
+### Automatic duration is model-specific
+
+The generic video API can accept `-1` as automatic duration only when the selected installed plugin explicitly declares that capability and the model contract permits it. Reservation uses that model's longest supported duration; completion settles against reported usage. A positive duration keeps its model-specific limits. Do not infer automatic-duration support from a plugin marketplace listing alone.
+
+This does not change the character workbench’s reference requirements below: motion-transfer input is **2–30 seconds**, object-swap input is **4–30 seconds**, and generated output remains **4–30 whole seconds**. Generic plugin support does not bypass file, media, framing or duration checks in that workflow.
 
 ### Reference-video checks in the character workbench
 

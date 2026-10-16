@@ -1,0 +1,57 @@
+---
+title: "导出本人用量日志"
+sidebarTitle: "导出本人用量日志"
+description: "导出已认证用户本人可见日志；逐行 JSON 末尾须有成功结果。"
+openapi: "openapi/ops/account/zh/usage-log-export.json GET /api/log/self/export"
+---
+
+- 这是账户管理的用户接口，使用用户访问令牌或网站登录会话；`sk-` 网关生成密钥不适用。个人访问令牌必须具备 `usage:read` 权限，详见[安全与密钥](/zh/faqs/security)。
+- 只导出当前已认证账户本人的可见日志，采用与本人日志列表相同的可见范围。传入其他用户名或渠道条件不会获得他人记录。
+- 普通用户导出由管理员设置控制。每账户同一时间只允许一个导出；繁忙、超范围、关闭导出等业务拒绝可能仍返回 **HTTP 200**，必须读取 `success`。
+
+## 如何确认导出完整？
+
+成功响应类型为 `application/x-ndjson`，每行一个日志对象，**最后一行**是结果对象，例如 `{"success":true,"message":"","data":{"count":1}}`。最后一行的数量不包含结果对象本身。没有匹配日志时也会有数量为 0 的成功结果。
+
+只有读到最后一行 `success: true`，且记录数量与 `data.count` 一致，才能确认完整。中途失败可能在流末返回 `success: false`；断网、取消或缺少结果末行时，已收到的数据只能视为部分结果。不能因收到 200 或若干条记录就认定完成。
+
+## 时间跨度与记录字段
+
+最大跨度由系统设置决定，默认 365 天；负数时间戳、起点晚于有效终点、不合法的筛选模式和超出跨度都会在输出流之前拒绝；更长范围请拆成允许的时间段。该限制不是日志保存期限，也不会自动删除记录。省略起点时，从有效终点向前取最大跨度；省略终点时使用当前时间。
+
+导出记录采用本人列表的显示顺序。`id` 为本次导出的显示序号，不是数据库记录编号，也不能用来跨次增量同步。`quota` 是内部原始额度：`quota ÷ 500000 = USD`，`1 USD = 10 积分`；不要直接把它叫作积分。内部管理信息仍按本人列表规则隐藏。
+
+此读取接口不发起生成，也不因导出本身扣取生成费用。管理员跨账户导出不属于本页合同。
+
+<ResponseExample>
+
+```json 200 NDJSON
+{"id":1,"user_id":42,"created_at":1791979200,"type":2,"content":"","username":"example-user","token_name":"example-key","model_name":"","quota":500,"prompt_tokens":10,"completion_tokens":5,"use_time":1,"is_stream":false,"channel":0,"channel_name":"","token_id":1,"group":"","ip":"","request_id":"example-request-id","other":"{}"}
+{"success":true,"message":"","data":{"count":1}}
+```
+
+```json 401
+{
+  "success": false,
+  "code": "AUTH_UNAUTHORIZED",
+  "message": "Invalid user credential"
+}
+```
+
+```json 403
+{
+  "success": false,
+  "code": "ACCESS_TOKEN_SCOPE_DENIED",
+  "message": "Permission denied"
+}
+```
+
+```json 500
+{
+  "success": false,
+  "code": "AUTH_INTERNAL_ERROR",
+  "message": "Internal authentication error"
+}
+```
+
+</ResponseExample>

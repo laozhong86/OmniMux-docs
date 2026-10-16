@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "id": "2026-10-15-video-plugin-compatibility",
+  "published_at": "2026-10-15",
+  "rank": 2,
+  "type": "platform",
+  "modality": [
+    "video",
+    "platform"
+  ],
+  "title": {
+    "en": "Video plugin duration and upload compatibility",
+    "zh": "视频插件时长与上传兼容"
+  },
+  "summary": {
+    "en": "Automatic duration remains opt-in per installed plugin and model contract; character-workbench media limits remain in force.",
+    "zh": "自动时长仍以已安装插件及模型说明允许为前提，角色工作台媒体限制继续有效。"
+  },
+  "models": [],
+  "links": [
+    {
+      "label": {
+        "en": "Documentation",
+        "zh": "文档"
+      },
+      "href": {
+        "en": "/en/faqs/features",
+        "zh": "/zh/faqs/features"
+      }
+    }
+  ],
+  "tags": [
+    "compatibility"
+  ],
+  "body": {
+    "en": "Automatic duration (`-1`) is accepted only by an installed plugin that declares the capability and a model contract that permits it. Reservation uses the supported maximum and completion settles reported usage. Positive durations retain their model-specific limits.\n\nPlugin multipart uploads use the body boundary generated for the forwarded request. This does not change the character workbench’s reference rules (2–30-second motion-transfer input, 4–30-second object-swap input and 4–30-whole-second output), media checks, or upload limits, and does not launch or enable a video model.",
+    "zh": "只有已安装插件声明能力且模型说明允许时，自动时长（`-1`）才会被接受。预扣使用支持的最长时长，完成后结算报告的实际用量；正数时长仍遵循模型各自限制。\n\n插件表单上传采用转发请求实际生成的内容边界。本次不改变角色工作台参考规则（动作迁移输入 2 至 30 秒、对象替换输入 4 至 30 秒、成片 4 至 30 整数秒）、媒体检查或上传上限，也不代表新视频模型启用或上架。"
+  }
+}
