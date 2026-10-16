@@ -871,7 +871,7 @@
       "post": {
         "operationId": "InfluencerCreateVideo",
         "summary": "创建角色视频",
-        "description": "未发布草稿。需要明确的 influencer_creation:write 权限；有效网页会话也可使用同一归属受限入口。创建请求拒绝未知顶层字段；调用方不能选择模型、供应商分组、尺寸或手填时长。",
+        "description": "未发布草稿。需要明确的 influencer_creation:write 权限；有效网页会话也可使用同一归属受限入口。创建请求拒绝未知顶层字段；调用方不能选择模型、供应商分组、尺寸或手填时长。 4–30秒限制针对参考视频，成片时长可能不同。参考原声会传入生成，但成片音量可能变化，不承诺无损保留；请检查下载成片。",
         "x-required-scopes": [
           "influencer_creation:write"
         ],
@@ -2337,10 +2337,12 @@
                 }
               },
               "min_seconds": {
-                "type": "integer"
+                "type": "integer",
+                "description": "允许的参考视频最短秒数，不代表生成成片时长。"
               },
               "max_seconds": {
-                "type": "integer"
+                "type": "integer",
+                "description": "允许的参考视频最长秒数，不保证生成成片具有相同时长。"
               },
               "min_images": {
                 "type": "integer"
@@ -2352,7 +2354,8 @@
                 "type": "integer"
               },
               "preserves_reference_audio": {
-                "type": "boolean"
+                "type": "boolean",
+                "description": "参考原声会传入生成，成片音量可能变化；不承诺无损或逐个音频采样完全相同。"
               },
               "server_inspects_media": {
                 "type": "boolean"

@@ -46,6 +46,8 @@ omnimux influencer character multiview task_example_character --request-id creat
 
 使用成功的原角色主图和真实参考视频创建视频。默认采用运动交换和 480 档，后台会识别参考视频真实的 4–30 秒时长；对象交换可加 `--mode replace`。不传模型、供应商分组或手填时长。
 
+图片实际像素、视频实际时长和声音以下载成品为准。成片时长和音量可能与参考不同，详见[视频成品限制](/zh/api-reference/account/influencer/create-video)。
+
 ```bash
 omnimux influencer video create --character task_example_character --video ./reference.mp4 --request-id creator-video-0001 --yes
 omnimux influencer request get creator-video-0001

@@ -871,7 +871,7 @@
       "post": {
         "operationId": "InfluencerCreateVideo",
         "summary": "Create Character Video",
-        "description": "UNPUBLISHED DRAFT. Requires explicit influencer_creation:write. Valid website sessions may use the same owner-scoped route. Unknown top-level creation fields are rejected; clients cannot choose model, supplier group, size or duration.",
+        "description": "UNPUBLISHED DRAFT. Requires explicit influencer_creation:write. Valid website sessions may use the same owner-scoped route. Unknown top-level creation fields are rejected; clients cannot choose model, supplier group, size or duration. The 4–30-second limit is for the reference clip; finished video duration may differ. Reference audio is supplied to generation, but output loudness may change and lossless preservation is not guaranteed. Inspect the downloaded result.",
         "x-required-scopes": [
           "influencer_creation:write"
         ],
@@ -2337,10 +2337,12 @@
                 }
               },
               "min_seconds": {
-                "type": "integer"
+                "type": "integer",
+                "description": "Minimum accepted reference-video duration in seconds, not the finished-video duration."
               },
               "max_seconds": {
-                "type": "integer"
+                "type": "integer",
+                "description": "Maximum accepted reference-video duration in seconds, not a guarantee about the finished-video duration."
               },
               "min_images": {
                 "type": "integer"
@@ -2352,7 +2354,8 @@
                 "type": "integer"
               },
               "preserves_reference_audio": {
-                "type": "boolean"
+                "type": "boolean",
+                "description": "Reference audio is supplied to generation; output loudness may change. This does not promise lossless or bit-for-bit audio preservation."
               },
               "server_inspects_media": {
                 "type": "boolean"

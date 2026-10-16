@@ -34,6 +34,8 @@ Defaults: `motion` and `480p`. In motion mode an explicit ratio wins; when omitt
 
 The request preserves image order, passes the reference audio, and uses the saved character's human/cat/dog type. Inspect the finished video to verify appearance, movement, framing and audio; task success alone does not establish creative fidelity.
 
+The 4–30-second limit applies to the reference clip, not a guarantee of the finished video's exact duration. Generated duration may differ: a four-second reference/request has produced a clip of about 3.71 seconds. `duration_sec` is the server-derived integer request duration, not a measurement of the finished video. Reference audio is supplied to generation, but output loudness may change; lossless or bit-for-bit audio preservation is not promised. Check the downloaded video for actual duration and sound.
+
 <Panel>
 
 <RequestExample>

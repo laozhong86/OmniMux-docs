@@ -46,6 +46,8 @@ omnimux influencer character multiview task_example_character --request-id creat
 
 Use a successful original character and a real reference clip to create a video. The defaults are motion mode and 480p; the service inspects the clip's actual 4–30-second duration. Choose `--mode replace` for object replacement. Do not supply a model, supplier group, or duration override.
 
+Check the downloaded result for actual image dimensions, video duration and sound. Generated duration and audio loudness may differ from the reference; see [video output limitations](/en/api-reference/account/influencer/create-video).
+
 ```bash
 omnimux influencer video create --character task_example_character --video ./reference.mp4 --request-id creator-video-0001 --yes
 omnimux influencer request get creator-video-0001
