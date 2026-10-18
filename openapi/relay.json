@@ -1337,13 +1337,13 @@
     },
     "/v1beta/models/{model}:generateContent": {
       "post": {
-        "summary": "Gemini 图片(Nano Banana)",
-        "deprecated": false,
-        "description": "Gemini 图片生成",
         "operationId": "geminiRelayV1Beta",
+        "deprecated": false,
         "tags": [
-          "Gemini"
+          "Gemini格式"
         ],
+        "summary": "Gemini 原生内容生成",
+        "description": "Gemini 原生内容接口。生成文字或图像取决于所选模型；gemini-4-argon 返回文字或结构化结果。图片生成模型继续使用 responseModalities 和 imageConfig。",
         "parameters": [
           {
             "name": "model",
@@ -1357,100 +1357,119 @@
           }
         ],
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "contents": {
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "properties": {
-                        "role": {
-                          "type": "string"
-                        },
-                        "parts": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "text": {
-                                "type": "string"
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "contents": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "role": {
+                              "type": "string"
+                            },
+                            "parts": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "text": {
+                                    "type": "string"
+                                  }
+                                }
                               }
                             }
                           }
                         }
-                      }
-                    }
-                  },
-                  "generationConfig": {
-                    "type": "object",
-                    "properties": {
-                      "responseModalities": {
-                        "type": "array",
-                        "items": {
-                          "type": "string"
-                        }
                       },
-                      "imageConfig": {
+                      "generationConfig": {
                         "type": "object",
                         "properties": {
-                          "aspectRatio": {
-                            "type": "string"
+                          "responseModalities": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
                           },
-                          "imageSize": {
-                            "type": "string"
+                          "imageConfig": {
+                            "type": "object",
+                            "properties": {
+                              "aspectRatio": {
+                                "type": "string"
+                              },
+                              "imageSize": {
+                                "type": "string"
+                              }
+                            }
                           }
-                        }
+                        },
+                        "required": [
+                          "responseModalities"
+                        ]
                       }
                     },
                     "required": [
-                      "responseModalities"
+                      "contents",
+                      "generationConfig"
                     ]
-                  }
-                },
-                "required": [
-                  "contents",
-                  "generationConfig"
-                ]
-              },
-              "example": {
-                "contents": [
+                  },
                   {
-                    "role": "user",
-                    "parts": [
-                      {
-                        "text": "draw a cat"
-                      }
-                    ]
+                    "$ref": "#/components/schemas/ArgonNativeRequest"
                   }
-                ],
-                "generationConfig": {
-                  "responseModalities": [
-                    "TEXT",
-                    "IMAGE"
-                  ],
-                  "imageConfig": {
-                    "aspectRatio": "16:9",
-                    "imageSize": "4K"
-                  }
-                }
+                ]
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "成功",
+            "description": "Native response; inspect finishReason and usageMetadata",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GeminiResponse"
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/GeminiResponse"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ArgonNativeResponse"
+                    }
+                  ]
                 }
               }
-            },
-            "headers": {}
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ArgonBadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/ArgonUnauthorized"
+          },
+          "402": {
+            "$ref": "#/components/responses/ArgonInsufficientQuota"
+          },
+          "403": {
+            "$ref": "#/components/responses/ArgonForbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/ArgonNotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/ArgonRateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ArgonInternalError"
+          },
+          "502": {
+            "$ref": "#/components/responses/ArgonUpstreamError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ArgonUnavailable"
           }
         },
         "security": [
@@ -1909,6 +1928,95 @@
             "headers": {}
           }
         },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1beta/models/{model}:streamGenerateContent": {
+      "post": {
+        "operationId": "streamGeminiNativeText",
+        "summary": "Gemini native streaming text generation",
+        "description": "Use the same native request body with alt=sse. Read complete data events and inspect final finishReason and usageMetadata.",
+        "parameters": [
+          {
+            "name": "model",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "gemini-4-argon"
+              ]
+            }
+          },
+          {
+            "name": "alt",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "sse"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ArgonNativeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "SSE data events containing native response chunks",
+            "content": {
+              "text/event-stream": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "data: {\"candidates\":[{\"content\":{\"role\":\"model\",\"parts\":[{\"text\":\"Hello\"}]}}]}\n\ndata: {\"candidates\":[{\"finishReason\":\"STOP\"}],\"usageMetadata\":{\"promptTokenCount\":74,\"candidatesTokenCount\":6,\"thoughtsTokenCount\":115,\"totalTokenCount\":195}}\n\n"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ArgonBadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/ArgonUnauthorized"
+          },
+          "402": {
+            "$ref": "#/components/responses/ArgonInsufficientQuota"
+          },
+          "403": {
+            "$ref": "#/components/responses/ArgonForbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/ArgonNotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/ArgonRateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ArgonInternalError"
+          },
+          "502": {
+            "$ref": "#/components/responses/ArgonUpstreamError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ArgonUnavailable"
+          }
+        },
+        "tags": [
+          "Gemini格式"
+        ],
         "security": [
           {
             "BearerAuth": []
@@ -4204,9 +4312,451 @@
             "type": "integer"
           }
         }
+      },
+      "ArgonTextPart": {
+        "type": "object",
+        "required": [
+          "text"
+        ],
+        "properties": {
+          "text": {
+            "type": "string"
+          }
+        }
+      },
+      "ArgonInlinePart": {
+        "type": "object",
+        "required": [
+          "inlineData"
+        ],
+        "properties": {
+          "inlineData": {
+            "type": "object",
+            "required": [
+              "mimeType",
+              "data"
+            ],
+            "properties": {
+              "mimeType": {
+                "type": "string",
+                "enum": [
+                  "image/png",
+                  "video/mp4",
+                  "application/pdf"
+                ]
+              },
+              "data": {
+                "type": "string",
+                "description": "Complete original media bytes encoded as base64, without a data-URL prefix",
+                "format": "byte"
+              }
+            }
+          }
+        }
+      },
+      "ArgonNativeContent": {
+        "type": "object",
+        "required": [
+          "parts"
+        ],
+        "properties": {
+          "role": {
+            "type": "string",
+            "enum": [
+              "user"
+            ]
+          },
+          "parts": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/ArgonTextPart"
+                },
+                {
+                  "$ref": "#/components/schemas/ArgonInlinePart"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "ArgonNativeRequest": {
+        "type": "object",
+        "required": [
+          "contents"
+        ],
+        "properties": {
+          "systemInstruction": {
+            "type": "object",
+            "required": [
+              "parts"
+            ],
+            "properties": {
+              "parts": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ArgonTextPart"
+                }
+              }
+            },
+            "description": "Task framework and scope; media content is data, not a higher-priority instruction"
+          },
+          "contents": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "$ref": "#/components/schemas/ArgonNativeContent"
+            }
+          },
+          "generationConfig": {
+            "type": "object",
+            "properties": {
+              "thinkingConfig": {
+                "type": "object",
+                "properties": {
+                  "thinkingLevel": {
+                    "type": "string",
+                    "enum": [
+                      "low"
+                    ],
+                    "description": "This reference documents low thinking effort."
+                  }
+                }
+              },
+              "maxOutputTokens": {
+                "type": "integer",
+                "minimum": 1,
+                "example": 2048,
+                "description": "Combined thinking and visible-output budget. This example value is not a model maximum."
+              },
+              "responseMimeType": {
+                "type": "string",
+                "enum": [
+                  "application/json"
+                ]
+              },
+              "responseSchema": {
+                "type": "object",
+                "description": "Native Schema object for structured text, used with responseMimeType=application/json."
+              }
+            }
+          },
+          "tools": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "functionDeclarations": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "name",
+                      "parameters"
+                    ],
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "parameters": {
+                        "type": "object"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Function declarations for a single-turn function-call response. The returned functionCall asks the client to execute the function; it does not run the function."
+          },
+          "toolConfig": {
+            "type": "object",
+            "properties": {
+              "functionCallingConfig": {
+                "type": "object",
+                "properties": {
+                  "mode": {
+                    "type": "string",
+                    "enum": [
+                      "ANY"
+                    ]
+                  },
+                  "allowedFunctionNames": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "example": {
+          "systemInstruction": {
+            "parts": [
+              {
+                "text": "Respond concisely."
+              }
+            ]
+          },
+          "contents": [
+            {
+              "role": "user",
+              "parts": [
+                {
+                  "text": "Hello."
+                }
+              ]
+            }
+          ],
+          "generationConfig": {
+            "maxOutputTokens": 2048
+          }
+        }
+      },
+      "ArgonNativeResponse": {
+        "type": "object",
+        "properties": {
+          "modelVersion": {
+            "type": "string",
+            "description": "Supplier-reported model version; not independent backend identity proof"
+          },
+          "responseId": {
+            "type": "string"
+          },
+          "candidates": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "index": {
+                  "type": "integer"
+                },
+                "finishReason": {
+                  "type": "string"
+                },
+                "content": {
+                  "type": "object",
+                  "properties": {
+                    "role": {
+                      "type": "string"
+                    },
+                    "parts": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "text": {
+                            "type": "string"
+                          },
+                          "thought": {
+                            "type": "boolean"
+                          },
+                          "functionCall": {
+                            "type": "object",
+                            "properties": {
+                              "name": {
+                                "type": "string"
+                              },
+                              "args": {
+                                "type": "object"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "usageMetadata": {
+            "$ref": "#/components/schemas/ArgonUsageMetadata"
+          }
+        }
+      },
+      "ArgonUsageMetadata": {
+        "type": "object",
+        "properties": {
+          "promptTokenCount": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "toolUsePromptTokenCount": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Additional reported tool-use input, counted in total input once"
+          },
+          "candidatesTokenCount": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "thoughtsTokenCount": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Reported thinking, counted in output once"
+          },
+          "cachedContentTokenCount": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Cached input subset, not additional input"
+          },
+          "totalTokenCount": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "promptTokensDetails": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ArgonModalityUsage"
+            }
+          },
+          "toolUsePromptTokensDetails": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ArgonModalityUsage"
+            }
+          }
+        },
+        "description": "Optional fields remain absent when not supplied; absent is not an explicit zero. Do not add modality breakdowns again or treat cumulative stream snapshots as separate charges."
+      },
+      "ArgonModalityUsage": {
+        "type": "object",
+        "properties": {
+          "modality": {
+            "type": "string"
+          },
+          "tokenCount": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      },
+      "ArgonError": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string"
+              },
+              "code": {
+                "oneOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "integer"
+                  }
+                ]
+              }
+            }
+          }
+        }
       }
     },
-    "responses": {},
+    "responses": {
+      "ArgonBadRequest": {
+        "description": "Invalid or unsupported request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ArgonError"
+            }
+          }
+        }
+      },
+      "ArgonUnauthorized": {
+        "description": "Missing or invalid OmniMux API token",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ArgonError"
+            }
+          }
+        }
+      },
+      "ArgonInsufficientQuota": {
+        "description": "Insufficient available quota",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ArgonError"
+            }
+          }
+        }
+      },
+      "ArgonForbidden": {
+        "description": "Request/model access is not allowed; this native surface may also return insufficient_user_quota as HTTP 403. Inspect the error code and message rather than assuming a permission problem.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ArgonError"
+            }
+          }
+        }
+      },
+      "ArgonNotFound": {
+        "description": "Requested resource or model is unavailable",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ArgonError"
+            }
+          }
+        }
+      },
+      "ArgonRateLimited": {
+        "description": "Rate limit reached",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ArgonError"
+            }
+          }
+        }
+      },
+      "ArgonInternalError": {
+        "description": "Gateway error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ArgonError"
+            }
+          }
+        }
+      },
+      "ArgonUpstreamError": {
+        "description": "Upstream error or incomplete upstream result",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ArgonError"
+            }
+          }
+        }
+      },
+      "ArgonUnavailable": {
+        "description": "No available accepted route",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ArgonError"
+            }
+          }
+        }
+      }
+    },
     "securitySchemes": {
       "BearerAuth": {
         "type": "http",

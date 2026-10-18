@@ -2,7 +2,7 @@
   "schema_version": 1,
   "page": 1,
   "page_size": 50,
-  "total": 62,
+  "total": 63,
   "total_pages": 2,
   "items": [
     {
@@ -49,6 +49,58 @@
       "body": {
         "en": "## Public page search settings and sitemap scope\n\nThe homepage (`/`), pricing (`/pricing`), and about page (`/about`) each provide their own canonical address, title, and corresponding readable content.\n\nApplication pages, including the character workspace (`/influencer`), use `noindex` and are excluded from the website sitemap. The sitemap contains only `/`, `/pricing`, `/about`, `/privacy`, and `/terms`.\n\nThese page settings do not establish that Google has indexed the pages, selected their canonical addresses, or changed brand-name corrections.",
         "zh": "## 公开页面搜索设置与网站地图范围\n\n首页（`/`）、价格页（`/pricing`）和关于页（`/about`）分别提供自己的正式地址、标题和对应的可读正文。\n\n角色工作台（`/influencer`）等应用页面设置 `noindex`，不进入网站地图。地图仅包含 `/`、`/pricing`、`/about`、`/privacy` 和 `/terms`。\n\n这些页面设置不代表谷歌已经收录页面、采用其正式地址，或改变品牌名称纠错。"
+      },
+      "schema_version": 1
+    },
+    {
+      "id": "2026-10-18-gemini-4-argon-native",
+      "published_at": "2026-10-18",
+      "type": "model_launch",
+      "modality": [
+        "text"
+      ],
+      "title": {
+        "zh": "Gemini 4 Argon 原生内容接口",
+        "en": "Gemini 4 Argon Native Content API"
+      },
+      "summary": {
+        "zh": "使用同一型号调用原生同步与流式接口，支持文字、PNG、MP4 和 PDF 输入；线路切换不改变已公布售价。",
+        "en": "Use one model ID for native synchronous and streaming requests with text, PNG, MP4 and PDF inputs. Route changes retain the published price."
+      },
+      "models": [
+        "gemini-4-argon"
+      ],
+      "tags": [
+        "gemini",
+        "google",
+        "native",
+        "text"
+      ],
+      "links": [
+        {
+          "label": {
+            "zh": "原生接口文档",
+            "en": "Native API Reference"
+          },
+          "href": {
+            "zh": "/zh/api-reference/text-series/gemini/native-generate",
+            "en": "/en/api-reference/text-series/gemini/native-generate"
+          }
+        },
+        {
+          "label": {
+            "zh": "流式接口文档",
+            "en": "Streaming API Reference"
+          },
+          "href": {
+            "zh": "/zh/api-reference/text-series/gemini/native-stream",
+            "en": "/en/api-reference/text-series/gemini/native-stream"
+          }
+        }
+      ],
+      "body": {
+        "zh": "Gemini 4 Argon 使用同一型号 `gemini-4-argon` 调用原生同步与流式内容接口。\n\n- 同步：`POST /v1beta/models/gemini-4-argon:generateContent`。\n- 流式：`POST /v1beta/models/gemini-4-argon:streamGenerateContent?alt=sse`。\n- 提交文字、PNG 单图或多图、MP4 视频与 PDF；同一用户消息可以包含完整视频和多张图片。\n- 系统指令独立传入，支持结构化结果、低思考档与单轮函数调用请求。函数由调用方执行。\n- 不把示例预算或短素材长度当作最大上限。\n- 原生用量包含已报告的工具输入与思考；缓存为输入子集。自动切换服务线路不改变本模型的已公布售价。\n\n详见[原生接口文档](/zh/api-reference/text-series/gemini/native-generate)和[流式接口文档](/zh/api-reference/text-series/gemini/native-stream)。",
+        "en": "Use Gemini 4 Argon under the single model ID `gemini-4-argon` with native synchronous and streaming content endpoints.\n\n- Synchronous: `POST /v1beta/models/gemini-4-argon:generateContent`.\n- Streaming: `POST /v1beta/models/gemini-4-argon:streamGenerateContent?alt=sse`.\n- Submit text, one or more PNG images, MP4 video and PDF. One user message can combine the complete video and multiple images.\n- Send system instructions separately; request structured output, low thinking effort or a single-turn function call. The client executes returned function calls.\n- Example budgets and short fixtures do not establish service maxima.\n- Native usage includes reported tool-use input and thinking; cache is an input subset. Automatic route changes retain the published price for this model.\n\nSee the [Native API Reference](/en/api-reference/text-series/gemini/native-generate) and [Streaming API Reference](/en/api-reference/text-series/gemini/native-stream)."
       },
       "schema_version": 1
     },
@@ -2237,45 +2289,6 @@
       "body": {
         "en": "## Kimi K3\n\n**Kimi K3** is now available on OmniMux.\n\n### New model\n\n- **Model ID:** `kimi-k3`\n- **API:** Chat Completions at `https://api.omnimux.ai/v1`\n- **Focus:** long-context reasoning and agent-style workflows\n\nSee the Kimi complete page for the full model enum.",
         "zh": "## Kimi K3\n\n**Kimi K3** 现已在 OmniMux 可调用。\n\n### 新模型\n\n- **模型 ID：** `kimi-k3`\n- **API：** Chat Completions：`https://api.omnimux.ai/v1`\n- **定位：** 长上下文推理与 Agent 类工作流\n\n完整模型枚举见 Kimi 完整参数页。"
-      },
-      "schema_version": 1
-    },
-    {
-      "id": "2026-07-16-suno",
-      "published_at": "2026-07-16",
-      "type": "model_launch",
-      "modality": [
-        "audio"
-      ],
-      "title": {
-        "en": "Suno — music generation",
-        "zh": "Suno — 音乐生成"
-      },
-      "summary": {
-        "en": "Suno music generation is available on OmniMux.",
-        "zh": "Suno 音乐生成已在 OmniMux 可调用。"
-      },
-      "models": [
-        "suno"
-      ],
-      "tags": [
-        "audio"
-      ],
-      "links": [
-        {
-          "label": {
-            "en": "Pricing",
-            "zh": "定价"
-          },
-          "href": {
-            "en": "/en/api-reference/account/pricing",
-            "zh": "/zh/api-reference/account/pricing"
-          }
-        }
-      ],
-      "body": {
-        "en": "## Suno\n\n**Suno** music generation is now available on OmniMux.\n\n### New model\n\n- **Model ID:** `suno`\n- **Use:** AI music generation workflows via the gateway catalog\n\nConfirm billing and request shape from live pricing / console before production traffic.",
-        "zh": "## Suno\n\n**Suno** 音乐生成现已在 OmniMux 可调用。\n\n### 新模型\n\n- **模型 ID：** `suno`\n- **用途：** 通过网关目录进行 AI 音乐生成\n\n上线生产前请在控制台定价中确认计费与请求形态。"
       },
       "schema_version": 1
     }

@@ -1,0 +1,15 @@
+---
+title: "Gemini · 原生流式理解"
+sidebarTitle: "Gemini · 原生流式理解"
+description: "使用原生事件流接收生成内容并检查最终结果和用量。"
+openapi: "openapi/ops/gemini/native.json POST /v1beta/models/{model}:streamGenerateContent"
+---
+
+- 型号：`gemini-4-argon`；请求地址需带 `alt=sse`。
+- 请求正文与[原生多模态理解](/zh/api-reference/text-series/gemini/native-generate)相同。
+- 读取 `data:` 事件中的原生回复片段，等待正常结束并检查 `finishReason` 与最终可用的 `usageMetadata`。
+- 已收到部分文字不能证明完整成功；中断后先核对结果与费用，避免重复发起。
+
+## 用量与错误
+
+累计用量快照不逐条相加。输入含已报告工具输入，输出含已报告思考，缓存是输入子集。费用以已公布账户价格与最终结算为准；自动切换服务线路不会改变该模型的已公布售价。余额不足除 `402` 外，也可能返回 `403` 和 `insufficient_user_quota`。
