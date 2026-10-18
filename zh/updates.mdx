@@ -28,6 +28,28 @@ rss: true
 
 </Update>
 
+<a id="2026-10-18-gemini-4-argon-native"></a>
+
+<Update label="2026 年 10 月 18 日" tags={["新模型", "文本"]} rss={{ title: "Gemini 4 Argon 原生内容接口" }}>
+
+  Gemini 4 Argon 使用同一型号 `gemini-4-argon` 调用原生同步与流式内容接口。
+
+  - 同步：`POST /v1beta/models/gemini-4-argon:generateContent`。
+  - 流式：`POST /v1beta/models/gemini-4-argon:streamGenerateContent?alt=sse`。
+  - 提交文字、PNG 单图或多图、MP4 视频与 PDF；同一用户消息可以包含完整视频和多张图片。
+  - 系统指令独立传入，支持结构化结果、低思考档与单轮函数调用请求。函数由调用方执行。
+  - 不把示例预算或短素材长度当作最大上限。
+  - 原生用量包含已报告的工具输入与思考；缓存为输入子集。自动切换服务线路不改变本模型的已公布售价。
+
+  详见[原生接口文档](/zh/api-reference/text-series/gemini/native-generate)和[流式接口文档](/zh/api-reference/text-series/gemini/native-stream)。
+
+  ### 链接
+
+  - [原生接口文档](/zh/api-reference/text-series/gemini/native-generate)
+  - [流式接口文档](/zh/api-reference/text-series/gemini/native-stream)
+
+</Update>
+
 <a id="2026-10-18-browser-checked-reference-upload"></a>
 
 <Update label="2026 年 10 月 18 日" tags={["平台", "视频"]} rss={{ title: "参考视频改为浏览器检查后上传" }}>
@@ -1195,27 +1217,6 @@ rss: true
   ### 链接
 
   - [Kimi 完整参数](/zh/api-reference/text-series/kimi/complete)
-
-</Update>
-
-<a id="2026-07-16-suno"></a>
-
-<Update label="2026 年 7 月 16 日" tags={["新模型", "音频"]} rss={{ title: "Suno — 音乐生成" }}>
-
-  ## Suno
-
-  **Suno** 音乐生成现已在 OmniMux 可调用。
-
-  ### 新模型
-
-  - **模型 ID：** `suno`
-  - **用途：** 通过网关目录进行 AI 音乐生成
-
-  上线生产前请在控制台定价中确认计费与请求形态。
-
-  ### 链接
-
-  - [定价](/zh/api-reference/account/pricing)
 
 </Update>
 

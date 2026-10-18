@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "id": "2026-10-18-gemini-4-argon-native",
+  "published_at": "2026-10-18",
+  "rank": 0,
+  "type": "model_launch",
+  "modality": [
+    "text"
+  ],
+  "models": [
+    "gemini-4-argon"
+  ],
+  "links": [
+    {
+      "label": {
+        "zh": "原生接口文档",
+        "en": "Native API Reference"
+      },
+      "href": {
+        "zh": "/zh/api-reference/text-series/gemini/native-generate",
+        "en": "/en/api-reference/text-series/gemini/native-generate"
+      }
+    },
+    {
+      "label": {
+        "zh": "流式接口文档",
+        "en": "Streaming API Reference"
+      },
+      "href": {
+        "zh": "/zh/api-reference/text-series/gemini/native-stream",
+        "en": "/en/api-reference/text-series/gemini/native-stream"
+      }
+    }
+  ],
+  "body": {
+    "zh": "Gemini 4 Argon 使用同一型号 `gemini-4-argon` 调用原生同步与流式内容接口。\n\n- 同步：`POST /v1beta/models/gemini-4-argon:generateContent`。\n- 流式：`POST /v1beta/models/gemini-4-argon:streamGenerateContent?alt=sse`。\n- 提交文字、PNG 单图或多图、MP4 视频与 PDF；同一用户消息可以包含完整视频和多张图片。\n- 系统指令独立传入，支持结构化结果、低思考档与单轮函数调用请求。函数由调用方执行。\n- 不把示例预算或短素材长度当作最大上限。\n- 原生用量包含已报告的工具输入与思考；缓存为输入子集。自动切换服务线路不改变本模型的已公布售价。\n\n详见[原生接口文档](/zh/api-reference/text-series/gemini/native-generate)和[流式接口文档](/zh/api-reference/text-series/gemini/native-stream)。",
+    "en": "Use Gemini 4 Argon under the single model ID `gemini-4-argon` with native synchronous and streaming content endpoints.\n\n- Synchronous: `POST /v1beta/models/gemini-4-argon:generateContent`.\n- Streaming: `POST /v1beta/models/gemini-4-argon:streamGenerateContent?alt=sse`.\n- Submit text, one or more PNG images, MP4 video and PDF. One user message can combine the complete video and multiple images.\n- Send system instructions separately; request structured output, low thinking effort or a single-turn function call. The client executes returned function calls.\n- Example budgets and short fixtures do not establish service maxima.\n- Native usage includes reported tool-use input and thinking; cache is an input subset. Automatic route changes retain the published price for this model.\n\nSee the [Native API Reference](/en/api-reference/text-series/gemini/native-generate) and [Streaming API Reference](/en/api-reference/text-series/gemini/native-stream)."
+  },
+  "title": {
+    "zh": "Gemini 4 Argon 原生内容接口",
+    "en": "Gemini 4 Argon Native Content API"
+  },
+  "summary": {
+    "zh": "使用同一型号调用原生同步与流式接口，支持文字、PNG、MP4 和 PDF 输入；线路切换不改变已公布售价。",
+    "en": "Use one model ID for native synchronous and streaming requests with text, PNG, MP4 and PDF inputs. Route changes retain the published price."
+  },
+  "tags": [
+    "gemini",
+    "google",
+    "native",
+    "text"
+  ]
+}
