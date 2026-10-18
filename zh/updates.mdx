@@ -9,6 +9,22 @@ rss: true
 
 分页：**第 1 页** · [第 2 页](/zh/updates/page-2)
 
+<a id="2026-10-18-reference-video-audio-tail"></a>
+
+<Update label="2026 年 10 月 18 日" tags={["平台", "视频"]} rss={{ title: "参考视频兼容有限音视频尾差" }}>
+
+  已于 2026 年 10 月 18 日生效。
+
+  - 修正后的规则从画面时长计算 `s = round(video_duration)`，画面到整数秒的容差仍为 `T = 1 / frame_rate + 0.001` 秒。容器到整数秒的原有条件保留；新增分支仅允许受支持音轨且 `duration >= video_duration`、`duration - video_duration <= T` 的情况。
+  - 24 帧/秒、AAC 音轨、容器 7.072 秒、画面 7.041667 秒的参考视频可以跟随 7 秒生成请求，同时保留原始媒体信息。两种原始时长仍必须均在 4–30 秒内；真实画面 7.2 秒、超出尾差范围，以及无音轨却需要新增分支的情况仍会拒绝。
+  - 仍由浏览器在上传前检查，不支持的文件通过既有顶部消息提示，不添加、不上传。服务器只检查声明一致性，不重新检测媒体；不改写文件或原始信息，有限尾差不表示已证明是编码补齐。
+
+  ### 链接
+
+  - [参考视频上传规则](/zh/api-reference/file-series/upload-stream)
+
+</Update>
+
 <a id="2026-10-18-public-page-search-settings"></a>
 
 <Update label="2026 年 10 月 18 日" tags={["平台"]} rss={{ title: "公开页面搜索设置与网站地图范围" }}>
@@ -1195,28 +1211,6 @@ rss: true
   ### 链接
 
   - [Gemini 完整参数](/zh/api-reference/text-series/gemini/complete)
-
-</Update>
-
-<a id="2026-07-17-kimi-k3"></a>
-
-<Update label="2026 年 7 月 17 日" tags={["新模型", "文本"]} rss={{ title: "Kimi K3 — 长上下文推理" }}>
-
-  ## Kimi K3
-
-  **Kimi K3** 现已在 OmniMux 可调用。
-
-  ### 新模型
-
-  - **模型 ID：** `kimi-k3`
-  - **API：** Chat Completions：`https://api.omnimux.ai/v1`
-  - **定位：** 长上下文推理与 Agent 类工作流
-
-  完整模型枚举见 Kimi 完整参数页。
-
-  ### 链接
-
-  - [Kimi 完整参数](/zh/api-reference/text-series/kimi/complete)
 
 </Update>
 
