@@ -9,6 +9,23 @@ rss: true
 
 分页：**第 1 页** · [第 2 页](/zh/updates/page-2)
 
+<a id="2026-10-18-public-page-search-settings"></a>
+
+<Update label="2026 年 10 月 18 日" tags={["平台"]} rss={{ title: "公开页面搜索设置与网站地图范围" }}>
+
+  首页（`/`）、价格页（`/pricing`）和关于页（`/about`）分别提供自己的正式地址、标题和对应的可读正文。
+
+  角色工作台（`/influencer`）等应用页面设置 `noindex`，不进入网站地图。地图仅包含 `/`、`/pricing`、`/about`、`/privacy` 和 `/terms`。
+
+  这些页面设置不代表谷歌已经收录页面、采用其正式地址，或改变品牌名称纠错。
+
+  ### 链接
+
+  - [官网](https://omnimux.ai/)
+  - [产品使用指南](/zh)
+
+</Update>
+
 <a id="2026-10-16-site-release-announcements"></a>
 
 <Update label="2026 年 10 月 16 日" tags={["平台"]} rss={{ title: "系统更新改用本站上线公告" }}>
@@ -1203,34 +1220,6 @@ rss: true
 
   - [Nano Banana 2](/zh/api-reference/image-series/models/nano-banana-2)
   - [Nano Banana Pro](/zh/api-reference/image-series/models/nano-banana-pro)
-
-</Update>
-
-<a id="2026-06-25-seedance-2-0"></a>
-
-<Update label="2026 年 6 月 25 日" tags={["新模型", "视频"]} rss={{ title: "Seedance 2.0 系列 — Standard / Mini / Fast" }}>
-
-  ## Seedance 2.0
-
-  **Seedance 2.0** 系列已在 OmniMux 可调用（异步视频）。
-
-  ### 新模型
-
-  | 模型 ID | 角色 |
-  | --- | --- |
-  | `seedance-2-0` | 标准档 |
-  | `seedance-2-0-mini` | 轻量 / 成本向 |
-  | `seedance-2-0-fast` | 速度向 |
-
-  ### 调用
-
-  - **创建：** `POST /v1/video/generations`
-  - **查询：** `GET /v1/video/generations/{task_id}`
-
-  ### 链接
-
-  - [视频任务查询](/zh/api-reference/tasks/video-task)
-  - [定价](/zh/api-reference/account/pricing)
 
 </Update>
 
