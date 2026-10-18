@@ -56,12 +56,25 @@ The current browser-check upload purpose also requires the following declared sp
 
 | Declared specification | Current requirement |
 | --- | --- |
-| Container and video-track duration | Both are from 4 through 30 seconds. Let `s = round(duration)`; `s` is 4–30 and both measured durations must be within `1 / frame_rate + 0.001` seconds of that same `s`. Retain the raw values; the page displays the actual whole-second generation duration. A value such as 7.2 seconds is rejected rather than silently shortened. |
+| Container and video-track duration | Both are from 4 through 30 seconds and follow the whole-second rules below. No extra tolerance applies to these bounds. |
 | Width and height | Each is 300–6000 pixels. |
 | Total pixels | `width × height` is 407696–8295044. |
 | Input width-to-height ratio | 0.4–2.5, plus the stricter source-following framing rule below. |
 | Frame rate | 24–60 frames per second. |
 | Source-following framing | This purpose is checked against the current 480p framing set: `16:9`, `9:16`, or `3:4`. For `n:d`, whole-pixel rounding is accepted only when `abs(width × d - height × n) ≤ (n + d) / 2`. The page additionally checks the selected output resolution; 720p currently supports only `16:9` and `9:16`. A valid reference such as `1:1` is rejected for this purpose because the current service cannot preserve its framing. |
+
+### Duration following and audio/video tail differences
+
+Let `s = round(video_duration)` and `T = 1 / frame_rate + 0.001` seconds. The actual generation duration `s` must be 4–30 seconds, and both conditions must hold:
+
+1. The video-track duration is within `T` of `s`: `abs(video_duration - s) ≤ T`.
+2. The container satisfies `abs(duration - s) ≤ T`. Otherwise, accept it only with a supported audio track from the table above, `duration ≥ video_duration`, and `duration - video_duration ≤ T`.
+
+The additional branch accommodates only a positive container-to-video tail difference of at most one frame plus 1 millisecond. It does not broaden the tolerance for genuine fractional video duration or establish that extra audio is encoding padding. Files without audio cannot use the additional tail-difference condition.
+
+For example, a 24 fps video with AAC audio, a **7.072-second** container, and a **7.041667-second** video track meets these duration conditions: its video is close to 7 seconds, and its container is only 0.030333 seconds longer than the video. The page retains and displays the original 7.072-second reference duration and explicitly shows the actual generation duration of 7 seconds. Upload and generation declarations retain the raw fractional values; the file and metadata are not rewritten. All other format, resolution, framing, and input checks must still pass.
+
+A genuine **7.2-second video track**, a 7.2-second container with a 7-second video track, or the 7.072/7.041667-second example **without audio** is still rejected with a top-of-page message before upload. Either duration below 4 seconds or above 30 seconds is also rejected.
 
 Supply all fields with finite numeric values. The declared MIME must match `container`: `video/mp4` for MP4; `video/quicktime` or `video/x-quicktime` for MOV. In presign, `file_size` must equal `video_metadata.size_bytes`; in multipart, the file part's size and Content-Type must match those declarations. The **200 MiB (209,715,200-byte)** hard ceiling still applies. The service checks declaration bounds and consistency but does not read the file to establish media facts for this purpose.
 

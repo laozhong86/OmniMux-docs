@@ -2,9 +2,48 @@
   "schema_version": 1,
   "page": 1,
   "page_size": 50,
-  "total": 63,
+  "total": 64,
   "total_pages": 2,
   "items": [
+    {
+      "id": "2026-10-18-reference-video-audio-tail",
+      "published_at": "2026-10-18",
+      "type": "platform",
+      "modality": [
+        "video",
+        "platform"
+      ],
+      "title": {
+        "en": "Reference-video audio-tail compatibility",
+        "zh": "参考视频兼容有限音视频尾差"
+      },
+      "summary": {
+        "en": "Reference videos derive whole-second generation duration from the video track and accept a bounded positive container tail with supported audio, while preserving raw metadata and strict duration limits.",
+        "zh": "参考视频根据画面时长确定整秒生成时长，兼容带受支持音轨、范围有限的正向容器尾差，同时保留原始媒体信息和严格时长限制。"
+      },
+      "models": [],
+      "tags": [
+        "browser-checks",
+        "duration"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "Reference-video upload rules",
+            "zh": "参考视频上传规则"
+          },
+          "href": {
+            "en": "/en/api-reference/file-series/upload-stream",
+            "zh": "/zh/api-reference/file-series/upload-stream"
+          }
+        }
+      ],
+      "body": {
+        "en": "Released on October 18, 2026.\n\n- The corrected duration rule derives `s = round(video_duration)` and keeps the video-to-integer tolerance at `T = 1 / frame_rate + 0.001` seconds. The existing container-to-integer condition remains valid; an additional branch permits only a supported audio track with `duration >= video_duration` and `duration - video_duration <= T`.\n- A 24 fps AAC reference with container duration 7.072 seconds and video duration 7.041667 seconds can follow a 7-second generation request while retaining the raw metadata. Both raw durations must still be within 4–30 seconds; genuine 7.2-second video, excessive tail differences, and the additional branch without audio remain rejected.\n- The browser still checks before upload. Unsupported files use the existing top-of-page message and are not added or uploaded. The server checks declaration consistency without probing the media. No files or raw metadata are rewritten, and the bounded tail difference is not proof of encoding padding.",
+        "zh": "已于 2026 年 10 月 18 日生效。\n\n- 修正后的规则从画面时长计算 `s = round(video_duration)`，画面到整数秒的容差仍为 `T = 1 / frame_rate + 0.001` 秒。容器到整数秒的原有条件保留；新增分支仅允许受支持音轨且 `duration >= video_duration`、`duration - video_duration <= T` 的情况。\n- 24 帧/秒、AAC 音轨、容器 7.072 秒、画面 7.041667 秒的参考视频可以跟随 7 秒生成请求，同时保留原始媒体信息。两种原始时长仍必须均在 4–30 秒内；真实画面 7.2 秒、超出尾差范围，以及无音轨却需要新增分支的情况仍会拒绝。\n- 仍由浏览器在上传前检查，不支持的文件通过既有顶部消息提示，不添加、不上传。服务器只检查声明一致性，不重新检测媒体；不改写文件或原始信息，有限尾差不表示已证明是编码补齐。"
+      },
+      "schema_version": 1
+    },
     {
       "id": "2026-10-18-public-page-search-settings",
       "published_at": "2026-10-18",
@@ -2250,45 +2289,6 @@
       "body": {
         "en": "## Gemini Flash models\n\nNew Gemini Flash-class models are available on OmniMux.\n\n### New models\n\n- **Model IDs:** `gemini-3.6-flash`, `gemini-3.5-flash`\n- **API:** OpenAI-compatible Chat Completions at `https://api.omnimux.ai/v1`\n\nAdditional Gemini IDs (Pro / preview / lite) may also appear on live pricing — pin the exact ID from the console or Gemini complete page.",
         "zh": "## Gemini Flash 模型\n\nGemini Flash 档模型现已在 OmniMux 可调用。\n\n### 新模型\n\n- **模型 ID：** `gemini-3.6-flash`、`gemini-3.5-flash`\n- **API：** OpenAI 兼容 Chat Completions：`https://api.omnimux.ai/v1`\n\n线上定价中可能还有 Pro / preview / lite 等 Gemini ID——请以控制台或 Gemini 完整参数页为准。"
-      },
-      "schema_version": 1
-    },
-    {
-      "id": "2026-07-17-kimi-k3",
-      "published_at": "2026-07-17",
-      "type": "model_launch",
-      "modality": [
-        "text"
-      ],
-      "title": {
-        "en": "Kimi K3 — long-context reasoning",
-        "zh": "Kimi K3 — 长上下文推理"
-      },
-      "summary": {
-        "en": "Kimi K3 is available on OmniMux Chat Completions.",
-        "zh": "Kimi K3 已在 OmniMux Chat Completions 可调用。"
-      },
-      "models": [
-        "kimi-k3"
-      ],
-      "tags": [
-        "text"
-      ],
-      "links": [
-        {
-          "label": {
-            "en": "Kimi complete",
-            "zh": "Kimi 完整参数"
-          },
-          "href": {
-            "en": "/en/api-reference/text-series/kimi/complete",
-            "zh": "/zh/api-reference/text-series/kimi/complete"
-          }
-        }
-      ],
-      "body": {
-        "en": "## Kimi K3\n\n**Kimi K3** is now available on OmniMux.\n\n### New model\n\n- **Model ID:** `kimi-k3`\n- **API:** Chat Completions at `https://api.omnimux.ai/v1`\n- **Focus:** long-context reasoning and agent-style workflows\n\nSee the Kimi complete page for the full model enum.",
-        "zh": "## Kimi K3\n\n**Kimi K3** 现已在 OmniMux 可调用。\n\n### 新模型\n\n- **模型 ID：** `kimi-k3`\n- **API：** Chat Completions：`https://api.omnimux.ai/v1`\n- **定位：** 长上下文推理与 Agent 类工作流\n\n完整模型枚举见 Kimi 完整参数页。"
       },
       "schema_version": 1
     }

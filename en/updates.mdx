@@ -9,6 +9,22 @@ Stay up to date with OmniMux gateway model launches and platform changes. The fu
 
 Pages: **Page 1** · [Page 2](/en/updates/page-2)
 
+<a id="2026-10-18-reference-video-audio-tail"></a>
+
+<Update label="October 18, 2026" tags={["Platform", "Video"]} rss={{ title: "Reference-video audio-tail compatibility" }}>
+
+  Released on October 18, 2026.
+
+  - The corrected duration rule derives `s = round(video_duration)` and keeps the video-to-integer tolerance at `T = 1 / frame_rate + 0.001` seconds. The existing container-to-integer condition remains valid; an additional branch permits only a supported audio track with `duration >= video_duration` and `duration - video_duration <= T`.
+  - A 24 fps AAC reference with container duration 7.072 seconds and video duration 7.041667 seconds can follow a 7-second generation request while retaining the raw metadata. Both raw durations must still be within 4–30 seconds; genuine 7.2-second video, excessive tail differences, and the additional branch without audio remain rejected.
+  - The browser still checks before upload. Unsupported files use the existing top-of-page message and are not added or uploaded. The server checks declaration consistency without probing the media. No files or raw metadata are rewritten, and the bounded tail difference is not proof of encoding padding.
+
+  ### Links
+
+  - [Reference-video upload rules](/en/api-reference/file-series/upload-stream)
+
+</Update>
+
 <a id="2026-10-18-public-page-search-settings"></a>
 
 <Update label="October 18, 2026" tags={["Platform"]} rss={{ title: "Public page search settings and sitemap scope" }}>
@@ -1195,28 +1211,6 @@ Pages: **Page 1** · [Page 2](/en/updates/page-2)
   ### Links
 
   - [Gemini complete](/en/api-reference/text-series/gemini/complete)
-
-</Update>
-
-<a id="2026-07-17-kimi-k3"></a>
-
-<Update label="July 17, 2026" tags={["New models", "Text"]} rss={{ title: "Kimi K3 — long-context reasoning" }}>
-
-  ## Kimi K3
-
-  **Kimi K3** is now available on OmniMux.
-
-  ### New model
-
-  - **Model ID:** `kimi-k3`
-  - **API:** Chat Completions at `https://api.omnimux.ai/v1`
-  - **Focus:** long-context reasoning and agent-style workflows
-
-  See the Kimi complete page for the full model enum.
-
-  ### Links
-
-  - [Kimi complete](/en/api-reference/text-series/kimi/complete)
 
 </Update>
 
