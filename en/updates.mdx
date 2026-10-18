@@ -28,6 +28,22 @@ Pages: **Page 1** · [Page 2](/en/updates/page-2)
 
 </Update>
 
+<a id="2026-10-18-browser-checked-reference-upload"></a>
+
+<Update label="October 18, 2026" tags={["Platform", "Video"]} rss={{ title: "Browser-checked reference-video uploads" }}>
+
+  Released on October 18, 2026.
+
+  - The influencer page inspects reference videos in the browser before adding or uploading them. Duration and framing follow the source; unsupported specifications use the existing top-of-page message and prevent adding or uploading the file.
+  - Upload presign and multipart fallback accept `purpose=influencer_reference_video` with complete raw `video_metadata`. Multipart sends that metadata as a JSON string. Client declarations are not server-verified media facts.
+  - This purpose keeps ownership, expiry, exact stored size, matching Content-Type and the 200 MiB hard limit. Direct confirmation uses R2 HEAD without media-content inspection, including above 100 MiB. The policy is bound when the ticket is issued; confirmation cannot change it. Ordinary upload checks and public generation API behavior remain unchanged.
+
+  ### Links
+
+  - [File upload contract](/en/api-reference/file-series/upload-stream)
+
+</Update>
+
 <a id="2026-10-16-site-release-announcements"></a>
 
 <Update label="October 16, 2026" tags={["Platform"]} rss={{ title: "System updates use site release announcements" }}>
@@ -1200,28 +1216,6 @@ Pages: **Page 1** · [Page 2](/en/updates/page-2)
   ### Links
 
   - [Pricing](/en/api-reference/account/pricing)
-
-</Update>
-
-<a id="2026-07-01-nano-banana"></a>
-
-<Update label="July 1, 2026" tags={["New models", "Image"]} rss={{ title: "Nano Banana 2 and Nano Banana Pro" }}>
-
-  ## Nano Banana
-
-  **Nano Banana 2** and **Nano Banana Pro** are now available on OmniMux.
-
-  ### New models
-
-  - **Model IDs:** `nano-banana-2`, `nano-banana-pro`
-  - **Modality:** image generation
-
-  See each model page for request parameters.
-
-  ### Links
-
-  - [Nano Banana 2](/en/api-reference/image-series/models/nano-banana-2)
-  - [Nano Banana Pro](/en/api-reference/image-series/models/nano-banana-pro)
 
 </Update>
 

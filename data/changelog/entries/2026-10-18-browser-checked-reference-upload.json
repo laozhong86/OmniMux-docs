@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "id": "2026-10-18-browser-checked-reference-upload",
+  "published_at": "2026-10-18",
+  "rank": 0,
+  "type": "platform",
+  "modality": [
+    "video",
+    "platform"
+  ],
+  "title": {
+    "en": "Browser-checked reference-video uploads",
+    "zh": "参考视频改为浏览器检查后上传"
+  },
+  "summary": {
+    "en": "The influencer page checks reference videos locally before upload and follows their duration and framing automatically. A dedicated upload purpose preserves storage consistency checks without server media inspection.",
+    "zh": "创作页面在上传前本地检查参考视频，并自动跟随原片时长和画幅；专用上传用途保留存储一致性检查，不再由服务器检查媒体内容。"
+  },
+  "models": [],
+  "links": [
+    {
+      "label": {
+        "en": "File upload contract",
+        "zh": "文件上传契约"
+      },
+      "href": {
+        "en": "/en/api-reference/file-series/upload-stream",
+        "zh": "/zh/api-reference/file-series/upload-stream"
+      }
+    }
+  ],
+  "tags": [
+    "storage",
+    "browser-checks"
+  ],
+  "body": {
+    "en": "Released on October 18, 2026.\n\n- The influencer page inspects reference videos in the browser before adding or uploading them. Duration and framing follow the source; unsupported specifications use the existing top-of-page message and prevent adding or uploading the file.\n- Upload presign and multipart fallback accept `purpose=influencer_reference_video` with complete raw `video_metadata`. Multipart sends that metadata as a JSON string. Client declarations are not server-verified media facts.\n- This purpose keeps ownership, expiry, exact stored size, matching Content-Type and the 200 MiB hard limit. Direct confirmation uses R2 HEAD without media-content inspection, including above 100 MiB. The policy is bound when the ticket is issued; confirmation cannot change it. Ordinary upload checks and public generation API behavior remain unchanged.",
+    "zh": "已于 2026 年 10 月 18 日生效。\n\n- 创作页面在添加或上传前由浏览器检查参考视频，时长和画幅自动跟随原片；无法跟随的规格使用既有页面顶部消息气泡提示，不添加也不上传文件。\n- 上传凭证申请及表单回退接收 `purpose=influencer_reference_video` 和完整原始 `video_metadata`；表单将其编码为 JSON 字符串。客户端声明不表示服务器已核验媒体事实。\n- 此用途保留归属、过期、准确存储大小、Content-Type 一致性与 200 MiB 硬上限。直传确认仅使用 R2 HEAD，不检查媒体内容，超过 100 MiB 也一样；策略在发放凭证时绑定，确认时不能切换。普通上传检查及公开视频生成接口行为保持原样。"
+  }
+}
