@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "id": "2026-10-18-public-page-search-settings",
+  "published_at": "2026-10-18",
+  "type": "platform",
+  "modality": ["platform"],
+  "title": {
+    "en": "Public page search settings and sitemap scope",
+    "zh": "公开页面搜索设置与网站地图范围"
+  },
+  "summary": {
+    "en": "The website separates public page addresses and content, excludes application pages from indexing, and limits its sitemap to five public pages.",
+    "zh": "官网分别提供公开页面地址与正文，应用页面排除收录，网站地图仅保留五个公开页面。"
+  },
+  "models": [],
+  "links": [
+    {
+      "label": {"en": "Website", "zh": "官网"},
+      "href": {"en": "https://omnimux.ai/", "zh": "https://omnimux.ai/"}
+    },
+    {
+      "label": {"en": "Product guide", "zh": "产品使用指南"},
+      "href": {"en": "/en", "zh": "/zh"}
+    }
+  ],
+  "tags": ["website-search"],
+  "body": {
+    "en": "The homepage (`/`), pricing (`/pricing`), and about page (`/about`) each provide their own canonical address, title, and corresponding readable content.\n\nApplication pages, including the character workspace (`/influencer`), use `noindex` and are excluded from the website sitemap. The sitemap contains only `/`, `/pricing`, `/about`, `/privacy`, and `/terms`.\n\nThese page settings do not establish that Google has indexed the pages, selected their canonical addresses, or changed brand-name corrections.",
+    "zh": "首页（`/`）、价格页（`/pricing`）和关于页（`/about`）分别提供自己的正式地址、标题和对应的可读正文。\n\n角色工作台（`/influencer`）等应用页面设置 `noindex`，不进入网站地图。地图仅包含 `/`、`/pricing`、`/about`、`/privacy` 和 `/terms`。\n\n这些页面设置不代表谷歌已经收录页面、采用其正式地址，或改变品牌名称纠错。"
+  }
+}

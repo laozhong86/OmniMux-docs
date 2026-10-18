@@ -9,6 +9,23 @@ Stay up to date with OmniMux gateway model launches and platform changes. The fu
 
 Pages: **Page 1** · [Page 2](/en/updates/page-2)
 
+<a id="2026-10-18-public-page-search-settings"></a>
+
+<Update label="October 18, 2026" tags={["Platform"]} rss={{ title: "Public page search settings and sitemap scope" }}>
+
+  The homepage (`/`), pricing (`/pricing`), and about page (`/about`) each provide their own canonical address, title, and corresponding readable content.
+
+  Application pages, including the character workspace (`/influencer`), use `noindex` and are excluded from the website sitemap. The sitemap contains only `/`, `/pricing`, `/about`, `/privacy`, and `/terms`.
+
+  These page settings do not establish that Google has indexed the pages, selected their canonical addresses, or changed brand-name corrections.
+
+  ### Links
+
+  - [Website](https://omnimux.ai/)
+  - [Product guide](/en)
+
+</Update>
+
 <a id="2026-10-16-site-release-announcements"></a>
 
 <Update label="October 16, 2026" tags={["Platform"]} rss={{ title: "System updates use site release announcements" }}>
@@ -1203,34 +1220,6 @@ Pages: **Page 1** · [Page 2](/en/updates/page-2)
 
   - [Nano Banana 2](/en/api-reference/image-series/models/nano-banana-2)
   - [Nano Banana Pro](/en/api-reference/image-series/models/nano-banana-pro)
-
-</Update>
-
-<a id="2026-06-25-seedance-2-0"></a>
-
-<Update label="June 25, 2026" tags={["New models", "Video"]} rss={{ title: "Seedance 2.0 family — Standard, Mini, Fast" }}>
-
-  ## Seedance 2.0
-
-  The **Seedance 2.0** family is available on OmniMux for async video generation.
-
-  ### New models
-
-  | Model ID | Role |
-  | --- | --- |
-  | `seedance-2-0` | Standard |
-  | `seedance-2-0-mini` | Lightweight / cost-oriented |
-  | `seedance-2-0-fast` | Speed-oriented |
-
-  ### API
-
-  - **Create:** `POST /v1/video/generations`
-  - **Poll:** `GET /v1/video/generations/{task_id}`
-
-  ### Links
-
-  - [Video task poll](/en/api-reference/tasks/video-task)
-  - [Pricing](/en/api-reference/account/pricing)
 
 </Update>
 
