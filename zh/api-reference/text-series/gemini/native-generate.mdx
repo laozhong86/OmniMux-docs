@@ -22,7 +22,9 @@ openapi: "openapi/ops/gemini/native.json POST /v1beta/models/{model}:generateCon
 
 使用低思考档时，设置 `generationConfig.thinkingConfig.thinkingLevel: low`。`maxOutputTokens` 同时覆盖思考与可见输出，示例值不代表最大输出上限。
 
-需要结构化结果时，使用 `generationConfig.responseMimeType: application/json` 与原生 `responseSchema`。检查完整回复的 `finishReason`、返回内容及 `usageMetadata`。收到 `functionCall` 后，由调用方执行函数；本页不承诺多轮工具执行。
+需要结构化结果时，使用 `generationConfig.responseMimeType: application/json` 与原生 `responseSchema`。这些结构化输出参数会按原生请求转发，但返回内容仍可能带有代码围栏，或出现不符合结构要求的字段类型，例如预期数组的字段返回为对象。调用方须校验实际返回内容和字段类型，再用于后续处理。
+
+检查完整回复的 `finishReason`、返回内容及 `usageMetadata`。收到 `functionCall` 后，由调用方执行函数；本页不承诺多轮工具执行。
 
 ## 费用与用量
 

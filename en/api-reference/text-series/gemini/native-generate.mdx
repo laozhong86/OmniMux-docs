@@ -22,7 +22,9 @@ Send PNG, MP4 or PDF through `parts[].inlineData`. Match `mimeType` to the actua
 
 Set `generationConfig.thinkingConfig.thinkingLevel: low` for low thinking effort. `maxOutputTokens` covers both thinking and visible output; the example value does not establish a maximum output limit.
 
-For structured results, combine `generationConfig.responseMimeType: application/json` with native `responseSchema`. Inspect the complete response, `finishReason` and `usageMetadata`. A returned `functionCall` leaves execution to the client; this reference does not promise multi-turn tool execution.
+For structured results, combine `generationConfig.responseMimeType: application/json` with native `responseSchema`. These structured-output parameters are forwarded in the native request. The returned content may still contain code fences or field types that do not match the schema, such as an object where an array was requested. Validate the actual content and field types before processing it.
+
+Inspect the complete response, `finishReason` and `usageMetadata`. A returned `functionCall` leaves execution to the client; this reference does not promise multi-turn tool execution.
 
 ## Billing and usage
 

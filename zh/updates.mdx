@@ -44,6 +44,25 @@ rss: true
 
 </Update>
 
+<a id="2026-10-18-gemini-4-argon-structured-results"></a>
+
+<Update label="2026 年 10 月 18 日" tags={["能力更新", "文本"]} rss={{ title: "Gemini 原生结构化结果校验说明" }}>
+
+  补充 `gemini-4-argon` 原生接口的结构化结果处理说明。
+
+  - `responseMimeType` 与 `responseSchema` 按原生请求转发；返回内容仍可能包含代码围栏，或出现与请求结构不一致的字段类型，例如数组字段返回为对象。
+  - 调用方须校验实际内容和字段类型，再用于后续处理。
+  - 流式结果应在完整拼接后校验；正常结束不代表内容一定符合请求结构。
+
+  本次更新说明返回内容的处理边界，不改变模型售价或调用入口。
+
+  ### 链接
+
+  - [原生接口文档](/zh/api-reference/text-series/gemini/native-generate)
+  - [流式接口文档](/zh/api-reference/text-series/gemini/native-stream)
+
+</Update>
+
 <a id="2026-10-18-gemini-4-argon-native"></a>
 
 <Update label="2026 年 10 月 18 日" tags={["新模型", "文本"]} rss={{ title: "Gemini 4 Argon 原生内容接口" }}>
@@ -1190,27 +1209,6 @@ rss: true
   ### 链接
 
   - [Claude 完整参数](/zh/api-reference/text-series/claude/complete)
-
-</Update>
-
-<a id="2026-07-22-gemini-3-6-flash"></a>
-
-<Update label="2026 年 7 月 22 日" tags={["新模型", "文本"]} rss={{ title: "Gemini 3.6 Flash 与 Gemini 3.5 Flash" }}>
-
-  ## Gemini Flash 模型
-
-  Gemini Flash 档模型现已在 OmniMux 可调用。
-
-  ### 新模型
-
-  - **模型 ID：** `gemini-3.6-flash`、`gemini-3.5-flash`
-  - **API：** OpenAI 兼容 Chat Completions：`https://api.omnimux.ai/v1`
-
-  线上定价中可能还有 Pro / preview / lite 等 Gemini ID——请以控制台或 Gemini 完整参数页为准。
-
-  ### 链接
-
-  - [Gemini 完整参数](/zh/api-reference/text-series/gemini/complete)
 
 </Update>
 

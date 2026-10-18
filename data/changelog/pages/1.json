@@ -2,7 +2,7 @@
   "schema_version": 1,
   "page": 1,
   "page_size": 50,
-  "total": 64,
+  "total": 65,
   "total_pages": 2,
   "items": [
     {
@@ -88,6 +88,57 @@
       "body": {
         "en": "## Public page search settings and sitemap scope\n\nThe homepage (`/`), pricing (`/pricing`), and about page (`/about`) each provide their own canonical address, title, and corresponding readable content.\n\nApplication pages, including the character workspace (`/influencer`), use `noindex` and are excluded from the website sitemap. The sitemap contains only `/`, `/pricing`, `/about`, `/privacy`, and `/terms`.\n\nThese page settings do not establish that Google has indexed the pages, selected their canonical addresses, or changed brand-name corrections.",
         "zh": "## 公开页面搜索设置与网站地图范围\n\n首页（`/`）、价格页（`/pricing`）和关于页（`/about`）分别提供自己的正式地址、标题和对应的可读正文。\n\n角色工作台（`/influencer`）等应用页面设置 `noindex`，不进入网站地图。地图仅包含 `/`、`/pricing`、`/about`、`/privacy` 和 `/terms`。\n\n这些页面设置不代表谷歌已经收录页面、采用其正式地址，或改变品牌名称纠错。"
+      },
+      "schema_version": 1
+    },
+    {
+      "id": "2026-10-18-gemini-4-argon-structured-results",
+      "published_at": "2026-10-18",
+      "type": "capability",
+      "modality": [
+        "text"
+      ],
+      "title": {
+        "zh": "Gemini 原生结构化结果校验说明",
+        "en": "Gemini Native Structured Result Validation"
+      },
+      "summary": {
+        "zh": "说明结构化输出参数的转发与返回内容限制；调用方须校验代码围栏和实际字段类型。",
+        "en": "Clarify native structured-output forwarding and response limits: validate code fences and actual field types."
+      },
+      "models": [
+        "gemini-4-argon"
+      ],
+      "tags": [
+        "gemini",
+        "native",
+        "structured-output"
+      ],
+      "links": [
+        {
+          "label": {
+            "zh": "原生接口文档",
+            "en": "Native API Reference"
+          },
+          "href": {
+            "zh": "/zh/api-reference/text-series/gemini/native-generate",
+            "en": "/en/api-reference/text-series/gemini/native-generate"
+          }
+        },
+        {
+          "label": {
+            "zh": "流式接口文档",
+            "en": "Streaming API Reference"
+          },
+          "href": {
+            "zh": "/zh/api-reference/text-series/gemini/native-stream",
+            "en": "/en/api-reference/text-series/gemini/native-stream"
+          }
+        }
+      ],
+      "body": {
+        "zh": "补充 `gemini-4-argon` 原生接口的结构化结果处理说明。\n\n- `responseMimeType` 与 `responseSchema` 按原生请求转发；返回内容仍可能包含代码围栏，或出现与请求结构不一致的字段类型，例如数组字段返回为对象。\n- 调用方须校验实际内容和字段类型，再用于后续处理。\n- 流式结果应在完整拼接后校验；正常结束不代表内容一定符合请求结构。\n\n本次更新说明返回内容的处理边界，不改变模型售价或调用入口。",
+        "en": "Clarify structured-result handling for the native `gemini-4-argon` API.\n\n- `responseMimeType` and `responseSchema` are forwarded in the native request. Returned content may still contain code fences or field types that differ from the requested schema, such as an object where an array was requested.\n- Validate actual content and field types before further processing.\n- Validate streamed results after complete assembly; normal termination does not establish schema compliance.\n\nThis update documents response-handling boundaries without changing the model price or request endpoints."
       },
       "schema_version": 1
     },
@@ -2249,46 +2300,6 @@
       "body": {
         "en": "## Claude Opus 5\n\n**Claude Opus 5** is now available on OmniMux through OpenAI-compatible Chat Completions.\n\n### New model\n\n- **Model ID:** `claude-opus-5`\n- **Endpoint:** `https://api.omnimux.ai/v1` (Chat Completions)\n- **Docs:** one complete page per brand — `model` is an enum on the Claude complete page\n\nRelated Claude IDs on the gateway include other Opus / Sonnet / Haiku SKUs on live pricing.",
         "zh": "## Claude Opus 5\n\n**Claude Opus 5** 现已通过 OpenAI 兼容 Chat Completions 在 OmniMux 可调用。\n\n### 新模型\n\n- **模型 ID：** `claude-opus-5`\n- **端点：** `https://api.omnimux.ai/v1`（Chat Completions）\n- **文档：** 每个品牌一页完整参数 — `model` 为 Claude 完整参数页内枚举\n\n网关上同族还有其他 Opus / Sonnet / Haiku SKU，以线上定价为准。"
-      },
-      "schema_version": 1
-    },
-    {
-      "id": "2026-07-22-gemini-3-6-flash",
-      "published_at": "2026-07-22",
-      "type": "model_launch",
-      "modality": [
-        "text"
-      ],
-      "title": {
-        "en": "Gemini 3.6 Flash and Gemini 3.5 Flash",
-        "zh": "Gemini 3.6 Flash 与 Gemini 3.5 Flash"
-      },
-      "summary": {
-        "en": "Gemini Flash-class language models on OmniMux.",
-        "zh": "Gemini Flash 档语言模型已在 OmniMux 可调用。"
-      },
-      "models": [
-        "gemini-3.6-flash",
-        "gemini-3.5-flash"
-      ],
-      "tags": [
-        "text"
-      ],
-      "links": [
-        {
-          "label": {
-            "en": "Gemini complete",
-            "zh": "Gemini 完整参数"
-          },
-          "href": {
-            "en": "/en/api-reference/text-series/gemini/complete",
-            "zh": "/zh/api-reference/text-series/gemini/complete"
-          }
-        }
-      ],
-      "body": {
-        "en": "## Gemini Flash models\n\nNew Gemini Flash-class models are available on OmniMux.\n\n### New models\n\n- **Model IDs:** `gemini-3.6-flash`, `gemini-3.5-flash`\n- **API:** OpenAI-compatible Chat Completions at `https://api.omnimux.ai/v1`\n\nAdditional Gemini IDs (Pro / preview / lite) may also appear on live pricing — pin the exact ID from the console or Gemini complete page.",
-        "zh": "## Gemini Flash 模型\n\nGemini Flash 档模型现已在 OmniMux 可调用。\n\n### 新模型\n\n- **模型 ID：** `gemini-3.6-flash`、`gemini-3.5-flash`\n- **API：** OpenAI 兼容 Chat Completions：`https://api.omnimux.ai/v1`\n\n线上定价中可能还有 Pro / preview / lite 等 Gemini ID——请以控制台或 Gemini 完整参数页为准。"
       },
       "schema_version": 1
     }
