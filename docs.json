@@ -2,7 +2,7 @@
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
   "name": "OmniMux",
-  "description": "Social media operations infrastructure for agents — API, CLI, Skill, and MCP. Console omnimux.ai · API api.omnimux.ai",
+  "description": "OmniMux helps you create AI characters, build multi-view reference sheets, and generate character videos from reference clips.",
   "colors": {
     "primary": "#6757e7",
     "light": "#6757e7",
@@ -12,7 +12,7 @@
   "logo": {
     "light": "/logo/light.svg",
     "dark": "/logo/dark.svg",
-    "href": "https://omnimux.ai/dashboard"
+    "href": "https://omnimux.ai/"
   },
   "api": {
     "openapi": [
