@@ -10,6 +10,8 @@ openapi: "openapi/ops/gemini/native.json POST /v1beta/models/{model}:streamGener
 - 读取 `data:` 事件中的原生回复片段，等待正常结束并检查 `finishReason` 与最终可用的 `usageMetadata`。
 - 已收到部分文字不能证明完整成功；中断后先核对结果与费用，避免重复发起。
 
+采用结构化输出时，在拼接完整文字后同样须校验实际内容与字段类型。参数已传入或流正常结束，不代表内容一定符合 `responseSchema`。
+
 ## 用量与错误
 
 累计用量快照不逐条相加。输入含已报告工具输入，输出含已报告思考，缓存是输入子集。费用以已公布账户价格与最终结算为准；自动切换服务线路不会改变该模型的已公布售价。余额不足除 `402` 外，也可能返回 `403` 和 `insufficient_user_quota`。

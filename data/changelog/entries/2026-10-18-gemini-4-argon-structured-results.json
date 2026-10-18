@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "id": "2026-10-18-gemini-4-argon-structured-results",
+  "published_at": "2026-10-18",
+  "rank": 0,
+  "type": "capability",
+  "modality": [
+    "text"
+  ],
+  "title": {
+    "zh": "Gemini 原生结构化结果校验说明",
+    "en": "Gemini Native Structured Result Validation"
+  },
+  "summary": {
+    "zh": "说明结构化输出参数的转发与返回内容限制；调用方须校验代码围栏和实际字段类型。",
+    "en": "Clarify native structured-output forwarding and response limits: validate code fences and actual field types."
+  },
+  "models": [
+    "gemini-4-argon"
+  ],
+  "links": [
+    {
+      "label": {
+        "zh": "原生接口文档",
+        "en": "Native API Reference"
+      },
+      "href": {
+        "zh": "/zh/api-reference/text-series/gemini/native-generate",
+        "en": "/en/api-reference/text-series/gemini/native-generate"
+      }
+    },
+    {
+      "label": {
+        "zh": "流式接口文档",
+        "en": "Streaming API Reference"
+      },
+      "href": {
+        "zh": "/zh/api-reference/text-series/gemini/native-stream",
+        "en": "/en/api-reference/text-series/gemini/native-stream"
+      }
+    }
+  ],
+  "tags": [
+    "gemini",
+    "native",
+    "structured-output"
+  ],
+  "body": {
+    "zh": "补充 `gemini-4-argon` 原生接口的结构化结果处理说明。\n\n- `responseMimeType` 与 `responseSchema` 按原生请求转发；返回内容仍可能包含代码围栏，或出现与请求结构不一致的字段类型，例如数组字段返回为对象。\n- 调用方须校验实际内容和字段类型，再用于后续处理。\n- 流式结果应在完整拼接后校验；正常结束不代表内容一定符合请求结构。\n\n本次更新说明返回内容的处理边界，不改变模型售价或调用入口。",
+    "en": "Clarify structured-result handling for the native `gemini-4-argon` API.\n\n- `responseMimeType` and `responseSchema` are forwarded in the native request. Returned content may still contain code fences or field types that differ from the requested schema, such as an object where an array was requested.\n- Validate actual content and field types before further processing.\n- Validate streamed results after complete assembly; normal termination does not establish schema compliance.\n\nThis update documents response-handling boundaries without changing the model price or request endpoints."
+  }
+}
