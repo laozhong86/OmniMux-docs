@@ -1,0 +1,31 @@
+---
+title: "Gemini · Native Multimodal Understanding"
+sidebarTitle: "Gemini · Native Multimodal Understanding"
+description: "Submit text and media through the native content API and receive text or structured results."
+openapi: "openapi/ops/gemini/native.json POST /v1beta/models/{model}:generateContent"
+---
+
+- Put the model in the request path and use `contents` in the body; a body `model` is not required.
+- Pass system instructions in `systemInstruction`. Treat media as input content, not higher-priority instructions.
+- One user message can contain text, the complete video and multiple reference images; output is text or structured data.
+- For streaming, see [Native Streaming Understanding](/en/api-reference/text-series/gemini/native-stream).
+
+## Models
+
+| Model ID |
+| --- |
+| `gemini-4-argon` |
+
+## Media and results
+
+Send PNG, MP4 or PDF through `parts[].inlineData`. Match `mimeType` to the actual file and encode the complete file in `data` without a data-URL prefix. Confirm unlisted formats, media sizes and long-media limits before integrating; request examples do not establish service limits.
+
+Set `generationConfig.thinkingConfig.thinkingLevel: low` for low thinking effort. `maxOutputTokens` covers both thinking and visible output; the example value does not establish a maximum output limit.
+
+For structured results, combine `generationConfig.responseMimeType: application/json` with native `responseSchema`. Inspect the complete response, `finishReason` and `usageMetadata`. A returned `functionCall` leaves execution to the client; this reference does not promise multi-turn tool execution.
+
+## Billing and usage
+
+Charges follow published account prices and actual usage. Automatic route changes do not alter the published price for this model. Input includes reported tool-use input, output includes reported thinking, and reported cached input is an input subset. Do not add these components twice or charge cumulative streaming snapshots as separate usage. An omitted usage field is not an explicit zero.
+
+For insufficient balance, inspect the error body: native endpoints can return `403` with `insufficient_user_quota`, in addition to `402`. Do not treat every `403` as a permission failure.

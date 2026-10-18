@@ -1,0 +1,15 @@
+---
+title: "Gemini · Native Streaming Understanding"
+sidebarTitle: "Gemini · Native Streaming Understanding"
+description: "Consume native response events and inspect final completion and usage."
+openapi: "openapi/ops/gemini/native.json POST /v1beta/models/{model}:streamGenerateContent"
+---
+
+- Model: `gemini-4-argon`; include `alt=sse` in the URL.
+- Use the same body as [Native Multimodal Understanding](/en/api-reference/text-series/gemini/native-generate).
+- Read native response chunks from `data:` events, wait for normal termination, and inspect `finishReason` and the final available `usageMetadata`.
+- Partial text does not establish complete success. Reconcile the result and charge after an interruption before submitting again.
+
+## Usage and errors
+
+Do not sum cumulative usage snapshots. Input includes reported tool-use input, output includes reported thinking, and cached tokens are an input subset. Charges follow published account prices and final settlement. Automatic route changes do not alter the published price for this model. Insufficient balance can return `403` with `insufficient_user_quota`, in addition to `402`.

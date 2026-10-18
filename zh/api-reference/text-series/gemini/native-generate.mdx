@@ -1,0 +1,31 @@
+---
+title: "Gemini · 原生多模态理解"
+sidebarTitle: "Gemini · 原生多模态理解"
+description: "通过原生内容接口提交文字和素材，返回文字或结构化结果。"
+openapi: "openapi/ops/gemini/native.json POST /v1beta/models/{model}:generateContent"
+---
+
+- 模型放在请求路径中，正文使用 `contents`；无需另加正文 `model`。
+- 系统指令使用 `systemInstruction`。素材是输入内容，不应覆盖系统指令。
+- 同一条用户消息可包含文字、完整视频和多张参考图片，输出为文字或结构化结果。
+- 流式调用见[原生流式理解](/zh/api-reference/text-series/gemini/native-stream)。
+
+## 模型
+
+| 模型标识 |
+| --- |
+| `gemini-4-argon` |
+
+## 素材与结果
+
+通过 `parts[].inlineData` 提交 PNG、MP4 或 PDF；`mimeType` 与实际文件一致，`data` 为不含数据网址前缀的完整文件编码。本页未列出的格式、素材容量和长素材限制，请在接入前确认，勿将请求示例当作服务上限。
+
+使用低思考档时，设置 `generationConfig.thinkingConfig.thinkingLevel: low`。`maxOutputTokens` 同时覆盖思考与可见输出，示例值不代表最大输出上限。
+
+需要结构化结果时，使用 `generationConfig.responseMimeType: application/json` 与原生 `responseSchema`。检查完整回复的 `finishReason`、返回内容及 `usageMetadata`。收到 `functionCall` 后，由调用方执行函数；本页不承诺多轮工具执行。
+
+## 费用与用量
+
+按已公布的账户价格和实际用量结算；自动切换服务线路不会改变该模型的已公布售价。普通输入包含上游已报告的工具输入，输出包含已报告的思考；已报告缓存属于输入子集，不再重复累加。流式累计快照也不按片段重复计费。缺失的用量字段不代表上游明确报告零。
+
+余额不足应检查错误体：除 `402` 外，原生入口也可能返回 `403` 和 `insufficient_user_quota`；不要将全部 `403` 都归为权限问题。

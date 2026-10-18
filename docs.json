@@ -58,7 +58,9 @@
                   {
                     "group": "Gemini",
                     "pages": [
-                      "en/api-reference/text-series/gemini/complete"
+                      "en/api-reference/text-series/gemini/complete",
+                      "en/api-reference/text-series/gemini/native-generate",
+                      "en/api-reference/text-series/gemini/native-stream"
                     ]
                   },
                   {
@@ -573,7 +575,9 @@
                   {
                     "group": "Gemini",
                     "pages": [
-                      "zh/api-reference/text-series/gemini/complete"
+                      "zh/api-reference/text-series/gemini/complete",
+                      "zh/api-reference/text-series/gemini/native-generate",
+                      "zh/api-reference/text-series/gemini/native-stream"
                     ]
                   },
                   {
