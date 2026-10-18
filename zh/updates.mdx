@@ -28,6 +28,22 @@ rss: true
 
 </Update>
 
+<a id="2026-10-18-browser-checked-reference-upload"></a>
+
+<Update label="2026 年 10 月 18 日" tags={["平台", "视频"]} rss={{ title: "参考视频改为浏览器检查后上传" }}>
+
+  已于 2026 年 10 月 18 日生效。
+
+  - 创作页面在添加或上传前由浏览器检查参考视频，时长和画幅自动跟随原片；无法跟随的规格使用既有页面顶部消息气泡提示，不添加也不上传文件。
+  - 上传凭证申请及表单回退接收 `purpose=influencer_reference_video` 和完整原始 `video_metadata`；表单将其编码为 JSON 字符串。客户端声明不表示服务器已核验媒体事实。
+  - 此用途保留归属、过期、准确存储大小、Content-Type 一致性与 200 MiB 硬上限。直传确认仅使用 R2 HEAD，不检查媒体内容，超过 100 MiB 也一样；策略在发放凭证时绑定，确认时不能切换。普通上传检查及公开视频生成接口行为保持原样。
+
+  ### 链接
+
+  - [文件上传契约](/zh/api-reference/file-series/upload-stream)
+
+</Update>
+
 <a id="2026-10-16-site-release-announcements"></a>
 
 <Update label="2026 年 10 月 16 日" tags={["平台"]} rss={{ title: "系统更新改用本站上线公告" }}>
@@ -1200,28 +1216,6 @@ rss: true
   ### 链接
 
   - [定价](/zh/api-reference/account/pricing)
-
-</Update>
-
-<a id="2026-07-01-nano-banana"></a>
-
-<Update label="2026 年 7 月 1 日" tags={["新模型", "图像"]} rss={{ title: "Nano Banana 2 与 Nano Banana Pro" }}>
-
-  ## Nano Banana
-
-  **Nano Banana 2** 与 **Nano Banana Pro** 现已在 OmniMux 可调用。
-
-  ### 新模型
-
-  - **模型 ID：** `nano-banana-2`、`nano-banana-pro`
-  - **模态：** 图像生成
-
-  请求参数见各模型文档页。
-
-  ### 链接
-
-  - [Nano Banana 2](/zh/api-reference/image-series/models/nano-banana-2)
-  - [Nano Banana Pro](/zh/api-reference/image-series/models/nano-banana-pro)
 
 </Update>
 
