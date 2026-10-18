@@ -73,7 +73,7 @@ For example, 5:4, 1:1, 4:3 and 21:9 can be valid reference ratios when the other
 
 Reference input and generated output are separate. In **motion transfer**, the source may be shorter than the generated video; the independently selected output duration remains **4–30 whole seconds**. Output framing remains limited to the choices shown for the selected resolution (480p: 16:9, 9:16, 3:4; 720p: 16:9, 9:16).
 
-**Object swap** retains its existing standard-framing workflow. On submission, the server checks whether the source framing matches an available output for the selected resolution: **480p supports 16:9, 9:16 and 3:4; 720p supports 16:9 and 9:16**. The actual **4–30-second** source duration is rounded to the nearest whole second for the generation request; for example, a 9.708-second source requests 10 seconds. Existing billing uses that requested duration. Automatic original-video editing is **not enabled in this release**.
+**Object swap** retains its existing standard-framing workflow. On submission, the server checks whether the source framing matches an available output for the selected resolution: **480p supports 16:9, 9:16 and 3:4; 720p supports 16:9 and 9:16**. The actual **4–30-second** source duration is rounded to the nearest whole second for the generation request; for example, a 9.708-second source requests 10 seconds. Existing billing uses that requested duration. The dedicated editing mode that automatically inherits the original framing and duration is **not enabled**.
 
 A valid 5:4 reference can be selected and kept without an inline framing warning. If object swap cannot preserve its framing, only the actual submission shows a **top notification** explaining that the reference passed validation but the current service cannot preserve this framing for object swap. The reference stays selected, and you may choose motion transfer. This rejection occurs before task distribution or generation billing. The workbench does not silently crop, stretch, letterbox, trim, speed up, or switch creation modes to make an input fit. Generated content may differ from the source.
 
@@ -88,6 +88,24 @@ Generation uses a server-prepared copy of the validated bytes without transcodin
 Media-preparation rejection happens **before generation billing**. Invalid media checks return a safe `400 reference_video_invalid`; invalid request settings, including mode, output choices or editing-specific preparation, can return `400 invalid_request`. Cancellation or a media-check timeout receives `408 reference_video_invalid`; busy preparation or temporarily unavailable checking, storage, or download receives `503 reference_video_invalid`. Safe messages do not expose signed media URLs or raw diagnostics. These preparation rules do not promise that every later generation failure is free.
 
 Uploads keep the original filename, including spaces or `#`. A valid file does not need compression or renaming. Automatic compression and conversion of unsupported formats are not enabled. File ownership, expiry, download limits and media checks still apply.
+
+### How object swap uses reference images
+
+<Note>
+This section describes the revised default instructions. Publishing this documentation does not establish that the production workbench has received the update; availability depends on the deployed site version.
+</Note>
+
+The default object-swap instructions ask the video-generation model to interpret the original video and **all reference images**, using their semantic, functional and interaction relationships to determine reasonable replacement targets and scope. Image order identifies references; **it does not predetermine each image's role**. You can submit without a personal prompt. This flow adds neither a separate recognition model nor a target-selection step.
+
+Reference images define each replacement target's complete appearance and recognizable features; the original video defines the event progression, action timing, spatial relationships and shot organization. The instructions ask for complete replacement according to those mappings, removing original features that conflict with the reference target without importing unrelated image content.
+
+The instructions ask to change only what is necessary for the replacement and retain the remaining visuals and original sound. While preserving the target definition, they allow adjustments to perspective, occlusion, contact, lighting and motion response needed for natural integration, maintaining the original interaction logic and continuity throughout the video. Multiple images may complement one target or correspond to different targets, with stable mappings throughout; they should not add duplicates, blend conflicting appearances or force in content without a reasonable match. These are generation goals, **not a guarantee of exact preservation or a correct interpretation on every request**.
+
+An explicitly supplied, valid personal supplement takes priority; in the workbench, the personal-prompt switch controls whether that draft is sent. A saved character's verified identity and species apply only when that image is actually used for identity replacement; when used for a partial replacement, it applies only to the corresponding part.
+
+The current **10 built-in object-swap sidebar presets** keep their descriptions, previews and reference videos, but their generic display sentence is no longer sent as a generation supplement. This change does not redefine Explore's apply behavior or community task descriptions.
+
+The default instructions are shared with the existing influencer video-creation integration. This update changes no public request or response fields; existing standard-framing limits, positive whole-second requests and billing rules remain in force. It does not add these instructions to an arbitrary generic video request, or enable adaptive framing or automatic original-duration editing.
 
 ### Browser transfers
 

@@ -2,7 +2,7 @@
   "schema_version": 1,
   "page": 1,
   "page_size": 50,
-  "total": 60,
+  "total": 61,
   "total_pages": 2,
   "items": [
     {
@@ -127,6 +127,45 @@
       "body": {
         "zh": "标准服务路线按单张报价，仅接受 JSON 请求，质量为 `medium`，输出为 PNG。支持七种画幅及对应精确像素：1:1（1024x1024）、2:3（1024x1536）、3:2（1536x1024）、3:4（1024x1360）、4:3（1360x1024）、9:16（1088x1920）、16:9（1920x1088）。3:4 / 4:3 的旧 1365 像素边调整为 1360；旧显式尺寸明确拒绝，不静默换规格。\n\n文生图可不带参考；编辑最多使用一张公开 HTTPS 的 JPEG、PNG 或 WebP 图片，单张最多 5 MiB、解码后最多 4000 万像素、任一边最多 23170 像素。角色板和多视角板继续保留，多视角为同一张图中的多个视图。\n\n完整提示词须同时满足 **8192 个 Unicode 码点、16384 个 UTF-8 字节，以及本服务使用 `o200k_base` 计算的 5000 个词元**上限。这会拒绝部分包含大量四字节字符或词元较多的原 4000 字符工作台长描述；不截断、不压缩、不替换输入。本服务的词元计数用于请求准入，不代表供应商最终计费量，也不保证单次采购成本上限。独立 Flare / Sunburst 型号的官方 32000 字符事实与既有合同不因本标准路线收窄而改变。\n\n多张输出、多参考、更高质量、其他输出格式及未审核扩展会明确拒绝。已识别标准路线的公开请求在创建供应商任务和预留资金前拒绝；工作台排队任务可能随后明确无费失败。实际普通及会员价格以提交前报价为准，同档位的合格换线不追加客户费用。\n\n只有能够确定首选未创建供应商任务，并符合内置重试规则和总预算时才会尝试已审核备用；不承诺始终有两条健康线路。已接单、超时、断连或缺回执的原任务继续核对，不会自动重复生成，旧失败任务也不会自动重发。",
         "en": "The standard service is quoted per image and accepts JSON requests only, with `medium` quality and PNG output. Seven aspect ratios map to exact pixels: 1:1 (1024x1024), 2:3 (1024x1536), 3:2 (1536x1024), 3:4 (1024x1360), 4:3 (1360x1024), 9:16 (1088x1920), and 16:9 (1920x1088). The old 1365-pixel edge for 3:4 / 4:3 changes to 1360. Old explicit sizes are rejected rather than silently replaced.\n\nText-to-image requests may omit a reference; editing accepts at most one public HTTPS JPEG, PNG, or WebP image, up to 5 MiB, 40 million decoded pixels, and 23170 pixels on either edge. Character sheets and multi-view boards remain available; multiple views are rendered within one image.\n\nThe complete prompt must satisfy all three limits: **8192 Unicode code points, 16384 UTF-8 bytes, and 5000 tokens counted by this service with `o200k_base`**. This rejects some existing 4000-character workbench descriptions containing many four-byte characters or a high token count. Inputs are not truncated, compressed, or replaced. The service token count determines request eligibility; it does not represent final supplier billing usage or guarantee a per-request procurement cost ceiling. The vendor's 32000-character fact and existing contracts for the separate Flare / Sunburst models are not changed by this standard-service restriction.\n\nMultiple output images, multiple references, higher quality, other output formats, and unreviewed extensions are explicitly rejected. Identified standard-route public requests are rejected before creating a supplier task or reserving funds; queued workbench tasks may fail explicitly without a charge after validation. Standard and member prices are shown before submission. Switching an eligible route within the same account tier does not add a customer charge.\n\nA reviewed backup may be attempted only when no supplier task was created on the preferred route and native retry rules and the total attempt budget allow it. Two healthy routes are not guaranteed at all times. Accepted tasks and tasks with timeouts, disconnections, or missing acknowledgements are reconciled against the original request without automatic duplicate generation. Old failed tasks are not automatically resubmitted."
+      },
+      "schema_version": 1
+    },
+    {
+      "id": "2026-10-16-object-swap-reference-instructions",
+      "published_at": "2026-10-16",
+      "type": "capability",
+      "modality": [
+        "video"
+      ],
+      "title": {
+        "en": "Object-swap instructions determine targets and scope from references",
+        "zh": "对象交换按参考内容确定目标与范围"
+      },
+      "summary": {
+        "en": "The revised object-swap instructions ask the generation model to map all reference images to the original video, use the references for complete target appearance and retain the original dynamic structure and non-target content. Existing framing, duration and billing rules remain in force.",
+        "zh": "修订后的对象交换指令由生成模型结合全部参考图片与原视频自主对应，以图片定义目标完整外观，保留原片动态结构与非目标内容；沿用既有画幅、时长与计费规则。"
+      },
+      "models": [
+        "seedance-2-5"
+      ],
+      "tags": [
+        "video"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "Object-swap reference behavior",
+            "zh": "对象交换参考规则"
+          },
+          "href": {
+            "en": "/en/faqs/features",
+            "zh": "/zh/faqs/features"
+          }
+        }
+      ],
+      "body": {
+        "en": "The default object-swap instructions ask the video-generation model to interpret the original video and all reference images, using their semantic, functional and interaction relationships to determine reasonable replacement targets and scope. Image order identifies references; it does not predetermine each image's role. You can submit without a personal prompt. This flow adds neither a separate recognition model nor a target-selection step.\n\nReference images define each replacement target's complete appearance and recognizable features; the original video defines the event progression, action timing, spatial relationships and shot organization. The instructions ask for complete replacement according to those mappings, removing original features that conflict with the reference target without importing unrelated image content.\n\nThe instructions ask to change only what is necessary for the replacement and retain the remaining visuals and original sound. While preserving the target definition, they allow adjustments to perspective, occlusion, contact, lighting and motion response needed for natural integration, maintaining the original interaction logic and continuity throughout the video. Multiple images may complement one target or correspond to different targets, with stable mappings throughout; they should not add duplicates, blend conflicting appearances or force in content without a reasonable match. These are generation goals, not a guarantee of exact preservation or a correct interpretation on every request.\n\nAn explicitly supplied, valid personal supplement takes priority; in the workbench, the personal-prompt switch controls whether that draft is sent. A saved character's verified identity and species apply only when that image is actually used for identity replacement; when used for a partial replacement, it applies only to the corresponding part.\n\nThe current 10 built-in object-swap sidebar presets keep their descriptions, previews and reference videos, but their generic display sentence is no longer sent as a generation supplement. This change does not redefine Explore's apply behavior or community task descriptions.\n\nThe default instructions are shared with the existing influencer video-creation integration. This update changes no public request or response fields; existing standard-framing limits, positive whole-second requests and billing rules remain in force. It does not add these instructions to an arbitrary generic video request, or enable adaptive framing or automatic original-duration editing.\n\nThis entry describes the revised default instructions. Publishing this documentation does not establish that the production workbench has received the update; availability depends on the deployed site version.",
+        "zh": "对象交换的默认提示会让视频生成模型结合原视频与全部参考图片，依据参考内容与原片的语义、功能和交互关系，自主确定合理的替换目标与范围。图片顺序只用于指代，不预设各图用途。不填写个人提示词也可提交；流程不增加额外识别模型，也不要求用户点选目标。\n\n参考图片定义替换后目标的完整外观与可辨识特征；原视频定义事件进程、动作时序、空间关系和镜头组织。指令要求按确定的对应关系完整替换，消除与参考目标冲突的原有特征，不引入图片中的无关内容。\n\n指令要求只修改完成替换所必需的部分，其余画面与原音沿用原片。在保持目标定义的前提下，允许自然融合所需的透视、遮挡、接触、光影和运动响应调整，保持原有交互逻辑与全片连续性。多张图片可互补同一目标或分别对应不同目标，对应关系贯穿全片稳定一致；不重复增添或混合冲突形象，缺乏合理对应的内容不强行加入。这些是生成目标，不保证每次都精确保留或正确理解对应关系。\n\n有效且明确传入的个人补充优先；工作台中的个人提示开关决定是否发送该草稿。已保存角色经过核验的身份与物种，仅在该图实际用于身份替换时适用；局部引用只作用于对应部分。\n\n当前 10 项内置对象交换侧栏预设保留原说明、预览与参考视频，但其通用展示句不再作为生成补充发送。本次没有改变探索区的应用行为或社区任务描述。\n\n这些默认规则也用于既有的角色视频创建集成入口。本次不改变公开请求或响应字段，沿用既有标准画幅限制、正整数秒请求与计费规则，不会向任意通用视频请求自动添加这些提示，也不启用自适应画幅或自动沿用原片时长的编辑方式。\n\n本条记录说明修订后的默认指令。文档发布不代表生产工作台已更新，实际可用性以已部署的网站版本为准。"
       },
       "schema_version": 1
     },
@@ -2240,57 +2279,6 @@
       "body": {
         "en": "## Nano Banana\n\n**Nano Banana 2** and **Nano Banana Pro** are now available on OmniMux.\n\n### New models\n\n- **Model IDs:** `nano-banana-2`, `nano-banana-pro`\n- **Modality:** image generation\n\nSee each model page for request parameters.",
         "zh": "## Nano Banana\n\n**Nano Banana 2** 与 **Nano Banana Pro** 现已在 OmniMux 可调用。\n\n### 新模型\n\n- **模型 ID：** `nano-banana-2`、`nano-banana-pro`\n- **模态：** 图像生成\n\n请求参数见各模型文档页。"
-      },
-      "schema_version": 1
-    },
-    {
-      "id": "2026-06-25-seedance-2-0",
-      "published_at": "2026-06-25",
-      "type": "model_launch",
-      "modality": [
-        "video"
-      ],
-      "title": {
-        "en": "Seedance 2.0 family — Standard, Mini, Fast",
-        "zh": "Seedance 2.0 系列 — Standard / Mini / Fast"
-      },
-      "summary": {
-        "en": "Seedance 2.0 video SKUs on OmniMux.",
-        "zh": "Seedance 2.0 视频 SKU 已在 OmniMux 可调用。"
-      },
-      "models": [
-        "seedance-2-0",
-        "seedance-2-0-mini",
-        "seedance-2-0-fast"
-      ],
-      "tags": [
-        "video"
-      ],
-      "links": [
-        {
-          "label": {
-            "en": "Video task poll",
-            "zh": "视频任务查询"
-          },
-          "href": {
-            "en": "/en/api-reference/tasks/video-task",
-            "zh": "/zh/api-reference/tasks/video-task"
-          }
-        },
-        {
-          "label": {
-            "en": "Pricing",
-            "zh": "定价"
-          },
-          "href": {
-            "en": "/en/api-reference/account/pricing",
-            "zh": "/zh/api-reference/account/pricing"
-          }
-        }
-      ],
-      "body": {
-        "en": "## Seedance 2.0\n\nThe **Seedance 2.0** family is available on OmniMux for async video generation.\n\n### New models\n\n| Model ID | Role |\n| --- | --- |\n| `seedance-2-0` | Standard |\n| `seedance-2-0-mini` | Lightweight / cost-oriented |\n| `seedance-2-0-fast` | Speed-oriented |\n\n### API\n\n- **Create:** `POST /v1/video/generations`\n- **Poll:** `GET /v1/video/generations/{task_id}`",
-        "zh": "## Seedance 2.0\n\n**Seedance 2.0** 系列已在 OmniMux 可调用（异步视频）。\n\n### 新模型\n\n| 模型 ID | 角色 |\n| --- | --- |\n| `seedance-2-0` | 标准档 |\n| `seedance-2-0-mini` | 轻量 / 成本向 |\n| `seedance-2-0-fast` | 速度向 |\n\n### 调用\n\n- **创建：** `POST /v1/video/generations`\n- **查询：** `GET /v1/video/generations/{task_id}`"
       },
       "schema_version": 1
     }
