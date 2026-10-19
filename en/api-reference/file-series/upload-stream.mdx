@@ -80,6 +80,12 @@ Supply all fields with finite numeric values. The declared MIME must match `cont
 
 The server binds this policy to the upload record when presign succeeds; it retains the reserved `influencer-reference/browser-upload` path and ignores a caller-supplied custom folder for this purpose. Confirmation cannot change an ordinary ticket to this purpose. Direct-upload confirmation keeps ownership, pending-state, expiry, R2 HEAD existence, exact size, and matching Content-Type checks, including for files over 100 MiB. It does **not** download the object to inspect its container, codec, duration, resolution, or decodability. Multipart still transfers the bytes through the server, but skips media-content inspection for this purpose. This policy does not label metadata as server-verified and does not change ordinary uploads or public generation API behavior.
 
+### Upload response metadata
+
+Both this multipart response and the `POST /api/v1/files/upload/confirm` response include an optional `video_metadata` object in `data` when the upload used the `influencer_reference_video` purpose. It repeats the nine fields from the declaration table above with the same browser-declared values. It is omitted for ordinary uploads and for files recorded before this field existed.
+
+The echoed object is still the client-provided declaration, not server-verified media evidence. Confirmation still uses R2 HEAD without reading the media, and multipart skips media-content inspection for this purpose. Do not treat the echoed values as measured output properties or as a substitute for your own validation.
+
 <Panel>
 <RequestExample>
 ```javascript Browser PUT
@@ -133,6 +139,39 @@ if (!uploaded.ok) throw new Error("Direct upload failed");
     "download_url": "https://api.omnimux.ai/api/v1/files/download/file_349a227eaa054bab",
     "upload_time": "2026-09-10T23:49:59+08:00",
     "expires_at": "2026-09-13T23:49:59+08:00"
+  }
+}
+```
+
+For `purpose=influencer_reference_video`, the stream and confirmation responses add the optional echo described above; it is absent for ordinary uploads:
+
+```json Reference-video upload
+{
+  "success": true,
+  "code": 200,
+  "msg": "文件上传成功",
+  "data": {
+    "file_id": "file_7c31a4f2d9e84b06",
+    "file_name": "reference.mp4",
+    "original_name": "reference.mp4",
+    "file_size": 1048576,
+    "mime_type": "video/mp4",
+    "upload_path": "influencer-reference/browser-upload",
+    "file_url": "https://api.omnimux.ai/api/v1/files/download/file_7c31a4f2d9e84b06",
+    "download_url": "https://api.omnimux.ai/api/v1/files/download/file_7c31a4f2d9e84b06",
+    "upload_time": "2026-10-19T10:00:00+08:00",
+    "expires_at": "2026-10-22T10:00:00+08:00",
+    "video_metadata": {
+      "duration": 7.072,
+      "video_duration": 7.041667,
+      "width": 1280,
+      "height": 720,
+      "frame_rate": 24,
+      "video_codec": "h264",
+      "audio_codec": "aac",
+      "container": "mp4",
+      "size_bytes": 1048576
+    }
   }
 }
 ```

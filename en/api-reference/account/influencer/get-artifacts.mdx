@@ -7,6 +7,8 @@ openapi: "openapi/ops/influencer/en/creation.json GET /api/influencer/v1/tasks/{
 
 Returns the same safe task projection as task detail, with an `artifacts` array; it does not return file bytes. Only a successful task with usable artifacts reports `artifact_status: ready`. Re-query this endpoint to refresh expired signed content links.
 
+Video artifacts can include an optional `video_metadata` object when the server has recorded the generated output's media facts. It uses the same nine field names as the reference-video upload declaration: `duration`, `video_duration`, `width`, `height`, `frame_rate`, `video_codec`, `audio_codec`, `container` and `size_bytes`. It is absent for older tasks and for non-video artifacts. Values are server-observed but best-effort: `duration` comes from the container and `video_duration` currently mirrors it because the output is not fully decoded; still validate them against your own constraints.
+
 - Base URL: `https://omnimux.ai`; use a scoped personal access token, not an `sk-` relay key.
 - Required permission: `influencer_creation:read`.
 - `New-Api-User` is optional compatibility metadata. The credential determines the account; this header cannot choose another owner.

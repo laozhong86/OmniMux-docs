@@ -7,6 +7,8 @@ openapi: "openapi/ops/influencer/zh/creation.json GET /api/influencer/v1/request
 
 提交结果不明或响应丢失时查回原任务；恢复不会新建任务。进行中任务不设恢复期限，结束后可恢复七天。404 表示当前账号未查到已受理请求；410 表示恢复不可用或已过期，该编号仍被保留。
 
+`artifacts` 中的视频项可包含可选的 `video_metadata` 对象，字段与限制见[查询创作成品](/zh/api-reference/account/influencer/get-artifacts)；历史任务和非视频成品不包含。
+
 - 服务地址为 `https://omnimux.ai`，使用限定权限个人凭据，不使用 `sk-` 网关密钥。
 - 所需权限：`influencer_creation:read`.
 - `New-Api-User` 只作可选兼容信息。账号由凭据确定，此请求头不能选择其他归属。
