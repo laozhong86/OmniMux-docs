@@ -7,6 +7,8 @@ openapi: "openapi/ops/influencer/zh/creation.json GET /api/influencer/v1/tasks/{
 
 返回与任务详情相同的安全任务数据，包含 `artifacts` 数组，不直接返回文件内容。只有成功且有可用成品时才显示 `artifact_status: ready`。签名下载地址过期时重新查询此入口。
 
+服务器已记录生成成品媒体信息时，视频成品可包含可选的 `video_metadata` 对象。字段名与参考视频上传声明一致，共九个：`duration`、`video_duration`、`width`、`height`、`frame_rate`、`video_codec`、`audio_codec`、`container`、`size_bytes`。历史任务和非视频成品不包含此对象。这些数值由服务器观测，但为尽力而为：`duration` 取自容器，`video_duration` 因未完整解码当前与它相同；调用方仍须按自己的约束校验。
+
 - 服务地址为 `https://omnimux.ai`，使用限定权限个人凭据，不使用 `sk-` 网关密钥。
 - 所需权限：`influencer_creation:read`.
 - `New-Api-User` 只作可选兼容信息。账号由凭据确定，此请求头不能选择其他归属。

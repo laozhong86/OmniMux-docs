@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "id": "2026-10-19-influencer-video-metadata-echo",
+  "published_at": "2026-10-19",
+  "rank": 0,
+  "type": "capability",
+  "modality": [
+    "video",
+    "platform"
+  ],
+  "title": {
+    "en": "Optional video metadata in upload and artifact responses",
+    "zh": "上传与成品响应新增可选视频元数据"
+  },
+  "summary": {
+    "en": "Upload confirm/stream responses and task artifact projections can now carry optional video_metadata fields. The additions are backward compatible.",
+    "zh": "上传确认/表单响应与任务成品投影可新增可选的 video_metadata 字段，属于向后兼容的增量变化。"
+  },
+  "models": [],
+  "links": [
+    {
+      "label": {
+        "en": "File upload contract",
+        "zh": "文件上传契约"
+      },
+      "href": {
+        "en": "/en/api-reference/file-series/upload-stream",
+        "zh": "/zh/api-reference/file-series/upload-stream"
+      }
+    },
+    {
+      "label": {
+        "en": "Creation artifacts",
+        "zh": "创作成品"
+      },
+      "href": {
+        "en": "/en/api-reference/account/influencer/get-artifacts",
+        "zh": "/zh/api-reference/account/influencer/get-artifacts"
+      }
+    }
+  ],
+  "tags": [
+    "storage",
+    "task-artifacts"
+  ],
+  "body": {
+    "en": "Released on October 19, 2026.\n\n- `POST /api/v1/files/upload/confirm` and `POST /api/v1/files/upload/stream` responses can now include an optional `video_metadata` object in `data` when the upload used `purpose=influencer_reference_video`. It echoes the nine fields the browser declared at presign/stream. It is absent for ordinary uploads and for files recorded before this field existed, and it remains a client-provided declaration, not server-verified media evidence.\n- Video entries in task artifact projections, including `GET /api/task/self?...&with_artifacts=true` and the influencer creation task/artifact detail endpoints, can now include an optional `video_metadata` object when the server has recorded the generated output's media facts. It is absent for older tasks and non-video artifacts. Values are server-observed but best-effort: `duration` comes from the container, `video_duration` currently mirrors it because the output is not fully decoded, and consumers still validate against their own constraints.\n- These are additive, optional response fields. No endpoint, authentication, billing or existing response shape changes; clients that ignore unknown fields need no update.",
+    "zh": "已于 2026 年 10 月 19 日生效。\n\n- 使用 `purpose=influencer_reference_video` 时，`POST /api/v1/files/upload/confirm` 与 `POST /api/v1/files/upload/stream` 的响应 `data` 现在可包含可选的 `video_metadata` 对象，回显浏览器在申请凭证或表单上传时声明的九个字段。普通上传，以及在该字段出现之前已记录的文件，都不包含；它仍是客户端提交的声明，不是服务器已核验的媒体事实。\n- 任务成品投影中的视频项，包括 `GET /api/task/self?...&with_artifacts=true` 与创作任务/成品明细接口，在服务器已记录生成成品媒体信息时可包含可选的 `video_metadata` 对象。历史任务和非视频成品不包含。数值由服务器观测但为尽力而为：`duration` 取自容器，`video_duration` 因未完整解码当前与它相同，调用方仍须按自己的约束校验。\n- 以上均为可选的新增响应字段：不新增接口，不改变鉴权、计费或既有响应结构，忽略未知字段的客户端无需调整。"
+  }
+}

@@ -1737,6 +1737,60 @@
             "type": "string",
             "format": "uri",
             "description": "短期签名成品地址；失效时重新查询成品入口。不要向该地址或其存储重定向转发账号凭据。"
+          },
+          "video_metadata": {
+            "type": "object",
+            "description": "服务器观测到的生成成品视频媒体信息。历史任务和非视频成品不包含此对象。数值为尽力而为：duration 取自容器，video_duration 当前与它相同，调用方仍须按自己的约束校验。",
+            "properties": {
+              "duration": {
+                "type": "number",
+                "description": "容器时长，单位秒。"
+              },
+              "video_duration": {
+                "type": "number",
+                "description": "画面时长，单位秒。生成成品未完整解码，因此当前与 duration 相同。"
+              },
+              "width": {
+                "type": "integer",
+                "description": "宽度，单位像素。"
+              },
+              "height": {
+                "type": "integer",
+                "description": "高度，单位像素。"
+              },
+              "frame_rate": {
+                "type": "number",
+                "description": "帧率，单位帧/秒。"
+              },
+              "video_codec": {
+                "type": "string",
+                "description": "观测到的视频编码，例如 h264 或 hevc。"
+              },
+              "audio_codec": {
+                "type": "string",
+                "description": "观测到的音频编码；成品无音轨时为空字符串。"
+              },
+              "container": {
+                "type": "string",
+                "description": "容器格式，例如 mp4 或 mov。"
+              },
+              "size_bytes": {
+                "type": "integer",
+                "format": "int64",
+                "description": "已存储成品的字节数。"
+              }
+            },
+            "required": [
+              "duration",
+              "video_duration",
+              "width",
+              "height",
+              "frame_rate",
+              "video_codec",
+              "audio_codec",
+              "container",
+              "size_bytes"
+            ]
           }
         },
         "required": [

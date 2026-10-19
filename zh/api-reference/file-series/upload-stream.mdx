@@ -80,6 +80,12 @@ api: "POST https://api.omnimux.ai/api/v1/files/upload/stream"
 
 申请凭证成功时，服务器将该策略绑定到上传记录，保留专用目录 `influencer-reference/browser-upload`，忽略此用途下调用方填写的自定义目录。确认时不能将普通凭证改为此用途。直传确认仍检查归属、待确认状态、过期时间，以及 R2 HEAD 返回的对象存在性、准确大小和 Content-Type 一致性，超过 100 MiB 也一样；**不会**下载对象核验容器、编码、时长、分辨率或可解码性。表单回退仍需经过服务器传输字节，但此用途不检查媒体内容。该策略不会将元数据标记为“服务器已核验”，也不改变普通上传或公开视频生成接口的行为。
 
+### 响应中的元数据回显
+
+使用 `influencer_reference_video` 用途时，本表单接口与 `POST /api/v1/files/upload/confirm` 的响应 `data` 都会包含可选的 `video_metadata` 对象。它按上文声明表中的九个字段回显浏览器提交的数值。普通上传，以及在该字段出现之前已记录的文件，都不包含此对象。
+
+回显内容仍是客户端提交的声明，不是服务器已核验的媒体事实。确认仍只使用 R2 HEAD，不读取媒体内容；表单回退在此用途下也不检查媒体内容。不要把这些回显值当作实测的成品属性，也不能替代调用方自己的校验。
+
 <Panel>
 <RequestExample>
 ```javascript 浏览器 PUT
@@ -133,6 +139,39 @@ if (!uploaded.ok) throw new Error("直传失败");
     "download_url": "https://api.omnimux.ai/api/v1/files/download/file_349a227eaa054bab",
     "upload_time": "2026-09-10T23:49:59+08:00",
     "expires_at": "2026-09-13T23:49:59+08:00"
+  }
+}
+```
+
+使用 `purpose=influencer_reference_video` 时，表单与确认响应会在上述 `data` 中附带可选的元数据回显；普通上传不包含：
+
+```json 参考视频上传
+{
+  "success": true,
+  "code": 200,
+  "msg": "文件上传成功",
+  "data": {
+    "file_id": "file_7c31a4f2d9e84b06",
+    "file_name": "reference.mp4",
+    "original_name": "reference.mp4",
+    "file_size": 1048576,
+    "mime_type": "video/mp4",
+    "upload_path": "influencer-reference/browser-upload",
+    "file_url": "https://api.omnimux.ai/api/v1/files/download/file_7c31a4f2d9e84b06",
+    "download_url": "https://api.omnimux.ai/api/v1/files/download/file_7c31a4f2d9e84b06",
+    "upload_time": "2026-10-19T10:00:00+08:00",
+    "expires_at": "2026-10-22T10:00:00+08:00",
+    "video_metadata": {
+      "duration": 7.072,
+      "video_duration": 7.041667,
+      "width": 1280,
+      "height": 720,
+      "frame_rate": 24,
+      "video_codec": "h264",
+      "audio_codec": "aac",
+      "container": "mp4",
+      "size_bytes": 1048576
+    }
   }
 }
 ```

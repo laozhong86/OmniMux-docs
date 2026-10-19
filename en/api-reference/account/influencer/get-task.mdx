@@ -7,6 +7,8 @@ openapi: "openapi/ops/influencer/en/creation.json GET /api/influencer/v1/tasks/{
 
 Use normalized `status` for automation and `artifact_status` for delivery readiness. `succeeded` alone does not guarantee a usable artifact. A failed task or `quota_status: reconciling` does not confirm that credits were refunded.
 
+A video entry in `artifacts` can include the optional `video_metadata` object described in [Get Creation Artifacts](/en/api-reference/account/influencer/get-artifacts); it is absent for older tasks and for non-video artifacts.
+
 - Base URL: `https://omnimux.ai`; use a scoped personal access token, not an `sk-` relay key.
 - Required permission: `influencer_creation:read`.
 - `New-Api-User` is optional compatibility metadata. The credential determines the account; this header cannot choose another owner.

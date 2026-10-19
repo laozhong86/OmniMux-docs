@@ -9,6 +9,23 @@ Stay up to date with OmniMux gateway model launches and platform changes. The fu
 
 Pages: **Page 1** · [Page 2](/en/updates/page-2)
 
+<a id="2026-10-19-influencer-video-metadata-echo"></a>
+
+<Update label="October 19, 2026" tags={["Improvements", "Video", "Platform"]} rss={{ title: "Optional video metadata in upload and artifact responses" }}>
+
+  Released on October 19, 2026.
+
+  - `POST /api/v1/files/upload/confirm` and `POST /api/v1/files/upload/stream` responses can now include an optional `video_metadata` object in `data` when the upload used `purpose=influencer_reference_video`. It echoes the nine fields the browser declared at presign/stream. It is absent for ordinary uploads and for files recorded before this field existed, and it remains a client-provided declaration, not server-verified media evidence.
+  - Video entries in task artifact projections, including `GET /api/task/self?...&with_artifacts=true` and the influencer creation task/artifact detail endpoints, can now include an optional `video_metadata` object when the server has recorded the generated output's media facts. It is absent for older tasks and non-video artifacts. Values are server-observed but best-effort: `duration` comes from the container, `video_duration` currently mirrors it because the output is not fully decoded, and consumers still validate against their own constraints.
+  - These are additive, optional response fields. No endpoint, authentication, billing or existing response shape changes; clients that ignore unknown fields need no update.
+
+  ### Links
+
+  - [File upload contract](/en/api-reference/file-series/upload-stream)
+  - [Creation artifacts](/en/api-reference/account/influencer/get-artifacts)
+
+</Update>
+
 <a id="2026-10-18-reference-video-audio-tail"></a>
 
 <Update label="October 18, 2026" tags={["Platform", "Video"]} rss={{ title: "Reference-video audio-tail compatibility" }}>
@@ -1187,28 +1204,6 @@ Pages: **Page 1** · [Page 2](/en/updates/page-2)
 
   - [Grok Imagine Video 1.5](/en/api-reference/video-series/models/grok-imagine-video-1-5)
   - [Video task poll](/en/api-reference/tasks/video-task)
-
-</Update>
-
-<a id="2026-07-25-claude-opus-5"></a>
-
-<Update label="July 25, 2026" tags={["New models", "Text"]} rss={{ title: "Claude Opus 5" }}>
-
-  ## Claude Opus 5
-
-  **Claude Opus 5** is now available on OmniMux through OpenAI-compatible Chat Completions.
-
-  ### New model
-
-  - **Model ID:** `claude-opus-5`
-  - **Endpoint:** `https://api.omnimux.ai/v1` (Chat Completions)
-  - **Docs:** one complete page per brand — `model` is an enum on the Claude complete page
-
-  Related Claude IDs on the gateway include other Opus / Sonnet / Haiku SKUs on live pricing.
-
-  ### Links
-
-  - [Claude complete](/en/api-reference/text-series/claude/complete)
 
 </Update>
 

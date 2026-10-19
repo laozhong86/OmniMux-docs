@@ -1737,6 +1737,60 @@
             "type": "string",
             "format": "uri",
             "description": "Short-lived signed artifact URL. Re-read the artifact endpoint if it expires. Never send the account credential to this URL or its storage redirects."
+          },
+          "video_metadata": {
+            "type": "object",
+            "description": "Server-observed media facts of a generated video artifact. Omitted for historical tasks and for non-video artifacts. Best-effort: duration comes from the container and video_duration currently mirrors it, so consumers still validate against their own constraints.",
+            "properties": {
+              "duration": {
+                "type": "number",
+                "description": "Container duration in seconds."
+              },
+              "video_duration": {
+                "type": "number",
+                "description": "Video-track duration in seconds. Currently mirrors duration because the generated output is not fully decoded."
+              },
+              "width": {
+                "type": "integer",
+                "description": "Width in pixels."
+              },
+              "height": {
+                "type": "integer",
+                "description": "Height in pixels."
+              },
+              "frame_rate": {
+                "type": "number",
+                "description": "Frames per second."
+              },
+              "video_codec": {
+                "type": "string",
+                "description": "Reported video codec, such as h264 or hevc."
+              },
+              "audio_codec": {
+                "type": "string",
+                "description": "Reported audio codec; empty when the output has no audio track."
+              },
+              "container": {
+                "type": "string",
+                "description": "Container format, such as mp4 or mov."
+              },
+              "size_bytes": {
+                "type": "integer",
+                "format": "int64",
+                "description": "Stored output size in bytes."
+              }
+            },
+            "required": [
+              "duration",
+              "video_duration",
+              "width",
+              "height",
+              "frame_rate",
+              "video_codec",
+              "audio_codec",
+              "container",
+              "size_bytes"
+            ]
           }
         },
         "required": [
