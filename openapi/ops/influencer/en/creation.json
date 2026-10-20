@@ -871,7 +871,7 @@
       "post": {
         "operationId": "InfluencerCreateVideo",
         "summary": "Create Character Video",
-        "description": "Requires explicit influencer_creation:write. Valid website sessions may use the same owner-scoped route. Unknown top-level creation fields are rejected; clients cannot choose model, supplier group, size or duration. The 4–30-second limit is for the reference clip; finished video duration may differ. Reference audio is supplied to generation, but output loudness may change and lossless preservation is not guaranteed. Inspect the downloaded result.",
+        "description": "Requires explicit influencer_creation:write. Valid website sessions may use the same owner-scoped route. Unknown top-level creation fields are rejected; clients cannot choose model, supplier group, size or duration. mode=motion/replace takes exactly one reference source and a 4-30-second reference clip; the finished duration may differ from it and reference audio is supplied to generation. mode=recreate takes the analyzed prompt and reference images, no reference video, duration_sec equal to the analyze meta.duration_sec (4-15) and a fixed 9:16 framing. Inspect the downloaded result in every mode.",
         "x-required-scopes": [
           "influencer_creation:write"
         ],
@@ -1670,6 +1670,385 @@
           }
         ]
       }
+    },
+    "/api/influencer/v1/recreations/analyze": {
+      "post": {
+        "operationId": "InfluencerRecreateAnalyze",
+        "summary": "Analyze Recreation Reference",
+        "description": "Requires explicit influencer_creation:write. Decomposes a 4-15 second reference clip, 1-9 reference images and optional creative intent into one compiled prompt plus a structured breakdown. The clip is decomposition material only and never enters a generation request. Returns 202 with a job id; poll GET /api/influencer/v1/recreations/{task_id} for the result. Media that cannot be parsed or is outside the supported range fails that job (status failed with a public message), not this call. Analysis is not billed separately; its cost is included in the generation price.",
+        "x-required-scopes": [
+          "influencer_creation:write"
+        ],
+        "parameters": [
+          {
+            "name": "New-Api-User",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Optional compatibility header. Ignored for authentication and ownership; the server derives the account from the credential."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecreateAnalyzeRequest"
+              },
+              "example": {
+                "video_url": "https://omnimux.ai/REPLACE_WITH_OWN_REFERENCE.mp4",
+                "image_urls": [
+                  "https://omnimux.ai/REPLACE_WITH_PRODUCT_IMAGE_1.png"
+                ],
+                "image_tags": [
+                  "my product"
+                ],
+                "prompt": "Keep the rhythm and framing, replace the product with mine.",
+                "resolution": "720p"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "The decomposition job was accepted. This is not a finished result: poll the returned task id until success or failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "const": true
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/RecreateAccepted"
+                    }
+                  },
+                  "required": [
+                    "success",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "success": true,
+                  "data": {
+                    "task_id": "task_example_recreate",
+                    "status": "waiting",
+                    "progress": "0%"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid product fields or unknown body fields.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "invalid_request",
+                  "message": "invalid product parameters"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "A valid live account credential is required. Expired, revoked or disabled-account credentials are rejected.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "AUTH_UNAUTHORIZED",
+                  "message": "A valid live account credential is required. Expired, revoked or disabled-account credentials are rejected."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The explicit creation read/write scope is missing. Old/legacy credentials do not gain access automatically.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "ACCESS_TOKEN_SCOPE_DENIED",
+                  "message": "The explicit creation read/write scope is missing. Old/legacy credentials do not gain access automatically."
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "The per-account daily analysis allowance is exhausted (default 20). Wait for Retry-After before retrying.",
+            "headers": {
+              "Retry-After": {
+                "description": "Seconds to wait before retrying.",
+                "schema": {
+                  "type": "string",
+                  "example": "3600"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "recreate_analysis_limit",
+                  "message": "Today's reference-video analysis allowance is exhausted; retry tomorrow."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "The analysis job could not be created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "recreation_analysis_unavailable",
+                  "message": "the analysis job could not be created; retry later"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "New command-line creations are disabled. Accepted requests remain recoverable.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "influencer_creation_disabled",
+                  "message": "new command-line creations are currently disabled; accepted requests remain recoverable"
+                }
+              }
+            }
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl --request POST \\\n  --url 'https://omnimux.ai/api/influencer/v1/recreations/analyze' \\\n  --header 'Authorization: Bearer <user-access-token>' \\\n  --header 'Content-Type: application/json' \\\n  --data '{\"video_url\":\"https://omnimux.ai/REPLACE_WITH_OWN_REFERENCE.mp4\",\"image_urls\":[\"https://omnimux.ai/REPLACE_WITH_PRODUCT_IMAGE_1.png\"],\"prompt\":\"Keep the rhythm and framing, replace the product with mine.\",\"resolution\":\"720p\"}'"
+          }
+        ]
+      }
+    },
+    "/api/influencer/v1/recreations/{task_id}": {
+      "get": {
+        "operationId": "InfluencerRecreateTask",
+        "summary": "Get Recreation Analysis",
+        "description": "Requires explicit influencer_creation:read. Reads one accepted decomposition job that belongs to the credential's account. Poll until status is success or failed. It never starts or repeats provider work and does not charge. Other accounts and unknown ids are indistinguishable from missing tasks.",
+        "x-required-scopes": [
+          "influencer_creation:read"
+        ],
+        "parameters": [
+          {
+            "name": "New-Api-User",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Optional compatibility header. Ignored for authentication and ownership; the server derives the account from the credential."
+          },
+          {
+            "name": "task_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "task_example_recreate"
+            },
+            "description": "Task id returned by the analyze call, not a provider id."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current state of the decomposition job; success carries the compiled result, failed carries the public reason.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "const": true
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/RecreateTask"
+                    }
+                  },
+                  "required": [
+                    "success",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "success": true,
+                  "data": {
+                    "task_id": "task_example_recreate",
+                    "status": "success",
+                    "progress": "100%",
+                    "prompt": "The final Seedance prompt compiled from the reference clip's structure.",
+                    "analysis": {
+                      "schema_version": "viral-recreate.analysis/1",
+                      "video_overview": {
+                        "one_line": "A single-product demonstration that opens on the result.",
+                        "structure_summary": "hook -> demo -> proof -> cta",
+                        "total_shots": 5
+                      },
+                      "hook": {
+                        "mechanism": [
+                          "result_first"
+                        ]
+                      },
+                      "evidence": {
+                        "grade": "raw-video-frames",
+                        "media": {
+                          "analysis_status": "COMPLETE"
+                        }
+                      }
+                    },
+                    "image_analysis": [
+                      {
+                        "image_index": 1,
+                        "kind": "product",
+                        "summary": "A cream knit cardigan laid flat on a white background.",
+                        "anchors": [
+                          "cream",
+                          "v-neck",
+                          "five brown buttons"
+                        ],
+                        "angle": "front flat lay",
+                        "background": "pure white",
+                        "uncertain": []
+                      }
+                    ],
+                    "meta": {
+                      "shot_count": 5,
+                      "hook": "result_first",
+                      "risk_flags": [
+                        "brand_clean"
+                      ],
+                      "duration_sec": 11,
+                      "reference_duration_sec": 11.2,
+                      "duration_source": "reference_video",
+                      "resolution": "720p",
+                      "aspect_ratio": "9:16",
+                      "image_count": 1,
+                      "pricing": {
+                        "480p": 6.47,
+                        "720p": 13.89
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The task id is missing or too long.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "invalid_request",
+                  "message": "invalid product parameters"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "A valid live account credential is required. Expired, revoked or disabled-account credentials are rejected.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "AUTH_UNAUTHORIZED",
+                  "message": "A valid live account credential is required. Expired, revoked or disabled-account credentials are rejected."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The explicit creation read/write scope is missing. Old/legacy credentials do not gain access automatically.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "ACCESS_TOKEN_SCOPE_DENIED",
+                  "message": "The explicit creation read/write scope is missing. Old/legacy credentials do not gain access automatically."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The analysis task does not exist or does not belong to this account.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "task_not_found",
+                  "message": "Recreation analysis task was not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "The analysis task could not be read.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "internal_error",
+                  "message": "the analysis task could not be read; retry later"
+                }
+              }
+            }
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl --request GET \\\n  --url 'https://omnimux.ai/api/influencer/v1/recreations/task_example_recreate' \\\n  --header 'Authorization: Bearer <user-access-token>'"
+          }
+        ]
+      }
     }
   },
   "components": {
@@ -1829,7 +2208,8 @@
             "type": "string",
             "enum": [
               "motion",
-              "replace"
+              "replace",
+              "recreate"
             ]
           },
           "resolution": {
@@ -1849,7 +2229,7 @@
           },
           "duration_sec": {
             "type": "integer",
-            "description": "Integer generation duration in seconds derived by the server from the reference video; fractional seconds may be rounded. Not a creation input, the exact reference duration, or a measurement of the finished video."
+            "description": "Integer generation duration in seconds derived by the server from the reference video; fractional seconds may be rounded. For recreate it echoes the duration_sec submitted from the analyze result. Not a creation input, the exact reference duration, or a measurement of the finished video."
           },
           "character_task_id": {
             "type": "string",
@@ -2553,9 +2933,17 @@
             "type": "string",
             "enum": [
               "motion",
-              "replace"
+              "replace",
+              "recreate"
             ],
-            "default": "motion"
+            "default": "motion",
+            "description": "motion and replace take exactly one reference source. recreate takes a compiled prompt plus reference images and no reference video."
+          },
+          "duration_sec": {
+            "type": "integer",
+            "minimum": 4,
+            "maximum": 15,
+            "description": "recreate only: the whole-second duration reported as meta.duration_sec by the analyze poll. Send exactly that value. The server rejects values outside 4-15 seconds with 400 invalid_request; motion and replace ignore this field and derive the duration from the reference clip. The server validates only the range, so an in-range value other than the analyzed one becomes the output length while the compiled prompt was written for the analyzed one."
           },
           "character_task_id": {
             "type": "string",
@@ -2571,7 +2959,7 @@
               "pattern": "^https://",
               "maxLength": 2048
             },
-            "description": "Ordered subject/support images. With character_task_id, at most 29 supplemental images. Otherwise at least one image is required, and image_urls[0] is the primary subject. Total: 1–30."
+            "description": "Ordered subject/support images. With character_task_id, at most 29 supplemental images. Otherwise at least one image is required, and image_urls[0] is the primary subject. Total: 1-30. For recreate, keep the same order as the analyze request."
           },
           "video_url": {
             "type": "string",
@@ -2600,12 +2988,12 @@
               "9:16",
               "3:4"
             ],
-            "description": "480p: 16:9, 9:16, 3:4. 720p: 16:9, 9:16. Motion: explicit value wins, otherwise follow a supported source ratio, otherwise 9:16. Replace: keep the supported source ratio and reject a conflicting explicit value."
+            "description": "480p: 16:9, 9:16, 3:4. 720p: 16:9, 9:16. Motion: explicit value wins, otherwise follow a supported source ratio, otherwise 9:16. Replace: keep the supported source ratio and reject a conflicting explicit value. Recreate is fixed to 9:16 and rejects any other explicit value."
           },
           "prompt": {
             "type": "string",
             "maxLength": 4000,
-            "description": "Optional compatible performance/scene guidance. Reference audio and primary character identity/species remain part of the generation contract."
+            "description": "motion/replace: optional compatible performance/scene guidance. recreate: required compiled prompt returned by the analyze poll, up to 4000 runes. Reference audio and primary character identity/species remain part of the motion generation contract."
           }
         },
         "required": [
@@ -2614,48 +3002,340 @@
         "additionalProperties": false,
         "allOf": [
           {
-            "oneOf": [
-              {
-                "required": [
-                  "video_url"
-                ],
-                "not": {
-                  "required": [
-                    "video_task_id"
-                  ]
-                }
-              },
-              {
-                "required": [
-                  "video_task_id"
-                ],
-                "not": {
-                  "required": [
-                    "video_url"
-                  ]
+            "if": {
+              "required": [
+                "mode"
+              ],
+              "properties": {
+                "mode": {
+                  "const": "recreate"
                 }
               }
+            },
+            "then": {
+              "required": [
+                "prompt",
+                "image_urls",
+                "duration_sec"
+              ],
+              "properties": {
+                "image_urls": {
+                  "minItems": 1,
+                  "maxItems": 9
+                }
+              },
+              "not": {
+                "anyOf": [
+                  {
+                    "required": [
+                      "video_url"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "video_task_id"
+                    ]
+                  }
+                ]
+              }
+            },
+            "else": {
+              "allOf": [
+                {
+                  "oneOf": [
+                    {
+                      "required": [
+                        "video_url"
+                      ],
+                      "not": {
+                        "required": [
+                          "video_task_id"
+                        ]
+                      }
+                    },
+                    {
+                      "required": [
+                        "video_task_id"
+                      ],
+                      "not": {
+                        "required": [
+                          "video_url"
+                        ]
+                      }
+                    }
+                  ]
+                },
+                {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "character_task_id"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "image_urls"
+                      ],
+                      "properties": {
+                        "image_urls": {
+                          "minItems": 1
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "RecreateAnalyzeRequest": {
+        "type": "object",
+        "properties": {
+          "video_url": {
+            "type": "string",
+            "format": "uri",
+            "pattern": "^https://",
+            "maxLength": 2048,
+            "description": "Public HTTPS reference clip: 4-15 seconds, MP4/MOV, at most 64 MiB. The generated clip follows this length. It is decomposition material only and never reaches a generation model."
+          },
+          "image_urls": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 9,
+            "items": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^https://",
+              "maxLength": 2048
+            },
+            "description": "Ordered reference images the caller owns. image_urls[0] is the primary subject; one per-image reading is returned for every entry."
+          },
+          "image_tags": {
+            "type": "array",
+            "maxItems": 9,
+            "items": {
+              "type": "string",
+              "maxLength": 20
+            },
+            "description": "Optional hints aligned by position with image_urls; at most one tag per image and 20 characters each. They are context for the image reading, never provider parameters."
+          },
+          "prompt": {
+            "type": "string",
+            "maxLength": 1200,
+            "description": "Optional creative intent: what to keep and what to replace. Planner context only; it is not the final prompt."
+          },
+          "resolution": {
+            "type": "string",
+            "enum": [
+              "480p",
+              "720p"
+            ],
+            "default": "480p",
+            "description": "Selects the price tier reported in meta.pricing for the later generation. It does not change the decomposition or the derived duration."
+          }
+        },
+        "required": [
+          "video_url",
+          "image_urls"
+        ],
+        "additionalProperties": false
+      },
+      "RecreateAccepted": {
+        "type": "object",
+        "properties": {
+          "task_id": {
+            "type": "string",
+            "example": "task_example_recreate"
+          },
+          "status": {
+            "type": "string",
+            "const": "waiting"
+          },
+          "progress": {
+            "type": "string",
+            "example": "0%"
+          }
+        },
+        "required": [
+          "task_id",
+          "status",
+          "progress"
+        ]
+      },
+      "RecreateImageAnalysis": {
+        "type": "object",
+        "properties": {
+          "image_index": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "1-based position in image_urls."
+          },
+          "kind": {
+            "type": "string",
+            "description": "What the model read the image as, for example product, person or scene."
+          },
+          "summary": {
+            "type": "string",
+            "description": "One-sentence reading of the image."
+          },
+          "anchors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "3-6 short, checkable visual anchors."
+          },
+          "angle": {
+            "type": "string",
+            "description": "Viewpoint of the image as read by the model."
+          },
+          "background": {
+            "type": "string",
+            "description": "Background reading."
+          },
+          "uncertain": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "What this image could not establish; empty when nothing was uncertain."
+          }
+        }
+      },
+      "RecreateAnalysisMeta": {
+        "type": "object",
+        "properties": {
+          "shot_count": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Shots the decomposition identified."
+          },
+          "hook": {
+            "type": "string",
+            "description": "One-line hook mechanism summary."
+          },
+          "risk_flags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Deterministic gate codes the compile answer raised, for example identity, brand or on-screen-text risk. Not a legal conclusion."
+          },
+          "duration_sec": {
+            "type": "integer",
+            "minimum": 4,
+            "maximum": 15,
+            "description": "Whole-second output duration derived from the reference clip. Pass exactly this value as duration_sec when generating."
+          },
+          "reference_duration_sec": {
+            "type": "number",
+            "description": "Fractional picture duration probed from the reference clip."
+          },
+          "duration_source": {
+            "type": "string",
+            "const": "reference_video"
+          },
+          "resolution": {
+            "type": "string",
+            "enum": [
+              "480p",
+              "720p"
             ]
           },
-          {
-            "anyOf": [
-              {
-                "required": [
-                  "character_task_id"
-                ]
+          "aspect_ratio": {
+            "type": "string",
+            "const": "9:16"
+          },
+          "image_count": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9,
+            "description": "Reference images submitted."
+          },
+          "pricing": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "480p": {
+                "type": "number",
+                "description": "Exact credits the pre-charge takes for this derived duration at 480p."
               },
-              {
-                "required": [
-                  "image_urls"
-                ],
-                "properties": {
-                  "image_urls": {
-                    "minItems": 1
-                  }
-                }
+              "720p": {
+                "type": "number",
+                "description": "Exact credits the pre-charge takes for this derived duration at 720p."
               }
-            ]
+            },
+            "description": "Exact credit amount per selectable quality for the derived duration (1 USD = 10 credits). Absent when no live price is available. Use it for the generate button; do not recompute locally."
           }
+        },
+        "required": [
+          "shot_count",
+          "hook",
+          "risk_flags",
+          "duration_sec",
+          "reference_duration_sec",
+          "duration_source",
+          "resolution",
+          "aspect_ratio",
+          "image_count"
+        ]
+      },
+      "RecreateTask": {
+        "type": "object",
+        "properties": {
+          "task_id": {
+            "type": "string",
+            "example": "task_example_recreate"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "running",
+              "success",
+              "failed"
+            ],
+            "description": "Poll until success or failed; running means the job is still in the queue or planner."
+          },
+          "progress": {
+            "type": "string",
+            "example": "0%"
+          },
+          "prompt": {
+            "type": "string",
+            "description": "Success only. The compiled Seedance prompt; send it as prompt to POST /api/influencer/v1/videos with mode=recreate."
+          },
+          "analysis": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "description": "Success only. Structured breakdown with schema_version viral-recreate.analysis/1. Top-level keys: evidence, video_overview, pace, shots, hook, viral_logic, transferable, replace, product_props, cta, uncertain, quality."
+          },
+          "image_analysis": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "$ref": "#/components/schemas/RecreateImageAnalysis"
+            },
+            "description": "Success only. One reading per submitted image, in image_urls order."
+          },
+          "meta": {
+            "$ref": "#/components/schemas/RecreateAnalysisMeta"
+          },
+          "message": {
+            "type": "string",
+            "description": "Failed only. Public failure reason; the analysis itself is not billed."
+          }
+        },
+        "required": [
+          "task_id",
+          "status",
+          "progress"
         ]
       }
     },
