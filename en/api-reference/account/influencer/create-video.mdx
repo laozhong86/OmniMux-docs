@@ -5,7 +5,7 @@ description: "Create character video through the account-scoped creation API."
 openapi: "openapi/ops/influencer/en/creation.json POST /api/influencer/v1/videos"
 ---
 
-Supply either `character_task_id` plus optional ordered `image_urls`, or images with `image_urls[0]` as the main character. The combined image limit is 30. Supply exactly one reference video source: `video_url` or an owned successful `video_task_id`.
+Supply either `character_task_id` plus optional ordered `image_urls`, or images with `image_urls[0]` as the main character. The combined image limit is 30. `mode` is `motion` (default), `replace` or `recreate`. Motion and replace accept exactly one reference video source: `video_url` or an owned successful `video_task_id`. `recreate` accepts a compiled prompt plus reference images and no reference video.
 
 - Base URL: `https://omnimux.ai`; use a scoped personal access token, not an `sk-` relay key.
 - Required permission: `influencer_creation:write`.
@@ -14,12 +14,12 @@ Supply either `character_task_id` plus optional ordered `image_urls`, or images 
 New permissions require a fresh, explicit device approval. Existing and legacy credentials do not expand automatically. See [device login](/en/api-reference/account/device-login).
 
 <Note>
-HTTP 200 means durable queue acceptance or recovery, not a finished file or a confirmed charge. Generation uses the existing account credits/subscription allowance. The native execution path uses payment-required (402) semantics for insufficient quota, but this acceptance endpoint does not synchronously emit 402; a queued task may later fail. Read task state and its public failure reason. No precise upfront video quote is promised.
+HTTP 200 means durable queue acceptance or recovery, not a finished file or a confirmed charge. Generation uses the existing account credits/subscription allowance. The native execution path uses payment-required (402) semantics for insufficient quota, but this acceptance endpoint does not synchronously emit 402; a queued task may later fail. Read task state and its public failure reason. Motion and replace do not promise a precise upfront video quote; `recreate` is the exception — its exact amount comes from the analyze result.
 </Note>
 
-Unknown top-level body fields are rejected with 400. Do not send `model`, `group`, `seed`, `size`, or a client-written duration. Reuse the same account-scoped `request_id` and intent to restore an accepted task. Changed content returns 409, and expired recovery returns 410. If the creation switch is off, new requests return 503 `influencer_creation_disabled`; identical accepted replays and owner reads remain available.
+Unknown top-level body fields are rejected with 400. Do not send `model`, `group`, `seed`, or `size`. Motion and replace take no client-written duration (`duration_sec` is ignored); `recreate` requires exactly the duration reported by its analyze result. Reuse the same account-scoped `request_id` and intent to restore an accepted task. Changed content returns 409, and expired recovery returns 410. If the creation switch is off, new requests return 503 `influencer_creation_disabled`; identical accepted replays and owner reads remain available.
 
-The server inspects true duration (4–30 seconds), framing, frame rate, dimensions, codec and audio before accepting generation. MP4/MOV; H.264/HEVC; 24–60 fps; each dimension 300–6000; 407,696–8,295,044 pixels; source aspect 0.4–2.5. Invalid media is rejected, not silently trimmed or padded.
+The server inspects true duration (4–30 seconds), framing, frame rate, dimensions, codec and audio before accepting generation. MP4/MOV; H.264/HEVC; 24–60 fps; each dimension 300–6000; 407,696–8,295,044 pixels; source aspect 0.4–2.5. Invalid media is rejected, not silently trimmed or padded. Recreation does not inspect a clip here: its 4–15 second reference was validated during analysis.
 
 | Resolution | Supported output ratios |
 | --- | --- |
@@ -28,9 +28,30 @@ The server inspects true duration (4–30 seconds), framing, frame rate, dimensi
 
 Defaults: `motion` and `480p`. In motion mode an explicit ratio wins; when omitted, a supported source ratio is used, otherwise `9:16`. Replace mode preserves a supported source ratio and rejects conflicts.
 
+## Recreation mode
+
+`mode: "recreate"` submits the result of [Analyze Recreation Reference](/en/api-reference/account/influencer/recreate-analyze): the reference clip was decomposed already and never travels with this request.
+
+- Omit `video_url` and `video_task_id`. Supplying either returns 400.
+- `prompt` is required: the compiled prompt from the analyze poll, editable within the 4000-character ceiling.
+- `image_urls` is required: the same ordered images used for the analysis, 1–9 for a recreation. `image_urls[0]` is the primary subject.
+- `duration_sec` is required: `meta.duration_sec` from the analyze poll. The server checks the 4–15 whole-second range and rejects anything outside it with 400; a different in-range value becomes the output length while the compiled prompt was written for the analyzed one, so pass the analyzed value exactly.
+- `aspect_ratio` is fixed to `9:16`. Omit it or send `9:16`; any other explicit value returns 400.
+- `resolution` is `480p` or `720p`. `meta.pricing` already reports the exact credits for both at the derived duration.
+
+Recreation is the only mode with a precise upfront video quote: the amount in `meta.pricing` is what the pre-charge will take, so render it directly instead of computing a price. Acceptance, task polling and artifacts keep the usual contract; inspect the finished clip for actual duration and framing.
+
+```bash cURL recreate
+curl --request POST \
+  --url 'https://omnimux.ai/api/influencer/v1/videos' \
+  --header 'Authorization: Bearer <user-access-token>' \
+  --header 'Content-Type: application/json' \
+  --data '{"request_id":"creator-video-0002","mode":"recreate","prompt":"<compiled prompt from the analyze result>","image_urls":["https://omnimux.ai/REPLACE_WITH_PRODUCT_IMAGE_1.png"],"duration_sec":11,"aspect_ratio":"9:16","resolution":"720p"}'
+```
+
 The request preserves image order, passes the reference audio, and uses the saved character's human/cat/dog type. Inspect the finished video to verify appearance, movement, framing and audio; task success alone does not establish creative fidelity.
 
-The 4–30-second limit applies to the reference clip, not a guarantee of the finished video's exact duration. Generated duration may differ: a four-second reference/request has produced a clip of about 3.71 seconds. `duration_sec` is the server-derived integer request duration, not a measurement of the finished video. Reference audio is supplied to generation, but output loudness may change; lossless or bit-for-bit audio preservation is not promised. Check the downloaded video for actual duration and sound.
+For motion and replace, the 4–30-second limit applies to the reference clip, not a guarantee of the finished video's exact duration. Generated duration may differ: a four-second reference/request has produced a clip of about 3.71 seconds. `duration_sec` is the server-derived integer request duration, not a measurement of the finished video. Reference audio is supplied to generation, but output loudness may change; lossless or bit-for-bit audio preservation is not promised. Check the downloaded video for actual duration and sound. In recreation the reference clip is 4–15 seconds and its rounded length fixes `duration_sec`, but the finished clip still needs the same inspection.
 
 <Panel>
 

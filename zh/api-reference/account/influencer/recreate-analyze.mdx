@@ -1,0 +1,247 @@
+---
+title: "拆解复刻参考视频"
+sidebarTitle: "拆解复刻参考视频"
+description: "把参考视频拆解成一条编译好的提示词、结构化拆解，以及各清晰度的精确报价，用于爆款复刻。"
+openapi: "openapi/ops/influencer/zh/creation.json POST /api/influencer/v1/recreations/analyze"
+---
+
+参考视频只作**拆解素材**：不会进入任何生成模型。提交 4–15 秒参考视频、1–9 张自有参考图和可选创作意图，服务端异步拆解后返回一条编译好的提示词、结构化拆解、每张参考图的独立解读，以及各清晰度的精确积分报价。
+
+- 服务地址为 `https://omnimux.ai`，使用限定权限个人凭据，不使用 `sk-` 网关密钥。
+- 所需权限：拆解为 `influencer_creation:write`，轮询已受理任务为 `influencer_creation:read`。
+- `New-Api-User` 只作可选兼容信息。账号由凭据确定，此请求头不能选择其他归属。
+
+新增权限须重新明确完成设备授权；已有和旧式凭据不会自动扩权。见[设备码登录](/zh/api-reference/account/device-login)。
+
+<Note>
+202 代表拆解任务已受理，不代表已完成。拆解是队列任务，通常需要 1–3 分钟，请轮询 `GET /api/influencer/v1/recreations/{task_id}`。拆解不单独计费，成本含在生成价格内，但每个账号每日拆解次数有限。任务仍可能以 `failed` 结束；拆解失败不计费。
+</Note>
+
+## 请求
+
+| 字段 | 类型 | 说明 |
+| --- | --- | --- |
+| `video_url` | string | 必填。公网 HTTPS 参考视频，4–15 秒，MP4/MOV，最大 64 MiB。只作拆解素材，绝不发送给生成模型。 |
+| `image_urls` | string[] | 必填。1–9 张自有公网 HTTPS 图片，保持顺序；`image_urls[0]` 为主要主体，每张图返回一条解读。 |
+| `image_tags` | string[] | 可选。与 `image_urls` 按位置对应的提示，每张最多一条、每条最多 20 个字符。只作拆解上下文，不是供应商参数。 |
+| `prompt` | string | 可选创作意图：保留什么、替换什么，最多 1200 个字符。它不等于最终提示词。 |
+| `resolution` | string | 可选 `480p` 或 `720p`，默认 `480p`。只决定后续生成在 `meta.pricing` 中报价的价格档，不影响拆解过程或推导出的时长。 |
+
+不接受模型、分组、尺寸或时长选择：输出时长跟随参考视频。未知顶层字段返回 400。请先上传视频与图片，接口只接受公网 HTTPS 地址。
+
+## 受理响应（202）
+
+```json
+{
+  "success": true,
+  "data": {
+    "task_id": "task_example_recreate",
+    "status": "waiting",
+    "progress": "0%"
+  }
+}
+```
+
+## 轮询拆解结果
+
+```bash
+curl --request GET \
+  --url 'https://omnimux.ai/api/influencer/v1/recreations/task_example_recreate' \
+  --header 'Authorization: Bearer <user-access-token>'
+```
+
+轮询到 `status` 为 `success` 或 `failed` 为止：
+
+| `status` | 含义 |
+| --- | --- |
+| `running` | 任务仍在排队或计划中，按退避继续轮询。 |
+| `success` | 结果已就绪，带 `prompt`、`analysis`、`image_analysis` 与 `meta`。 |
+| `failed` | 任务未产出结果，`message` 为公开原因；拆解本身不计费。 |
+
+轮询是本人限定的只读调用：不会启动、重跑或取消供应商工作，其他账号与不存在的任务号同样返回 404。拆解没有 `request_id` 或幂等键，202 丢失无法恢复；重新提交会创建新任务并再消耗一次当日拆解额度。
+
+成功轮询返回编译提示词与拆解结果：
+
+```json
+{
+  "success": true,
+  "data": {
+    "task_id": "task_example_recreate",
+    "status": "success",
+    "progress": "100%",
+    "prompt": "由参考视频结构编译出的 Seedance 提示词。",
+    "analysis": {
+      "schema_version": "viral-recreate.analysis/1",
+      "video_overview": {
+        "one_line": "以结果开场、单产品演示型短视频。",
+        "structure_summary": "hook -> demo -> proof -> cta",
+        "total_shots": 5
+      },
+      "hook": { "mechanism": ["result_first"] },
+      "evidence": {
+        "grade": "raw-video-frames",
+        "media": { "analysis_status": "COMPLETE" }
+      }
+    },
+    "image_analysis": [
+      {
+        "image_index": 1,
+        "kind": "product",
+        "summary": "奶油白粗针针织开衫，白底正面平铺。",
+        "anchors": ["奶油白", "V 领", "5 颗棕色圆扣"],
+        "angle": "正面平铺",
+        "background": "纯白无缝背景",
+        "uncertain": []
+      }
+    ],
+    "meta": {
+      "shot_count": 5,
+      "hook": "result_first",
+      "risk_flags": ["brand_clean"],
+      "duration_sec": 11,
+      "reference_duration_sec": 11.2,
+      "duration_source": "reference_video",
+      "resolution": "720p",
+      "aspect_ratio": "9:16",
+      "image_count": 1,
+      "pricing": { "480p": 6.47, "720p": 13.89 }
+    }
+  }
+}
+```
+
+`analysis` 遵循 `viral-recreate.analysis/1` 结构，顶层键为 `evidence`、`video_overview`、`pace`、`shots`、`hook`、`viral_logic`、`transferable`、`replace`、`product_props`、`cta`、`uncertain`、`quality`；未知字段保留在对象里，不会被裁掉。`image_analysis` 按 `image_urls` 顺序每张图一条，包含 `image_index`、`kind`、`summary`、`anchors`、`angle`、`background`、`uncertain`。
+
+### `meta`
+
+| 字段 | 类型 | 含义 |
+| --- | --- | --- |
+| `shot_count` | integer | 拆解识别出的镜头数。 |
+| `hook` | string | 钩子机制的一句话摘要。 |
+| `risk_flags` | string[] | 编译答案触发的确定性门禁代码，例如身份、品牌或屏幕文字风险。不是法律结论。 |
+| `duration_sec` | integer | 由参考视频推导的整秒输出时长；生成时请原样作为 `duration_sec` 传入。 |
+| `reference_duration_sec` | number | 从参考视频画面探测出的带小数时长。 |
+| `duration_source` | string | `reference_video`：时长来自参考视频，不是调用方请求。 |
+| `resolution` | string | 本次拆解请求的价格档。 |
+| `aspect_ratio` | string | 固定 `9:16`。 |
+| `image_count` | integer | 提交的参考图数量。 |
+| `pricing` | object | 该推导时长下各清晰度的精确积分金额：`{"480p": 积分, "720p": 积分}`（1 USD = 10 积分）。没有可用价格时缺省。 |
+
+`meta.pricing` 是该时长与清晰度下预扣会实际扣除的金额，不是估算。请直接用于生成按钮展示，不要自行计算；爆款复刻是唯一提供生成前精确报价的模式。
+
+## 发起复刻生成
+
+把编译提示词与参考图提交到 [`POST /api/influencer/v1/videos`](/zh/api-reference/account/influencer/create-video)，并设置 `mode: "recreate"`：
+
+- 不要传 `video_url` 与 `video_task_id`：参考视频只作拆解素材，再次提交参考视频会被拒绝。
+- `prompt` 必填：传入轮询返回的编译 `prompt`（可在 4000 字符上限内编辑）。
+- `image_urls` 必填：保持与拆解时相同的顺序，`image_urls[0]` 为主要主体。
+- `duration_sec` 本模式必填：原样传入 `meta.duration_sec`。服务端只校验 4–15 整秒范围，超出返回 400；它读不到拆解结果，所以范围内其他值会成为输出时长，而编译提示词是按拆解时长写的，因此请原样传入。
+- `aspect_ratio` 固定 `9:16`：可省略或传 `9:16`，其他明确值会被拒绝。
+- `resolution` 为 `480p` 或 `720p`。
+
+生成沿用账号计费、任务轮询与成品契约；见[创建角色视频](/zh/api-reference/account/influencer/create-video)与[查询创作任务](/zh/api-reference/account/influencer/get-task)。
+
+## 失败与重试
+
+- **`failed` 且带 `message`。** 视频无法解析、时长不在 4–15 秒、提示词编译未通过门禁、任务超出截止时间，都会在这里体现。拆解本身不计费；调整视频、图片或意图后重新拆解，但每次受理都会占用当日额度。
+- **429 `recreate_analysis_limit`。** 该账号当日拆解次数已用完（默认 20 次）。请按 `Retry-After` 等待，立刻重试仍会失败。
+- **受理结果不明。** 拆解没有幂等键；提交结果丢失时请重新提交，并接受多消耗一次当日额度，不要猜任务号。
+- **503 `influencer_creation_disabled`。** 新的命令行拆解已关闭；已受理任务仍可读取。
+- **不要用重建生成任务来「修」排队中的拆解。** 轮询不会取消任何工作，生成与拆解分开计费。
+
+## 限制
+
+| 项目 | 限制 |
+| --- | --- |
+| 参考视频 | 4–15 秒，MP4/MOV，最大 64 MiB；推导出的输出时长为该长度取整到整秒。 |
+| 参考图 | 1–9 张公网 HTTPS 图片；每条标签最多 20 个字符。 |
+| 创作意图 | 最多 1200 个字符；编译后的提示词上限 4000。 |
+| 每账号拆解次数 | 默认每日 20 次（服务端可配置），超出返回 429。 |
+| 清晰度 | `480p` 或 `720p`。 |
+
+## 内容边界
+
+- 参考视频只被拆解、不被复制：编译提示词复刻的是结构、节奏与镜头逻辑，不是原始画面。
+- 不复刻人物身份、品牌标识、台词与屏幕文字。编译提示词会主动避开字幕与 logo；文字、配音与品牌请在后期承载。
+- 请只提交你有权使用的素材。`risk_flags` 是确定性检查代码，不是法律意见。
+- 拆解是模型读到的证据：`uncertain` 条目是明确的「无法确认」标记，不是错误。
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url 'https://omnimux.ai/api/influencer/v1/recreations/analyze' \
+  --header 'Authorization: Bearer <user-access-token>' \
+  --header 'Content-Type: application/json' \
+  --data '{"video_url":"https://omnimux.ai/REPLACE_WITH_OWN_REFERENCE.mp4","image_urls":["https://omnimux.ai/REPLACE_WITH_PRODUCT_IMAGE_1.png"],"image_tags":["我的产品"],"prompt":"保留节奏与镜头，把产品换成我的。","resolution":"720p"}'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 202 仅示例
+{
+  "success": true,
+  "data": {
+    "task_id": "task_example_recreate",
+    "status": "waiting",
+    "progress": "0%"
+  }
+}
+```
+
+```json 400
+{
+  "success": false,
+  "code": "invalid_request",
+  "message": "invalid product parameters"
+}
+```
+
+```json 401
+{
+  "success": false,
+  "code": "AUTH_UNAUTHORIZED",
+  "message": "需要有效账号凭据；过期、已撤销或被停用账号的凭据会被拒绝。"
+}
+```
+
+```json 403
+{
+  "success": false,
+  "code": "ACCESS_TOKEN_SCOPE_DENIED",
+  "message": "缺少明确的创作读取/生成权限；旧凭据不会自动扩权。"
+}
+```
+
+```json 429
+{
+  "success": false,
+  "code": "recreate_analysis_limit",
+  "message": "今天的参考视频拆解次数已用完，请明天再试"
+}
+```
+
+```json 500
+{
+  "success": false,
+  "code": "recreation_analysis_unavailable",
+  "message": "拆解任务暂时无法创建，请稍后重试"
+}
+```
+
+```json 503
+{
+  "success": false,
+  "code": "influencer_creation_disabled",
+  "message": "new command-line creations are currently disabled; accepted requests remain recoverable"
+}
+```
+
+</ResponseExample>
+
+</Panel>

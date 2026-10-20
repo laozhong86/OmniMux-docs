@@ -5,7 +5,7 @@ description: "通过账号限定的创作接口创建角色视频。"
 openapi: "openapi/ops/influencer/zh/creation.json POST /api/influencer/v1/videos"
 ---
 
-使用 `character_task_id` 加可选有序补充 `image_urls`，或直接用图片且第一张为主要角色。总数不超过 30 张。参考视频来源必须二选一：`video_url` 或本人成功的 `video_task_id`。
+使用 `character_task_id` 加可选有序补充 `image_urls`，或直接用图片且第一张为主要角色。总数不超过 30 张。`mode` 支持 `motion`（默认）、`replace` 与 `recreate`。motion 与 replace 需二选一参考视频来源：`video_url` 或本人成功的 `video_task_id`；`recreate` 需要编译提示词与参考图，不带参考视频。
 
 - 服务地址为 `https://omnimux.ai`，使用限定权限个人凭据，不使用 `sk-` 网关密钥。
 - 所需权限：`influencer_creation:write`.
@@ -14,12 +14,12 @@ openapi: "openapi/ops/influencer/zh/creation.json POST /api/influencer/v1/videos
 新增权限须重新明确完成设备授权；已有和旧式凭据不会自动扩权。见[设备码登录](/zh/api-reference/account/device-login)。
 
 <Note>
-200 代表已持久受理排队或恢复，不代表成片或扣费确认。生成沿用账号积分/订阅额度。原生执行阶段对额度不足采用需要额度（402）的语义，但此受理入口不会同步返回 402；排队后仍可能失败。请查询任务状态和公开失败原因；不承诺视频生成前的精确报价。
+200 代表已持久受理排队或恢复，不代表成片或扣费确认。生成沿用账号积分/订阅额度。原生执行阶段对额度不足采用需要额度（402）的语义，但此受理入口不会同步返回 402；排队后仍可能失败。请查询任务状态和公开失败原因。motion 与 replace 不承诺生成前精确报价；`recreate` 是例外，精确金额来自拆解结果。
 </Note>
 
-未知顶层请求字段返回 400。不要传入 `model`、`group`、`seed`、`size` 或手填时长。使用同一账号的相同 `request_id` 与内容恢复原任务；改内容返回 409，恢复过期返回 410。生成开关关闭时新请求返回 503 `influencer_creation_disabled`，已受理请求的原样恢复和本人读取仍可使用。
+未知顶层请求字段返回 400。不要传入 `model`、`group`、`seed`、`size`。motion 与 replace 不接受 `duration_sec`（会被忽略）；`recreate` 必须原样传入拆解结果中的时长。使用同一账号的相同 `request_id` 与内容恢复原任务；改内容返回 409，恢复过期返回 410。生成开关关闭时新请求返回 503 `influencer_creation_disabled`，已受理请求的原样恢复和本人读取仍可使用。
 
-后台在受理生成前识别真实时长（4–30 秒）、画幅、帧率、尺寸、编码及声音。支持 MP4/MOV、H.264/HEVC；24–60 帧/秒；每边 300–6000 像素；总像素 407696–8295044；来源宽高比 0.4–2.5。不合格素材直接拒绝，不悄悄裁剪或补时。
+后台在受理生成前识别真实时长（4–30 秒）、画幅、帧率、尺寸、编码及声音。支持 MP4/MOV、H.264/HEVC；24–60 帧/秒；每边 300–6000 像素；总像素 407696–8295044；来源宽高比 0.4–2.5。不合格素材直接拒绝，不悄悄裁剪或补时。`recreate` 不在这里检查参考视频：4–15 秒的参考已在拆解阶段校验。
 
 | 清晰度 | 支持的输出画幅 |
 | --- | --- |
@@ -28,9 +28,30 @@ openapi: "openapi/ops/influencer/zh/creation.json POST /api/influencer/v1/videos
 
 默认 `motion`、`480p`。动作迁移明确画幅优先；省略时使用受支持的来源画幅，否则 `9:16`。对象交换保持受支持的来源画幅，冲突时拒绝。
 
+## 爆款复刻模式
+
+`mode: "recreate"` 提交的是[拆解复刻参考视频](/zh/api-reference/account/influencer/recreate-analyze)的结果：参考视频已经拆解完成，不会随本次请求再传。
+
+- 不要传 `video_url` 与 `video_task_id`；传入任何一个都会返回 400。
+- `prompt` 必填：轮询返回的编译提示词，可在 4000 字符上限内编辑。
+- `image_urls` 必填：与拆解时相同顺序的图片，复刻为 1–9 张；`image_urls[0]` 为主要主体。
+- `duration_sec` 必填：原样传入 analyze 返回的 `meta.duration_sec`。服务端只校验 4–15 整秒范围，超出返回 400；范围内其他值会成为输出时长，而编译提示词是按拆解时长写的，因此请原样传入。
+- `aspect_ratio` 固定 `9:16`：可省略或传 `9:16`，其他明确值返回 400。
+- `resolution` 为 `480p` 或 `720p`；`meta.pricing` 已给出该推导时长下两档清晰度的精确积分。
+
+爆款复刻是唯一提供生成前精确报价的模式：`meta.pricing` 中的金额就是预扣会实际扣除的金额，请直接展示，不要自行估算。受理、任务轮询与成品契约保持不变；成片仍需核对实际时长与画幅。
+
+```bash cURL 复刻生成
+curl --request POST \
+  --url 'https://omnimux.ai/api/influencer/v1/videos' \
+  --header 'Authorization: Bearer <user-access-token>' \
+  --header 'Content-Type: application/json' \
+  --data '{"request_id":"creator-video-0002","mode":"recreate","prompt":"<analyze 返回的编译提示词>","image_urls":["https://omnimux.ai/REPLACE_WITH_PRODUCT_IMAGE_1.png"],"duration_sec":11,"aspect_ratio":"9:16","resolution":"720p"}'
+```
+
 请求保留图片顺序、传入参考原声，并沿用已存角色的人物/猫/狗类型。成片仍须核对外观、动作、画面和声音，任务成功本身不代表创作效果验收通过。
 
-4–30秒限制针对参考视频，不保证生成成片具有完全相同的时长。成片时长可能不同，已观察到4秒参考及请求返回约3.71秒成片。`duration_sec`是后台推导的整数请求秒数，不是成片实测时长。参考原声会传入生成，但成片音量可能变化，不承诺无损或逐个音频采样完全相同。请检查下载成片的实际时长和声音。
+motion 与 replace 的 4–30 秒限制针对参考视频，不保证生成成片具有完全相同的时长。成片时长可能不同，已观察到4秒参考及请求返回约3.71秒成片。`duration_sec`是后台推导的整数请求秒数，不是成片实测时长。参考原声会传入生成，但成片音量可能变化，不承诺无损或逐个音频采样完全相同。请检查下载成片的实际时长和声音。爆款复刻的参考视频为 4–15 秒，其取整长度决定 `duration_sec`，成片同样需要核对。
 
 <Panel>
 

@@ -871,7 +871,7 @@
       "post": {
         "operationId": "InfluencerCreateVideo",
         "summary": "创建角色视频",
-        "description": "需要明确的 influencer_creation:write 权限；有效网页会话也可使用同一归属受限入口。创建请求拒绝未知顶层字段；调用方不能选择模型、供应商分组、尺寸或手填时长。 4–30秒限制针对参考视频，成片时长可能不同。参考原声会传入生成，但成片音量可能变化，不承诺无损保留；请检查下载成片。",
+        "description": "需要显式 influencer_creation:write。有效网站会话可使用同一本人路由。未知顶层创作字段会被拒绝；调用方不能选择模型、供应商分组、尺寸或时长。mode=motion/replace 需二选一参考来源，参考视频 4–30 秒；成片时长可能不同，参考原声会传入生成。mode=recreate 需要拆解后的提示词与参考图，不带参考视频，duration_sec 等于 analyze 返回的 meta.duration_sec（4–15），画幅固定 9:16。各模式都请核对下载成片。",
         "x-required-scopes": [
           "influencer_creation:write"
         ],
@@ -1670,6 +1670,385 @@
           }
         ]
       }
+    },
+    "/api/influencer/v1/recreations/analyze": {
+      "post": {
+        "operationId": "InfluencerRecreateAnalyze",
+        "summary": "拆解复刻参考视频",
+        "description": "需要显式 influencer_creation:write。把 4–15 秒参考视频、1–9 张参考图与可选创作意图拆解成一条编译好的提示词和结构化拆解。参考视频只作拆解素材，绝不进入生成请求。接口返回 202 与任务号，请轮询 GET /api/influencer/v1/recreations/{task_id} 获取结果。无法解析或超出范围等媒体问题表现为该任务失败（轮询 status 为 failed 并带公开原因），不是本接口的错误。拆解不单独计费，成本含在生成价格内。",
+        "x-required-scopes": [
+          "influencer_creation:write"
+        ],
+        "parameters": [
+          {
+            "name": "New-Api-User",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "可选兼容请求头，不参与身份验证或资源归属；后台从凭据确定账号。"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecreateAnalyzeRequest"
+              },
+              "example": {
+                "video_url": "https://omnimux.ai/REPLACE_WITH_OWN_REFERENCE.mp4",
+                "image_urls": [
+                  "https://omnimux.ai/REPLACE_WITH_PRODUCT_IMAGE_1.png"
+                ],
+                "image_tags": [
+                  "my product"
+                ],
+                "prompt": "Keep the rhythm and framing, replace the product with mine.",
+                "resolution": "720p"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "拆解任务已受理，尚未完成。请轮询返回的任务号直到 success 或 failed。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "const": true
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/RecreateAccepted"
+                    }
+                  },
+                  "required": [
+                    "success",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "success": true,
+                  "data": {
+                    "task_id": "task_example_recreate",
+                    "status": "waiting",
+                    "progress": "0%"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "产品参数不合法或包含未知请求字段。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "invalid_request",
+                  "message": "invalid product parameters"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "需要有效账号凭据；过期、已撤销或被停用账号的凭据会被拒绝。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "AUTH_UNAUTHORIZED",
+                  "message": "需要有效账号凭据；过期、已撤销或被停用账号的凭据会被拒绝。"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "缺少明确的创作读取/生成权限；旧凭据不会自动扩权。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "ACCESS_TOKEN_SCOPE_DENIED",
+                  "message": "缺少明确的创作读取/生成权限；旧凭据不会自动扩权。"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "该账号今日拆解次数已用完（默认 20 次）。按 Retry-After 等待后重试。",
+            "headers": {
+              "Retry-After": {
+                "description": "重试前需要等待的秒数。",
+                "schema": {
+                  "type": "string",
+                  "example": "3600"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "recreate_analysis_limit",
+                  "message": "今天的参考视频拆解次数已用完，请明天再试"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "拆解任务暂时无法创建。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "recreation_analysis_unavailable",
+                  "message": "拆解任务暂时无法创建，请稍后重试"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "命令行创作开关关闭；已受理请求仍可恢复。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "influencer_creation_disabled",
+                  "message": "new command-line creations are currently disabled; accepted requests remain recoverable"
+                }
+              }
+            }
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl --request POST \\\n  --url 'https://omnimux.ai/api/influencer/v1/recreations/analyze' \\\n  --header 'Authorization: Bearer <user-access-token>' \\\n  --header 'Content-Type: application/json' \\\n  --data '{\"video_url\":\"https://omnimux.ai/REPLACE_WITH_OWN_REFERENCE.mp4\",\"image_urls\":[\"https://omnimux.ai/REPLACE_WITH_PRODUCT_IMAGE_1.png\"],\"prompt\":\"Keep the rhythm and framing, replace the product with mine.\",\"resolution\":\"720p\"}'"
+          }
+        ]
+      }
+    },
+    "/api/influencer/v1/recreations/{task_id}": {
+      "get": {
+        "operationId": "InfluencerRecreateTask",
+        "summary": "查询复刻拆解任务",
+        "description": "需要显式 influencer_creation:read。读取凭据账号下某一个已受理的拆解任务，轮询到 status 为 success 或 failed 为止。只读取已存结果，不会启动或重跑供应商工作，也不计费。其他账号与不存在的任务号不可区分。",
+        "x-required-scopes": [
+          "influencer_creation:read"
+        ],
+        "parameters": [
+          {
+            "name": "New-Api-User",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "可选兼容请求头，不参与身份验证或资源归属；后台从凭据确定账号。"
+          },
+          {
+            "name": "task_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "task_example_recreate"
+            },
+            "description": "analyze 返回的任务号，不是供应商任务号。"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "拆解任务的当前状态；success 带编译结果，failed 带公开原因。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "const": true
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/RecreateTask"
+                    }
+                  },
+                  "required": [
+                    "success",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "success": true,
+                  "data": {
+                    "task_id": "task_example_recreate",
+                    "status": "success",
+                    "progress": "100%",
+                    "prompt": "The final Seedance prompt compiled from the reference clip's structure.",
+                    "analysis": {
+                      "schema_version": "viral-recreate.analysis/1",
+                      "video_overview": {
+                        "one_line": "A single-product demonstration that opens on the result.",
+                        "structure_summary": "hook -> demo -> proof -> cta",
+                        "total_shots": 5
+                      },
+                      "hook": {
+                        "mechanism": [
+                          "result_first"
+                        ]
+                      },
+                      "evidence": {
+                        "grade": "raw-video-frames",
+                        "media": {
+                          "analysis_status": "COMPLETE"
+                        }
+                      }
+                    },
+                    "image_analysis": [
+                      {
+                        "image_index": 1,
+                        "kind": "product",
+                        "summary": "A cream knit cardigan laid flat on a white background.",
+                        "anchors": [
+                          "cream",
+                          "v-neck",
+                          "five brown buttons"
+                        ],
+                        "angle": "front flat lay",
+                        "background": "pure white",
+                        "uncertain": []
+                      }
+                    ],
+                    "meta": {
+                      "shot_count": 5,
+                      "hook": "result_first",
+                      "risk_flags": [
+                        "brand_clean"
+                      ],
+                      "duration_sec": 11,
+                      "reference_duration_sec": 11.2,
+                      "duration_source": "reference_video",
+                      "resolution": "720p",
+                      "aspect_ratio": "9:16",
+                      "image_count": 1,
+                      "pricing": {
+                        "480p": 6.47,
+                        "720p": 13.89
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "任务号缺失或超长。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "invalid_request",
+                  "message": "invalid product parameters"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "需要有效账号凭据；过期、已撤销或被停用账号的凭据会被拒绝。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "AUTH_UNAUTHORIZED",
+                  "message": "需要有效账号凭据；过期、已撤销或被停用账号的凭据会被拒绝。"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "缺少明确的创作读取/生成权限；旧凭据不会自动扩权。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "ACCESS_TOKEN_SCOPE_DENIED",
+                  "message": "缺少明确的创作读取/生成权限；旧凭据不会自动扩权。"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "拆解任务不存在，或不属于当前账号。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "task_not_found",
+                  "message": "拆解任务不存在"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "拆解任务暂时无法读取。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "success": false,
+                  "code": "internal_error",
+                  "message": "拆解任务暂时无法读取"
+                }
+              }
+            }
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl --request GET \\\n  --url 'https://omnimux.ai/api/influencer/v1/recreations/task_example_recreate' \\\n  --header 'Authorization: Bearer <user-access-token>'"
+          }
+        ]
+      }
     }
   },
   "components": {
@@ -1829,7 +2208,8 @@
             "type": "string",
             "enum": [
               "motion",
-              "replace"
+              "replace",
+              "recreate"
             ]
           },
           "resolution": {
@@ -1849,7 +2229,7 @@
           },
           "duration_sec": {
             "type": "integer",
-            "description": "后台根据参考视频推导的整数生成请求秒数，小数秒可能被四舍五入。不是调用方可传入的创建参数，也不代表参考视频的精确时长或成品实测时长。"
+            "description": "由服务端从参考视频推导的整数生成时长；小数秒可能被取整。recreate 时回显来自 analyze 结果提交的 duration_sec。不是创建入参、不是参考视频的精确时长，也不是成片实测时长。"
           },
           "character_task_id": {
             "type": "string",
@@ -2553,9 +2933,17 @@
             "type": "string",
             "enum": [
               "motion",
-              "replace"
+              "replace",
+              "recreate"
             ],
-            "default": "motion"
+            "default": "motion",
+            "description": "motion 与 replace 需二选一参考视频来源；recreate 需要编译提示词与参考图，不带参考视频。"
+          },
+          "duration_sec": {
+            "type": "integer",
+            "minimum": 4,
+            "maximum": 15,
+            "description": "仅 mode=recreate 使用：analyze 轮询返回的 meta.duration_sec 整秒时长，请原样传入；超出 4–15 秒返回 400 invalid_request。motion/replace 忽略该字段，时长仍由服务端从参考视频推导。服务端只校验范围，因此范围内非拆解时长的值会成为输出时长，而编译提示词是按拆解时长写的。"
           },
           "character_task_id": {
             "type": "string",
@@ -2571,7 +2959,7 @@
               "pattern": "^https://",
               "maxLength": 2048
             },
-            "description": "保持顺序的角色/补充图片。有 character_task_id 时最多再加 29 张；否则至少一张，第一张为主要角色。总数为 1–30。"
+            "description": "保持顺序的角色/补充图片。有 character_task_id 时最多再加 29 张；否则至少一张，第一张为主要角色。总数为 1–30。recreate 请与 analyze 请求保持相同顺序。"
           },
           "video_url": {
             "type": "string",
@@ -2600,12 +2988,12 @@
               "9:16",
               "3:4"
             ],
-            "description": "480p 支持 16:9、9:16、3:4；720p 支持 16:9、9:16。motion 明确值优先，省略则跟随受支持的来源画幅，否则 9:16。replace 保持受支持的来源画幅，拒绝冲突明确值。"
+            "description": "480p 支持 16:9、9:16、3:4；720p 支持 16:9、9:16。motion 明确值优先，省略则跟随受支持的来源画幅，否则 9:16。replace 保持受支持的来源画幅，拒绝冲突明确值。recreate 固定 9:16，其他明确值会被拒绝。"
           },
           "prompt": {
             "type": "string",
             "maxLength": 4000,
-            "description": "可选的兼容动作/场景补充描述。参考原声和主要角色身份、物种仍属于生成要求。"
+            "description": "motion/replace：可选的兼容动作/场景补充描述。recreate：必填，传入 analyze 轮询返回的编译提示词，最多 4000 字符。参考原声与主要角色身份、物种仍属 motion 生成要求。"
           }
         },
         "required": [
@@ -2614,48 +3002,340 @@
         "additionalProperties": false,
         "allOf": [
           {
-            "oneOf": [
-              {
-                "required": [
-                  "video_url"
-                ],
-                "not": {
-                  "required": [
-                    "video_task_id"
-                  ]
-                }
-              },
-              {
-                "required": [
-                  "video_task_id"
-                ],
-                "not": {
-                  "required": [
-                    "video_url"
-                  ]
+            "if": {
+              "required": [
+                "mode"
+              ],
+              "properties": {
+                "mode": {
+                  "const": "recreate"
                 }
               }
+            },
+            "then": {
+              "required": [
+                "prompt",
+                "image_urls",
+                "duration_sec"
+              ],
+              "properties": {
+                "image_urls": {
+                  "minItems": 1,
+                  "maxItems": 9
+                }
+              },
+              "not": {
+                "anyOf": [
+                  {
+                    "required": [
+                      "video_url"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "video_task_id"
+                    ]
+                  }
+                ]
+              }
+            },
+            "else": {
+              "allOf": [
+                {
+                  "oneOf": [
+                    {
+                      "required": [
+                        "video_url"
+                      ],
+                      "not": {
+                        "required": [
+                          "video_task_id"
+                        ]
+                      }
+                    },
+                    {
+                      "required": [
+                        "video_task_id"
+                      ],
+                      "not": {
+                        "required": [
+                          "video_url"
+                        ]
+                      }
+                    }
+                  ]
+                },
+                {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "character_task_id"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "image_urls"
+                      ],
+                      "properties": {
+                        "image_urls": {
+                          "minItems": 1
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "RecreateAnalyzeRequest": {
+        "type": "object",
+        "properties": {
+          "video_url": {
+            "type": "string",
+            "format": "uri",
+            "pattern": "^https://",
+            "maxLength": 2048,
+            "description": "公网 HTTPS 参考视频：4–15 秒，MP4/MOV，最大 64 MiB。生成时长跟随此长度。只用于拆解，不会发送给生成模型。"
+          },
+          "image_urls": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 9,
+            "items": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^https://",
+              "maxLength": 2048
+            },
+            "description": "调用方自有、保持顺序的参考图。image_urls[0] 为主要主体；服务为每张图返回一条独立解读。"
+          },
+          "image_tags": {
+            "type": "array",
+            "maxItems": 9,
+            "items": {
+              "type": "string",
+              "maxLength": 20
+            },
+            "description": "可选，与 image_urls 按位置对应的拆解提示；每张最多一条、每条最多 20 个字符。只作为图片解读的上下文，不是供应商参数。"
+          },
+          "prompt": {
+            "type": "string",
+            "maxLength": 1200,
+            "description": "可选的创作意图：保留什么、替换什么。只作拆解上下文，不等于最终提示词。"
+          },
+          "resolution": {
+            "type": "string",
+            "enum": [
+              "480p",
+              "720p"
+            ],
+            "default": "480p",
+            "description": "选择后续生成在 meta.pricing 中报价的价格档；不影响拆解过程或推导出的时长。"
+          }
+        },
+        "required": [
+          "video_url",
+          "image_urls"
+        ],
+        "additionalProperties": false
+      },
+      "RecreateAccepted": {
+        "type": "object",
+        "properties": {
+          "task_id": {
+            "type": "string",
+            "example": "task_example_recreate"
+          },
+          "status": {
+            "type": "string",
+            "const": "waiting"
+          },
+          "progress": {
+            "type": "string",
+            "example": "0%"
+          }
+        },
+        "required": [
+          "task_id",
+          "status",
+          "progress"
+        ]
+      },
+      "RecreateImageAnalysis": {
+        "type": "object",
+        "properties": {
+          "image_index": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "在 image_urls 中的 1 起始位置。"
+          },
+          "kind": {
+            "type": "string",
+            "description": "模型对这张图的判读，例如产品、人物或场景。"
+          },
+          "summary": {
+            "type": "string",
+            "description": "一句话读图结论。"
+          },
+          "anchors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "3–6 个可复核的短标签。"
+          },
+          "angle": {
+            "type": "string",
+            "description": "模型判读的拍摄角度。"
+          },
+          "background": {
+            "type": "string",
+            "description": "背景判读。"
+          },
+          "uncertain": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "这张图无法确认的项；没有则为空数组。"
+          }
+        }
+      },
+      "RecreateAnalysisMeta": {
+        "type": "object",
+        "properties": {
+          "shot_count": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "拆解识别出的镜头数。"
+          },
+          "hook": {
+            "type": "string",
+            "description": "钩子机制的一句话摘要。"
+          },
+          "risk_flags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "编译答案触发的确定性门禁代码，例如身份、品牌或屏幕文字风险。不是法律结论。"
+          },
+          "duration_sec": {
+            "type": "integer",
+            "minimum": 4,
+            "maximum": 15,
+            "description": "由参考视频推导的整秒输出时长。生成时请原样作为 duration_sec 传入。"
+          },
+          "reference_duration_sec": {
+            "type": "number",
+            "description": "从参考视频画面探测出的带小数时长。"
+          },
+          "duration_source": {
+            "type": "string",
+            "const": "reference_video"
+          },
+          "resolution": {
+            "type": "string",
+            "enum": [
+              "480p",
+              "720p"
             ]
           },
-          {
-            "anyOf": [
-              {
-                "required": [
-                  "character_task_id"
-                ]
+          "aspect_ratio": {
+            "type": "string",
+            "const": "9:16"
+          },
+          "image_count": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9,
+            "description": "本次提交的参考图数量。"
+          },
+          "pricing": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "480p": {
+                "type": "number",
+                "description": "该推导时长下 480p 预扣的精确积分。"
               },
-              {
-                "required": [
-                  "image_urls"
-                ],
-                "properties": {
-                  "image_urls": {
-                    "minItems": 1
-                  }
-                }
+              "720p": {
+                "type": "number",
+                "description": "该推导时长下 720p 预扣的精确积分。"
               }
-            ]
+            },
+            "description": "该推导时长下各清晰度的精确积分金额（1 USD = 10 积分）。没有可用价格时缺省。请直接用于生成按钮展示，不要自行估算。"
           }
+        },
+        "required": [
+          "shot_count",
+          "hook",
+          "risk_flags",
+          "duration_sec",
+          "reference_duration_sec",
+          "duration_source",
+          "resolution",
+          "aspect_ratio",
+          "image_count"
+        ]
+      },
+      "RecreateTask": {
+        "type": "object",
+        "properties": {
+          "task_id": {
+            "type": "string",
+            "example": "task_example_recreate"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "running",
+              "success",
+              "failed"
+            ],
+            "description": "轮询到 success 或 failed 为止；running 表示任务仍在排队或计划中。"
+          },
+          "progress": {
+            "type": "string",
+            "example": "0%"
+          },
+          "prompt": {
+            "type": "string",
+            "description": "仅 success 时返回。编译好的 Seedance 提示词，作为 prompt 传给 mode=recreate 的 POST /api/influencer/v1/videos。"
+          },
+          "analysis": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "description": "仅 success 时返回。结构化拆解，schema_version 为 viral-recreate.analysis/1；顶层键：evidence、video_overview、pace、shots、hook、viral_logic、transferable、replace、product_props、cta、uncertain、quality。"
+          },
+          "image_analysis": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "$ref": "#/components/schemas/RecreateImageAnalysis"
+            },
+            "description": "仅 success 时返回。按 image_urls 顺序每张图一条解读。"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/RecreateAnalysisMeta"
+          },
+          "message": {
+            "type": "string",
+            "description": "仅 failed 时返回。公开失败原因；拆解本身不计费。"
+          }
+        },
+        "required": [
+          "task_id",
+          "status",
+          "progress"
         ]
       }
     },

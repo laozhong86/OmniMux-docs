@@ -9,6 +9,40 @@ Stay up to date with OmniMux gateway model launches and platform changes. The fu
 
 Pages: **Page 1** · [Page 2](/en/updates/page-2)
 
+<a id="2026-10-20-viral-recreate"></a>
+
+<Update label="October 20, 2026" tags={["Improvements", "Video"]} rss={{ title: "Viral recreation: analyze a reference clip, then generate from the compiled prompt" }}>
+
+  Viral recreation adds a reference-video analysis step to the account creation API. The reference clip is **decomposition material only**: it never enters a generation model, so the later generation request carries images and one compiled prompt and no video or audio reference.
+
+  ## New endpoints
+
+  - `POST /api/influencer/v1/recreations/analyze` (`influencer_creation:write`) accepts a 4-15 second public HTTPS clip (MP4/MOV, at most 64 MiB), 1-9 reference images and an optional creative intent of up to 1200 characters. It answers HTTP 202 with `{task_id, status: "waiting", progress: "0%"}`.
+  - `GET /api/influencer/v1/recreations/{task_id}` (`influencer_creation:read`) reports `running`, `success` or `failed`. Success carries one compiled prompt, a `viral-recreate.analysis/1` structured breakdown, one reading per reference image, and `meta` with the derived `duration_sec`, `reference_duration_sec`, `aspect_ratio: "9:16"` and `pricing`.
+
+  ## Generation
+
+  `POST /api/influencer/v1/videos` accepts `mode: "recreate"`. It takes no reference video, requires `prompt` plus `image_urls`, requires `duration_sec` equal to the analyzed `meta.duration_sec` (whole seconds, 4-15), fixes framing to `9:16`, and accepts `resolution` `480p` or `720p`.
+
+  ## Billing and limits
+
+  - Analysis is not billed separately; its cost is included in the generation price.
+  - `meta.pricing` reports the exact credits per selectable quality at the derived duration, so the generate control can show the amount the pre-charge takes instead of an estimate. Recreation is the only video mode with a precise upfront quote.
+  - Each account has 20 analyses per day by default (server-configurable). Excess returns 429 `recreate_analysis_limit` with `Retry-After`.
+  - An unparseable clip, a clip outside 4-15 seconds, or a failed prompt gate ends the analysis job as `failed` with a public `message`; the analysis itself bills nothing.
+
+  ## Documentation
+
+  - [Recreation analysis API](/en/api-reference/account/influencer/recreate-analyze)
+  - [Create Character Video](/en/api-reference/account/influencer/create-video)
+
+  ### Links
+
+  - [Recreation analysis API](/en/api-reference/account/influencer/recreate-analyze)
+  - [Create Character Video](/en/api-reference/account/influencer/create-video)
+
+</Update>
+
 <a id="2026-10-19-influencer-video-metadata-echo"></a>
 
 <Update label="October 19, 2026" tags={["Improvements", "Video", "Platform"]} rss={{ title: "Optional video metadata in upload and artifact responses" }}>
@@ -1180,29 +1214,6 @@ Pages: **Page 1** · [Page 2](/en/updates/page-2)
 
   - [MiniMax H3 Video](/en/api-reference/video-series/models/minimax-h3)
   - [MiniMax H3 T2V](/en/api-reference/video-series/models/minimax-h3-t2v)
-  - [Video task poll](/en/api-reference/tasks/video-task)
-
-</Update>
-
-<a id="2026-07-28-grok-imagine-video-1-5"></a>
-
-<Update label="July 28, 2026" tags={["New models", "Video"]} rss={{ title: "Grok Imagine Video 1.5" }}>
-
-  ## Grok Imagine Video 1.5
-
-  **Grok Imagine Video 1.5** is now available on OmniMux.
-
-  ### New model
-
-  - **Model ID:** `grok-imagine-video-1-5`
-  - **Mode:** image-to-video style generation via async video API
-  - **Create / poll:** `POST` / `GET` `/v1/video/generations`
-
-  See the model page for parameters and the task poll contract.
-
-  ### Links
-
-  - [Grok Imagine Video 1.5](/en/api-reference/video-series/models/grok-imagine-video-1-5)
   - [Video task poll](/en/api-reference/tasks/video-task)
 
 </Update>

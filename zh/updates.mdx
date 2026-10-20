@@ -9,6 +9,40 @@ rss: true
 
 分页：**第 1 页** · [第 2 页](/zh/updates/page-2)
 
+<a id="2026-10-20-viral-recreate"></a>
+
+<Update label="2026 年 10 月 20 日" tags={["能力更新", "视频"]} rss={{ title: "爆款复刻：拆解参考视频，再用编译提示词生成" }}>
+
+  爆款复刻在账号创作接口中新增「参考视频拆解」这一步。参考视频只作**拆解素材**：不进入生成模型，后续生成请求只带图片和一条编译好的提示词，不带视频或音频参考。
+
+  ## 新增接口
+
+  - `POST /api/influencer/v1/recreations/analyze`（`influencer_creation:write`）接受 4–15 秒公网 HTTPS 参考视频（MP4/MOV，最大 64 MiB）、1–9 张参考图与最多 1200 字符的可选创作意图，返回 HTTP 202 与 `{task_id, status: "waiting", progress: "0%"}`。
+  - `GET /api/influencer/v1/recreations/{task_id}`（`influencer_creation:read`）返回 `running`、`success` 或 `failed`。成功时带一条编译提示词、`viral-recreate.analysis/1` 结构化拆解、每张参考图一条解读，以及包含推导 `duration_sec`、`reference_duration_sec`、`aspect_ratio: "9:16"` 与 `pricing` 的 `meta`。
+
+  ## 生成
+
+  `POST /api/influencer/v1/videos` 新增 `mode: "recreate"`：不带参考视频，必须提供 `prompt` 与 `image_urls`，`duration_sec` 需等于拆解返回的 `meta.duration_sec`（整秒，4–15），画幅固定 `9:16`，`resolution` 为 `480p` 或 `720p`。
+
+  ## 计费与限制
+
+  - 拆解不单独计费，成本含在生成价格内。
+  - `meta.pricing` 返回该推导时长下各清晰度的精确积分，生成按钮可直接展示预扣金额，不需要自行估算。爆款复刻是唯一提供生成前精确报价的视频模式。
+  - 每个账号默认每日 20 次拆解（服务端可配置），超出返回 429 `recreate_analysis_limit` 与 `Retry-After`。
+  - 参考视频无法解析、时长不在 4–15 秒、或提示词未通过门禁时，拆解任务以 `failed` 结束并带公开 `message`；拆解本身不计费。
+
+  ## 文档
+
+  - [复刻拆解接口](/zh/api-reference/account/influencer/recreate-analyze)
+  - [创建角色视频](/zh/api-reference/account/influencer/create-video)
+
+  ### 链接
+
+  - [复刻拆解接口](/zh/api-reference/account/influencer/recreate-analyze)
+  - [创建角色视频](/zh/api-reference/account/influencer/create-video)
+
+</Update>
+
 <a id="2026-10-19-influencer-video-metadata-echo"></a>
 
 <Update label="2026 年 10 月 19 日" tags={["能力更新", "视频", "平台"]} rss={{ title: "上传与成品响应新增可选视频元数据" }}>
@@ -1180,29 +1214,6 @@ rss: true
 
   - [MiniMax H3 视频](/zh/api-reference/video-series/models/minimax-h3)
   - [MiniMax H3 文生视频](/zh/api-reference/video-series/models/minimax-h3-t2v)
-  - [视频任务查询](/zh/api-reference/tasks/video-task)
-
-</Update>
-
-<a id="2026-07-28-grok-imagine-video-1-5"></a>
-
-<Update label="2026 年 7 月 28 日" tags={["新模型", "视频"]} rss={{ title: "Grok Imagine Video 1.5" }}>
-
-  ## Grok Imagine Video 1.5
-
-  **Grok Imagine Video 1.5** 现已在 OmniMux 可调用。
-
-  ### 新模型
-
-  - **模型 ID：** `grok-imagine-video-1-5`
-  - **模式：** 异步视频 API 下的图生视频类能力
-  - **创建 / 查询：** `POST` / `GET` `/v1/video/generations`
-
-  参数与任务查询约定见模型页与任务文档。
-
-  ### 链接
-
-  - [Grok Imagine Video 1.5](/zh/api-reference/video-series/models/grok-imagine-video-1-5)
   - [视频任务查询](/zh/api-reference/tasks/video-task)
 
 </Update>

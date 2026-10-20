@@ -1,0 +1,247 @@
+---
+title: "Analyze Recreation Reference"
+sidebarTitle: "Analyze Recreation Reference"
+description: "Decompose a reference clip into one compiled prompt, a structured breakdown and an exact price per quality for viral recreation."
+openapi: "openapi/ops/influencer/en/creation.json POST /api/influencer/v1/recreations/analyze"
+---
+
+The reference clip is **decomposition material only**: it never reaches a generation model. Supply a 4–15 second clip, 1–9 of your own reference images and an optional intent; the server decomposes the clip asynchronously and returns one compiled prompt, a structured breakdown, one reading per reference image and an exact credit amount per quality.
+
+- Base URL: `https://omnimux.ai`; use a scoped personal access token, not an `sk-` relay key.
+- Required permission: `influencer_creation:write` to analyze, `influencer_creation:read` to poll the accepted job.
+- `New-Api-User` is optional compatibility metadata. The credential determines the account; this header cannot choose another owner.
+
+New permissions require a fresh, explicit device approval. Existing and legacy credentials do not expand automatically. See [device login](/en/api-reference/account/device-login).
+
+<Note>
+HTTP 202 means the analysis job was accepted, not finished. Decomposition is a queued job that usually takes 1–3 minutes; poll `GET /api/influencer/v1/recreations/{task_id}`. Analysis is not billed separately — its cost is included in the generation price — but each account has a limited number of analyses per day. A job can still end `failed`; a failed analysis bills nothing.
+</Note>
+
+## Request
+
+| Field | Type | Notes |
+| --- | --- | --- |
+| `video_url` | string | Required. Public HTTPS reference clip, 4–15 seconds, MP4/MOV, at most 64 MiB. It is decomposition material only and is never sent to a generation model. |
+| `image_urls` | string[] | Required. 1–9 public HTTPS images you own, in order. `image_urls[0]` is the primary subject; one reading is returned per image. |
+| `image_tags` | string[] | Optional. Positional hints for `image_urls`, at most one tag per image and 20 characters each. Planner context only, never provider parameters. |
+| `prompt` | string | Optional creative intent: what to keep, what to replace. At most 1200 characters. It is not the final prompt. |
+| `resolution` | string | Optional `480p` or `720p`, default `480p`. It selects the price tier reported in `meta.pricing`; it does not change the decomposition or the derived duration. |
+
+There is no model, group, size or duration choice: the output length follows the reference clip. Unknown top-level fields are rejected with 400. Upload the clip and images first; a public HTTPS address is required.
+
+## Accepted response (202)
+
+```json
+{
+  "success": true,
+  "data": {
+    "task_id": "task_example_recreate",
+    "status": "waiting",
+    "progress": "0%"
+  }
+}
+```
+
+## Poll the analysis
+
+```bash
+curl --request GET \
+  --url 'https://omnimux.ai/api/influencer/v1/recreations/task_example_recreate' \
+  --header 'Authorization: Bearer <user-access-token>'
+```
+
+Poll until `status` is `success` or `failed`:
+
+| `status` | Meaning |
+| --- | --- |
+| `running` | The job is queued or the planner is still working. Keep polling with backoff. |
+| `success` | The result is ready: `prompt`, `analysis`, `image_analysis` and `meta` are present. |
+| `failed` | The job ended without a result. `message` carries the public reason; nothing was charged for the analysis. |
+
+Polling is a read-only owner-scoped call: it never starts, repeats or cancels provider work, and other accounts are indistinguishable from a missing task (404). No `request_id` or idempotency key exists for analysis, so a lost 202 cannot be recovered — a resubmission creates another job and consumes another daily analysis unit.
+
+A successful poll returns the compiled prompt and the breakdown:
+
+```json
+{
+  "success": true,
+  "data": {
+    "task_id": "task_example_recreate",
+    "status": "success",
+    "progress": "100%",
+    "prompt": "The final Seedance prompt compiled from the reference clip's structure.",
+    "analysis": {
+      "schema_version": "viral-recreate.analysis/1",
+      "video_overview": {
+        "one_line": "A single-product demonstration that opens on the result.",
+        "structure_summary": "hook -> demo -> proof -> cta",
+        "total_shots": 5
+      },
+      "hook": { "mechanism": ["result_first"] },
+      "evidence": {
+        "grade": "raw-video-frames",
+        "media": { "analysis_status": "COMPLETE" }
+      }
+    },
+    "image_analysis": [
+      {
+        "image_index": 1,
+        "kind": "product",
+        "summary": "A cream knit cardigan laid flat on a white background.",
+        "anchors": ["cream", "v-neck", "five brown buttons"],
+        "angle": "front flat lay",
+        "background": "pure white",
+        "uncertain": []
+      }
+    ],
+    "meta": {
+      "shot_count": 5,
+      "hook": "result_first",
+      "risk_flags": ["brand_clean"],
+      "duration_sec": 11,
+      "reference_duration_sec": 11.2,
+      "duration_source": "reference_video",
+      "resolution": "720p",
+      "aspect_ratio": "9:16",
+      "image_count": 1,
+      "pricing": { "480p": 6.47, "720p": 13.89 }
+    }
+  }
+}
+```
+
+`analysis` follows the `viral-recreate.analysis/1` schema. Its top-level keys are `evidence`, `video_overview`, `pace`, `shots`, `hook`, `viral_logic`, `transferable`, `replace`, `product_props`, `cta`, `uncertain` and `quality`; unknown fields stay in the object rather than being projected away. `image_analysis` carries one object per submitted image, in `image_urls` order, with `image_index`, `kind`, `summary`, `anchors`, `angle`, `background` and `uncertain`.
+
+### `meta`
+
+| Field | Type | Meaning |
+| --- | --- | --- |
+| `shot_count` | integer | Shots the decomposition identified. |
+| `hook` | string | One-line hook mechanism summary. |
+| `risk_flags` | string[] | Deterministic gate codes the compile answer raised, for example identity, brand or on-screen-text risk. Not a legal conclusion. |
+| `duration_sec` | integer | Whole-second output duration derived from the reference clip. Send exactly this value as `duration_sec` when generating. |
+| `reference_duration_sec` | number | Fractional picture duration probed from the reference clip. |
+| `duration_source` | string | `reference_video`: the length came from the clip, not from a client request. |
+| `resolution` | string | Price tier requested by this analyze call. |
+| `aspect_ratio` | string | Always `9:16`. |
+| `image_count` | integer | Reference images submitted. |
+| `pricing` | object | Exact credits per selectable quality at the derived duration: `{"480p": credits, "720p": credits}` (1 USD = 10 credits). Absent when no live price is available. |
+
+`meta.pricing` is the amount the pre-charge will take for that duration and quality, not an estimate. Use it to render the generate button instead of computing a price locally; recreation is the only mode with a precise upfront video quote.
+
+## Generate the recreation
+
+Submit the compiled prompt and the reference images to [`POST /api/influencer/v1/videos`](/en/api-reference/account/influencer/create-video) with `mode: "recreate"`:
+
+- Omit `video_url` and `video_task_id`. The clip was decomposition material only; supplying a reference video again is rejected.
+- `prompt` is required: send the compiled `prompt` (editable within the 4000-character ceiling).
+- `image_urls` is required: keep the same ordered images. `image_urls[0]` is the primary subject.
+- `duration_sec` is required for this mode: send `meta.duration_sec` exactly. The server validates the 4–15 whole-second range and rejects values outside it with 400. It cannot read the analyze result, so a different in-range value becomes the output length while the compiled prompt was written for the analyzed one.
+- `aspect_ratio` is fixed to `9:16`. Omit it or send `9:16`; any other explicit value is rejected.
+- `resolution` is `480p` or `720p`.
+
+Generation keeps the usual account billing, task polling and artifact contract; see [Create Character Video](/en/api-reference/account/influencer/create-video) and [Get Creation Task](/en/api-reference/account/influencer/get-task).
+
+## Failures and retries
+
+- **`failed` with a `message`.** Unparseable clips, clips outside 4–15 seconds, planner gate failures and a job that outlives its deadline all surface here. The analysis itself bills nothing; adjust the clip, images or intent and analyze again, keeping in mind that every accepted job counts against the daily allowance.
+- **429 `recreate_analysis_limit`.** The per-account daily allowance is exhausted (default 20). Respect `Retry-After`; retrying immediately keeps failing.
+- **Unknown acceptance.** If the submission result was lost, there is no idempotency key: resubmit and accept one extra daily unit rather than guessing a task id.
+- **503 `influencer_creation_disabled`.** New command-line analyses are disabled. Already accepted jobs stay readable.
+- **Never recreate a video task to "fix" a queued analysis.** Polling does not cancel anything, and generation is charged separately from analysis.
+
+## Limits
+
+| Item | Limit |
+| --- | --- |
+| Reference clip | 4–15 seconds, MP4/MOV, at most 64 MiB. The derived output duration is that length rounded to whole seconds. |
+| Reference images | 1–9 public HTTPS images; each tag at most 20 characters. |
+| Creative intent | 1200 characters. The compiled prompt is capped at 4000. |
+| Analyses per account | 20 per day by default (server-configurable); excess returns 429. |
+| Resolution | `480p` or `720p`. |
+
+## Content boundary
+
+- The clip is decomposed, never copied: the compiled prompt reproduces structure, pacing and framing logic, not the original footage.
+- Identity, brand marks, dialogue and on-screen text are not recreated. The compiled prompt is gated to avoid captions and logos; add text, voice and branding in post-production.
+- Submit only clips you have the rights to use. `risk_flags` are deterministic review codes, not a legal opinion.
+- Treat the breakdown as model-read evidence: `uncertain` entries are deliberate "could not verify" markers, not errors.
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url 'https://omnimux.ai/api/influencer/v1/recreations/analyze' \
+  --header 'Authorization: Bearer <user-access-token>' \
+  --header 'Content-Type: application/json' \
+  --data '{"video_url":"https://omnimux.ai/REPLACE_WITH_OWN_REFERENCE.mp4","image_urls":["https://omnimux.ai/REPLACE_WITH_PRODUCT_IMAGE_1.png"],"image_tags":["my product"],"prompt":"Keep the rhythm and framing, replace the product with mine.","resolution":"720p"}'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 202 Illustrative only
+{
+  "success": true,
+  "data": {
+    "task_id": "task_example_recreate",
+    "status": "waiting",
+    "progress": "0%"
+  }
+}
+```
+
+```json 400
+{
+  "success": false,
+  "code": "invalid_request",
+  "message": "invalid product parameters"
+}
+```
+
+```json 401
+{
+  "success": false,
+  "code": "AUTH_UNAUTHORIZED",
+  "message": "A valid live account credential is required. Expired, revoked or disabled-account credentials are rejected."
+}
+```
+
+```json 403
+{
+  "success": false,
+  "code": "ACCESS_TOKEN_SCOPE_DENIED",
+  "message": "The explicit creation read/write scope is missing. Old/legacy credentials do not gain access automatically."
+}
+```
+
+```json 429
+{
+  "success": false,
+  "code": "recreate_analysis_limit",
+  "message": "Today's reference-video analysis allowance is exhausted; retry tomorrow."
+}
+```
+
+```json 500
+{
+  "success": false,
+  "code": "recreation_analysis_unavailable",
+  "message": "the analysis job could not be created; retry later"
+}
+```
+
+```json 503
+{
+  "success": false,
+  "code": "influencer_creation_disabled",
+  "message": "new command-line creations are currently disabled; accepted requests remain recoverable"
+}
+```
+
+</ResponseExample>
+
+</Panel>
