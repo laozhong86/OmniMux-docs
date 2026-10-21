@@ -9,6 +9,39 @@ Stay up to date with OmniMux gateway model launches and platform changes. The fu
 
 Pages: [Page 1](/en/updates) · **Page 2**
 
+<a id="2026-07-30-minimax-h3"></a>
+
+<Update label="July 30, 2026" tags={["New models", "Video"]} rss={{ title: "MiniMax H3 — text-to-video and frame variants" }}>
+
+  ## MiniMax H3
+
+  **MiniMax H3** video models are now available on OmniMux.
+
+  ### New models
+
+  | Model ID | Role |
+  | --- | --- |
+  | `minimax-h3` | Standard text/image-to-video |
+  | `minimax-h3-t2v` | Text-to-video |
+  | `minimax-h3-flf` | First/last-frame style I2V |
+  | `minimax-h3-fl2va` | FL2VA-oriented path |
+  | `minimax-h3-endframe` | End-frame reference I2V |
+
+  ### API
+
+  - **Create:** `POST /v1/video/generations`
+  - **Poll:** `GET /v1/video/generations/{task_id}`
+
+  Async only — submit once, then poll task status.
+
+  ### Links
+
+  - [MiniMax H3 Video](/en/api-reference/video-series/models/minimax-h3)
+  - [MiniMax H3 T2V](/en/api-reference/video-series/models/minimax-h3-t2v)
+  - [Video task poll](/en/api-reference/tasks/video-task)
+
+</Update>
+
 <a id="2026-07-28-grok-imagine-video-1-5"></a>
 
 <Update label="July 28, 2026" tags={["New models", "Video"]} rss={{ title: "Grok Imagine Video 1.5" }}>

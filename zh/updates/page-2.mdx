@@ -9,6 +9,39 @@ rss: true
 
 分页：[第 1 页](/zh/updates) · **第 2 页**
 
+<a id="2026-07-30-minimax-h3"></a>
+
+<Update label="2026 年 7 月 30 日" tags={["新模型", "视频"]} rss={{ title: "MiniMax H3 — 文生视频与帧变体" }}>
+
+  ## MiniMax H3
+
+  **MiniMax H3** 视频模型现已在 OmniMux 可调用。
+
+  ### 新模型
+
+  | 模型 ID | 角色 |
+  | --- | --- |
+  | `minimax-h3` | 标准文/图生视频统一路由 |
+  | `minimax-h3-t2v` | 文生视频 |
+  | `minimax-h3-flf` | 首末帧类 I2V |
+  | `minimax-h3-fl2va` | FL2VA 路径 |
+  | `minimax-h3-endframe` | 尾帧参考 I2V |
+
+  ### 调用
+
+  - **创建：** `POST /v1/video/generations`
+  - **查询：** `GET /v1/video/generations/{task_id}`
+
+  异步任务：提交后轮询状态。
+
+  ### 链接
+
+  - [MiniMax H3 视频](/zh/api-reference/video-series/models/minimax-h3)
+  - [MiniMax H3 文生视频](/zh/api-reference/video-series/models/minimax-h3-t2v)
+  - [视频任务查询](/zh/api-reference/tasks/video-task)
+
+</Update>
+
 <a id="2026-07-28-grok-imagine-video-1-5"></a>
 
 <Update label="2026 年 7 月 28 日" tags={["新模型", "视频"]} rss={{ title: "Grok Imagine Video 1.5" }}>

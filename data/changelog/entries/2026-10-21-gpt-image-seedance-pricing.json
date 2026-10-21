@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "id": "2026-10-21-gpt-image-seedance-pricing",
+  "published_at": "2026-10-21",
+  "rank": 0,
+  "type": "pricing",
+  "modality": [
+    "image",
+    "video"
+  ],
+  "title": {
+    "en": "GPT Image 2.5 and Seedance 2.5 pricing alignment",
+    "zh": "GPT Image 2.5 与 Seedance 2.5 计费口径对齐"
+  },
+  "summary": {
+    "en": "GPT Image 2.5 standard output is now 3 OmniMux points per image; the Seedance 2.5 tier labels now show the actual per-second prices. The economy image tier remains ¥0.01 per image.",
+    "zh": "GPT Image 2.5 标准生图统一为 3 积分/张；Seedance 2.5 两个档位标签改为实际按秒价；生图特惠档仍为 ¥0.01/张。"
+  },
+  "models": [
+    "gpt-image-2.5",
+    "seedance-2-5"
+  ],
+  "links": [
+    {
+      "label": {
+        "en": "GPT Image API Reference",
+        "zh": "GPT Image 接口文档"
+      },
+      "href": {
+        "en": "/en/api-reference/image-series/gpt-image/generate",
+        "zh": "/zh/api-reference/image-series/gpt-image/generate"
+      }
+    },
+    {
+      "label": {
+        "en": "Seedance 2.5 API Reference",
+        "zh": "Seedance 2.5 接口文档"
+      },
+      "href": {
+        "en": "/en/api-reference/video-series/models/seedance-2-5",
+        "zh": "/zh/api-reference/video-series/models/seedance-2-5"
+      }
+    }
+  ],
+  "tags": [
+    "pricing",
+    "image",
+    "video"
+  ],
+  "body": {
+    "en": "## Pricing alignment\n\nTwo public model prices now match the amount actually charged by the gateway.\n\n### GPT Image 2.5 (`gpt-image-2.5`)\n\n- Standard output is **3 OmniMux points per image** (USD 0.30 service base).\n- The dedicated economy image group remains **¥0.01 per image** and is unchanged.\n- Billing stays per generated image; the platform quote before submission remains the source of truth.\n\n### Seedance 2.5 (`seedance-2-5`)\n\n- Per-second tier prices are now published as **¥2.85/second (480p)** and **¥3.92/second (720p)**.\n- Billing remains by requested video duration; the fixed-duration per-task ID `seedance-2-5-task` is unaffected.\n\nThe public pricing endpoint and the model quote shown before submission are the authoritative price for any individual request.",
+    "zh": "## 计费口径对齐\n\n以下两个公开模型的价格现与网关实际扣费一致。\n\n### GPT Image 2.5（`gpt-image-2.5`）\n\n- 标准生图统一为 **3 积分/张**（服务基准价 USD 0.30）。\n- 生图特惠档维持 **¥0.01/张**，价格不变。\n- 仍按实际输出张数计费；提交前平台报价为最终依据。\n\n### Seedance 2.5（`seedance-2-5`）\n\n- 按秒档位价现公示为实际计费价：**480p ¥2.85/秒**、**720p ¥3.92/秒**。\n- 仍按请求的视频时长计费；固定时长的按次任务 ID `seedance-2-5-task` 不受影响。\n\n任何单次请求的价格以公开 pricing 接口和提交前报价为准。"
+  }
+}
