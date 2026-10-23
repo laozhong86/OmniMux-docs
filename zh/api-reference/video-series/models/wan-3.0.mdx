@@ -7,6 +7,7 @@ api: "POST https://api.omnimux.ai/v1/video/generations"
 
 - 创建：`POST /v1/video/generations`，`model` 为 `wan-3.0`
 - 异步任务：用返回的 `task_id` 查询 [查询视频任务](/zh/api-reference/tasks/video-task)
+- 只有一个公开 ID；档位由请求的分辨率决定，调用方不选分组
 - 产物 URL 请及时落盘（上游链接可能有时效）
 
 ## 身份
@@ -16,6 +17,7 @@ api: "POST https://api.omnimux.ai/v1/video/generations"
 | 系列 | 视频系列 |
 | 品牌 | Wan |
 | model | `wan-3.0` |
+| 计费量纲 | 按秒（per second） |
 
 ## 接口
 
@@ -32,15 +34,42 @@ Base URL：`https://api.omnimux.ai`
 | --- | --- | --- | --- | --- |
 | `Authorization` | header | string | 是 | `Bearer sk-...`（API Key） |
 
+## 分辨率即档位
+
+`wan-3.0` 只有一个公开模型 ID，档位不通过模型 ID 选择：网关按请求里的分辨率自动选组，调用方不需要、也不必自己选分组。
+
+| 档位 | 分组 | 分辨率 | 价格（人民币/秒） |
+| --- | --- | --- | --- |
+| 720p 档 | `wan-3.0-720p` | `720p` | **¥0.60/秒** |
+| 1080p 档 | `wan-3.0-1080p` | `1080p` | **¥1.80/秒** |
+
+- 分辨率写法：`720p` / `1080p`（大小写不敏感），也可用等价尺寸写法，如 `1280x720`、`1920x1080`；尺寸按较短边归入档位，横版与竖版同价。
+- 计费量纲为按秒（per second），对外报价以人民币计。
+- `POST /v1/video/generations` 与控制台内的 `POST /pg/video/generations` 都会自动选组；后者只接受浏览器登录态，不属于令牌 API 面。
+- 显式选择优先：请求头 `X-Omnimux-Group`、请求体 `group`、或 `model@分组` 后缀由调用方指定时，自动选组不会覆盖。
+- 当前只承诺 `720p` 与 `1080p` 两档；其它分辨率不参与档位选择。
+
 ## 请求体
 
 | 字段 | 类型 | 必填 | 说明 |
 | --- | --- | --- | --- |
-| `model` | string | 是 | 固定为 `wan-3.0` |
+| `model` | string | 是 | 固定为 `wan-3.0`，可带 `@分组` 后缀 |
 | `prompt` | string | 条件 | 文生视频时必填 |
-| `seconds` / `duration` | number | 否 | 时长（秒，受模型与网关上限约束） |
-| `size` / `resolution` | string | 否 | 分辨率（模型相关） |
-| `image` / `images` | string/array | 否 | 图生视频参考图（模型相关） |
+| `duration` / `seconds` | number | 否 | 时长（秒），已发布包络 4–30；带参考视频时上限更低（≤ 15 秒） |
+| `resolution` / `size` | string | 否 | `720p` 或 `1080p`，决定档位与价格 |
+| `image` / `images` | string/array | 否 | 图生视频参考图 |
+
+- 时长低于 4 秒或高于 30 秒不受理；带参考视频的请求上限为 15 秒。
+- 未指定分辨率时沿用现有路由，不会按其它档位的价格静默计价。
+
+## 计费
+
+- 按请求的视频时长计费，单位为人民币/秒：
+  - `720p` 档：**¥0.60/秒**
+  - `1080p` 档：**¥1.80/秒**
+- 基准锚官方 1080P 原价 **¥1.20/秒**；720p 档为 0.5 倍、1080p 档为 1.5 倍。
+- 例：`720p` / 5 秒 = ¥3.00；`1080p` / 5 秒 = ¥9.00。
+- 最终价格以公开定价接口与提交前报价为准。
 
 ## 响应
 
@@ -64,7 +93,9 @@ curl --request POST \
   --header 'Content-Type: application/json' \
   --data '{
   "model": "wan-3.0",
-  "prompt": "slow pan across a product on a table"
+  "prompt": "slow pan across a product on a table",
+  "resolution": "1080p",
+  "duration": 5
 }'
 ```
 
