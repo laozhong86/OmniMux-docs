@@ -5,6 +5,8 @@ description: "Wan 3.0 Prime Reference Video Generation · model `wan-3.0-prime-r
 api: "POST https://api.omnimux.ai/v1/video/generations"
 ---
 
+> This public ID is not available yet (status=0). Use `wan-3.0` instead; the request `resolution` (`720p` / `1080p`) selects the tier and its price.
+
 - Create: `POST /v1/video/generations` with `model` `wan-3.0-prime-ref`
 - Async: poll [Video task](/en/api-reference/tasks/video-task) with returned `task_id`
 - Persist result URLs promptly (upstream links may expire)

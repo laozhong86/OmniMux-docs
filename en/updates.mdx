@@ -9,6 +9,44 @@ Stay up to date with OmniMux gateway model launches and platform changes. The fu
 
 Pages: **Page 1** · [Page 2](/en/updates/page-2)
 
+<a id="2026-10-23-wan-video-resolution-tiers"></a>
+
+<Update label="October 23, 2026" tags={["Pricing", "Video"]} rss={{ title: "Wan 3.0: one public ID with resolution-based tiers" }}>
+
+  ## Change
+
+  `wan-3.0` now exposes one public model ID. The tier is not a second model ID and is not chosen by the caller: the gateway selects the tier group from the request's `resolution` (or `size`), so `720p` and `1080p` resolve to the `wan-3.0-720p` and `wan-3.0-1080p` groups respectively.
+
+  Automatic selection applies to both `POST /v1/video/generations` and the console's `POST /pg/video/generations`. An explicit caller choice always wins: the `X-Omnimux-Group` header, a body `group`, or a `model@group` suffix is never overridden by automatic tier selection.
+
+  ## Tiers and prices
+
+  Billed per second, in CNY:
+
+  | Tier | Resolution | Price |
+  | --- | --- | --- |
+  | 720p | `720p` | ¥0.60/second |
+  | 1080p | `1080p` | ¥1.80/second |
+
+  The base anchors the official 1080P list price of ¥1.20/second; the 720p tier is 0.5× and the 1080p tier is 1.5×. The duration envelope is 4–30 seconds, and with a reference video the cap is lower (up to 15 seconds).
+
+  ## Impact
+
+  - Callers send `model: "wan-3.0"` plus a `resolution` (required); no model or group selection is required.
+  - Sizes are classified by their shorter side, so `1280x720` / `720x1280` and `1920x1080` / `1080x1920` cost the same.
+  - The resolution is required: it selects the tier and therefore the channel, so omitting it is rejected (`400`), as is any value other than `720p` / `1080p`.
+  - The public pricing endpoint and the pre-submission quote remain authoritative for any individual request.
+
+  ## Documentation
+
+  - [Wan 3.0 video generation](/en/api-reference/video-series/models/wan-3.0)
+
+  ### Links
+
+  - [Wan 3.0 video generation](/en/api-reference/video-series/models/wan-3.0)
+
+</Update>
+
 <a id="2026-10-23-h3-unoffered-resolution-rejected"></a>
 
 <Update label="October 23, 2026" tags={["Improvements", "Video"]} rss={{ title: "H3 video: unoffered resolution tiers are rejected explicitly" }}>
@@ -1182,39 +1220,6 @@ Pages: **Page 1** · [Page 2](/en/updates/page-2)
 
   - [Index TTS](/en/api-reference/audio-series/models/index-tts)
   - [LTX digital human](/en/api-reference/video-series/models/ltx-2-3-kj)
-
-</Update>
-
-<a id="2026-08-09-platform-api-updates"></a>
-
-<Update label="August 9, 2026" tags={["Platform"]} rss={{ title: "API Updates timeline opens" }}>
-
-  ## API Updates
-
-  OmniMux now publishes a dated **API Updates** feed so you can track gateway model launches and platform changes in one place.
-
-  ### What we log
-
-  - **New models** — callable model IDs on live pricing
-  - **Model updates** — modes, durations, resolutions, parameters
-  - **Pricing** — material rate changes
-  - **Platform** — auth, domains, public HTTP surfaces
-
-  ### How to call OmniMux
-
-  | Surface | URL |
-  | --- | --- |
-  | Console | `https://omnimux.ai` |
-  | OpenAI-compatible API | `https://api.omnimux.ai/v1` |
-  | Docs | `https://docs.omnimux.ai` |
-  | Status | `https://status.omnimux.ai` |
-
-  Auth for relay: Bearer `sk-…` from the console. Full catalog always lives on console pricing — this page is the **change timeline**.
-
-  ### Links
-
-  - [Quickstart](/en/quickstart)
-  - [Pricing](/en/api-reference/account/pricing)
 
 </Update>
 

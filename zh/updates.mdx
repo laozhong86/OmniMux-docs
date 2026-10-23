@@ -9,6 +9,44 @@ rss: true
 
 分页：**第 1 页** · [第 2 页](/zh/updates/page-2)
 
+<a id="2026-10-23-wan-video-resolution-tiers"></a>
+
+<Update label="2026 年 10 月 23 日" tags={["价格调整", "视频"]} rss={{ title: "Wan 3.0：单一公开 ID + 分辨率即档位" }}>
+
+  ## 变更
+
+  `wan-3.0` 收敛为单一公开模型 ID。档位不再是第二个模型 ID，也不由调用方选择：网关按请求里的 `resolution`（或 `size`）选组，`720p` 与 `1080p` 分别对应 `wan-3.0-720p` 与 `wan-3.0-1080p`。
+
+  自动选组对 `POST /v1/video/generations` 与控制台内的 `POST /pg/video/generations` 都生效。显式选择优先：请求头 `X-Omnimux-Group`、请求体 `group`、或 `model@分组` 后缀由调用方指定时，自动选组不会覆盖。
+
+  ## 档位与价格
+
+  按秒计费，单位为人民币：
+
+  | 档位 | 分辨率 | 价格 |
+  | --- | --- | --- |
+  | 720p | `720p` | ¥0.60/秒 |
+  | 1080p | `1080p` | ¥1.80/秒 |
+
+  基准锚官方 1080P 原价 ¥1.20/秒；720p 档为 0.5 倍、1080p 档为 1.5 倍。时长包络 4–30 秒，带参考视频时上限更低（≤ 15 秒）。
+
+  ## 影响
+
+  - 调用方传 `model: "wan-3.0"` 加 `resolution`（必填）即可，无需选模型或选分组。
+  - 尺寸按较短边归入档位，`1280x720` / `720x1280` 与 `1920x1080` / `1080x1920` 同价。
+  - 分辨率必填：它决定档位、进而决定渠道，因此不传会被拒绝（`400`），`720p` / `1080p` 以外的取值同样被拒绝。
+  - 最终价格以公开定价接口与提交前报价为准。
+
+  ## 文档
+
+  - [Wan 3.0 视频生成](/zh/api-reference/video-series/models/wan-3.0)
+
+  ### 链接
+
+  - [Wan 3.0 视频生成](/zh/api-reference/video-series/models/wan-3.0)
+
+</Update>
+
 <a id="2026-10-23-h3-unoffered-resolution-rejected"></a>
 
 <Update label="2026 年 10 月 23 日" tags={["能力更新", "视频"]} rss={{ title: "H3 视频：未开放分辨率档位改为显式拒绝" }}>
@@ -1182,39 +1220,6 @@ rss: true
 
   - [Index TTS](/zh/api-reference/audio-series/models/index-tts)
   - [LTX 数字人对口型](/zh/api-reference/video-series/models/ltx-2-3-kj)
-
-</Update>
-
-<a id="2026-08-09-platform-api-updates"></a>
-
-<Update label="2026 年 8 月 9 日" tags={["平台"]} rss={{ title: "API 更新时间线上线" }}>
-
-  ## API 更新
-
-  OmniMux 现提供按日期排列的 **API 更新** 时间线，便于跟踪网关模型上新与平台变更。
-
-  ### 记录范围
-
-  - **新模型** — 线上定价可调用的模型 ID
-  - **模型更新** — 模式、时长、分辨率、参数
-  - **价格调整** — 实质费率变化
-  - **平台** — 鉴权、域名、公开 HTTP 面
-
-  ### 使用入口
-
-  | 面 | URL |
-  | --- | --- |
-  | 控制台 | `https://omnimux.ai` |
-  | OpenAI 兼容 API | `https://api.omnimux.ai/v1` |
-  | 文档 | `https://docs.omnimux.ai` |
-  | 状态页 | `https://status.omnimux.ai` |
-
-  Relay 鉴权：控制台签发的 Bearer `sk-…`。完整目录以控制台定价为准——本页是 **变更时间线**。
-
-  ### 链接
-
-  - [快速开始](/zh/quickstart)
-  - [定价与账户](/zh/api-reference/account/pricing)
 
 </Update>
 
