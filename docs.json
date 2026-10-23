@@ -182,6 +182,7 @@
                     "group": "MiniMax",
                     "pages": [
                       "en/api-reference/video-series/models/minimax-h3",
+                      "en/api-reference/video-series/models/minimax-h3-video",
                       "en/api-reference/video-series/models/minimax-h3-max",
                       "en/api-reference/video-series/models/minimax-h3-max-turbo",
                       "en/api-reference/video-series/models/minimax-h3-t2v",
@@ -700,6 +701,7 @@
                     "group": "MiniMax",
                     "pages": [
                       "zh/api-reference/video-series/models/minimax-h3",
+                      "zh/api-reference/video-series/models/minimax-h3-video",
                       "zh/api-reference/video-series/models/minimax-h3-max",
                       "zh/api-reference/video-series/models/minimax-h3-max-turbo",
                       "zh/api-reference/video-series/models/minimax-h3-t2v",

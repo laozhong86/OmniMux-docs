@@ -9,6 +9,40 @@ Stay up to date with OmniMux gateway model launches and platform changes. The fu
 
 Pages: **Page 1** · [Page 2](/en/updates/page-2)
 
+<a id="2026-10-23-autodl-h3-video-restore"></a>
+
+<Update label="October 23, 2026" tags={["New models", "Video"]} rss={{ title: "MiniMax H3 video line restored with tier groups" }}>
+
+  **MiniMax H3 video line** (`minimax-h3-video`) is available again, served by AutoDL ComfyUI workflows.
+
+  ## Restored
+
+  - **Model ID:** `minimax-h3-video`
+  - **Contract:** `POST /v1/video/generations`, polled through `GET /v1/video/generations/{task_id}`
+  - **Tiers:** standard (default, 1.0×), `minimax-h3-video-fast` (0.9×), `minimax-h3-video-pro` (1.15×)
+  - **Billing:** 0.025 USD/second (¥0.17/second at FX 6.8); `raw_quota = 0.025 × 500000 × seconds × GroupRatio`
+
+  ## Capabilities and limits
+
+  - One ID selects its endpoint from the request shape: text-to-video, image reference, image + audio, lip sync and first-last frame. When nothing matches it returns 400 instead of silently falling back.
+  - The fast and higher-quality tiers serve image reference and image + audio only, capped at 768p.
+  - Offered resolutions are 480p / 736p / 768p. 1080p and the higher upstream tiers have no published price and are not offered.
+  - Duration is 1–15 seconds (default 5); some shapes cap at 10 or 12 seconds.
+
+  ## New parameter
+
+  - `mode` (`高速模式` / `高质模式`, default `高质模式`): accepted by the nine-image and nine-image-three-audio endpoints added on 2026-10-23.
+
+  ## Documentation
+
+  - [MiniMax H3 video line](/en/api-reference/video-series/models/minimax-h3-video)
+
+  ### Links
+
+  - [MiniMax H3 video line](/en/api-reference/video-series/models/minimax-h3-video)
+
+</Update>
+
 <a id="2026-10-21-gpt-image-seedance-pricing"></a>
 
 <Update label="October 21, 2026" tags={["Pricing", "Image", "Video"]} rss={{ title: "GPT Image 2.5 and Seedance 2.5 pricing alignment" }}>
@@ -1186,30 +1220,6 @@ Pages: **Page 1** · [Page 2](/en/updates/page-2)
   - [TikTok user profile](/en/api-reference/social-data/tiktok/user-profile)
   - [X tweet detail](/en/api-reference/social-data/x/tweet-detail)
   - [Create post (publishing)](/en/api-reference/publishing/create-post)
-
-</Update>
-
-<a id="2026-08-07-seedance-2-5"></a>
-
-<Update label="August 7, 2026" tags={["New models", "Video"]} rss={{ title: "Seedance 2.5 — longer video with multimodal references" }}>
-
-  ## Seedance 2.5
-
-  **Seedance 2.5** is now available on OmniMux for async video generation.
-
-  ### New model
-
-  - **Model ID:** `seedance-2-5`
-  - **Create:** `POST /v1/video/generations`
-  - **Poll:** `GET /v1/video/generations/{task_id}`
-  - **Highlights:** longer single-pass generation and multimodal reference inputs (text / image / video / audio style workflows)
-
-  Pin the exact ID from live pricing before integrating.
-
-  ### Links
-
-  - [Video task poll](/en/api-reference/tasks/video-task)
-  - [Pricing](/en/api-reference/account/pricing)
 
 </Update>
 

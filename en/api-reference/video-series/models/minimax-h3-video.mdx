@@ -1,0 +1,229 @@
+---
+title: "MiniMax H3 Video Line"
+sidebarTitle: "MiniMax H3 Video Line"
+description: "AutoDL MiniMax H3 video line · model `minimax-h3-video`"
+api: "POST https://api.omnimux.ai/v1/video/generations"
+---
+
+- Create: `POST /v1/video/generations` with `model` `minimax-h3-video`
+- Async: poll [Video task](/en/api-reference/tasks/video-task) with the returned `task_id`
+- One public ID selects its endpoint from the request shape; when nothing matches, the gateway returns `400` instead of silently falling back to another shape or tier
+- Persist result URLs promptly (upstream links may expire)
+
+## Identity
+
+| Field | Value |
+| --- | --- |
+| Series | Video series |
+| Brand | MiniMax / AutoDL |
+| model | `minimax-h3-video` |
+| Billing unit | Per second |
+
+## Endpoint
+
+| Method | Path |
+| --- | --- |
+| `POST` | `/v1/video/generations` |
+| `GET` | `/v1/video/generations/{task_id}` |
+
+Base URL: `https://api.omnimux.ai`
+
+## Authorizations
+
+| Name | In | Type | Required | Description |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | yes | `Bearer sk-...` (API key) |
+
+## Groups and tiers
+
+`minimax-h3-video` keeps one public model ID; the tier is chosen per request through a group and never creates a new model ID:
+
+| Tier | Group | Multiplier | Shapes served |
+| --- | --- | --- | --- |
+| Standard (default) | No group specified (`default` routing) | 1.0× | Text-to-video, image reference, image + audio, lip sync, first-last frame |
+| Fast | `minimax-h3-video-fast` | 0.9× | Image reference, image + audio |
+| Higher quality | `minimax-h3-video-pro` | 1.15× | Image reference, image + audio |
+
+Use either spelling; the header takes precedence over the `model` suffix:
+
+```bash cURL
+curl --request POST \
+  --url https://api.omnimux.ai/v1/video/generations \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --header 'X-Omnimux-Group: minimax-h3-video-fast' \
+  --data '{
+  "model": "minimax-h3-video",
+  "prompt": "slow pan across a product on a table",
+  "resolution": "768p",
+  "duration": 5
+}'
+```
+
+```json
+{
+  "model": "minimax-h3-video@minimax-h3-video-pro",
+  "prompt": "slow pan across a product on a table",
+  "resolution": "768p",
+  "duration": 5
+}
+```
+
+- Group selection is request-scoped and does not create a new model ID; a group your key cannot use returns `403`.
+- The fast and higher-quality tiers are not part of default routing, so they must be selected explicitly. They serve image reference and image + audio only, and cap at `768p`. Use the standard tier for the other shapes.
+
+## Request shapes and endpoint selection
+
+The gateway derives the shape from which media slots the request fills, then picks the lowest-cost endpoint in the selected tier that serves it. **When nothing matches it returns `400`** rather than falling back to another shape, resolution or tier.
+
+| Shape | Request signature | Media limits |
+| --- | --- | --- |
+| First-last frame | `first_frame` + `last_frame` | 1 image each |
+| Lip sync | Reference image + reference audio and **no** `prompt` | 1 image, 1 audio |
+| Image + audio | Reference images + reference audios | ≤ 9 images, ≤ 3 audios |
+| Image reference | Reference images only | ≤ 9 images |
+| Text-to-video | `prompt` only, no media | — |
+
+Shape priority, highest first: first-last frame → lip sync → image + audio → image reference → text-to-video. A reference video (`ref_video` / `video`) is not a shape this ID serves; sending one matches no endpoint and returns `400`.
+
+## Body
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `model` | string | yes | `minimax-h3-video`, optionally with an `@group` suffix |
+| `prompt` | string | conditional | Required for text-to-video, image reference, image + audio and first-last frame; omit it for lip sync (sending it routes as image + audio) |
+| `duration` / `seconds` | integer | no | Video duration in seconds, 1–15, default 5; some shapes cap at 10 or 12 seconds |
+| `resolution` / `size` | string | no | `480p`, `736p` or `768p`; without an orientation the gateway renders vertical |
+| `ref_image` / `image` / `images` | string or array | conditional | Reference images, up to 9 |
+| `ref_image_0` … `ref_image_8` | string | conditional | Numbered image slots (use one spelling, not both) |
+| `ref_audio` / `audio` / `audios` | string or array | conditional | Reference audios, up to 3 |
+| `ref_audio_0` … `ref_audio_2` | string | conditional | Numbered audio slots (use one spelling, not both) |
+| `first_frame` / `last_frame` | string | conditional | The two images of the first-last frame shape |
+| `mode` | string | no | `高速模式` or `高质模式`, default `高质模式`; only the nine-image and nine-image-three-audio endpoints honour it |
+| `seed` | integer | no | Random seed |
+
+- Use one spelling per media kind: when array and numbered slots are mixed, the first value in a fixed order wins and the counts are not merged.
+
+## Resolution and duration limits
+
+| Item | Available range | Notes |
+| --- | --- | --- |
+| Resolution | `480p`, `736p`, `768p` | 1080p and the higher upstream tiers (1088p / 1440p) exist upstream but have no published price and are **not offered**; out-of-range values return `400` |
+| Duration | 1–15 seconds (default 5) | Some shapes cap at 10 or 12 seconds; exceeding the cap returns `400` and is never shortened automatically |
+| Resolution × shape | `736p` is supported by some shapes only | A combination with no candidate returns `400` |
+
+## Billing
+
+- Base price: `0.025 USD/second` (¥0.17/second at FX 6.8)
+- Tier multipliers: standard `1.0×`, fast `0.9×`, higher quality `1.15×`
+- Formula: `raw_quota = 0.025 × 500000 × seconds × GroupRatio`; resolution is a capability enum and does not change the multiplier
+- Conversion: `raw_quota ÷ 500000 = USD`, and **1 USD = 10 credits**
+
+For `768p` / 5 seconds / standard: `0.025 × 500000 × 5 × 1.0 = 62,500` raw quota ≈ `$0.125` ≈ `¥0.85`. Billing follows the requested duration; the public pricing endpoint and the pre-submission quote remain authoritative for any individual request.
+
+## Response
+
+### 200 (created)
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` / `task_id` | string | Task id used for polling |
+| `model` | string | Model of this request |
+| `object` | string | `video` |
+| `status` | string | `queued` |
+| `created` | integer | Creation time (Unix seconds) |
+
+Polling fields: [Video task](/en/api-reference/tasks/video-task).
+
+### Error semantics
+
+| Status | Meaning |
+| --- | --- |
+| `400` | Invalid body, or no matching shape / resolution / duration combination (including a resolution that is not offered, a duration above the cap, or an unsupported shape such as `ref_video`) |
+| `401` | Invalid API key |
+| `402` | Insufficient quota (`insufficient_quota`) |
+| `403` | Key not allowed to use the selected group, or model not allowed |
+| `429` | Rate limited |
+| `500` | Gateway or upstream error |
+
+More error semantics: [Connection and usage](/en/faqs/connection-usage) and [Cost optimization](/en/faqs/cost-optimization).
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url https://api.omnimux.ai/v1/video/generations \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "model": "minimax-h3-video",
+  "prompt": "slow pan across a product on a table",
+  "resolution": "768p",
+  "duration": 5
+}'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200
+{
+  "id": "task_example",
+  "task_id": "task_example",
+  "object": "video",
+  "model": "minimax-h3-video",
+  "status": "queued",
+  "created": 1788926400
+}
+```
+
+```json 400
+{
+  "error": {
+    "message": "No matching video workflow for this request; supported shapes are listed in the response",
+    "type": "invalid_request_error",
+    "code": "bad_request"
+  }
+}
+```
+
+```json 401
+{
+  "error": { "message": "Invalid token", "type": "authentication_error", "code": "unauthorized" }
+}
+```
+
+```json 402
+{
+  "error": {
+    "message": "Insufficient quota. Please top up your account.",
+    "type": "insufficient_quota",
+    "code": "insufficient_quota"
+  }
+}
+```
+
+```json 403
+{
+  "error": { "message": "Model not allowed", "type": "permission_error", "code": "forbidden" }
+}
+```
+
+```json 429
+{
+  "error": { "message": "Rate limit exceeded", "type": "rate_limit_error", "code": "rate_limit_exceeded" }
+}
+```
+
+```json 500
+{
+  "error": { "message": "Internal server error", "type": "server_error", "code": "internal_error" }
+}
+```
+
+</ResponseExample>
+
+</Panel>

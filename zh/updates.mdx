@@ -9,6 +9,40 @@ rss: true
 
 分页：**第 1 页** · [第 2 页](/zh/updates/page-2)
 
+<a id="2026-10-23-autodl-h3-video-restore"></a>
+
+<Update label="2026 年 10 月 23 日" tags={["新模型", "视频"]} rss={{ title: "MiniMax H3 视频专线恢复上架并新增档位分组" }}>
+
+  **MiniMax H3 视频专线**（`minimax-h3-video`）恢复上架，由 AutoDL ComfyUI 工作流承载。
+
+  ## 恢复上架
+
+  - **Model ID：** `minimax-h3-video`
+  - **接口契约：** `POST /v1/video/generations`，通过 `GET /v1/video/generations/{task_id}` 轮询
+  - **档位：** 标准档（默认，1.0×）、`minimax-h3-video-fast`（0.9×）、`minimax-h3-video-pro`（1.15×）
+  - **计费：** 0.025 USD/秒（¥0.17/秒，FX 6.8）；`raw_quota = 0.025 × 500000 × 秒数 × GroupRatio`
+
+  ## 能力与限制
+
+  - 同一 ID 按请求形态自动选端点：文生视频、多图参考、多图多音频、对口型、首尾帧；没有候选时返回 400，不静默降级。
+  - 高速档与升级画质档只覆盖多图参考与多图多音频，分辨率上限 768p。
+  - 公开分辨率档为 480p / 736p / 768p；1080p 与更高的上游档位没有已发布价格，不开放。
+  - 时长 1–15 秒（默认 5 秒），部分形态上限 10 秒或 12 秒。
+
+  ## 新增参数
+
+  - `mode`（`高速模式` / `高质模式`，默认 `高质模式`）：2026-10-23 新增的九图与九图三音端点接受该参数。
+
+  ## 文档
+
+  - [MiniMax H3 视频专线](/zh/api-reference/video-series/models/minimax-h3-video)
+
+  ### 链接
+
+  - [MiniMax H3 视频专线](/zh/api-reference/video-series/models/minimax-h3-video)
+
+</Update>
+
 <a id="2026-10-21-gpt-image-seedance-pricing"></a>
 
 <Update label="2026 年 10 月 21 日" tags={["价格调整", "图像", "视频"]} rss={{ title: "GPT Image 2.5 与 Seedance 2.5 计费口径对齐" }}>
@@ -1186,30 +1220,6 @@ rss: true
   - [TikTok 用户资料](/zh/api-reference/social-data/tiktok/user-profile)
   - [X 推文详情](/zh/api-reference/social-data/x/tweet-detail)
   - [创建帖子（社媒发布）](/zh/api-reference/publishing/create-post)
-
-</Update>
-
-<a id="2026-08-07-seedance-2-5"></a>
-
-<Update label="2026 年 8 月 7 日" tags={["新模型", "视频"]} rss={{ title: "Seedance 2.5 — 更长视频与多模态参考" }}>
-
-  ## Seedance 2.5
-
-  **Seedance 2.5** 现已在 OmniMux 可调用（异步视频生成）。
-
-  ### 新模型
-
-  - **模型 ID：** `seedance-2-5`
-  - **创建：** `POST /v1/video/generations`
-  - **查询：** `GET /v1/video/generations/{task_id}`
-  - **要点：** 更长单次生成，支持多模态参考输入（文本 / 图像 / 视频 / 音频类工作流）
-
-  接入前请以线上定价的精确 ID 为准。
-
-  ### 链接
-
-  - [视频任务查询](/zh/api-reference/tasks/video-task)
-  - [定价](/zh/api-reference/account/pricing)
 
 </Update>
 

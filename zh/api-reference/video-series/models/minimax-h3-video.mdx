@@ -1,0 +1,229 @@
+---
+title: "MiniMax H3 视频专线"
+sidebarTitle: "MiniMax H3 视频专线"
+description: "AutoDL MiniMax H3 视频专线 · model `minimax-h3-video`"
+api: "POST https://api.omnimux.ai/v1/video/generations"
+---
+
+- 创建：`POST /v1/video/generations`，`model` 为 `minimax-h3-video`
+- 异步任务：用返回的 `task_id` 查询 [查询视频任务](/zh/api-reference/tasks/video-task)
+- 同一公开 ID 下按请求形态自动选端点；没有匹配候选时返回 `400`，不静默降级到其它形态或档位
+- 产物 URL 请及时落盘（上游链接可能有时效）
+
+## 身份
+
+| 字段 | 值 |
+| --- | --- |
+| 系列 | 视频系列 |
+| 品牌 | MiniMax / AutoDL |
+| model | `minimax-h3-video` |
+| 计费量纲 | 按秒（per second） |
+
+## 接口
+
+| 方法 | 路径 |
+| --- | --- |
+| `POST` | `/v1/video/generations` |
+| `GET` | `/v1/video/generations/{task_id}` |
+
+Base URL：`https://api.omnimux.ai`
+
+## 鉴权
+
+| 名称 | 位置 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | 是 | `Bearer sk-...`（API Key） |
+
+## 分组与档位
+
+`minimax-h3-video` 只有一个公开模型 ID，档位通过**请求级分组**选择，不新增模型 ID：
+
+| 档位 | 分组 | 倍率 | 覆盖形态 |
+| --- | --- | --- | --- |
+| 标准档（默认） | 不指定分组（`default` 路由） | 1.0× | 文生视频、多图参考、多图多音频、对口型、首尾帧 |
+| 高速档 | `minimax-h3-video-fast` | 0.9× | 多图参考、多图多音频 |
+| 升级画质档 | `minimax-h3-video-pro` | 1.15× | 多图参考、多图多音频 |
+
+两种写法二选一，请求头优先于 `model` 后缀：
+
+```bash cURL
+curl --request POST \
+  --url https://api.omnimux.ai/v1/video/generations \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --header 'X-Omnimux-Group: minimax-h3-video-fast' \
+  --data '{
+  "model": "minimax-h3-video",
+  "prompt": "slow pan across a product on a table",
+  "resolution": "768p",
+  "duration": 5
+}'
+```
+
+```json
+{
+  "model": "minimax-h3-video@minimax-h3-video-pro",
+  "prompt": "slow pan across a product on a table",
+  "resolution": "768p",
+  "duration": 5
+}
+```
+
+- 分组只影响当前请求，不会创建新的模型 ID；密钥无权访问该分组时返回 `403`。
+- 高速档与升级画质档不参与默认路由，必须显式指定；它们只覆盖多图参考与多图多音频，且分辨率上限为 `768p`。其余形态请用标准档。
+
+## 请求形态与端点选择
+
+网关按请求里填了哪些素材槽判定形态，再在所选档位的候选端点中取成本最低的一个。**没有候选时显式返回 `400`**，不会回退到其它形态、其它分辨率或其它档位。
+
+| 形态 | 请求特征 | 素材上限 |
+| --- | --- | --- |
+| 首尾帧 | `first_frame` + `last_frame` | 各 1 张 |
+| 对口型 | 参考图 + 参考音频，且**不带** `prompt` | 参考图 1 张、参考音频 1 段 |
+| 多图多音频 | 参考图 + 参考音频 | 参考图 ≤ 9 张、参考音频 ≤ 3 段 |
+| 多图参考 | 只有参考图 | 参考图 ≤ 9 张 |
+| 文生视频 | 只有 `prompt`，不带素材 | — |
+
+判定优先级从高到低：首尾帧 → 对口型 → 多图多音频 → 多图参考 → 文生视频。参考视频（`ref_video` / `video`）不属于本 ID 的可用形态；带上它不会有匹配端点，返回 `400`。
+
+## 请求体
+
+| 字段 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| `model` | string | 是 | `minimax-h3-video`，可带 `@分组` 后缀 |
+| `prompt` | string | 条件 | 文生视频、多图参考、多图多音频与首尾帧必填；对口型形态不带（带上会按多图多音频路由） |
+| `duration` / `seconds` | integer | 否 | 视频时长（秒），1–15，默认 5；部分形态上限 10 秒或 12 秒 |
+| `resolution` / `size` | string | 否 | `480p`、`736p`、`768p`；不指定朝向时按竖版出片 |
+| `ref_image` / `image` / `images` | string 或 array | 条件 | 参考图，最多 9 张 |
+| `ref_image_0` … `ref_image_8` | string | 条件 | 参考图的分槽写法（与数组写法二选一） |
+| `ref_audio` / `audio` / `audios` | string 或 array | 条件 | 参考音频，最多 3 段 |
+| `ref_audio_0` … `ref_audio_2` | string | 条件 | 参考音频的分槽写法（二选一） |
+| `first_frame` / `last_frame` | string | 条件 | 首尾帧形态的两张图 |
+| `mode` | string | 否 | `高速模式` 或 `高质模式`，默认 `高质模式`；仅九图与九图三音端点生效 |
+| `seed` | integer | 否 | 随机种子 |
+
+- 每类素材只用一种写法：数组写法与分槽写法混用时，按固定顺序取先出现的一项，不会合并计数。
+
+## 分辨率与时长限制
+
+| 项 | 可用范围 | 说明 |
+| --- | --- | --- |
+| 分辨率 | `480p`、`736p`、`768p` | 1080p 与更高的上游档位（1088p / 1440p）在上游存在但没有已发布价格，**不开放**；越界返回 `400` |
+| 时长 | 1–15 秒（默认 5 秒） | 部分形态上限 10 秒或 12 秒；超上限返回 `400`，不会自动截短 |
+| 分辨率 × 形态 | `736p` 只有部分形态支持 | 组合没有候选时返回 `400` |
+
+## 计费
+
+- 基准价：`0.025 USD/秒`（¥0.17/秒，FX 6.8）
+- 档位倍率：标准档 `1.0×`、高速档 `0.9×`、升级画质档 `1.15×`
+- 计费公式：`raw_quota = 0.025 × 500000 × 秒数 × GroupRatio`；分辨率是能力枚举，不参与倍率
+- 换算：`raw_quota ÷ 500000 = USD`，**1 USD = 10 积分**
+
+以 `768p` / 5 秒 / 标准档为例：`0.025 × 500000 × 5 × 1.0 = 62,500` raw quota ≈ `$0.125` ≈ `¥0.85`。按秒计费以请求时长为准，最终价格以公开定价接口与提交前报价为准。
+
+## 响应
+
+### 200（创建）
+
+| 字段 | 类型 | 说明 |
+| --- | --- | --- |
+| `id` / `task_id` | string | 任务 id，用于轮询 |
+| `model` | string | 本次请求的模型 |
+| `object` | string | `video` |
+| `status` | string | `queued` |
+| `created` | integer | 创建时间（Unix 秒） |
+
+轮询字段见 [查询视频任务](/zh/api-reference/tasks/video-task)。
+
+### 错误语义
+
+| 状态码 | 含义 |
+| --- | --- |
+| `400` | 请求体不合法，或没有匹配的形态 / 分辨率 / 时长组合（含分辨率未开放、时长超上限、`ref_video` 等本 ID 不支持的形态） |
+| `401` | 密钥无效 |
+| `402` | 余额不足（`insufficient_quota`） |
+| `403` | 密钥无权访问所选分组，或模型不可用 |
+| `429` | 触发限流 |
+| `500` | 网关或上游错误 |
+
+更多错误语义见 [连接与使用](/zh/faqs/connection-usage) 与 [成本优化](/zh/faqs/cost-optimization)。
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url https://api.omnimux.ai/v1/video/generations \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "model": "minimax-h3-video",
+  "prompt": "slow pan across a product on a table",
+  "resolution": "768p",
+  "duration": 5
+}'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200
+{
+  "id": "task_example",
+  "task_id": "task_example",
+  "object": "video",
+  "model": "minimax-h3-video",
+  "status": "queued",
+  "created": 1788926400
+}
+```
+
+```json 400
+{
+  "error": {
+    "message": "No matching video workflow for this request; supported shapes are listed in the response",
+    "type": "invalid_request_error",
+    "code": "bad_request"
+  }
+}
+```
+
+```json 401
+{
+  "error": { "message": "Invalid token", "type": "authentication_error", "code": "unauthorized" }
+}
+```
+
+```json 402
+{
+  "error": {
+    "message": "Insufficient quota. Please top up your account.",
+    "type": "insufficient_quota",
+    "code": "insufficient_quota"
+  }
+}
+```
+
+```json 403
+{
+  "error": { "message": "Model not allowed", "type": "permission_error", "code": "forbidden" }
+}
+```
+
+```json 429
+{
+  "error": { "message": "Rate limit exceeded", "type": "rate_limit_error", "code": "rate_limit_exceeded" }
+}
+```
+
+```json 500
+{
+  "error": { "message": "Internal server error", "type": "server_error", "code": "internal_error" }
+}
+```
+
+</ResponseExample>
+
+</Panel>
