@@ -7,6 +7,7 @@ api: "GET https://api.omnimux.ai/v1/video/generations/{task_id}"
 
 > - 仅用于 **视频系列** 创建接口 `POST /v1/video/generations` 返回的 `task_id`
 > - **不是** OpenAI Videos 的 `/v1/videos/{id}` 或 `/content` 下载路径
+> - 插件型（type 65）视频模型例外：创建走 `POST /v1/videos`，轮询走 `GET /v1/videos/{task_id}`
 > - 鉴权：`Authorization: Bearer sk-...`
 
 ## 路径参数

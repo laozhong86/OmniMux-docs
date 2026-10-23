@@ -63,7 +63,7 @@ A successful connection or a model listed locally is not proof of successful gen
 
 - Use live model ids  
 - Chat needs valid `messages`; social-data needs business fields  
-- Video poll: `GET /v1/video/generations/{task_id}` only — not `/v1/videos/*/content` for Omni Flash / MiniMax creates  
+- Video poll: `GET /v1/video/generations/{task_id}` only — not `/v1/videos/*/content` for Omni Flash / MiniMax creates; exception: plugin-line (type 65) video models create on `POST /v1/videos` and poll `GET /v1/videos/{task_id}`  
 
 ## Cannot connect
 

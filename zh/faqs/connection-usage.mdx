@@ -65,7 +65,7 @@ description: "Base URL、鉴权与常见 HTTP 错误"
 
 - 确认 `model` 为 live 列表中的 id  
 - Chat 需合法 `messages`；社交数据还需业务字段（如 `aweme_id`）  
-- 任务类：创建走 `POST /v1/video/generations`，轮询走 `GET /v1/video/generations/{task_id}`，不要与 `/v1/videos/*` 混淆  
+- 任务类：创建走 `POST /v1/video/generations`，轮询走 `GET /v1/video/generations/{task_id}`，不要与 `/v1/videos/*` 混淆；插件型（type 65）视频模型例外：创建走 `POST /v1/videos`，轮询走 `GET /v1/videos/{task_id}`  
 
 ## 客户端连不上？
 
