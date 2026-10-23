@@ -79,7 +79,7 @@ curl --request POST \
 | 形态 | 请求特征 | 素材上限 |
 | --- | --- | --- |
 | 首尾帧 | `first_frame` + `last_frame` | 各 1 张 |
-| 对口型 | 参考图 + 参考音频，且**不带** `prompt` | 参考图 1 张、参考音频 1 段 |
+| 对口型 | 参考图 + 参考音频，且**不带** `prompt` | 取首个参考图与首个参考音频 |
 | 多图多音频 | 参考图 + 参考音频 | 参考图 ≤ 9 张、参考音频 ≤ 3 段 |
 | 多图参考 | 只有参考图 | 参考图 ≤ 9 张 |
 | 文生视频 | 只有 `prompt`，不带素材 | — |
@@ -102,7 +102,7 @@ curl --request POST \
 | `mode` | string | 否 | `高速模式` 或 `高质模式`，默认 `高质模式`；仅九图与九图三音端点生效 |
 | `seed` | integer | 否 | 随机种子 |
 
-- 每类素材只用一种写法：数组写法与分槽写法混用时，按固定顺序取先出现的一项，不会合并计数。
+- 每类素材只用一种写法：数组写法与分槽写法混用时，两者会合并计入，而不是取其一。
 
 ## 分辨率与时长限制
 
@@ -146,6 +146,8 @@ curl --request POST \
 | `429` | 触发限流 |
 | `500` | 网关或上游错误 |
 
+`400` 的错误消息会列出该档位当时支持的形态与分辨率 / 时长组合，便于直接改参重试。
+
 更多错误语义见 [连接与使用](/zh/faqs/connection-usage) 与 [成本优化](/zh/faqs/cost-optimization)。
 
 <Panel>
@@ -183,7 +185,7 @@ curl --request POST \
 ```json 400
 {
   "error": {
-    "message": "No matching video workflow for this request; supported shapes are listed in the response",
+    "message": "Invalid request",
     "type": "invalid_request_error",
     "code": "bad_request"
   }

@@ -79,7 +79,7 @@ The gateway derives the shape from which media slots the request fills, then pic
 | Shape | Request signature | Media limits |
 | --- | --- | --- |
 | First-last frame | `first_frame` + `last_frame` | 1 image each |
-| Lip sync | Reference image + reference audio and **no** `prompt` | 1 image, 1 audio |
+| Lip sync | Reference image + reference audio and **no** `prompt` | Uses the first image and the first audio |
 | Image + audio | Reference images + reference audios | ≤ 9 images, ≤ 3 audios |
 | Image reference | Reference images only | ≤ 9 images |
 | Text-to-video | `prompt` only, no media | — |
@@ -102,7 +102,7 @@ Shape priority, highest first: first-last frame → lip sync → image + audio �
 | `mode` | string | no | `高速模式` or `高质模式`, default `高质模式`; only the nine-image and nine-image-three-audio endpoints honour it |
 | `seed` | integer | no | Random seed |
 
-- Use one spelling per media kind: when array and numbered slots are mixed, the first value in a fixed order wins and the counts are not merged.
+- Use one spelling per media kind: mixing array and numbered slots merges both sets instead of picking one.
 
 ## Resolution and duration limits
 
@@ -146,6 +146,8 @@ Polling fields: [Video task](/en/api-reference/tasks/video-task).
 | `429` | Rate limited |
 | `500` | Gateway or upstream error |
 
+A `400` message lists the shapes and resolution / duration combinations the selected tier supports, so the request can be corrected directly.
+
 More error semantics: [Connection and usage](/en/faqs/connection-usage) and [Cost optimization](/en/faqs/cost-optimization).
 
 <Panel>
@@ -183,7 +185,7 @@ curl --request POST \
 ```json 400
 {
   "error": {
-    "message": "No matching video workflow for this request; supported shapes are listed in the response",
+    "message": "Invalid request",
     "type": "invalid_request_error",
     "code": "bad_request"
   }
