@@ -5,6 +5,8 @@ description: "Wan 3.0 Prime 视频生成 · model `wan-3.0-prime`"
 api: "POST https://api.omnimux.ai/v1/video/generations"
 ---
 
+> 该公开 ID 目前未上架（status=0）；请改用 `wan-3.0`，由请求的 `resolution`（`720p` / `1080p`）决定档位与价格。
+
 - 创建：`POST /v1/video/generations`，`model` 为 `wan-3.0-prime`
 - 异步任务：用返回的 `task_id` 查询 [查询视频任务](/zh/api-reference/tasks/video-task)
 - 产物 URL 请及时落盘（上游链接可能有时效）

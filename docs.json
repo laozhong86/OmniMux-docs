@@ -261,10 +261,7 @@
                   {
                     "group": "Wan",
                     "pages": [
-                      "en/api-reference/video-series/models/wan-3.0",
-                      "en/api-reference/video-series/models/wan-3.0-prime",
-                      "en/api-reference/video-series/models/wan-3.0-prime-ref",
-                      "en/api-reference/video-series/models/wan-3.0-ref"
+                      "en/api-reference/video-series/models/wan-3.0"
                     ],
                     "icon": "video"
                   },
@@ -780,10 +777,7 @@
                   {
                     "group": "Wan",
                     "pages": [
-                      "zh/api-reference/video-series/models/wan-3.0",
-                      "zh/api-reference/video-series/models/wan-3.0-prime",
-                      "zh/api-reference/video-series/models/wan-3.0-prime-ref",
-                      "zh/api-reference/video-series/models/wan-3.0-ref"
+                      "zh/api-reference/video-series/models/wan-3.0"
                     ],
                     "icon": "video"
                   },
