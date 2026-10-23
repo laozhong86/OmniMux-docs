@@ -2,13 +2,15 @@
 title: "MiniMax H3 视频专线"
 sidebarTitle: "MiniMax H3 视频专线"
 description: "AutoDL MiniMax H3 视频专线 · model `minimax-h3-video`"
-api: "POST https://api.omnimux.ai/v1/video/generations"
+api: "POST https://api.omnimux.ai/v1/videos"
 ---
 
-- 创建：`POST /v1/video/generations`，`model` 为 `minimax-h3-video`
-- 异步任务：用返回的 `task_id` 查询 [查询视频任务](/zh/api-reference/tasks/video-task)
+- 创建：`POST /v1/videos`，`model` 为 `minimax-h3-video`
+- 异步任务：用创建响应里的任务 id（`id` / `task_id`）查询 `GET /v1/videos/{task_id}`，返回 `status` 与 `progress`
 - 同一公开 ID 下按请求形态自动选端点；没有匹配候选时返回 `400`，不静默降级到其它形态或档位
 - 产物 URL 请及时落盘（上游链接可能有时效）
+
+> 本模型是插件型线路，公开路径为 `POST /v1/videos` / `GET /v1/videos/{task_id}`，与视频系列其它页面的 `/v1/video/generations` **不同**。用错路径不会进入插件，会得到 `503`（该分组下无可用渠道）。
 
 ## 身份
 
@@ -23,8 +25,8 @@ api: "POST https://api.omnimux.ai/v1/video/generations"
 
 | 方法 | 路径 |
 | --- | --- |
-| `POST` | `/v1/video/generations` |
-| `GET` | `/v1/video/generations/{task_id}` |
+| `POST` | `/v1/videos` |
+| `GET` | `/v1/videos/{task_id}` |
 
 Base URL：`https://api.omnimux.ai`
 
@@ -48,7 +50,7 @@ Base URL：`https://api.omnimux.ai`
 
 ```bash cURL
 curl --request POST \
-  --url https://api.omnimux.ai/v1/video/generations \
+  --url https://api.omnimux.ai/v1/videos \
   --header 'Authorization: Bearer <token>' \
   --header 'Content-Type: application/json' \
   --header 'X-Omnimux-Group: minimax-h3-video-fast' \
@@ -93,7 +95,7 @@ curl --request POST \
 | `model` | string | 是 | `minimax-h3-video`，可带 `@分组` 后缀 |
 | `prompt` | string | 条件 | 文生视频、多图参考、多图多音频与首尾帧必填；对口型形态不带（带上会按多图多音频路由） |
 | `duration` / `seconds` | integer | 否 | 视频时长（秒），1–15，默认 5；部分形态上限 10 秒或 12 秒 |
-| `resolution` / `size` | string | 否 | `480p`、`736p`、`768p`；不指定朝向时按竖版出片 |
+| `resolution` / `size` | string | 否 | 只填计费档位标签：`480p`、`736p`、`768p`；不指定朝向时由网关内部映射到竖版 |
 | `ref_image` / `image` / `images` | string 或 array | 条件 | 参考图，最多 9 张 |
 | `ref_image_0` … `ref_image_8` | string | 条件 | 参考图的分槽写法（与数组写法二选一） |
 | `ref_audio` / `audio` / `audios` | string 或 array | 条件 | 参考音频，最多 3 段 |
@@ -103,12 +105,13 @@ curl --request POST \
 | `seed` | integer | 否 | 随机种子 |
 
 - 每类素材只用一种写法：数组写法与分槽写法混用时，两者会合并计入，而不是取其一。
+- `resolution` 只接受计费档位标签（`480p` / `736p` / `768p`）。上游端点的朝向枚举标签（如 `480p竖(480*864)`）由网关内部映射，调用方不要直接填，填了会返回 `400`（`plugin_usage_invalid`）。
 
 ## 分辨率与时长限制
 
 | 项 | 可用范围 | 说明 |
 | --- | --- | --- |
-| 分辨率 | `480p`、`736p`、`768p` | 1080p 与更高的上游档位（1088p / 1440p）在上游存在但没有已发布价格，**不开放**；越界返回 `400` |
+| 分辨率 | `480p`、`736p`、`768p` | 只填计费档位标签；1080p 与更高的上游档位（1088p / 1440p）在上游存在但没有已发布价格，**不开放**；越界返回 `400` |
 | 时长 | 1–15 秒（默认 5 秒） | 部分形态上限 10 秒或 12 秒；超上限返回 `400`，不会自动截短 |
 | 分辨率 × 形态 | `736p` 只有部分形态支持 | 组合没有候选时返回 `400` |
 
@@ -116,7 +119,7 @@ curl --request POST \
 
 - 基准价：`0.025 USD/秒`（¥0.17/秒，FX 6.8）
 - 档位倍率：标准档 `1.0×`、高速档 `0.9×`、升级画质档 `1.15×`
-- 计费公式：`raw_quota = 0.025 × 500000 × 秒数 × GroupRatio`；分辨率是能力枚举，不参与倍率
+- 计费公式：`raw_quota = 0.025 × 500000 × 秒数 × GroupRatio`；分辨率是能力枚举，不参与倍率（`480p` 与 `768p` 同价）
 - 换算：`raw_quota ÷ 500000 = USD`，**1 USD = 10 积分**
 
 以 `768p` / 5 秒 / 标准档为例：`0.025 × 500000 × 5 × 1.0 = 62,500` raw quota ≈ `$0.125` ≈ `¥0.85`。按秒计费以请求时长为准，最终价格以公开定价接口与提交前报价为准。
@@ -127,24 +130,26 @@ curl --request POST \
 
 | 字段 | 类型 | 说明 |
 | --- | --- | --- |
-| `id` / `task_id` | string | 任务 id，用于轮询 |
+| `id` / `task_id` | string | 任务 id，用于 `GET /v1/videos/{task_id}` 轮询 |
 | `model` | string | 本次请求的模型 |
 | `object` | string | `video` |
 | `status` | string | `queued` |
-| `created` | integer | 创建时间（Unix 秒） |
 
-轮询字段见 [查询视频任务](/zh/api-reference/tasks/video-task)。
+### 200（查询）
+
+`GET /v1/videos/{task_id}` 返回 `status` 与 `progress`；字段结构以线上为准。
 
 ### 错误语义
 
 | 状态码 | 含义 |
 | --- | --- |
-| `400` | 请求体不合法，或没有匹配的形态 / 分辨率 / 时长组合（含分辨率未开放、时长超上限、`ref_video` 等本 ID 不支持的形态） |
+| `400` | 请求体不合法，或没有匹配的形态 / 分辨率 / 时长组合（含分辨率未开放、填了上游朝向枚举标签、时长超上限、`ref_video` 等本 ID 不支持的形态） |
 | `401` | 密钥无效 |
 | `402` | 余额不足（`insufficient_quota`） |
 | `403` | 密钥无权访问所选分组，或模型不可用 |
 | `429` | 触发限流 |
 | `500` | 网关或上游错误 |
+| `503` | 路径或分组下没有可用渠道（例如对插件型模型误用 `/v1/video/generations`） |
 
 `400` 的错误消息会列出该档位当时支持的形态与分辨率 / 时长组合，便于直接改参重试。
 
@@ -156,7 +161,7 @@ curl --request POST \
 
 ```bash cURL
 curl --request POST \
-  --url https://api.omnimux.ai/v1/video/generations \
+  --url https://api.omnimux.ai/v1/videos \
   --header 'Authorization: Bearer <token>' \
   --header 'Content-Type: application/json' \
   --data '{
@@ -177,8 +182,7 @@ curl --request POST \
   "task_id": "task_example",
   "object": "video",
   "model": "minimax-h3-video",
-  "status": "queued",
-  "created": 1788926400
+  "status": "queued"
 }
 ```
 
@@ -223,6 +227,16 @@ curl --request POST \
 ```json 500
 {
   "error": { "message": "Internal server error", "type": "server_error", "code": "internal_error" }
+}
+```
+
+```json 503
+{
+  "error": {
+    "message": "No available channel for model minimax-h3-video under group default",
+    "type": "server_error",
+    "code": "no_available_channel"
+  }
 }
 ```
 

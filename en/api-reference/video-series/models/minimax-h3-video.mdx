@@ -2,13 +2,15 @@
 title: "MiniMax H3 Video Line"
 sidebarTitle: "MiniMax H3 Video Line"
 description: "AutoDL MiniMax H3 video line · model `minimax-h3-video`"
-api: "POST https://api.omnimux.ai/v1/video/generations"
+api: "POST https://api.omnimux.ai/v1/videos"
 ---
 
-- Create: `POST /v1/video/generations` with `model` `minimax-h3-video`
-- Async: poll [Video task](/en/api-reference/tasks/video-task) with the returned `task_id`
+- Create: `POST /v1/videos` with `model` `minimax-h3-video`
+- Async: poll `GET /v1/videos/{task_id}` with the task id from the create response (`id` / `task_id`); it returns `status` and `progress`
 - One public ID selects its endpoint from the request shape; when nothing matches, the gateway returns `400` instead of silently falling back to another shape or tier
 - Persist result URLs promptly (upstream links may expire)
+
+> This model runs on a plugin line, so its public paths are `POST /v1/videos` and `GET /v1/videos/{task_id}` — **not** the `/v1/video/generations` path used by the other video series pages. The wrong path never reaches the plugin and returns `503` (no available channel under that group).
 
 ## Identity
 
@@ -23,8 +25,8 @@ api: "POST https://api.omnimux.ai/v1/video/generations"
 
 | Method | Path |
 | --- | --- |
-| `POST` | `/v1/video/generations` |
-| `GET` | `/v1/video/generations/{task_id}` |
+| `POST` | `/v1/videos` |
+| `GET` | `/v1/videos/{task_id}` |
 
 Base URL: `https://api.omnimux.ai`
 
@@ -48,7 +50,7 @@ Use either spelling; the header takes precedence over the `model` suffix:
 
 ```bash cURL
 curl --request POST \
-  --url https://api.omnimux.ai/v1/video/generations \
+  --url https://api.omnimux.ai/v1/videos \
   --header 'Authorization: Bearer <token>' \
   --header 'Content-Type: application/json' \
   --header 'X-Omnimux-Group: minimax-h3-video-fast' \
@@ -93,7 +95,7 @@ Shape priority, highest first: first-last frame → lip sync → image + audio �
 | `model` | string | yes | `minimax-h3-video`, optionally with an `@group` suffix |
 | `prompt` | string | conditional | Required for text-to-video, image reference, image + audio and first-last frame; omit it for lip sync (sending it routes as image + audio) |
 | `duration` / `seconds` | integer | no | Video duration in seconds, 1–15, default 5; some shapes cap at 10 or 12 seconds |
-| `resolution` / `size` | string | no | `480p`, `736p` or `768p`; without an orientation the gateway renders vertical |
+| `resolution` / `size` | string | no | Billing tier labels only: `480p`, `736p` or `768p`; without an orientation the gateway maps it to the vertical variant internally |
 | `ref_image` / `image` / `images` | string or array | conditional | Reference images, up to 9 |
 | `ref_image_0` … `ref_image_8` | string | conditional | Numbered image slots (use one spelling, not both) |
 | `ref_audio` / `audio` / `audios` | string or array | conditional | Reference audios, up to 3 |
@@ -103,12 +105,13 @@ Shape priority, highest first: first-last frame → lip sync → image + audio �
 | `seed` | integer | no | Random seed |
 
 - Use one spelling per media kind: mixing array and numbered slots merges both sets instead of picking one.
+- `resolution` accepts billing tier labels only (`480p` / `736p` / `768p`). Upstream orientation labels such as `480p竖(480*864)` are mapped by the gateway internally; sending one returns `400` (`plugin_usage_invalid`).
 
 ## Resolution and duration limits
 
 | Item | Available range | Notes |
 | --- | --- | --- |
-| Resolution | `480p`, `736p`, `768p` | 1080p and the higher upstream tiers (1088p / 1440p) exist upstream but have no published price and are **not offered**; out-of-range values return `400` |
+| Resolution | `480p`, `736p`, `768p` | Billing tier labels only; 1080p and the higher upstream tiers (1088p / 1440p) exist upstream but have no published price and are **not offered**; out-of-range values return `400` |
 | Duration | 1–15 seconds (default 5) | Some shapes cap at 10 or 12 seconds; exceeding the cap returns `400` and is never shortened automatically |
 | Resolution × shape | `736p` is supported by some shapes only | A combination with no candidate returns `400` |
 
@@ -116,7 +119,7 @@ Shape priority, highest first: first-last frame → lip sync → image + audio �
 
 - Base price: `0.025 USD/second` (¥0.17/second at FX 6.8)
 - Tier multipliers: standard `1.0×`, fast `0.9×`, higher quality `1.15×`
-- Formula: `raw_quota = 0.025 × 500000 × seconds × GroupRatio`; resolution is a capability enum and does not change the multiplier
+- Formula: `raw_quota = 0.025 × 500000 × seconds × GroupRatio`; resolution is a capability enum and does not change the multiplier (`480p` and `768p` cost the same)
 - Conversion: `raw_quota ÷ 500000 = USD`, and **1 USD = 10 credits**
 
 For `768p` / 5 seconds / standard: `0.025 × 500000 × 5 × 1.0 = 62,500` raw quota ≈ `$0.125` ≈ `¥0.85`. Billing follows the requested duration; the public pricing endpoint and the pre-submission quote remain authoritative for any individual request.
@@ -127,24 +130,26 @@ For `768p` / 5 seconds / standard: `0.025 × 500000 × 5 × 1.0 = 62,500` raw qu
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `id` / `task_id` | string | Task id used for polling |
+| `id` / `task_id` | string | Task id used with `GET /v1/videos/{task_id}` |
 | `model` | string | Model of this request |
 | `object` | string | `video` |
 | `status` | string | `queued` |
-| `created` | integer | Creation time (Unix seconds) |
 
-Polling fields: [Video task](/en/api-reference/tasks/video-task).
+### 200 (poll)
+
+`GET /v1/videos/{task_id}` returns `status` and `progress`; the field structure follows the live contract.
 
 ### Error semantics
 
 | Status | Meaning |
 | --- | --- |
-| `400` | Invalid body, or no matching shape / resolution / duration combination (including a resolution that is not offered, a duration above the cap, or an unsupported shape such as `ref_video`) |
+| `400` | Invalid body, or no matching shape / resolution / duration combination (including a resolution that is not offered, an upstream orientation label, a duration above the cap, or an unsupported shape such as `ref_video`) |
 | `401` | Invalid API key |
 | `402` | Insufficient quota (`insufficient_quota`) |
 | `403` | Key not allowed to use the selected group, or model not allowed |
 | `429` | Rate limited |
 | `500` | Gateway or upstream error |
+| `503` | No available channel for the path or group (for example the plugin line called through `/v1/video/generations`) |
 
 A `400` message lists the shapes and resolution / duration combinations the selected tier supports, so the request can be corrected directly.
 
@@ -156,7 +161,7 @@ More error semantics: [Connection and usage](/en/faqs/connection-usage) and [Cos
 
 ```bash cURL
 curl --request POST \
-  --url https://api.omnimux.ai/v1/video/generations \
+  --url https://api.omnimux.ai/v1/videos \
   --header 'Authorization: Bearer <token>' \
   --header 'Content-Type: application/json' \
   --data '{
@@ -177,8 +182,7 @@ curl --request POST \
   "task_id": "task_example",
   "object": "video",
   "model": "minimax-h3-video",
-  "status": "queued",
-  "created": 1788926400
+  "status": "queued"
 }
 ```
 
@@ -223,6 +227,16 @@ curl --request POST \
 ```json 500
 {
   "error": { "message": "Internal server error", "type": "server_error", "code": "internal_error" }
+}
+```
+
+```json 503
+{
+  "error": {
+    "message": "No available channel for model minimax-h3-video under group default",
+    "type": "server_error",
+    "code": "no_available_channel"
+  }
 }
 ```
 

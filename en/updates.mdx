@@ -18,7 +18,7 @@ Pages: **Page 1** · [Page 2](/en/updates/page-2)
   ## Restored
 
   - **Model ID:** `minimax-h3-video`
-  - **Contract:** `POST /v1/video/generations`, polled through `GET /v1/video/generations/{task_id}`
+  - **Contract:** `POST /v1/videos`, polled through `GET /v1/videos/{task_id}` (plugin line: the path differs from the other video series models, and `/v1/video/generations` returns 503)
   - **Tiers:** standard (default, 1.0×), `minimax-h3-video-fast` (0.9×), `minimax-h3-video-pro` (1.15×)
   - **Billing:** 0.025 USD/second (¥0.17/second at FX 6.8); `raw_quota = 0.025 × 500000 × seconds × GroupRatio`
 

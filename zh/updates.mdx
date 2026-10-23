@@ -18,7 +18,7 @@ rss: true
   ## 恢复上架
 
   - **Model ID：** `minimax-h3-video`
-  - **接口契约：** `POST /v1/video/generations`，通过 `GET /v1/video/generations/{task_id}` 轮询
+  - **接口契约：** `POST /v1/videos`，通过 `GET /v1/videos/{task_id}` 轮询（插件型线路，路径与视频系列其它模型不同；误用 `/v1/video/generations` 会返回 503）
   - **档位：** 标准档（默认，1.0×）、`minimax-h3-video-fast`（0.9×）、`minimax-h3-video-pro`（1.15×）
   - **计费：** 0.025 USD/秒（¥0.17/秒，FX 6.8）；`raw_quota = 0.025 × 500000 × 秒数 × GroupRatio`
 
