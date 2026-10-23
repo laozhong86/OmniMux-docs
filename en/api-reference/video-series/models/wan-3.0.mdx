@@ -7,7 +7,7 @@ api: "POST https://api.omnimux.ai/v1/video/generations"
 
 - Create: `POST /v1/video/generations` with `model` `wan-3.0`
 - Async: poll [Video task](/en/api-reference/tasks/video-task) with returned `task_id`
-- One public ID only; the request resolution selects the tier, so callers never pick a group
+- One public ID only; the request resolution selects the tier (it is required), so callers never pick a group
 - Persist result URLs promptly (upstream links may expire)
 
 ## Identity
@@ -43,11 +43,12 @@ Base URL: `https://api.omnimux.ai`
 | 720p tier | `wan-3.0-720p` | `720p` | **¥0.60/second** |
 | 1080p tier | `wan-3.0-1080p` | `1080p` | **¥1.80/second** |
 
+- The resolution is required: the tier selects the channel, so without a resolution — and without an explicit group — no channel is available and the request is rejected (`400`).
 - Accepted resolution spellings: `720p` / `1080p` (case-insensitive), or an equivalent size such as `1280x720` or `1920x1080`; a size is classified by its shorter side, so landscape and portrait cost the same.
+- Only the `720p` and `1080p` tiers are offered; any other resolution is rejected (`400`), and the error message lists the accepted values.
 - Billing is per second, and public prices are quoted in CNY (RMB).
 - Both `POST /v1/video/generations` and the console's `POST /pg/video/generations` select the tier group automatically; the latter accepts a browser session only and is not part of the token API surface.
-- An explicit choice wins: when the caller sends the `X-Omnimux-Group` header, a body `group`, or a `model@group` suffix, automatic tier selection does not override it.
-- Only the `720p` and `1080p` tiers are offered today; other resolutions do not select a tier.
+- An explicit choice wins: when the caller sends the `X-Omnimux-Group` header, a body `group`, or a `model@group` suffix, that explicit group is used and automatic tier selection does not override it.
 
 ## Body
 
@@ -55,12 +56,14 @@ Base URL: `https://api.omnimux.ai`
 | --- | --- | --- | --- |
 | `model` | string | yes | Must be `wan-3.0`, optionally with an `@group` suffix |
 | `prompt` | string | conditional | Required for text-to-video |
-| `duration` / `seconds` | number | no | Duration in seconds, published envelope 4–30; lower with a reference video (≤ 15 seconds) |
-| `resolution` / `size` | string | no | `720p` or `1080p`; selects the tier and its price |
+| `duration` | integer | no | Duration in seconds, published envelope 4–30; lower with a reference video (≤ 15 seconds) |
+| `seconds` | string | no | OpenAI-native spelling of the duration; **must be a string** (e.g. `"5"`) — a number is rejected before any plugin runs (`400`) |
+| `resolution` / `size` | string | yes | `720p` or `1080p` (or an equivalent size); selects the tier, the channel and the price |
 | `image` / `images` | string/array | no | Image-to-video references |
 
 - A duration below 4 seconds or above 30 seconds is not accepted; requests carrying a reference video cap at 15 seconds.
-- Without a resolution the request keeps its existing routing, and is never silently billed at another tier's price.
+- `duration` and `seconds` are alternatives for the same duration: send an integer for `duration` (`5`) and a string for `seconds` (`"5"`).
+- Without a resolution — and without an explicit group — no channel is available, so the request is rejected (`400`) rather than silently billed at another tier's price.
 
 ## Billing
 
