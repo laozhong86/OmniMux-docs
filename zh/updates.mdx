@@ -9,6 +9,30 @@ rss: true
 
 分页：**第 1 页** · [第 2 页](/zh/updates/page-2)
 
+<a id="2026-10-23-h3-unoffered-resolution-rejected"></a>
+
+<Update label="2026 年 10 月 23 日" tags={["能力更新", "视频"]} rss={{ title: "H3 视频：未开放分辨率档位改为显式拒绝" }}>
+
+  ## 变更
+
+  `minimax-h3-video` 只支持 `480p`、`736p`、`768p` 三个计费档位。上游存在但未开放的 `1088p` / `1440p` 此前可从公开枚举误用，现已移除：传入会返回 `400`（`plugin_usage_invalid`）。
+
+  ## 影响
+
+  - 该模型按秒计费、没有分辨率维度，`1088p` / `1440p` 无法单独定价。改动前这类请求会被受理并按基准价预扣（实测 12500 raw_quota），上游最终 `FAILED`、配额全额退还 —— 即该档位既没有价格，实测也不可靠。
+  - 未开放档位现在一律显式拒绝（fail-closed）：请求被拒，不会静默降级到 `768p`，也不会按 `768p` 计价。
+  - 已发布的 `480p` / `736p` / `768p` 契约与价格不变。
+
+  ## 文档
+
+  - [MiniMax H3 视频专线](/zh/api-reference/video-series/models/minimax-h3-video)
+
+  ### 链接
+
+  - [MiniMax H3 视频专线](/zh/api-reference/video-series/models/minimax-h3-video)
+
+</Update>
+
 <a id="2026-10-23-autodl-h3-video-restore"></a>
 
 <Update label="2026 年 10 月 23 日" tags={["新模型", "视频"]} rss={{ title: "MiniMax H3 视频专线恢复上架并新增档位分组" }}>
@@ -1191,35 +1215,6 @@ rss: true
 
   - [快速开始](/zh/quickstart)
   - [定价与账户](/zh/api-reference/account/pricing)
-
-</Update>
-
-<a id="2026-08-09-social-data"></a>
-
-<Update label="2026 年 8 月 9 日" tags={["新模型", "社交数据"]} rss={{ title: "社交数据模型 — TikTok / Instagram / X / YouTube" }}>
-
-  ## 社交数据（只读）
-
-  **社交数据** 模型 ID 已在 OmniMux 可调用，用于只读的公开资料/内容类访问。**不是** 社媒发布。
-
-  ### 模型 ID
-
-  | 平台 | ID |
-  | --- | --- |
-  | TikTok | `tiktok-user`、`tiktok-posts`、`tiktok-video`、`tiktok-search` |
-  | Instagram | `instagram-user`、`instagram-posts`、`instagram-post`、`instagram-search` |
-  | X | `x-user`、`x-posts`、`x-tweet`、`x-search` |
-  | YouTube | `youtube-user`、`youtube-posts`、`youtube-video`、`youtube-search` |
-
-  ### 社媒发布（另一套面）
-
-  连接账户与发帖走 **`/api/social/v1/*`**，鉴权为 access token + `New-Api-User`。勿与网关 `sk-` Chat Completions 混用。
-
-  ### 链接
-
-  - [TikTok 用户资料](/zh/api-reference/social-data/tiktok/user-profile)
-  - [X 推文详情](/zh/api-reference/social-data/x/tweet-detail)
-  - [创建帖子（社媒发布）](/zh/api-reference/publishing/create-post)
 
 </Update>
 

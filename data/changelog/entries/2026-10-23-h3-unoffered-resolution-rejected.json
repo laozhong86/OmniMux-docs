@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "2026-10-23-h3-unoffered-resolution-rejected",
+  "published_at": "2026-10-23",
+  "rank": 0,
+  "type": "capability",
+  "modality": [
+    "video"
+  ],
+  "title": {
+    "en": "H3 video: unoffered resolution tiers are rejected explicitly",
+    "zh": "H3 视频：未开放分辨率档位改为显式拒绝"
+  },
+  "summary": {
+    "en": "`minimax-h3-video` keeps the three published tiers `480p` / `736p` / `768p`. The upstream-only `1088p` / `1440p` tiers were wrongly reachable and are now removed from the public enum: sending one returns `400` (`plugin_usage_invalid`) instead of being accepted at another tier's price.",
+    "zh": "`minimax-h3-video` 只保留已发布的 `480p` / `736p` / `768p` 三档。上游存在但未开放的 `1088p` / `1440p` 此前可被误用，现已从公开枚举移除：传入会返回 `400`（`plugin_usage_invalid`），不再被按其它档位的价格受理。"
+  },
+  "models": [
+    "minimax-h3-video"
+  ],
+  "links": [
+    {
+      "label": {
+        "en": "MiniMax H3 video line",
+        "zh": "MiniMax H3 视频专线"
+      },
+      "href": {
+        "en": "/en/api-reference/video-series/models/minimax-h3-video",
+        "zh": "/zh/api-reference/video-series/models/minimax-h3-video"
+      }
+    }
+  ],
+  "tags": [
+    "video",
+    "resolution",
+    "fail-closed"
+  ],
+  "body": {
+    "en": "## Change\n\n`minimax-h3-video` supports three billing tiers: `480p`, `736p` and `768p`. The upstream-only `1088p` and `1440p` tiers were wrongly reachable through the public enum; they are removed now, so a request carrying one returns `400` (`plugin_usage_invalid`).\n\n## Impact\n\n- The model bills per second and has no resolution dimension, so `1088p` / `1440p` cannot be priced on their own. Before this change such a request was accepted and precharged at the base rate (measured: 12500 raw_quota), the upstream run ended in `FAILED`, and the quota was refunded in full — the tier had neither a price nor a reliable run.\n- Unoffered tiers now fail closed: the request is rejected instead of being silently downgraded to `768p` or billed as `768p`.\n- The published `480p` / `736p` / `768p` contract and prices are unchanged.\n\n## Documentation\n\n- [MiniMax H3 video line](/en/api-reference/video-series/models/minimax-h3-video)",
+    "zh": "## 变更\n\n`minimax-h3-video` 只支持 `480p`、`736p`、`768p` 三个计费档位。上游存在但未开放的 `1088p` / `1440p` 此前可从公开枚举误用，现已移除：传入会返回 `400`（`plugin_usage_invalid`）。\n\n## 影响\n\n- 该模型按秒计费、没有分辨率维度，`1088p` / `1440p` 无法单独定价。改动前这类请求会被受理并按基准价预扣（实测 12500 raw_quota），上游最终 `FAILED`、配额全额退还 —— 即该档位既没有价格，实测也不可靠。\n- 未开放档位现在一律显式拒绝（fail-closed）：请求被拒，不会静默降级到 `768p`，也不会按 `768p` 计价。\n- 已发布的 `480p` / `736p` / `768p` 契约与价格不变。\n\n## 文档\n\n- [MiniMax H3 视频专线](/zh/api-reference/video-series/models/minimax-h3-video)"
+  }
+}

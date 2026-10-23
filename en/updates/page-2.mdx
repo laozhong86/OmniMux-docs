@@ -9,6 +9,35 @@ Stay up to date with OmniMux gateway model launches and platform changes. The fu
 
 Pages: [Page 1](/en/updates) · **Page 2**
 
+<a id="2026-08-09-social-data"></a>
+
+<Update label="August 9, 2026" tags={["New models", "Social data"]} rss={{ title: "Social data models — TikTok, Instagram, X, YouTube" }}>
+
+  ## Social data (read-only)
+
+  **Social data** model IDs are available on OmniMux for read-only public profile and content style access. This is **not** social publishing.
+
+  ### Model IDs
+
+  | Platform | IDs |
+  | --- | --- |
+  | TikTok | `tiktok-user`, `tiktok-posts`, `tiktok-video`, `tiktok-search` |
+  | Instagram | `instagram-user`, `instagram-posts`, `instagram-post`, `instagram-search` |
+  | X | `x-user`, `x-posts`, `x-tweet`, `x-search` |
+  | YouTube | `youtube-user`, `youtube-posts`, `youtube-video`, `youtube-search` |
+
+  ### Publishing (different surface)
+
+  Connect accounts and create posts use **`/api/social/v1/*`** with access token + `New-Api-User`. Do not mix that auth with gateway `sk-` Chat Completions.
+
+  ### Links
+
+  - [TikTok user profile](/en/api-reference/social-data/tiktok/user-profile)
+  - [X tweet detail](/en/api-reference/social-data/x/tweet-detail)
+  - [Create post (publishing)](/en/api-reference/publishing/create-post)
+
+</Update>
+
 <a id="2026-08-07-seedance-2-5"></a>
 
 <Update label="August 7, 2026" tags={["New models", "Video"]} rss={{ title: "Seedance 2.5 — longer video with multimodal references" }}>

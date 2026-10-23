@@ -106,12 +106,13 @@ Shape priority, highest first: first-last frame → lip sync → image + audio �
 
 - Use one spelling per media kind: mixing array and numbered slots merges both sets instead of picking one.
 - `resolution` accepts billing tier labels only (`480p` / `736p` / `768p`). Upstream orientation labels such as `480p竖(480*864)` are mapped by the gateway internally; sending one returns `400` (`plugin_usage_invalid`).
+- Tiers that are not offered (upstream 1088p / 1440p) are rejected explicitly too: sending one returns `400` (`plugin_usage_invalid`), and it is never silently downgraded to `768p` or billed as `768p`.
 
 ## Resolution and duration limits
 
 | Item | Available range | Notes |
 | --- | --- | --- |
-| Resolution | `480p`, `736p`, `768p` | Billing tier labels only; 1080p and the higher upstream tiers (1088p / 1440p) exist upstream but have no published price and are **not offered**; out-of-range values return `400` |
+| Resolution | `480p`, `736p`, `768p` | Billing tier labels only; 1080p and the higher upstream tiers (1088p / 1440p) exist upstream but have no published price and are **not offered**; sending one returns `400` (`plugin_usage_invalid`) and is never silently downgraded or billed as `768p` |
 | Duration | 1–15 seconds (default 5) | Some shapes cap at 10 or 12 seconds; exceeding the cap returns `400` and is never shortened automatically |
 | Resolution × shape | `736p` is supported by some shapes only | A combination with no candidate returns `400` |
 

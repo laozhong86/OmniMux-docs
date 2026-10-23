@@ -9,6 +9,35 @@ rss: true
 
 分页：[第 1 页](/zh/updates) · **第 2 页**
 
+<a id="2026-08-09-social-data"></a>
+
+<Update label="2026 年 8 月 9 日" tags={["新模型", "社交数据"]} rss={{ title: "社交数据模型 — TikTok / Instagram / X / YouTube" }}>
+
+  ## 社交数据（只读）
+
+  **社交数据** 模型 ID 已在 OmniMux 可调用，用于只读的公开资料/内容类访问。**不是** 社媒发布。
+
+  ### 模型 ID
+
+  | 平台 | ID |
+  | --- | --- |
+  | TikTok | `tiktok-user`、`tiktok-posts`、`tiktok-video`、`tiktok-search` |
+  | Instagram | `instagram-user`、`instagram-posts`、`instagram-post`、`instagram-search` |
+  | X | `x-user`、`x-posts`、`x-tweet`、`x-search` |
+  | YouTube | `youtube-user`、`youtube-posts`、`youtube-video`、`youtube-search` |
+
+  ### 社媒发布（另一套面）
+
+  连接账户与发帖走 **`/api/social/v1/*`**，鉴权为 access token + `New-Api-User`。勿与网关 `sk-` Chat Completions 混用。
+
+  ### 链接
+
+  - [TikTok 用户资料](/zh/api-reference/social-data/tiktok/user-profile)
+  - [X 推文详情](/zh/api-reference/social-data/x/tweet-detail)
+  - [创建帖子（社媒发布）](/zh/api-reference/publishing/create-post)
+
+</Update>
+
 <a id="2026-08-07-seedance-2-5"></a>
 
 <Update label="2026 年 8 月 7 日" tags={["新模型", "视频"]} rss={{ title: "Seedance 2.5 — 更长视频与多模态参考" }}>
