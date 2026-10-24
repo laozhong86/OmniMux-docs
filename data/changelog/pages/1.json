@@ -2,9 +2,50 @@
   "schema_version": 1,
   "page": 1,
   "page_size": 50,
-  "total": 71,
+  "total": 72,
   "total_pages": 2,
   "items": [
+    {
+      "id": "2026-10-24-h3-1088p-1440p-opened",
+      "published_at": "2026-10-24",
+      "type": "capability",
+      "modality": [
+        "video"
+      ],
+      "title": {
+        "en": "H3 video: 1088p and 1440p tiers are offered and priced by resolution",
+        "zh": "H3 视频：1088p 与 1440p 档位开放，并按分辨率单独定价"
+      },
+      "summary": {
+        "en": "`minimax-h3-video` now offers `1088p` and `1440p` on the six standard-tier endpoints that accept them. Each carries its own per-second price (`0.030` and `0.035 USD/second`), selected from the request's `resolution` by the task billing expression. Upstream `1080p` stays unoffered.",
+        "zh": "`minimax-h3-video` 在支持它们的六个标准档端点上开放 `1088p` 与 `1440p`，各自带独立每秒单价（`0.030` 与 `0.035 USD/秒`），由任务计费表达式按请求的 `resolution` 选取。上游 `1080p` 仍不开放。"
+      },
+      "models": [
+        "minimax-h3-video"
+      ],
+      "tags": [
+        "video",
+        "resolution",
+        "pricing"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "MiniMax H3 video line",
+            "zh": "MiniMax H3 视频专线"
+          },
+          "href": {
+            "en": "/en/api-reference/video-series/models/minimax-h3-video",
+            "zh": "/zh/api-reference/video-series/models/minimax-h3-video"
+          }
+        }
+      ],
+      "body": {
+        "en": "## Change\n\n`minimax-h3-video` now accepts two more billing tier labels: `1088p` and `1440p`. They are available on the six standard-tier endpoints whose upstream workflows accept them; the fast and higher-quality tiers keep their single endpoint each and do not offer these resolutions.\n\n## Pricing\n\nPer-second billing has no resolution dimension, so the two tiers cannot be expressed by the base unit price alone. They are priced by resolution in the task billing expression:\n\n| Tier | Rate |\n| --- | --- |\n| `480p` / `736p` / `768p` | `0.025 USD/second` |\n| `1088p` | `0.030 USD/second` |\n| `1440p` | `0.035 USD/second` |\n\nGroup multipliers still apply on top, so a fast-tier `1088p` request would be rejected rather than silently repriced (that tier has no such endpoint).\n\n## Impact\n\n- Higher resolutions now cost more than the base tiers instead of being unrequestable.\n- Upstream `1080p` (three workflows) stays unoffered and keeps returning `400` (`plugin_usage_invalid`).\n- Requests for `1088p` / `1440p` on tiers without a matching endpoint return `400`; nothing is silently downgraded or billed as `768p`.\n\n## Documentation\n\n- [MiniMax H3 video line](/en/api-reference/video-series/models/minimax-h3-video)",
+        "zh": "## 变更\n\n`minimax-h3-video` 新增两个计费档位标签：`1088p` 与 `1440p`。它们只在六个标准档端点上可用（这些端点的上游工作流接受这两档）；高速档与升级画质档各只有一个端点、不支持这两档。\n\n## 定价\n\n按秒计费没有分辨率维度，因此这两档无法只靠基准单价表达，改由任务计费表达式按分辨率定价：\n\n| 档位 | 单价 |\n| --- | --- |\n| `480p` / `736p` / `768p` | `0.025 USD/秒` |\n| `1088p` | `0.030 USD/秒` |\n| `1440p` | `0.035 USD/秒` |\n\n分组倍率仍在其上叠加；高速档请求 `1088p` 会因没有候选端点被拒绝，而不是被静默改价。\n\n## 影响\n\n- 更高分辨率现在比基准档更贵，而不是完全无法请求。\n- 上游 `1080p`（三个工作流）仍不开放，传入继续返回 `400`（`plugin_usage_invalid`）。\n- 在没有对应端点的档位上请求 `1088p` / `1440p` 会返回 `400`；不会静默降级，也不会按 `768p` 计价。\n\n## 文档\n\n- [MiniMax H3 视频专线](/zh/api-reference/video-series/models/minimax-h3-video)"
+      },
+      "schema_version": 1
+    },
     {
       "id": "2026-10-23-wan-video-resolution-tiers",
       "published_at": "2026-10-23",
@@ -2203,59 +2244,6 @@
       "body": {
         "en": "## Social Analytics & Inbox Suite\n\nOmniMux now exposes 11 RESTful analytics endpoints under `/api/social/v1` for comprehensive audience and engagement intelligence:\n\n- **Analytics:** Daily metrics timeseries, 7x24 weekly best time to post heatmap, posting frequency cadence model, content decay curve, follower growth snapshots, posts performance ranking, and external posts incremental synchronization.\n- **Inbox Analytics:** Message volume trends, response time (TTR) distribution, 7x24 incoming activity heatmap, and source breakdown across connected platforms.\n\n## Jina Reader Relay (`POST /v1/reader`)\n\n- **Model ID:** `jina-reader-v1`\n- **Capability:** URL to clean Markdown / structured JSON text extraction with CSS selectors filtering and output-token billing.\n- **Auth:** Standard gateway Bearer `sk-...` token.\n\n## Social Seats Management (`GET /api/social/v1/seats`)\n\n- Inspects current active connected social accounts, total quota capacity, and vacant seat availability.",
         "zh": "## 社媒分析与私信分析套件\n\nOmniMux 在 `/api/social/v1` 路由组下全新接入 11 个 RESTful 深度数据分析与私信洞察端点：\n\n- **社媒分析（Analytics）：** 宏观大盘时序指标、7×24小时最佳发布时间热力矩阵、发帖频次与互动率相关性模型、内容生命周期衰减曲线、多平台粉丝增长快照、单帖与列表深度指标排行、外部平台存量帖子增量同步。\n- **私信分析（Inbox Analytics）：** 私信与互动消息量时序走势、响应时效（TTR）耗时分布、7×24小时私信时段热力图、跨平台私信渠道来源占比。\n\n## Jina Reader 网页提取中继（`POST /v1/reader`）\n\n- **模型 ID：** `jina-reader-v1`\n- **能力：** 将网页 URL 高效转换为大模型友好的 Markdown 或结构化 JSON 文本，支持 CSS 选择器过滤、图片摘要与按输出 Token 结算。\n- **鉴权：** 标准网关 Bearer `sk-...` 凭据。\n\n## 社媒席位管理（`GET /api/social/v1/seats`）\n\n- 查询当前用户绑定的社媒账号数量、席位配额容量与可用空坑状态。"
-      },
-      "schema_version": 1
-    },
-    {
-      "id": "2026-08-16-index-tts-ltx-docs",
-      "published_at": "2026-08-16",
-      "type": "model_launch",
-      "modality": [
-        "audio",
-        "video"
-      ],
-      "title": {
-        "en": "Index TTS voice clone plus LTX digital-human contract",
-        "zh": "上架 Index TTS 声音克隆，并更正 LTX 数字人合同"
-      },
-      "summary": {
-        "en": "`index-tts` is live for GxgenAI voice clone. `ltx2.3-kj` docs now describe required photo + audio nodeInfoList, not text-to-video.",
-        "zh": "`index-tts` 已上架，用于 GxgenAI 声音克隆。`ltx2.3-kj` 文档改为必填人设图+音频 nodeInfoList，不再写成文生视频。"
-      },
-      "models": [
-        "index-tts",
-        "ltx-2-3-kj"
-      ],
-      "tags": [
-        "audio",
-        "video",
-        "gxgenai"
-      ],
-      "links": [
-        {
-          "label": {
-            "en": "Index TTS",
-            "zh": "Index TTS"
-          },
-          "href": {
-            "en": "/en/api-reference/audio-series/models/index-tts",
-            "zh": "/zh/api-reference/audio-series/models/index-tts"
-          }
-        },
-        {
-          "label": {
-            "en": "LTX digital human",
-            "zh": "LTX 数字人对口型"
-          },
-          "href": {
-            "en": "/en/api-reference/video-series/models/ltx-2-3-kj",
-            "zh": "/zh/api-reference/video-series/models/ltx-2-3-kj"
-          }
-        }
-      ],
-      "body": {
-        "en": "## New model\n\n- **Model ID:** `index-tts`\n- **Path:** `POST` / `GET` `/v1/video/generations` (GxgenAI task path; result is audio)\n- **Contract:** `metadata.nodeInfoList` required — node `4/audio` (reference clip) and `7/text` (script)\n\n## Docs fix\n\n- **`ltx-2-3-kj`** is a photo + audio lip-sync model. Prompt-only text-to-video examples were incorrect. Send image node `444` and audio node `1755`.",
-        "zh": "## 新模型\n\n- **模型 ID：** `index-tts`\n- **路径：** `POST` / `GET` `/v1/video/generations`（GxgenAI 任务路径，产物为音频）\n- **合同：** 必须传 `metadata.nodeInfoList` — 节点 `4/audio`（参考音）和 `7/text`（文稿）\n\n## 文档更正\n\n- **`ltx-2-3-kj`** 是人设静帧 + 音频对口型，不是文生视频。请传图片节点 `444` 和音频节点 `1755`。"
       },
       "schema_version": 1
     }

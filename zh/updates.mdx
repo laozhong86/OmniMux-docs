@@ -9,6 +9,42 @@ rss: true
 
 分页：**第 1 页** · [第 2 页](/zh/updates/page-2)
 
+<a id="2026-10-24-h3-1088p-1440p-opened"></a>
+
+<Update label="2026 年 10 月 24 日" tags={["能力更新", "视频"]} rss={{ title: "H3 视频：1088p 与 1440p 档位开放，并按分辨率单独定价" }}>
+
+  ## 变更
+
+  `minimax-h3-video` 新增两个计费档位标签：`1088p` 与 `1440p`。它们只在六个标准档端点上可用（这些端点的上游工作流接受这两档）；高速档与升级画质档各只有一个端点、不支持这两档。
+
+  ## 定价
+
+  按秒计费没有分辨率维度，因此这两档无法只靠基准单价表达，改由任务计费表达式按分辨率定价：
+
+  | 档位 | 单价 |
+  | --- | --- |
+  | `480p` / `736p` / `768p` | `0.025 USD/秒` |
+  | `1088p` | `0.030 USD/秒` |
+  | `1440p` | `0.035 USD/秒` |
+
+  分组倍率仍在其上叠加；高速档请求 `1088p` 会因没有候选端点被拒绝，而不是被静默改价。
+
+  ## 影响
+
+  - 更高分辨率现在比基准档更贵，而不是完全无法请求。
+  - 上游 `1080p`（三个工作流）仍不开放，传入继续返回 `400`（`plugin_usage_invalid`）。
+  - 在没有对应端点的档位上请求 `1088p` / `1440p` 会返回 `400`；不会静默降级，也不会按 `768p` 计价。
+
+  ## 文档
+
+  - [MiniMax H3 视频专线](/zh/api-reference/video-series/models/minimax-h3-video)
+
+  ### 链接
+
+  - [MiniMax H3 视频专线](/zh/api-reference/video-series/models/minimax-h3-video)
+
+</Update>
+
 <a id="2026-10-23-wan-video-resolution-tiers"></a>
 
 <Update label="2026 年 10 月 23 日" tags={["价格调整", "视频"]} rss={{ title: "Wan 3.0：单一公开 ID + 分辨率即档位" }}>
@@ -1199,27 +1235,6 @@ rss: true
   - [Jina Reader 网页提取](/zh/api-reference/reader-series/models/jina-reader-v1)
   - [大盘时序指标](/zh/api-reference/publishing/analytics/daily-metrics)
   - [查询席位](/zh/api-reference/publishing/seats)
-
-</Update>
-
-<a id="2026-08-16-index-tts-ltx-docs"></a>
-
-<Update label="2026 年 8 月 16 日" tags={["新模型", "音频", "视频"]} rss={{ title: "上架 Index TTS 声音克隆，并更正 LTX 数字人合同" }}>
-
-  ## 新模型
-
-  - **模型 ID：** `index-tts`
-  - **路径：** `POST` / `GET` `/v1/video/generations`（GxgenAI 任务路径，产物为音频）
-  - **合同：** 必须传 `metadata.nodeInfoList` — 节点 `4/audio`（参考音）和 `7/text`（文稿）
-
-  ## 文档更正
-
-  - **`ltx-2-3-kj`** 是人设静帧 + 音频对口型，不是文生视频。请传图片节点 `444` 和音频节点 `1755`。
-
-  ### 链接
-
-  - [Index TTS](/zh/api-reference/audio-series/models/index-tts)
-  - [LTX 数字人对口型](/zh/api-reference/video-series/models/ltx-2-3-kj)
 
 </Update>
 

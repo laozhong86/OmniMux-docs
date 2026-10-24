@@ -95,7 +95,7 @@ Shape priority, highest first: first-last frame → lip sync → image + audio �
 | `model` | string | yes | `minimax-h3-video`, optionally with an `@group` suffix |
 | `prompt` | string | conditional | Required for text-to-video, image reference, image + audio and first-last frame; omit it for lip sync (sending it routes as image + audio) |
 | `duration` / `seconds` | integer | no | Video duration in seconds, 1–15, default 5; some shapes cap at 10 or 12 seconds |
-| `resolution` / `size` | string | no | Billing tier labels only: `480p`, `736p` or `768p`; without an orientation the gateway maps it to the vertical variant internally |
+| `resolution` / `size` | string | no | Billing tier labels only: `480p`, `736p`, `768p`, `1088p` or `1440p`; without an orientation the gateway maps it to the vertical variant internally. `1088p` / `1440p` exist only on the six endpoints that support them |
 | `ref_image` / `image` / `images` | string or array | conditional | Reference images, up to 9 |
 | `ref_image_0` … `ref_image_8` | string | conditional | Numbered image slots (use one spelling, not both) |
 | `ref_audio` / `audio` / `audios` | string or array | conditional | Reference audios, up to 3 |
@@ -105,25 +105,27 @@ Shape priority, highest first: first-last frame → lip sync → image + audio �
 | `seed` | integer | no | Random seed |
 
 - Use one spelling per media kind: mixing array and numbered slots merges both sets instead of picking one.
-- `resolution` accepts billing tier labels only (`480p` / `736p` / `768p`). Upstream orientation labels such as `480p竖(480*864)` are mapped by the gateway internally; sending one returns `400` (`plugin_usage_invalid`).
-- Tiers that are not offered (upstream 1088p / 1440p) are rejected explicitly too: sending one returns `400` (`plugin_usage_invalid`), and it is never silently downgraded to `768p` or billed as `768p`.
+- `resolution` accepts billing tier labels only (`480p` / `736p` / `768p` / `1088p` / `1440p`). Upstream orientation labels such as `480p竖(480*864)` are mapped by the gateway internally; sending one returns `400` (`plugin_usage_invalid`).
+- `1088p` / `1440p` have candidates only on the endpoints that support them: on the fast and higher-quality tiers (one endpoint each, neither offering these tiers) the request returns `400` instead of falling back across tiers.
+- The tier that is still not offered (upstream `1080p`) is rejected explicitly too: sending one returns `400` (`plugin_usage_invalid`), and it is never silently downgraded to `768p` or billed as `768p`.
 
 ## Resolution and duration limits
 
 | Item | Available range | Notes |
 | --- | --- | --- |
-| Resolution | `480p`, `736p`, `768p` | Billing tier labels only; 1080p and the higher upstream tiers (1088p / 1440p) exist upstream but have no published price and are **not offered**; sending one returns `400` (`plugin_usage_invalid`) and is never silently downgraded or billed as `768p` |
+| Resolution | `480p`, `736p`, `768p`, `1088p`, `1440p` | Billing tier labels only; `1088p` / `1440p` have been offered since 2026-10-24 on the six standard-tier endpoints and carry their own per-second price; upstream `1080p` is still **not offered** and returns `400` (`plugin_usage_invalid`) |
 | Duration | 1–15 seconds (default 5) | Some shapes cap at 10 or 12 seconds; exceeding the cap returns `400` and is never shortened automatically |
 | Resolution × shape | `736p` is supported by some shapes only | A combination with no candidate returns `400` |
 
 ## Billing
 
-- Base price: `0.025 USD/second` (¥0.17/second at FX 6.8)
+- Base price: `0.025 USD/second` for `480p` / `736p` / `768p` (¥0.17/second at FX 6.8)
+- Per-resolution rates: `1088p` is `0.030 USD/second` (¥0.204/second) and `1440p` is `0.035 USD/second` (¥0.238/second)
 - Tier multipliers: standard `1.0×`, fast `0.9×`, higher quality `1.15×`
-- Formula: `raw_quota = 0.025 × 500000 × seconds × GroupRatio`; resolution is a capability enum and does not change the multiplier (`480p` and `768p` cost the same)
+- Formula: `raw_quota = rate(resolution) × 500000 × seconds × GroupRatio`; the resolution rate is selected from the request's `resolution` by the task billing expression
 - Conversion: `raw_quota ÷ 500000 = USD`, and **1 USD = 10 credits**
 
-For `768p` / 5 seconds / standard: `0.025 × 500000 × 5 × 1.0 = 62,500` raw quota ≈ `$0.125` ≈ `¥0.85`. Billing follows the requested duration; the public pricing endpoint and the pre-submission quote remain authoritative for any individual request.
+For `768p` / 5 seconds / standard: `0.025 × 500000 × 5 × 1.0 = 62,500` raw quota ≈ `$0.125` ≈ `¥0.85`; for `1440p` / 5 seconds / standard: `0.035 × 500000 × 5 × 1.0 = 87,500` raw quota ≈ `$0.175` ≈ `¥1.19`. Billing follows the requested duration; the public pricing endpoint and the pre-submission quote remain authoritative for any individual request.
 
 ## Response
 

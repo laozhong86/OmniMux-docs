@@ -9,6 +9,42 @@ Stay up to date with OmniMux gateway model launches and platform changes. The fu
 
 Pages: **Page 1** · [Page 2](/en/updates/page-2)
 
+<a id="2026-10-24-h3-1088p-1440p-opened"></a>
+
+<Update label="October 24, 2026" tags={["Improvements", "Video"]} rss={{ title: "H3 video: 1088p and 1440p tiers are offered and priced by resolution" }}>
+
+  ## Change
+
+  `minimax-h3-video` now accepts two more billing tier labels: `1088p` and `1440p`. They are available on the six standard-tier endpoints whose upstream workflows accept them; the fast and higher-quality tiers keep their single endpoint each and do not offer these resolutions.
+
+  ## Pricing
+
+  Per-second billing has no resolution dimension, so the two tiers cannot be expressed by the base unit price alone. They are priced by resolution in the task billing expression:
+
+  | Tier | Rate |
+  | --- | --- |
+  | `480p` / `736p` / `768p` | `0.025 USD/second` |
+  | `1088p` | `0.030 USD/second` |
+  | `1440p` | `0.035 USD/second` |
+
+  Group multipliers still apply on top, so a fast-tier `1088p` request would be rejected rather than silently repriced (that tier has no such endpoint).
+
+  ## Impact
+
+  - Higher resolutions now cost more than the base tiers instead of being unrequestable.
+  - Upstream `1080p` (three workflows) stays unoffered and keeps returning `400` (`plugin_usage_invalid`).
+  - Requests for `1088p` / `1440p` on tiers without a matching endpoint return `400`; nothing is silently downgraded or billed as `768p`.
+
+  ## Documentation
+
+  - [MiniMax H3 video line](/en/api-reference/video-series/models/minimax-h3-video)
+
+  ### Links
+
+  - [MiniMax H3 video line](/en/api-reference/video-series/models/minimax-h3-video)
+
+</Update>
+
 <a id="2026-10-23-wan-video-resolution-tiers"></a>
 
 <Update label="October 23, 2026" tags={["Pricing", "Video"]} rss={{ title: "Wan 3.0: one public ID with resolution-based tiers" }}>
@@ -1199,27 +1235,6 @@ Pages: **Page 1** · [Page 2](/en/updates/page-2)
   - [Jina Reader Extractor](/en/api-reference/reader-series/models/jina-reader-v1)
   - [Daily Metrics](/en/api-reference/publishing/analytics/daily-metrics)
   - [Social Seats](/en/api-reference/publishing/seats)
-
-</Update>
-
-<a id="2026-08-16-index-tts-ltx-docs"></a>
-
-<Update label="August 16, 2026" tags={["New models", "Audio", "Video"]} rss={{ title: "Index TTS voice clone plus LTX digital-human contract" }}>
-
-  ## New model
-
-  - **Model ID:** `index-tts`
-  - **Path:** `POST` / `GET` `/v1/video/generations` (GxgenAI task path; result is audio)
-  - **Contract:** `metadata.nodeInfoList` required — node `4/audio` (reference clip) and `7/text` (script)
-
-  ## Docs fix
-
-  - **`ltx-2-3-kj`** is a photo + audio lip-sync model. Prompt-only text-to-video examples were incorrect. Send image node `444` and audio node `1755`.
-
-  ### Links
-
-  - [Index TTS](/en/api-reference/audio-series/models/index-tts)
-  - [LTX digital human](/en/api-reference/video-series/models/ltx-2-3-kj)
 
 </Update>
 

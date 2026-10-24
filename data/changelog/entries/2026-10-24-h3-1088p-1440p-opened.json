@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "2026-10-24-h3-1088p-1440p-opened",
+  "published_at": "2026-10-24",
+  "rank": 0,
+  "type": "capability",
+  "modality": [
+    "video"
+  ],
+  "title": {
+    "en": "H3 video: 1088p and 1440p tiers are offered and priced by resolution",
+    "zh": "H3 视频：1088p 与 1440p 档位开放，并按分辨率单独定价"
+  },
+  "summary": {
+    "en": "`minimax-h3-video` now offers `1088p` and `1440p` on the six standard-tier endpoints that accept them. Each carries its own per-second price (`0.030` and `0.035 USD/second`), selected from the request's `resolution` by the task billing expression. Upstream `1080p` stays unoffered.",
+    "zh": "`minimax-h3-video` 在支持它们的六个标准档端点上开放 `1088p` 与 `1440p`，各自带独立每秒单价（`0.030` 与 `0.035 USD/秒`），由任务计费表达式按请求的 `resolution` 选取。上游 `1080p` 仍不开放。"
+  },
+  "models": [
+    "minimax-h3-video"
+  ],
+  "links": [
+    {
+      "label": {
+        "en": "MiniMax H3 video line",
+        "zh": "MiniMax H3 视频专线"
+      },
+      "href": {
+        "en": "/en/api-reference/video-series/models/minimax-h3-video",
+        "zh": "/zh/api-reference/video-series/models/minimax-h3-video"
+      }
+    }
+  ],
+  "tags": [
+    "video",
+    "resolution",
+    "pricing"
+  ],
+  "body": {
+    "en": "## Change\n\n`minimax-h3-video` now accepts two more billing tier labels: `1088p` and `1440p`. They are available on the six standard-tier endpoints whose upstream workflows accept them; the fast and higher-quality tiers keep their single endpoint each and do not offer these resolutions.\n\n## Pricing\n\nPer-second billing has no resolution dimension, so the two tiers cannot be expressed by the base unit price alone. They are priced by resolution in the task billing expression:\n\n| Tier | Rate |\n| --- | --- |\n| `480p` / `736p` / `768p` | `0.025 USD/second` |\n| `1088p` | `0.030 USD/second` |\n| `1440p` | `0.035 USD/second` |\n\nGroup multipliers still apply on top, so a fast-tier `1088p` request would be rejected rather than silently repriced (that tier has no such endpoint).\n\n## Impact\n\n- Higher resolutions now cost more than the base tiers instead of being unrequestable.\n- Upstream `1080p` (three workflows) stays unoffered and keeps returning `400` (`plugin_usage_invalid`).\n- Requests for `1088p` / `1440p` on tiers without a matching endpoint return `400`; nothing is silently downgraded or billed as `768p`.\n\n## Documentation\n\n- [MiniMax H3 video line](/en/api-reference/video-series/models/minimax-h3-video)",
+    "zh": "## 变更\n\n`minimax-h3-video` 新增两个计费档位标签：`1088p` 与 `1440p`。它们只在六个标准档端点上可用（这些端点的上游工作流接受这两档）；高速档与升级画质档各只有一个端点、不支持这两档。\n\n## 定价\n\n按秒计费没有分辨率维度，因此这两档无法只靠基准单价表达，改由任务计费表达式按分辨率定价：\n\n| 档位 | 单价 |\n| --- | --- |\n| `480p` / `736p` / `768p` | `0.025 USD/秒` |\n| `1088p` | `0.030 USD/秒` |\n| `1440p` | `0.035 USD/秒` |\n\n分组倍率仍在其上叠加；高速档请求 `1088p` 会因没有候选端点被拒绝，而不是被静默改价。\n\n## 影响\n\n- 更高分辨率现在比基准档更贵，而不是完全无法请求。\n- 上游 `1080p`（三个工作流）仍不开放，传入继续返回 `400`（`plugin_usage_invalid`）。\n- 在没有对应端点的档位上请求 `1088p` / `1440p` 会返回 `400`；不会静默降级，也不会按 `768p` 计价。\n\n## 文档\n\n- [MiniMax H3 视频专线](/zh/api-reference/video-series/models/minimax-h3-video)"
+  }
+}
