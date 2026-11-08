@@ -2,9 +2,48 @@
   "schema_version": 1,
   "page": 1,
   "page_size": 50,
-  "total": 72,
+  "total": 73,
   "total_pages": 2,
   "items": [
+    {
+      "id": "2026-11-08-model-contract-v2",
+      "published_at": "2026-11-08",
+      "type": "capability",
+      "modality": [
+        "platform"
+      ],
+      "title": {
+        "en": "Executable model capability contract v2",
+        "zh": "模型能力契约 v2：可执行操作清单"
+      },
+      "summary": {
+        "en": "The public catalog now publishes per-model operations, inputs and parameter schemas, with a per-model contractVersion for local caching.",
+        "zh": "公开目录现在发布每个模型的可执行操作、输入槽与参数 schema，并提供 per-model contractVersion 供客户端本地缓存。"
+      },
+      "models": [],
+      "tags": [
+        "api",
+        "contract",
+        "compatibility"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "Pricing API",
+            "zh": "定价接口"
+          },
+          "href": {
+            "en": "/en/api-reference/account/pricing",
+            "zh": "/zh/api-reference/account/pricing"
+          }
+        }
+      ],
+      "body": {
+        "en": "`GET /api/pricing` model rows now carry `contract.schemaVersion: \"2.0\"`, a per-model `contractVersion`, and an object array `operations[]`. Each operation declares `id`, `executable`, `inputs[]`, `parameters[]` and `output.type`; `operation_ids[]` retains the previous string-list view. `GET /api/model_contract/:model` publishes the same contract for one model. Fields the governance spec did not establish stay absent and are listed as machine-readable paths in `unknowns[]`; an operation that the gateway cannot execute is published with `executable: false`. The contract is descriptive only and is not used for billing, quota, precharge or settlement.\n\nExisting v1 clients that read the string operation list must switch to `operation_ids` or branch on `schemaVersion`; model-level fields such as `reference_images` and `durations_seconds` keep their names and meanings.",
+        "zh": "`GET /api/pricing` 的模型行现在带 `contract.schemaVersion: \"2.0\"`、每个模型独立的 `contractVersion`，以及对象数组 `operations[]`。每个操作声明 `id`、`executable`、`inputs[]`、`parameters[]` 与 `output.type`；`operation_ids[]` 保留旧的字符串数组视图。`GET /api/model_contract/:model` 返回同一份单模型契约。治理档案未建立的字段保持缺席，并以机器可读路径写入 `unknowns[]`；网关无法执行的操作以 `executable: false` 发布。契约是纯描述数据，不参与计费、额度、预扣或结算。\n\n仍读取旧字符串操作列表的 v1 客户端需改用 `operation_ids` 或按 `schemaVersion` 分支；`reference_images`、`durations_seconds` 等模型级字段名称与语义不变。"
+      },
+      "schema_version": 1
+    },
     {
       "id": "2026-10-24-h3-1088p-1440p-opened",
       "published_at": "2026-10-24",
@@ -2181,69 +2220,6 @@
       "body": {
         "en": "## Image\n\n- **Model IDs:** `seedream-5-0-pro`, `qwen-image-3-0`, `grok-imagine-image-2-0`\n- **API:** `POST /v1/images/generations`\n\n## Video\n\n- **Model IDs:** `kling-o3`, `gemini-omni-1.1`, `pixverse-v6`, `vidu-q3`\n- **API:** async `POST` / `GET` `/v1/video/generations`\n\n`kling-o3` is a new id and does not replace `kling-v3`. `gemini-omni-1.1` is distinct from `gemini-omni-flash`. Pin IDs from live pricing.",
         "zh": "## 图像\n\n- **模型 ID：** `seedream-5-0-pro`、`qwen-image-3-0`、`grok-imagine-image-2-0`\n- **API：** `POST /v1/images/generations`\n\n## 视频\n\n- **模型 ID：** `kling-o3`、`gemini-omni-1.1`、`pixverse-v6`、`vidu-q3`\n- **API：** 异步 `POST` / `GET` `/v1/video/generations`\n\n`kling-o3` 是新 ID，不覆盖 `kling-v3`。`gemini-omni-1.1` 与 `gemini-omni-flash` 不同。精确 ID 以线上定价为准。"
-      },
-      "schema_version": 1
-    },
-    {
-      "id": "2026-08-25-social-analytics-reader-seats",
-      "published_at": "2026-08-25",
-      "type": "platform",
-      "modality": [
-        "platform",
-        "text"
-      ],
-      "title": {
-        "en": "Social analytics & inbox suite, Jina Reader extractor, and social seats",
-        "zh": "上线社媒分析与私信分析套件、Jina Reader 网页提取及社媒席位管理"
-      },
-      "summary": {
-        "en": "Landed 11 social analytics and inbox endpoints under `/api/social/v1`, Jina Reader `/v1/reader` gateway relay with output-token billing, and social seats status API.",
-        "zh": "上线 `/api/social/v1` 11 个社媒分析与私信分析端点、Jina Reader `/v1/reader` 网页提取中继（按输出 Token 计费）以及社媒席位管理接口。"
-      },
-      "models": [
-        "jina-reader-v1"
-      ],
-      "tags": [
-        "publishing",
-        "analytics",
-        "reader",
-        "social"
-      ],
-      "links": [
-        {
-          "label": {
-            "en": "Jina Reader Extractor",
-            "zh": "Jina Reader 网页提取"
-          },
-          "href": {
-            "en": "/en/api-reference/reader-series/models/jina-reader-v1",
-            "zh": "/zh/api-reference/reader-series/models/jina-reader-v1"
-          }
-        },
-        {
-          "label": {
-            "en": "Daily Metrics",
-            "zh": "大盘时序指标"
-          },
-          "href": {
-            "en": "/en/api-reference/publishing/analytics/daily-metrics",
-            "zh": "/zh/api-reference/publishing/analytics/daily-metrics"
-          }
-        },
-        {
-          "label": {
-            "en": "Social Seats",
-            "zh": "查询席位"
-          },
-          "href": {
-            "en": "/en/api-reference/publishing/seats",
-            "zh": "/zh/api-reference/publishing/seats"
-          }
-        }
-      ],
-      "body": {
-        "en": "## Social Analytics & Inbox Suite\n\nOmniMux now exposes 11 RESTful analytics endpoints under `/api/social/v1` for comprehensive audience and engagement intelligence:\n\n- **Analytics:** Daily metrics timeseries, 7x24 weekly best time to post heatmap, posting frequency cadence model, content decay curve, follower growth snapshots, posts performance ranking, and external posts incremental synchronization.\n- **Inbox Analytics:** Message volume trends, response time (TTR) distribution, 7x24 incoming activity heatmap, and source breakdown across connected platforms.\n\n## Jina Reader Relay (`POST /v1/reader`)\n\n- **Model ID:** `jina-reader-v1`\n- **Capability:** URL to clean Markdown / structured JSON text extraction with CSS selectors filtering and output-token billing.\n- **Auth:** Standard gateway Bearer `sk-...` token.\n\n## Social Seats Management (`GET /api/social/v1/seats`)\n\n- Inspects current active connected social accounts, total quota capacity, and vacant seat availability.",
-        "zh": "## 社媒分析与私信分析套件\n\nOmniMux 在 `/api/social/v1` 路由组下全新接入 11 个 RESTful 深度数据分析与私信洞察端点：\n\n- **社媒分析（Analytics）：** 宏观大盘时序指标、7×24小时最佳发布时间热力矩阵、发帖频次与互动率相关性模型、内容生命周期衰减曲线、多平台粉丝增长快照、单帖与列表深度指标排行、外部平台存量帖子增量同步。\n- **私信分析（Inbox Analytics）：** 私信与互动消息量时序走势、响应时效（TTR）耗时分布、7×24小时私信时段热力图、跨平台私信渠道来源占比。\n\n## Jina Reader 网页提取中继（`POST /v1/reader`）\n\n- **模型 ID：** `jina-reader-v1`\n- **能力：** 将网页 URL 高效转换为大模型友好的 Markdown 或结构化 JSON 文本，支持 CSS 选择器过滤、图片摘要与按输出 Token 结算。\n- **鉴权：** 标准网关 Bearer `sk-...` 凭据。\n\n## 社媒席位管理（`GET /api/social/v1/seats`）\n\n- 查询当前用户绑定的社媒账号数量、席位配额容量与可用空坑状态。"
       },
       "schema_version": 1
     }

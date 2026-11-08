@@ -1,12 +1,12 @@
 ---
 title: "查询定价"
 sidebarTitle: "查询定价"
-description: "查询定价"
+description: "获取公开模型目录与每个模型的可执行能力契约"
 api: "GET https://omnimux.ai/api/pricing"
 ---
 
-- 账户管理用户 API
-- 鉴权多为 access token + `New-Api-User`（设备码流程见对应页）
+- 公开目录接口，无需鉴权。
+- 每个在售模型行都带 `contract` 对象：包含模型级能力包络，以及 Contract v2 起提供的可执行操作列表。
 
 ## 身份
 
@@ -23,28 +23,37 @@ api: "GET https://omnimux.ai/api/pricing"
 
 Base URL：`https://omnimux.ai`
 
-## 鉴权
-
-| 名称 | 位置 | 类型 | 必填 | 说明 |
-| --- | --- | --- | --- | --- |
-| `Authorization` | header | string | 是 | `Bearer <access_token>`（用户 access token） |
-| `New-Api-User` | header | string | 是 | 当前用户 id |
-
-## 请求体 / 参数
-
-以右栏 cURL 与线上为准。
-
 ## 响应
 
 ### 200
 
-成功时返回账户相关字段（如 `quota` / `used_quota`）。错误见右栏与 [错误码](/zh/faqs/connection-usage)。
+`data` 是模型数组。每行包含 `model_name`、`quota_type`、`model_ratio`、`model_price`、`enable_groups` 和 `contract`。
+
+`contract` 是纯描述数据，不参与计费、额度或结算。
+
+| 契约字段 | 含义 |
+| --- | --- |
+| `schemaVersion` | 契约形态。`"2.0"` 表示 `operations` 是对象数组。 |
+| `contractVersion` | 每个模型独立的内容哈希；客户端可据此只缓存/刷新变化的模型。 |
+| `operations[]` | 可执行操作。每项含 `id`、`executable`、`inputs[]`、`parameters[]`、`output.type`。 |
+| `operation_ids[]` | 同一批操作 ID 的字符串数组，兼容 v1 客户端。 |
+| `unknowns[]` | 治理档案未建立的字段路径；缺失字段不是默认值。 |
+| `reference_images` / `reference_videos` / `reference_audios` | 参考素材数量、格式与大小上限。 |
+
+操作输入项包含 `slot`、`type`、`role`、`required`、`min`、`max`、`allowedMimes`、`maxSizeMb` 及已声明的时长边界。参数项包含 `name`、`type`、`enum`、`minimum`、`maximum`、`step`、`default`、`fixed`、`limitSource`。
+
+`executable: false` 表示厂商文档列出了该操作，但本网关不支持执行；客户端不得提交。
+
+## 相关接口
+
+`GET /api/model_contract/:model` 返回单个模型的完整 v2 契约（`data.contract`）与文档版本（`data.version`）。模型没有治理档案时返回 `404`——缺失表示“未建立”，不是“不存在该能力”。
 
 <Panel>
 
 <RequestExample>
 
-```bash curl --request GET \
+```bash cURL
+curl --request GET \
   --url https://omnimux.ai/api/pricing
 ```
 
@@ -56,15 +65,32 @@ Base URL：`https://omnimux.ai`
 {
   "success": true,
   "data": [
-    { "model_name": "gpt-5.4", "model_ratio": 1.0 }
+    {
+      "model_name": "gpt-image-2.5",
+      "quota_type": 1,
+      "model_price": 0.013072,
+      "enable_groups": ["default"],
+      "contract": {
+        "model_id": "gpt-image-2.5",
+        "schemaVersion": "2.0",
+        "contractVersion": "a5cc7f2fbe69646a",
+        "family": "image",
+        "operations": [
+          {
+            "id": "text_to_image",
+            "executable": true,
+            "inputs": [{ "slot": "prompt", "type": "text", "required": true }],
+            "parameters": [
+              { "name": "aspect_ratio", "type": "enum", "enum": ["1:1", "16:9"], "default": "1:1" }
+            ],
+            "output": { "type": "image", "formats": ["png"] }
+          }
+        ],
+        "operation_ids": ["text_to_image", "image_to_image"],
+        "unknowns": []
+      }
+    }
   ]
-}
-```
-
-```json 402
-{
-  "success": false,
-  "message": "Insufficient quota. Please top up your account."
 }
 ```
 

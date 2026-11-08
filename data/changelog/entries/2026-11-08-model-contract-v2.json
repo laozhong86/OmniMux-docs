@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "id": "2026-11-08-model-contract-v2",
+  "published_at": "2026-11-08",
+  "rank": 0,
+  "type": "capability",
+  "modality": ["platform"],
+  "title": {
+    "en": "Executable model capability contract v2",
+    "zh": "模型能力契约 v2：可执行操作清单"
+  },
+  "summary": {
+    "en": "The public catalog now publishes per-model operations, inputs and parameter schemas, with a per-model contractVersion for local caching.",
+    "zh": "公开目录现在发布每个模型的可执行操作、输入槽与参数 schema，并提供 per-model contractVersion 供客户端本地缓存。"
+  },
+  "models": [],
+  "links": [
+    {
+      "label": {
+        "en": "Pricing API",
+        "zh": "定价接口"
+      },
+      "href": {
+        "en": "/en/api-reference/account/pricing",
+        "zh": "/zh/api-reference/account/pricing"
+      }
+    }
+  ],
+  "tags": ["api", "contract", "compatibility"],
+  "body": {
+    "en": "`GET /api/pricing` model rows now carry `contract.schemaVersion: \"2.0\"`, a per-model `contractVersion`, and an object array `operations[]`. Each operation declares `id`, `executable`, `inputs[]`, `parameters[]` and `output.type`; `operation_ids[]` retains the previous string-list view. `GET /api/model_contract/:model` publishes the same contract for one model. Fields the governance spec did not establish stay absent and are listed as machine-readable paths in `unknowns[]`; an operation that the gateway cannot execute is published with `executable: false`. The contract is descriptive only and is not used for billing, quota, precharge or settlement.\n\nExisting v1 clients that read the string operation list must switch to `operation_ids` or branch on `schemaVersion`; model-level fields such as `reference_images` and `durations_seconds` keep their names and meanings.",
+    "zh": "`GET /api/pricing` 的模型行现在带 `contract.schemaVersion: \"2.0\"`、每个模型独立的 `contractVersion`，以及对象数组 `operations[]`。每个操作声明 `id`、`executable`、`inputs[]`、`parameters[]` 与 `output.type`；`operation_ids[]` 保留旧的字符串数组视图。`GET /api/model_contract/:model` 返回同一份单模型契约。治理档案未建立的字段保持缺席，并以机器可读路径写入 `unknowns[]`；网关无法执行的操作以 `executable: false` 发布。契约是纯描述数据，不参与计费、额度、预扣或结算。\n\n仍读取旧字符串操作列表的 v1 客户端需改用 `operation_ids` 或按 `schemaVersion` 分支；`reference_images`、`durations_seconds` 等模型级字段名称与语义不变。"
+  }
+}

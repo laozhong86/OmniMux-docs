@@ -1,12 +1,12 @@
 ---
 title: "Get Pricing"
 sidebarTitle: "Get Pricing"
-description: "Get pricing"
+description: "Get the public model catalog and each model's executable capability contract"
 api: "GET https://omnimux.ai/api/pricing"
 ---
 
-- Account management user API
-- Usually access token + `New-Api-User` (see device-login for bootstrap)
+- Public catalog API. No authentication is required.
+- Every live model row carries a `contract` object with the model-level capability envelope and, since Contract v2, an executable operation list.
 
 ## Identity
 
@@ -19,26 +19,34 @@ api: "GET https://omnimux.ai/api/pricing"
 
 | Method | Path |
 | --- | --- |
-| `Path` | `` |
+| `GET` | `/api/pricing` |
 
 Base URL: `https://omnimux.ai`
-
-## Authorizations
-
-| Name | In | Type | Required | Description |
-| --- | --- | --- | --- | --- |
-| `Authorization` | header | string | yes | `Bearer <access_token>` |
-| `New-Api-User` | header | string | yes | Current user id |
-
-## Body / parameters
-
-Follow the right-rail cURL.
 
 ## Response
 
 ### 200
 
-Account fields such as `quota` / `used_quota` when applicable. Errors: right rail and [Error codes](/en/faqs/connection-usage).
+`data` is an array of models. Each row includes `model_name`, `quota_type`, `model_ratio`, `model_price`, `enable_groups`, and `contract`.
+
+The `contract` object is descriptive only. It never participates in billing, quota or settlement.
+
+| Contract field | Meaning |
+| --- | --- |
+| `schemaVersion` | Contract shape. `"2.0"` means `operations` is an object array. |
+| `contractVersion` | Per-model content hash. Use it to cache one model without re-reading the whole payload. |
+| `operations[]` | Executable operations. Each has `id`, `executable`, `inputs[]`, `parameters[]`, and `output.type`. |
+| `operation_ids[]` | The same operation ids as a string array, for v1-compatible clients. |
+| `unknowns[]` | Field paths whose value the governance spec did not establish. Missing fields are not defaults. |
+| `reference_images` / `reference_videos` / `reference_audios` | Declared reference-media limits and accepted formats. |
+
+An operation input carries `slot`, `type`, `role`, `required`, `min`, `max`, `allowedMimes`, `maxSizeMb` and duration bounds when declared. A parameter carries `name`, `type`, `enum`, `minimum`, `maximum`, `step`, `default`, `fixed`, and `limitSource`.
+
+`executable: false` means the operation is documented by the vendor but this gateway does not execute it; clients must not submit it.
+
+## Related endpoint
+
+`GET /api/model_contract/:model` returns one model's full v2 contract as `data.contract`, plus the document `version` as `data.version`. A model with no governance spec answers `404`; absence means "not established", not "no such capability".
 
 <Panel>
 
@@ -46,8 +54,7 @@ Account fields such as `quota` / `used_quota` when applicable. Errors: right rai
 
 ```bash cURL
 curl --request GET \
-  --url https://api.omnimux.ai/v1/video/generations/$TASK_ID \
-  --header 'Authorization: Bearer <token>'
+  --url https://omnimux.ai/api/pricing
 ```
 
 </RequestExample>
@@ -55,39 +62,41 @@ curl --request GET \
 <ResponseExample>
 
 ```json 200
-{ "ok": true }
-```
-
-```json 400
-{ "error": { "message": "Invalid request", "type": "invalid_request_error", "code": "bad_request" } }
-```
-
-```json 401
-{ "error": { "message": "Invalid token", "type": "authentication_error", "code": "unauthorized" } }
-```
-
-```json 402
 {
-  "error": {
-    "message": "Insufficient quota. Please top up your account.",
-    "type": "insufficient_quota",
-    "code": "insufficient_quota"
-  }
+  "success": true,
+  "data": [
+    {
+      "model_name": "gpt-image-2.5",
+      "quota_type": 1,
+      "model_price": 0.013072,
+      "enable_groups": ["default"],
+      "contract": {
+        "model_id": "gpt-image-2.5",
+        "schemaVersion": "2.0",
+        "contractVersion": "a5cc7f2fbe69646a",
+        "family": "image",
+        "operations": [
+          {
+            "id": "text_to_image",
+            "executable": true,
+            "inputs": [{ "slot": "prompt", "type": "text", "required": true }],
+            "parameters": [
+              { "name": "aspect_ratio", "type": "enum", "enum": ["1:1", "16:9"], "default": "1:1" }
+            ],
+            "output": { "type": "image", "formats": ["png"] }
+          }
+        ],
+        "operation_ids": ["text_to_image", "image_to_image"],
+        "unknowns": []
+      }
+    }
+  ]
 }
 ```
 
-```json 403
-{ "error": { "message": "Forbidden", "type": "permission_error", "code": "forbidden" } }
-```
-
-```json 429
-{ "error": { "message": "Rate limit exceeded", "type": "rate_limit_error", "code": "rate_limit_exceeded" } }
-```
-
 ```json 500
-{ "error": { "message": "Internal server error", "type": "server_error", "code": "internal_error" } }
+{ "success": false, "message": "Internal server error" }
 ```
-
 
 </ResponseExample>
 

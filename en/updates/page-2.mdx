@@ -9,6 +9,35 @@ Stay up to date with OmniMux gateway model launches and platform changes. The fu
 
 Pages: [Page 1](/en/updates) · **Page 2**
 
+<a id="2026-08-25-social-analytics-reader-seats"></a>
+
+<Update label="August 25, 2026" tags={["Platform", "Text"]} rss={{ title: "Social analytics & inbox suite, Jina Reader extractor, and social seats" }}>
+
+  ## Social Analytics & Inbox Suite
+
+  OmniMux now exposes 11 RESTful analytics endpoints under `/api/social/v1` for comprehensive audience and engagement intelligence:
+
+  - **Analytics:** Daily metrics timeseries, 7x24 weekly best time to post heatmap, posting frequency cadence model, content decay curve, follower growth snapshots, posts performance ranking, and external posts incremental synchronization.
+  - **Inbox Analytics:** Message volume trends, response time (TTR) distribution, 7x24 incoming activity heatmap, and source breakdown across connected platforms.
+
+  ## Jina Reader Relay (`POST /v1/reader`)
+
+  - **Model ID:** `jina-reader-v1`
+  - **Capability:** URL to clean Markdown / structured JSON text extraction with CSS selectors filtering and output-token billing.
+  - **Auth:** Standard gateway Bearer `sk-...` token.
+
+  ## Social Seats Management (`GET /api/social/v1/seats`)
+
+  - Inspects current active connected social accounts, total quota capacity, and vacant seat availability.
+
+  ### Links
+
+  - [Jina Reader Extractor](/en/api-reference/reader-series/models/jina-reader-v1)
+  - [Daily Metrics](/en/api-reference/publishing/analytics/daily-metrics)
+  - [Social Seats](/en/api-reference/publishing/seats)
+
+</Update>
+
 <a id="2026-08-16-index-tts-ltx-docs"></a>
 
 <Update label="August 16, 2026" tags={["New models", "Audio", "Video"]} rss={{ title: "Index TTS voice clone plus LTX digital-human contract" }}>

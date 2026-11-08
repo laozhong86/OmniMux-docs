@@ -9,6 +9,20 @@ rss: true
 
 分页：**第 1 页** · [第 2 页](/zh/updates/page-2)
 
+<a id="2026-11-08-model-contract-v2"></a>
+
+<Update label="2026 年 11 月 8 日" tags={["能力更新", "平台"]} rss={{ title: "模型能力契约 v2：可执行操作清单" }}>
+
+  `GET /api/pricing` 的模型行现在带 `contract.schemaVersion: "2.0"`、每个模型独立的 `contractVersion`，以及对象数组 `operations[]`。每个操作声明 `id`、`executable`、`inputs[]`、`parameters[]` 与 `output.type`；`operation_ids[]` 保留旧的字符串数组视图。`GET /api/model_contract/:model` 返回同一份单模型契约。治理档案未建立的字段保持缺席，并以机器可读路径写入 `unknowns[]`；网关无法执行的操作以 `executable: false` 发布。契约是纯描述数据，不参与计费、额度、预扣或结算。
+
+  仍读取旧字符串操作列表的 v1 客户端需改用 `operation_ids` 或按 `schemaVersion` 分支；`reference_images`、`durations_seconds` 等模型级字段名称与语义不变。
+
+  ### 链接
+
+  - [定价接口](/zh/api-reference/account/pricing)
+
+</Update>
+
 <a id="2026-10-24-h3-1088p-1440p-opened"></a>
 
 <Update label="2026 年 10 月 24 日" tags={["能力更新", "视频"]} rss={{ title: "H3 视频：1088p 与 1440p 档位开放，并按分辨率单独定价" }}>
@@ -1206,35 +1220,6 @@ rss: true
 
   - [定价](/zh/api-reference/account/pricing)
   - [视频任务查询](/zh/api-reference/tasks/video-task)
-
-</Update>
-
-<a id="2026-08-25-social-analytics-reader-seats"></a>
-
-<Update label="2026 年 8 月 25 日" tags={["平台", "文本"]} rss={{ title: "上线社媒分析与私信分析套件、Jina Reader 网页提取及社媒席位管理" }}>
-
-  ## 社媒分析与私信分析套件
-
-  OmniMux 在 `/api/social/v1` 路由组下全新接入 11 个 RESTful 深度数据分析与私信洞察端点：
-
-  - **社媒分析（Analytics）：** 宏观大盘时序指标、7×24小时最佳发布时间热力矩阵、发帖频次与互动率相关性模型、内容生命周期衰减曲线、多平台粉丝增长快照、单帖与列表深度指标排行、外部平台存量帖子增量同步。
-  - **私信分析（Inbox Analytics）：** 私信与互动消息量时序走势、响应时效（TTR）耗时分布、7×24小时私信时段热力图、跨平台私信渠道来源占比。
-
-  ## Jina Reader 网页提取中继（`POST /v1/reader`）
-
-  - **模型 ID：** `jina-reader-v1`
-  - **能力：** 将网页 URL 高效转换为大模型友好的 Markdown 或结构化 JSON 文本，支持 CSS 选择器过滤、图片摘要与按输出 Token 结算。
-  - **鉴权：** 标准网关 Bearer `sk-...` 凭据。
-
-  ## 社媒席位管理（`GET /api/social/v1/seats`）
-
-  - 查询当前用户绑定的社媒账号数量、席位配额容量与可用空坑状态。
-
-  ### 链接
-
-  - [Jina Reader 网页提取](/zh/api-reference/reader-series/models/jina-reader-v1)
-  - [大盘时序指标](/zh/api-reference/publishing/analytics/daily-metrics)
-  - [查询席位](/zh/api-reference/publishing/seats)
 
 </Update>
 
