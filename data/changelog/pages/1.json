@@ -6,6 +6,44 @@
   "total_pages": 2,
   "items": [
     {
+      "id": "2026-11-11-tool-to-workbench-handoff",
+      "published_at": "2026-11-11",
+      "type": "capability",
+      "modality": [
+        "video"
+      ],
+      "title": {
+        "en": "TikTok tool pages hand the parsed video to viral recreation",
+        "zh": "TikTok 工具页可把解析好的视频带进爆款复刻"
+      },
+      "summary": {
+        "en": "On the TikTok video tool pages, Start recreating and Recreate with my character now open the workbench in viral recreation with the parsed 4-30 second video already in the reference video slot. Two same-site browser endpoints carry it: issuing needs tool verification, redeeming needs sign-in and is rate limited. They are not part of the developer API.",
+        "zh": "在 TikTok 视频工具页点「开始复刻」或「用我的角色复刻」，工作台会打开爆款复刻，并把解析好的 4–30 秒视频放进参考视频槽。由两个仅限本站页面调用的浏览器接口完成：申请凭证需通过工具验证，兑换需登录并有频率限制。不属于开发者 API。"
+      },
+      "models": [],
+      "tags": [
+        "video",
+        "workbench"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "Recreation analysis API",
+            "zh": "复刻拆解接口"
+          },
+          "href": {
+            "en": "/en/api-reference/account/influencer/recreate-analyze",
+            "zh": "/zh/api-reference/account/influencer/recreate-analyze"
+          }
+        }
+      ],
+      "body": {
+        "en": "After a TikTok link is parsed on a tool page, Start recreating and Recreate with my character open `/influencer` in video mode with viral recreation selected, and the parsed video appears in the reference video slot. Videos must be 4-30 seconds long and at most 200 MiB.\n\nThe tool page calls `POST /api/tools/tiktok/handoff` with the parsed work ID only and receives a single-use token that expires after 30 minutes. The token does not contain the original link. The workbench calls `POST /api/tools/tiktok/handoff/redeem` after sign-in; OmniMux downloads the video again by work ID and stores it as the signed-in account's own reference upload, with the usual storage quota and expiry. A token works only for the guest browser or account that requested it, and only once.\n\nThe original link and media addresses never appear in the address bar, the token, or analytics. Guests who sign in from the workbench in the same tab keep their video. If the token has expired, was already used, or the video is unavailable, the workbench opens with an empty recreation slot and one message asking you to choose another video or upload a file.\n\nBoth endpoints accept requests from OmniMux pages only and are not intended for API clients. Issuing a token needs the tool verification pass; redeeming needs a same-origin request from a signed-in account. Redeeming is limited to 6 attempts per account and 20 per IP address every 10 minutes, and runs one transfer per account at a time; over the limit it answers `429`.",
+        "zh": "在工具页解析 TikTok 链接后，点「开始复刻」或「用我的角色复刻」会打开 `/influencer` 的视频模式并选中爆款复刻，解析好的视频直接出现在参考视频槽。视频须为 4–30 秒，且不超过 200 MiB。\n\n工具页只把解析出的作品 ID 发给 `POST /api/tools/tiktok/handoff`，拿到一个 30 分钟内有效、只能使用一次的凭证；凭证不包含原链接。工作台在登录后调用 `POST /api/tools/tiktok/handoff/redeem`，OmniMux 按作品 ID 重新下载视频，存成当前登录账号自己的参考视频上传，照常计入存储配额并按期清理。凭证只对申请它的访客浏览器或账号有效，且只能用一次。\n\n原链接和媒体地址不会出现在地址栏、凭证或统计数据里。访客在同一标签页从工作台登录后，视频仍会带上。凭证过期、已使用或视频不可用时，工作台打开空的爆款复刻槽，并提示一次请换一个视频或上传文件。\n\n两个接口只接受来自 OmniMux 页面的请求，不面向 API 客户端。申请凭证需要通过工具验证；兑换需要同源请求且已登录账号。兑换每 10 分钟每个账号最多 6 次、每个 IP 最多 20 次，且每个账号同一时间只进行一次转存；超出限制返回 `429`。"
+      },
+      "schema_version": 1
+    },
+    {
       "id": "2026-11-10-www-canonical-host",
       "published_at": "2026-11-10",
       "type": "platform",
@@ -40,44 +78,6 @@
       "body": {
         "en": "`GET` and `HEAD` requests for website pages on `www.omnimux.ai` now return a single `301` to the same path and query on `https://omnimux.ai`. `POST` and other methods are not redirected. Requests under `/api`, `/v1`, `/v1beta`, `/pg`, `/mj`, `/<mode>/mj`, `/dashboard/billing`, `/suno`, `/kling`, `/xai`, `/doubao`, `/ali`, `/autodl`, `/jimeng`, `/oauth`, `/install.sh` and `/install.ps1` keep their host and are not redirected, so clients that use `www.omnimux.ai` as their base URL keep working. People who were signed in on www need to sign in once more on `omnimux.ai`.\n\n`/zh` and `/zh/` now return a single `301` to the homepage: `https://omnimux.ai/` from www, or `/` on the apex.\n\nOn the apex, fixed path segments with the wrong capitalization, such as `/Pricing`, return a single `301` to the correct spelling and keep the query. On www, a mistyped address such as `/Pricing` first returns a `301` to `https://omnimux.ai/Pricing`, then a second `301` to `/pricing`.\n\nThe retired legal URLs `/privacy-policy` and `/user-agreement` (apex or www, with or without a trailing slash) now return a single `301` to `/privacy` and `/terms`.\n\nWe recommend `https://api.omnimux.ai` or `https://omnimux.ai` as the API base URL.",
         "zh": "`www.omnimux.ai` 上网站页面的 `GET`、`HEAD` 请求现在一次 `301` 到 `https://omnimux.ai` 的相同路径和查询。`POST` 及其他方法不跳转。`/api`、`/v1`、`/v1beta`、`/pg`、`/mj`、`/<mode>/mj`、`/dashboard/billing`、`/suno`、`/kling`、`/xai`、`/doubao`、`/ali`、`/autodl`、`/jimeng`、`/oauth`、`/install.sh`、`/install.ps1` 下的请求保持原主机、不跳转，以 `www.omnimux.ai` 为 base URL 的客户端不受影响。原先在 www 登录的用户需要在 `omnimux.ai` 再登录一次。\n\n`/zh`、`/zh/` 现在一次 `301` 到首页：www 跳到 `https://omnimux.ai/`，主域名跳到 `/`。\n\n在主域名上，路径固定段大小写写错时（例如 `/Pricing`）一次 `301` 到正确写法，并保留查询参数。在 www 上，大小写写错的地址（例如 `/Pricing`）先 `301` 到 `https://omnimux.ai/Pricing`，再第二次 `301` 到 `/pricing`。\n\n旧法务地址 `/privacy-policy`、`/user-agreement`（主域名或 www，是否带尾斜杠均可）现在一次 `301` 到 `/privacy`、`/terms`。\n\nAPI base URL 推荐使用 `https://api.omnimux.ai` 或 `https://omnimux.ai`。"
-      },
-      "schema_version": 1
-    },
-    {
-      "id": "2026-11-10-tool-to-workbench-handoff",
-      "published_at": "2026-11-10",
-      "type": "capability",
-      "modality": [
-        "video"
-      ],
-      "title": {
-        "en": "TikTok tool pages hand the parsed video to viral recreation",
-        "zh": "TikTok 工具页可把解析好的视频带进爆款复刻"
-      },
-      "summary": {
-        "en": "On the TikTok video tool pages, Start recreating and Recreate with my character now open the workbench in viral recreation with the parsed 4-30 second video already in the reference video slot. Two same-site browser endpoints carry it: issuing needs tool verification, redeeming needs sign-in and is rate limited. They are not part of the developer API.",
-        "zh": "在 TikTok 视频工具页点「开始复刻」或「用我的角色复刻」，工作台会打开爆款复刻，并把解析好的 4–30 秒视频放进参考视频槽。由两个仅限本站页面调用的浏览器接口完成：申请凭证需通过工具验证，兑换需登录并有频率限制。不属于开发者 API。"
-      },
-      "models": [],
-      "tags": [
-        "video",
-        "workbench"
-      ],
-      "links": [
-        {
-          "label": {
-            "en": "Recreation analysis API",
-            "zh": "复刻拆解接口"
-          },
-          "href": {
-            "en": "/en/api-reference/account/influencer/recreate-analyze",
-            "zh": "/zh/api-reference/account/influencer/recreate-analyze"
-          }
-        }
-      ],
-      "body": {
-        "en": "After a TikTok link is parsed on a tool page, Start recreating and Recreate with my character open `/influencer` in video mode with viral recreation selected, and the parsed video appears in the reference video slot. Videos must be 4-30 seconds long and at most 200 MiB.\n\nThe tool page calls `POST /api/tools/tiktok/handoff` with the parsed work ID only and receives a single-use token that expires after 30 minutes. The token does not contain the original link. The workbench calls `POST /api/tools/tiktok/handoff/redeem` after sign-in; OmniMux downloads the video again by work ID and stores it as the signed-in account's own reference upload, with the usual storage quota and expiry. A token works only for the guest browser or account that requested it, and only once.\n\nThe original link and media addresses never appear in the address bar, the token, or analytics. Guests who sign in from the workbench in the same tab keep their video. If the token has expired, was already used, or the video is unavailable, the workbench opens with an empty recreation slot and one message asking you to choose another video or upload a file.\n\nBoth endpoints accept requests from OmniMux pages only and are not intended for API clients. Issuing a token needs the tool verification pass; redeeming needs a same-origin request from a signed-in account. Redeeming is limited to 6 attempts per account and 20 per IP address every 10 minutes, and runs one transfer per account at a time; over the limit it answers `429`.",
-        "zh": "在工具页解析 TikTok 链接后，点「开始复刻」或「用我的角色复刻」会打开 `/influencer` 的视频模式并选中爆款复刻，解析好的视频直接出现在参考视频槽。视频须为 4–30 秒，且不超过 200 MiB。\n\n工具页只把解析出的作品 ID 发给 `POST /api/tools/tiktok/handoff`，拿到一个 30 分钟内有效、只能使用一次的凭证；凭证不包含原链接。工作台在登录后调用 `POST /api/tools/tiktok/handoff/redeem`，OmniMux 按作品 ID 重新下载视频，存成当前登录账号自己的参考视频上传，照常计入存储配额并按期清理。凭证只对申请它的访客浏览器或账号有效，且只能用一次。\n\n原链接和媒体地址不会出现在地址栏、凭证或统计数据里。访客在同一标签页从工作台登录后，视频仍会带上。凭证过期、已使用或视频不可用时，工作台打开空的爆款复刻槽，并提示一次请换一个视频或上传文件。\n\n两个接口只接受来自 OmniMux 页面的请求，不面向 API 客户端。申请凭证需要通过工具验证；兑换需要同源请求且已登录账号。兑换每 10 分钟每个账号最多 6 次、每个 IP 最多 20 次，且每个账号同一时间只进行一次转存；超出限制返回 `429`。"
       },
       "schema_version": 1
     },
