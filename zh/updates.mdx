@@ -9,6 +9,18 @@ rss: true
 
 分页：**第 1 页** · [第 2 页](/zh/updates/page-2)
 
+<a id="2026-11-10-model-execution-profile-defaults"></a>
+
+<Update label="2026 年 11 月 10 日" tags={["能力更新", "平台"]} rss={{ title: "模型执行档案与推荐默认值" }}>
+
+  `GET /api/pricing` 的文本模型契约现在可携带可选的 `reasoning_efforts`（用户档位到上游 wire value 的映射）与 `default_reasoning_effort`。响应还可携带顶层 `defaults`，按操作推荐模型（`chat`、`vision_chat`、`text_to_image`、`text_to_video`、`text_to_music`、`speech_to_text`）。每个默认值都指向同一响应中 `enable_groups` 非空的模型；不可用的推荐直接省略，不会用其他模型替代。缺失的推理字段保持缺席，不得当作默认值。这些字段是纯描述数据；价格、路由、额度、预扣与结算均不变。
+
+  ### 链接
+
+  - [定价接口](/zh/api-reference/account/pricing)
+
+</Update>
+
 <a id="2026-11-08-model-contract-v2"></a>
 
 <Update label="2026 年 11 月 8 日" tags={["能力更新", "平台"]} rss={{ title: "模型能力契约 v2：可执行操作清单" }}>
@@ -1197,29 +1209,6 @@ rss: true
 
   - [定价](/zh/api-reference/account/pricing)
   - [语音合成](/zh/api-reference/audio-series/models/gpt-4o-mini-tts)
-
-</Update>
-
-<a id="2026-08-31-media-catalog"></a>
-
-<Update label="2026 年 8 月 31 日" tags={["新模型", "图像", "视频"]} rss={{ title: "Seedream 5.0 Pro、Qwen Image 3.0、Grok Imagine Image 2.0、Kling O3、Omni 1.1、PixVerse v6、Vidu Q3" }}>
-
-  ## 图像
-
-  - **模型 ID：** `seedream-5-0-pro`、`qwen-image-3-0`、`grok-imagine-image-2-0`
-  - **API：** `POST /v1/images/generations`
-
-  ## 视频
-
-  - **模型 ID：** `kling-o3`、`gemini-omni-1.1`、`pixverse-v6`、`vidu-q3`
-  - **API：** 异步 `POST` / `GET` `/v1/video/generations`
-
-  `kling-o3` 是新 ID，不覆盖 `kling-v3`。`gemini-omni-1.1` 与 `gemini-omni-flash` 不同。精确 ID 以线上定价为准。
-
-  ### 链接
-
-  - [定价](/zh/api-reference/account/pricing)
-  - [视频任务查询](/zh/api-reference/tasks/video-task)
 
 </Update>
 

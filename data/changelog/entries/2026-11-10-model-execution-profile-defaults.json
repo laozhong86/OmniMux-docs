@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "id": "2026-11-10-model-execution-profile-defaults",
+  "published_at": "2026-11-10",
+  "rank": 0,
+  "type": "capability",
+  "modality": ["platform"],
+  "title": {
+    "en": "Model execution profile and recommended defaults",
+    "zh": "模型执行档案与推荐默认值"
+  },
+  "summary": {
+    "en": "The public catalog now publishes optional reasoning effort levels, a default reasoning level, and a top-level defaults map for recommended models.",
+    "zh": "公开目录现在发布可选的推理档位、默认推理档位，以及按操作推荐模型的顶层 defaults 映射。"
+  },
+  "models": [],
+  "links": [
+    {
+      "label": {
+        "en": "Pricing API",
+        "zh": "定价接口"
+      },
+      "href": {
+        "en": "/en/api-reference/account/pricing",
+        "zh": "/zh/api-reference/account/pricing"
+      }
+    }
+  ],
+  "tags": ["api", "contract", "defaults"],
+  "body": {
+    "en": "`GET /api/pricing` text-model contracts may now carry optional `reasoning_efforts` (a map from the user-facing level to the upstream wire value) and `default_reasoning_effort`. The response may also carry a top-level `defaults` map recommending a model per operation (`chat`, `vision_chat`, `text_to_image`, `text_to_video`, `text_to_music`, `speech_to_text`). Every default value references a model present in the same response with non-empty `enable_groups`; unavailable recommendations are omitted rather than replaced. Missing reasoning fields stay absent and must not be treated as defaults. These fields are descriptive metadata only; pricing, routing, quota, precharge and settlement are unchanged.",
+    "zh": "`GET /api/pricing` 的文本模型契约现在可携带可选的 `reasoning_efforts`（用户档位到上游 wire value 的映射）与 `default_reasoning_effort`。响应还可携带顶层 `defaults`，按操作推荐模型（`chat`、`vision_chat`、`text_to_image`、`text_to_video`、`text_to_music`、`speech_to_text`）。每个默认值都指向同一响应中 `enable_groups` 非空的模型；不可用的推荐直接省略，不会用其他模型替代。缺失的推理字段保持缺席，不得当作默认值。这些字段是纯描述数据；价格、路由、额度、预扣与结算均不变。"
+  }
+}

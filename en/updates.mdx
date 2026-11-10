@@ -9,6 +9,18 @@ Stay up to date with OmniMux gateway model launches and platform changes. The fu
 
 Pages: **Page 1** · [Page 2](/en/updates/page-2)
 
+<a id="2026-11-10-model-execution-profile-defaults"></a>
+
+<Update label="November 10, 2026" tags={["Improvements", "Platform"]} rss={{ title: "Model execution profile and recommended defaults" }}>
+
+  `GET /api/pricing` text-model contracts may now carry optional `reasoning_efforts` (a map from the user-facing level to the upstream wire value) and `default_reasoning_effort`. The response may also carry a top-level `defaults` map recommending a model per operation (`chat`, `vision_chat`, `text_to_image`, `text_to_video`, `text_to_music`, `speech_to_text`). Every default value references a model present in the same response with non-empty `enable_groups`; unavailable recommendations are omitted rather than replaced. Missing reasoning fields stay absent and must not be treated as defaults. These fields are descriptive metadata only; pricing, routing, quota, precharge and settlement are unchanged.
+
+  ### Links
+
+  - [Pricing API](/en/api-reference/account/pricing)
+
+</Update>
+
 <a id="2026-11-08-model-contract-v2"></a>
 
 <Update label="November 8, 2026" tags={["Improvements", "Platform"]} rss={{ title: "Executable model capability contract v2" }}>
@@ -1197,29 +1209,6 @@ Pages: **Page 1** · [Page 2](/en/updates/page-2)
 
   - [Pricing](/en/api-reference/account/pricing)
   - [Audio Speech](/en/api-reference/audio-series/models/gpt-4o-mini-tts)
-
-</Update>
-
-<a id="2026-08-31-media-catalog"></a>
-
-<Update label="August 31, 2026" tags={["New models", "Image", "Video"]} rss={{ title: "Seedream 5.0 Pro, Qwen Image 3.0, Grok Imagine Image 2.0, Kling O3, Omni 1.1, PixVerse v6, Vidu Q3" }}>
-
-  ## Image
-
-  - **Model IDs:** `seedream-5-0-pro`, `qwen-image-3-0`, `grok-imagine-image-2-0`
-  - **API:** `POST /v1/images/generations`
-
-  ## Video
-
-  - **Model IDs:** `kling-o3`, `gemini-omni-1.1`, `pixverse-v6`, `vidu-q3`
-  - **API:** async `POST` / `GET` `/v1/video/generations`
-
-  `kling-o3` is a new id and does not replace `kling-v3`. `gemini-omni-1.1` is distinct from `gemini-omni-flash`. Pin IDs from live pricing.
-
-  ### Links
-
-  - [Pricing](/en/api-reference/account/pricing)
-  - [Video task poll](/en/api-reference/tasks/video-task)
 
 </Update>
 
