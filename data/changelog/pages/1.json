@@ -2,9 +2,47 @@
   "schema_version": 1,
   "page": 1,
   "page_size": 50,
-  "total": 74,
+  "total": 75,
   "total_pages": 2,
   "items": [
+    {
+      "id": "2026-11-10-www-canonical-host",
+      "published_at": "2026-11-10",
+      "type": "platform",
+      "modality": [
+        "platform"
+      ],
+      "title": {
+        "en": "www.omnimux.ai pages redirect to omnimux.ai; API paths keep their host",
+        "zh": "www.omnimux.ai 页面统一跳转到 omnimux.ai，API 路径保持原主机"
+      },
+      "summary": {
+        "en": "Website pages on www.omnimux.ai now answer one permanent redirect to omnimux.ai. API, relay, plugin task and installer paths on www are not redirected.",
+        "zh": "www.omnimux.ai 上的网站页面现在一次永久跳转到 omnimux.ai；www 上的 API、中转、插件任务和安装脚本路径不跳转。"
+      },
+      "models": [],
+      "tags": [
+        "platform",
+        "compatibility"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "Quickstart",
+            "zh": "快速开始"
+          },
+          "href": {
+            "en": "/en/quickstart",
+            "zh": "/zh/quickstart"
+          }
+        }
+      ],
+      "body": {
+        "en": "`GET` and `HEAD` requests for website pages on `www.omnimux.ai` now return a single `301` to the same path and query on `https://omnimux.ai`. `POST` and other methods are not redirected. Requests under `/api`, `/v1`, `/v1beta`, `/pg`, `/mj`, `/<mode>/mj`, `/dashboard/billing`, `/suno`, `/kling`, `/xai`, `/doubao`, `/ali`, `/autodl`, `/jimeng`, `/oauth`, `/install.sh` and `/install.ps1` keep their host and are not redirected, so clients that use `www.omnimux.ai` as their base URL keep working. People who were signed in on www need to sign in once more on `omnimux.ai`.\n\n`/zh` and `/zh/` now return a single `301` to the homepage: `https://omnimux.ai/` from www, or `/` on the apex.\n\nFixed path segments with the wrong capitalization, such as `/Pricing`, return a single `301` to the correct spelling and keep the query.\n\nThe retired legal URLs `/privacy-policy` and `/user-agreement` (apex or www, with or without a trailing slash) now return a single `301` to `/privacy` and `/terms`.\n\nWe recommend `https://api.omnimux.ai` or `https://omnimux.ai` as the API base URL.",
+        "zh": "`www.omnimux.ai` 上网站页面的 `GET`、`HEAD` 请求现在一次 `301` 到 `https://omnimux.ai` 的相同路径和查询。`POST` 及其他方法不跳转。`/api`、`/v1`、`/v1beta`、`/pg`、`/mj`、`/<mode>/mj`、`/dashboard/billing`、`/suno`、`/kling`、`/xai`、`/doubao`、`/ali`、`/autodl`、`/jimeng`、`/oauth`、`/install.sh`、`/install.ps1` 下的请求保持原主机、不跳转，以 `www.omnimux.ai` 为 base URL 的客户端不受影响。原先在 www 登录的用户需要在 `omnimux.ai` 再登录一次。\n\n`/zh`、`/zh/` 现在一次 `301` 到首页：www 跳到 `https://omnimux.ai/`，主域名跳到 `/`。\n\n路径固定段大小写写错时（例如 `/Pricing`）一次 `301` 到正确写法，并保留查询参数。\n\n旧法务地址 `/privacy-policy`、`/user-agreement`（主域名或 www，是否带尾斜杠均可）现在一次 `301` 到 `/privacy`、`/terms`。\n\nAPI base URL 推荐使用 `https://api.omnimux.ai` 或 `https://omnimux.ai`。"
+      },
+      "schema_version": 1
+    },
     {
       "id": "2026-11-10-model-execution-profile-defaults",
       "published_at": "2026-11-10",
@@ -2140,68 +2178,6 @@
       "body": {
         "en": "OpenAI Completions, Chat Completions, Responses, and Responses Compact return HTTP **402** with `error.type` and `error.code` set to `insufficient_quota` when the local account balance or subscription allowance cannot cover pre-consume. Streaming requests receive the JSON error before SSE starts. Check balance or allowance before trying again; do not treat this as invalid credentials or temporary rate limiting. Token errors, upstream provider errors, other protocols, actual 401/403, ordinary 429, and 5xx behavior are unchanged.\n\nGateway enforcement began on September 7, 2026 at 07:25:20 UTC+8 (2026-09-06T23:25:20Z).",
         "zh": "OpenAI Completions、Chat Completions、Responses 和 Responses Compact 在本地账户余额或订阅额度不足以完成预扣时，返回 HTTP **402**，`error.type` 与 `error.code` 均为 `insufficient_quota`。流式请求在 SSE 建立前返回 JSON 错误。应先检查余额或额度，再决定是否重新请求；不要将其当作密钥失效或临时限流。token 错误、上游渠道错误、其他协议，以及真正的 401/403、普通 429 和 5xx 行为保持不变。\n\n网关于 2026 年 9 月 7 日 07:25:20 UTC+8（2026-09-06T23:25:20Z）上线该响应。"
-      },
-      "schema_version": 1
-    },
-    {
-      "id": "2026-08-31-catalog-sync",
-      "published_at": "2026-08-31",
-      "type": "model_launch",
-      "modality": [
-        "text",
-        "image",
-        "video",
-        "audio"
-      ],
-      "title": {
-        "en": "Catalog synchronization: Gemini 3.7, GLM 5.3, Wan 3.0, Seedance 2.0, Grok Imagine, Audio TTS & STT",
-        "zh": "模型目录全量同步：Gemini 3.7、GLM 5.3、Wan 3.0、Seedance 2.0、Grok Imagine、音频与语音转录"
-      },
-      "summary": {
-        "en": "Comprehensive documentation alignment across all 108 live models in the OmniMux catalog.",
-        "zh": "全面对齐 OmniMux 线上 108 个在售模型的开发文档与 API 参考手册。"
-      },
-      "models": [
-        "gemini-3.7-flash",
-        "glm-5.3",
-        "grok-4.6",
-        "deepseek-v4-flash-vision-exp",
-        "wan-3.0",
-        "seedance-2-0",
-        "gpt-4o-mini-tts",
-        "whisper-1"
-      ],
-      "tags": [
-        "text",
-        "image",
-        "video",
-        "audio"
-      ],
-      "links": [
-        {
-          "label": {
-            "en": "Pricing",
-            "zh": "定价"
-          },
-          "href": {
-            "en": "/en/api-reference/account/pricing",
-            "zh": "/zh/api-reference/account/pricing"
-          }
-        },
-        {
-          "label": {
-            "en": "Audio Speech",
-            "zh": "语音合成"
-          },
-          "href": {
-            "en": "/en/api-reference/audio-series/models/gpt-4o-mini-tts",
-            "zh": "/zh/api-reference/audio-series/models/gpt-4o-mini-tts"
-          }
-        }
-      ],
-      "body": {
-        "en": "## Language series\n\n- **Gemini:** Added `gemini-3.7-flash`\n- **GLM:** Added `glm-5.3`\n- **Grok:** Added `grok-4.6`\n- **DeepSeek:** Added `deepseek-v4-flash-vision-exp`\n\n## Image & Video series\n\n- Canonical model ID hyphenation and full coverage for **Wan 3.0** (`wan-3.0`, `wan-3.0-prime`, `wan-3.0-prime-ref`, `wan-3.0-ref`), **Seedance 2.0** (`seedance-2-0`, `seedance-2-0-fast`, `seedance-2-0-mini`, `seedance-2-5`), **Kling** (`kling-v3`, `kling-v2-6`, `kling-avatar`, `kling-o3`, `kling-v3-motion-control`), **Grok Imagine**, and **Midjourney**.\n- Retired legacy Omni Flash duration-fixed SKUs.\n\n## Audio series\n\n- `gpt-4o-mini-tts` (`POST /v1/audio/speech`)\n- `whisper-1` (`POST /v1/audio/transcriptions`)\n- `suno` (`POST /v1/video/generations`)",
-        "zh": "## 语言系列\n\n- **Gemini：** 增加 `gemini-3.7-flash`\n- **GLM：** 增加 `glm-5.3`\n- **Grok：** 增加 `grok-4.6`\n- **DeepSeek：** 增加 `deepseek-v4-flash-vision-exp`\n\n## 图像与视频系列\n\n- 全量补齐 **Wan 3.0**（`wan-3.0`、`wan-3.0-prime`、`wan-3.0-prime-ref`、`wan-3.0-ref`）、**Seedance 2.0**（`seedance-2-0`、`seedance-2-0-fast`、`seedance-2-0-mini`、`seedance-2-5`）、**Kling**（`kling-v3`、`kling-v2-6`、`kling-avatar`、`kling-o3`、`kling-v3-motion-control`）、**Grok Imagine** 与 **Midjourney** 文档。\n- 下架并清理已停售的 Omni Flash 固定时长 SKU。\n\n## 音频系列\n\n- `gpt-4o-mini-tts`（`POST /v1/audio/speech` 语音合成）\n- `whisper-1`（`POST /v1/audio/transcriptions` 语音转录）\n- `suno`（`POST /v1/video/generations` 音乐生成）"
       },
       "schema_version": 1
     }

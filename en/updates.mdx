@@ -9,6 +9,26 @@ Stay up to date with OmniMux gateway model launches and platform changes. The fu
 
 Pages: **Page 1** · [Page 2](/en/updates/page-2)
 
+<a id="2026-11-10-www-canonical-host"></a>
+
+<Update label="November 10, 2026" tags={["Platform"]} rss={{ title: "www.omnimux.ai pages redirect to omnimux.ai; API paths keep their host" }}>
+
+  `GET` and `HEAD` requests for website pages on `www.omnimux.ai` now return a single `301` to the same path and query on `https://omnimux.ai`. `POST` and other methods are not redirected. Requests under `/api`, `/v1`, `/v1beta`, `/pg`, `/mj`, `/<mode>/mj`, `/dashboard/billing`, `/suno`, `/kling`, `/xai`, `/doubao`, `/ali`, `/autodl`, `/jimeng`, `/oauth`, `/install.sh` and `/install.ps1` keep their host and are not redirected, so clients that use `www.omnimux.ai` as their base URL keep working. People who were signed in on www need to sign in once more on `omnimux.ai`.
+
+  `/zh` and `/zh/` now return a single `301` to the homepage: `https://omnimux.ai/` from www, or `/` on the apex.
+
+  Fixed path segments with the wrong capitalization, such as `/Pricing`, return a single `301` to the correct spelling and keep the query.
+
+  The retired legal URLs `/privacy-policy` and `/user-agreement` (apex or www, with or without a trailing slash) now return a single `301` to `/privacy` and `/terms`.
+
+  We recommend `https://api.omnimux.ai` or `https://omnimux.ai` as the API base URL.
+
+  ### Links
+
+  - [Quickstart](/en/quickstart)
+
+</Update>
+
 <a id="2026-11-10-model-execution-profile-defaults"></a>
 
 <Update label="November 10, 2026" tags={["Improvements", "Platform"]} rss={{ title: "Model execution profile and recommended defaults" }}>
@@ -1180,35 +1200,6 @@ Pages: **Page 1** · [Page 2](/en/updates/page-2)
   ### Links
 
   - [Connection and usage](/en/faqs/connection-usage)
-
-</Update>
-
-<a id="2026-08-31-catalog-sync"></a>
-
-<Update label="August 31, 2026" tags={["New models", "Text", "Image", "Video", "Audio"]} rss={{ title: "Catalog synchronization: Gemini 3.7, GLM 5.3, Wan 3.0, Seedance 2.0, Grok Imagine, Audio TTS & STT" }}>
-
-  ## Language series
-
-  - **Gemini:** Added `gemini-3.7-flash`
-  - **GLM:** Added `glm-5.3`
-  - **Grok:** Added `grok-4.6`
-  - **DeepSeek:** Added `deepseek-v4-flash-vision-exp`
-
-  ## Image & Video series
-
-  - Canonical model ID hyphenation and full coverage for **Wan 3.0** (`wan-3.0`, `wan-3.0-prime`, `wan-3.0-prime-ref`, `wan-3.0-ref`), **Seedance 2.0** (`seedance-2-0`, `seedance-2-0-fast`, `seedance-2-0-mini`, `seedance-2-5`), **Kling** (`kling-v3`, `kling-v2-6`, `kling-avatar`, `kling-o3`, `kling-v3-motion-control`), **Grok Imagine**, and **Midjourney**.
-  - Retired legacy Omni Flash duration-fixed SKUs.
-
-  ## Audio series
-
-  - `gpt-4o-mini-tts` (`POST /v1/audio/speech`)
-  - `whisper-1` (`POST /v1/audio/transcriptions`)
-  - `suno` (`POST /v1/video/generations`)
-
-  ### Links
-
-  - [Pricing](/en/api-reference/account/pricing)
-  - [Audio Speech](/en/api-reference/audio-series/models/gpt-4o-mini-tts)
 
 </Update>
 
