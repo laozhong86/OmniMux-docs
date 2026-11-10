@@ -39,7 +39,7 @@ Pages: **Page 1** · [Page 2](/en/updates/page-2)
 
   The original link and media addresses never appear in the address bar, the token, or analytics. Guests who sign in from the workbench in the same tab keep their video. If the token has expired, was already used, or the video is unavailable, the workbench opens with an empty recreation slot and one message asking you to choose another video or upload a file.
 
-  Both endpoints accept requests from OmniMux pages only (same-origin and tool verification) and are not intended for API clients.
+  Both endpoints accept requests from OmniMux pages only and are not intended for API clients. Issuing a token needs the tool verification pass; redeeming needs a same-origin request from a signed-in account. Redeeming is limited to 6 attempts per account and 20 per IP address every 10 minutes, and runs one transfer per account at a time; over the limit it answers `429`.
 
   ### Links
 

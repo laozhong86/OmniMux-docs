@@ -50,8 +50,8 @@
         "zh": "TikTok 工具页可把解析好的视频带进爆款复刻"
       },
       "summary": {
-        "en": "On the TikTok video tool pages, Start recreating and Recreate with my character now open the workbench in viral recreation with the parsed 4-30 second video already in the reference video slot. Two same-site browser endpoints carry it; they are not part of the developer API.",
-        "zh": "在 TikTok 视频工具页点「开始复刻」或「用我的角色复刻」，工作台会打开爆款复刻，并把解析好的 4–30 秒视频放进参考视频槽。由两个仅限本站页面调用的浏览器接口完成，不属于开发者 API。"
+        "en": "On the TikTok video tool pages, Start recreating and Recreate with my character now open the workbench in viral recreation with the parsed 4-30 second video already in the reference video slot. Two same-site browser endpoints carry it: issuing needs tool verification, redeeming needs sign-in and is rate limited. They are not part of the developer API.",
+        "zh": "在 TikTok 视频工具页点「开始复刻」或「用我的角色复刻」，工作台会打开爆款复刻，并把解析好的 4–30 秒视频放进参考视频槽。由两个仅限本站页面调用的浏览器接口完成：申请凭证需通过工具验证，兑换需登录并有频率限制。不属于开发者 API。"
       },
       "models": [],
       "tags": [
