@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "id": "2026-11-10-www-canonical-host",
+  "published_at": "2026-11-10",
+  "rank": 0,
+  "type": "platform",
+  "modality": [
+    "platform"
+  ],
+  "title": {
+    "en": "www.omnimux.ai pages redirect to omnimux.ai; API paths keep their host",
+    "zh": "www.omnimux.ai 页面统一跳转到 omnimux.ai，API 路径保持原主机"
+  },
+  "summary": {
+    "en": "Website pages on www.omnimux.ai now answer one permanent redirect to omnimux.ai. API, relay, plugin task and installer paths on www are not redirected.",
+    "zh": "www.omnimux.ai 上的网站页面现在一次永久跳转到 omnimux.ai；www 上的 API、中转、插件任务和安装脚本路径不跳转。"
+  },
+  "models": [],
+  "links": [
+    {
+      "label": {
+        "en": "Quickstart",
+        "zh": "快速开始"
+      },
+      "href": {
+        "en": "/en/quickstart",
+        "zh": "/zh/quickstart"
+      }
+    }
+  ],
+  "tags": [
+    "platform",
+    "compatibility"
+  ],
+  "body": {
+    "en": "`GET` and `HEAD` requests for website pages on `www.omnimux.ai` now return a single `301` to the same path and query on `https://omnimux.ai`. `POST` and other methods are not redirected. Requests under `/api`, `/v1`, `/v1beta`, `/pg`, `/mj`, `/<mode>/mj`, `/dashboard/billing`, `/suno`, `/kling`, `/xai`, `/doubao`, `/ali`, `/autodl`, `/jimeng`, `/oauth`, `/install.sh` and `/install.ps1` keep their host and are not redirected, so clients that use `www.omnimux.ai` as their base URL keep working. People who were signed in on www need to sign in once more on `omnimux.ai`.\n\n`/zh` and `/zh/` now return a single `301` to the homepage: `https://omnimux.ai/` from www, or `/` on the apex.\n\nOn the apex, fixed path segments with the wrong capitalization, such as `/Pricing`, return a single `301` to the correct spelling and keep the query. On www, a mistyped address such as `/Pricing` first returns a `301` to `https://omnimux.ai/Pricing`, then a second `301` to `/pricing`.\n\nThe retired legal URLs `/privacy-policy` and `/user-agreement` (apex or www, with or without a trailing slash) now return a single `301` to `/privacy` and `/terms`.\n\nWe recommend `https://api.omnimux.ai` or `https://omnimux.ai` as the API base URL.",
+    "zh": "`www.omnimux.ai` 上网站页面的 `GET`、`HEAD` 请求现在一次 `301` 到 `https://omnimux.ai` 的相同路径和查询。`POST` 及其他方法不跳转。`/api`、`/v1`、`/v1beta`、`/pg`、`/mj`、`/<mode>/mj`、`/dashboard/billing`、`/suno`、`/kling`、`/xai`、`/doubao`、`/ali`、`/autodl`、`/jimeng`、`/oauth`、`/install.sh`、`/install.ps1` 下的请求保持原主机、不跳转，以 `www.omnimux.ai` 为 base URL 的客户端不受影响。原先在 www 登录的用户需要在 `omnimux.ai` 再登录一次。\n\n`/zh`、`/zh/` 现在一次 `301` 到首页：www 跳到 `https://omnimux.ai/`，主域名跳到 `/`。\n\n在主域名上，路径固定段大小写写错时（例如 `/Pricing`）一次 `301` 到正确写法，并保留查询参数。在 www 上，大小写写错的地址（例如 `/Pricing`）先 `301` 到 `https://omnimux.ai/Pricing`，再第二次 `301` 到 `/pricing`。\n\n旧法务地址 `/privacy-policy`、`/user-agreement`（主域名或 www，是否带尾斜杠均可）现在一次 `301` 到 `/privacy`、`/terms`。\n\nAPI base URL 推荐使用 `https://api.omnimux.ai` 或 `https://omnimux.ai`。"
+  }
+}

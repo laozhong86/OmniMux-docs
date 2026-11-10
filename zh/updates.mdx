@@ -9,6 +9,26 @@ rss: true
 
 分页：**第 1 页** · [第 2 页](/zh/updates/page-2)
 
+<a id="2026-11-10-www-canonical-host"></a>
+
+<Update label="2026 年 11 月 10 日" tags={["平台"]} rss={{ title: "www.omnimux.ai 页面统一跳转到 omnimux.ai，API 路径保持原主机" }}>
+
+  `www.omnimux.ai` 上网站页面的 `GET`、`HEAD` 请求现在一次 `301` 到 `https://omnimux.ai` 的相同路径和查询。`POST` 及其他方法不跳转。`/api`、`/v1`、`/v1beta`、`/pg`、`/mj`、`/<mode>/mj`、`/dashboard/billing`、`/suno`、`/kling`、`/xai`、`/doubao`、`/ali`、`/autodl`、`/jimeng`、`/oauth`、`/install.sh`、`/install.ps1` 下的请求保持原主机、不跳转，以 `www.omnimux.ai` 为 base URL 的客户端不受影响。原先在 www 登录的用户需要在 `omnimux.ai` 再登录一次。
+
+  `/zh`、`/zh/` 现在一次 `301` 到首页：www 跳到 `https://omnimux.ai/`，主域名跳到 `/`。
+
+  在主域名上，路径固定段大小写写错时（例如 `/Pricing`）一次 `301` 到正确写法，并保留查询参数。在 www 上，大小写写错的地址（例如 `/Pricing`）先 `301` 到 `https://omnimux.ai/Pricing`，再第二次 `301` 到 `/pricing`。
+
+  旧法务地址 `/privacy-policy`、`/user-agreement`（主域名或 www，是否带尾斜杠均可）现在一次 `301` 到 `/privacy`、`/terms`。
+
+  API base URL 推荐使用 `https://api.omnimux.ai` 或 `https://omnimux.ai`。
+
+  ### 链接
+
+  - [快速开始](/zh/quickstart)
+
+</Update>
+
 <a id="2026-11-10-model-execution-profile-defaults"></a>
 
 <Update label="2026 年 11 月 10 日" tags={["能力更新", "平台"]} rss={{ title: "模型执行档案与推荐默认值" }}>
@@ -1180,35 +1200,6 @@ rss: true
   ### 链接
 
   - [连接与使用](/zh/faqs/connection-usage)
-
-</Update>
-
-<a id="2026-08-31-catalog-sync"></a>
-
-<Update label="2026 年 8 月 31 日" tags={["新模型", "文本", "图像", "视频", "音频"]} rss={{ title: "模型目录全量同步：Gemini 3.7、GLM 5.3、Wan 3.0、Seedance 2.0、Grok Imagine、音频与语音转录" }}>
-
-  ## 语言系列
-
-  - **Gemini：** 增加 `gemini-3.7-flash`
-  - **GLM：** 增加 `glm-5.3`
-  - **Grok：** 增加 `grok-4.6`
-  - **DeepSeek：** 增加 `deepseek-v4-flash-vision-exp`
-
-  ## 图像与视频系列
-
-  - 全量补齐 **Wan 3.0**（`wan-3.0`、`wan-3.0-prime`、`wan-3.0-prime-ref`、`wan-3.0-ref`）、**Seedance 2.0**（`seedance-2-0`、`seedance-2-0-fast`、`seedance-2-0-mini`、`seedance-2-5`）、**Kling**（`kling-v3`、`kling-v2-6`、`kling-avatar`、`kling-o3`、`kling-v3-motion-control`）、**Grok Imagine** 与 **Midjourney** 文档。
-  - 下架并清理已停售的 Omni Flash 固定时长 SKU。
-
-  ## 音频系列
-
-  - `gpt-4o-mini-tts`（`POST /v1/audio/speech` 语音合成）
-  - `whisper-1`（`POST /v1/audio/transcriptions` 语音转录）
-  - `suno`（`POST /v1/video/generations` 音乐生成）
-
-  ### 链接
-
-  - [定价](/zh/api-reference/account/pricing)
-  - [语音合成](/zh/api-reference/audio-series/models/gpt-4o-mini-tts)
 
 </Update>
 
