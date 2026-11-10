@@ -17,7 +17,7 @@ rss: true
 
   `/zh`、`/zh/` 现在一次 `301` 到首页：www 跳到 `https://omnimux.ai/`，主域名跳到 `/`。
 
-  路径固定段大小写写错时（例如 `/Pricing`）一次 `301` 到正确写法，并保留查询参数。
+  在主域名上，路径固定段大小写写错时（例如 `/Pricing`）一次 `301` 到正确写法，并保留查询参数。在 www 上，大小写写错的地址（例如 `/Pricing`）先 `301` 到 `https://omnimux.ai/Pricing`，再第二次 `301` 到 `/pricing`。
 
   旧法务地址 `/privacy-policy`、`/user-agreement`（主域名或 www，是否带尾斜杠均可）现在一次 `301` 到 `/privacy`、`/terms`。
 

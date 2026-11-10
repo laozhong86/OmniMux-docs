@@ -17,7 +17,7 @@ Pages: **Page 1** · [Page 2](/en/updates/page-2)
 
   `/zh` and `/zh/` now return a single `301` to the homepage: `https://omnimux.ai/` from www, or `/` on the apex.
 
-  Fixed path segments with the wrong capitalization, such as `/Pricing`, return a single `301` to the correct spelling and keep the query.
+  On the apex, fixed path segments with the wrong capitalization, such as `/Pricing`, return a single `301` to the correct spelling and keep the query. On www, a mistyped address such as `/Pricing` first returns a `301` to `https://omnimux.ai/Pricing`, then a second `301` to `/pricing`.
 
   The retired legal URLs `/privacy-policy` and `/user-agreement` (apex or www, with or without a trailing slash) now return a single `301` to `/privacy` and `/terms`.
 
