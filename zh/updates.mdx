@@ -29,6 +29,24 @@ rss: true
 
 </Update>
 
+<a id="2026-11-10-tool-to-workbench-handoff"></a>
+
+<Update label="2026 年 11 月 10 日" tags={["能力更新", "视频"]} rss={{ title: "TikTok 工具页可把解析好的视频带进爆款复刻" }}>
+
+  在工具页解析 TikTok 链接后，点「开始复刻」或「用我的角色复刻」会打开 `/influencer` 的视频模式并选中爆款复刻，解析好的视频直接出现在参考视频槽。视频须为 4–30 秒，且不超过 200 MiB。
+
+  工具页只把解析出的作品 ID 发给 `POST /api/tools/tiktok/handoff`，拿到一个 30 分钟内有效、只能使用一次的凭证；凭证不包含原链接。工作台在登录后调用 `POST /api/tools/tiktok/handoff/redeem`，OmniMux 按作品 ID 重新下载视频，存成当前登录账号自己的参考视频上传，照常计入存储配额并按期清理。凭证只对申请它的访客浏览器或账号有效，且只能用一次。
+
+  原链接和媒体地址不会出现在地址栏、凭证或统计数据里。访客在同一标签页从工作台登录后，视频仍会带上。凭证过期、已使用或视频不可用时，工作台打开空的爆款复刻槽，并提示一次请换一个视频或上传文件。
+
+  两个接口只接受来自 OmniMux 页面的请求（同源并需通过工具验证），不面向 API 客户端。
+
+  ### 链接
+
+  - [复刻拆解接口](/zh/api-reference/account/influencer/recreate-analyze)
+
+</Update>
+
 <a id="2026-11-10-model-execution-profile-defaults"></a>
 
 <Update label="2026 年 11 月 10 日" tags={["能力更新", "平台"]} rss={{ title: "模型执行档案与推荐默认值" }}>
@@ -1186,20 +1204,6 @@ rss: true
   ### 链接
 
   - [账号列表](/zh/api-reference/publishing/list-accounts)
-
-</Update>
-
-<a id="2026-09-07-account-quota-errors"></a>
-
-<Update label="2026 年 9 月 7 日" tags={["平台", "文本"]} rss={{ title: "OpenAI 文本接口统一账户额度错误" }}>
-
-  OpenAI Completions、Chat Completions、Responses 和 Responses Compact 在本地账户余额或订阅额度不足以完成预扣时，返回 HTTP **402**，`error.type` 与 `error.code` 均为 `insufficient_quota`。流式请求在 SSE 建立前返回 JSON 错误。应先检查余额或额度，再决定是否重新请求；不要将其当作密钥失效或临时限流。token 错误、上游渠道错误、其他协议，以及真正的 401/403、普通 429 和 5xx 行为保持不变。
-
-  网关于 2026 年 9 月 7 日 07:25:20 UTC+8（2026-09-06T23:25:20Z）上线该响应。
-
-  ### 链接
-
-  - [连接与使用](/zh/faqs/connection-usage)
 
 </Update>
 
