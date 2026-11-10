@@ -29,6 +29,8 @@ Base URL: `https://omnimux.ai`
 
 `data` is an array of models. Each row includes `model_name`, `quota_type`, `model_ratio`, `model_price`, `enable_groups`, and `contract`.
 
+The optional top-level `defaults` map recommends a model per operation (`chat`, `vision_chat`, `text_to_image`, `text_to_video`, `text_to_music`, `speech_to_text`). Every value references a model present in the same response with non-empty `enable_groups`; absent recommendations are omitted.
+
 The `contract` object is descriptive only. It never participates in billing, quota or settlement.
 
 | Contract field | Meaning |
@@ -39,6 +41,8 @@ The `contract` object is descriptive only. It never participates in billing, quo
 | `operation_ids[]` | The same operation ids as a string array, for v1-compatible clients. |
 | `unknowns[]` | Field paths whose value the governance spec did not establish. Missing fields are not defaults. |
 | `reference_images` / `reference_videos` / `reference_audios` | Declared reference-media limits and accepted formats. |
+| `reasoning_efforts` | Optional map from reasoning level to the upstream wire value for text models. |
+| `default_reasoning_effort` | Optional default level; when present it is one of the `reasoning_efforts` keys. |
 
 An operation input carries `slot`, `type`, `role`, `required`, `min`, `max`, `allowedMimes`, `maxSizeMb` and duration bounds when declared. A parameter carries `name`, `type`, `enum`, `minimum`, `maximum`, `step`, `default`, `fixed`, and `limitSource`.
 
@@ -64,6 +68,10 @@ curl --request GET \
 ```json 200
 {
   "success": true,
+  "defaults": {
+    "chat": "gemini-3.8-flash",
+    "text_to_image": "gpt-image-2.5"
+  },
   "data": [
     {
       "model_name": "gpt-image-2.5",

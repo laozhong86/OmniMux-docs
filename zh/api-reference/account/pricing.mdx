@@ -29,6 +29,8 @@ Base URL：`https://omnimux.ai`
 
 `data` 是模型数组。每行包含 `model_name`、`quota_type`、`model_ratio`、`model_price`、`enable_groups` 和 `contract`。
 
+可选的顶层 `defaults` 按操作推荐模型（`chat`、`vision_chat`、`text_to_image`、`text_to_video`、`text_to_music`、`speech_to_text`）。每个值都指向同一响应中 `enable_groups` 非空的模型；没有可用推荐时省略对应键。
+
 `contract` 是纯描述数据，不参与计费、额度或结算。
 
 | 契约字段 | 含义 |
@@ -39,6 +41,8 @@ Base URL：`https://omnimux.ai`
 | `operation_ids[]` | 同一批操作 ID 的字符串数组，兼容 v1 客户端。 |
 | `unknowns[]` | 治理档案未建立的字段路径；缺失字段不是默认值。 |
 | `reference_images` / `reference_videos` / `reference_audios` | 参考素材数量、格式与大小上限。 |
+| `reasoning_efforts` | 可选：文本模型的推理档位到上游 wire value 的映射。 |
+| `default_reasoning_effort` | 可选：默认推理档位；存在时必须是 `reasoning_efforts` 的键。 |
 
 操作输入项包含 `slot`、`type`、`role`、`required`、`min`、`max`、`allowedMimes`、`maxSizeMb` 及已声明的时长边界。参数项包含 `name`、`type`、`enum`、`minimum`、`maximum`、`step`、`default`、`fixed`、`limitSource`。
 
@@ -64,6 +68,10 @@ curl --request GET \
 ```json 200
 {
   "success": true,
+  "defaults": {
+    "chat": "gemini-3.8-flash",
+    "text_to_image": "gpt-image-2.5"
+  },
   "data": [
     {
       "model_name": "gpt-image-2.5",
