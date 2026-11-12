@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "2026-11-12-nano-banana-2-1",
+  "published_at": "2026-11-12",
+  "rank": 1,
+  "type": "model_launch",
+  "modality": [
+    "image"
+  ],
+  "models": [
+    "nano-banana-2-1"
+  ],
+  "links": [
+    {
+      "label": {
+        "zh": "接口文档",
+        "en": "API Reference"
+      },
+      "href": {
+        "zh": "/zh/api-reference/image-series/models/nano-banana-2-1",
+        "en": "/en/api-reference/image-series/models/nano-banana-2-1"
+      }
+    }
+  ],
+  "title": {
+    "zh": "Nano Banana 2.1 文生图上线",
+    "en": "Nano Banana 2.1 text-to-image is live"
+  },
+  "summary": {
+    "zh": "Google Gemini Nano Banana 2.1 文生图上线，按 resolution 每张固定价：1K $0.034、2K $0.051、4K $0.114；默认 2K。",
+    "en": "Google Gemini Nano Banana 2.1 text-to-image is live, fixed per-image price by resolution: 1K $0.034, 2K $0.051, 4K $0.114; defaults to 2K."
+  },
+  "body": {
+    "zh": "## Nano Banana 2.1\n\n**Nano Banana 2.1** 已在 OmniMux 上线。\n\n- **Model ID:** `nano-banana-2-1`\n- **API:** `POST /v1/images/generations`（异步，返回 `task_id`）\n- **计费:** 1K 每张 $0.034、2K 每张 $0.051、4K 每张 $0.114；默认 2K；`n` 固定为 1\n- **能力:** MVP 文生图；参考图/图生图与 `model_params` 暂不支持（400）",
+    "en": "## Nano Banana 2.1\n\n**Nano Banana 2.1** is now available on OmniMux.\n\n- **Model ID:** `nano-banana-2-1`\n- **API:** `POST /v1/images/generations` (async, returns `task_id`)\n- **Billing:** 1K at $0.034, 2K at $0.051, 4K at $0.114 per image; defaults to 2K; `n` fixed at 1\n- **Capability:** MVP text-to-image; reference image / image-to-image and `model_params` not supported yet (400)"
+  },
+  "tags": [
+    "nano-banana",
+    "google",
+    "image"
+  ]
+}

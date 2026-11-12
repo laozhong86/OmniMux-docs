@@ -1,0 +1,105 @@
+---
+title: "Seedream 5.5 生图"
+sidebarTitle: "Seedream 5.5 生图"
+description: "Seedream 5.5 生图 · model `seedream-5-5`"
+api: "POST https://api.omnimux.ai/v1/images/generations"
+---
+
+- 调用 `POST /v1/images/generations`，`model` 为 `seedream-5-5`
+- 请求体至少包含 `model` 与 `prompt`
+- 异步任务：创建响应返回 `task_id`，以控制台日志/任务结果为准
+
+## 身份
+
+| 字段 | 值 |
+| --- | --- |
+| 系列 | 图像系列 |
+| 品牌 | Seedream |
+| model | `seedream-5-5` |
+
+## 接口
+
+| 方法 | 路径 |
+| --- | --- |
+| `POST` | `/v1/images/generations` |
+
+Base URL：`https://api.omnimux.ai`
+
+## 鉴权
+
+| 名称 | 位置 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | 是 | `Bearer sk-...`（API Key） |
+
+## 请求体
+
+| 字段 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| `model` | string | 是 | 固定为 `seedream-5-5` |
+| `prompt` | string | 是 | 图像描述 |
+| `size` | string | 否 | 输出档位 `1K` / `1.5K` / `2K`；未传时网关按 `2K` 计费与生成 |
+| `n` | integer | 否 | **固定为 1**，不支持批量 |
+
+### 能力面（MVP）
+
+| 项目 | 值 |
+| --- | --- |
+| 文生图 | 支持 |
+| 参考图 / 图生图 / 编辑 | 暂不支持：`image`、`image_urls`、`images`、`input_reference` 非空或 `layer_decomposition=true` 会被拒绝（400） |
+| 生成张数 | 1 |
+
+## 计费
+
+按输出像素档计费，每张：`1K` / `1.5K` = **$0.02**，`2K` = **$0.035**。`n` 固定为 1。
+
+## 响应
+
+### 200
+
+| 字段 | 类型 | 说明 |
+| --- | --- | --- |
+| `task_id` / `id` | string | 异步任务 id |
+| `data` | array | 结果（异步完成后读取） |
+
+错误形态见右栏示例；失败任务自动全额退款。
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url https://api.omnimux.ai/v1/images/generations \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "model": "seedream-5-5",
+  "prompt": "a product photo on white background",
+  "size": "2K",
+  "n": 1
+}'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200
+{ "task_id": "task_xxx", "status": "queued", "model": "seedream-5-5" }
+```
+
+```json 400
+{ "error": { "message": "seedream-5-5 size must be one of 1K, 1.5K, 2K", "type": "invalid_request_error", "code": "invalid_request" } }
+```
+
+```json 401
+{ "error": { "message": "Invalid token", "type": "authentication_error", "code": "unauthorized" } }
+```
+
+```json 402
+{ "error": { "message": "Insufficient quota. Please top up your account.", "type": "insufficient_quota", "code": "insufficient_quota" } }
+```
+
+</ResponseExample>
+
+</Panel>
