@@ -1,0 +1,101 @@
+---
+title: "Seedream 5.5 Image Generation"
+sidebarTitle: "Seedream 5.5 Image Generation"
+description: "Seedream 5.5 Image Generation · model `seedream-5-5`"
+api: "POST https://api.omnimux.ai/v1/images/generations"
+---
+
+- Call `POST /v1/images/generations` with `model` `seedream-5-5`
+- Body requires at least `model` and `prompt`
+- Async: the create response returns a `task_id`; read the final result from console logs / task result
+
+## Identity
+
+| Field | Value |
+| --- | --- |
+| Series | Image series |
+| Brand | Seedream |
+| model | `seedream-5-5` |
+
+## Endpoint
+
+| Method | Path |
+| --- | --- |
+| `POST` | `/v1/images/generations` |
+
+Base URL: `https://api.omnimux.ai`
+
+## Authorizations
+
+| Name | In | Type | Required | Description |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | yes | `Bearer sk-...` (API key) |
+
+## Body
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `model` | string | yes | Must be `seedream-5-5` |
+| `prompt` | string | yes | Image description |
+| `size` | string | no | Output tier `1K` / `1.5K` / `2K`; when omitted the gateway bills and generates at `2K` |
+| `n` | integer | no | **Must be 1**; batch is not supported |
+
+### Capability (MVP)
+
+| Item | Value |
+| --- | --- |
+| Text-to-image | Supported |
+| Reference image / image-to-image / edit | Not supported yet: a non-empty `image`, `image_urls`, `images`, `input_reference`, or `layer_decomposition=true` is rejected (400) |
+| Images per request | 1 |
+
+## Billing
+
+Billed per output pixel tier, per image: `1K` / `1.5K` = **$0.02**, `2K` = **$0.035**. `n` is fixed at 1.
+
+## Response
+
+### 200
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `task_id` / `id` | string | Async task id |
+| `data` | array | Results after the async task completes |
+
+Errors: see right-rail examples; failed tasks are fully refunded.
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url https://api.omnimux.ai/v1/images/generations \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "model": "seedream-5-5",
+  "prompt": "a product photo on white background",
+  "size": "2K",
+  "n": 1
+}'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200
+{ "task_id": "task_xxx", "status": "queued", "model": "seedream-5-5" }
+```
+
+```json 400
+{ "error": { "message": "seedream-5-5 size must be one of 1K, 1.5K, 2K", "type": "invalid_request_error", "code": "invalid_request" } }
+```
+
+```json 402
+{ "error": { "message": "Insufficient quota. Please top up your account.", "type": "insufficient_quota", "code": "insufficient_quota" } }
+```
+
+</ResponseExample>
+
+</Panel>

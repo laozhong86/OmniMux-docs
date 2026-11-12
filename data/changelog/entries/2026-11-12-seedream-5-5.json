@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "2026-11-12-seedream-5-5",
+  "published_at": "2026-11-12",
+  "rank": 2,
+  "type": "model_launch",
+  "modality": [
+    "image"
+  ],
+  "models": [
+    "seedream-5-5"
+  ],
+  "links": [
+    {
+      "label": {
+        "zh": "接口文档",
+        "en": "API Reference"
+      },
+      "href": {
+        "zh": "/zh/api-reference/image-series/models/seedream-5-5",
+        "en": "/en/api-reference/image-series/models/seedream-5-5"
+      }
+    }
+  ],
+  "title": {
+    "zh": "Seedream 5.5 文生图上线",
+    "en": "Seedream 5.5 text-to-image is live"
+  },
+  "summary": {
+    "zh": "ByteDance Seedream 5.5 文生图上线，按输出像素档计费：1K/1.5K 每张 $0.02、2K 每张 $0.035。",
+    "en": "ByteDance Seedream 5.5 text-to-image is live, billed per output pixel tier: 1K/1.5K at $0.02 per image, 2K at $0.035."
+  },
+  "body": {
+    "zh": "## Seedream 5.5\n\n**Seedream 5.5** 已在 OmniMux 上线。\n\n- **Model ID:** `seedream-5-5`\n- **API:** `POST /v1/images/generations`（异步，返回 `task_id`）\n- **计费:** 1K/1.5K 每张 $0.02，2K 每张 $0.035；`n` 固定为 1\n- **能力:** MVP 文生图；参考图/图生图暂不支持（400）",
+    "en": "## Seedream 5.5\n\n**Seedream 5.5** is now available on OmniMux.\n\n- **Model ID:** `seedream-5-5`\n- **API:** `POST /v1/images/generations` (async, returns `task_id`)\n- **Billing:** 1K/1.5K at $0.02 per image, 2K at $0.035; `n` fixed at 1\n- **Capability:** MVP text-to-image; reference image / image-to-image not supported yet (400)"
+  },
+  "tags": [
+    "seedream",
+    "bytedance",
+    "image"
+  ]
+}

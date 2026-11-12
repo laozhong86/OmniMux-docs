@@ -9,6 +9,44 @@ Stay up to date with OmniMux gateway model launches and platform changes. The fu
 
 Pages: **Page 1** · [Page 2](/en/updates/page-2)
 
+<a id="2026-11-12-seedream-5-5"></a>
+
+<Update label="November 12, 2026" tags={["New models", "Image"]} rss={{ title: "Seedream 5.5 text-to-image is live" }}>
+
+  ## Seedream 5.5
+
+  **Seedream 5.5** is now available on OmniMux.
+
+  - **Model ID:** `seedream-5-5`
+  - **API:** `POST /v1/images/generations` (async, returns `task_id`)
+  - **Billing:** 1K/1.5K at $0.02 per image, 2K at $0.035; `n` fixed at 1
+  - **Capability:** MVP text-to-image; reference image / image-to-image not supported yet (400)
+
+  ### Links
+
+  - [API Reference](/en/api-reference/image-series/models/seedream-5-5)
+
+</Update>
+
+<a id="2026-11-12-nano-banana-2-1"></a>
+
+<Update label="November 12, 2026" tags={["New models", "Image"]} rss={{ title: "Nano Banana 2.1 text-to-image is live" }}>
+
+  ## Nano Banana 2.1
+
+  **Nano Banana 2.1** is now available on OmniMux.
+
+  - **Model ID:** `nano-banana-2-1`
+  - **API:** `POST /v1/images/generations` (async, returns `task_id`)
+  - **Billing:** 1K at $0.034, 2K at $0.051, 4K at $0.114 per image; defaults to 2K; `n` fixed at 1
+  - **Capability:** MVP text-to-image; reference image / image-to-image and `model_params` not supported yet (400)
+
+  ### Links
+
+  - [API Reference](/en/api-reference/image-series/models/nano-banana-2-1)
+
+</Update>
+
 <a id="2026-11-11-tool-to-workbench-handoff"></a>
 
 <Update label="November 11, 2026" tags={["Improvements", "Video"]} rss={{ title: "TikTok tool pages hand the parsed video to viral recreation" }}>
@@ -1159,51 +1197,6 @@ Pages: **Page 1** · [Page 2](/en/updates/page-2)
   ### Links
 
   - [H3 Max API](/en/api-reference/video-series/models/minimax-h3-max)
-
-</Update>
-
-<a id="2026-09-08-fal-minimax-h3"></a>
-
-<Update label="September 8, 2026" tags={["New models", "Video"]} rss={{ title: "fal.ai MiniMax H3 Max & Turbo Video Models Live with Dynamic Multimodal Dispatch" }}>
-
-  ## fal.ai MiniMax H3 Max & Turbo
-
-  **MiniMax H3 Max** and **MiniMax H3 Max Turbo** video generation models are now live on OmniMux.
-
-  ### Highlights
-
-  - **Dynamic Multimodal Dispatch**: Clients only need to configure two base models (`minimax/h3-max` and `minimax/h3-max-turbo`). Passing prompt-only routes to text-to-video, adding `image_url` routes to image-to-video, and passing `video_url` routes to reference-to-video automatically.
-  - **Ultra-Fast Turbo Performance**: Sub-3-second end-to-end rendering for 5-second video clips.
-  - **Two-Phase Resilient Polling**: Transparent inline result resolution with CDN 404 lag tolerance.
-  - **Standard API**: Create via `POST /v1/video/generations` and query via `GET /v1/tasks/{task_id}`.
-
-  ### Links
-
-  - [MiniMax H3 Max](/en/api-reference/video-series/models/minimax-h3-max)
-  - [MiniMax H3 Max Turbo](/en/api-reference/video-series/models/minimax-h3-max-turbo)
-  - [Pricing](/en/api-reference/account/pricing)
-
-</Update>
-
-<a id="2026-09-07-social-provider-required"></a>
-
-<Update label="September 7, 2026" tags={["Breaking", "Publishing"]} rss={{ title: "Social operations require an explicit provider" }}>
-
-  The gateway began requiring `provider` at **2026-09-07 07:25:20 UTC+8 (2026-09-06T23:25:20Z)** for listing accounts, starting a connection, disconnecting, creating a post and reading post status. Use `tiktok_direct` for official TikTok accounts or `zernio` for Zernio accounts. GET/DELETE carry it in the query; POST carries it in JSON. Missing or unknown values return `400 invalid-provider`; a resource from another source returns `409 account-provider-mismatch` or `409 post-provider-mismatch`. There is no default source.
-
-  ### CLI migration
-
-  Use CLI **0.4.0**: `omnimux update` for binaries, or `npm install -g @omnimux/cli@0.4.0` for npm. Update all saved commands to include `--provider`, for example `omnimux social accounts --provider zernio`. For a read without upstream refresh, use `omnimux social post-status <post-id> --provider zernio --no-refresh`. Updating a binary does not update your scripts or prove all clients have upgraded.
-
-  CLI 0.4.0 also includes the previously merged hosted commands and video skill updates. Credentials use a mode-0600 file on every platform; Keychain-only installations need credentials configured securely. The Agent RPC envelope remains `contract_version: 1`.
-
-  CLI 0.4.0 was published on **2026-09-07 at 01:47:36 UTC (09:47:36 UTC+8)**. Both the public binary release and npm package are version 0.4.0.
-
-  Standalone binaries do not include skill files. Install the npm package to use or update the bundled skills; a binary-only update can report that the skill tree is missing even when the CLI upgrade succeeds.
-
-  ### Links
-
-  - [List accounts](/en/api-reference/publishing/list-accounts)
 
 </Update>
 

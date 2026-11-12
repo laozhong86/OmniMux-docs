@@ -1,0 +1,103 @@
+---
+title: "Nano Banana 2.1 Image Generation"
+sidebarTitle: "Nano Banana 2.1 Image Generation"
+description: "Nano Banana 2.1 Image Generation · model `nano-banana-2-1`"
+api: "POST https://api.omnimux.ai/v1/images/generations"
+---
+
+- Call `POST /v1/images/generations` with `model` `nano-banana-2-1`
+- Body requires at least `model` and `prompt`
+- Async: the create response returns a `task_id`; read the final result from console logs / task result
+
+## Identity
+
+| Field | Value |
+| --- | --- |
+| Series | Image series |
+| Brand | Nano Banana |
+| model | `nano-banana-2-1` |
+
+## Endpoint
+
+| Method | Path |
+| --- | --- |
+| `POST` | `/v1/images/generations` |
+
+Base URL: `https://api.omnimux.ai`
+
+## Authorizations
+
+| Name | In | Type | Required | Description |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | yes | `Bearer sk-...` (API key) |
+
+## Body
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `model` | string | yes | Must be `nano-banana-2-1` |
+| `prompt` | string | yes | Image description |
+| `resolution` | string | no | `1K` / `2K` / `4K`; when omitted the gateway defaults to `2K` |
+| `size` | string | no | Aspect ratio (e.g. `1:1`, `16:9`, `9:16`; 14 ratios) or `auto` (accepted at runtime; equals default) |
+| `n` | integer | no | **Must be 1**; batch is not supported |
+
+### Capability (MVP)
+
+| Item | Value |
+| --- | --- |
+| Text-to-image | Supported |
+| Reference image / image-to-image / edit | Not supported yet: a non-empty `image`, `image_urls`, `images`, `input_reference`, or `layer_decomposition=true` is rejected (400) |
+| Paid enhancement params | Not supported yet: `model_params` (e.g. web_search / image_search) is rejected (400) |
+| Images per request | 1 |
+
+## Billing
+
+Fixed per-image price by `resolution`: `1K` = **$0.034**, `2K` = **$0.051**, `4K` = **$0.114**. When `resolution` is omitted it bills as `2K`; `n` is fixed at 1.
+
+## Response
+
+### 200
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `task_id` / `id` | string | Async task id |
+| `data` | array | Results after the async task completes |
+
+Errors: see right-rail examples; failed tasks are fully refunded.
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url https://api.omnimux.ai/v1/images/generations \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "model": "nano-banana-2-1",
+  "prompt": "a red apple on a table, studio light",
+  "resolution": "2K",
+  "size": "16:9"
+}'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200
+{ "task_id": "task_xxx", "status": "queued", "model": "nano-banana-2-1" }
+```
+
+```json 400
+{ "error": { "message": "nano-banana-2-1 resolution must be one of 1K, 2K, 4K", "type": "invalid_request_error", "code": "invalid_request" } }
+```
+
+```json 402
+{ "error": { "message": "Insufficient quota. Please top up your account.", "type": "insufficient_quota", "code": "insufficient_quota" } }
+```
+
+</ResponseExample>
+
+</Panel>
