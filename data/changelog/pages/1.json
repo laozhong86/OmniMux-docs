@@ -2,408 +2,88 @@
   "schema_version": 1,
   "page": 1,
   "page_size": 50,
-  "total": 78,
+  "total": 70,
   "total_pages": 2,
   "items": [
     {
-      "id": "2026-11-12-seedream-5-5",
-      "published_at": "2026-11-12",
-      "type": "model_launch",
+      "id": "2026-11-13-nano-banana-2-lite",
+      "published_at": "2026-11-13",
+      "type": "breaking",
       "modality": [
         "image"
       ],
       "title": {
-        "zh": "Seedream 5.5 文生图上线",
-        "en": "Seedream 5.5 text-to-image is live"
+        "en": "Public model ID renamed to nano-banana-2-lite",
+        "zh": "公开模型 ID 更名为 nano-banana-2-lite"
       },
       "summary": {
-        "zh": "ByteDance Seedream 5.5 文生图上线，按输出像素档计费：1K/1.5K 每张 $0.02、2K 每张 $0.035。",
-        "en": "ByteDance Seedream 5.5 text-to-image is live, billed per output pixel tier: 1K/1.5K at $0.02 per image, 2K at $0.035."
+        "en": "The public model ID gemini-3.1-flash-lite-image is now nano-banana-2-lite, matching the Nano Banana family naming. Google's official ID remains the upstream model ID; the model, its 1K-only capability and its price are unchanged.",
+        "zh": "公开模型 ID 由 gemini-3.1-flash-lite-image 变更为 nano-banana-2-lite，与 Nano Banana 家族命名保持一致。Google 官方 ID 仍作为上游模型 ID；模型本身、仅支持 1K 的能力与价格均不变。"
       },
       "models": [
-        "seedream-5-5"
+        "nano-banana-2-lite"
       ],
       "tags": [
-        "seedream",
-        "bytedance",
-        "image"
+        "image",
+        "breaking",
+        "migration"
       ],
       "links": [
         {
           "label": {
-            "zh": "接口文档",
-            "en": "API Reference"
+            "en": "Nano Banana 2 Lite Image Generation",
+            "zh": "Nano Banana 2 Lite 生图"
           },
           "href": {
-            "zh": "/zh/api-reference/image-series/models/seedream-5-5",
-            "en": "/en/api-reference/image-series/models/seedream-5-5"
+            "en": "/en/api-reference/image-series/models/nano-banana-2-lite",
+            "zh": "/zh/api-reference/image-series/models/nano-banana-2-lite"
           }
         }
       ],
       "body": {
-        "zh": "## Seedream 5.5\n\n**Seedream 5.5** 已在 OmniMux 上线。\n\n- **Model ID:** `seedream-5-5`\n- **API:** `POST /v1/images/generations`（异步，返回 `task_id`）\n- **计费:** 1K/1.5K 每张 $0.02，2K 每张 $0.035；`n` 固定为 1\n- **能力:** MVP 文生图；参考图/图生图暂不支持（400）",
-        "en": "## Seedream 5.5\n\n**Seedream 5.5** is now available on OmniMux.\n\n- **Model ID:** `seedream-5-5`\n- **API:** `POST /v1/images/generations` (async, returns `task_id`)\n- **Billing:** 1K/1.5K at $0.02 per image, 2K at $0.035; `n` fixed at 1\n- **Capability:** MVP text-to-image; reference image / image-to-image not supported yet (400)"
+        "en": "## Public ID renamed\n\nThe public model ID `gemini-3.1-flash-lite-image` is now `nano-banana-2-lite`.\n\n- Send `\"model\": \"nano-banana-2-lite\"` to `POST /v1/images/generations`; update saved requests, integrations and model allowlists.\n- Google's official model ID `gemini-3.1-flash-lite-image` remains the upstream model ID (the upstream SKU); it is no longer the public ID.\n- Rename only — same model, same 1K-only capability and same price ($0.0336 per image at 1K). No other change.\n- The previous ID is not offered as a compatibility alias.\n\nThe public ID now follows the Nano Banana family naming.",
+        "zh": "## 公开 ID 更名\n\n公开模型 ID 由 `gemini-3.1-flash-lite-image` 变更为 `nano-banana-2-lite`。\n\n- 调用 `POST /v1/images/generations` 时请传 `\"model\": \"nano-banana-2-lite\"`，并同步更新已保存的请求、集成代码与模型白名单。\n- Google 官方模型 ID `gemini-3.1-flash-lite-image` 仍作为上游模型 ID（上游 SKU）存在，但不再是公开模型 ID。\n- 本次仅为更名：同一个模型、同样仅支持 1K 的能力、同样价格（1K 分辨率 $0.0336/张），无其他变更。\n- 旧 ID 不提供兼容别名。\n\n公开模型 ID 现与 Nano Banana 家族命名保持一致。"
       },
       "schema_version": 1
     },
     {
-      "id": "2026-11-12-nano-banana-2-1",
-      "published_at": "2026-11-12",
-      "type": "model_launch",
-      "modality": [
-        "image"
-      ],
-      "title": {
-        "zh": "Nano Banana 2.1 文生图上线",
-        "en": "Nano Banana 2.1 text-to-image is live"
-      },
-      "summary": {
-        "zh": "Google Gemini Nano Banana 2.1 文生图上线，按 resolution 每张固定价：1K $0.034、2K $0.051、4K $0.114；默认 2K。",
-        "en": "Google Gemini Nano Banana 2.1 text-to-image is live, fixed per-image price by resolution: 1K $0.034, 2K $0.051, 4K $0.114; defaults to 2K."
-      },
-      "models": [
-        "nano-banana-2-1"
-      ],
-      "tags": [
-        "nano-banana",
-        "google",
-        "image"
-      ],
-      "links": [
-        {
-          "label": {
-            "zh": "接口文档",
-            "en": "API Reference"
-          },
-          "href": {
-            "zh": "/zh/api-reference/image-series/models/nano-banana-2-1",
-            "en": "/en/api-reference/image-series/models/nano-banana-2-1"
-          }
-        }
-      ],
-      "body": {
-        "zh": "## Nano Banana 2.1\n\n**Nano Banana 2.1** 已在 OmniMux 上线。\n\n- **Model ID:** `nano-banana-2-1`\n- **API:** `POST /v1/images/generations`（异步，返回 `task_id`）\n- **计费:** 1K 每张 $0.034、2K 每张 $0.051、4K 每张 $0.114；默认 2K；`n` 固定为 1\n- **能力:** MVP 文生图；参考图/图生图与 `model_params` 暂不支持（400）",
-        "en": "## Nano Banana 2.1\n\n**Nano Banana 2.1** is now available on OmniMux.\n\n- **Model ID:** `nano-banana-2-1`\n- **API:** `POST /v1/images/generations` (async, returns `task_id`)\n- **Billing:** 1K at $0.034, 2K at $0.051, 4K at $0.114 per image; defaults to 2K; `n` fixed at 1\n- **Capability:** MVP text-to-image; reference image / image-to-image and `model_params` not supported yet (400)"
-      },
-      "schema_version": 1
-    },
-    {
-      "id": "2026-11-11-tool-to-workbench-handoff",
-      "published_at": "2026-11-11",
-      "type": "capability",
-      "modality": [
-        "video"
-      ],
-      "title": {
-        "en": "TikTok tool pages hand the parsed video to viral recreation",
-        "zh": "TikTok 工具页可把解析好的视频带进爆款复刻"
-      },
-      "summary": {
-        "en": "On the TikTok video tool pages, Start recreating and Recreate with my character now open the workbench in viral recreation with the parsed 4-30 second video already in the reference video slot. Two same-site browser endpoints carry it: issuing needs tool verification, redeeming needs sign-in and is rate limited. They are not part of the developer API.",
-        "zh": "在 TikTok 视频工具页点「开始复刻」或「用我的角色复刻」，工作台会打开爆款复刻，并把解析好的 4–30 秒视频放进参考视频槽。由两个仅限本站页面调用的浏览器接口完成：申请凭证需通过工具验证，兑换需登录并有频率限制。不属于开发者 API。"
-      },
-      "models": [],
-      "tags": [
-        "video",
-        "workbench"
-      ],
-      "links": [
-        {
-          "label": {
-            "en": "Recreation analysis API",
-            "zh": "复刻拆解接口"
-          },
-          "href": {
-            "en": "/en/api-reference/account/influencer/recreate-analyze",
-            "zh": "/zh/api-reference/account/influencer/recreate-analyze"
-          }
-        }
-      ],
-      "body": {
-        "en": "After a TikTok link is parsed on a tool page, Start recreating and Recreate with my character open `/influencer` in video mode with viral recreation selected, and the parsed video appears in the reference video slot. Videos must be 4-30 seconds long and at most 200 MiB.\n\nThe tool page calls `POST /api/tools/tiktok/handoff` with the parsed work ID only and receives a single-use token that expires after 30 minutes. The token does not contain the original link. The workbench calls `POST /api/tools/tiktok/handoff/redeem` after sign-in; OmniMux downloads the video again by work ID and stores it as the signed-in account's own reference upload, with the usual storage quota and expiry. A token works only for the guest browser or account that requested it, and only once.\n\nThe original link and media addresses never appear in the address bar, the token, or analytics. Guests who sign in from the workbench in the same tab keep their video. If the token has expired, was already used, or the video is unavailable, the workbench opens with an empty recreation slot and one message asking you to choose another video or upload a file.\n\nBoth endpoints accept requests from OmniMux pages only and are not intended for API clients. Issuing a token needs the tool verification pass; redeeming needs a same-origin request from a signed-in account. Redeeming is limited to 6 attempts per account and 20 per IP address every 10 minutes, and runs one transfer per account at a time; over the limit it answers `429`.",
-        "zh": "在工具页解析 TikTok 链接后，点「开始复刻」或「用我的角色复刻」会打开 `/influencer` 的视频模式并选中爆款复刻，解析好的视频直接出现在参考视频槽。视频须为 4–30 秒，且不超过 200 MiB。\n\n工具页只把解析出的作品 ID 发给 `POST /api/tools/tiktok/handoff`，拿到一个 30 分钟内有效、只能使用一次的凭证；凭证不包含原链接。工作台在登录后调用 `POST /api/tools/tiktok/handoff/redeem`，OmniMux 按作品 ID 重新下载视频，存成当前登录账号自己的参考视频上传，照常计入存储配额并按期清理。凭证只对申请它的访客浏览器或账号有效，且只能用一次。\n\n原链接和媒体地址不会出现在地址栏、凭证或统计数据里。访客在同一标签页从工作台登录后，视频仍会带上。凭证过期、已使用或视频不可用时，工作台打开空的爆款复刻槽，并提示一次请换一个视频或上传文件。\n\n两个接口只接受来自 OmniMux 页面的请求，不面向 API 客户端。申请凭证需要通过工具验证；兑换需要同源请求且已登录账号。兑换每 10 分钟每个账号最多 6 次、每个 IP 最多 20 次，且每个账号同一时间只进行一次转存；超出限制返回 `429`。"
-      },
-      "schema_version": 1
-    },
-    {
-      "id": "2026-11-10-www-canonical-host",
-      "published_at": "2026-11-10",
-      "type": "platform",
-      "modality": [
-        "platform"
-      ],
-      "title": {
-        "en": "www.omnimux.ai pages redirect to omnimux.ai; API paths keep their host",
-        "zh": "www.omnimux.ai 页面统一跳转到 omnimux.ai，API 路径保持原主机"
-      },
-      "summary": {
-        "en": "Website pages on www.omnimux.ai now answer one permanent redirect to omnimux.ai. API, relay, plugin task and installer paths on www are not redirected.",
-        "zh": "www.omnimux.ai 上的网站页面现在一次永久跳转到 omnimux.ai；www 上的 API、中转、插件任务和安装脚本路径不跳转。"
-      },
-      "models": [],
-      "tags": [
-        "platform",
-        "compatibility"
-      ],
-      "links": [
-        {
-          "label": {
-            "en": "Quickstart",
-            "zh": "快速开始"
-          },
-          "href": {
-            "en": "/en/quickstart",
-            "zh": "/zh/quickstart"
-          }
-        }
-      ],
-      "body": {
-        "en": "`GET` and `HEAD` requests for website pages on `www.omnimux.ai` now return a single `301` to the same path and query on `https://omnimux.ai`. `POST` and other methods are not redirected. Requests under `/api`, `/v1`, `/v1beta`, `/pg`, `/mj`, `/<mode>/mj`, `/dashboard/billing`, `/suno`, `/kling`, `/xai`, `/doubao`, `/ali`, `/autodl`, `/jimeng`, `/oauth`, `/install.sh` and `/install.ps1` keep their host and are not redirected, so clients that use `www.omnimux.ai` as their base URL keep working. People who were signed in on www need to sign in once more on `omnimux.ai`.\n\n`/zh` and `/zh/` now return a single `301` to the homepage: `https://omnimux.ai/` from www, or `/` on the apex.\n\nOn the apex, fixed path segments with the wrong capitalization, such as `/Pricing`, return a single `301` to the correct spelling and keep the query. On www, a mistyped address such as `/Pricing` first returns a `301` to `https://omnimux.ai/Pricing`, then a second `301` to `/pricing`.\n\nThe retired legal URLs `/privacy-policy` and `/user-agreement` (apex or www, with or without a trailing slash) now return a single `301` to `/privacy` and `/terms`.\n\nWe recommend `https://api.omnimux.ai` or `https://omnimux.ai` as the API base URL.",
-        "zh": "`www.omnimux.ai` 上网站页面的 `GET`、`HEAD` 请求现在一次 `301` 到 `https://omnimux.ai` 的相同路径和查询。`POST` 及其他方法不跳转。`/api`、`/v1`、`/v1beta`、`/pg`、`/mj`、`/<mode>/mj`、`/dashboard/billing`、`/suno`、`/kling`、`/xai`、`/doubao`、`/ali`、`/autodl`、`/jimeng`、`/oauth`、`/install.sh`、`/install.ps1` 下的请求保持原主机、不跳转，以 `www.omnimux.ai` 为 base URL 的客户端不受影响。原先在 www 登录的用户需要在 `omnimux.ai` 再登录一次。\n\n`/zh`、`/zh/` 现在一次 `301` 到首页：www 跳到 `https://omnimux.ai/`，主域名跳到 `/`。\n\n在主域名上，路径固定段大小写写错时（例如 `/Pricing`）一次 `301` 到正确写法，并保留查询参数。在 www 上，大小写写错的地址（例如 `/Pricing`）先 `301` 到 `https://omnimux.ai/Pricing`，再第二次 `301` 到 `/pricing`。\n\n旧法务地址 `/privacy-policy`、`/user-agreement`（主域名或 www，是否带尾斜杠均可）现在一次 `301` 到 `/privacy`、`/terms`。\n\nAPI base URL 推荐使用 `https://api.omnimux.ai` 或 `https://omnimux.ai`。"
-      },
-      "schema_version": 1
-    },
-    {
-      "id": "2026-11-10-model-execution-profile-defaults",
-      "published_at": "2026-11-10",
-      "type": "capability",
-      "modality": [
-        "platform"
-      ],
-      "title": {
-        "en": "Model execution profile and recommended defaults",
-        "zh": "模型执行档案与推荐默认值"
-      },
-      "summary": {
-        "en": "The public catalog now publishes optional reasoning effort levels, a default reasoning level, and a top-level defaults map for recommended models.",
-        "zh": "公开目录现在发布可选的推理档位、默认推理档位，以及按操作推荐模型的顶层 defaults 映射。"
-      },
-      "models": [],
-      "tags": [
-        "api",
-        "contract",
-        "defaults"
-      ],
-      "links": [
-        {
-          "label": {
-            "en": "Pricing API",
-            "zh": "定价接口"
-          },
-          "href": {
-            "en": "/en/api-reference/account/pricing",
-            "zh": "/zh/api-reference/account/pricing"
-          }
-        }
-      ],
-      "body": {
-        "en": "`GET /api/pricing` text-model contracts may now carry optional `reasoning_efforts` (a map from the user-facing level to the upstream wire value) and `default_reasoning_effort`. The response may also carry a top-level `defaults` map recommending a model per operation (`chat`, `vision_chat`, `text_to_image`, `text_to_video`, `text_to_music`, `speech_to_text`). Every default value references a model present in the same response with non-empty `enable_groups`; unavailable recommendations are omitted rather than replaced. Missing reasoning fields stay absent and must not be treated as defaults. These fields are descriptive metadata only; pricing, routing, quota, precharge and settlement are unchanged.",
-        "zh": "`GET /api/pricing` 的文本模型契约现在可携带可选的 `reasoning_efforts`（用户档位到上游 wire value 的映射）与 `default_reasoning_effort`。响应还可携带顶层 `defaults`，按操作推荐模型（`chat`、`vision_chat`、`text_to_image`、`text_to_video`、`text_to_music`、`speech_to_text`）。每个默认值都指向同一响应中 `enable_groups` 非空的模型；不可用的推荐直接省略，不会用其他模型替代。缺失的推理字段保持缺席，不得当作默认值。这些字段是纯描述数据；价格、路由、额度、预扣与结算均不变。"
-      },
-      "schema_version": 1
-    },
-    {
-      "id": "2026-11-08-model-contract-v2",
-      "published_at": "2026-11-08",
-      "type": "capability",
-      "modality": [
-        "platform"
-      ],
-      "title": {
-        "en": "Executable model capability contract v2",
-        "zh": "模型能力契约 v2：可执行操作清单"
-      },
-      "summary": {
-        "en": "The public catalog now publishes per-model operations, inputs and parameter schemas, with a per-model contractVersion for local caching.",
-        "zh": "公开目录现在发布每个模型的可执行操作、输入槽与参数 schema，并提供 per-model contractVersion 供客户端本地缓存。"
-      },
-      "models": [],
-      "tags": [
-        "api",
-        "contract",
-        "compatibility"
-      ],
-      "links": [
-        {
-          "label": {
-            "en": "Pricing API",
-            "zh": "定价接口"
-          },
-          "href": {
-            "en": "/en/api-reference/account/pricing",
-            "zh": "/zh/api-reference/account/pricing"
-          }
-        }
-      ],
-      "body": {
-        "en": "`GET /api/pricing` model rows now carry `contract.schemaVersion: \"2.0\"`, a per-model `contractVersion`, and an object array `operations[]`. Each operation declares `id`, `executable`, `inputs[]`, `parameters[]` and `output.type`; `operation_ids[]` retains the previous string-list view. `GET /api/model_contract/:model` publishes the same contract for one model. Fields the governance spec did not establish stay absent and are listed as machine-readable paths in `unknowns[]`; an operation that the gateway cannot execute is published with `executable: false`. The contract is descriptive only and is not used for billing, quota, precharge or settlement.\n\nExisting v1 clients that read the string operation list must switch to `operation_ids` or branch on `schemaVersion`; model-level fields such as `reference_images` and `durations_seconds` keep their names and meanings.",
-        "zh": "`GET /api/pricing` 的模型行现在带 `contract.schemaVersion: \"2.0\"`、每个模型独立的 `contractVersion`，以及对象数组 `operations[]`。每个操作声明 `id`、`executable`、`inputs[]`、`parameters[]` 与 `output.type`；`operation_ids[]` 保留旧的字符串数组视图。`GET /api/model_contract/:model` 返回同一份单模型契约。治理档案未建立的字段保持缺席，并以机器可读路径写入 `unknowns[]`；网关无法执行的操作以 `executable: false` 发布。契约是纯描述数据，不参与计费、额度、预扣或结算。\n\n仍读取旧字符串操作列表的 v1 客户端需改用 `operation_ids` 或按 `schemaVersion` 分支；`reference_images`、`durations_seconds` 等模型级字段名称与语义不变。"
-      },
-      "schema_version": 1
-    },
-    {
-      "id": "2026-10-24-h3-1088p-1440p-opened",
-      "published_at": "2026-10-24",
-      "type": "capability",
-      "modality": [
-        "video"
-      ],
-      "title": {
-        "en": "H3 video: 1088p and 1440p tiers are offered and priced by resolution",
-        "zh": "H3 视频：1088p 与 1440p 档位开放，并按分辨率单独定价"
-      },
-      "summary": {
-        "en": "`minimax-h3-video` now offers `1088p` and `1440p` on the six standard-tier endpoints that accept them. Each carries its own per-second price (`0.030` and `0.035 USD/second`), selected from the request's `resolution` by the task billing expression. Upstream `1080p` stays unoffered.",
-        "zh": "`minimax-h3-video` 在支持它们的六个标准档端点上开放 `1088p` 与 `1440p`，各自带独立每秒单价（`0.030` 与 `0.035 USD/秒`），由任务计费表达式按请求的 `resolution` 选取。上游 `1080p` 仍不开放。"
-      },
-      "models": [
-        "minimax-h3-video"
-      ],
-      "tags": [
-        "video",
-        "resolution",
-        "pricing"
-      ],
-      "links": [
-        {
-          "label": {
-            "en": "MiniMax H3 video line",
-            "zh": "MiniMax H3 视频专线"
-          },
-          "href": {
-            "en": "/en/api-reference/video-series/models/minimax-h3-video",
-            "zh": "/zh/api-reference/video-series/models/minimax-h3-video"
-          }
-        }
-      ],
-      "body": {
-        "en": "## Change\n\n`minimax-h3-video` now accepts two more billing tier labels: `1088p` and `1440p`. They are available on the six standard-tier endpoints whose upstream workflows accept them; the fast and higher-quality tiers keep their single endpoint each and do not offer these resolutions.\n\n## Pricing\n\nPer-second billing has no resolution dimension, so the two tiers cannot be expressed by the base unit price alone. They are priced by resolution in the task billing expression:\n\n| Tier | Rate |\n| --- | --- |\n| `480p` / `736p` / `768p` | `0.025 USD/second` |\n| `1088p` | `0.030 USD/second` |\n| `1440p` | `0.035 USD/second` |\n\nGroup multipliers still apply on top, so a fast-tier `1088p` request would be rejected rather than silently repriced (that tier has no such endpoint).\n\n## Impact\n\n- Higher resolutions now cost more than the base tiers instead of being unrequestable.\n- Upstream `1080p` (three workflows) stays unoffered and keeps returning `400` (`plugin_usage_invalid`).\n- Requests for `1088p` / `1440p` on tiers without a matching endpoint return `400`; nothing is silently downgraded or billed as `768p`.\n\n## Documentation\n\n- [MiniMax H3 video line](/en/api-reference/video-series/models/minimax-h3-video)",
-        "zh": "## 变更\n\n`minimax-h3-video` 新增两个计费档位标签：`1088p` 与 `1440p`。它们只在六个标准档端点上可用（这些端点的上游工作流接受这两档）；高速档与升级画质档各只有一个端点、不支持这两档。\n\n## 定价\n\n按秒计费没有分辨率维度，因此这两档无法只靠基准单价表达，改由任务计费表达式按分辨率定价：\n\n| 档位 | 单价 |\n| --- | --- |\n| `480p` / `736p` / `768p` | `0.025 USD/秒` |\n| `1088p` | `0.030 USD/秒` |\n| `1440p` | `0.035 USD/秒` |\n\n分组倍率仍在其上叠加；高速档请求 `1088p` 会因没有候选端点被拒绝，而不是被静默改价。\n\n## 影响\n\n- 更高分辨率现在比基准档更贵，而不是完全无法请求。\n- 上游 `1080p`（三个工作流）仍不开放，传入继续返回 `400`（`plugin_usage_invalid`）。\n- 在没有对应端点的档位上请求 `1088p` / `1440p` 会返回 `400`；不会静默降级，也不会按 `768p` 计价。\n\n## 文档\n\n- [MiniMax H3 视频专线](/zh/api-reference/video-series/models/minimax-h3-video)"
-      },
-      "schema_version": 1
-    },
-    {
-      "id": "2026-10-23-wan-video-resolution-tiers",
-      "published_at": "2026-10-23",
+      "id": "2026-10-22-desktop-surface-pricing",
+      "published_at": "2026-10-22",
       "type": "pricing",
       "modality": [
         "video"
       ],
       "title": {
-        "en": "Wan 3.0: one public ID with resolution-based tiers",
-        "zh": "Wan 3.0：单一公开 ID + 分辨率即档位"
+        "en": "Desktop surface pricing groups for Seedance 2.5",
+        "zh": "Seedance 2.5 新增桌面端计费分组"
       },
       "summary": {
-        "en": "`wan-3.0` is published as one public model ID. Callers no longer pick a model or a group: the request `resolution` selects the tier — `720p` at ¥0.60/second and `1080p` at ¥1.80/second, billed per second. Duration envelope is 4–30 seconds (up to 15 seconds with a reference video).",
-        "zh": "`wan-3.0` 收敛为单一公开模型 ID：调用方不再选模型或分组，请求里的 `resolution` 决定档位 —— `720p` 为 ¥0.60/秒、`1080p` 为 ¥1.80/秒，按秒计费。时长包络 4–30 秒（带参考视频时上限 15 秒）。"
+        "en": "The desktop surface now prices Seedance 2.5 through two model-specific groups: desktop-480p at ¥0.92/second and desktop-720p at ¥1.31/second. The public model ID, base price and Web groups are unchanged.",
+        "zh": "桌面端现通过两个模型专属分组计费：desktop-480p 为 ¥0.92/秒，desktop-720p 为 ¥1.31/秒。公开模型 ID、基准价与 Web 端分组均不变。"
       },
       "models": [
-        "wan-3.0"
+        "seedance-2-5"
       ],
       "tags": [
-        "video",
         "pricing",
-        "resolution",
-        "tiers",
-        "single-id"
-      ],
-      "links": [
-        {
-          "label": {
-            "en": "Wan 3.0 video generation",
-            "zh": "Wan 3.0 视频生成"
-          },
-          "href": {
-            "en": "/en/api-reference/video-series/models/wan-3.0",
-            "zh": "/zh/api-reference/video-series/models/wan-3.0"
-          }
-        }
-      ],
-      "body": {
-        "en": "## Change\n\n`wan-3.0` now exposes one public model ID. The tier is not a second model ID and is not chosen by the caller: the gateway selects the tier group from the request's `resolution` (or `size`), so `720p` and `1080p` resolve to the `wan-3.0-720p` and `wan-3.0-1080p` groups respectively.\n\nAutomatic selection applies to both `POST /v1/video/generations` and the console's `POST /pg/video/generations`. An explicit caller choice always wins: the `X-Omnimux-Group` header, a body `group`, or a `model@group` suffix is never overridden by automatic tier selection.\n\n## Tiers and prices\n\nBilled per second, in CNY:\n\n| Tier | Resolution | Price |\n| --- | --- | --- |\n| 720p | `720p` | ¥0.60/second |\n| 1080p | `1080p` | ¥1.80/second |\n\nThe base anchors the official 1080P list price of ¥1.20/second; the 720p tier is 0.5× and the 1080p tier is 1.5×. The duration envelope is 4–30 seconds, and with a reference video the cap is lower (up to 15 seconds).\n\n## Impact\n\n- Callers send `model: \"wan-3.0\"` plus a `resolution` (required); no model or group selection is required.\n- Sizes are classified by their shorter side, so `1280x720` / `720x1280` and `1920x1080` / `1080x1920` cost the same.\n- The resolution is required: it selects the tier and therefore the channel, so omitting it is rejected (`400`), as is any value other than `720p` / `1080p`.\n- The public pricing endpoint and the pre-submission quote remain authoritative for any individual request.\n\n## Documentation\n\n- [Wan 3.0 video generation](/en/api-reference/video-series/models/wan-3.0)",
-        "zh": "## 变更\n\n`wan-3.0` 收敛为单一公开模型 ID。档位不再是第二个模型 ID，也不由调用方选择：网关按请求里的 `resolution`（或 `size`）选组，`720p` 与 `1080p` 分别对应 `wan-3.0-720p` 与 `wan-3.0-1080p`。\n\n自动选组对 `POST /v1/video/generations` 与控制台内的 `POST /pg/video/generations` 都生效。显式选择优先：请求头 `X-Omnimux-Group`、请求体 `group`、或 `model@分组` 后缀由调用方指定时，自动选组不会覆盖。\n\n## 档位与价格\n\n按秒计费，单位为人民币：\n\n| 档位 | 分辨率 | 价格 |\n| --- | --- | --- |\n| 720p | `720p` | ¥0.60/秒 |\n| 1080p | `1080p` | ¥1.80/秒 |\n\n基准锚官方 1080P 原价 ¥1.20/秒；720p 档为 0.5 倍、1080p 档为 1.5 倍。时长包络 4–30 秒，带参考视频时上限更低（≤ 15 秒）。\n\n## 影响\n\n- 调用方传 `model: \"wan-3.0\"` 加 `resolution`（必填）即可，无需选模型或选分组。\n- 尺寸按较短边归入档位，`1280x720` / `720x1280` 与 `1920x1080` / `1080x1920` 同价。\n- 分辨率必填：它决定档位、进而决定渠道，因此不传会被拒绝（`400`），`720p` / `1080p` 以外的取值同样被拒绝。\n- 最终价格以公开定价接口与提交前报价为准。\n\n## 文档\n\n- [Wan 3.0 视频生成](/zh/api-reference/video-series/models/wan-3.0)"
-      },
-      "schema_version": 1
-    },
-    {
-      "id": "2026-10-23-h3-unoffered-resolution-rejected",
-      "published_at": "2026-10-23",
-      "type": "capability",
-      "modality": [
-        "video"
-      ],
-      "title": {
-        "en": "H3 video: unoffered resolution tiers are rejected explicitly",
-        "zh": "H3 视频：未开放分辨率档位改为显式拒绝"
-      },
-      "summary": {
-        "en": "`minimax-h3-video` keeps the three published tiers `480p` / `736p` / `768p`. The upstream-only `1088p` / `1440p` tiers were wrongly reachable and are now removed from the public enum: sending one returns `400` (`plugin_usage_invalid`) instead of being accepted at another tier's price.",
-        "zh": "`minimax-h3-video` 只保留已发布的 `480p` / `736p` / `768p` 三档。上游存在但未开放的 `1088p` / `1440p` 此前可被误用，现已从公开枚举移除：传入会返回 `400`（`plugin_usage_invalid`），不再被按其它档位的价格受理。"
-      },
-      "models": [
-        "minimax-h3-video"
-      ],
-      "tags": [
         "video",
-        "resolution",
-        "fail-closed"
+        "desktop"
       ],
       "links": [
         {
           "label": {
-            "en": "MiniMax H3 video line",
-            "zh": "MiniMax H3 视频专线"
+            "en": "Seedance 2.5 API Reference",
+            "zh": "Seedance 2.5 接口文档"
           },
           "href": {
-            "en": "/en/api-reference/video-series/models/minimax-h3-video",
-            "zh": "/zh/api-reference/video-series/models/minimax-h3-video"
+            "en": "/en/api-reference/video-series/models/seedance-2-5",
+            "zh": "/zh/api-reference/video-series/models/seedance-2-5"
           }
         }
       ],
       "body": {
-        "en": "## Change\n\n`minimax-h3-video` supports three billing tiers: `480p`, `736p` and `768p`. The upstream-only `1088p` and `1440p` tiers were wrongly reachable through the public enum; they are removed now, so a request carrying one returns `400` (`plugin_usage_invalid`).\n\n## Impact\n\n- The model bills per second and has no resolution dimension, so `1088p` / `1440p` cannot be priced on their own. Before this change such a request was accepted and precharged at the base rate (measured: 12500 raw_quota), the upstream run ended in `FAILED`, and the quota was refunded in full — the tier had neither a price nor a reliable run.\n- Unoffered tiers now fail closed: the request is rejected instead of being silently downgraded to `768p` or billed as `768p`.\n- The published `480p` / `736p` / `768p` contract and prices are unchanged.\n\n## Documentation\n\n- [MiniMax H3 video line](/en/api-reference/video-series/models/minimax-h3-video)",
-        "zh": "## 变更\n\n`minimax-h3-video` 只支持 `480p`、`736p`、`768p` 三个计费档位。上游存在但未开放的 `1088p` / `1440p` 此前可从公开枚举误用，现已移除：传入会返回 `400`（`plugin_usage_invalid`）。\n\n## 影响\n\n- 该模型按秒计费、没有分辨率维度，`1088p` / `1440p` 无法单独定价。改动前这类请求会被受理并按基准价预扣（实测 12500 raw_quota），上游最终 `FAILED`、配额全额退还 —— 即该档位既没有价格，实测也不可靠。\n- 未开放档位现在一律显式拒绝（fail-closed）：请求被拒，不会静默降级到 `768p`，也不会按 `768p` 计价。\n- 已发布的 `480p` / `736p` / `768p` 契约与价格不变。\n\n## 文档\n\n- [MiniMax H3 视频专线](/zh/api-reference/video-series/models/minimax-h3-video)"
-      },
-      "schema_version": 1
-    },
-    {
-      "id": "2026-10-23-autodl-h3-video-restore",
-      "published_at": "2026-10-23",
-      "type": "model_launch",
-      "modality": [
-        "video"
-      ],
-      "title": {
-        "en": "MiniMax H3 video line restored with tier groups",
-        "zh": "MiniMax H3 视频专线恢复上架并新增档位分组"
-      },
-      "summary": {
-        "en": "`minimax-h3-video` is available again on the AutoDL H3 line. One public ID now serves three tiers through request-scoped groups: standard (1.0×), `minimax-h3-video-fast` (0.9×) and `minimax-h3-video-pro` (1.15×). Billing stays per requested second at 0.025 USD/second, and the newest endpoints accept a `mode` parameter.",
-        "zh": "`minimax-h3-video` 在 AutoDL H3 线路恢复上架。同一个公开 ID 通过请求级分组提供三个档位：标准档 1.0×、`minimax-h3-video-fast` 0.9×、`minimax-h3-video-pro` 1.15×。计费仍按请求时长 0.025 USD/秒，最新端点新增 `mode` 参数。"
-      },
-      "models": [
-        "minimax-h3-video"
-      ],
-      "tags": [
-        "video",
-        "groups",
-        "pricing"
-      ],
-      "links": [
-        {
-          "label": {
-            "en": "MiniMax H3 video line",
-            "zh": "MiniMax H3 视频专线"
-          },
-          "href": {
-            "en": "/en/api-reference/video-series/models/minimax-h3-video",
-            "zh": "/zh/api-reference/video-series/models/minimax-h3-video"
-          }
-        }
-      ],
-      "body": {
-        "en": "**MiniMax H3 video line** (`minimax-h3-video`) is available again, served by AutoDL ComfyUI workflows.\n\n## Restored\n\n- **Model ID:** `minimax-h3-video`\n- **Contract:** `POST /v1/videos`, polled through `GET /v1/videos/{task_id}` (plugin line: the path differs from the other video series models, and `/v1/video/generations` returns 503)\n- **Tiers:** standard (default, 1.0×), `minimax-h3-video-fast` (0.9×), `minimax-h3-video-pro` (1.15×)\n- **Billing:** 0.025 USD/second (¥0.17/second at FX 6.8); `raw_quota = 0.025 × 500000 × seconds × GroupRatio`\n\n## Capabilities and limits\n\n- One ID selects its endpoint from the request shape: text-to-video, image reference, image + audio, lip sync and first-last frame. When nothing matches it returns 400 instead of silently falling back.\n- The fast and higher-quality tiers serve image reference and image + audio only, capped at 768p.\n- Offered resolutions are 480p / 736p / 768p. 1080p and the higher upstream tiers have no published price and are not offered.\n- Duration is 1–15 seconds (default 5); some shapes cap at 10 or 12 seconds.\n\n## New parameter\n\n- `mode` (`高速模式` / `高质模式`, default `高质模式`): accepted by the nine-image and nine-image-three-audio endpoints added on 2026-10-23.\n\n## Documentation\n\n- [MiniMax H3 video line](/en/api-reference/video-series/models/minimax-h3-video)",
-        "zh": "**MiniMax H3 视频专线**（`minimax-h3-video`）恢复上架，由 AutoDL ComfyUI 工作流承载。\n\n## 恢复上架\n\n- **Model ID：** `minimax-h3-video`\n- **接口契约：** `POST /v1/videos`，通过 `GET /v1/videos/{task_id}` 轮询（插件型线路，路径与视频系列其它模型不同；误用 `/v1/video/generations` 会返回 503）\n- **档位：** 标准档（默认，1.0×）、`minimax-h3-video-fast`（0.9×）、`minimax-h3-video-pro`（1.15×）\n- **计费：** 0.025 USD/秒（¥0.17/秒，FX 6.8）；`raw_quota = 0.025 × 500000 × 秒数 × GroupRatio`\n\n## 能力与限制\n\n- 同一 ID 按请求形态自动选端点：文生视频、多图参考、多图多音频、对口型、首尾帧；没有候选时返回 400，不静默降级。\n- 高速档与升级画质档只覆盖多图参考与多图多音频，分辨率上限 768p。\n- 公开分辨率档为 480p / 736p / 768p；1080p 与更高的上游档位没有已发布价格，不开放。\n- 时长 1–15 秒（默认 5 秒），部分形态上限 10 秒或 12 秒。\n\n## 新增参数\n\n- `mode`（`高速模式` / `高质模式`，默认 `高质模式`）：2026-10-23 新增的九图与九图三音端点接受该参数。\n\n## 文档\n\n- [MiniMax H3 视频专线](/zh/api-reference/video-series/models/minimax-h3-video)"
+        "en": "## Desktop surface pricing\n\n`seedance-2-5` keeps one public model ID and one base price. The desktop surface adds two model-specific groups on top of it:\n\n| Group | Effective price |\n| --- | --- |\n| `desktop-480p` | **¥0.92/second** |\n| `desktop-720p` | **¥1.31/second** |\n\n- The Web groups `seedance-2-5-480p` (¥2.85/second) and `seedance-2-5-720p` (¥3.92/second) are unchanged.\n- Billing remains per requested second; resolution is still fixed per tier.\n- The model ID, base price and upstream channels are unchanged; only the group tier differs.\n\nThe public pricing endpoint and the model quote shown before submission remain the authoritative price for any individual request.",
+        "zh": "## 桌面端计费分组\n\n`seedance-2-5` 仍只保留一个公开模型 ID 与一个基准价。桌面端在此基础上新增两个模型专属分组：\n\n| 分组 | 实际计费价 |\n| --- | --- |\n| `desktop-480p` | **¥0.92/秒** |\n| `desktop-720p` | **¥1.31/秒** |\n\n- Web 端分组 `seedance-2-5-480p`（¥2.85/秒）与 `seedance-2-5-720p`（¥3.92/秒）不变。\n- 仍按请求时长按秒计费；每档分辨率固定。\n- 模型 ID、基准价与上游渠道均未改变，仅分组档位不同。\n\n任何单次请求的价格以公开 pricing 接口和提交前报价为准。"
       },
       "schema_version": 1
     },
@@ -2157,6 +1837,429 @@
       "body": {
         "en": "Use operation to select text, first-frame or Max multi-reference generation. Media arrays retain order and conflicting aliases are rejected. Replace legacy 720p with explicit 768P. Temporary result unavailability is retried; failures and cancellations are not masked by stale video URLs. Status reads no longer persist terminal transitions ahead of settlement polling.",
         "zh": "使用 operation 选择文生视频、首帧或 Max 多参考生成。素材数组保留顺序，冲突同义字段会被拒绝。旧720p需明确改为768P。产物暂不可用时重试，失败或取消不再被旧视频URL掩盖。状态查询不再抢先持久化终态，结算仍由后台轮询负责。"
+      },
+      "schema_version": 1
+    },
+    {
+      "id": "2026-09-08-fal-minimax-h3",
+      "published_at": "2026-09-08",
+      "type": "model_launch",
+      "modality": [
+        "video"
+      ],
+      "title": {
+        "en": "fal.ai MiniMax H3 Max & Turbo Video Models Live with Dynamic Multimodal Dispatch",
+        "zh": "fal.ai MiniMax H3 Max 与 Turbo 视频模型上线，支持动态多模态分发"
+      },
+      "summary": {
+        "en": "MiniMax H3 Max and H3 Max Turbo (<3s rendering) video models are live on OmniMux via fal.ai, supporting dynamic multimodal routing across text-to-video, image-to-video, and reference-to-video.",
+        "zh": "基于 fal.ai 后训练的 MiniMax H3 Max 旗舰版与 H3 Max Turbo 极速版（约3秒出片）视频模型已在 OmniMux 上线，支持文生视频、图生视频及参考生视频的动态多模态参数自适应分发。"
+      },
+      "models": [
+        "minimax/h3-max",
+        "minimax/h3-max-turbo"
+      ],
+      "tags": [
+        "video",
+        "multimodal",
+        "fal.ai",
+        "minimax"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "MiniMax H3 Max",
+            "zh": "MiniMax H3 Max"
+          },
+          "href": {
+            "en": "/en/api-reference/video-series/models/minimax-h3-max",
+            "zh": "/zh/api-reference/video-series/models/minimax-h3-max"
+          }
+        },
+        {
+          "label": {
+            "en": "MiniMax H3 Max Turbo",
+            "zh": "MiniMax H3 Max Turbo"
+          },
+          "href": {
+            "en": "/en/api-reference/video-series/models/minimax-h3-max-turbo",
+            "zh": "/zh/api-reference/video-series/models/minimax-h3-max-turbo"
+          }
+        },
+        {
+          "label": {
+            "en": "Pricing",
+            "zh": "定价"
+          },
+          "href": {
+            "en": "/en/api-reference/account/pricing",
+            "zh": "/zh/api-reference/account/pricing"
+          }
+        }
+      ],
+      "body": {
+        "en": "## fal.ai MiniMax H3 Max & Turbo\n\n**MiniMax H3 Max** and **MiniMax H3 Max Turbo** video generation models are now live on OmniMux.\n\n### Highlights\n\n- **Dynamic Multimodal Dispatch**: Clients only need to configure two base models (`minimax/h3-max` and `minimax/h3-max-turbo`). Passing prompt-only routes to text-to-video, adding `image_url` routes to image-to-video, and passing `video_url` routes to reference-to-video automatically.\n- **Ultra-Fast Turbo Performance**: Sub-3-second end-to-end rendering for 5-second video clips.\n- **Two-Phase Resilient Polling**: Transparent inline result resolution with CDN 404 lag tolerance.\n- **Standard API**: Create via `POST /v1/video/generations` and query via `GET /v1/tasks/{task_id}`.",
+        "zh": "## fal.ai MiniMax H3 Max 与 Turbo 视频模型\n\n**MiniMax H3 Max** 旗舰版与 **MiniMax H3 Max Turbo** 极速版视频生成模型现已在 OmniMux 正式上线。\n\n### 核心特性\n\n- **动态多模态分发**：客户端仅需配置两个基础模型（`minimax/h3-max` 和 `minimax/h3-max-turbo`）。只传文字走文生视频，传入 `image_url` 自动切图生视频，传入 `video_url` 自动切参考生视频，心智极简。\n- **Turbo 极速出片**：5 秒视频片段端到端约 3 秒即可出片（模型推理仅约 1.5 秒）。\n- **双阶段内聚轮询与容错**：成片 URL 就地解析，并具备针对 CDN 延迟的自愈防误杀能力。\n- **标准协议**：支持通过 `POST /v1/video/generations` 异步提交任务，并通过 `GET /v1/tasks/{task_id}` 轮询结果。"
+      },
+      "schema_version": 1
+    },
+    {
+      "id": "2026-09-07-social-provider-required",
+      "published_at": "2026-09-07",
+      "type": "breaking",
+      "modality": [
+        "publishing"
+      ],
+      "title": {
+        "en": "Social operations require an explicit provider",
+        "zh": "社媒操作必须明确指定账号来源"
+      },
+      "summary": {
+        "en": "Pass tiktok_direct or zernio on five account and publishing operations. Upgrade the CLI and update saved commands.",
+        "zh": "五项账号及发布操作必须传入 tiktok_direct 或 zernio；请升级 CLI 并更新已有命令。"
+      },
+      "models": [],
+      "tags": [
+        "provider",
+        "CLI",
+        "migration"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "List accounts",
+            "zh": "账号列表"
+          },
+          "href": {
+            "en": "/en/api-reference/publishing/list-accounts",
+            "zh": "/zh/api-reference/publishing/list-accounts"
+          }
+        }
+      ],
+      "body": {
+        "en": "The gateway began requiring `provider` at **2026-09-07 07:25:20 UTC+8 (2026-09-06T23:25:20Z)** for listing accounts, starting a connection, disconnecting, creating a post and reading post status. Use `tiktok_direct` for official TikTok accounts or `zernio` for Zernio accounts. GET/DELETE carry it in the query; POST carries it in JSON. Missing or unknown values return `400 invalid-provider`; a resource from another source returns `409 account-provider-mismatch` or `409 post-provider-mismatch`. There is no default source.\n\n### CLI migration\n\nUse CLI **0.4.0**: `omnimux update` for binaries, or `npm install -g @omnimux/cli@0.4.0` for npm. Update all saved commands to include `--provider`, for example `omnimux social accounts --provider zernio`. For a read without upstream refresh, use `omnimux social post-status <post-id> --provider zernio --no-refresh`. Updating a binary does not update your scripts or prove all clients have upgraded.\n\nCLI 0.4.0 also includes the previously merged hosted commands and video skill updates. Credentials use a mode-0600 file on every platform; Keychain-only installations need credentials configured securely. The Agent RPC envelope remains `contract_version: 1`.\n\nCLI 0.4.0 was published on **2026-09-07 at 01:47:36 UTC (09:47:36 UTC+8)**. Both the public binary release and npm package are version 0.4.0.\n\nStandalone binaries do not include skill files. Install the npm package to use or update the bundled skills; a binary-only update can report that the skill tree is missing even when the CLI upgrade succeeds.",
+        "zh": "网关从 **2026-09-07 07:25:20 UTC+8（2026-09-06T23:25:20Z）** 起，要求账号列表、发起连接、解绑、创建帖子及查询帖子状态五项操作显式传入 `provider`。官方 TikTok 账号使用 `tiktok_direct`，Zernio 账号使用 `zernio`。GET/DELETE 使用查询参数，POST 使用 JSON 字段。缺失或未知值返回 `400 invalid-provider`；跨来源资源返回 `409 account-provider-mismatch` 或 `409 post-provider-mismatch`。没有默认来源。\n\n### CLI 迁移\n\n使用 CLI **0.4.0**：二进制安装执行 `omnimux update`，npm 安装执行 `npm install -g @omnimux/cli@0.4.0`。同步修改已有命令，补充 `--provider`，例如 `omnimux social accounts --provider zernio`。不刷新上游的状态读取示例：`omnimux social post-status <post-id> --provider zernio --no-refresh`。升级二进制不会修改脚本，也不代表全部客户端都已升级。\n\nCLI 0.4.0 同时包含此前合入的 hosted 命令和视频技能更新。各平台凭据统一保存在权限为 0600 的文件中；仅使用 Keychain 的旧安装需要安全配置凭据。Agent RPC 仍为 `contract_version: 1`。\n\nCLI 0.4.0 于 **2026-09-07 01:47:36 UTC（09:47:36 UTC+8）** 公开发布。公开二进制与 npm 包版本均为 0.4.0。\n\n独立二进制不包含技能文件。需要使用或更新随包技能时，请安装 npm 包；仅升级二进制时，即使 CLI 升级成功，技能同步仍可能报告缺少技能目录。"
+      },
+      "schema_version": 1
+    },
+    {
+      "id": "2026-09-07-account-quota-errors",
+      "published_at": "2026-09-07",
+      "type": "platform",
+      "modality": [
+        "text"
+      ],
+      "title": {
+        "en": "Account quota errors on OpenAI text endpoints",
+        "zh": "OpenAI 文本接口统一账户额度错误"
+      },
+      "summary": {
+        "en": "Local account-quota failures return 402 insufficient_quota, preventing authentication misclassification and unnecessary retries.",
+        "zh": "本地账户额度不足返回 402 insufficient_quota，避免误判为密钥失效或触发无效重试。"
+      },
+      "models": [],
+      "tags": [
+        "errors",
+        "quota",
+        "compatibility"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "Connection and usage",
+            "zh": "连接与使用"
+          },
+          "href": {
+            "en": "/en/faqs/connection-usage",
+            "zh": "/zh/faqs/connection-usage"
+          }
+        }
+      ],
+      "body": {
+        "en": "OpenAI Completions, Chat Completions, Responses, and Responses Compact return HTTP **402** with `error.type` and `error.code` set to `insufficient_quota` when the local account balance or subscription allowance cannot cover pre-consume. Streaming requests receive the JSON error before SSE starts. Check balance or allowance before trying again; do not treat this as invalid credentials or temporary rate limiting. Token errors, upstream provider errors, other protocols, actual 401/403, ordinary 429, and 5xx behavior are unchanged.\n\nGateway enforcement began on September 7, 2026 at 07:25:20 UTC+8 (2026-09-06T23:25:20Z).",
+        "zh": "OpenAI Completions、Chat Completions、Responses 和 Responses Compact 在本地账户余额或订阅额度不足以完成预扣时，返回 HTTP **402**，`error.type` 与 `error.code` 均为 `insufficient_quota`。流式请求在 SSE 建立前返回 JSON 错误。应先检查余额或额度，再决定是否重新请求；不要将其当作密钥失效或临时限流。token 错误、上游渠道错误、其他协议，以及真正的 401/403、普通 429 和 5xx 行为保持不变。\n\n网关于 2026 年 9 月 7 日 07:25:20 UTC+8（2026-09-06T23:25:20Z）上线该响应。"
+      },
+      "schema_version": 1
+    },
+    {
+      "id": "2026-08-31-catalog-sync",
+      "published_at": "2026-08-31",
+      "type": "model_launch",
+      "modality": [
+        "text",
+        "image",
+        "video",
+        "audio"
+      ],
+      "title": {
+        "en": "Catalog synchronization: Gemini 3.7, GLM 5.3, Wan 3.0, Seedance 2.0, Grok Imagine, Audio TTS & STT",
+        "zh": "模型目录全量同步：Gemini 3.7、GLM 5.3、Wan 3.0、Seedance 2.0、Grok Imagine、音频与语音转录"
+      },
+      "summary": {
+        "en": "Comprehensive documentation alignment across all 108 live models in the OmniMux catalog.",
+        "zh": "全面对齐 OmniMux 线上 108 个在售模型的开发文档与 API 参考手册。"
+      },
+      "models": [
+        "gemini-3.7-flash",
+        "glm-5.3",
+        "grok-4.6",
+        "deepseek-v4-flash-vision-exp",
+        "wan-3.0",
+        "seedance-2-0",
+        "gpt-4o-mini-tts",
+        "whisper-1"
+      ],
+      "tags": [
+        "text",
+        "image",
+        "video",
+        "audio"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "Pricing",
+            "zh": "定价"
+          },
+          "href": {
+            "en": "/en/api-reference/account/pricing",
+            "zh": "/zh/api-reference/account/pricing"
+          }
+        },
+        {
+          "label": {
+            "en": "Audio Speech",
+            "zh": "语音合成"
+          },
+          "href": {
+            "en": "/en/api-reference/audio-series/models/gpt-4o-mini-tts",
+            "zh": "/zh/api-reference/audio-series/models/gpt-4o-mini-tts"
+          }
+        }
+      ],
+      "body": {
+        "en": "## Language series\n\n- **Gemini:** Added `gemini-3.7-flash`\n- **GLM:** Added `glm-5.3`\n- **Grok:** Added `grok-4.6`\n- **DeepSeek:** Added `deepseek-v4-flash-vision-exp`\n\n## Image & Video series\n\n- Canonical model ID hyphenation and full coverage for **Wan 3.0** (`wan-3.0`, `wan-3.0-prime`, `wan-3.0-prime-ref`, `wan-3.0-ref`), **Seedance 2.0** (`seedance-2-0`, `seedance-2-0-fast`, `seedance-2-0-mini`, `seedance-2-5`), **Kling** (`kling-v3`, `kling-v2-6`, `kling-avatar`, `kling-o3`, `kling-v3-motion-control`), **Grok Imagine**, and **Midjourney**.\n- Retired legacy Omni Flash duration-fixed SKUs.\n\n## Audio series\n\n- `gpt-4o-mini-tts` (`POST /v1/audio/speech`)\n- `whisper-1` (`POST /v1/audio/transcriptions`)\n- `suno` (`POST /v1/video/generations`)",
+        "zh": "## 语言系列\n\n- **Gemini：** 增加 `gemini-3.7-flash`\n- **GLM：** 增加 `glm-5.3`\n- **Grok：** 增加 `grok-4.6`\n- **DeepSeek：** 增加 `deepseek-v4-flash-vision-exp`\n\n## 图像与视频系列\n\n- 全量补齐 **Wan 3.0**（`wan-3.0`、`wan-3.0-prime`、`wan-3.0-prime-ref`、`wan-3.0-ref`）、**Seedance 2.0**（`seedance-2-0`、`seedance-2-0-fast`、`seedance-2-0-mini`、`seedance-2-5`）、**Kling**（`kling-v3`、`kling-v2-6`、`kling-avatar`、`kling-o3`、`kling-v3-motion-control`）、**Grok Imagine** 与 **Midjourney** 文档。\n- 下架并清理已停售的 Omni Flash 固定时长 SKU。\n\n## 音频系列\n\n- `gpt-4o-mini-tts`（`POST /v1/audio/speech` 语音合成）\n- `whisper-1`（`POST /v1/audio/transcriptions` 语音转录）\n- `suno`（`POST /v1/video/generations` 音乐生成）"
+      },
+      "schema_version": 1
+    },
+    {
+      "id": "2026-08-31-media-catalog",
+      "published_at": "2026-08-31",
+      "type": "model_launch",
+      "modality": [
+        "image",
+        "video"
+      ],
+      "title": {
+        "en": "Seedream 5.0 Pro, Qwen Image 3.0, Grok Imagine Image 2.0, Kling O3, Omni 1.1, PixVerse v6, Vidu Q3",
+        "zh": "Seedream 5.0 Pro、Qwen Image 3.0、Grok Imagine Image 2.0、Kling O3、Omni 1.1、PixVerse v6、Vidu Q3"
+      },
+      "summary": {
+        "en": "Seven image and video models are live on OmniMux.",
+        "zh": "七个图像 / 视频模型已在 OmniMux 可调用。"
+      },
+      "models": [
+        "seedream-5-0-pro",
+        "qwen-image-3-0",
+        "grok-imagine-image-2-0",
+        "kling-o3",
+        "gemini-omni-1.1",
+        "pixverse-v6",
+        "vidu-q3"
+      ],
+      "tags": [
+        "image",
+        "video"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "Pricing",
+            "zh": "定价"
+          },
+          "href": {
+            "en": "/en/api-reference/account/pricing",
+            "zh": "/zh/api-reference/account/pricing"
+          }
+        },
+        {
+          "label": {
+            "en": "Video task poll",
+            "zh": "视频任务查询"
+          },
+          "href": {
+            "en": "/en/api-reference/tasks/video-task",
+            "zh": "/zh/api-reference/tasks/video-task"
+          }
+        }
+      ],
+      "body": {
+        "en": "## Image\n\n- **Model IDs:** `seedream-5-0-pro`, `qwen-image-3-0`, `grok-imagine-image-2-0`\n- **API:** `POST /v1/images/generations`\n\n## Video\n\n- **Model IDs:** `kling-o3`, `gemini-omni-1.1`, `pixverse-v6`, `vidu-q3`\n- **API:** async `POST` / `GET` `/v1/video/generations`\n\n`kling-o3` is a new id and does not replace `kling-v3`. `gemini-omni-1.1` is distinct from `gemini-omni-flash`. Pin IDs from live pricing.",
+        "zh": "## 图像\n\n- **模型 ID：** `seedream-5-0-pro`、`qwen-image-3-0`、`grok-imagine-image-2-0`\n- **API：** `POST /v1/images/generations`\n\n## 视频\n\n- **模型 ID：** `kling-o3`、`gemini-omni-1.1`、`pixverse-v6`、`vidu-q3`\n- **API：** 异步 `POST` / `GET` `/v1/video/generations`\n\n`kling-o3` 是新 ID，不覆盖 `kling-v3`。`gemini-omni-1.1` 与 `gemini-omni-flash` 不同。精确 ID 以线上定价为准。"
+      },
+      "schema_version": 1
+    },
+    {
+      "id": "2026-08-25-social-analytics-reader-seats",
+      "published_at": "2026-08-25",
+      "type": "platform",
+      "modality": [
+        "platform",
+        "text"
+      ],
+      "title": {
+        "en": "Social analytics & inbox suite, Jina Reader extractor, and social seats",
+        "zh": "上线社媒分析与私信分析套件、Jina Reader 网页提取及社媒席位管理"
+      },
+      "summary": {
+        "en": "Landed 11 social analytics and inbox endpoints under `/api/social/v1`, Jina Reader `/v1/reader` gateway relay with output-token billing, and social seats status API.",
+        "zh": "上线 `/api/social/v1` 11 个社媒分析与私信分析端点、Jina Reader `/v1/reader` 网页提取中继（按输出 Token 计费）以及社媒席位管理接口。"
+      },
+      "models": [
+        "jina-reader-v1"
+      ],
+      "tags": [
+        "publishing",
+        "analytics",
+        "reader",
+        "social"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "Jina Reader Extractor",
+            "zh": "Jina Reader 网页提取"
+          },
+          "href": {
+            "en": "/en/api-reference/reader-series/models/jina-reader-v1",
+            "zh": "/zh/api-reference/reader-series/models/jina-reader-v1"
+          }
+        },
+        {
+          "label": {
+            "en": "Daily Metrics",
+            "zh": "大盘时序指标"
+          },
+          "href": {
+            "en": "/en/api-reference/publishing/analytics/daily-metrics",
+            "zh": "/zh/api-reference/publishing/analytics/daily-metrics"
+          }
+        },
+        {
+          "label": {
+            "en": "Social Seats",
+            "zh": "查询席位"
+          },
+          "href": {
+            "en": "/en/api-reference/publishing/seats",
+            "zh": "/zh/api-reference/publishing/seats"
+          }
+        }
+      ],
+      "body": {
+        "en": "## Social Analytics & Inbox Suite\n\nOmniMux now exposes 11 RESTful analytics endpoints under `/api/social/v1` for comprehensive audience and engagement intelligence:\n\n- **Analytics:** Daily metrics timeseries, 7x24 weekly best time to post heatmap, posting frequency cadence model, content decay curve, follower growth snapshots, posts performance ranking, and external posts incremental synchronization.\n- **Inbox Analytics:** Message volume trends, response time (TTR) distribution, 7x24 incoming activity heatmap, and source breakdown across connected platforms.\n\n## Jina Reader Relay (`POST /v1/reader`)\n\n- **Model ID:** `jina-reader-v1`\n- **Capability:** URL to clean Markdown / structured JSON text extraction with CSS selectors filtering and output-token billing.\n- **Auth:** Standard gateway Bearer `sk-...` token.\n\n## Social Seats Management (`GET /api/social/v1/seats`)\n\n- Inspects current active connected social accounts, total quota capacity, and vacant seat availability.",
+        "zh": "## 社媒分析与私信分析套件\n\nOmniMux 在 `/api/social/v1` 路由组下全新接入 11 个 RESTful 深度数据分析与私信洞察端点：\n\n- **社媒分析（Analytics）：** 宏观大盘时序指标、7×24小时最佳发布时间热力矩阵、发帖频次与互动率相关性模型、内容生命周期衰减曲线、多平台粉丝增长快照、单帖与列表深度指标排行、外部平台存量帖子增量同步。\n- **私信分析（Inbox Analytics）：** 私信与互动消息量时序走势、响应时效（TTR）耗时分布、7×24小时私信时段热力图、跨平台私信渠道来源占比。\n\n## Jina Reader 网页提取中继（`POST /v1/reader`）\n\n- **模型 ID：** `jina-reader-v1`\n- **能力：** 将网页 URL 高效转换为大模型友好的 Markdown 或结构化 JSON 文本，支持 CSS 选择器过滤、图片摘要与按输出 Token 结算。\n- **鉴权：** 标准网关 Bearer `sk-...` 凭据。\n\n## 社媒席位管理（`GET /api/social/v1/seats`）\n\n- 查询当前用户绑定的社媒账号数量、席位配额容量与可用空坑状态。"
+      },
+      "schema_version": 1
+    },
+    {
+      "id": "2026-08-16-index-tts-ltx-docs",
+      "published_at": "2026-08-16",
+      "type": "model_launch",
+      "modality": [
+        "audio",
+        "video"
+      ],
+      "title": {
+        "en": "Index TTS voice clone plus LTX digital-human contract",
+        "zh": "上架 Index TTS 声音克隆，并更正 LTX 数字人合同"
+      },
+      "summary": {
+        "en": "`index-tts` is live for GxgenAI voice clone. `ltx2.3-kj` docs now describe required photo + audio nodeInfoList, not text-to-video.",
+        "zh": "`index-tts` 已上架，用于 GxgenAI 声音克隆。`ltx2.3-kj` 文档改为必填人设图+音频 nodeInfoList，不再写成文生视频。"
+      },
+      "models": [
+        "index-tts",
+        "ltx-2-3-kj"
+      ],
+      "tags": [
+        "audio",
+        "video",
+        "gxgenai"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "Index TTS",
+            "zh": "Index TTS"
+          },
+          "href": {
+            "en": "/en/api-reference/audio-series/models/index-tts",
+            "zh": "/zh/api-reference/audio-series/models/index-tts"
+          }
+        },
+        {
+          "label": {
+            "en": "LTX digital human",
+            "zh": "LTX 数字人对口型"
+          },
+          "href": {
+            "en": "/en/api-reference/video-series/models/ltx-2-3-kj",
+            "zh": "/zh/api-reference/video-series/models/ltx-2-3-kj"
+          }
+        }
+      ],
+      "body": {
+        "en": "## New model\n\n- **Model ID:** `index-tts`\n- **Path:** `POST` / `GET` `/v1/video/generations` (GxgenAI task path; result is audio)\n- **Contract:** `metadata.nodeInfoList` required — node `4/audio` (reference clip) and `7/text` (script)\n\n## Docs fix\n\n- **`ltx-2-3-kj`** is a photo + audio lip-sync model. Prompt-only text-to-video examples were incorrect. Send image node `444` and audio node `1755`.",
+        "zh": "## 新模型\n\n- **模型 ID：** `index-tts`\n- **路径：** `POST` / `GET` `/v1/video/generations`（GxgenAI 任务路径，产物为音频）\n- **合同：** 必须传 `metadata.nodeInfoList` — 节点 `4/audio`（参考音）和 `7/text`（文稿）\n\n## 文档更正\n\n- **`ltx-2-3-kj`** 是人设静帧 + 音频对口型，不是文生视频。请传图片节点 `444` 和音频节点 `1755`。"
+      },
+      "schema_version": 1
+    },
+    {
+      "id": "2026-08-09-platform-api-updates",
+      "published_at": "2026-08-09",
+      "type": "platform",
+      "modality": [
+        "platform"
+      ],
+      "title": {
+        "en": "API Updates timeline opens",
+        "zh": "API 更新时间线上线"
+      },
+      "summary": {
+        "en": "Public developer changelog for model launches and platform changes.",
+        "zh": "面向开发者的公开更新时间线：模型上新与平台变更。"
+      },
+      "models": [],
+      "tags": [
+        "platform"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "Quickstart",
+            "zh": "快速开始"
+          },
+          "href": {
+            "en": "/en/quickstart",
+            "zh": "/zh/quickstart"
+          }
+        },
+        {
+          "label": {
+            "en": "Pricing",
+            "zh": "定价与账户"
+          },
+          "href": {
+            "en": "/en/api-reference/account/pricing",
+            "zh": "/zh/api-reference/account/pricing"
+          }
+        }
+      ],
+      "body": {
+        "en": "## API Updates\n\nOmniMux now publishes a dated **API Updates** feed so you can track gateway model launches and platform changes in one place.\n\n### What we log\n\n- **New models** — callable model IDs on live pricing\n- **Model updates** — modes, durations, resolutions, parameters\n- **Pricing** — material rate changes\n- **Platform** — auth, domains, public HTTP surfaces\n\n### How to call OmniMux\n\n| Surface | URL |\n| --- | --- |\n| Console | `https://omnimux.ai` |\n| OpenAI-compatible API | `https://api.omnimux.ai/v1` |\n| Docs | `https://docs.omnimux.ai` |\n| Status | `https://status.omnimux.ai` |\n\nAuth for relay: Bearer `sk-…` from the console. Full catalog always lives on console pricing — this page is the **change timeline**.",
+        "zh": "## API 更新\n\nOmniMux 现提供按日期排列的 **API 更新** 时间线，便于跟踪网关模型上新与平台变更。\n\n### 记录范围\n\n- **新模型** — 线上定价可调用的模型 ID\n- **模型更新** — 模式、时长、分辨率、参数\n- **价格调整** — 实质费率变化\n- **平台** — 鉴权、域名、公开 HTTP 面\n\n### 使用入口\n\n| 面 | URL |\n| --- | --- |\n| 控制台 | `https://omnimux.ai` |\n| OpenAI 兼容 API | `https://api.omnimux.ai/v1` |\n| 文档 | `https://docs.omnimux.ai` |\n| 状态页 | `https://status.omnimux.ai` |\n\nRelay 鉴权：控制台签发的 Bearer `sk-…`。完整目录以控制台定价为准——本页是 **变更时间线**。"
       },
       "schema_version": 1
     }
