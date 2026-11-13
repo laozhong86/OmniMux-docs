@@ -1,12 +1,16 @@
 ---
 title: "Start Connection"
 sidebarTitle: "Start Connection"
-description: "Start Connection — explicit account source"
+description: "Start Connection — official platform authorization"
 openapi: "openapi/ops/publishing/start-connect.json POST /api/social/v1/connect"
 ---
 
-Choose the source explicitly. tiktok_direct only authorizes TikTok and fails when official configuration is unavailable; it never falls back. zernio remains Zernio even when official TikTok is enabled. Calling this endpoint starts an authorization flow.
+Starts the platform's official authorization flow. Only TikTok direct (Login Kit + Content Posting API) is available; other platforms are not offered yet and return 400 `SOCIAL_PLATFORM_DENIED`.
 
-`provider` is required: `tiktok_direct` or `zernio`. It constrains the operation and never rewrites the stored source. Missing or unknown values return 400 `invalid-provider`.
+<Note>
+  The TikTok developer submission is still under platform review. Until it is approved, authorization and publishing may work only for platform test accounts; API errors do not indicate the review outcome.
+</Note>
+
+`provider` is required and has one current value, `tiktok_direct`. A retired source identifier returns 410 `provider-retired`; missing or unknown values return 400 `invalid-provider`.
 
 Use an OmniMux user access token and `New-Api-User`, not an `sk-` key. Inspect `success` as well as HTTP status; some upstream failures return HTTP 200 with `success:false`.

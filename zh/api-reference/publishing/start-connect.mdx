@@ -1,12 +1,16 @@
 ---
 title: "发起连接"
 sidebarTitle: "发起连接"
-description: "发起连接 — 显式账号来源"
+description: "发起连接 — 官方平台授权入口"
 openapi: "openapi/ops/publishing/start-connect.json POST /api/social/v1/connect"
 ---
 
-明确选择来源。tiktok_direct 仅授权 TikTok，官方配置不可用时失败，不回退；zernio 不受官方开关改变。调用此接口会启动授权流程。
+启动平台官方授权流程。目前仅提供 TikTok 官方直连（Login Kit + Content Posting API）；其他平台尚不可用，传入未开放平台返回 400 `SOCIAL_PLATFORM_DENIED`。
 
-`provider` 必填，仅允许 `tiktok_direct` 或 `zernio`，表示操作范围，不能改写已存来源。缺失或未知值返回 400 `invalid-provider`。
+<Note>
+  TikTok 开发提交仍在平台审核中。审核通过前，授权与发布可能仅对平台侧测试账号可用；接口错误不能据此判断审核结果。
+</Note>
+
+`provider` 必填，当前唯一取值 `tiktok_direct`。已退役的来源标识返回 410 `provider-retired`，缺失或未知值返回 400 `invalid-provider`。
 
 使用 OmniMux 用户 access token 和 `New-Api-User`，不是 `sk-` 密钥。同时检查 HTTP 状态和 `success`；部分上游错误仍返回 HTTP 200、`success:false`。

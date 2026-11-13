@@ -392,7 +392,8 @@
                     "pages": [
                       "en/api-reference/publishing/start-connect",
                       "en/api-reference/publishing/list-accounts",
-                      "en/api-reference/publishing/disconnect"
+                      "en/api-reference/publishing/disconnect",
+                      "en/api-reference/publishing/seats"
                     ],
                     "icon": "send"
                   },
@@ -407,8 +408,7 @@
                   {
                     "group": "Media",
                     "pages": [
-                      "en/api-reference/publishing/presign",
-                      "en/api-reference/publishing/upload"
+                      "en/api-reference/publishing/presign"
                     ],
                     "icon": "send"
                   }
@@ -910,7 +910,8 @@
                     "pages": [
                       "zh/api-reference/publishing/start-connect",
                       "zh/api-reference/publishing/list-accounts",
-                      "zh/api-reference/publishing/disconnect"
+                      "zh/api-reference/publishing/disconnect",
+                      "zh/api-reference/publishing/seats"
                     ],
                     "icon": "send"
                   },
@@ -925,8 +926,7 @@
                   {
                     "group": "媒体",
                     "pages": [
-                      "zh/api-reference/publishing/presign",
-                      "zh/api-reference/publishing/upload"
+                      "zh/api-reference/publishing/presign"
                     ],
                     "icon": "send"
                   }
@@ -1340,6 +1340,126 @@
     {
       "source": "/zh/api-reference/image-series/models/gpt-image-2-hd",
       "destination": "/zh/api-reference/image-series/gpt-image/generate"
+    },
+    {
+      "source": "/zh/api-reference/publishing/upload",
+      "destination": "/zh/api-reference/publishing/presign",
+      "permanent": true
+    },
+    {
+      "source": "/zh/api-reference/publishing/analytics/best-time-to-post",
+      "destination": "/zh/api-reference/publishing/start-connect",
+      "permanent": true
+    },
+    {
+      "source": "/zh/api-reference/publishing/analytics/content-decay",
+      "destination": "/zh/api-reference/publishing/start-connect",
+      "permanent": true
+    },
+    {
+      "source": "/zh/api-reference/publishing/analytics/daily-metrics",
+      "destination": "/zh/api-reference/publishing/start-connect",
+      "permanent": true
+    },
+    {
+      "source": "/zh/api-reference/publishing/analytics/follower-stats",
+      "destination": "/zh/api-reference/publishing/start-connect",
+      "permanent": true
+    },
+    {
+      "source": "/zh/api-reference/publishing/analytics/posting-frequency",
+      "destination": "/zh/api-reference/publishing/start-connect",
+      "permanent": true
+    },
+    {
+      "source": "/zh/api-reference/publishing/analytics/posts",
+      "destination": "/zh/api-reference/publishing/start-connect",
+      "permanent": true
+    },
+    {
+      "source": "/zh/api-reference/publishing/analytics/sync-external-posts",
+      "destination": "/zh/api-reference/publishing/start-connect",
+      "permanent": true
+    },
+    {
+      "source": "/zh/api-reference/publishing/inbox-analytics/heatmap",
+      "destination": "/zh/api-reference/publishing/start-connect",
+      "permanent": true
+    },
+    {
+      "source": "/zh/api-reference/publishing/inbox-analytics/response-time",
+      "destination": "/zh/api-reference/publishing/start-connect",
+      "permanent": true
+    },
+    {
+      "source": "/zh/api-reference/publishing/inbox-analytics/source-breakdown",
+      "destination": "/zh/api-reference/publishing/start-connect",
+      "permanent": true
+    },
+    {
+      "source": "/zh/api-reference/publishing/inbox-analytics/volume",
+      "destination": "/zh/api-reference/publishing/start-connect",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/publishing/upload",
+      "destination": "/en/api-reference/publishing/presign",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/publishing/analytics/best-time-to-post",
+      "destination": "/en/api-reference/publishing/start-connect",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/publishing/analytics/content-decay",
+      "destination": "/en/api-reference/publishing/start-connect",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/publishing/analytics/daily-metrics",
+      "destination": "/en/api-reference/publishing/start-connect",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/publishing/analytics/follower-stats",
+      "destination": "/en/api-reference/publishing/start-connect",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/publishing/analytics/posting-frequency",
+      "destination": "/en/api-reference/publishing/start-connect",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/publishing/analytics/posts",
+      "destination": "/en/api-reference/publishing/start-connect",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/publishing/analytics/sync-external-posts",
+      "destination": "/en/api-reference/publishing/start-connect",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/publishing/inbox-analytics/heatmap",
+      "destination": "/en/api-reference/publishing/start-connect",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/publishing/inbox-analytics/response-time",
+      "destination": "/en/api-reference/publishing/start-connect",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/publishing/inbox-analytics/source-breakdown",
+      "destination": "/en/api-reference/publishing/start-connect",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/publishing/inbox-analytics/volume",
+      "destination": "/en/api-reference/publishing/start-connect",
+      "permanent": true
     }
   ],
   "icons": {

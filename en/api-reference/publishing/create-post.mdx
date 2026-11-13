@@ -1,12 +1,14 @@
 ---
 title: "Create Post"
 sidebarTitle: "Create Post"
-description: "Create Post — explicit account source"
+description: "Create Post — publish by official source"
 openapi: "openapi/ops/publishing/create-post.json POST /api/social/v1/posts"
 ---
 
-All target accounts must match the requested source. Idempotency replay also validates the stored source and account set; source or set conflicts return 409. Media presign still depends on Zernio and is not an official-only upload path.
+Every target account must belong to the requested source. An idempotent replay also verifies the stored source and account set; conflicts return 409.
 
-`provider` is required: `tiktok_direct` or `zernio`. It constrains the operation and never rewrites the stored source. Missing or unknown values return 400 `invalid-provider`.
+For media, call [Media Presign](/en/api-reference/publishing/presign) first and pass the returned `public_url` as the `media` reference. Official publishing requires the platform to read that URL directly; do not submit when the upload failed or the object is unreadable.
+
+`provider` is required and has one current value, `tiktok_direct`. A retired source identifier returns 410 `provider-retired`; missing or unknown values return 400 `invalid-provider`.
 
 Use an OmniMux user access token and `New-Api-User`, not an `sk-` key. Inspect `success` as well as HTTP status; some upstream failures return HTTP 200 with `success:false`.

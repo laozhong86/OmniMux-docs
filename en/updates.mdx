@@ -9,6 +9,36 @@ Stay up to date with OmniMux gateway model launches and platform changes. The fu
 
 Pages: **Page 1** · [Page 2](/en/updates/page-2)
 
+<a id="2026-11-13-zernio-retirement"></a>
+
+<Update label="November 13, 2026" tags={["Breaking", "Publishing"]} rss={{ title: "Publishing keeps official sources only; the Zernio source is retired" }}>
+
+  Publishing now converges on official native APIs. The Zernio aggregation source is retired and is no longer a selectable source.
+
+  ### What changed
+
+  - The five account and post operations no longer accept `zernio`: passing it explicitly returns `410 provider-retired`. `provider` has one current value, `tiktok_direct`.
+  - `GET /api/social/v1/status` reports the official source and the official platform list only; it no longer exposes an aggregation vendor identity.
+  - Third-party analytics endpoints (`/analytics/*`, `/inbox-analytics/*`) are unavailable and their documentation pages are retired.
+  - Media presign always signs against the gateway's own object storage; there is no third-party bucket fallback.
+  - `GET /api/social/v1/seats` reads local seat state and needs no upstream.
+
+  ### Migration
+
+  1. Replace `provider=zernio` with `provider=tiktok_direct`.
+  2. Reconnect accounts through the official TikTok direct flow.
+  3. Historical accounts and posts stay in the store but can no longer be operated through the public API.
+  4. CLI: `omnimux social accounts --provider tiktok_direct`.
+
+  TikTok's developer submission is still under platform review; until it is approved, official publishing may work only for platform test accounts. The server keeps a `SOCIAL_ZERNIO_ENABLED` rollback switch for operations; it is not a documented commitment.
+
+  ### Links
+
+  - [Start Connection](/en/api-reference/publishing/start-connect)
+  - [Connection FAQ](/en/faqs/connection-usage)
+
+</Update>
+
 <a id="2026-11-12-seedream-5-5"></a>
 
 <Update label="November 12, 2026" tags={["New models", "Image"]} rss={{ title: "Seedream 5.5 text-to-image is live" }}>
@@ -1185,18 +1215,6 @@ Pages: **Page 1** · [Page 2](/en/updates/page-2)
   ### Links
 
   - [GPT Image generation](/en/api-reference/image-series/gpt-image/generate)
-
-</Update>
-
-<a id="2026-09-09-h3-media-task-contracts"></a>
-
-<Update label="September 9, 2026" tags={["Breaking", "Video"]} rss={{ title: "H3 ordered references and task result handling" }}>
-
-  Use operation to select text, first-frame or Max multi-reference generation. Media arrays retain order and conflicting aliases are rejected. Replace legacy 720p with explicit 768P. Temporary result unavailability is retried; failures and cancellations are not masked by stale video URLs. Status reads no longer persist terminal transitions ahead of settlement polling.
-
-  ### Links
-
-  - [H3 Max API](/en/api-reference/video-series/models/minimax-h3-max)
 
 </Update>
 

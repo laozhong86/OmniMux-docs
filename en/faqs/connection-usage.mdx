@@ -59,6 +59,19 @@ This normalization is limited to local account-quota failures on these endpoints
 
 A successful connection or a model listed locally is not proof of successful generation, availability in a particular group, or correct billing. Use the live catalog and the published model contract, and verify the actual output and final charge for your integration.
 
+## Which platforms can I publish to?
+
+Only TikTok direct is offered now; other platforms are not available.
+
+| Platform | Connect | Publish | Status |
+| --- | --- | --- | --- |
+| TikTok | Yes | Yes | Developer submission under review; until approval, access may be limited to platform test accounts |
+| Instagram / YouTube / X / Facebook / Threads / LinkedIn / Bluesky | — | — | Not offered |
+
+- Capability state has three values: `live` (available), `review_pending` (platform review), `planned` (not offered). The API manual sidebar lists `live` capabilities only.
+- The previous third-party aggregation source is retired; passing its source identifier returns `410 provider-retired`. Historical accounts and posts stay in the store but can no longer be operated through the API.
+- `GET /api/social/v1/seats` reads local seat state and needs no upstream.
+
 ## Unexpected content
 
 - Use live model ids  

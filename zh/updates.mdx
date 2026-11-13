@@ -9,6 +9,36 @@ rss: true
 
 分页：**第 1 页** · [第 2 页](/zh/updates/page-2)
 
+<a id="2026-11-13-zernio-retirement"></a>
+
+<Update label="2026 年 11 月 13 日" tags={["不兼容变更", "社媒发布"]} rss={{ title: "社媒发布只保留官方来源；Zernio 来源已退役" }}>
+
+  社媒发布收敛为官方原生 API。第三方聚合来源 Zernio 已退役，不再是可选来源。
+
+  ### 变化
+
+  - 五项账号与帖子操作不再接受 `zernio`：显式传入返回 `410 provider-retired`。`provider` 当前唯一取值 `tiktok_direct`。
+  - `GET /api/social/v1/status` 只报告官方来源与官方平台清单，不再暴露聚合来源身份。
+  - 第三方分析接口（`/analytics/*`、`/inbox-analytics/*`）不可用，对应文档页已下线。
+  - 媒体预签名统一签名到网关自有对象存储，不再有第三方桶回退。
+  - `GET /api/social/v1/seats` 读取本地席位状态，不依赖上游。
+
+  ### 迁移
+
+  1. 把 `provider=zernio` 改为 `provider=tiktok_direct`。
+  2. 通过 TikTok 官方直连流程重新连接账号。
+  3. 历史账号与帖子记录保留在服务端，但不再可通过公开接口操作。
+  4. CLI：`omnimux social accounts --provider tiktok_direct`。
+
+  TikTok 开发提交仍在平台审核中；审核通过前，官方发布可能仅对平台测试账号可用。服务端保留 `SOCIAL_ZERNIO_ENABLED` 回滚开关供运营使用，不构成文档承诺。
+
+  ### 链接
+
+  - [发起连接](/zh/api-reference/publishing/start-connect)
+  - [连接与使用](/zh/faqs/connection-usage)
+
+</Update>
+
 <a id="2026-11-12-seedream-5-5"></a>
 
 <Update label="2026 年 11 月 12 日" tags={["新模型", "图像"]} rss={{ title: "Seedream 5.5 文生图上线" }}>
@@ -1185,18 +1215,6 @@ rss: true
   ### 链接
 
   - [GPT Image 图像生成](/zh/api-reference/image-series/gpt-image/generate)
-
-</Update>
-
-<a id="2026-09-09-h3-media-task-contracts"></a>
-
-<Update label="2026 年 9 月 9 日" tags={["不兼容变更", "视频"]} rss={{ title: "H3 有序参考素材与任务结果处理修复" }}>
-
-  使用 operation 选择文生视频、首帧或 Max 多参考生成。素材数组保留顺序，冲突同义字段会被拒绝。旧720p需明确改为768P。产物暂不可用时重试，失败或取消不再被旧视频URL掩盖。状态查询不再抢先持久化终态，结算仍由后台轮询负责。
-
-  ### 链接
-
-  - [H3 Max API](/zh/api-reference/video-series/models/minimax-h3-max)
 
 </Update>
 

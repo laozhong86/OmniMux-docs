@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "OmniMux Publishing — Create Post",
-    "version": "provider-isolation"
+    "version": "official-only"
   },
   "servers": [
     {
@@ -57,11 +57,10 @@
                             "provider": {
                               "type": "string",
                               "enum": [
-                                "tiktok_direct",
-                                "zernio"
+                                "tiktok_direct"
                               ],
-                              "description": "Required expected source; never changes the stored account or post provider.",
-                              "example": "zernio"
+                              "description": "Required source identifier; currently only tiktok_direct is accepted.",
+                              "example": "tiktok_direct"
                             },
                             "status": {
                               "type": "string"
@@ -120,6 +119,34 @@
           },
           "400": {
             "description": "Missing/unknown provider or invalid request. invalid-provider identifies a missing or unknown source.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "enum": [
+                        false
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "success",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Retired source identifier. provider-retired means the removed source can no longer be used; move the account to an official platform.",
             "content": {
               "application/json": {
                 "schema": {
@@ -330,10 +357,9 @@
                   "provider": {
                     "type": "string",
                     "enum": [
-                      "tiktok_direct",
-                      "zernio"
+                      "tiktok_direct"
                     ],
-                    "description": "Required expected source; never changes the stored account or post provider."
+                    "description": "Required source identifier; currently only tiktok_direct is accepted."
                   },
                   "account_ids": {
                     "type": "array",
@@ -389,7 +415,7 @@
                 ]
               },
               "example": {
-                "provider": "zernio",
+                "provider": "tiktok_direct",
                 "content": "Your original post",
                 "account_ids": [
                   123
@@ -403,7 +429,7 @@
           {
             "lang": "curl",
             "label": "cURL",
-            "source": "curl --request POST \\\n  --url \"https://omnimux.ai/api/social/v1/posts\" \\\n  --header 'Authorization: Bearer <user-access-token>' \\\n  --header 'New-Api-User: <user-id>' \\\n  --header 'Content-Type: application/json' \\\n  --data '{\"provider\":\"zernio\",\"content\":\"Your original post\",\"account_ids\":[123],\"publish_now\":true}'"
+            "source": "curl --request POST \\\n  --url \"https://omnimux.ai/api/social/v1/posts\" \\\n  --header 'Authorization: Bearer <user-access-token>' \\\n  --header 'New-Api-User: <user-id>' \\\n  --header 'Content-Type: application/json' \\\n  --data '{\"provider\":\"tiktok_direct\",\"content\":\"Your original post\",\"account_ids\":[123],\"publish_now\":true}'"
           }
         ]
       }

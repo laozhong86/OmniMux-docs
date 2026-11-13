@@ -1,15 +1,14 @@
 ---
 title: "列出账户"
 sidebarTitle: "列出账户"
-description: "列出账户 — 显式账号来源"
+description: "列出账户 — 按官方来源查询"
 openapi: "openapi/ops/publishing/list-accounts.json GET /api/social/v1/accounts"
 ---
 
-仅返回指定来源。官方列表不创建 Zernio tenant、不执行 Zernio 同步。空数组表示查询成功但无账号，失败不能当作空列表。
+仅返回指定来源下已绑定的账号，不创建外部租户、不执行第三方同步。空数组表示查询成功但无账号，失败不能当作空列表。
 
-`provider` 必填，仅允许 `tiktok_direct` 或 `zernio`，表示操作范围，不能改写已存来源。缺失或未知值返回 400 `invalid-provider`。
+`provider` 必填，当前唯一取值 `tiktok_direct`。已退役的来源标识返回 410 `provider-retired`，缺失或未知值返回 400 `invalid-provider`。
+
+CLI 使用 `omnimux social accounts --provider tiktok_direct`。
 
 使用 OmniMux 用户 access token 和 `New-Api-User`，不是 `sk-` 密钥。同时检查 HTTP 状态和 `success`；部分上游错误仍返回 HTTP 200、`success:false`。
-
-
-CLI 0.4.0：二进制安装执行 `omnimux update`，npm 安装执行 `npm install -g @omnimux/cli@0.4.0`，随后使用 `omnimux social accounts --provider zernio` 或 `--provider tiktok_direct`。已有脚本也必须更新。参见 [API 更新](/zh/updates#2026-09-07-social-provider-required)。

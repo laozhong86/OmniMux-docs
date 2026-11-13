@@ -2,9 +2,59 @@
   "schema_version": 1,
   "page": 1,
   "page_size": 50,
-  "total": 78,
+  "total": 79,
   "total_pages": 2,
   "items": [
+    {
+      "id": "2026-11-13-zernio-retirement",
+      "published_at": "2026-11-13",
+      "type": "breaking",
+      "modality": [
+        "publishing"
+      ],
+      "title": {
+        "en": "Publishing keeps official sources only; the Zernio source is retired",
+        "zh": "社媒发布只保留官方来源；Zernio 来源已退役"
+      },
+      "summary": {
+        "en": "The five account and post operations now accept tiktok_direct only. Requests that pass zernio return 410 provider-retired; third-party analytics endpoints are unavailable.",
+        "zh": "五项账号与帖子操作只接受 tiktok_direct；传入 zernio 返回 410 provider-retired；第三方分析接口不可用。"
+      },
+      "models": [],
+      "tags": [
+        "publishing",
+        "provider",
+        "migration",
+        "breaking"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "Start Connection",
+            "zh": "发起连接"
+          },
+          "href": {
+            "en": "/en/api-reference/publishing/start-connect",
+            "zh": "/zh/api-reference/publishing/start-connect"
+          }
+        },
+        {
+          "label": {
+            "en": "Connection FAQ",
+            "zh": "连接与使用"
+          },
+          "href": {
+            "en": "/en/faqs/connection-usage",
+            "zh": "/zh/faqs/connection-usage"
+          }
+        }
+      ],
+      "body": {
+        "en": "Publishing now converges on official native APIs. The Zernio aggregation source is retired and is no longer a selectable source.\n\n### What changed\n\n- The five account and post operations no longer accept `zernio`: passing it explicitly returns `410 provider-retired`. `provider` has one current value, `tiktok_direct`.\n- `GET /api/social/v1/status` reports the official source and the official platform list only; it no longer exposes an aggregation vendor identity.\n- Third-party analytics endpoints (`/analytics/*`, `/inbox-analytics/*`) are unavailable and their documentation pages are retired.\n- Media presign always signs against the gateway's own object storage; there is no third-party bucket fallback.\n- `GET /api/social/v1/seats` reads local seat state and needs no upstream.\n\n### Migration\n\n1. Replace `provider=zernio` with `provider=tiktok_direct`.\n2. Reconnect accounts through the official TikTok direct flow.\n3. Historical accounts and posts stay in the store but can no longer be operated through the public API.\n4. CLI: `omnimux social accounts --provider tiktok_direct`.\n\nTikTok's developer submission is still under platform review; until it is approved, official publishing may work only for platform test accounts. The server keeps a `SOCIAL_ZERNIO_ENABLED` rollback switch for operations; it is not a documented commitment.",
+        "zh": "社媒发布收敛为官方原生 API。第三方聚合来源 Zernio 已退役，不再是可选来源。\n\n### 变化\n\n- 五项账号与帖子操作不再接受 `zernio`：显式传入返回 `410 provider-retired`。`provider` 当前唯一取值 `tiktok_direct`。\n- `GET /api/social/v1/status` 只报告官方来源与官方平台清单，不再暴露聚合来源身份。\n- 第三方分析接口（`/analytics/*`、`/inbox-analytics/*`）不可用，对应文档页已下线。\n- 媒体预签名统一签名到网关自有对象存储，不再有第三方桶回退。\n- `GET /api/social/v1/seats` 读取本地席位状态，不依赖上游。\n\n### 迁移\n\n1. 把 `provider=zernio` 改为 `provider=tiktok_direct`。\n2. 通过 TikTok 官方直连流程重新连接账号。\n3. 历史账号与帖子记录保留在服务端，但不再可通过公开接口操作。\n4. CLI：`omnimux social accounts --provider tiktok_direct`。\n\nTikTok 开发提交仍在平台审核中；审核通过前，官方发布可能仅对平台测试账号可用。服务端保留 `SOCIAL_ZERNIO_ENABLED` 回滚开关供运营使用，不构成文档承诺。"
+      },
+      "schema_version": 1
+    },
     {
       "id": "2026-11-12-seedream-5-5",
       "published_at": "2026-11-12",
@@ -2119,44 +2169,6 @@
       "body": {
         "en": "## Required migration\n\n- Replace `gpt-image-2` with `gpt-image-2.5`.\n- Replace `gpt-image-2-hd` with `gpt-image-2.5-hd`.\n- Keep using `POST /v1/images/generations`. Update the `model` value in saved requests, integrations, and any model allowlists.\n\nThe old IDs are not compatibility aliases. The `gpt-image-2-5` spelling is not supported.\n\n## Pricing and scope\n\nBase per-call prices remain USD 0.0441 for `gpt-image-2.5` and USD 0.005479 for `gpt-image-2.5-hd`; group multipliers may affect final charges. This is a public ID migration, not a claim of a newly verified resolution or upstream capability.\n\nFlare and Sunburst are separate token-billed models and are not available as part of this change.",
         "zh": "## 必须迁移\n\n- 将 `gpt-image-2` 替换为 `gpt-image-2.5`。\n- 将 `gpt-image-2-hd` 替换为 `gpt-image-2.5-hd`。\n- 继续使用 `POST /v1/images/generations`，更新保存的请求、集成代码及模型白名单中的 `model`。\n\n旧 ID 不是兼容别名，也不支持 `gpt-image-2-5` 拼写。\n\n## 价格与范围\n\n基础按次价保持不变：`gpt-image-2.5` 为 USD 0.0441/次，`gpt-image-2.5-hd` 为 USD 0.005479/次；分组倍率可能影响最终费用。本次是公开 ID 迁移，不代表新增或验证了特定分辨率及上游能力。\n\nFlare 和 Sunburst 是独立的 Token 计费模型，不在本次变更中开放。"
-      },
-      "schema_version": 1
-    },
-    {
-      "id": "2026-09-09-h3-media-task-contracts",
-      "published_at": "2026-09-09",
-      "type": "breaking",
-      "modality": [
-        "video"
-      ],
-      "title": {
-        "en": "H3 ordered references and task result handling",
-        "zh": "H3 有序参考素材与任务结果处理修复"
-      },
-      "summary": {
-        "en": "Explicit operations, ordered references and 720p migration; task reads preserve settlement ownership.",
-        "zh": "明确操作类型、保留参考素材顺序并迁移720p；任务查询保留后台结算职责。"
-      },
-      "models": [
-        "minimax/h3-max",
-        "minimax/h3-max-turbo"
-      ],
-      "tags": [],
-      "links": [
-        {
-          "label": {
-            "en": "H3 Max API",
-            "zh": "H3 Max API"
-          },
-          "href": {
-            "en": "/en/api-reference/video-series/models/minimax-h3-max",
-            "zh": "/zh/api-reference/video-series/models/minimax-h3-max"
-          }
-        }
-      ],
-      "body": {
-        "en": "Use operation to select text, first-frame or Max multi-reference generation. Media arrays retain order and conflicting aliases are rejected. Replace legacy 720p with explicit 768P. Temporary result unavailability is retried; failures and cancellations are not masked by stale video URLs. Status reads no longer persist terminal transitions ahead of settlement polling.",
-        "zh": "使用 operation 选择文生视频、首帧或 Max 多参考生成。素材数组保留顺序，冲突同义字段会被拒绝。旧720p需明确改为768P。产物暂不可用时重试，失败或取消不再被旧视频URL掩盖。状态查询不再抢先持久化终态，结算仍由后台轮询负责。"
       },
       "schema_version": 1
     }

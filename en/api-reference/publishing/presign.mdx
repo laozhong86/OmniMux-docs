@@ -1,20 +1,19 @@
 ---
 title: "Media Presign"
 sidebarTitle: "Media Presign"
-description: "Media presign"
+description: "Media Presign — request an upload ticket"
 api: "POST https://omnimux.ai/api/social/v1/media/presign"
 ---
 
-- Social **publishing** user API (not `sk-` social-data read)
-- Base: `https://omnimux.ai`; auth access token + `New-Api-User`
-- Connecting Accounts naming matches Zernio
+Requests a one-time upload ticket for publishing media. The ticket signs against the gateway's own object storage, never a third-party bucket. After uploading, pass the returned `public_url` as the post's `media` reference.
 
 ## Identity
 
 | Field | Value |
 | --- | --- |
 | Series | Publishing |
-| Capability | Presign |
+| Group | Media |
+| Capability | Request upload |
 
 ## Endpoint
 
@@ -24,27 +23,46 @@ api: "POST https://omnimux.ai/api/social/v1/media/presign"
 
 Base URL: `https://omnimux.ai`
 
-## Authorizations
+## Authorization
 
 | Name | In | Type | Required | Description |
 | --- | --- | --- | --- | --- |
-| `Authorization` | header | string | yes | `Bearer <access_token>` |
+| `Authorization` | header | string | yes | `Bearer <access_token>` (user access token) |
 | `New-Api-User` | header | string | yes | Current user id |
 
-## Body / parameters
+## Request body
 
-Follow the right-rail cURL. Fields differ by resource (connect / posts / media).
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `filename` | string | yes | Original filename; only the extension shapes the object key |
+| `content_type` | string | yes | MIME type; `contentType` is also accepted |
+| `size_bytes` | integer | no | Single-file limit check; defaults to 512 MiB |
 
-## Response
+The object key is generated server-side and cannot be chosen by the client.
 
-### 200
+## Response 200
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `success` | boolean | Success flag |
-| `data` | object | Payload |
+| `upload_url` | string | Target for the direct `PUT` |
+| `upload_method` | string | Usually `PUT` |
+| `headers` | object | Headers to send verbatim with the upload (`Content-Type`) |
+| `public_url` | string | Platform-readable URL; use it as the post `media` reference |
+| `key` | string | Server-generated object key |
+| `expires_in` | integer | Remaining ticket lifetime in seconds |
+| `filename` / `content_type` | string | Echo of the request values |
 
-Errors: right rail and [Error codes](/en/faqs/connection-usage).
+## Upload
+
+Upload directly to `upload_url` and do not attach gateway credentials:
+
+```bash
+curl --request PUT --upload-file ./clip.mp4 \
+  --header 'Content-Type: video/mp4' \
+  '<upload_url>'
+```
+
+Do not submit the post when the upload failed, the ticket expired, or the object is unreadable; request a new ticket instead.
 
 <Panel>
 
@@ -56,7 +74,7 @@ curl --request POST \
   --header 'Authorization: Bearer <access_token>' \
   --header 'New-Api-User: <user_id>' \
   --header 'Content-Type: application/json' \
-  --data '{"filename":"a.png","contentType":"image/png"}'
+  --data '{"filename":"clip.mp4","content_type":"video/mp4","size_bytes":10485760}'
 ```
 
 </RequestExample>
@@ -64,7 +82,27 @@ curl --request POST \
 <ResponseExample>
 
 ```json 200
-{"success":true,"data":{"upload_url":"https://...","public_url":"https://..."}}
+{
+  "success": true,
+  "data": {
+    "upload_url": "https://storage.example/put/...",
+    "upload_method": "PUT",
+    "headers": { "Content-Type": "video/mp4" },
+    "public_url": "https://media.omnimux.ai/social/7/20261113/....mp4",
+    "key": "social/7/20261113/3f1c9a7e-clip.mp4",
+    "expires_in": 900,
+    "filename": "clip.mp4",
+    "content_type": "video/mp4"
+  }
+}
+```
+
+```json 400
+{
+  "success": false,
+  "message": "SOCIAL_MEDIA_INVALID: filename and content_type are required",
+  "code": "SOCIAL_MEDIA_INVALID"
+}
 ```
 
 ```json 401
@@ -74,38 +112,11 @@ curl --request POST \
 }
 ```
 
-```json 402
+```json 503
 {
   "success": false,
-  "message": "Insufficient quota. Please top up your account."
-}
-```
-
-```json 403
-{
-  "success": false,
-  "message": "Forbidden"
-}
-```
-
-```json 404
-{
-  "success": false,
-  "message": "Not found"
-}
-```
-
-```json 429
-{
-  "success": false,
-  "message": "Rate limit exceeded"
-}
-```
-
-```json 500
-{
-  "success": false,
-  "message": "Internal server error"
+  "message": "social ops is disabled",
+  "code": "SOCIAL_OPS_DISABLED"
 }
 ```
 
