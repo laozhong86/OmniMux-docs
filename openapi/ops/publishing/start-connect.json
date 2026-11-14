@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "OmniMux Publishing — Start Connection",
-    "version": "provider-isolation"
+    "version": "official-only"
   },
   "servers": [
     {
@@ -50,11 +50,10 @@
                             "provider": {
                               "type": "string",
                               "enum": [
-                                "tiktok_direct",
-                                "zernio"
+                                "tiktok_direct"
                               ],
-                              "description": "Required expected source; never changes the stored account or post provider.",
-                              "example": "zernio"
+                              "description": "Required source identifier; currently only tiktok_direct is accepted.",
+                              "example": "tiktok_direct"
                             }
                           },
                           "required": [
@@ -97,6 +96,34 @@
           },
           "400": {
             "description": "Missing/unknown provider or invalid request. invalid-provider identifies a missing or unknown source.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "enum": [
+                        false
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "success",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Retired source identifier. provider-retired means the removed source can no longer be used; move the account to an official platform.",
             "content": {
               "application/json": {
                 "schema": {
@@ -274,14 +301,13 @@
                   "provider": {
                     "type": "string",
                     "enum": [
-                      "tiktok_direct",
-                      "zernio"
+                      "tiktok_direct"
                     ],
-                    "description": "Required expected source; never changes the stored account or post provider."
+                    "description": "Required source identifier; currently only tiktok_direct is accepted."
                   },
                   "platform": {
                     "type": "string",
-                    "description": "tiktok_direct only accepts TikTok. zernio follows the configured platform allowlist."
+                    "description": "Currently only tiktok_direct with platform tiktok is accepted."
                   },
                   "redirect_url": {
                     "type": "string",
@@ -294,7 +320,7 @@
                 ]
               },
               "example": {
-                "provider": "zernio",
+                "provider": "tiktok_direct",
                 "platform": "tiktok"
               }
             }
@@ -304,7 +330,7 @@
           {
             "lang": "curl",
             "label": "cURL",
-            "source": "curl --request POST \\\n  --url \"https://omnimux.ai/api/social/v1/connect\" \\\n  --header 'Authorization: Bearer <user-access-token>' \\\n  --header 'New-Api-User: <user-id>' \\\n  --header 'Content-Type: application/json' \\\n  --data '{\"provider\":\"zernio\",\"platform\":\"tiktok\"}'"
+            "source": "curl --request POST \\\n  --url \"https://omnimux.ai/api/social/v1/connect\" \\\n  --header 'Authorization: Bearer <user-access-token>' \\\n  --header 'New-Api-User: <user-id>' \\\n  --header 'Content-Type: application/json' \\\n  --data '{\"provider\":\"tiktok_direct\",\"platform\":\"tiktok\"}'"
           }
         ]
       }

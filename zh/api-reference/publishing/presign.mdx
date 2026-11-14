@@ -1,19 +1,18 @@
 ---
 title: "媒体预签名"
 sidebarTitle: "媒体预签名"
-description: "媒体预签名"
+description: "媒体预签名 — 申请上传票据"
 api: "POST https://omnimux.ai/api/social/v1/media/presign"
 ---
 
-- 社媒 **发布** 用户 API（非 `sk-` 社交数据读）
-- Base：`https://omnimux.ai`；鉴权 access token + `New-Api-User`
-- 连接账户命名对齐 Zernio **Connecting Accounts**
+为发布媒体申请一次性上传票据。票据签名到网关自有对象存储，不经过第三方存储；上传完成后把返回的 `public_url` 作为帖子的 `media` 引用。
 
 ## 身份
 
 | 字段 | 值 |
 | --- | --- |
 | 系列 | 社媒发布 |
+| 资源组 | 媒体 |
 | 能力 | 申请上传 |
 
 ## 接口
@@ -31,24 +30,39 @@ Base URL：`https://omnimux.ai`
 | `Authorization` | header | string | 是 | `Bearer <access_token>`（用户 access token） |
 | `New-Api-User` | header | string | 是 | 当前用户 id |
 
-## 请求体 / 参数
-
-以右栏 cURL 为准。常见字段：
+## 请求体
 
 | 字段 | 类型 | 必填 | 说明 |
 | --- | --- | --- | --- |
-| （见示例） | — | — | 不同资源（连接 / 帖子 / 媒体）字段不同 |
+| `filename` | string | 是 | 原始文件名；服务端只取扩展名参与对象键 |
+| `content_type` | string | 是 | MIME 类型；也接受 `contentType` |
+| `size_bytes` | integer | 否 | 单文件上限校验，默认 512 MiB |
 
-## 响应
+对象键由服务端生成，客户端不能指定。
 
-### 200
+## 响应 200
 
 | 字段 | 类型 | 说明 |
 | --- | --- | --- |
-| `success` | boolean | 是否成功 |
-| `data` | object | 业务数据 |
+| `upload_url` | string | 直接 `PUT` 的目标地址 |
+| `upload_method` | string | 通常为 `PUT` |
+| `headers` | object | 上传时必须原样带上的请求头（含 `Content-Type`） |
+| `public_url` | string | 平台可读地址，作为帖子的 `media` 引用 |
+| `key` | string | 服务端生成的对象键 |
+| `expires_in` | integer | 票据剩余秒数 |
+| `filename` / `content_type` | string | 回显的请求值 |
 
-错误见右栏与 [错误码](/zh/faqs/connection-usage)。
+## 上传
+
+拿到票据后直接上传到 `upload_url`，不要再附带网关鉴权头：
+
+```bash
+curl --request PUT --upload-file ./clip.mp4 \
+  --header 'Content-Type: video/mp4' \
+  '<upload_url>'
+```
+
+上传失败、票据过期或对象不可读时不要提交帖子；重新申请票据即可。
 
 <Panel>
 
@@ -60,7 +74,7 @@ curl --request POST \
   --header 'Authorization: Bearer <access_token>' \
   --header 'New-Api-User: <user_id>' \
   --header 'Content-Type: application/json' \
-  --data '{"filename":"a.png","contentType":"image/png"}'
+  --data '{"filename":"clip.mp4","content_type":"video/mp4","size_bytes":10485760}'
 ```
 
 </RequestExample>
@@ -68,7 +82,27 @@ curl --request POST \
 <ResponseExample>
 
 ```json 200
-{"success":true,"data":{"upload_url":"https://...","public_url":"https://..."}}
+{
+  "success": true,
+  "data": {
+    "upload_url": "https://storage.example/put/...",
+    "upload_method": "PUT",
+    "headers": { "Content-Type": "video/mp4" },
+    "public_url": "https://media.omnimux.ai/social/7/20261113/....mp4",
+    "key": "social/7/20261113/3f1c9a7e-clip.mp4",
+    "expires_in": 900,
+    "filename": "clip.mp4",
+    "content_type": "video/mp4"
+  }
+}
+```
+
+```json 400
+{
+  "success": false,
+  "message": "SOCIAL_MEDIA_INVALID: filename and content_type are required",
+  "code": "SOCIAL_MEDIA_INVALID"
+}
 ```
 
 ```json 401
@@ -78,38 +112,11 @@ curl --request POST \
 }
 ```
 
-```json 402
+```json 503
 {
   "success": false,
-  "message": "Insufficient quota. Please top up your account."
-}
-```
-
-```json 403
-{
-  "success": false,
-  "message": "Forbidden"
-}
-```
-
-```json 404
-{
-  "success": false,
-  "message": "Not found"
-}
-```
-
-```json 429
-{
-  "success": false,
-  "message": "Rate limit exceeded"
-}
-```
-
-```json 500
-{
-  "success": false,
-  "message": "Internal server error"
+  "message": "social ops is disabled",
+  "code": "SOCIAL_OPS_DISABLED"
 }
 ```
 
