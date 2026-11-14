@@ -9,6 +9,79 @@ rss: true
 
 分页：[第 1 页](/zh/updates) · **第 2 页**
 
+<a id="2026-09-12-console-playground-generation"></a>
+
+<Update label="2026 年 9 月 12 日" tags={["平台"]} rss={{ title: "模型详情页 Playground 支持以网关登录态直接发起生成" }}>
+
+  ## 概述
+
+  位于 `omnimux.ai/pricing/<模型 ID>` 的模型详情页现已支持真实生成。页面中的 **Playground** 区块以浏览器登录态经网关提交，因此已登录 OmniMux 的用户无需先创建 API 令牌即可试用模型。
+
+  ## 该调用哪条路径
+
+  - **在控制台内**：页面调用会话鉴权的 `POST /pg/video/generations`。该路径只接受浏览器登录态，不属于令牌 API 面。
+  - **在自己的代码里**：继续使用带 API 令牌的 `POST /v1/video/generations`，契约与视频系列模型页所述一致。令牌路径没有任何改动。
+
+  ## 任务结果
+
+  提交后的任务同样以登录态读取：`GET /api/task/self` 取状态、进度与额度，`GET /api/task/:task_id/artifacts` 取媒体投影。控制台提交的任务会和其他任务一样出现在账户任务列表中。
+
+  ## 计费
+
+  控制台提交走标准预扣与结算路径，不为控制台单独引入账本、定价规则或配额池。
+
+  ### 链接
+
+  - [视频生成 API](/zh/api-reference/video-series/models/seedance-2-5)
+
+</Update>
+
+<a id="2026-09-10-r2-file-storage"></a>
+
+<Update label="2026 年 9 月 10 日" tags={["平台"]} rss={{ title: "Cloudflare R2 存储开启与对齐 Evolink 文件上传 API 上线" }}>
+
+  ## 概述
+
+  OmniMux 现已全量支持 Cloudflare R2 对象存储与本地安全降级驱动，文件系列端点挂载于 `/api/v1/files/*` 与 `/v1/files/*`。
+
+  ## 核心能力
+
+  - **Base64 上传**：`POST /api/v1/files/upload/base64` 支持 Data URL 与纯 Base64。
+  - **流式上传**：`POST /api/v1/files/upload/stream` 支持 `multipart/form-data` 表单流。
+  - **URL 远程抓取**：`POST /api/v1/files/upload/url` 内置 SSRF 防护。
+  - **配额与 72h 过期**：单用户 2000 个活跃文件上限，72 小时自动过期物理清理。
+
+  ### 链接
+
+  - [Base64 文件上传](/zh/api-reference/file-series/upload-base64)
+  - [查询文件配额](/zh/api-reference/file-series/quota)
+
+</Update>
+
+<a id="2026-09-10-gpt-image-25-rename"></a>
+
+<Update label="2026 年 9 月 10 日" tags={["不兼容变更", "图像"]} rss={{ title: "GPT Image 按次模型 ID 正式更名为 2.5" }}>
+
+  ## 必须迁移
+
+  - 将 `gpt-image-2` 替换为 `gpt-image-2.5`。
+  - 将 `gpt-image-2-hd` 替换为 `gpt-image-2.5-hd`。
+  - 继续使用 `POST /v1/images/generations`，更新保存的请求、集成代码及模型白名单中的 `model`。
+
+  旧 ID 不是兼容别名，也不支持 `gpt-image-2-5` 拼写。
+
+  ## 价格与范围
+
+  基础按次价保持不变：`gpt-image-2.5` 为 USD 0.0441/次，`gpt-image-2.5-hd` 为 USD 0.005479/次；分组倍率可能影响最终费用。本次是公开 ID 迁移，不代表新增或验证了特定分辨率及上游能力。
+
+  Flare 和 Sunburst 是独立的 Token 计费模型，不在本次变更中开放。
+
+  ### 链接
+
+  - [GPT Image 图像生成](/zh/api-reference/image-series/gpt-image/generate)
+
+</Update>
+
 <a id="2026-09-09-h3-media-task-contracts"></a>
 
 <Update label="2026 年 9 月 9 日" tags={["不兼容变更", "视频"]} rss={{ title: "H3 有序参考素材与任务结果处理修复" }}>

@@ -116,7 +116,7 @@
                     "pages": [
                       "en/api-reference/image-series/models/nano-banana-2",
                       "en/api-reference/image-series/models/gemini-3.1-flash-image",
-                      "en/api-reference/image-series/models/gemini-3.1-flash-lite-image",
+                      "en/api-reference/image-series/models/nano-banana-2-lite",
                       "en/api-reference/image-series/models/nano-banana-pro",
                       "en/api-reference/image-series/models/nano-banana-2-1"
                     ],
@@ -634,7 +634,7 @@
                     "pages": [
                       "zh/api-reference/image-series/models/nano-banana-2",
                       "zh/api-reference/image-series/models/gemini-3.1-flash-image",
-                      "zh/api-reference/image-series/models/gemini-3.1-flash-lite-image",
+                      "zh/api-reference/image-series/models/nano-banana-2-lite",
                       "zh/api-reference/image-series/models/nano-banana-pro",
                       "zh/api-reference/image-series/models/nano-banana-2-1"
                     ],

@@ -1,7 +1,7 @@
 ---
 title: "MiniMax H3 Video Line"
 sidebarTitle: "MiniMax H3 Video Line"
-description: "AutoDL MiniMax H3 video line · model `minimax-h3-video`"
+description: "MiniMax H3 video line · model `minimax-h3-video`"
 api: "POST https://api.omnimux.ai/v1/videos"
 ---
 
@@ -17,7 +17,7 @@ api: "POST https://api.omnimux.ai/v1/videos"
 | Field | Value |
 | --- | --- |
 | Series | Video series |
-| Brand | MiniMax / AutoDL |
+| Brand | MiniMax |
 | model | `minimax-h3-video` |
 | Billing unit | Per second |
 
@@ -38,41 +38,51 @@ Base URL: `https://api.omnimux.ai`
 
 ## Groups and tiers
 
-`minimax-h3-video` keeps one public model ID; the tier is chosen per request through a group and never creates a new model ID:
+`minimax-h3-video` keeps one public model ID. Every scenario and quality tier is selected per request through a group; no new model ID is created.
+
+### Scenario groups
+
+Select by use case; all are 1.0×:
+
+| Scenario | Group | Input and requirements |
+| --- | --- | --- |
+| Digital human | `minimax-h3-video-digital-human` | Portrait image + speech audio; **omit** `prompt`, otherwise the request routes as image + audio |
+| Short drama | `minimax-h3-video-short-drama` | Multiple reference images; `prompt` required |
+| Short drama with audio | `minimax-h3-video-short-drama-av` | Multiple images + multiple audio clips; `prompt` required |
+| Creative text-to-video | `minimax-h3-video-creative` | `prompt` only |
+| First-last frame | `minimax-h3-video-first-last-frame` | `first_frame` + `last_frame`; `prompt` required |
+
+With no group, requests use `default` automatic routing. Scenario groups are not part of `auto` rotation.
+
+### Quality tiers
 
 | Tier | Group | Multiplier | Shapes served |
 | --- | --- | --- | --- |
 | Standard (default) | No group specified (`default` routing) | 1.0× | Text-to-video, image reference, image + audio, lip sync, first-last frame |
-| Fast | `minimax-h3-video-fast` | 0.9× | Image reference, image + audio |
-| Higher quality | `minimax-h3-video-pro` | 1.15× | Image reference, image + audio |
+| Fast | `minimax-h3-video-fast` | 0.9× | Image reference, image + audio (`prompt` required) |
+| Higher quality | `minimax-h3-video-pro` | 1.15× | Image reference, image + audio (`prompt` required) |
 
-Use either spelling; the header takes precedence over the `model` suffix:
+### Selection
+
+`/v1/videos` is a plugin route and honours only the **`X-Omnimux-Group`** header. A `model@group` suffix does not take effect on this path; the request uses the token's group instead. Select one group per request.
 
 ```bash cURL
 curl --request POST \
   --url https://api.omnimux.ai/v1/videos \
   --header 'Authorization: Bearer <token>' \
   --header 'Content-Type: application/json' \
-  --header 'X-Omnimux-Group: minimax-h3-video-fast' \
+  --header 'X-Omnimux-Group: minimax-h3-video-digital-human' \
   --data '{
   "model": "minimax-h3-video",
-  "prompt": "slow pan across a product on a table",
+  "ref_image_0": "https://example.com/portrait.jpg",
+  "ref_audio_0": "https://example.com/speech.mp3",
   "resolution": "768p",
-  "duration": 5
+  "audio_duration": 5
 }'
 ```
 
-```json
-{
-  "model": "minimax-h3-video@minimax-h3-video-pro",
-  "prompt": "slow pan across a product on a table",
-  "resolution": "768p",
-  "duration": 5
-}
-```
-
-- Group selection is request-scoped and does not create a new model ID; a group your key cannot use returns `403`.
-- The fast and higher-quality tiers are not part of default routing, so they must be selected explicitly. They serve image reference and image + audio only, and cap at `768p`. Use the standard tier for the other shapes.
+- Group selection is request-scoped and never creates a new model ID; a group your key cannot use returns `403`.
+- The fast and higher-quality tiers are not part of default routing and must be selected explicitly. They serve image reference and image + audio only and cap at `768p`; use the standard tier or a scenario group for the other shapes.
 
 ## Request shapes and endpoint selection
 
@@ -92,7 +102,7 @@ Shape priority, highest first: first-last frame → lip sync → image + audio �
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `model` | string | yes | `minimax-h3-video`, optionally with an `@group` suffix |
+| `model` | string | yes | Fixed to `minimax-h3-video` (this route does not accept an `@group` suffix; select a group with the header) |
 | `prompt` | string | conditional | Required for text-to-video, image reference, image + audio and first-last frame; omit it for lip sync (sending it routes as image + audio) |
 | `duration` / `seconds` | integer | no | Video duration in seconds, 1–15, default 5; some shapes cap at 10 or 12 seconds |
 | `resolution` / `size` | string | no | Billing tier labels only: `480p`, `736p`, `768p`, `1088p` or `1440p`; without an orientation the gateway maps it to the vertical variant internally. `1088p` / `1440p` exist only on the six endpoints that support them |

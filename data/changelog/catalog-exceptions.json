@@ -742,5 +742,13 @@
     "source": "https://omnimux.ai/api/pricing",
     "historical_commit": "a23adf499f5924304d7246066f3dfe35c6ce91d4",
     "reason": "Exact dated entry/model pair exists at the historical commit and the entire entry is unchanged. Public GET 200 observed 7 current models without this ID (snapshot SHA256 b02140dda8a7270257d99f1d35ab4618c52f4720a5c95a97f390c5b7ceb92046). Preserve the historical record only; this does not establish current availability, the exact removal date, or a new model launch."
+  },
+  {
+    "entry_id": "2026-10-05-nanobanana-2",
+    "model": "gemini-3.1-flash-lite-image",
+    "checked_at": "2026-11-14T08:43:48.479Z",
+    "source": "https://omnimux.ai/api/pricing",
+    "historical_commit": "e807fdab8cb6f1546807df82de522f19de05316d",
+    "reason": "Historical launch entry names the pre-rename public id. Production renamed it to nano-banana-2-lite on 2026-11-14 (old id had zero consumption); preserve the dated record without asserting current availability."
   }
 ]

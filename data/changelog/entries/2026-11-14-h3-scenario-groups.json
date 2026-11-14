@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "id": "2026-11-14-h3-scenario-groups",
+  "published_at": "2026-11-14",
+  "rank": 1,
+  "type": "capability",
+  "modality": ["video"],
+  "models": ["minimax-h3-video"],
+  "links": [
+    {
+      "label": { "zh": "视频专线接口文档", "en": "H3 video line API reference" },
+      "href": {
+        "zh": "/zh/api-reference/video-series/models/minimax-h3-video",
+        "en": "/en/api-reference/video-series/models/minimax-h3-video"
+      }
+    }
+  ],
+  "title": {
+    "zh": "MiniMax H3 视频专线新增 5 个场景分组",
+    "en": "MiniMax H3 video line adds five scenario groups"
+  },
+  "summary": {
+    "zh": "`minimax-h3-video` 保持单一公开 ID，新增数字人口播、短剧分镜、短剧音画、文生创意、首尾帧 5 个场景分组；通过 `X-Omnimux-Group` 选择，不新增模型 ID，分组倍率均为 1.0×。",
+    "en": "`minimax-h3-video` keeps its single public ID and adds five scenario groups: digital human, short drama, short drama with audio, creative text-to-video, and first-last frame. Select them with `X-Omnimux-Group`; no new model IDs, all at 1.0×."
+  },
+  "body": {
+    "zh": "## 场景分组\n\n`minimax-h3-video` 的公开 ID 不变，新增 5 个按用途划分的请求级分组：\n\n| 场景 | 分组 | 输入要求 |\n| --- | --- | --- |\n| 数字人口播 | `minimax-h3-video-digital-human` | 人像图 + 口播音频，不带 `prompt` |\n| 短剧分镜 | `minimax-h3-video-short-drama` | 多张参考图，`prompt` 必填 |\n| 短剧音画 | `minimax-h3-video-short-drama-av` | 多图 + 多段音频，`prompt` 必填 |\n| 文生创意 | `minimax-h3-video-creative` | 仅 `prompt` |\n| 首尾帧 | `minimax-h3-video-first-last-frame` | `first_frame` + `last_frame`，`prompt` 必填 |\n\n## 选择方式\n\n- 接口路径不变：`POST /v1/videos`，`GET /v1/videos/{task_id}`\n- 用请求头 `X-Omnimux-Group` 选择分组；`/v1/videos` 不解析 `model@group` 后缀\n- 所有场景分组倍率为 1.0×，不进入 `auto` 轮询；不指定分组时仍走 `default` 自动分流\n\n## 文档\n\n- [MiniMax H3 视频专线](/zh/api-reference/video-series/models/minimax-h3-video)",
+    "en": "## Scenario groups\n\nThe public `minimax-h3-video` ID is unchanged. Five request-scoped groups are now available by use case:\n\n| Scenario | Group | Input requirements |\n| --- | --- | --- |\n| Digital human | `minimax-h3-video-digital-human` | Portrait image + speech audio, no `prompt` |\n| Short drama | `minimax-h3-video-short-drama` | Multiple reference images, `prompt` required |\n| Short drama with audio | `minimax-h3-video-short-drama-av` | Multiple images + audio clips, `prompt` required |\n| Creative text-to-video | `minimax-h3-video-creative` | `prompt` only |\n| First-last frame | `minimax-h3-video-first-last-frame` | `first_frame` + `last_frame`, `prompt` required |\n\n## Selection\n\n- Paths are unchanged: `POST /v1/videos`, `GET /v1/videos/{task_id}`\n- Select a group with the `X-Omnimux-Group` header; `/v1/videos` does not parse a `model@group` suffix\n- All scenario groups are 1.0×, are not part of `auto` rotation, and the `default` automatic path remains when no group is specified\n\n## Documentation\n\n- [MiniMax H3 video line](/en/api-reference/video-series/models/minimax-h3-video)"
+  },
+  "tags": ["video", "groups", "workflow"]
+}
