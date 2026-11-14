@@ -7,7 +7,16 @@ openapi: "openapi/ops/publishing/create-post.json POST /api/social/v1/posts"
 
 Every target account must belong to the requested source. An idempotent replay also verifies the stored source and account set; conflicts return 409.
 
-For media, call [Media Presign](/en/api-reference/publishing/presign) first and pass the returned `public_url` as the `media` reference. Official publishing requires the platform to read that URL directly; do not submit when the upload failed or the object is unreadable.
+For media, call [Media Presign](/en/api-reference/publishing/presign) first and pass the returned `public_url` as the `media` reference. Do not submit when the upload failed or the object is unreadable.
+
+TikTok routes by the account's granted capability:
+
+| Account capability | Behavior |
+| --- | --- |
+| `video.upload` (currently approved) | **Draft upload**: the video lands in the creator's TikTok inbox and the creator finishes editing and posting inside TikTok. One video per request; `content` and `tiktok_options` do not apply |
+| `video.publish` (separate review required) | **Direct Post**: submits with `tiktok_options` privacy and interaction settings; supports video and photo posts |
+
+An account without a publishing scope returns 409 `SOCIAL_TIKTOK_SCOPE_MISSING`. Draft mode reports `processing` first (including `SEND_TO_USER_INBOX`) and `published` after the creator completes the post.
 
 `provider` is required and has one current value, `tiktok_direct`. A retired source identifier returns 410 `provider-retired`; missing or unknown values return 400 `invalid-provider`.
 

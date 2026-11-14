@@ -8,7 +8,7 @@ openapi: "openapi/ops/publishing/start-connect.json POST /api/social/v1/connect"
 Starts the platform's official authorization flow. Only TikTok direct (Login Kit + Content Posting API) is available; other platforms are not offered yet and return 400 `SOCIAL_PLATFORM_DENIED`.
 
 <Note>
-  The TikTok developer submission is still under platform review. Until it is approved, authorization and publishing may work only for platform test accounts; API errors do not indicate the review outcome.
+  TikTok direct is live (approved on 2026-11-12). The current grant covers `user.info.basic` and `video.upload`: accounts can be connected and videos uploaded as drafts. Public direct posting needs a separate `video.publish` approval.
 </Note>
 
 `provider` is required and has one current value, `tiktok_direct`. A retired source identifier returns 410 `provider-retired`; missing or unknown values return 400 `invalid-provider`.

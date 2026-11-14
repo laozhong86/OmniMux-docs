@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "id": "2026-11-14-tiktok-draft-upload",
+  "published_at": "2026-11-14",
+  "rank": 1,
+  "type": "capability",
+  "modality": [
+    "publishing"
+  ],
+  "title": {
+    "en": "TikTok direct is live: connect accounts and upload video drafts",
+    "zh": "TikTok 官方直连上线：可连接账号并上传视频草稿"
+  },
+  "summary": {
+    "en": "TikTok approved the production app on 2026-11-12 with user.info.basic and video.upload. Publishing uses the creator's TikTok inbox as a draft; public direct posting awaits video.publish review.",
+    "zh": "TikTok 于 2026-11-12 通过生产审核，批准 user.info.basic 与 video.upload。发布以草稿形式送达创作者 TikTok 收件箱；公开直发待 video.publish 审核。"
+  },
+  "models": [],
+  "tags": [
+    "publishing",
+    "tiktok",
+    "capability",
+    "draft"
+  ],
+  "links": [
+    {
+      "label": {
+        "en": "Start Connection",
+        "zh": "发起连接"
+      },
+      "href": {
+        "en": "/en/api-reference/publishing/start-connect",
+        "zh": "/zh/api-reference/publishing/start-connect"
+      }
+    },
+    {
+      "label": {
+        "en": "Create Post",
+        "zh": "创建帖子"
+      },
+      "href": {
+        "en": "/en/api-reference/publishing/create-post",
+        "zh": "/zh/api-reference/publishing/create-post"
+      }
+    },
+    {
+      "label": {
+        "en": "Connection FAQ",
+        "zh": "连接与使用"
+      },
+      "href": {
+        "en": "/en/faqs/connection-usage",
+        "zh": "/zh/faqs/connection-usage"
+      }
+    }
+  ],
+  "body": {
+    "en": "TikTok's production app review completed on **2026-11-12 12:52** (version `7703706193873979412`, submitted 2026-11-03 09:12, about 9 days 3 hours 40 minutes).\n\n### Capabilities\n\n- **Connect accounts (live):** OAuth through Login Kit with `user.info.basic`.\n- **Draft upload (live):** `video.upload` sends one video to the creator's TikTok inbox through `/v2/post/publish/inbox/video/init/`. The creator opens the inbox notification, edits and completes the post inside TikTok. `content` and `tiktok_options` do not apply; post status moves from `processing` (including `SEND_TO_USER_INBOX`) to `published` after the creator posts.\n- **Public direct posting (not approved):** `video.publish` / Direct Post requires a separate TikTok review. Once granted, accounts with that scope use Direct Post with privacy and interaction settings.\n\n### Limits\n\n- Draft upload accepts one video per request and is rate limited to 6 requests per minute per user token.\n- TikTok allows at most 5 pending inbox shares per 24 hours; further requests fail with `spam_risk_too_many_pending_share`.\n\n### Notes for integrations\n\n- `GET /api/social/v1/accounts` now returns `capabilities.upload_draft` and `capabilities.publish_direct` per account.\n- Accounts without any publishing scope return `409 SOCIAL_TIKTOK_SCOPE_MISSING` from `POST /posts`.\n- `GET /api/social/v1/status` reports the configured `scopes`, `upload_draft`, `publish_direct` and `draft_only`.",
+    "zh": "TikTok 生产审核于 **2026-11-12 12:52** 完成（版本 `7703706193873979412`，2026-11-03 09:12 提交，约 9 天 3 小时 40 分）。\n\n### 能力\n\n- **连接账号（已上线）：** 通过 Login Kit + `user.info.basic` 完成 OAuth。\n- **草稿上传（已上线）：** `video.upload` 通过 `/v2/post/publish/inbox/video/init/` 把单条视频送入创作者 TikTok 收件箱；创作者打开收件箱通知，在 TikTok 内编辑并完成发布。`content` 与 `tiktok_options` 不生效；状态先为 `processing`（含 `SEND_TO_USER_INBOX`），用户发布后为 `published`。\n- **公开直发（未批准）：** `video.publish` / Direct Post 需 TikTok 另行审核。获批后，具备该 scope 的账号按隐私与互动设置直接发布。\n\n### 限制\n\n- 草稿上传每次仅接受一条视频；每个用户 token 每分钟最多 6 次请求。\n- TikTok 限制每 24 小时最多 5 条待处理收件箱草稿；超限返回 `spam_risk_too_many_pending_share`。\n\n### 集成说明\n\n- `GET /api/social/v1/accounts` 现在返回每个账号的 `capabilities.upload_draft` 与 `capabilities.publish_direct`。\n- 没有任何发布 scope 的账号调用 `POST /posts` 返回 `409 SOCIAL_TIKTOK_SCOPE_MISSING`。\n- `GET /api/social/v1/status` 报告已配置的 `scopes`、`upload_draft`、`publish_direct` 与 `draft_only`。"
+  }
+}

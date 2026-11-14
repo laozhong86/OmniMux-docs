@@ -8,7 +8,7 @@ openapi: "openapi/ops/publishing/start-connect.json POST /api/social/v1/connect"
 启动平台官方授权流程。目前仅提供 TikTok 官方直连（Login Kit + Content Posting API）；其他平台尚不可用，传入未开放平台返回 400 `SOCIAL_PLATFORM_DENIED`。
 
 <Note>
-  TikTok 开发提交仍在平台审核中。审核通过前，授权与发布可能仅对平台侧测试账号可用；接口错误不能据此判断审核结果。
+  TikTok 官方直连已上线（2026-11-12 审核通过）。当前授权范围包含 `user.info.basic` 与 `video.upload`：可连接账号并做草稿上传；公开直发需平台另行批准 `video.publish`。
 </Note>
 
 `provider` 必填，当前唯一取值 `tiktok_direct`。已退役的来源标识返回 410 `provider-retired`，缺失或未知值返回 400 `invalid-provider`。

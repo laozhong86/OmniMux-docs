@@ -9,6 +9,37 @@ Stay up to date with OmniMux gateway model launches and platform changes. The fu
 
 Pages: **Page 1** · [Page 2](/en/updates/page-2)
 
+<a id="2026-11-14-tiktok-draft-upload"></a>
+
+<Update label="November 14, 2026" tags={["Improvements", "Publishing"]} rss={{ title: "TikTok direct is live: connect accounts and upload video drafts" }}>
+
+  TikTok's production app review completed on **2026-11-12 12:52** (version `7703706193873979412`, submitted 2026-11-03 09:12, about 9 days 3 hours 40 minutes).
+
+  ### Capabilities
+
+  - **Connect accounts (live):** OAuth through Login Kit with `user.info.basic`.
+  - **Draft upload (live):** `video.upload` sends one video to the creator's TikTok inbox through `/v2/post/publish/inbox/video/init/`. The creator opens the inbox notification, edits and completes the post inside TikTok. `content` and `tiktok_options` do not apply; post status moves from `processing` (including `SEND_TO_USER_INBOX`) to `published` after the creator posts.
+  - **Public direct posting (not approved):** `video.publish` / Direct Post requires a separate TikTok review. Once granted, accounts with that scope use Direct Post with privacy and interaction settings.
+
+  ### Limits
+
+  - Draft upload accepts one video per request and is rate limited to 6 requests per minute per user token.
+  - TikTok allows at most 5 pending inbox shares per 24 hours; further requests fail with `spam_risk_too_many_pending_share`.
+
+  ### Notes for integrations
+
+  - `GET /api/social/v1/accounts` now returns `capabilities.upload_draft` and `capabilities.publish_direct` per account.
+  - Accounts without any publishing scope return `409 SOCIAL_TIKTOK_SCOPE_MISSING` from `POST /posts`.
+  - `GET /api/social/v1/status` reports the configured `scopes`, `upload_draft`, `publish_direct` and `draft_only`.
+
+  ### Links
+
+  - [Start Connection](/en/api-reference/publishing/start-connect)
+  - [Create Post](/en/api-reference/publishing/create-post)
+  - [Connection FAQ](/en/faqs/connection-usage)
+
+</Update>
+
 <a id="2026-11-14-h3-scenario-groups"></a>
 
 <Update label="November 14, 2026" tags={["Improvements", "Video"]} rss={{ title: "MiniMax H3 video line adds five scenario groups" }}>
@@ -62,7 +93,7 @@ Pages: **Page 1** · [Page 2](/en/updates/page-2)
   3. Historical accounts and posts stay in the store but can no longer be operated through the public API.
   4. CLI: `omnimux social accounts --provider tiktok_direct`.
 
-  TikTok's developer submission is still under platform review; until it is approved, official publishing may work only for platform test accounts. The server keeps a `SOCIAL_ZERNIO_ENABLED` rollback switch for operations; it is not a documented commitment.
+  TikTok direct was approved on 2026-11-12; draft upload (`video.upload`) is available now, while public direct posting awaits `video.publish` review (see the TikTok draft-upload update). The server keeps a `SOCIAL_ZERNIO_ENABLED` rollback switch for operations; it is not a documented commitment.
 
   ### Links
 
@@ -1184,41 +1215,6 @@ Pages: **Page 1** · [Page 2](/en/updates/page-2)
 
   - [Image series model pages](/en/api-reference/image-series/models/nano-banana-2)
   - [GPT Image generation](/en/api-reference/image-series/gpt-image/generate)
-  - [Midjourney image generation](/en/api-reference/image-series/models/midjourney)
-
-</Update>
-
-<a id="2026-09-13-midjourney-two-ids"></a>
-
-<Update label="September 13, 2026" tags={["Breaking", "Image"]} rss={{ title: "Midjourney now uses two version IDs with per-request actions" }}>
-
-  ## Required migration
-
-  - Replace the legacy `midjourney` ID and every per-action ID (for example `mj-v7-upscale`, `mj-v8-1-remove-bg`) with one of two version IDs: `mj-v7` or `mj-v8-1`.
-  - Select the action in the request body: `model_params.operation` = `generate` | `enhance` | `pan` | `outpaint` | `remove-bg` | `upscale` | `variation` | `edit` | `inpaint` | `remix` | `retexture` | `upload-paint`. Omit it for plain generation.
-  - Keep using `POST /v1/images/generations`; the request shape, the async task id and the polling behaviour are unchanged.
-
-  The old IDs are not compatibility aliases. An unknown or unpriced `operation` is rejected with **400**, never silently downgraded to plain generation.
-
-  ## Pricing
-
-  Per-call prices are tiered by action, and the tiers are the same on both versions:
-
-  | Action tier | Price | Credits |
-  | --- | --- | --- |
-  | `generate`, `enhance`, `pan`, `outpaint`, `remove-bg` | USD 0.113446 | 1.134 |
-  | `upscale`, `variation`, `edit`, `inpaint`, `remix`, `retexture`, `upload-paint` | USD 0.170169 | 1.702 |
-
-  Multipliers stack on the action tier: `quality: "hd"` (mj-v8-1) ×1.5, `model_params.speed: "turbo"` ×2, upscale `type: "creative"` ×4/3. `draft`/`fast` and `type: "standard"` stay ×1. Measured example: mj-v8-1 + hd + upscale + creative = USD 0.255251 per call.
-
-  The `mj-v7` per-call price moved from USD 0.056723 to USD 0.113446 to match what upstream bills for generation; the action tiers above are unchanged in absolute terms.
-
-  ## Inpaint
-
-  Use the mask-image form: `model_params.mask.url` (an image URL or a `data:` URL, black = keep, white = regenerate). The polygon form `model_params.mask.areas[]` is rejected upstream with `invalid_parameters: Image dimensions out of range` in our measurements (2026-09-13), including with the upstream documentation's own example coordinates.
-
-  ### Links
-
   - [Midjourney image generation](/en/api-reference/image-series/models/midjourney)
 
 </Update>
