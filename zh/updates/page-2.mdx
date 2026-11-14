@@ -9,6 +9,258 @@ rss: true
 
 分页：[第 1 页](/zh/updates) · **第 2 页**
 
+<a id="2026-09-10-r2-file-storage"></a>
+
+<Update label="2026 年 9 月 10 日" tags={["平台"]} rss={{ title: "Cloudflare R2 存储开启与对齐 Evolink 文件上传 API 上线" }}>
+
+  ## 概述
+
+  OmniMux 现已全量支持 Cloudflare R2 对象存储与本地安全降级驱动，文件系列端点挂载于 `/api/v1/files/*` 与 `/v1/files/*`。
+
+  ## 核心能力
+
+  - **Base64 上传**：`POST /api/v1/files/upload/base64` 支持 Data URL 与纯 Base64。
+  - **流式上传**：`POST /api/v1/files/upload/stream` 支持 `multipart/form-data` 表单流。
+  - **URL 远程抓取**：`POST /api/v1/files/upload/url` 内置 SSRF 防护。
+  - **配额与 72h 过期**：单用户 2000 个活跃文件上限，72 小时自动过期物理清理。
+
+  ### 链接
+
+  - [Base64 文件上传](/zh/api-reference/file-series/upload-base64)
+  - [查询文件配额](/zh/api-reference/file-series/quota)
+
+</Update>
+
+<a id="2026-09-10-gpt-image-25-rename"></a>
+
+<Update label="2026 年 9 月 10 日" tags={["不兼容变更", "图像"]} rss={{ title: "GPT Image 按次模型 ID 正式更名为 2.5" }}>
+
+  ## 必须迁移
+
+  - 将 `gpt-image-2` 替换为 `gpt-image-2.5`。
+  - 将 `gpt-image-2-hd` 替换为 `gpt-image-2.5-hd`。
+  - 继续使用 `POST /v1/images/generations`，更新保存的请求、集成代码及模型白名单中的 `model`。
+
+  旧 ID 不是兼容别名，也不支持 `gpt-image-2-5` 拼写。
+
+  ## 价格与范围
+
+  基础按次价保持不变：`gpt-image-2.5` 为 USD 0.0441/次，`gpt-image-2.5-hd` 为 USD 0.005479/次；分组倍率可能影响最终费用。本次是公开 ID 迁移，不代表新增或验证了特定分辨率及上游能力。
+
+  Flare 和 Sunburst 是独立的 Token 计费模型，不在本次变更中开放。
+
+  ### 链接
+
+  - [GPT Image 图像生成](/zh/api-reference/image-series/gpt-image/generate)
+
+</Update>
+
+<a id="2026-09-09-h3-media-task-contracts"></a>
+
+<Update label="2026 年 9 月 9 日" tags={["不兼容变更", "视频"]} rss={{ title: "H3 有序参考素材与任务结果处理修复" }}>
+
+  使用 operation 选择文生视频、首帧或 Max 多参考生成。素材数组保留顺序，冲突同义字段会被拒绝。旧720p需明确改为768P。产物暂不可用时重试，失败或取消不再被旧视频URL掩盖。状态查询不再抢先持久化终态，结算仍由后台轮询负责。
+
+  ### 链接
+
+  - [H3 Max API](/zh/api-reference/video-series/models/minimax-h3-max)
+
+</Update>
+
+<a id="2026-09-08-fal-minimax-h3"></a>
+
+<Update label="2026 年 9 月 8 日" tags={["新模型", "视频"]} rss={{ title: "fal.ai MiniMax H3 Max 与 Turbo 视频模型上线，支持动态多模态分发" }}>
+
+  ## fal.ai MiniMax H3 Max 与 Turbo 视频模型
+
+  **MiniMax H3 Max** 旗舰版与 **MiniMax H3 Max Turbo** 极速版视频生成模型现已在 OmniMux 正式上线。
+
+  ### 核心特性
+
+  - **动态多模态分发**：客户端仅需配置两个基础模型（`minimax/h3-max` 和 `minimax/h3-max-turbo`）。只传文字走文生视频，传入 `image_url` 自动切图生视频，传入 `video_url` 自动切参考生视频，心智极简。
+  - **Turbo 极速出片**：5 秒视频片段端到端约 3 秒即可出片（模型推理仅约 1.5 秒）。
+  - **双阶段内聚轮询与容错**：成片 URL 就地解析，并具备针对 CDN 延迟的自愈防误杀能力。
+  - **标准协议**：支持通过 `POST /v1/video/generations` 异步提交任务，并通过 `GET /v1/tasks/{task_id}` 轮询结果。
+
+  ### 链接
+
+  - [MiniMax H3 Max](/zh/api-reference/video-series/models/minimax-h3-max)
+  - [MiniMax H3 Max Turbo](/zh/api-reference/video-series/models/minimax-h3-max-turbo)
+  - [定价](/zh/api-reference/account/pricing)
+
+</Update>
+
+<a id="2026-09-07-social-provider-required"></a>
+
+<Update label="2026 年 9 月 7 日" tags={["不兼容变更", "社媒发布"]} rss={{ title: "社媒操作必须明确指定账号来源" }}>
+
+  网关从 **2026-09-07 07:25:20 UTC+8（2026-09-06T23:25:20Z）** 起，要求账号列表、发起连接、解绑、创建帖子及查询帖子状态五项操作显式传入 `provider`。官方 TikTok 账号使用 `tiktok_direct`，Zernio 账号使用 `zernio`。GET/DELETE 使用查询参数，POST 使用 JSON 字段。缺失或未知值返回 `400 invalid-provider`；跨来源资源返回 `409 account-provider-mismatch` 或 `409 post-provider-mismatch`。没有默认来源。
+
+  ### CLI 迁移
+
+  使用 CLI **0.4.0**：二进制安装执行 `omnimux update`，npm 安装执行 `npm install -g @omnimux/cli@0.4.0`。同步修改已有命令，补充 `--provider`，例如 `omnimux social accounts --provider zernio`。不刷新上游的状态读取示例：`omnimux social post-status <post-id> --provider zernio --no-refresh`。升级二进制不会修改脚本，也不代表全部客户端都已升级。
+
+  CLI 0.4.0 同时包含此前合入的 hosted 命令和视频技能更新。各平台凭据统一保存在权限为 0600 的文件中；仅使用 Keychain 的旧安装需要安全配置凭据。Agent RPC 仍为 `contract_version: 1`。
+
+  CLI 0.4.0 于 **2026-09-07 01:47:36 UTC（09:47:36 UTC+8）** 公开发布。公开二进制与 npm 包版本均为 0.4.0。
+
+  独立二进制不包含技能文件。需要使用或更新随包技能时，请安装 npm 包；仅升级二进制时，即使 CLI 升级成功，技能同步仍可能报告缺少技能目录。
+
+  ### 链接
+
+  - [账号列表](/zh/api-reference/publishing/list-accounts)
+
+</Update>
+
+<a id="2026-09-07-account-quota-errors"></a>
+
+<Update label="2026 年 9 月 7 日" tags={["平台", "文本"]} rss={{ title: "OpenAI 文本接口统一账户额度错误" }}>
+
+  OpenAI Completions、Chat Completions、Responses 和 Responses Compact 在本地账户余额或订阅额度不足以完成预扣时，返回 HTTP **402**，`error.type` 与 `error.code` 均为 `insufficient_quota`。流式请求在 SSE 建立前返回 JSON 错误。应先检查余额或额度，再决定是否重新请求；不要将其当作密钥失效或临时限流。token 错误、上游渠道错误、其他协议，以及真正的 401/403、普通 429 和 5xx 行为保持不变。
+
+  网关于 2026 年 9 月 7 日 07:25:20 UTC+8（2026-09-06T23:25:20Z）上线该响应。
+
+  ### 链接
+
+  - [连接与使用](/zh/faqs/connection-usage)
+
+</Update>
+
+<a id="2026-08-31-catalog-sync"></a>
+
+<Update label="2026 年 8 月 31 日" tags={["新模型", "文本", "图像", "视频", "音频"]} rss={{ title: "模型目录全量同步：Gemini 3.7、GLM 5.3、Wan 3.0、Seedance 2.0、Grok Imagine、音频与语音转录" }}>
+
+  ## 语言系列
+
+  - **Gemini：** 增加 `gemini-3.7-flash`
+  - **GLM：** 增加 `glm-5.3`
+  - **Grok：** 增加 `grok-4.6`
+  - **DeepSeek：** 增加 `deepseek-v4-flash-vision-exp`
+
+  ## 图像与视频系列
+
+  - 全量补齐 **Wan 3.0**（`wan-3.0`、`wan-3.0-prime`、`wan-3.0-prime-ref`、`wan-3.0-ref`）、**Seedance 2.0**（`seedance-2-0`、`seedance-2-0-fast`、`seedance-2-0-mini`、`seedance-2-5`）、**Kling**（`kling-v3`、`kling-v2-6`、`kling-avatar`、`kling-o3`、`kling-v3-motion-control`）、**Grok Imagine** 与 **Midjourney** 文档。
+  - 下架并清理已停售的 Omni Flash 固定时长 SKU。
+
+  ## 音频系列
+
+  - `gpt-4o-mini-tts`（`POST /v1/audio/speech` 语音合成）
+  - `whisper-1`（`POST /v1/audio/transcriptions` 语音转录）
+  - `suno`（`POST /v1/video/generations` 音乐生成）
+
+  ### 链接
+
+  - [定价](/zh/api-reference/account/pricing)
+  - [语音合成](/zh/api-reference/audio-series/models/gpt-4o-mini-tts)
+
+</Update>
+
+<a id="2026-08-31-media-catalog"></a>
+
+<Update label="2026 年 8 月 31 日" tags={["新模型", "图像", "视频"]} rss={{ title: "Seedream 5.0 Pro、Qwen Image 3.0、Grok Imagine Image 2.0、Kling O3、Omni 1.1、PixVerse v6、Vidu Q3" }}>
+
+  ## 图像
+
+  - **模型 ID：** `seedream-5-0-pro`、`qwen-image-3-0`、`grok-imagine-image-2-0`
+  - **API：** `POST /v1/images/generations`
+
+  ## 视频
+
+  - **模型 ID：** `kling-o3`、`gemini-omni-1.1`、`pixverse-v6`、`vidu-q3`
+  - **API：** 异步 `POST` / `GET` `/v1/video/generations`
+
+  `kling-o3` 是新 ID，不覆盖 `kling-v3`。`gemini-omni-1.1` 与 `gemini-omni-flash` 不同。精确 ID 以线上定价为准。
+
+  ### 链接
+
+  - [定价](/zh/api-reference/account/pricing)
+  - [视频任务查询](/zh/api-reference/tasks/video-task)
+
+</Update>
+
+<a id="2026-08-25-social-analytics-reader-seats"></a>
+
+<Update label="2026 年 8 月 25 日" tags={["平台", "文本"]} rss={{ title: "上线社媒分析与私信分析套件、Jina Reader 网页提取及社媒席位管理" }}>
+
+  ## 社媒分析与私信分析套件
+
+  OmniMux 在 `/api/social/v1` 路由组下全新接入 11 个 RESTful 深度数据分析与私信洞察端点：
+
+  - **社媒分析（Analytics）：** 宏观大盘时序指标、7×24小时最佳发布时间热力矩阵、发帖频次与互动率相关性模型、内容生命周期衰减曲线、多平台粉丝增长快照、单帖与列表深度指标排行、外部平台存量帖子增量同步。
+  - **私信分析（Inbox Analytics）：** 私信与互动消息量时序走势、响应时效（TTR）耗时分布、7×24小时私信时段热力图、跨平台私信渠道来源占比。
+
+  ## Jina Reader 网页提取中继（`POST /v1/reader`）
+
+  - **模型 ID：** `jina-reader-v1`
+  - **能力：** 将网页 URL 高效转换为大模型友好的 Markdown 或结构化 JSON 文本，支持 CSS 选择器过滤、图片摘要与按输出 Token 结算。
+  - **鉴权：** 标准网关 Bearer `sk-...` 凭据。
+
+  ## 社媒席位管理（`GET /api/social/v1/seats`）
+
+  - 查询当前用户绑定的社媒账号数量、席位配额容量与可用空坑状态。
+
+  ### 链接
+
+  - [Jina Reader 网页提取](/zh/api-reference/reader-series/models/jina-reader-v1)
+  - [大盘时序指标](/zh/api-reference/publishing/analytics/daily-metrics)
+  - [查询席位](/zh/api-reference/publishing/seats)
+
+</Update>
+
+<a id="2026-08-16-index-tts-ltx-docs"></a>
+
+<Update label="2026 年 8 月 16 日" tags={["新模型", "音频", "视频"]} rss={{ title: "上架 Index TTS 声音克隆，并更正 LTX 数字人合同" }}>
+
+  ## 新模型
+
+  - **模型 ID：** `index-tts`
+  - **路径：** `POST` / `GET` `/v1/video/generations`（GxgenAI 任务路径，产物为音频）
+  - **合同：** 必须传 `metadata.nodeInfoList` — 节点 `4/audio`（参考音）和 `7/text`（文稿）
+
+  ## 文档更正
+
+  - **`ltx-2-3-kj`** 是人设静帧 + 音频对口型，不是文生视频。请传图片节点 `444` 和音频节点 `1755`。
+
+  ### 链接
+
+  - [Index TTS](/zh/api-reference/audio-series/models/index-tts)
+  - [LTX 数字人对口型](/zh/api-reference/video-series/models/ltx-2-3-kj)
+
+</Update>
+
+<a id="2026-08-09-platform-api-updates"></a>
+
+<Update label="2026 年 8 月 9 日" tags={["平台"]} rss={{ title: "API 更新时间线上线" }}>
+
+  ## API 更新
+
+  OmniMux 现提供按日期排列的 **API 更新** 时间线，便于跟踪网关模型上新与平台变更。
+
+  ### 记录范围
+
+  - **新模型** — 线上定价可调用的模型 ID
+  - **模型更新** — 模式、时长、分辨率、参数
+  - **价格调整** — 实质费率变化
+  - **平台** — 鉴权、域名、公开 HTTP 面
+
+  ### 使用入口
+
+  | 面 | URL |
+  | --- | --- |
+  | 控制台 | `https://omnimux.ai` |
+  | OpenAI 兼容 API | `https://api.omnimux.ai/v1` |
+  | 文档 | `https://docs.omnimux.ai` |
+  | 状态页 | `https://status.omnimux.ai` |
+
+  Relay 鉴权：控制台签发的 Bearer `sk-…`。完整目录以控制台定价为准——本页是 **变更时间线**。
+
+  ### 链接
+
+  - [快速开始](/zh/quickstart)
+  - [定价与账户](/zh/api-reference/account/pricing)
+
+</Update>
+
 <a id="2026-08-09-social-data"></a>
 
 <Update label="2026 年 8 月 9 日" tags={["新模型", "社交数据"]} rss={{ title: "社交数据模型 — TikTok / Instagram / X / YouTube" }}>

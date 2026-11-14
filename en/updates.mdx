@@ -9,6 +9,38 @@ Stay up to date with OmniMux gateway model launches and platform changes. The fu
 
 Pages: **Page 1** · [Page 2](/en/updates/page-2)
 
+<a id="2026-11-14-h3-scenario-groups"></a>
+
+<Update label="November 14, 2026" tags={["Improvements", "Video"]} rss={{ title: "MiniMax H3 video line adds five scenario groups" }}>
+
+  ## Scenario groups
+
+  The public `minimax-h3-video` ID is unchanged. Five request-scoped groups are now available by use case:
+
+  | Scenario | Group | Input requirements |
+  | --- | --- | --- |
+  | Digital human | `minimax-h3-video-digital-human` | Portrait image + speech audio, no `prompt` |
+  | Short drama | `minimax-h3-video-short-drama` | Multiple reference images, `prompt` required |
+  | Short drama with audio | `minimax-h3-video-short-drama-av` | Multiple images + audio clips, `prompt` required |
+  | Creative text-to-video | `minimax-h3-video-creative` | `prompt` only |
+  | First-last frame | `minimax-h3-video-first-last-frame` | `first_frame` + `last_frame`, `prompt` required |
+
+  ## Selection
+
+  - Paths are unchanged: `POST /v1/videos`, `GET /v1/videos/{task_id}`
+  - Select a group with the `X-Omnimux-Group` header; `/v1/videos` does not parse a `model@group` suffix
+  - All scenario groups are 1.0×, are not part of `auto` rotation, and the `default` automatic path remains when no group is specified
+
+  ## Documentation
+
+  - [MiniMax H3 video line](/en/api-reference/video-series/models/minimax-h3-video)
+
+  ### Links
+
+  - [H3 video line API reference](/en/api-reference/video-series/models/minimax-h3-video)
+
+</Update>
+
 <a id="2026-11-13-nano-banana-2-lite"></a>
 
 <Update label="November 13, 2026" tags={["Breaking", "Image"]} rss={{ title: "Public model ID renamed to nano-banana-2-lite" }}>
@@ -27,6 +59,240 @@ Pages: **Page 1** · [Page 2](/en/updates/page-2)
   ### Links
 
   - [Nano Banana 2 Lite Image Generation](/en/api-reference/image-series/models/nano-banana-2-lite)
+
+</Update>
+
+<a id="2026-11-12-seedream-5-5"></a>
+
+<Update label="November 12, 2026" tags={["New models", "Image"]} rss={{ title: "Seedream 5.5 text-to-image is live" }}>
+
+  ## Seedream 5.5
+
+  **Seedream 5.5** is now available on OmniMux.
+
+  - **Model ID:** `seedream-5-5`
+  - **API:** `POST /v1/images/generations` (async, returns `task_id`)
+  - **Billing:** 1K/1.5K at $0.02 per image, 2K at $0.035; `n` fixed at 1
+  - **Capability:** MVP text-to-image; reference image / image-to-image not supported yet (400)
+
+  ### Links
+
+  - [API Reference](/en/api-reference/image-series/models/seedream-5-5)
+
+</Update>
+
+<a id="2026-11-12-nano-banana-2-1"></a>
+
+<Update label="November 12, 2026" tags={["New models", "Image"]} rss={{ title: "Nano Banana 2.1 text-to-image is live" }}>
+
+  ## Nano Banana 2.1
+
+  **Nano Banana 2.1** is now available on OmniMux.
+
+  - **Model ID:** `nano-banana-2-1`
+  - **API:** `POST /v1/images/generations` (async, returns `task_id`)
+  - **Billing:** 1K at $0.034, 2K at $0.051, 4K at $0.114 per image; defaults to 2K; `n` fixed at 1
+  - **Capability:** MVP text-to-image; reference image / image-to-image and `model_params` not supported yet (400)
+
+  ### Links
+
+  - [API Reference](/en/api-reference/image-series/models/nano-banana-2-1)
+
+</Update>
+
+<a id="2026-11-11-tool-to-workbench-handoff"></a>
+
+<Update label="November 11, 2026" tags={["Improvements", "Video"]} rss={{ title: "TikTok tool pages hand the parsed video to viral recreation" }}>
+
+  After a TikTok link is parsed on a tool page, Start recreating and Recreate with my character open `/influencer` in video mode with viral recreation selected, and the parsed video appears in the reference video slot. Videos must be 4-30 seconds long and at most 200 MiB.
+
+  The tool page calls `POST /api/tools/tiktok/handoff` with the parsed work ID only and receives a single-use token that expires after 30 minutes. The token does not contain the original link. The workbench calls `POST /api/tools/tiktok/handoff/redeem` after sign-in; OmniMux downloads the video again by work ID and stores it as the signed-in account's own reference upload, with the usual storage quota and expiry. A token works only for the guest browser or account that requested it, and only once.
+
+  The original link and media addresses never appear in the address bar, the token, or analytics. Guests who sign in from the workbench in the same tab keep their video. If the token has expired, was already used, or the video is unavailable, the workbench opens with an empty recreation slot and one message asking you to choose another video or upload a file.
+
+  Both endpoints accept requests from OmniMux pages only and are not intended for API clients. Issuing a token needs the tool verification pass; redeeming needs a same-origin request from a signed-in account. Redeeming is limited to 6 attempts per account and 20 per IP address every 10 minutes, and runs one transfer per account at a time; over the limit it answers `429`.
+
+  ### Links
+
+  - [Recreation analysis API](/en/api-reference/account/influencer/recreate-analyze)
+
+</Update>
+
+<a id="2026-11-10-www-canonical-host"></a>
+
+<Update label="November 10, 2026" tags={["Platform"]} rss={{ title: "www.omnimux.ai pages redirect to omnimux.ai; API paths keep their host" }}>
+
+  `GET` and `HEAD` requests for website pages on `www.omnimux.ai` now return a single `301` to the same path and query on `https://omnimux.ai`. `POST` and other methods are not redirected. Requests under `/api`, `/v1`, `/v1beta`, `/pg`, `/mj`, `/<mode>/mj`, `/dashboard/billing`, `/suno`, `/kling`, `/xai`, `/doubao`, `/ali`, `/autodl`, `/jimeng`, `/oauth`, `/install.sh` and `/install.ps1` keep their host and are not redirected, so clients that use `www.omnimux.ai` as their base URL keep working. People who were signed in on www need to sign in once more on `omnimux.ai`.
+
+  `/zh` and `/zh/` now return a single `301` to the homepage: `https://omnimux.ai/` from www, or `/` on the apex.
+
+  On the apex, fixed path segments with the wrong capitalization, such as `/Pricing`, return a single `301` to the correct spelling and keep the query. On www, a mistyped address such as `/Pricing` first returns a `301` to `https://omnimux.ai/Pricing`, then a second `301` to `/pricing`.
+
+  The retired legal URLs `/privacy-policy` and `/user-agreement` (apex or www, with or without a trailing slash) now return a single `301` to `/privacy` and `/terms`.
+
+  We recommend `https://api.omnimux.ai` or `https://omnimux.ai` as the API base URL.
+
+  ### Links
+
+  - [Quickstart](/en/quickstart)
+
+</Update>
+
+<a id="2026-11-10-model-execution-profile-defaults"></a>
+
+<Update label="November 10, 2026" tags={["Improvements", "Platform"]} rss={{ title: "Model execution profile and recommended defaults" }}>
+
+  `GET /api/pricing` text-model contracts may now carry optional `reasoning_efforts` (a map from the user-facing level to the upstream wire value) and `default_reasoning_effort`. The response may also carry a top-level `defaults` map recommending a model per operation (`chat`, `vision_chat`, `text_to_image`, `text_to_video`, `text_to_music`, `speech_to_text`). Every default value references a model present in the same response with non-empty `enable_groups`; unavailable recommendations are omitted rather than replaced. Missing reasoning fields stay absent and must not be treated as defaults. These fields are descriptive metadata only; pricing, routing, quota, precharge and settlement are unchanged.
+
+  ### Links
+
+  - [Pricing API](/en/api-reference/account/pricing)
+
+</Update>
+
+<a id="2026-11-08-model-contract-v2"></a>
+
+<Update label="November 8, 2026" tags={["Improvements", "Platform"]} rss={{ title: "Executable model capability contract v2" }}>
+
+  `GET /api/pricing` model rows now carry `contract.schemaVersion: "2.0"`, a per-model `contractVersion`, and an object array `operations[]`. Each operation declares `id`, `executable`, `inputs[]`, `parameters[]` and `output.type`; `operation_ids[]` retains the previous string-list view. `GET /api/model_contract/:model` publishes the same contract for one model. Fields the governance spec did not establish stay absent and are listed as machine-readable paths in `unknowns[]`; an operation that the gateway cannot execute is published with `executable: false`. The contract is descriptive only and is not used for billing, quota, precharge or settlement.
+
+  Existing v1 clients that read the string operation list must switch to `operation_ids` or branch on `schemaVersion`; model-level fields such as `reference_images` and `durations_seconds` keep their names and meanings.
+
+  ### Links
+
+  - [Pricing API](/en/api-reference/account/pricing)
+
+</Update>
+
+<a id="2026-10-24-h3-1088p-1440p-opened"></a>
+
+<Update label="October 24, 2026" tags={["Improvements", "Video"]} rss={{ title: "H3 video: 1088p and 1440p tiers are offered and priced by resolution" }}>
+
+  ## Change
+
+  `minimax-h3-video` now accepts two more billing tier labels: `1088p` and `1440p`. They are available on the six standard-tier endpoints whose upstream workflows accept them; the fast and higher-quality tiers keep their single endpoint each and do not offer these resolutions.
+
+  ## Pricing
+
+  Per-second billing has no resolution dimension, so the two tiers cannot be expressed by the base unit price alone. They are priced by resolution in the task billing expression:
+
+  | Tier | Rate |
+  | --- | --- |
+  | `480p` / `736p` / `768p` | `0.025 USD/second` |
+  | `1088p` | `0.030 USD/second` |
+  | `1440p` | `0.035 USD/second` |
+
+  Group multipliers still apply on top, so a fast-tier `1088p` request would be rejected rather than silently repriced (that tier has no such endpoint).
+
+  ## Impact
+
+  - Higher resolutions now cost more than the base tiers instead of being unrequestable.
+  - Upstream `1080p` (three workflows) stays unoffered and keeps returning `400` (`plugin_usage_invalid`).
+  - Requests for `1088p` / `1440p` on tiers without a matching endpoint return `400`; nothing is silently downgraded or billed as `768p`.
+
+  ## Documentation
+
+  - [MiniMax H3 video line](/en/api-reference/video-series/models/minimax-h3-video)
+
+  ### Links
+
+  - [MiniMax H3 video line](/en/api-reference/video-series/models/minimax-h3-video)
+
+</Update>
+
+<a id="2026-10-23-wan-video-resolution-tiers"></a>
+
+<Update label="October 23, 2026" tags={["Pricing", "Video"]} rss={{ title: "Wan 3.0: one public ID with resolution-based tiers" }}>
+
+  ## Change
+
+  `wan-3.0` now exposes one public model ID. The tier is not a second model ID and is not chosen by the caller: the gateway selects the tier group from the request's `resolution` (or `size`), so `720p` and `1080p` resolve to the `wan-3.0-720p` and `wan-3.0-1080p` groups respectively.
+
+  Automatic selection applies to both `POST /v1/video/generations` and the console's `POST /pg/video/generations`. An explicit caller choice always wins: the `X-Omnimux-Group` header, a body `group`, or a `model@group` suffix is never overridden by automatic tier selection.
+
+  ## Tiers and prices
+
+  Billed per second, in CNY:
+
+  | Tier | Resolution | Price |
+  | --- | --- | --- |
+  | 720p | `720p` | ¥0.60/second |
+  | 1080p | `1080p` | ¥1.80/second |
+
+  The base anchors the official 1080P list price of ¥1.20/second; the 720p tier is 0.5× and the 1080p tier is 1.5×. The duration envelope is 4–30 seconds, and with a reference video the cap is lower (up to 15 seconds).
+
+  ## Impact
+
+  - Callers send `model: "wan-3.0"` plus a `resolution` (required); no model or group selection is required.
+  - Sizes are classified by their shorter side, so `1280x720` / `720x1280` and `1920x1080` / `1080x1920` cost the same.
+  - The resolution is required: it selects the tier and therefore the channel, so omitting it is rejected (`400`), as is any value other than `720p` / `1080p`.
+  - The public pricing endpoint and the pre-submission quote remain authoritative for any individual request.
+
+  ## Documentation
+
+  - [Wan 3.0 video generation](/en/api-reference/video-series/models/wan-3.0)
+
+  ### Links
+
+  - [Wan 3.0 video generation](/en/api-reference/video-series/models/wan-3.0)
+
+</Update>
+
+<a id="2026-10-23-h3-unoffered-resolution-rejected"></a>
+
+<Update label="October 23, 2026" tags={["Improvements", "Video"]} rss={{ title: "H3 video: unoffered resolution tiers are rejected explicitly" }}>
+
+  ## Change
+
+  `minimax-h3-video` supports three billing tiers: `480p`, `736p` and `768p`. The upstream-only `1088p` and `1440p` tiers were wrongly reachable through the public enum; they are removed now, so a request carrying one returns `400` (`plugin_usage_invalid`).
+
+  ## Impact
+
+  - The model bills per second and has no resolution dimension, so `1088p` / `1440p` cannot be priced on their own. Before this change such a request was accepted and precharged at the base rate (measured: 12500 raw_quota), the upstream run ended in `FAILED`, and the quota was refunded in full — the tier had neither a price nor a reliable run.
+  - Unoffered tiers now fail closed: the request is rejected instead of being silently downgraded to `768p` or billed as `768p`.
+  - The published `480p` / `736p` / `768p` contract and prices are unchanged.
+
+  ## Documentation
+
+  - [MiniMax H3 video line](/en/api-reference/video-series/models/minimax-h3-video)
+
+  ### Links
+
+  - [MiniMax H3 video line](/en/api-reference/video-series/models/minimax-h3-video)
+
+</Update>
+
+<a id="2026-10-23-autodl-h3-video-restore"></a>
+
+<Update label="October 23, 2026" tags={["New models", "Video"]} rss={{ title: "MiniMax H3 video line restored with tier groups" }}>
+
+  **MiniMax H3 video line** (`minimax-h3-video`) is available again, served by AutoDL ComfyUI workflows.
+
+  ## Restored
+
+  - **Model ID:** `minimax-h3-video`
+  - **Contract:** `POST /v1/videos`, polled through `GET /v1/videos/{task_id}` (plugin line: the path differs from the other video series models, and `/v1/video/generations` returns 503)
+  - **Tiers:** standard (default, 1.0×), `minimax-h3-video-fast` (0.9×), `minimax-h3-video-pro` (1.15×)
+  - **Billing:** 0.025 USD/second (¥0.17/second at FX 6.8); `raw_quota = 0.025 × 500000 × seconds × GroupRatio`
+
+  ## Capabilities and limits
+
+  - One ID selects its endpoint from the request shape: text-to-video, image reference, image + audio, lip sync and first-last frame. When nothing matches it returns 400 instead of silently falling back.
+  - The fast and higher-quality tiers serve image reference and image + audio only, capped at 768p.
+  - Offered resolutions are 480p / 736p / 768p. 1080p and the higher upstream tiers have no published price and are not offered.
+  - Duration is 1–15 seconds (default 5); some shapes cap at 10 or 12 seconds.
+
+  ## New parameter
+
+  - `mode` (`高速模式` / `高质模式`, default `高质模式`): accepted by the nine-image and nine-image-three-audio endpoints added on 2026-10-23.
+
+  ## Documentation
+
+  - [MiniMax H3 video line](/en/api-reference/video-series/models/minimax-h3-video)
+
+  ### Links
+
+  - [MiniMax H3 video line](/en/api-reference/video-series/models/minimax-h3-video)
 
 </Update>
 
@@ -951,258 +1217,6 @@ Pages: **Page 1** · [Page 2](/en/updates/page-2)
   ### Links
 
   - [Video generation API](/en/api-reference/video-series/models/seedance-2-5)
-
-</Update>
-
-<a id="2026-09-10-r2-file-storage"></a>
-
-<Update label="September 10, 2026" tags={["Platform"]} rss={{ title: "Cloudflare R2 storage & Evolink-compatible file upload API released" }}>
-
-  ## Overview
-
-  OmniMux now provides Cloudflare R2 object storage integration alongside a local disk fallback driver. File series endpoints are available under `/api/v1/files/*` and `/v1/files/*`.
-
-  ## Capabilities
-
-  - **Base64 upload**: `POST /api/v1/files/upload/base64` supporting Data URL and raw Base64.
-  - **Stream upload**: `POST /api/v1/files/upload/stream` via `multipart/form-data`.
-  - **URL upload**: `POST /api/v1/files/upload/url` with SSRF protection.
-  - **Quota & Expiration**: 2,000 active files per user quota, 72-hour automated expiration with background cleanup.
-
-  ### Links
-
-  - [Base64 upload](/en/api-reference/file-series/upload-base64)
-  - [File quota](/en/api-reference/file-series/quota)
-
-</Update>
-
-<a id="2026-09-10-gpt-image-25-rename"></a>
-
-<Update label="September 10, 2026" tags={["Breaking", "Image"]} rss={{ title: "GPT Image per-call model IDs renamed to 2.5" }}>
-
-  ## Required migration
-
-  - Replace `gpt-image-2` with `gpt-image-2.5`.
-  - Replace `gpt-image-2-hd` with `gpt-image-2.5-hd`.
-  - Keep using `POST /v1/images/generations`. Update the `model` value in saved requests, integrations, and any model allowlists.
-
-  The old IDs are not compatibility aliases. The `gpt-image-2-5` spelling is not supported.
-
-  ## Pricing and scope
-
-  Base per-call prices remain USD 0.0441 for `gpt-image-2.5` and USD 0.005479 for `gpt-image-2.5-hd`; group multipliers may affect final charges. This is a public ID migration, not a claim of a newly verified resolution or upstream capability.
-
-  Flare and Sunburst are separate token-billed models and are not available as part of this change.
-
-  ### Links
-
-  - [GPT Image generation](/en/api-reference/image-series/gpt-image/generate)
-
-</Update>
-
-<a id="2026-09-09-h3-media-task-contracts"></a>
-
-<Update label="September 9, 2026" tags={["Breaking", "Video"]} rss={{ title: "H3 ordered references and task result handling" }}>
-
-  Use operation to select text, first-frame or Max multi-reference generation. Media arrays retain order and conflicting aliases are rejected. Replace legacy 720p with explicit 768P. Temporary result unavailability is retried; failures and cancellations are not masked by stale video URLs. Status reads no longer persist terminal transitions ahead of settlement polling.
-
-  ### Links
-
-  - [H3 Max API](/en/api-reference/video-series/models/minimax-h3-max)
-
-</Update>
-
-<a id="2026-09-08-fal-minimax-h3"></a>
-
-<Update label="September 8, 2026" tags={["New models", "Video"]} rss={{ title: "fal.ai MiniMax H3 Max & Turbo Video Models Live with Dynamic Multimodal Dispatch" }}>
-
-  ## fal.ai MiniMax H3 Max & Turbo
-
-  **MiniMax H3 Max** and **MiniMax H3 Max Turbo** video generation models are now live on OmniMux.
-
-  ### Highlights
-
-  - **Dynamic Multimodal Dispatch**: Clients only need to configure two base models (`minimax/h3-max` and `minimax/h3-max-turbo`). Passing prompt-only routes to text-to-video, adding `image_url` routes to image-to-video, and passing `video_url` routes to reference-to-video automatically.
-  - **Ultra-Fast Turbo Performance**: Sub-3-second end-to-end rendering for 5-second video clips.
-  - **Two-Phase Resilient Polling**: Transparent inline result resolution with CDN 404 lag tolerance.
-  - **Standard API**: Create via `POST /v1/video/generations` and query via `GET /v1/tasks/{task_id}`.
-
-  ### Links
-
-  - [MiniMax H3 Max](/en/api-reference/video-series/models/minimax-h3-max)
-  - [MiniMax H3 Max Turbo](/en/api-reference/video-series/models/minimax-h3-max-turbo)
-  - [Pricing](/en/api-reference/account/pricing)
-
-</Update>
-
-<a id="2026-09-07-social-provider-required"></a>
-
-<Update label="September 7, 2026" tags={["Breaking", "Publishing"]} rss={{ title: "Social operations require an explicit provider" }}>
-
-  The gateway began requiring `provider` at **2026-09-07 07:25:20 UTC+8 (2026-09-06T23:25:20Z)** for listing accounts, starting a connection, disconnecting, creating a post and reading post status. Use `tiktok_direct` for official TikTok accounts or `zernio` for Zernio accounts. GET/DELETE carry it in the query; POST carries it in JSON. Missing or unknown values return `400 invalid-provider`; a resource from another source returns `409 account-provider-mismatch` or `409 post-provider-mismatch`. There is no default source.
-
-  ### CLI migration
-
-  Use CLI **0.4.0**: `omnimux update` for binaries, or `npm install -g @omnimux/cli@0.4.0` for npm. Update all saved commands to include `--provider`, for example `omnimux social accounts --provider zernio`. For a read without upstream refresh, use `omnimux social post-status <post-id> --provider zernio --no-refresh`. Updating a binary does not update your scripts or prove all clients have upgraded.
-
-  CLI 0.4.0 also includes the previously merged hosted commands and video skill updates. Credentials use a mode-0600 file on every platform; Keychain-only installations need credentials configured securely. The Agent RPC envelope remains `contract_version: 1`.
-
-  CLI 0.4.0 was published on **2026-09-07 at 01:47:36 UTC (09:47:36 UTC+8)**. Both the public binary release and npm package are version 0.4.0.
-
-  Standalone binaries do not include skill files. Install the npm package to use or update the bundled skills; a binary-only update can report that the skill tree is missing even when the CLI upgrade succeeds.
-
-  ### Links
-
-  - [List accounts](/en/api-reference/publishing/list-accounts)
-
-</Update>
-
-<a id="2026-09-07-account-quota-errors"></a>
-
-<Update label="September 7, 2026" tags={["Platform", "Text"]} rss={{ title: "Account quota errors on OpenAI text endpoints" }}>
-
-  OpenAI Completions, Chat Completions, Responses, and Responses Compact return HTTP **402** with `error.type` and `error.code` set to `insufficient_quota` when the local account balance or subscription allowance cannot cover pre-consume. Streaming requests receive the JSON error before SSE starts. Check balance or allowance before trying again; do not treat this as invalid credentials or temporary rate limiting. Token errors, upstream provider errors, other protocols, actual 401/403, ordinary 429, and 5xx behavior are unchanged.
-
-  Gateway enforcement began on September 7, 2026 at 07:25:20 UTC+8 (2026-09-06T23:25:20Z).
-
-  ### Links
-
-  - [Connection and usage](/en/faqs/connection-usage)
-
-</Update>
-
-<a id="2026-08-31-catalog-sync"></a>
-
-<Update label="August 31, 2026" tags={["New models", "Text", "Image", "Video", "Audio"]} rss={{ title: "Catalog synchronization: Gemini 3.7, GLM 5.3, Wan 3.0, Seedance 2.0, Grok Imagine, Audio TTS & STT" }}>
-
-  ## Language series
-
-  - **Gemini:** Added `gemini-3.7-flash`
-  - **GLM:** Added `glm-5.3`
-  - **Grok:** Added `grok-4.6`
-  - **DeepSeek:** Added `deepseek-v4-flash-vision-exp`
-
-  ## Image & Video series
-
-  - Canonical model ID hyphenation and full coverage for **Wan 3.0** (`wan-3.0`, `wan-3.0-prime`, `wan-3.0-prime-ref`, `wan-3.0-ref`), **Seedance 2.0** (`seedance-2-0`, `seedance-2-0-fast`, `seedance-2-0-mini`, `seedance-2-5`), **Kling** (`kling-v3`, `kling-v2-6`, `kling-avatar`, `kling-o3`, `kling-v3-motion-control`), **Grok Imagine**, and **Midjourney**.
-  - Retired legacy Omni Flash duration-fixed SKUs.
-
-  ## Audio series
-
-  - `gpt-4o-mini-tts` (`POST /v1/audio/speech`)
-  - `whisper-1` (`POST /v1/audio/transcriptions`)
-  - `suno` (`POST /v1/video/generations`)
-
-  ### Links
-
-  - [Pricing](/en/api-reference/account/pricing)
-  - [Audio Speech](/en/api-reference/audio-series/models/gpt-4o-mini-tts)
-
-</Update>
-
-<a id="2026-08-31-media-catalog"></a>
-
-<Update label="August 31, 2026" tags={["New models", "Image", "Video"]} rss={{ title: "Seedream 5.0 Pro, Qwen Image 3.0, Grok Imagine Image 2.0, Kling O3, Omni 1.1, PixVerse v6, Vidu Q3" }}>
-
-  ## Image
-
-  - **Model IDs:** `seedream-5-0-pro`, `qwen-image-3-0`, `grok-imagine-image-2-0`
-  - **API:** `POST /v1/images/generations`
-
-  ## Video
-
-  - **Model IDs:** `kling-o3`, `gemini-omni-1.1`, `pixverse-v6`, `vidu-q3`
-  - **API:** async `POST` / `GET` `/v1/video/generations`
-
-  `kling-o3` is a new id and does not replace `kling-v3`. `gemini-omni-1.1` is distinct from `gemini-omni-flash`. Pin IDs from live pricing.
-
-  ### Links
-
-  - [Pricing](/en/api-reference/account/pricing)
-  - [Video task poll](/en/api-reference/tasks/video-task)
-
-</Update>
-
-<a id="2026-08-25-social-analytics-reader-seats"></a>
-
-<Update label="August 25, 2026" tags={["Platform", "Text"]} rss={{ title: "Social analytics & inbox suite, Jina Reader extractor, and social seats" }}>
-
-  ## Social Analytics & Inbox Suite
-
-  OmniMux now exposes 11 RESTful analytics endpoints under `/api/social/v1` for comprehensive audience and engagement intelligence:
-
-  - **Analytics:** Daily metrics timeseries, 7x24 weekly best time to post heatmap, posting frequency cadence model, content decay curve, follower growth snapshots, posts performance ranking, and external posts incremental synchronization.
-  - **Inbox Analytics:** Message volume trends, response time (TTR) distribution, 7x24 incoming activity heatmap, and source breakdown across connected platforms.
-
-  ## Jina Reader Relay (`POST /v1/reader`)
-
-  - **Model ID:** `jina-reader-v1`
-  - **Capability:** URL to clean Markdown / structured JSON text extraction with CSS selectors filtering and output-token billing.
-  - **Auth:** Standard gateway Bearer `sk-...` token.
-
-  ## Social Seats Management (`GET /api/social/v1/seats`)
-
-  - Inspects current active connected social accounts, total quota capacity, and vacant seat availability.
-
-  ### Links
-
-  - [Jina Reader Extractor](/en/api-reference/reader-series/models/jina-reader-v1)
-  - [Daily Metrics](/en/api-reference/publishing/analytics/daily-metrics)
-  - [Social Seats](/en/api-reference/publishing/seats)
-
-</Update>
-
-<a id="2026-08-16-index-tts-ltx-docs"></a>
-
-<Update label="August 16, 2026" tags={["New models", "Audio", "Video"]} rss={{ title: "Index TTS voice clone plus LTX digital-human contract" }}>
-
-  ## New model
-
-  - **Model ID:** `index-tts`
-  - **Path:** `POST` / `GET` `/v1/video/generations` (GxgenAI task path; result is audio)
-  - **Contract:** `metadata.nodeInfoList` required — node `4/audio` (reference clip) and `7/text` (script)
-
-  ## Docs fix
-
-  - **`ltx-2-3-kj`** is a photo + audio lip-sync model. Prompt-only text-to-video examples were incorrect. Send image node `444` and audio node `1755`.
-
-  ### Links
-
-  - [Index TTS](/en/api-reference/audio-series/models/index-tts)
-  - [LTX digital human](/en/api-reference/video-series/models/ltx-2-3-kj)
-
-</Update>
-
-<a id="2026-08-09-platform-api-updates"></a>
-
-<Update label="August 9, 2026" tags={["Platform"]} rss={{ title: "API Updates timeline opens" }}>
-
-  ## API Updates
-
-  OmniMux now publishes a dated **API Updates** feed so you can track gateway model launches and platform changes in one place.
-
-  ### What we log
-
-  - **New models** — callable model IDs on live pricing
-  - **Model updates** — modes, durations, resolutions, parameters
-  - **Pricing** — material rate changes
-  - **Platform** — auth, domains, public HTTP surfaces
-
-  ### How to call OmniMux
-
-  | Surface | URL |
-  | --- | --- |
-  | Console | `https://omnimux.ai` |
-  | OpenAI-compatible API | `https://api.omnimux.ai/v1` |
-  | Docs | `https://docs.omnimux.ai` |
-  | Status | `https://status.omnimux.ai` |
-
-  Auth for relay: Bearer `sk-…` from the console. Full catalog always lives on console pricing — this page is the **change timeline**.
-
-  ### Links
-
-  - [Quickstart](/en/quickstart)
-  - [Pricing](/en/api-reference/account/pricing)
 
 </Update>
 
