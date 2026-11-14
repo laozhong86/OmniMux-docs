@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "2026-10-22-desktop-surface-pricing",
+  "published_at": "2026-10-22",
+  "rank": 0,
+  "type": "pricing",
+  "modality": [
+    "video"
+  ],
+  "title": {
+    "en": "Desktop surface pricing groups for Seedance 2.5",
+    "zh": "Seedance 2.5 新增桌面端计费分组"
+  },
+  "summary": {
+    "en": "The desktop surface now prices Seedance 2.5 through two model-specific groups: desktop-480p at ¥0.92/second and desktop-720p at ¥1.31/second. The public model ID, base price and Web groups are unchanged.",
+    "zh": "桌面端现通过两个模型专属分组计费：desktop-480p 为 ¥0.92/秒，desktop-720p 为 ¥1.31/秒。公开模型 ID、基准价与 Web 端分组均不变。"
+  },
+  "models": [
+    "seedance-2-5"
+  ],
+  "links": [
+    {
+      "label": {
+        "en": "Seedance 2.5 API Reference",
+        "zh": "Seedance 2.5 接口文档"
+      },
+      "href": {
+        "en": "/en/api-reference/video-series/models/seedance-2-5",
+        "zh": "/zh/api-reference/video-series/models/seedance-2-5"
+      }
+    }
+  ],
+  "tags": [
+    "pricing",
+    "video",
+    "desktop"
+  ],
+  "body": {
+    "en": "## Desktop surface pricing\n\n`seedance-2-5` keeps one public model ID and one base price. The desktop surface adds two model-specific groups on top of it:\n\n| Group | Effective price |\n| --- | --- |\n| `desktop-480p` | **¥0.92/second** |\n| `desktop-720p` | **¥1.31/second** |\n\n- The Web groups `seedance-2-5-480p` (¥2.85/second) and `seedance-2-5-720p` (¥3.92/second) are unchanged.\n- Billing remains per requested second; resolution is still fixed per tier.\n- The model ID, base price and upstream channels are unchanged; only the group tier differs.\n\nThe public pricing endpoint and the model quote shown before submission remain the authoritative price for any individual request.",
+    "zh": "## 桌面端计费分组\n\n`seedance-2-5` 仍只保留一个公开模型 ID 与一个基准价。桌面端在此基础上新增两个模型专属分组：\n\n| 分组 | 实际计费价 |\n| --- | --- |\n| `desktop-480p` | **¥0.92/秒** |\n| `desktop-720p` | **¥1.31/秒** |\n\n- Web 端分组 `seedance-2-5-480p`（¥2.85/秒）与 `seedance-2-5-720p`（¥3.92/秒）不变。\n- 仍按请求时长按秒计费；每档分辨率固定。\n- 模型 ID、基准价与上游渠道均未改变，仅分组档位不同。\n\n任何单次请求的价格以公开 pricing 接口和提交前报价为准。"
+  }
+}

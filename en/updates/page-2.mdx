@@ -9,6 +9,64 @@ Stay up to date with OmniMux gateway model launches and platform changes. The fu
 
 Pages: [Page 1](/en/updates) · **Page 2**
 
+<a id="2026-09-10-r2-file-storage"></a>
+
+<Update label="September 10, 2026" tags={["Platform"]} rss={{ title: "Cloudflare R2 storage & Evolink-compatible file upload API released" }}>
+
+  ## Overview
+
+  OmniMux now provides Cloudflare R2 object storage integration alongside a local disk fallback driver. File series endpoints are available under `/api/v1/files/*` and `/v1/files/*`.
+
+  ## Capabilities
+
+  - **Base64 upload**: `POST /api/v1/files/upload/base64` supporting Data URL and raw Base64.
+  - **Stream upload**: `POST /api/v1/files/upload/stream` via `multipart/form-data`.
+  - **URL upload**: `POST /api/v1/files/upload/url` with SSRF protection.
+  - **Quota & Expiration**: 2,000 active files per user quota, 72-hour automated expiration with background cleanup.
+
+  ### Links
+
+  - [Base64 upload](/en/api-reference/file-series/upload-base64)
+  - [File quota](/en/api-reference/file-series/quota)
+
+</Update>
+
+<a id="2026-09-10-gpt-image-25-rename"></a>
+
+<Update label="September 10, 2026" tags={["Breaking", "Image"]} rss={{ title: "GPT Image per-call model IDs renamed to 2.5" }}>
+
+  ## Required migration
+
+  - Replace `gpt-image-2` with `gpt-image-2.5`.
+  - Replace `gpt-image-2-hd` with `gpt-image-2.5-hd`.
+  - Keep using `POST /v1/images/generations`. Update the `model` value in saved requests, integrations, and any model allowlists.
+
+  The old IDs are not compatibility aliases. The `gpt-image-2-5` spelling is not supported.
+
+  ## Pricing and scope
+
+  Base per-call prices remain USD 0.0441 for `gpt-image-2.5` and USD 0.005479 for `gpt-image-2.5-hd`; group multipliers may affect final charges. This is a public ID migration, not a claim of a newly verified resolution or upstream capability.
+
+  Flare and Sunburst are separate token-billed models and are not available as part of this change.
+
+  ### Links
+
+  - [GPT Image generation](/en/api-reference/image-series/gpt-image/generate)
+
+</Update>
+
+<a id="2026-09-09-h3-media-task-contracts"></a>
+
+<Update label="September 9, 2026" tags={["Breaking", "Video"]} rss={{ title: "H3 ordered references and task result handling" }}>
+
+  Use operation to select text, first-frame or Max multi-reference generation. Media arrays retain order and conflicting aliases are rejected. Replace legacy 720p with explicit 768P. Temporary result unavailability is retried; failures and cancellations are not masked by stale video URLs. Status reads no longer persist terminal transitions ahead of settlement polling.
+
+  ### Links
+
+  - [H3 Max API](/en/api-reference/video-series/models/minimax-h3-max)
+
+</Update>
+
 <a id="2026-09-08-fal-minimax-h3"></a>
 
 <Update label="September 8, 2026" tags={["New models", "Video"]} rss={{ title: "fal.ai MiniMax H3 Max & Turbo Video Models Live with Dynamic Multimodal Dispatch" }}>

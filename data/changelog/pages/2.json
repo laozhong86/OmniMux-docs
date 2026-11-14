@@ -2,9 +2,139 @@
   "schema_version": 1,
   "page": 2,
   "page_size": 50,
-  "total": 78,
+  "total": 81,
   "total_pages": 2,
   "items": [
+    {
+      "id": "2026-09-10-r2-file-storage",
+      "published_at": "2026-09-10",
+      "type": "platform",
+      "modality": [
+        "platform"
+      ],
+      "title": {
+        "en": "Cloudflare R2 storage & Evolink-compatible file upload API released",
+        "zh": "Cloudflare R2 存储开启与对齐 Evolink 文件上传 API 上线"
+      },
+      "summary": {
+        "en": "Supports Base64, stream multipart, and remote URL uploads with 72h lifecycle and 2,000 files/user quota.",
+        "zh": "支持 Base64、流式表单及 URL 远程抓取上传，配备 72 小时自动过期与单用户 2000 个文件配额门禁。"
+      },
+      "models": [],
+      "tags": [
+        "storage",
+        "files",
+        "r2",
+        "api"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "Base64 upload",
+            "zh": "Base64 文件上传"
+          },
+          "href": {
+            "en": "/en/api-reference/file-series/upload-base64",
+            "zh": "/zh/api-reference/file-series/upload-base64"
+          }
+        },
+        {
+          "label": {
+            "en": "File quota",
+            "zh": "查询文件配额"
+          },
+          "href": {
+            "en": "/en/api-reference/file-series/quota",
+            "zh": "/zh/api-reference/file-series/quota"
+          }
+        }
+      ],
+      "body": {
+        "en": "## Overview\n\nOmniMux now provides Cloudflare R2 object storage integration alongside a local disk fallback driver. File series endpoints are available under `/api/v1/files/*` and `/v1/files/*`.\n\n## Capabilities\n\n- **Base64 upload**: `POST /api/v1/files/upload/base64` supporting Data URL and raw Base64.\n- **Stream upload**: `POST /api/v1/files/upload/stream` via `multipart/form-data`.\n- **URL upload**: `POST /api/v1/files/upload/url` with SSRF protection.\n- **Quota & Expiration**: 2,000 active files per user quota, 72-hour automated expiration with background cleanup.",
+        "zh": "## 概述\n\nOmniMux 现已全量支持 Cloudflare R2 对象存储与本地安全降级驱动，文件系列端点挂载于 `/api/v1/files/*` 与 `/v1/files/*`。\n\n## 核心能力\n\n- **Base64 上传**：`POST /api/v1/files/upload/base64` 支持 Data URL 与纯 Base64。\n- **流式上传**：`POST /api/v1/files/upload/stream` 支持 `multipart/form-data` 表单流。\n- **URL 远程抓取**：`POST /api/v1/files/upload/url` 内置 SSRF 防护。\n- **配额与 72h 过期**：单用户 2000 个活跃文件上限，72 小时自动过期物理清理。"
+      },
+      "schema_version": 1
+    },
+    {
+      "id": "2026-09-10-gpt-image-25-rename",
+      "published_at": "2026-09-10",
+      "type": "breaking",
+      "modality": [
+        "image"
+      ],
+      "title": {
+        "en": "GPT Image per-call model IDs renamed to 2.5",
+        "zh": "GPT Image 按次模型 ID 正式更名为 2.5"
+      },
+      "summary": {
+        "en": "Update requests to gpt-image-2.5 or gpt-image-2.5-hd. Old model IDs are no longer accepted; per-call prices are unchanged.",
+        "zh": "请将请求改为 gpt-image-2.5 或 gpt-image-2.5-hd。旧 model ID 不再接受，按次售价不变。"
+      },
+      "models": [
+        "gpt-image-2.5",
+        "gpt-image-2.5-hd"
+      ],
+      "tags": [
+        "image",
+        "breaking",
+        "migration"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "GPT Image generation",
+            "zh": "GPT Image 图像生成"
+          },
+          "href": {
+            "en": "/en/api-reference/image-series/gpt-image/generate",
+            "zh": "/zh/api-reference/image-series/gpt-image/generate"
+          }
+        }
+      ],
+      "body": {
+        "en": "## Required migration\n\n- Replace `gpt-image-2` with `gpt-image-2.5`.\n- Replace `gpt-image-2-hd` with `gpt-image-2.5-hd`.\n- Keep using `POST /v1/images/generations`. Update the `model` value in saved requests, integrations, and any model allowlists.\n\nThe old IDs are not compatibility aliases. The `gpt-image-2-5` spelling is not supported.\n\n## Pricing and scope\n\nBase per-call prices remain USD 0.0441 for `gpt-image-2.5` and USD 0.005479 for `gpt-image-2.5-hd`; group multipliers may affect final charges. This is a public ID migration, not a claim of a newly verified resolution or upstream capability.\n\nFlare and Sunburst are separate token-billed models and are not available as part of this change.",
+        "zh": "## 必须迁移\n\n- 将 `gpt-image-2` 替换为 `gpt-image-2.5`。\n- 将 `gpt-image-2-hd` 替换为 `gpt-image-2.5-hd`。\n- 继续使用 `POST /v1/images/generations`，更新保存的请求、集成代码及模型白名单中的 `model`。\n\n旧 ID 不是兼容别名，也不支持 `gpt-image-2-5` 拼写。\n\n## 价格与范围\n\n基础按次价保持不变：`gpt-image-2.5` 为 USD 0.0441/次，`gpt-image-2.5-hd` 为 USD 0.005479/次；分组倍率可能影响最终费用。本次是公开 ID 迁移，不代表新增或验证了特定分辨率及上游能力。\n\nFlare 和 Sunburst 是独立的 Token 计费模型，不在本次变更中开放。"
+      },
+      "schema_version": 1
+    },
+    {
+      "id": "2026-09-09-h3-media-task-contracts",
+      "published_at": "2026-09-09",
+      "type": "breaking",
+      "modality": [
+        "video"
+      ],
+      "title": {
+        "en": "H3 ordered references and task result handling",
+        "zh": "H3 有序参考素材与任务结果处理修复"
+      },
+      "summary": {
+        "en": "Explicit operations, ordered references and 720p migration; task reads preserve settlement ownership.",
+        "zh": "明确操作类型、保留参考素材顺序并迁移720p；任务查询保留后台结算职责。"
+      },
+      "models": [
+        "minimax/h3-max",
+        "minimax/h3-max-turbo"
+      ],
+      "tags": [],
+      "links": [
+        {
+          "label": {
+            "en": "H3 Max API",
+            "zh": "H3 Max API"
+          },
+          "href": {
+            "en": "/en/api-reference/video-series/models/minimax-h3-max",
+            "zh": "/zh/api-reference/video-series/models/minimax-h3-max"
+          }
+        }
+      ],
+      "body": {
+        "en": "Use operation to select text, first-frame or Max multi-reference generation. Media arrays retain order and conflicting aliases are rejected. Replace legacy 720p with explicit 768P. Temporary result unavailability is retried; failures and cancellations are not masked by stale video URLs. Status reads no longer persist terminal transitions ahead of settlement polling.",
+        "zh": "使用 operation 选择文生视频、首帧或 Max 多参考生成。素材数组保留顺序，冲突同义字段会被拒绝。旧720p需明确改为768P。产物暂不可用时重试，失败或取消不再被旧视频URL掩盖。状态查询不再抢先持久化终态，结算仍由后台轮询负责。"
+      },
+      "schema_version": 1
+    },
     {
       "id": "2026-09-08-fal-minimax-h3",
       "published_at": "2026-09-08",

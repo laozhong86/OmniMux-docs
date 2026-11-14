@@ -1,7 +1,7 @@
 ---
 title: "MiniMax H3 视频专线"
 sidebarTitle: "MiniMax H3 视频专线"
-description: "AutoDL MiniMax H3 视频专线 · model `minimax-h3-video`"
+description: "MiniMax H3 视频专线 · model `minimax-h3-video`"
 api: "POST https://api.omnimux.ai/v1/videos"
 ---
 
@@ -17,7 +17,7 @@ api: "POST https://api.omnimux.ai/v1/videos"
 | 字段 | 值 |
 | --- | --- |
 | 系列 | 视频系列 |
-| 品牌 | MiniMax / AutoDL |
+| 品牌 | MiniMax |
 | model | `minimax-h3-video` |
 | 计费量纲 | 按秒（per second） |
 
@@ -38,41 +38,51 @@ Base URL：`https://api.omnimux.ai`
 
 ## 分组与档位
 
-`minimax-h3-video` 只有一个公开模型 ID，档位通过**请求级分组**选择，不新增模型 ID：
+`minimax-h3-video` 只有一个公开模型 ID，所有场景与品质档位都通过**请求级分组**选择，不新增模型 ID。
+
+### 场景分组
+
+按用途选择，倍率均为 1.0×：
+
+| 场景 | 分组 | 输入与要求 |
+| --- | --- | --- |
+| 数字人口播 | `minimax-h3-video-digital-human` | 人像图 + 口播音频；**不带** `prompt`，否则会按多图多音频路由 |
+| 短剧分镜 | `minimax-h3-video-short-drama` | 多张参考图；`prompt` 必填 |
+| 短剧音画 | `minimax-h3-video-short-drama-av` | 多图 + 多段音频；`prompt` 必填 |
+| 文生创意 | `minimax-h3-video-creative` | 仅 `prompt` |
+| 首尾帧 | `minimax-h3-video-first-last-frame` | `first_frame` + `last_frame`；`prompt` 必填 |
+
+不指定分组时走 `default` 自动分流；场景分组不进入 `auto` 轮询。
+
+### 品质档位
 
 | 档位 | 分组 | 倍率 | 覆盖形态 |
 | --- | --- | --- | --- |
 | 标准档（默认） | 不指定分组（`default` 路由） | 1.0× | 文生视频、多图参考、多图多音频、对口型、首尾帧 |
-| 高速档 | `minimax-h3-video-fast` | 0.9× | 多图参考、多图多音频 |
-| 升级画质档 | `minimax-h3-video-pro` | 1.15× | 多图参考、多图多音频 |
+| 高速档 | `minimax-h3-video-fast` | 0.9× | 多图参考、多图多音频（`prompt` 必填） |
+| 升级画质档 | `minimax-h3-video-pro` | 1.15× | 多图参考、多图多音频（`prompt` 必填） |
 
-两种写法二选一，请求头优先于 `model` 后缀：
+### 选择方式
+
+`/v1/videos` 是插件路由，只认 **`X-Omnimux-Group` 请求头**；`model@group` 后缀在该路径不生效（会按令牌所在分组路由）。一次只能选一个分组。
 
 ```bash cURL
 curl --request POST \
   --url https://api.omnimux.ai/v1/videos \
   --header 'Authorization: Bearer <token>' \
   --header 'Content-Type: application/json' \
-  --header 'X-Omnimux-Group: minimax-h3-video-fast' \
+  --header 'X-Omnimux-Group: minimax-h3-video-digital-human' \
   --data '{
   "model": "minimax-h3-video",
-  "prompt": "slow pan across a product on a table",
+  "ref_image_0": "https://example.com/portrait.jpg",
+  "ref_audio_0": "https://example.com/speech.mp3",
   "resolution": "768p",
-  "duration": 5
+  "audio_duration": 5
 }'
 ```
 
-```json
-{
-  "model": "minimax-h3-video@minimax-h3-video-pro",
-  "prompt": "slow pan across a product on a table",
-  "resolution": "768p",
-  "duration": 5
-}
-```
-
 - 分组只影响当前请求，不会创建新的模型 ID；密钥无权访问该分组时返回 `403`。
-- 高速档与升级画质档不参与默认路由，必须显式指定；它们只覆盖多图参考与多图多音频，且分辨率上限为 `768p`。其余形态请用标准档。
+- 高速档与升级画质档不参与默认路由，必须显式指定；它们只覆盖多图参考与多图多音频，且分辨率上限为 `768p`。其余形态请用标准档或对应场景组。
 
 ## 请求形态与端点选择
 
@@ -92,7 +102,7 @@ curl --request POST \
 
 | 字段 | 类型 | 必填 | 说明 |
 | --- | --- | --- | --- |
-| `model` | string | 是 | `minimax-h3-video`，可带 `@分组` 后缀 |
+| `model` | string | 是 | 固定为 `minimax-h3-video`（本路由不支持 `@分组` 后缀，分组用请求头） |
 | `prompt` | string | 条件 | 文生视频、多图参考、多图多音频与首尾帧必填；对口型形态不带（带上会按多图多音频路由） |
 | `duration` / `seconds` | integer | 否 | 视频时长（秒），1–15，默认 5；部分形态上限 10 秒或 12 秒 |
 | `resolution` / `size` | string | 否 | 只填计费档位标签：`480p`、`736p`、`768p`、`1088p`、`1440p`；不指定朝向时由网关内部映射到竖版。`1088p` / `1440p` 只在支持它们的六个端点上可用 |

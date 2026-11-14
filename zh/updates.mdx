@@ -9,6 +9,59 @@ rss: true
 
 分页：**第 1 页** · [第 2 页](/zh/updates/page-2)
 
+<a id="2026-11-14-h3-scenario-groups"></a>
+
+<Update label="2026 年 11 月 14 日" tags={["能力更新", "视频"]} rss={{ title: "MiniMax H3 视频专线新增 5 个场景分组" }}>
+
+  ## 场景分组
+
+  `minimax-h3-video` 的公开 ID 不变，新增 5 个按用途划分的请求级分组：
+
+  | 场景 | 分组 | 输入要求 |
+  | --- | --- | --- |
+  | 数字人口播 | `minimax-h3-video-digital-human` | 人像图 + 口播音频，不带 `prompt` |
+  | 短剧分镜 | `minimax-h3-video-short-drama` | 多张参考图，`prompt` 必填 |
+  | 短剧音画 | `minimax-h3-video-short-drama-av` | 多图 + 多段音频，`prompt` 必填 |
+  | 文生创意 | `minimax-h3-video-creative` | 仅 `prompt` |
+  | 首尾帧 | `minimax-h3-video-first-last-frame` | `first_frame` + `last_frame`，`prompt` 必填 |
+
+  ## 选择方式
+
+  - 接口路径不变：`POST /v1/videos`，`GET /v1/videos/{task_id}`
+  - 用请求头 `X-Omnimux-Group` 选择分组；`/v1/videos` 不解析 `model@group` 后缀
+  - 所有场景分组倍率为 1.0×，不进入 `auto` 轮询；不指定分组时仍走 `default` 自动分流
+
+  ## 文档
+
+  - [MiniMax H3 视频专线](/zh/api-reference/video-series/models/minimax-h3-video)
+
+  ### 链接
+
+  - [视频专线接口文档](/zh/api-reference/video-series/models/minimax-h3-video)
+
+</Update>
+
+<a id="2026-11-13-nano-banana-2-lite"></a>
+
+<Update label="2026 年 11 月 13 日" tags={["不兼容变更", "图像"]} rss={{ title: "公开模型 ID 更名为 nano-banana-2-lite" }}>
+
+  ## 公开 ID 更名
+
+  公开模型 ID 由 `gemini-3.1-flash-lite-image` 变更为 `nano-banana-2-lite`。
+
+  - 调用 `POST /v1/images/generations` 时请传 `"model": "nano-banana-2-lite"`，并同步更新已保存的请求、集成代码与模型白名单。
+  - Google 官方模型 ID `gemini-3.1-flash-lite-image` 仍作为上游模型 ID（上游 SKU）存在，但不再是公开模型 ID。
+  - 本次仅为更名：同一个模型、同样仅支持 1K 的能力、同样价格（1K 分辨率 $0.0336/张），无其他变更。
+  - 旧 ID 不提供兼容别名。
+
+  公开模型 ID 现与 Nano Banana 家族命名保持一致。
+
+  ### 链接
+
+  - [Nano Banana 2 Lite 生图](/zh/api-reference/image-series/models/nano-banana-2-lite)
+
+</Update>
+
 <a id="2026-11-12-seedream-5-5"></a>
 
 <Update label="2026 年 11 月 12 日" tags={["新模型", "图像"]} rss={{ title: "Seedream 5.5 文生图上线" }}>
@@ -240,6 +293,31 @@ rss: true
   ### 链接
 
   - [MiniMax H3 视频专线](/zh/api-reference/video-series/models/minimax-h3-video)
+
+</Update>
+
+<a id="2026-10-22-desktop-surface-pricing"></a>
+
+<Update label="2026 年 10 月 22 日" tags={["价格调整", "视频"]} rss={{ title: "Seedance 2.5 新增桌面端计费分组" }}>
+
+  ## 桌面端计费分组
+
+  `seedance-2-5` 仍只保留一个公开模型 ID 与一个基准价。桌面端在此基础上新增两个模型专属分组：
+
+  | 分组 | 实际计费价 |
+  | --- | --- |
+  | `desktop-480p` | **¥0.92/秒** |
+  | `desktop-720p` | **¥1.31/秒** |
+
+  - Web 端分组 `seedance-2-5-480p`（¥2.85/秒）与 `seedance-2-5-720p`（¥3.92/秒）不变。
+  - 仍按请求时长按秒计费；每档分辨率固定。
+  - 模型 ID、基准价与上游渠道均未改变，仅分组档位不同。
+
+  任何单次请求的价格以公开 pricing 接口和提交前报价为准。
+
+  ### 链接
+
+  - [Seedance 2.5 接口文档](/zh/api-reference/video-series/models/seedance-2-5)
 
 </Update>
 
@@ -1139,64 +1217,6 @@ rss: true
   ### 链接
 
   - [视频生成 API](/zh/api-reference/video-series/models/seedance-2-5)
-
-</Update>
-
-<a id="2026-09-10-r2-file-storage"></a>
-
-<Update label="2026 年 9 月 10 日" tags={["平台"]} rss={{ title: "Cloudflare R2 存储开启与对齐 Evolink 文件上传 API 上线" }}>
-
-  ## 概述
-
-  OmniMux 现已全量支持 Cloudflare R2 对象存储与本地安全降级驱动，文件系列端点挂载于 `/api/v1/files/*` 与 `/v1/files/*`。
-
-  ## 核心能力
-
-  - **Base64 上传**：`POST /api/v1/files/upload/base64` 支持 Data URL 与纯 Base64。
-  - **流式上传**：`POST /api/v1/files/upload/stream` 支持 `multipart/form-data` 表单流。
-  - **URL 远程抓取**：`POST /api/v1/files/upload/url` 内置 SSRF 防护。
-  - **配额与 72h 过期**：单用户 2000 个活跃文件上限，72 小时自动过期物理清理。
-
-  ### 链接
-
-  - [Base64 文件上传](/zh/api-reference/file-series/upload-base64)
-  - [查询文件配额](/zh/api-reference/file-series/quota)
-
-</Update>
-
-<a id="2026-09-10-gpt-image-25-rename"></a>
-
-<Update label="2026 年 9 月 10 日" tags={["不兼容变更", "图像"]} rss={{ title: "GPT Image 按次模型 ID 正式更名为 2.5" }}>
-
-  ## 必须迁移
-
-  - 将 `gpt-image-2` 替换为 `gpt-image-2.5`。
-  - 将 `gpt-image-2-hd` 替换为 `gpt-image-2.5-hd`。
-  - 继续使用 `POST /v1/images/generations`，更新保存的请求、集成代码及模型白名单中的 `model`。
-
-  旧 ID 不是兼容别名，也不支持 `gpt-image-2-5` 拼写。
-
-  ## 价格与范围
-
-  基础按次价保持不变：`gpt-image-2.5` 为 USD 0.0441/次，`gpt-image-2.5-hd` 为 USD 0.005479/次；分组倍率可能影响最终费用。本次是公开 ID 迁移，不代表新增或验证了特定分辨率及上游能力。
-
-  Flare 和 Sunburst 是独立的 Token 计费模型，不在本次变更中开放。
-
-  ### 链接
-
-  - [GPT Image 图像生成](/zh/api-reference/image-series/gpt-image/generate)
-
-</Update>
-
-<a id="2026-09-09-h3-media-task-contracts"></a>
-
-<Update label="2026 年 9 月 9 日" tags={["不兼容变更", "视频"]} rss={{ title: "H3 有序参考素材与任务结果处理修复" }}>
-
-  使用 operation 选择文生视频、首帧或 Max 多参考生成。素材数组保留顺序，冲突同义字段会被拒绝。旧720p需明确改为768P。产物暂不可用时重试，失败或取消不再被旧视频URL掩盖。状态查询不再抢先持久化终态，结算仍由后台轮询负责。
-
-  ### 链接
-
-  - [H3 Max API](/zh/api-reference/video-series/models/minimax-h3-max)
 
 </Update>
 

@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "2026-11-13-nano-banana-2-lite",
+  "published_at": "2026-11-13",
+  "rank": 0,
+  "type": "breaking",
+  "modality": [
+    "image"
+  ],
+  "title": {
+    "en": "Public model ID renamed to nano-banana-2-lite",
+    "zh": "公开模型 ID 更名为 nano-banana-2-lite"
+  },
+  "summary": {
+    "en": "The public model ID gemini-3.1-flash-lite-image is now nano-banana-2-lite, matching the Nano Banana family naming. Google's official ID remains the upstream model ID; the model, its 1K-only capability and its price are unchanged.",
+    "zh": "公开模型 ID 由 gemini-3.1-flash-lite-image 变更为 nano-banana-2-lite，与 Nano Banana 家族命名保持一致。Google 官方 ID 仍作为上游模型 ID；模型本身、仅支持 1K 的能力与价格均不变。"
+  },
+  "models": [
+    "nano-banana-2-lite"
+  ],
+  "links": [
+    {
+      "label": {
+        "en": "Nano Banana 2 Lite Image Generation",
+        "zh": "Nano Banana 2 Lite 生图"
+      },
+      "href": {
+        "en": "/en/api-reference/image-series/models/nano-banana-2-lite",
+        "zh": "/zh/api-reference/image-series/models/nano-banana-2-lite"
+      }
+    }
+  ],
+  "tags": [
+    "image",
+    "breaking",
+    "migration"
+  ],
+  "body": {
+    "en": "## Public ID renamed\n\nThe public model ID `gemini-3.1-flash-lite-image` is now `nano-banana-2-lite`.\n\n- Send `\"model\": \"nano-banana-2-lite\"` to `POST /v1/images/generations`; update saved requests, integrations and model allowlists.\n- Google's official model ID `gemini-3.1-flash-lite-image` remains the upstream model ID (the upstream SKU); it is no longer the public ID.\n- Rename only — same model, same 1K-only capability and same price ($0.0336 per image at 1K). No other change.\n- The previous ID is not offered as a compatibility alias.\n\nThe public ID now follows the Nano Banana family naming.",
+    "zh": "## 公开 ID 更名\n\n公开模型 ID 由 `gemini-3.1-flash-lite-image` 变更为 `nano-banana-2-lite`。\n\n- 调用 `POST /v1/images/generations` 时请传 `\"model\": \"nano-banana-2-lite\"`，并同步更新已保存的请求、集成代码与模型白名单。\n- Google 官方模型 ID `gemini-3.1-flash-lite-image` 仍作为上游模型 ID（上游 SKU）存在，但不再是公开模型 ID。\n- 本次仅为更名：同一个模型、同样仅支持 1K 的能力、同样价格（1K 分辨率 $0.0336/张），无其他变更。\n- 旧 ID 不提供兼容别名。\n\n公开模型 ID 现与 Nano Banana 家族命名保持一致。"
+  }
+}

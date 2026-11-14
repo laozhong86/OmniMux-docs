@@ -2,9 +2,91 @@
   "schema_version": 1,
   "page": 1,
   "page_size": 50,
-  "total": 78,
+  "total": 81,
   "total_pages": 2,
   "items": [
+    {
+      "id": "2026-11-14-h3-scenario-groups",
+      "published_at": "2026-11-14",
+      "type": "capability",
+      "modality": [
+        "video"
+      ],
+      "title": {
+        "zh": "MiniMax H3 视频专线新增 5 个场景分组",
+        "en": "MiniMax H3 video line adds five scenario groups"
+      },
+      "summary": {
+        "zh": "`minimax-h3-video` 保持单一公开 ID，新增数字人口播、短剧分镜、短剧音画、文生创意、首尾帧 5 个场景分组；通过 `X-Omnimux-Group` 选择，不新增模型 ID，分组倍率均为 1.0×。",
+        "en": "`minimax-h3-video` keeps its single public ID and adds five scenario groups: digital human, short drama, short drama with audio, creative text-to-video, and first-last frame. Select them with `X-Omnimux-Group`; no new model IDs, all at 1.0×."
+      },
+      "models": [
+        "minimax-h3-video"
+      ],
+      "tags": [
+        "video",
+        "groups",
+        "workflow"
+      ],
+      "links": [
+        {
+          "label": {
+            "zh": "视频专线接口文档",
+            "en": "H3 video line API reference"
+          },
+          "href": {
+            "zh": "/zh/api-reference/video-series/models/minimax-h3-video",
+            "en": "/en/api-reference/video-series/models/minimax-h3-video"
+          }
+        }
+      ],
+      "body": {
+        "zh": "## 场景分组\n\n`minimax-h3-video` 的公开 ID 不变，新增 5 个按用途划分的请求级分组：\n\n| 场景 | 分组 | 输入要求 |\n| --- | --- | --- |\n| 数字人口播 | `minimax-h3-video-digital-human` | 人像图 + 口播音频，不带 `prompt` |\n| 短剧分镜 | `minimax-h3-video-short-drama` | 多张参考图，`prompt` 必填 |\n| 短剧音画 | `minimax-h3-video-short-drama-av` | 多图 + 多段音频，`prompt` 必填 |\n| 文生创意 | `minimax-h3-video-creative` | 仅 `prompt` |\n| 首尾帧 | `minimax-h3-video-first-last-frame` | `first_frame` + `last_frame`，`prompt` 必填 |\n\n## 选择方式\n\n- 接口路径不变：`POST /v1/videos`，`GET /v1/videos/{task_id}`\n- 用请求头 `X-Omnimux-Group` 选择分组；`/v1/videos` 不解析 `model@group` 后缀\n- 所有场景分组倍率为 1.0×，不进入 `auto` 轮询；不指定分组时仍走 `default` 自动分流\n\n## 文档\n\n- [MiniMax H3 视频专线](/zh/api-reference/video-series/models/minimax-h3-video)",
+        "en": "## Scenario groups\n\nThe public `minimax-h3-video` ID is unchanged. Five request-scoped groups are now available by use case:\n\n| Scenario | Group | Input requirements |\n| --- | --- | --- |\n| Digital human | `minimax-h3-video-digital-human` | Portrait image + speech audio, no `prompt` |\n| Short drama | `minimax-h3-video-short-drama` | Multiple reference images, `prompt` required |\n| Short drama with audio | `minimax-h3-video-short-drama-av` | Multiple images + audio clips, `prompt` required |\n| Creative text-to-video | `minimax-h3-video-creative` | `prompt` only |\n| First-last frame | `minimax-h3-video-first-last-frame` | `first_frame` + `last_frame`, `prompt` required |\n\n## Selection\n\n- Paths are unchanged: `POST /v1/videos`, `GET /v1/videos/{task_id}`\n- Select a group with the `X-Omnimux-Group` header; `/v1/videos` does not parse a `model@group` suffix\n- All scenario groups are 1.0×, are not part of `auto` rotation, and the `default` automatic path remains when no group is specified\n\n## Documentation\n\n- [MiniMax H3 video line](/en/api-reference/video-series/models/minimax-h3-video)"
+      },
+      "schema_version": 1
+    },
+    {
+      "id": "2026-11-13-nano-banana-2-lite",
+      "published_at": "2026-11-13",
+      "type": "breaking",
+      "modality": [
+        "image"
+      ],
+      "title": {
+        "en": "Public model ID renamed to nano-banana-2-lite",
+        "zh": "公开模型 ID 更名为 nano-banana-2-lite"
+      },
+      "summary": {
+        "en": "The public model ID gemini-3.1-flash-lite-image is now nano-banana-2-lite, matching the Nano Banana family naming. Google's official ID remains the upstream model ID; the model, its 1K-only capability and its price are unchanged.",
+        "zh": "公开模型 ID 由 gemini-3.1-flash-lite-image 变更为 nano-banana-2-lite，与 Nano Banana 家族命名保持一致。Google 官方 ID 仍作为上游模型 ID；模型本身、仅支持 1K 的能力与价格均不变。"
+      },
+      "models": [
+        "nano-banana-2-lite"
+      ],
+      "tags": [
+        "image",
+        "breaking",
+        "migration"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "Nano Banana 2 Lite Image Generation",
+            "zh": "Nano Banana 2 Lite 生图"
+          },
+          "href": {
+            "en": "/en/api-reference/image-series/models/nano-banana-2-lite",
+            "zh": "/zh/api-reference/image-series/models/nano-banana-2-lite"
+          }
+        }
+      ],
+      "body": {
+        "en": "## Public ID renamed\n\nThe public model ID `gemini-3.1-flash-lite-image` is now `nano-banana-2-lite`.\n\n- Send `\"model\": \"nano-banana-2-lite\"` to `POST /v1/images/generations`; update saved requests, integrations and model allowlists.\n- Google's official model ID `gemini-3.1-flash-lite-image` remains the upstream model ID (the upstream SKU); it is no longer the public ID.\n- Rename only — same model, same 1K-only capability and same price ($0.0336 per image at 1K). No other change.\n- The previous ID is not offered as a compatibility alias.\n\nThe public ID now follows the Nano Banana family naming.",
+        "zh": "## 公开 ID 更名\n\n公开模型 ID 由 `gemini-3.1-flash-lite-image` 变更为 `nano-banana-2-lite`。\n\n- 调用 `POST /v1/images/generations` 时请传 `\"model\": \"nano-banana-2-lite\"`，并同步更新已保存的请求、集成代码与模型白名单。\n- Google 官方模型 ID `gemini-3.1-flash-lite-image` 仍作为上游模型 ID（上游 SKU）存在，但不再是公开模型 ID。\n- 本次仅为更名：同一个模型、同样仅支持 1K 的能力、同样价格（1K 分辨率 $0.0336/张），无其他变更。\n- 旧 ID 不提供兼容别名。\n\n公开模型 ID 现与 Nano Banana 家族命名保持一致。"
+      },
+      "schema_version": 1
+    },
     {
       "id": "2026-11-12-seedream-5-5",
       "published_at": "2026-11-12",
@@ -404,6 +486,47 @@
       "body": {
         "en": "**MiniMax H3 video line** (`minimax-h3-video`) is available again, served by AutoDL ComfyUI workflows.\n\n## Restored\n\n- **Model ID:** `minimax-h3-video`\n- **Contract:** `POST /v1/videos`, polled through `GET /v1/videos/{task_id}` (plugin line: the path differs from the other video series models, and `/v1/video/generations` returns 503)\n- **Tiers:** standard (default, 1.0×), `minimax-h3-video-fast` (0.9×), `minimax-h3-video-pro` (1.15×)\n- **Billing:** 0.025 USD/second (¥0.17/second at FX 6.8); `raw_quota = 0.025 × 500000 × seconds × GroupRatio`\n\n## Capabilities and limits\n\n- One ID selects its endpoint from the request shape: text-to-video, image reference, image + audio, lip sync and first-last frame. When nothing matches it returns 400 instead of silently falling back.\n- The fast and higher-quality tiers serve image reference and image + audio only, capped at 768p.\n- Offered resolutions are 480p / 736p / 768p. 1080p and the higher upstream tiers have no published price and are not offered.\n- Duration is 1–15 seconds (default 5); some shapes cap at 10 or 12 seconds.\n\n## New parameter\n\n- `mode` (`高速模式` / `高质模式`, default `高质模式`): accepted by the nine-image and nine-image-three-audio endpoints added on 2026-10-23.\n\n## Documentation\n\n- [MiniMax H3 video line](/en/api-reference/video-series/models/minimax-h3-video)",
         "zh": "**MiniMax H3 视频专线**（`minimax-h3-video`）恢复上架，由 AutoDL ComfyUI 工作流承载。\n\n## 恢复上架\n\n- **Model ID：** `minimax-h3-video`\n- **接口契约：** `POST /v1/videos`，通过 `GET /v1/videos/{task_id}` 轮询（插件型线路，路径与视频系列其它模型不同；误用 `/v1/video/generations` 会返回 503）\n- **档位：** 标准档（默认，1.0×）、`minimax-h3-video-fast`（0.9×）、`minimax-h3-video-pro`（1.15×）\n- **计费：** 0.025 USD/秒（¥0.17/秒，FX 6.8）；`raw_quota = 0.025 × 500000 × 秒数 × GroupRatio`\n\n## 能力与限制\n\n- 同一 ID 按请求形态自动选端点：文生视频、多图参考、多图多音频、对口型、首尾帧；没有候选时返回 400，不静默降级。\n- 高速档与升级画质档只覆盖多图参考与多图多音频，分辨率上限 768p。\n- 公开分辨率档为 480p / 736p / 768p；1080p 与更高的上游档位没有已发布价格，不开放。\n- 时长 1–15 秒（默认 5 秒），部分形态上限 10 秒或 12 秒。\n\n## 新增参数\n\n- `mode`（`高速模式` / `高质模式`，默认 `高质模式`）：2026-10-23 新增的九图与九图三音端点接受该参数。\n\n## 文档\n\n- [MiniMax H3 视频专线](/zh/api-reference/video-series/models/minimax-h3-video)"
+      },
+      "schema_version": 1
+    },
+    {
+      "id": "2026-10-22-desktop-surface-pricing",
+      "published_at": "2026-10-22",
+      "type": "pricing",
+      "modality": [
+        "video"
+      ],
+      "title": {
+        "en": "Desktop surface pricing groups for Seedance 2.5",
+        "zh": "Seedance 2.5 新增桌面端计费分组"
+      },
+      "summary": {
+        "en": "The desktop surface now prices Seedance 2.5 through two model-specific groups: desktop-480p at ¥0.92/second and desktop-720p at ¥1.31/second. The public model ID, base price and Web groups are unchanged.",
+        "zh": "桌面端现通过两个模型专属分组计费：desktop-480p 为 ¥0.92/秒，desktop-720p 为 ¥1.31/秒。公开模型 ID、基准价与 Web 端分组均不变。"
+      },
+      "models": [
+        "seedance-2-5"
+      ],
+      "tags": [
+        "pricing",
+        "video",
+        "desktop"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "Seedance 2.5 API Reference",
+            "zh": "Seedance 2.5 接口文档"
+          },
+          "href": {
+            "en": "/en/api-reference/video-series/models/seedance-2-5",
+            "zh": "/zh/api-reference/video-series/models/seedance-2-5"
+          }
+        }
+      ],
+      "body": {
+        "en": "## Desktop surface pricing\n\n`seedance-2-5` keeps one public model ID and one base price. The desktop surface adds two model-specific groups on top of it:\n\n| Group | Effective price |\n| --- | --- |\n| `desktop-480p` | **¥0.92/second** |\n| `desktop-720p` | **¥1.31/second** |\n\n- The Web groups `seedance-2-5-480p` (¥2.85/second) and `seedance-2-5-720p` (¥3.92/second) are unchanged.\n- Billing remains per requested second; resolution is still fixed per tier.\n- The model ID, base price and upstream channels are unchanged; only the group tier differs.\n\nThe public pricing endpoint and the model quote shown before submission remain the authoritative price for any individual request.",
+        "zh": "## 桌面端计费分组\n\n`seedance-2-5` 仍只保留一个公开模型 ID 与一个基准价。桌面端在此基础上新增两个模型专属分组：\n\n| 分组 | 实际计费价 |\n| --- | --- |\n| `desktop-480p` | **¥0.92/秒** |\n| `desktop-720p` | **¥1.31/秒** |\n\n- Web 端分组 `seedance-2-5-480p`（¥2.85/秒）与 `seedance-2-5-720p`（¥3.92/秒）不变。\n- 仍按请求时长按秒计费；每档分辨率固定。\n- 模型 ID、基准价与上游渠道均未改变，仅分组档位不同。\n\n任何单次请求的价格以公开 pricing 接口和提交前报价为准。"
       },
       "schema_version": 1
     },
@@ -2027,136 +2150,6 @@
       "body": {
         "en": "## Overview\n\nThe model page at `omnimux.ai/pricing/<model-id>` now runs real generations. Its **Playground** section submits through the gateway using the signed-in browser session, so a user who has already logged in to OmniMux can try a model without creating an API token first.\n\n## Which path to call\n\n- **From the console**: the page posts to the session-authenticated `POST /pg/video/generations`. This path accepts a browser session only and is not part of the token API surface.\n- **From your own code**: keep using `POST /v1/video/generations` with an API token — the same contract documented in the video-series model pages. Nothing about the token path changed.\n\n## Task results\n\nSubmitted tasks are read back through the same session: `GET /api/task/self` for status, progress and quota, and `GET /api/task/:task_id/artifacts` for the media projection. Tasks submitted from the console appear in the account's task list like any other task.\n\n## Billing\n\nConsole submissions use the standard precharge and settle path. No separate ledger, pricing rule or quota bucket is introduced for the console path.",
         "zh": "## 概述\n\n位于 `omnimux.ai/pricing/<模型 ID>` 的模型详情页现已支持真实生成。页面中的 **Playground** 区块以浏览器登录态经网关提交，因此已登录 OmniMux 的用户无需先创建 API 令牌即可试用模型。\n\n## 该调用哪条路径\n\n- **在控制台内**：页面调用会话鉴权的 `POST /pg/video/generations`。该路径只接受浏览器登录态，不属于令牌 API 面。\n- **在自己的代码里**：继续使用带 API 令牌的 `POST /v1/video/generations`，契约与视频系列模型页所述一致。令牌路径没有任何改动。\n\n## 任务结果\n\n提交后的任务同样以登录态读取：`GET /api/task/self` 取状态、进度与额度，`GET /api/task/:task_id/artifacts` 取媒体投影。控制台提交的任务会和其他任务一样出现在账户任务列表中。\n\n## 计费\n\n控制台提交走标准预扣与结算路径，不为控制台单独引入账本、定价规则或配额池。"
-      },
-      "schema_version": 1
-    },
-    {
-      "id": "2026-09-10-r2-file-storage",
-      "published_at": "2026-09-10",
-      "type": "platform",
-      "modality": [
-        "platform"
-      ],
-      "title": {
-        "en": "Cloudflare R2 storage & Evolink-compatible file upload API released",
-        "zh": "Cloudflare R2 存储开启与对齐 Evolink 文件上传 API 上线"
-      },
-      "summary": {
-        "en": "Supports Base64, stream multipart, and remote URL uploads with 72h lifecycle and 2,000 files/user quota.",
-        "zh": "支持 Base64、流式表单及 URL 远程抓取上传，配备 72 小时自动过期与单用户 2000 个文件配额门禁。"
-      },
-      "models": [],
-      "tags": [
-        "storage",
-        "files",
-        "r2",
-        "api"
-      ],
-      "links": [
-        {
-          "label": {
-            "en": "Base64 upload",
-            "zh": "Base64 文件上传"
-          },
-          "href": {
-            "en": "/en/api-reference/file-series/upload-base64",
-            "zh": "/zh/api-reference/file-series/upload-base64"
-          }
-        },
-        {
-          "label": {
-            "en": "File quota",
-            "zh": "查询文件配额"
-          },
-          "href": {
-            "en": "/en/api-reference/file-series/quota",
-            "zh": "/zh/api-reference/file-series/quota"
-          }
-        }
-      ],
-      "body": {
-        "en": "## Overview\n\nOmniMux now provides Cloudflare R2 object storage integration alongside a local disk fallback driver. File series endpoints are available under `/api/v1/files/*` and `/v1/files/*`.\n\n## Capabilities\n\n- **Base64 upload**: `POST /api/v1/files/upload/base64` supporting Data URL and raw Base64.\n- **Stream upload**: `POST /api/v1/files/upload/stream` via `multipart/form-data`.\n- **URL upload**: `POST /api/v1/files/upload/url` with SSRF protection.\n- **Quota & Expiration**: 2,000 active files per user quota, 72-hour automated expiration with background cleanup.",
-        "zh": "## 概述\n\nOmniMux 现已全量支持 Cloudflare R2 对象存储与本地安全降级驱动，文件系列端点挂载于 `/api/v1/files/*` 与 `/v1/files/*`。\n\n## 核心能力\n\n- **Base64 上传**：`POST /api/v1/files/upload/base64` 支持 Data URL 与纯 Base64。\n- **流式上传**：`POST /api/v1/files/upload/stream` 支持 `multipart/form-data` 表单流。\n- **URL 远程抓取**：`POST /api/v1/files/upload/url` 内置 SSRF 防护。\n- **配额与 72h 过期**：单用户 2000 个活跃文件上限，72 小时自动过期物理清理。"
-      },
-      "schema_version": 1
-    },
-    {
-      "id": "2026-09-10-gpt-image-25-rename",
-      "published_at": "2026-09-10",
-      "type": "breaking",
-      "modality": [
-        "image"
-      ],
-      "title": {
-        "en": "GPT Image per-call model IDs renamed to 2.5",
-        "zh": "GPT Image 按次模型 ID 正式更名为 2.5"
-      },
-      "summary": {
-        "en": "Update requests to gpt-image-2.5 or gpt-image-2.5-hd. Old model IDs are no longer accepted; per-call prices are unchanged.",
-        "zh": "请将请求改为 gpt-image-2.5 或 gpt-image-2.5-hd。旧 model ID 不再接受，按次售价不变。"
-      },
-      "models": [
-        "gpt-image-2.5",
-        "gpt-image-2.5-hd"
-      ],
-      "tags": [
-        "image",
-        "breaking",
-        "migration"
-      ],
-      "links": [
-        {
-          "label": {
-            "en": "GPT Image generation",
-            "zh": "GPT Image 图像生成"
-          },
-          "href": {
-            "en": "/en/api-reference/image-series/gpt-image/generate",
-            "zh": "/zh/api-reference/image-series/gpt-image/generate"
-          }
-        }
-      ],
-      "body": {
-        "en": "## Required migration\n\n- Replace `gpt-image-2` with `gpt-image-2.5`.\n- Replace `gpt-image-2-hd` with `gpt-image-2.5-hd`.\n- Keep using `POST /v1/images/generations`. Update the `model` value in saved requests, integrations, and any model allowlists.\n\nThe old IDs are not compatibility aliases. The `gpt-image-2-5` spelling is not supported.\n\n## Pricing and scope\n\nBase per-call prices remain USD 0.0441 for `gpt-image-2.5` and USD 0.005479 for `gpt-image-2.5-hd`; group multipliers may affect final charges. This is a public ID migration, not a claim of a newly verified resolution or upstream capability.\n\nFlare and Sunburst are separate token-billed models and are not available as part of this change.",
-        "zh": "## 必须迁移\n\n- 将 `gpt-image-2` 替换为 `gpt-image-2.5`。\n- 将 `gpt-image-2-hd` 替换为 `gpt-image-2.5-hd`。\n- 继续使用 `POST /v1/images/generations`，更新保存的请求、集成代码及模型白名单中的 `model`。\n\n旧 ID 不是兼容别名，也不支持 `gpt-image-2-5` 拼写。\n\n## 价格与范围\n\n基础按次价保持不变：`gpt-image-2.5` 为 USD 0.0441/次，`gpt-image-2.5-hd` 为 USD 0.005479/次；分组倍率可能影响最终费用。本次是公开 ID 迁移，不代表新增或验证了特定分辨率及上游能力。\n\nFlare 和 Sunburst 是独立的 Token 计费模型，不在本次变更中开放。"
-      },
-      "schema_version": 1
-    },
-    {
-      "id": "2026-09-09-h3-media-task-contracts",
-      "published_at": "2026-09-09",
-      "type": "breaking",
-      "modality": [
-        "video"
-      ],
-      "title": {
-        "en": "H3 ordered references and task result handling",
-        "zh": "H3 有序参考素材与任务结果处理修复"
-      },
-      "summary": {
-        "en": "Explicit operations, ordered references and 720p migration; task reads preserve settlement ownership.",
-        "zh": "明确操作类型、保留参考素材顺序并迁移720p；任务查询保留后台结算职责。"
-      },
-      "models": [
-        "minimax/h3-max",
-        "minimax/h3-max-turbo"
-      ],
-      "tags": [],
-      "links": [
-        {
-          "label": {
-            "en": "H3 Max API",
-            "zh": "H3 Max API"
-          },
-          "href": {
-            "en": "/en/api-reference/video-series/models/minimax-h3-max",
-            "zh": "/zh/api-reference/video-series/models/minimax-h3-max"
-          }
-        }
-      ],
-      "body": {
-        "en": "Use operation to select text, first-frame or Max multi-reference generation. Media arrays retain order and conflicting aliases are rejected. Replace legacy 720p with explicit 768P. Temporary result unavailability is retried; failures and cancellations are not masked by stale video URLs. Status reads no longer persist terminal transitions ahead of settlement polling.",
-        "zh": "使用 operation 选择文生视频、首帧或 Max 多参考生成。素材数组保留顺序，冲突同义字段会被拒绝。旧720p需明确改为768P。产物暂不可用时重试，失败或取消不再被旧视频URL掩盖。状态查询不再抢先持久化终态，结算仍由后台轮询负责。"
       },
       "schema_version": 1
     }
