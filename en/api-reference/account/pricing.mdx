@@ -38,19 +38,39 @@ The `contract` object is descriptive only. It never participates in billing, quo
 | `schemaVersion` | Contract shape. `"2.0"` means `operations` is an object array. |
 | `contractVersion` | Per-model content hash. Use it to cache one model without re-reading the whole payload. |
 | `operations[]` | Executable operations. Each has `id`, `executable`, `inputs[]`, `parameters[]`, and `output.type`. |
+| `operations[].modeKind` | Optional localization key for video modes. `image_reference` identifies Muse image references, and `multimodal_reference` identifies Seedance multimodal references. Use the operation's `id` in the request. |
 | `operation_ids[]` | The same operation ids as a string array, for v1-compatible clients. |
 | `unknowns[]` | Field paths whose value the governance spec did not establish. Missing fields are not defaults. |
 | `reference_images` / `reference_videos` / `reference_audios` | Declared reference-media limits and accepted formats. |
 | `reasoning_efforts` | Optional map from reasoning level to the upstream wire value for text models. |
 | `default_reasoning_effort` | Optional default level; when present it is one of the `reasoning_efforts` keys. |
 
-An operation input carries `slot`, `type`, `role`, `required`, `min`, `max`, `allowedMimes`, `maxSizeMb` and duration bounds when declared. A parameter carries `name`, `type`, `enum`, `minimum`, `maximum`, `step`, `default`, `fixed`, and `limitSource`.
+An operation input carries `slot`, `type`, `role`, `firstItemRole`, `required`, `min`, `max`, `allowedMimes`, `maxSizeMb` and duration bounds when declared. A parameter carries `name`, `type`, `enum`, `minimum`, `maximum`, `step`, `default`, `fixed`, and `limitSource`.
 
 `executable: false` means the operation is documented by the vendor but this gateway does not execute it; clients must not submit it.
 
+## Video routing pilot
+
+The pilot is opt-in. When a deployment enables it for a model, its pricing row may include `effective_video` beside `contract`.
+
+| Field or state | Meaning |
+| --- | --- |
+| `effective_video.version` | Content version of the account's available group view. Use `contract.contractVersion` for the model-level contract. |
+| `effective_video.groups` | Maps each selectable group to an array of complete operation variants. |
+| `effective_video` omitted | Use the model-level `contract` and existing label mapping. |
+| Empty `groups` object or empty group array | An empty object means zero groups in this view. An empty array means zero verified variants for that group. |
+
+Variants can share an operation `id`. Match the entire request against one variant, including its media slots, counts, and parameters. A parameter with `required: true` needs an explicit value. For ordered Muse references, `firstItemRole: "first_frame"` assigns the first image as the starting frame.
+
+The catalog shows the account's available groups at read time. Submissions and retries use the submitted token's permissions and current channel availability. HTTP `400 video_capability_mismatch` means the available verified candidates reject the combination. If no verified candidate is available, the selection error is HTTP `503`.
+
+For Seedance 2.5 pilot requests with a source or reference video, supply `operation` as `video_edit`, `video_extend`, or `video_multi_ref`. The gateway derives the upstream task type. The corresponding `omni_reference_task_type` value, `edit`, `extend`, or `reference`, also works. Pilot requests with `draft: true` or a nonempty `draft_task_id` return HTTP `400`.
+
 ## Related endpoint
 
-`GET /api/model_contract/:model` returns one model's full v2 contract as `data.contract`, plus the document `version` as `data.version`. A model with no governance spec answers `404`; absence means "not established", not "no such capability".
+`GET /api/model_contract/:model` returns `data.contract` and `data.version`, the version of the whole static contract document. For enrolled models, `data.effective_video` uses the same shape and account scope as the pricing row. A model without a governance spec returns `404`.
+
+The abridged pilot response uses an illustrative group and version values.
 
 <Panel>
 
@@ -96,6 +116,48 @@ curl --request GET \
         ],
         "operation_ids": ["text_to_image", "image_to_image"],
         "unknowns": []
+      }
+    }
+  ]
+}
+```
+
+```json 200 Pilot example
+{
+  "success": true,
+  "data": [
+    {
+      "model_name": "muse-video",
+      "enable_groups": ["example-video"],
+      "contract": {
+        "model_id": "muse-video",
+        "schemaVersion": "2.0",
+        "contractVersion": "1111111111111111"
+      },
+      "effective_video": {
+        "version": "2222222222222222",
+        "groups": {
+          "example-video": [
+            {
+              "id": "video_multi_ref",
+              "modeKind": "image_reference",
+              "executable": true,
+              "inputs": [
+                { "slot": "prompt", "type": "text", "required": true },
+                {
+                  "slot": "reference_images", "type": "image", "role": "reference",
+                  "firstItemRole": "first_frame", "required": true, "min": 2, "max": 10,
+                  "allowedMimes": ["image/jpeg", "image/png", "image/webp"]
+                }
+              ],
+              "parameters": [
+                { "name": "duration", "type": "integer", "minimum": 1, "maximum": 60, "step": 1, "default": 5 },
+                { "name": "aspect_ratio", "type": "enum", "enum": ["16:9"], "required": true }
+              ],
+              "output": { "type": "video", "formats": ["mp4"] }
+            }
+          ]
+        }
       }
     }
   ]
