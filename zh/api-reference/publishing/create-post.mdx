@@ -1,12 +1,23 @@
 ---
 title: "创建帖子"
 sidebarTitle: "创建帖子"
-description: "创建帖子 — 显式账号来源"
+description: "创建帖子 — 按官方来源发布"
 openapi: "openapi/ops/publishing/create-post.json POST /api/social/v1/posts"
 ---
 
-所有目标账号必须属于请求来源。幂等命中也校验已存来源与账号集合；不符返回 409。媒体预签名仍依赖 Zernio，不是官方独立上传链路。
+所有目标账号必须属于请求来源。幂等命中也校验已存来源与账号集合；不符返回 409。
 
-`provider` 必填，仅允许 `tiktok_direct` 或 `zernio`，表示操作范围，不能改写已存来源。缺失或未知值返回 400 `invalid-provider`。
+调用[媒体预签名](/zh/api-reference/publishing/presign)并上传文件，将返回的 `public_url` 填入 `media_items[].url`。确认上传成功且对象可读后再提交帖子。
+
+请求通过校验后，网关立即向 TikTok 提交，并根据账号的发布权限选择模式。
+
+| 账号能力 | 行为 |
+| --- | --- |
+| 仅有 `video.upload`（当前已批准） | **草稿上传**把单条视频送入创作者的 TikTok 收件箱，由用户在 TikTok 内编辑和发布。此模式忽略 `content` 和 `tiktok_options` |
+| 拥有 `video.publish`（需另行审核） | **直接发布**支持视频和图文，按 `tiktok_options` 设置隐私和互动权限。两个 scope 都具备时优先走此模式 |
+
+账号缺少这两项发布权限时返回 409 `SOCIAL_TIKTOK_SCOPE_MISSING`。新建帖子的初始状态为 `submitted`。[查询帖子](/zh/api-reference/publishing/get-post)刷新状态时，网关将 TikTok 的 `SEND_TO_USER_INBOX` 映射为 `processing`，将 `PUBLISH_COMPLETE` 映射为 `published`。
+
+`provider` 必填，当前唯一取值 `tiktok_direct`。已退役的来源标识返回 410 `provider-retired`，缺失或未知值返回 400 `invalid-provider`。
 
 使用 OmniMux 用户 access token 和 `New-Api-User`，不是 `sk-` 密钥。同时检查 HTTP 状态和 `success`；部分上游错误仍返回 HTTP 200、`success:false`。

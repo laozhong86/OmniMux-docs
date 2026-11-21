@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "OmniMux Publishing — Disconnect Account",
-    "version": "provider-isolation"
+    "version": "official-only"
   },
   "servers": [
     {
@@ -39,12 +39,11 @@
             "schema": {
               "type": "string",
               "enum": [
-                "tiktok_direct",
-                "zernio"
+                "tiktok_direct"
               ],
-              "description": "Required expected source; never changes the stored account or post provider."
+              "description": "Required source identifier; currently only tiktok_direct is accepted."
             },
-            "example": "zernio"
+            "example": "tiktok_direct"
           }
         ],
         "responses": {
@@ -116,6 +115,34 @@
           },
           "400": {
             "description": "Missing/unknown provider or invalid request. invalid-provider identifies a missing or unknown source.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "enum": [
+                        false
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "success",
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Retired source identifier. provider-retired means the removed source can no longer be used; move the account to an official platform.",
             "content": {
               "application/json": {
                 "schema": {
@@ -320,7 +347,7 @@
           {
             "lang": "curl",
             "label": "cURL",
-            "source": "curl --request DELETE \\\n  --url \"https://omnimux.ai/api/social/v1/accounts/<record-id>?provider=zernio\" \\\n  --header 'Authorization: Bearer <user-access-token>' \\\n  --header 'New-Api-User: <user-id>'"
+            "source": "curl --request DELETE \\\n  --url \"https://omnimux.ai/api/social/v1/accounts/<record-id>?provider=tiktok_direct\" \\\n  --header 'Authorization: Bearer <user-access-token>' \\\n  --header 'New-Api-User: <user-id>'"
           }
         ]
       }

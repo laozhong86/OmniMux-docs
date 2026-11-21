@@ -1,12 +1,12 @@
 ---
 title: "Get Post"
 sidebarTitle: "Get Post"
-description: "Get Post — explicit account source"
+description: "Get Post — read by official source"
 openapi: "openapi/ops/publishing/get-post.json GET /api/social/v1/posts/{id}"
 ---
 
-Checks the stored post provider even when refresh=0. Cross-source tasks return 409 and are not returned or refreshed. Status is the gateway's stored or refreshed value, not a guarantee of publication.
+The stored source is verified even when `refresh=0`. A cross-source post returns 409 without returning the record or refreshing upstream. `status` is the stored or refreshed state and does not guarantee that publishing succeeded.
 
-`provider` is required: `tiktok_direct` or `zernio`. It constrains the operation and never rewrites the stored source. Missing or unknown values return 400 `invalid-provider`.
+`provider` is required and has one current value, `tiktok_direct`. A retired source identifier returns 410 `provider-retired`; missing or unknown values return 400 `invalid-provider`.
 
 Use an OmniMux user access token and `New-Api-User`, not an `sk-` key. Inspect `success` as well as HTTP status; some upstream failures return HTTP 200 with `success:false`.

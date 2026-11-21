@@ -1,12 +1,12 @@
 ---
 title: "查询帖子"
 sidebarTitle: "查询帖子"
-description: "查询帖子 — 显式账号来源"
+description: "查询帖子 — 按官方来源读取"
 openapi: "openapi/ops/publishing/get-post.json GET /api/social/v1/posts/{id}"
 ---
 
-即使 refresh=0 也校验任务实际来源。跨来源任务返回 409，不返回记录、不刷新上游。status 为已存或刷新后的状态，不保证发布成功。
+即使 `refresh=0` 也校验任务实际来源。跨来源任务返回 409，不返回记录、不刷新上游。`status` 是已存或刷新后的状态，不保证发布成功。
 
-`provider` 必填，仅允许 `tiktok_direct` 或 `zernio`，表示操作范围，不能改写已存来源。缺失或未知值返回 400 `invalid-provider`。
+`provider` 必填，当前唯一取值 `tiktok_direct`。已退役的来源标识返回 410 `provider-retired`，缺失或未知值返回 400 `invalid-provider`。
 
 使用 OmniMux 用户 access token 和 `New-Api-User`，不是 `sk-` 密钥。同时检查 HTTP 状态和 `success`；部分上游错误仍返回 HTTP 200、`success:false`。

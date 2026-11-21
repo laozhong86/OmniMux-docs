@@ -1,12 +1,12 @@
 ---
 title: "断开账户"
 sidebarTitle: "断开账户"
-description: "断开账户 — 显式账号来源"
+description: "断开账户 — 按官方来源解绑"
 openapi: "openapi/ops/publishing/disconnect.json DELETE /api/social/v1/accounts/{id}"
 ---
 
-在上游删除前校验归属及已存来源。跨来源返回 409，不删除账号。席位、官方 token 撤销和 Zernio 失败政策不变；上游 402 错误不能当作解绑成功。
+先校验归属及已存来源，通过后才在上游撤销授权。跨来源返回 409，账号不会被删除；上游 402 不能当作解绑成功。
 
-`provider` 必填，仅允许 `tiktok_direct` 或 `zernio`，表示操作范围，不能改写已存来源。缺失或未知值返回 400 `invalid-provider`。
+`provider` 必填，当前唯一取值 `tiktok_direct`。已退役的来源标识返回 410 `provider-retired`，缺失或未知值返回 400 `invalid-provider`。
 
 使用 OmniMux 用户 access token 和 `New-Api-User`，不是 `sk-` 密钥。同时检查 HTTP 状态和 `success`；部分上游错误仍返回 HTTP 200、`success:false`。

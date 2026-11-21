@@ -76,6 +76,12 @@ def main() -> int:
             path = ROOT / loc / f"{rel}.mdx"
             if not path.is_file():
                 errors.append(f"nav missing file: {loc}/{rel}.mdx")
+        # Pages that exist on disk but never reach the sidebar are ungoverned.
+        # Scope stays on publishing until the rest of the tree is audited.
+        for path in sorted((ROOT / loc / "api-reference" / "publishing").rglob("*.mdx")):
+            rel = path.relative_to(ROOT / loc).as_posix()[:-4]
+            if rel not in rels:
+                errors.append(f"orphan publishing page not in nav: {loc}/{rel}.mdx")
 
     # default language must be en
     d = json.loads((ROOT / "docs.json").read_text(encoding="utf-8"))

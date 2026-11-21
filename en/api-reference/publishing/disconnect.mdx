@@ -1,12 +1,12 @@
 ---
 title: "Disconnect Account"
 sidebarTitle: "Disconnect Account"
-description: "Disconnect Account — explicit account source"
+description: "Disconnect Account — unbind by official source"
 openapi: "openapi/ops/publishing/disconnect.json DELETE /api/social/v1/accounts/{id}"
 ---
 
-Ownership and stored provider are checked before upstream deletion. Cross-source requests return 409 without deleting the account. Existing seat, official token-revocation and Zernio failure policies remain unchanged; do not treat an upstream 402 message as a successful disconnect.
+Ownership and the stored source are verified before the upstream authorization is revoked. A cross-source request returns 409 and deletes nothing; an upstream 402 is not a successful disconnect.
 
-`provider` is required: `tiktok_direct` or `zernio`. It constrains the operation and never rewrites the stored source. Missing or unknown values return 400 `invalid-provider`.
+`provider` is required and has one current value, `tiktok_direct`. A retired source identifier returns 410 `provider-retired`; missing or unknown values return 400 `invalid-provider`.
 
 Use an OmniMux user access token and `New-Api-User`, not an `sk-` key. Inspect `success` as well as HTTP status; some upstream failures return HTTP 200 with `success:false`.

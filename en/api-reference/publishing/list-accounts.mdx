@@ -1,15 +1,14 @@
 ---
 title: "List Accounts"
 sidebarTitle: "List Accounts"
-description: "List Accounts — explicit account source"
+description: "List Accounts — query by official source"
 openapi: "openapi/ops/publishing/list-accounts.json GET /api/social/v1/accounts"
 ---
 
-Only returns the selected source. The official list does not create a Zernio tenant or run a Zernio sync. An empty array means success with no accounts; failed responses are not empty lists.
+Returns only accounts bound under the requested source. It does not create an external tenant or run third-party synchronization. An empty array means the query succeeded with no accounts; a failure is never an empty list.
 
-`provider` is required: `tiktok_direct` or `zernio`. It constrains the operation and never rewrites the stored source. Missing or unknown values return 400 `invalid-provider`.
+`provider` is required and has one current value, `tiktok_direct`. A retired source identifier returns 410 `provider-retired`; missing or unknown values return 400 `invalid-provider`.
+
+CLI: `omnimux social accounts --provider tiktok_direct`.
 
 Use an OmniMux user access token and `New-Api-User`, not an `sk-` key. Inspect `success` as well as HTTP status; some upstream failures return HTTP 200 with `success:false`.
-
-
-CLI 0.4.0: run `omnimux update` (binary) or `npm install -g @omnimux/cli@0.4.0` (npm), then use `omnimux social accounts --provider zernio` or `--provider tiktok_direct`. Update saved scripts as well. See [API Updates](/en/updates#2026-09-07-social-provider-required).
