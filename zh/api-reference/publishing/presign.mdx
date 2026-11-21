@@ -5,7 +5,7 @@ description: "媒体预签名 — 申请上传票据"
 api: "POST https://omnimux.ai/api/social/v1/media/presign"
 ---
 
-为发布媒体申请一次性上传票据。票据签名到网关自有对象存储，不经过第三方存储；上传完成后把返回的 `public_url` 作为帖子的 `media` 引用。
+为发布媒体申请网关自有对象存储的上传票据。上传完成后，将返回的 `public_url` 填入创建帖子的 `media_items[].url`。
 
 ## 身份
 
@@ -47,7 +47,7 @@ Base URL：`https://omnimux.ai`
 | `upload_url` | string | 直接 `PUT` 的目标地址 |
 | `upload_method` | string | 通常为 `PUT` |
 | `headers` | object | 上传时必须原样带上的请求头（含 `Content-Type`） |
-| `public_url` | string | 平台可读地址，作为帖子的 `media` 引用 |
+| `public_url` | string | 平台可读地址，用于创建帖子的 `media_items[].url` |
 | `key` | string | 服务端生成的对象键 |
 | `expires_in` | integer | 票据剩余秒数 |
 | `filename` / `content_type` | string | 回显的请求值 |
@@ -85,11 +85,11 @@ curl --request POST \
 {
   "success": true,
   "data": {
-    "upload_url": "https://storage.example/put/...",
+    "upload_url": "<upload_url>",
     "upload_method": "PUT",
     "headers": { "Content-Type": "video/mp4" },
-    "public_url": "https://media.omnimux.ai/social/7/20261113/....mp4",
-    "key": "social/7/20261113/3f1c9a7e-clip.mp4",
+    "public_url": "<public_url>",
+    "key": "<object_key>",
     "expires_in": 900,
     "filename": "clip.mp4",
     "content_type": "video/mp4"

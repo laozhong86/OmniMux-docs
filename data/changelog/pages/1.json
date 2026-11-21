@@ -2,9 +2,51 @@
   "schema_version": 1,
   "page": 1,
   "page_size": 50,
-  "total": 83,
+  "total": 84,
   "total_pages": 2,
   "items": [
+    {
+      "id": "2026-11-20-video-mode-capabilities",
+      "published_at": "2026-11-20",
+      "type": "capability",
+      "modality": [
+        "video"
+      ],
+      "title": {
+        "en": "Video mode semantics and compatible routing pilot",
+        "zh": "视频模式语义与兼容选线试点"
+      },
+      "summary": {
+        "en": "Contract v2 adds display semantics for Muse and Seedance 2.5 video modes. Deployments can opt in to group-level capabilities and compatible routing.",
+        "zh": "Contract v2 为 Muse 和 Seedance 2.5 提供视频模式语义。启用试点的部署可按分组发布操作能力并筛选兼容线路。"
+      },
+      "models": [
+        "muse-video",
+        "seedance-2-5"
+      ],
+      "tags": [
+        "api",
+        "contract",
+        "routing"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "Pricing API reference",
+            "zh": "定价 API 文档"
+          },
+          "href": {
+            "en": "/en/api-reference/account/pricing",
+            "zh": "/zh/api-reference/account/pricing"
+          }
+        }
+      ],
+      "body": {
+        "en": "`GET /api/pricing` and `GET /api/model_contract/:model` expose `modeKind` for supported video operations. Use it for labels and send the operation's `id` in generation requests.\n\nWhen the routing pilot is enabled, `effective_video` lists the complete media and parameter combinations available for each selectable group. The gateway checks the same combinations when selecting candidates for submissions and retries. When the field is absent, use the model-level contract.",
+        "zh": "`GET /api/pricing` 和 `GET /api/model_contract/:model` 通过 `modeKind` 提供适用的模式语义。界面可用该字段显示名称，提交时仍填写操作的 `id`。\n\n启用选线试点后，`effective_video` 列出各可选分组支持的完整素材与参数组合。网关在提交和重试时按同一套组合筛选候选。该字段缺省时，沿用模型级契约。"
+      },
+      "schema_version": 1
+    },
     {
       "id": "2026-11-14-tiktok-draft-upload",
       "published_at": "2026-11-14",
@@ -60,8 +102,8 @@
         }
       ],
       "body": {
-        "en": "TikTok's production app review completed on **2026-11-12 12:52** (version `7703706193873979412`, submitted 2026-11-03 09:12, about 9 days 3 hours 40 minutes).\n\n### Capabilities\n\n- **Connect accounts (live):** OAuth through Login Kit with `user.info.basic`.\n- **Draft upload (live):** `video.upload` sends one video to the creator's TikTok inbox through `/v2/post/publish/inbox/video/init/`. The creator opens the inbox notification, edits and completes the post inside TikTok. `content` and `tiktok_options` do not apply; post status moves from `processing` (including `SEND_TO_USER_INBOX`) to `published` after the creator posts.\n- **Public direct posting (not approved):** `video.publish` / Direct Post requires a separate TikTok review. Once granted, accounts with that scope use Direct Post with privacy and interaction settings.\n\n### Limits\n\n- Draft upload accepts one video per request and is rate limited to 6 requests per minute per user token.\n- TikTok allows at most 5 pending inbox shares per 24 hours; further requests fail with `spam_risk_too_many_pending_share`.\n\n### Notes for integrations\n\n- `GET /api/social/v1/accounts` now returns `capabilities.upload_draft` and `capabilities.publish_direct` per account.\n- Accounts without any publishing scope return `409 SOCIAL_TIKTOK_SCOPE_MISSING` from `POST /posts`.\n- `GET /api/social/v1/status` reports the configured `scopes`, `upload_draft`, `publish_direct` and `draft_only`.",
-        "zh": "TikTok 生产审核于 **2026-11-12 12:52** 完成（版本 `7703706193873979412`，2026-11-03 09:12 提交，约 9 天 3 小时 40 分）。\n\n### 能力\n\n- **连接账号（已上线）：** 通过 Login Kit + `user.info.basic` 完成 OAuth。\n- **草稿上传（已上线）：** `video.upload` 通过 `/v2/post/publish/inbox/video/init/` 把单条视频送入创作者 TikTok 收件箱；创作者打开收件箱通知，在 TikTok 内编辑并完成发布。`content` 与 `tiktok_options` 不生效；状态先为 `processing`（含 `SEND_TO_USER_INBOX`），用户发布后为 `published`。\n- **公开直发（未批准）：** `video.publish` / Direct Post 需 TikTok 另行审核。获批后，具备该 scope 的账号按隐私与互动设置直接发布。\n\n### 限制\n\n- 草稿上传每次仅接受一条视频；每个用户 token 每分钟最多 6 次请求。\n- TikTok 限制每 24 小时最多 5 条待处理收件箱草稿；超限返回 `spam_risk_too_many_pending_share`。\n\n### 集成说明\n\n- `GET /api/social/v1/accounts` 现在返回每个账号的 `capabilities.upload_draft` 与 `capabilities.publish_direct`。\n- 没有任何发布 scope 的账号调用 `POST /posts` 返回 `409 SOCIAL_TIKTOK_SCOPE_MISSING`。\n- `GET /api/social/v1/status` 报告已配置的 `scopes`、`upload_draft`、`publish_direct` 与 `draft_only`。"
+        "en": "TikTok approved account connection and video draft upload on **November 12, 2026**.\n\n### Capabilities\n\n- **Connect accounts (live):** OAuth through Login Kit with `user.info.basic`.\n- **Draft upload (live):** `video.upload` sends one video to the creator's TikTok inbox through `/v2/post/publish/inbox/video/init/`. The creator opens the inbox notification, edits and completes the post inside TikTok. `content` and `tiktok_options` do not apply; a newly created post starts as `submitted`. Refreshing the status maps `SEND_TO_USER_INBOX` to `processing` and `PUBLISH_COMPLETE` to `published`.\n- **Public direct posting (not approved):** `video.publish` / Direct Post requires a separate TikTok review. Once granted, accounts with that scope use Direct Post with privacy and interaction settings.\n\n### Limits\n\n- Draft upload accepts one video per request and is rate limited to 6 requests per minute per user token.\n- TikTok allows at most 5 pending inbox shares per 24 hours; further requests fail with `spam_risk_too_many_pending_share`.\n\n### Notes for integrations\n\n- `GET /api/social/v1/accounts` now returns `capabilities.upload_draft` and `capabilities.publish_direct` per account.\n- Accounts without any publishing scope return `409 SOCIAL_TIKTOK_SCOPE_MISSING` from `POST /api/social/v1/posts`.\n- `GET /api/social/v1/status` reports the configured `scopes`, `upload_draft`, `publish_direct` and `draft_only`.",
+        "zh": "TikTok 于 **2026 年 11 月 12 日** 批准账号连接和视频草稿上传。\n\n### 能力\n\n- **连接账号（已上线）：** 通过 Login Kit + `user.info.basic` 完成 OAuth。\n- **草稿上传（已上线）：** `video.upload` 通过 `/v2/post/publish/inbox/video/init/` 把单条视频送入创作者 TikTok 收件箱；创作者打开收件箱通知，在 TikTok 内编辑并完成发布。`content` 与 `tiktok_options` 不生效；新建帖子的初始状态为 `submitted`。刷新状态时，`SEND_TO_USER_INBOX` 映射为 `processing`，`PUBLISH_COMPLETE` 映射为 `published`。\n- **公开直发（未批准）：** `video.publish` / Direct Post 需 TikTok 另行审核。获批后，具备该 scope 的账号按隐私与互动设置直接发布。\n\n### 限制\n\n- 草稿上传每次仅接受一条视频；每个用户 token 每分钟最多 6 次请求。\n- TikTok 限制每 24 小时最多 5 条待处理收件箱草稿；超限返回 `spam_risk_too_many_pending_share`。\n\n### 集成说明\n\n- `GET /api/social/v1/accounts` 现在返回每个账号的 `capabilities.upload_draft` 与 `capabilities.publish_direct`。\n- 没有任何发布 scope 的账号调用 `POST /api/social/v1/posts` 返回 `409 SOCIAL_TIKTOK_SCOPE_MISSING`。\n- `GET /api/social/v1/status` 报告已配置的 `scopes`、`upload_draft`、`publish_direct` 与 `draft_only`。"
       },
       "schema_version": 1
     },
@@ -151,8 +193,8 @@
         }
       ],
       "body": {
-        "en": "Publishing now converges on official native APIs. The Zernio aggregation source is retired and is no longer a selectable source.\n\n### What changed\n\n- The five account and post operations no longer accept `zernio`: passing it explicitly returns `410 provider-retired`. `provider` has one current value, `tiktok_direct`.\n- `GET /api/social/v1/status` reports the official source and the official platform list only; it no longer exposes an aggregation vendor identity.\n- Third-party analytics endpoints (`/analytics/*`, `/inbox-analytics/*`) are unavailable and their documentation pages are retired.\n- Media presign always signs against the gateway's own object storage; there is no third-party bucket fallback.\n- `GET /api/social/v1/seats` reads local seat state and needs no upstream.\n\n### Migration\n\n1. Replace `provider=zernio` with `provider=tiktok_direct`.\n2. Reconnect accounts through the official TikTok direct flow.\n3. Historical accounts and posts stay in the store but can no longer be operated through the public API.\n4. CLI: `omnimux social accounts --provider tiktok_direct`.\n\nTikTok direct was approved on 2026-11-12; draft upload (`video.upload`) is available now, while public direct posting awaits `video.publish` review (see the TikTok draft-upload update). The server keeps a `SOCIAL_ZERNIO_ENABLED` rollback switch for operations; it is not a documented commitment.",
-        "zh": "社媒发布收敛为官方原生 API。第三方聚合来源 Zernio 已退役，不再是可选来源。\n\n### 变化\n\n- 五项账号与帖子操作不再接受 `zernio`：显式传入返回 `410 provider-retired`。`provider` 当前唯一取值 `tiktok_direct`。\n- `GET /api/social/v1/status` 只报告官方来源与官方平台清单，不再暴露聚合来源身份。\n- 第三方分析接口（`/analytics/*`、`/inbox-analytics/*`）不可用，对应文档页已下线。\n- 媒体预签名统一签名到网关自有对象存储，不再有第三方桶回退。\n- `GET /api/social/v1/seats` 读取本地席位状态，不依赖上游。\n\n### 迁移\n\n1. 把 `provider=zernio` 改为 `provider=tiktok_direct`。\n2. 通过 TikTok 官方直连流程重新连接账号。\n3. 历史账号与帖子记录保留在服务端，但不再可通过公开接口操作。\n4. CLI：`omnimux social accounts --provider tiktok_direct`。\n\nTikTok 官方直连已于 2026-11-12 审核通过；当前提供草稿上传（`video.upload`），公开直发待 `video.publish` 审核，详见 TikTok 草稿上传更新。服务端保留 `SOCIAL_ZERNIO_ENABLED` 回滚开关供运营使用，不构成文档承诺。"
+        "en": "Publishing now converges on official native APIs. The Zernio aggregation source is retired and is no longer a selectable source.\n\n### What changed\n\n- The five account and post operations no longer accept `zernio`: passing it explicitly returns `410 provider-retired`. `provider` has one current value, `tiktok_direct`.\n- `GET /api/social/v1/status` reports the official source and the official platform list only; it no longer exposes an aggregation vendor identity.\n- Third-party analytics endpoints (`/analytics/*`, `/inbox-analytics/*`) are unavailable and their documentation pages are retired.\n- Media presign always signs against the gateway's own object storage; there is no third-party bucket fallback.\n- `GET /api/social/v1/seats` reads local seat state and needs no upstream.\n\n### Migration\n\n1. Replace `provider=zernio` with `provider=tiktok_direct`.\n2. Reconnect accounts through the official TikTok direct flow.\n3. Historical accounts and posts stay in the store but can no longer be operated through the public API.\n4. CLI: `omnimux social accounts --provider tiktok_direct`.\n\nTikTok direct was approved on 2026-11-12; draft upload (`video.upload`) is available now, while public direct posting awaits `video.publish` review (see the TikTok draft-upload update).",
+        "zh": "社媒发布收敛为官方原生 API。第三方聚合来源 Zernio 已退役，不再是可选来源。\n\n### 变化\n\n- 五项账号与帖子操作不再接受 `zernio`：显式传入返回 `410 provider-retired`。`provider` 当前唯一取值 `tiktok_direct`。\n- `GET /api/social/v1/status` 只报告官方来源与官方平台清单，不再暴露聚合来源身份。\n- 第三方分析接口（`/analytics/*`、`/inbox-analytics/*`）不可用，对应文档页已下线。\n- 媒体预签名统一签名到网关自有对象存储，不再有第三方桶回退。\n- `GET /api/social/v1/seats` 读取本地席位状态，不依赖上游。\n\n### 迁移\n\n1. 把 `provider=zernio` 改为 `provider=tiktok_direct`。\n2. 通过 TikTok 官方直连流程重新连接账号。\n3. 历史账号与帖子记录保留在服务端，但不再可通过公开接口操作。\n4. CLI：`omnimux social accounts --provider tiktok_direct`。\n\nTikTok 官方直连已于 2026-11-12 审核通过；当前提供草稿上传（`video.upload`），公开直发待 `video.publish` 审核，详见 TikTok 草稿上传更新。"
       },
       "schema_version": 1
     },
@@ -2109,73 +2151,6 @@
       "body": {
         "en": "## What is new\n\n- **Official Direct Channel**: Added VolcEngine Ark direct route `#73` for ByteDance Doubao `seed-evolving`.\n- **Full Multimodal Reasoning**: 1024K context window, 256K max output tokens, native deep thinking, tool calling, and structured outputs.\n- **Transparent 1:1 Parity Pricing**: Token billing expressions anchor official list prices ($0.8824/M input, $4.4118/M output, $0.1765/M cache hit; FX 6.8).\n- **Local OmniMux CLI Verification**: Verified live invocation and pricing queries using the local `omnimux` CLI (`omnimux models`, `omnimux pricing`, `omnimux tokens exec`).\n\n## Documentation\n\n- Doubao API Reference: `/en/api-reference/text-series/doubao/complete`",
         "zh": "## 本次更新\n\n- **官方直连专线**：新增火山方舟官方直连渠道 `#73`，直通字节跳动豆包 `seed-evolving` 模型。\n- **全模态深度思考**：提供 1024K 上下文窗口、256K 最大回答输出、原生深度思考、工具调用与多模态理解能力。\n- **透明官方同价**：计费表达式严格锚定官方刊例原价（输入 6.00 元/M、输出 30.00 元/M、缓存命中 1.20 元/M，按 6.8 汇率透明折算）。\n- **本地 OmniMux CLI 验证通过**：使用官方命令行工具 `omnimux` 完成模型可见性、定价核验与安全令牌端到端对话全流程实测验证。\n\n## 参考文档\n\n- Doubao 完整参数手册：`/zh/api-reference/text-series/doubao/complete`"
-      },
-      "schema_version": 1
-    },
-    {
-      "id": "2026-09-14-image-reference-fields",
-      "published_at": "2026-09-14",
-      "type": "capability",
-      "modality": [
-        "image"
-      ],
-      "title": {
-        "en": "Image model pages now document the reference-image field and its limits",
-        "zh": "生图模型页补充参考图字段与上限说明"
-      },
-      "summary": {
-        "en": "Image-generation model pages now list the reference-image request field `images` (with its accepted aliases) and state the limits each vendor actually publishes. A previously stated per-file size cap is withdrawn: the 50 MB figure is scoped to mask editing, not to reference images.",
-        "zh": "生图模型页新增参考图请求字段 `images`（含可接受别名），并按模型给出厂商确实公布的上限。此前写出的单文件大小上限撤回：50 MB 属于遮罩编辑口径，不是参考图口径。"
-      },
-      "models": [
-        "gpt-image-2.5",
-        "mj-v7",
-        "mj-v8-1",
-        "nano-banana-2",
-        "nano-banana-pro",
-        "qwen-image-3-0",
-        "seedream-5-0-pro"
-      ],
-      "tags": [
-        "image",
-        "reference-images",
-        "docs"
-      ],
-      "links": [
-        {
-          "label": {
-            "en": "Image series model pages",
-            "zh": "图像系列模型页"
-          },
-          "href": {
-            "en": "/en/api-reference/image-series/models/nano-banana-2",
-            "zh": "/zh/api-reference/image-series/models/nano-banana-2"
-          }
-        },
-        {
-          "label": {
-            "en": "GPT Image generation",
-            "zh": "GPT Image 图像生成"
-          },
-          "href": {
-            "en": "/en/api-reference/image-series/gpt-image/generate",
-            "zh": "/zh/api-reference/image-series/gpt-image/generate"
-          }
-        },
-        {
-          "label": {
-            "en": "Midjourney image generation",
-            "zh": "Midjourney 生图"
-          },
-          "href": {
-            "en": "/en/api-reference/image-series/models/midjourney",
-            "zh": "/zh/api-reference/image-series/models/midjourney"
-          }
-        }
-      ],
-      "body": {
-        "en": "## What changed\n\n- Image-generation model pages now document the reference-image request field `images` (`string[]`, image URL or base64) together with the accepted aliases `image`, `image_urls` and `input_reference`, which the gateway normalizes to `images` before the upstream call.\n- Each page states the limits its vendor publishes for that model: maximum count, minimum, accepted formats and per-file size ceiling.\n\n## Limits we do not state\n\n- Where a value is not published by the vendor, the page says so instead of carrying a number; nothing is rounded or copied from a sibling model.\n- Where no model spec exists yet, the reference-image note marks the capability **unverified** and states no limit at all.\n\n## Withdrawn figure\n\n- The previously stated per-file reference-image cap of 50 MB is withdrawn. In the vendor's image guide that figure sits under mask requirements and covers the image being edited together with its mask; it is not a reference-image ceiling. `gpt-image-2.5` therefore carries no per-file size limit.\n\n## Documentation\n\n- Image series model pages: `/en/api-reference/image-series/models/*`\n- GPT Image generation: `/en/api-reference/image-series/gpt-image/generate`",
-        "zh": "## 本次变更\n\n- 生图模型页新增参考图请求字段 `images`（`string[]`，图片 URL 或 base64），并写明可接受的别名 `image`、`image_urls`、`input_reference`；网关会在调用上游前统一归一为 `images`。\n- 每页按厂商口径给出该模型的参考图上限：单次张数、下限、接受格式与单文件大小上限。\n\n## 不声明的上限\n\n- 厂商未公布的项直接写“官方未公布”，不给数字，也不从同系列其他模型套用或取整。\n- 尚无模型档案的模型，参考图说明标注为**未核验**，且完全不声明上限。\n\n## 撤回的数字\n\n- 此前写出的单张参考图 50 MB 上限撤回。厂商图像指南中的该数字位于遮罩（mask）要求下，覆盖的是“被编辑图 + 其遮罩”，不是参考图上限。因此 `gpt-image-2.5` 不声明单文件大小上限。\n\n## 文档\n\n- 图像系列模型页：`/zh/api-reference/image-series/models/*`\n- GPT Image 图像生成：`/zh/api-reference/image-series/gpt-image/generate`"
       },
       "schema_version": 1
     }

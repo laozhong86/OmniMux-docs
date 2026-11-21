@@ -9,16 +9,30 @@ Stay up to date with OmniMux gateway model launches and platform changes. The fu
 
 Pages: **Page 1** · [Page 2](/en/updates/page-2)
 
+<a id="2026-11-20-video-mode-capabilities"></a>
+
+<Update label="November 20, 2026" tags={["Improvements", "Video"]} rss={{ title: "Video mode semantics and compatible routing pilot" }}>
+
+  `GET /api/pricing` and `GET /api/model_contract/:model` expose `modeKind` for supported video operations. Use it for labels and send the operation's `id` in generation requests.
+
+  When the routing pilot is enabled, `effective_video` lists the complete media and parameter combinations available for each selectable group. The gateway checks the same combinations when selecting candidates for submissions and retries. When the field is absent, use the model-level contract.
+
+  ### Links
+
+  - [Pricing API reference](/en/api-reference/account/pricing)
+
+</Update>
+
 <a id="2026-11-14-tiktok-draft-upload"></a>
 
 <Update label="November 14, 2026" tags={["Improvements", "Publishing"]} rss={{ title: "TikTok direct is live: connect accounts and upload video drafts" }}>
 
-  TikTok's production app review completed on **2026-11-12 12:52** (version `7703706193873979412`, submitted 2026-11-03 09:12, about 9 days 3 hours 40 minutes).
+  TikTok approved account connection and video draft upload on **November 12, 2026**.
 
   ### Capabilities
 
   - **Connect accounts (live):** OAuth through Login Kit with `user.info.basic`.
-  - **Draft upload (live):** `video.upload` sends one video to the creator's TikTok inbox through `/v2/post/publish/inbox/video/init/`. The creator opens the inbox notification, edits and completes the post inside TikTok. `content` and `tiktok_options` do not apply; post status moves from `processing` (including `SEND_TO_USER_INBOX`) to `published` after the creator posts.
+  - **Draft upload (live):** `video.upload` sends one video to the creator's TikTok inbox through `/v2/post/publish/inbox/video/init/`. The creator opens the inbox notification, edits and completes the post inside TikTok. `content` and `tiktok_options` do not apply; a newly created post starts as `submitted`. Refreshing the status maps `SEND_TO_USER_INBOX` to `processing` and `PUBLISH_COMPLETE` to `published`.
   - **Public direct posting (not approved):** `video.publish` / Direct Post requires a separate TikTok review. Once granted, accounts with that scope use Direct Post with privacy and interaction settings.
 
   ### Limits
@@ -29,7 +43,7 @@ Pages: **Page 1** · [Page 2](/en/updates/page-2)
   ### Notes for integrations
 
   - `GET /api/social/v1/accounts` now returns `capabilities.upload_draft` and `capabilities.publish_direct` per account.
-  - Accounts without any publishing scope return `409 SOCIAL_TIKTOK_SCOPE_MISSING` from `POST /posts`.
+  - Accounts without any publishing scope return `409 SOCIAL_TIKTOK_SCOPE_MISSING` from `POST /api/social/v1/posts`.
   - `GET /api/social/v1/status` reports the configured `scopes`, `upload_draft`, `publish_direct` and `draft_only`.
 
   ### Links
@@ -93,7 +107,7 @@ Pages: **Page 1** · [Page 2](/en/updates/page-2)
   3. Historical accounts and posts stay in the store but can no longer be operated through the public API.
   4. CLI: `omnimux social accounts --provider tiktok_direct`.
 
-  TikTok direct was approved on 2026-11-12; draft upload (`video.upload`) is available now, while public direct posting awaits `video.publish` review (see the TikTok draft-upload update). The server keeps a `SOCIAL_ZERNIO_ENABLED` rollback switch for operations; it is not a documented commitment.
+  TikTok direct was approved on 2026-11-12; draft upload (`video.upload`) is available now, while public direct posting awaits `video.publish` review (see the TikTok draft-upload update).
 
   ### Links
 
@@ -1185,37 +1199,6 @@ Pages: **Page 1** · [Page 2](/en/updates/page-2)
   ### Links
 
   - [Doubao Complete API Reference](/en/api-reference/text-series/doubao/complete)
-
-</Update>
-
-<a id="2026-09-14-image-reference-fields"></a>
-
-<Update label="September 14, 2026" tags={["Improvements", "Image"]} rss={{ title: "Image model pages now document the reference-image field and its limits" }}>
-
-  ## What changed
-
-  - Image-generation model pages now document the reference-image request field `images` (`string[]`, image URL or base64) together with the accepted aliases `image`, `image_urls` and `input_reference`, which the gateway normalizes to `images` before the upstream call.
-  - Each page states the limits its vendor publishes for that model: maximum count, minimum, accepted formats and per-file size ceiling.
-
-  ## Limits we do not state
-
-  - Where a value is not published by the vendor, the page says so instead of carrying a number; nothing is rounded or copied from a sibling model.
-  - Where no model spec exists yet, the reference-image note marks the capability **unverified** and states no limit at all.
-
-  ## Withdrawn figure
-
-  - The previously stated per-file reference-image cap of 50 MB is withdrawn. In the vendor's image guide that figure sits under mask requirements and covers the image being edited together with its mask; it is not a reference-image ceiling. `gpt-image-2.5` therefore carries no per-file size limit.
-
-  ## Documentation
-
-  - Image series model pages: `/en/api-reference/image-series/models/*`
-  - GPT Image generation: `/en/api-reference/image-series/gpt-image/generate`
-
-  ### Links
-
-  - [Image series model pages](/en/api-reference/image-series/models/nano-banana-2)
-  - [GPT Image generation](/en/api-reference/image-series/gpt-image/generate)
-  - [Midjourney image generation](/en/api-reference/image-series/models/midjourney)
 
 </Update>
 

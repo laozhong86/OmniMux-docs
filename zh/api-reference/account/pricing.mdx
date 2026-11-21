@@ -38,19 +38,39 @@ Base URL：`https://omnimux.ai`
 | `schemaVersion` | 契约形态。`"2.0"` 表示 `operations` 是对象数组。 |
 | `contractVersion` | 每个模型独立的内容哈希；客户端可据此只缓存/刷新变化的模型。 |
 | `operations[]` | 可执行操作。每项含 `id`、`executable`、`inputs[]`、`parameters[]`、`output.type`。 |
+| `operations[].modeKind` | 可选的视频模式本地化键。Muse 图片参考使用 `image_reference`，Seedance 全能参考使用 `multimodal_reference`。提交请求时填写操作的 `id`。 |
 | `operation_ids[]` | 同一批操作 ID 的字符串数组，兼容 v1 客户端。 |
 | `unknowns[]` | 治理档案未建立的字段路径；缺失字段不是默认值。 |
 | `reference_images` / `reference_videos` / `reference_audios` | 参考素材数量、格式与大小上限。 |
 | `reasoning_efforts` | 可选：文本模型的推理档位到上游 wire value 的映射。 |
 | `default_reasoning_effort` | 可选：默认推理档位；存在时必须是 `reasoning_efforts` 的键。 |
 
-操作输入项包含 `slot`、`type`、`role`、`required`、`min`、`max`、`allowedMimes`、`maxSizeMb` 及已声明的时长边界。参数项包含 `name`、`type`、`enum`、`minimum`、`maximum`、`step`、`default`、`fixed`、`limitSource`。
+操作输入项包含 `slot`、`type`、`role`、`firstItemRole`、`required`、`min`、`max`、`allowedMimes`、`maxSizeMb` 及已声明的时长边界。参数项包含 `name`、`type`、`enum`、`minimum`、`maximum`、`step`、`default`、`fixed`、`limitSource`。
 
 `executable: false` 表示厂商文档列出了该操作，但本网关不支持执行；客户端不得提交。
 
+## 视频兼容选线试点
+
+试点按部署和模型启用。已启用的模型可在定价行的 `contract` 同级返回 `effective_video`。
+
+| 字段或状态 | 含义 |
+| --- | --- |
+| `effective_video.version` | 当前账号分组能力的内容版本。模型级契约版本取自 `contract.contractVersion`。 |
+| `effective_video.groups` | 按可选分组列出完整的操作变体。 |
+| 省略 `effective_video` | 沿用模型级 `contract` 和既有展示映射。 |
+| `groups` 为空对象或组内为空数组 | 空对象表示当前视角有零个可发布的分组。组内空数组表示该组有零个经核验的变体。 |
+
+多个变体可以共用一个操作 `id`。素材槽、数量及参数要同时匹配一个变体。参数带 `required: true` 时要显式传值。Muse 有序图片参考的 `firstItemRole: "first_frame"` 表示第一张用作起始图。
+
+目录反映查询时账号可用的分组。实际提交与重试按令牌权限和当前渠道状态匹配。可用的已核验候选均拒绝该组合时，返回 HTTP `400 video_capability_mismatch`。当前无经核验的候选可用时，返回 HTTP `503`。
+
+Seedance 2.5 试点请求带源视频或参考视频时，`operation` 填 `video_edit`、`video_extend` 或 `video_multi_ref`，网关据此确定上游任务类型。也可传对应的 `omni_reference_task_type` 值 `edit`、`extend` 或 `reference`。试点请求携带 `draft: true` 或非空 `draft_task_id` 时返回 HTTP `400`。
+
 ## 相关接口
 
-`GET /api/model_contract/:model` 返回单个模型的完整 v2 契约（`data.contract`）与文档版本（`data.version`）。模型没有治理档案时返回 `404`——缺失表示“未建立”，不是“不存在该能力”。
+`GET /api/model_contract/:model` 返回 `data.contract`，以及整份静态契约文档的版本 `data.version`。已启用试点的模型通过 `data.effective_video` 返回与定价模型行结构相同的账号分组能力。模型没有治理档案时返回 `404`。
+
+下方是试点响应节选，分组与版本值均为示例。
 
 <Panel>
 
@@ -96,6 +116,48 @@ curl --request GET \
         ],
         "operation_ids": ["text_to_image", "image_to_image"],
         "unknowns": []
+      }
+    }
+  ]
+}
+```
+
+```json 200 试点示例
+{
+  "success": true,
+  "data": [
+    {
+      "model_name": "muse-video",
+      "enable_groups": ["example-video"],
+      "contract": {
+        "model_id": "muse-video",
+        "schemaVersion": "2.0",
+        "contractVersion": "1111111111111111"
+      },
+      "effective_video": {
+        "version": "2222222222222222",
+        "groups": {
+          "example-video": [
+            {
+              "id": "video_multi_ref",
+              "modeKind": "image_reference",
+              "executable": true,
+              "inputs": [
+                { "slot": "prompt", "type": "text", "required": true },
+                {
+                  "slot": "reference_images", "type": "image", "role": "reference",
+                  "firstItemRole": "first_frame", "required": true, "min": 2, "max": 10,
+                  "allowedMimes": ["image/jpeg", "image/png", "image/webp"]
+                }
+              ],
+              "parameters": [
+                { "name": "duration", "type": "integer", "minimum": 1, "maximum": 60, "step": 1, "default": 5 },
+                { "name": "aspect_ratio", "type": "enum", "enum": ["16:9"], "required": true }
+              ],
+              "output": { "type": "video", "formats": ["mp4"] }
+            }
+          ]
+        }
       }
     }
   ]

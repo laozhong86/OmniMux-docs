@@ -92,7 +92,8 @@
                               "example": "tiktok_direct"
                             },
                             "status": {
-                              "type": "string"
+                              "type": "string",
+                              "description": "Stored or refreshed status. The gateway maps TikTok SEND_TO_USER_INBOX to processing and PUBLISH_COMPLETE to published when it refreshes upstream."
                             },
                             "provider_post_id": {
                               "type": "string"

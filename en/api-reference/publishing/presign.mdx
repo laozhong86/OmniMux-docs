@@ -5,7 +5,7 @@ description: "Media Presign — request an upload ticket"
 api: "POST https://omnimux.ai/api/social/v1/media/presign"
 ---
 
-Requests a one-time upload ticket for publishing media. The ticket signs against the gateway's own object storage, never a third-party bucket. After uploading, pass the returned `public_url` as the post's `media` reference.
+Request an upload ticket from the gateway’s object storage. After uploading, set `media_items[].url` in the create-post request to the returned `public_url`.
 
 ## Identity
 
@@ -47,7 +47,7 @@ The object key is generated server-side and cannot be chosen by the client.
 | `upload_url` | string | Target for the direct `PUT` |
 | `upload_method` | string | Usually `PUT` |
 | `headers` | object | Headers to send verbatim with the upload (`Content-Type`) |
-| `public_url` | string | Platform-readable URL; use it as the post `media` reference |
+| `public_url` | string | Platform-readable URL. Use it as `media_items[].url` when creating the post |
 | `key` | string | Server-generated object key |
 | `expires_in` | integer | Remaining ticket lifetime in seconds |
 | `filename` / `content_type` | string | Echo of the request values |
@@ -85,11 +85,11 @@ curl --request POST \
 {
   "success": true,
   "data": {
-    "upload_url": "https://storage.example/put/...",
+    "upload_url": "<upload_url>",
     "upload_method": "PUT",
     "headers": { "Content-Type": "video/mp4" },
-    "public_url": "https://media.omnimux.ai/social/7/20261113/....mp4",
-    "key": "social/7/20261113/3f1c9a7e-clip.mp4",
+    "public_url": "<public_url>",
+    "key": "<object_key>",
     "expires_in": 900,
     "filename": "clip.mp4",
     "content_type": "video/mp4"

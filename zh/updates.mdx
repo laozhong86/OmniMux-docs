@@ -9,16 +9,30 @@ rss: true
 
 分页：**第 1 页** · [第 2 页](/zh/updates/page-2)
 
+<a id="2026-11-20-video-mode-capabilities"></a>
+
+<Update label="2026 年 11 月 20 日" tags={["能力更新", "视频"]} rss={{ title: "视频模式语义与兼容选线试点" }}>
+
+  `GET /api/pricing` 和 `GET /api/model_contract/:model` 通过 `modeKind` 提供适用的模式语义。界面可用该字段显示名称，提交时仍填写操作的 `id`。
+
+  启用选线试点后，`effective_video` 列出各可选分组支持的完整素材与参数组合。网关在提交和重试时按同一套组合筛选候选。该字段缺省时，沿用模型级契约。
+
+  ### 链接
+
+  - [定价 API 文档](/zh/api-reference/account/pricing)
+
+</Update>
+
 <a id="2026-11-14-tiktok-draft-upload"></a>
 
 <Update label="2026 年 11 月 14 日" tags={["能力更新", "社媒发布"]} rss={{ title: "TikTok 官方直连上线：可连接账号并上传视频草稿" }}>
 
-  TikTok 生产审核于 **2026-11-12 12:52** 完成（版本 `7703706193873979412`，2026-11-03 09:12 提交，约 9 天 3 小时 40 分）。
+  TikTok 于 **2026 年 11 月 12 日** 批准账号连接和视频草稿上传。
 
   ### 能力
 
   - **连接账号（已上线）：** 通过 Login Kit + `user.info.basic` 完成 OAuth。
-  - **草稿上传（已上线）：** `video.upload` 通过 `/v2/post/publish/inbox/video/init/` 把单条视频送入创作者 TikTok 收件箱；创作者打开收件箱通知，在 TikTok 内编辑并完成发布。`content` 与 `tiktok_options` 不生效；状态先为 `processing`（含 `SEND_TO_USER_INBOX`），用户发布后为 `published`。
+  - **草稿上传（已上线）：** `video.upload` 通过 `/v2/post/publish/inbox/video/init/` 把单条视频送入创作者 TikTok 收件箱；创作者打开收件箱通知，在 TikTok 内编辑并完成发布。`content` 与 `tiktok_options` 不生效；新建帖子的初始状态为 `submitted`。刷新状态时，`SEND_TO_USER_INBOX` 映射为 `processing`，`PUBLISH_COMPLETE` 映射为 `published`。
   - **公开直发（未批准）：** `video.publish` / Direct Post 需 TikTok 另行审核。获批后，具备该 scope 的账号按隐私与互动设置直接发布。
 
   ### 限制
@@ -29,7 +43,7 @@ rss: true
   ### 集成说明
 
   - `GET /api/social/v1/accounts` 现在返回每个账号的 `capabilities.upload_draft` 与 `capabilities.publish_direct`。
-  - 没有任何发布 scope 的账号调用 `POST /posts` 返回 `409 SOCIAL_TIKTOK_SCOPE_MISSING`。
+  - 没有任何发布 scope 的账号调用 `POST /api/social/v1/posts` 返回 `409 SOCIAL_TIKTOK_SCOPE_MISSING`。
   - `GET /api/social/v1/status` 报告已配置的 `scopes`、`upload_draft`、`publish_direct` 与 `draft_only`。
 
   ### 链接
@@ -93,7 +107,7 @@ rss: true
   3. 历史账号与帖子记录保留在服务端，但不再可通过公开接口操作。
   4. CLI：`omnimux social accounts --provider tiktok_direct`。
 
-  TikTok 官方直连已于 2026-11-12 审核通过；当前提供草稿上传（`video.upload`），公开直发待 `video.publish` 审核，详见 TikTok 草稿上传更新。服务端保留 `SOCIAL_ZERNIO_ENABLED` 回滚开关供运营使用，不构成文档承诺。
+  TikTok 官方直连已于 2026-11-12 审核通过；当前提供草稿上传（`video.upload`），公开直发待 `video.publish` 审核，详见 TikTok 草稿上传更新。
 
   ### 链接
 
@@ -1185,37 +1199,6 @@ rss: true
   ### 链接
 
   - [Doubao 完整参数手册](/zh/api-reference/text-series/doubao/complete)
-
-</Update>
-
-<a id="2026-09-14-image-reference-fields"></a>
-
-<Update label="2026 年 9 月 14 日" tags={["能力更新", "图像"]} rss={{ title: "生图模型页补充参考图字段与上限说明" }}>
-
-  ## 本次变更
-
-  - 生图模型页新增参考图请求字段 `images`（`string[]`，图片 URL 或 base64），并写明可接受的别名 `image`、`image_urls`、`input_reference`；网关会在调用上游前统一归一为 `images`。
-  - 每页按厂商口径给出该模型的参考图上限：单次张数、下限、接受格式与单文件大小上限。
-
-  ## 不声明的上限
-
-  - 厂商未公布的项直接写“官方未公布”，不给数字，也不从同系列其他模型套用或取整。
-  - 尚无模型档案的模型，参考图说明标注为**未核验**，且完全不声明上限。
-
-  ## 撤回的数字
-
-  - 此前写出的单张参考图 50 MB 上限撤回。厂商图像指南中的该数字位于遮罩（mask）要求下，覆盖的是“被编辑图 + 其遮罩”，不是参考图上限。因此 `gpt-image-2.5` 不声明单文件大小上限。
-
-  ## 文档
-
-  - 图像系列模型页：`/zh/api-reference/image-series/models/*`
-  - GPT Image 图像生成：`/zh/api-reference/image-series/gpt-image/generate`
-
-  ### 链接
-
-  - [图像系列模型页](/zh/api-reference/image-series/models/nano-banana-2)
-  - [GPT Image 图像生成](/zh/api-reference/image-series/gpt-image/generate)
-  - [Midjourney 生图](/zh/api-reference/image-series/models/midjourney)
 
 </Update>
 

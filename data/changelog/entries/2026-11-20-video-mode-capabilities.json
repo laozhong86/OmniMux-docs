@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "id": "2026-11-20-video-mode-capabilities",
+  "published_at": "2026-11-20",
+  "rank": 0,
+  "type": "capability",
+  "modality": [
+    "video"
+  ],
+  "title": {
+    "en": "Video mode semantics and compatible routing pilot",
+    "zh": "视频模式语义与兼容选线试点"
+  },
+  "summary": {
+    "en": "Contract v2 adds display semantics for Muse and Seedance 2.5 video modes. Deployments can opt in to group-level capabilities and compatible routing.",
+    "zh": "Contract v2 为 Muse 和 Seedance 2.5 提供视频模式语义。启用试点的部署可按分组发布操作能力并筛选兼容线路。"
+  },
+  "models": [
+    "muse-video",
+    "seedance-2-5"
+  ],
+  "links": [
+    {
+      "label": {
+        "en": "Pricing API reference",
+        "zh": "定价 API 文档"
+      },
+      "href": {
+        "en": "/en/api-reference/account/pricing",
+        "zh": "/zh/api-reference/account/pricing"
+      }
+    }
+  ],
+  "tags": [
+    "api",
+    "contract",
+    "routing"
+  ],
+  "body": {
+    "en": "`GET /api/pricing` and `GET /api/model_contract/:model` expose `modeKind` for supported video operations. Use it for labels and send the operation's `id` in generation requests.\n\nWhen the routing pilot is enabled, `effective_video` lists the complete media and parameter combinations available for each selectable group. The gateway checks the same combinations when selecting candidates for submissions and retries. When the field is absent, use the model-level contract.",
+    "zh": "`GET /api/pricing` 和 `GET /api/model_contract/:model` 通过 `modeKind` 提供适用的模式语义。界面可用该字段显示名称，提交时仍填写操作的 `id`。\n\n启用选线试点后，`effective_video` 列出各可选分组支持的完整素材与参数组合。网关在提交和重试时按同一套组合筛选候选。该字段缺省时，沿用模型级契约。"
+  }
+}

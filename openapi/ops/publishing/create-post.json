@@ -63,7 +63,8 @@
                               "example": "tiktok_direct"
                             },
                             "status": {
-                              "type": "string"
+                              "type": "string",
+                              "description": "A newly created post starts as submitted. An idempotent replay can return a later stored status."
                             },
                             "provider_post_id": {
                               "type": "string"
@@ -286,7 +287,7 @@
             }
           },
           "409": {
-            "description": "Account, post or idempotency source/account-set mismatch.",
+            "description": "Source or account-set conflict, or the TikTok account lacks both publishing scopes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -310,10 +311,23 @@
                     "message"
                   ]
                 },
-                "example": {
-                  "success": false,
-                  "code": "account-provider-mismatch",
-                  "message": "account-provider-mismatch"
+                "examples": {
+                  "accountProviderMismatch": {
+                    "summary": "The account belongs to a different source",
+                    "value": {
+                      "success": false,
+                      "code": "account-provider-mismatch",
+                      "message": "account-provider-mismatch"
+                    }
+                  },
+                  "tiktokPublishScopeMissing": {
+                    "summary": "TikTok account lacks a publishing scope",
+                    "value": {
+                      "success": false,
+                      "code": "SOCIAL_TIKTOK_SCOPE_MISSING",
+                      "message": "tiktok account has no publishing scope; reconnect after video.upload or video.publish is granted"
+                    }
+                  }
                 }
               }
             }
@@ -372,22 +386,7 @@
                   },
                   "content": {
                     "type": "string",
-                    "description": "Caption. Use content, not text."
-                  },
-                  "publish_now": {
-                    "type": "boolean",
-                    "default": true
-                  },
-                  "scheduled_for": {
-                    "type": "string",
-                    "description": "Setting this makes publish_now false."
-                  },
-                  "timezone": {
-                    "type": "string"
-                  },
-                  "queued": {
-                    "type": "boolean",
-                    "default": false
+                    "description": "Optional caption for Direct Post. Draft upload ignores this field."
                   },
                   "media_items": {
                     "type": "array",
@@ -396,31 +395,84 @@
                       "properties": {
                         "url": {
                           "type": "string",
-                          "format": "uri"
+                          "format": "uri",
+                          "description": "The public_url returned by Media Presign. Upload the file successfully before submitting the post."
                         },
                         "type": {
-                          "type": "string"
+                          "type": "string",
+                          "description": "Optional media type, such as video or image."
                         }
                       },
                       "required": [
                         "url"
                       ]
                     },
-                    "description": "Official TikTok requires media. Existing provider-specific media and scheduling behavior applies."
+                    "description": "Required TikTok media. Draft upload accepts exactly one video. Direct Post accepts one video or a set of photos.",
+                    "minItems": 1
+                  },
+                  "tiktok_options": {
+                    "type": "object",
+                    "description": "Privacy, interaction and disclosure settings for accounts with video.publish. Draft upload ignores this object.",
+                    "properties": {
+                      "privacy_level": {
+                        "type": "string",
+                        "enum": [
+                          "PUBLIC_TO_EVERYONE",
+                          "MUTUAL_FOLLOW_FRIENDS",
+                          "FOLLOWER_OF_CREATOR",
+                          "SELF_ONLY"
+                        ],
+                        "default": "SELF_ONLY",
+                        "description": "Select a visibility level available to the TikTok account."
+                      },
+                      "allow_comment": {
+                        "type": "boolean",
+                        "description": "Allow comments."
+                      },
+                      "allow_duet": {
+                        "type": "boolean",
+                        "description": "Allow Duet on video posts."
+                      },
+                      "allow_stitch": {
+                        "type": "boolean",
+                        "description": "Allow Stitch on video posts."
+                      },
+                      "commercial_content": {
+                        "type": "boolean",
+                        "description": "Enable commercial disclosure. When true, also set your_brand or branded_content to true."
+                      },
+                      "your_brand": {
+                        "type": "boolean",
+                        "description": "Disclose promotion of your own brand."
+                      },
+                      "branded_content": {
+                        "type": "boolean",
+                        "description": "Disclose promotion of a third-party brand. When true, choose a privacy level other than SELF_ONLY."
+                      },
+                      "music_usage_confirmed": {
+                        "type": "boolean",
+                        "description": "Indicates confirmation of music usage. The gateway rejects an explicit false."
+                      }
+                    }
                   }
                 },
                 "required": [
                   "provider",
-                  "account_ids"
+                  "account_ids",
+                  "media_items"
                 ]
               },
               "example": {
                 "provider": "tiktok_direct",
-                "content": "Your original post",
                 "account_ids": [
                   123
                 ],
-                "publish_now": true
+                "media_items": [
+                  {
+                    "url": "https://example.invalid/clip.mp4",
+                    "type": "video"
+                  }
+                ]
               }
             }
           }
@@ -429,9 +481,10 @@
           {
             "lang": "curl",
             "label": "cURL",
-            "source": "curl --request POST \\\n  --url \"https://omnimux.ai/api/social/v1/posts\" \\\n  --header 'Authorization: Bearer <user-access-token>' \\\n  --header 'New-Api-User: <user-id>' \\\n  --header 'Content-Type: application/json' \\\n  --data '{\"provider\":\"tiktok_direct\",\"content\":\"Your original post\",\"account_ids\":[123],\"publish_now\":true}'"
+            "source": "curl --request POST \\\n  --url \"https://omnimux.ai/api/social/v1/posts\" \\\n  --header 'Authorization: Bearer <user-access-token>' \\\n  --header 'New-Api-User: <user-id>' \\\n  --header 'Content-Type: application/json' \\\n  --data '{\"provider\":\"tiktok_direct\",\"account_ids\":[123],\"media_items\":[{\"url\":\"https://example.invalid/clip.mp4\",\"type\":\"video\"}]}'"
           }
-        ]
+        ],
+        "description": "After validation, the gateway submits the request to TikTok immediately. The account’s publishing capabilities determine the mode. Use Get Post to track the outcome."
       }
     }
   },

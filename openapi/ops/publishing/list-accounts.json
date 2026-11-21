@@ -82,13 +82,32 @@
                                   },
                                   "status": {
                                     "type": "string"
+                                  },
+                                  "capabilities": {
+                                    "type": "object",
+                                    "description": "TikTok publishing capabilities available to this account. Direct Post takes precedence when both are true.",
+                                    "properties": {
+                                      "upload_draft": {
+                                        "type": "boolean",
+                                        "description": "The account can upload a video draft to its TikTok inbox (video.upload)."
+                                      },
+                                      "publish_direct": {
+                                        "type": "boolean",
+                                        "description": "The account can submit a TikTok Direct Post (video.publish)."
+                                      }
+                                    },
+                                    "required": [
+                                      "upload_draft",
+                                      "publish_direct"
+                                    ]
                                   }
                                 },
                                 "required": [
                                   "id",
                                   "provider",
                                   "platform",
-                                  "status"
+                                  "status",
+                                  "capabilities"
                                 ]
                               }
                             }

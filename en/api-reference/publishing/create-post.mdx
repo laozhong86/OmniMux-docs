@@ -7,16 +7,16 @@ openapi: "openapi/ops/publishing/create-post.json POST /api/social/v1/posts"
 
 Every target account must belong to the requested source. An idempotent replay also verifies the stored source and account set; conflicts return 409.
 
-For media, call [Media Presign](/en/api-reference/publishing/presign) first and pass the returned `public_url` as the `media` reference. Do not submit when the upload failed or the object is unreadable.
+Call [Media Presign](/en/api-reference/publishing/presign) and upload the file. Set `media_items[].url` to the returned `public_url`. Submit the post only after the upload succeeds and the object is readable.
 
-TikTok routes by the account's granted capability:
+After validation, the gateway submits the request to TikTok immediately. It selects the mode from the account's publishing capabilities.
 
 | Account capability | Behavior |
 | --- | --- |
-| `video.upload` (currently approved) | **Draft upload**: the video lands in the creator's TikTok inbox and the creator finishes editing and posting inside TikTok. One video per request; `content` and `tiktok_options` do not apply |
-| `video.publish` (separate review required) | **Direct Post**: submits with `tiktok_options` privacy and interaction settings; supports video and photo posts |
+| `video.upload` only (currently approved) | **Draft upload** sends one video to the creator's TikTok inbox for editing and posting in TikTok. Draft mode ignores `content` and `tiktok_options` |
+| `video.publish` (separate review required) | **Direct Post** takes precedence when both scopes are present. It supports video and photo posts with privacy and interaction settings in `tiktok_options` |
 
-An account without a publishing scope returns 409 `SOCIAL_TIKTOK_SCOPE_MISSING`. Draft mode reports `processing` first (including `SEND_TO_USER_INBOX`) and `published` after the creator completes the post.
+An account without either publishing scope returns 409 `SOCIAL_TIKTOK_SCOPE_MISSING`. A newly created post starts as `submitted`. When [Get Post](/en/api-reference/publishing/get-post) refreshes the status, the gateway maps TikTok's `SEND_TO_USER_INBOX` to `processing` and `PUBLISH_COMPLETE` to `published`.
 
 `provider` is required and has one current value, `tiktok_direct`. A retired source identifier returns 410 `provider-retired`; missing or unknown values return 400 `invalid-provider`.
 

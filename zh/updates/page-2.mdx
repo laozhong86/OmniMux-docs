@@ -9,6 +9,37 @@ rss: true
 
 分页：[第 1 页](/zh/updates) · **第 2 页**
 
+<a id="2026-09-14-image-reference-fields"></a>
+
+<Update label="2026 年 9 月 14 日" tags={["能力更新", "图像"]} rss={{ title: "生图模型页补充参考图字段与上限说明" }}>
+
+  ## 本次变更
+
+  - 生图模型页新增参考图请求字段 `images`（`string[]`，图片 URL 或 base64），并写明可接受的别名 `image`、`image_urls`、`input_reference`；网关会在调用上游前统一归一为 `images`。
+  - 每页按厂商口径给出该模型的参考图上限：单次张数、下限、接受格式与单文件大小上限。
+
+  ## 不声明的上限
+
+  - 厂商未公布的项直接写“官方未公布”，不给数字，也不从同系列其他模型套用或取整。
+  - 尚无模型档案的模型，参考图说明标注为**未核验**，且完全不声明上限。
+
+  ## 撤回的数字
+
+  - 此前写出的单张参考图 50 MB 上限撤回。厂商图像指南中的该数字位于遮罩（mask）要求下，覆盖的是“被编辑图 + 其遮罩”，不是参考图上限。因此 `gpt-image-2.5` 不声明单文件大小上限。
+
+  ## 文档
+
+  - 图像系列模型页：`/zh/api-reference/image-series/models/*`
+  - GPT Image 图像生成：`/zh/api-reference/image-series/gpt-image/generate`
+
+  ### 链接
+
+  - [图像系列模型页](/zh/api-reference/image-series/models/nano-banana-2)
+  - [GPT Image 图像生成](/zh/api-reference/image-series/gpt-image/generate)
+  - [Midjourney 生图](/zh/api-reference/image-series/models/midjourney)
+
+</Update>
+
 <a id="2026-09-13-midjourney-two-ids"></a>
 
 <Update label="2026 年 9 月 13 日" tags={["不兼容变更", "图像"]} rss={{ title: "Midjourney 收敛为两个版本 ID，动作改为按请求选择" }}>

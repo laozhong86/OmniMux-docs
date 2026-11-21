@@ -9,6 +9,37 @@ Stay up to date with OmniMux gateway model launches and platform changes. The fu
 
 Pages: [Page 1](/en/updates) · **Page 2**
 
+<a id="2026-09-14-image-reference-fields"></a>
+
+<Update label="September 14, 2026" tags={["Improvements", "Image"]} rss={{ title: "Image model pages now document the reference-image field and its limits" }}>
+
+  ## What changed
+
+  - Image-generation model pages now document the reference-image request field `images` (`string[]`, image URL or base64) together with the accepted aliases `image`, `image_urls` and `input_reference`, which the gateway normalizes to `images` before the upstream call.
+  - Each page states the limits its vendor publishes for that model: maximum count, minimum, accepted formats and per-file size ceiling.
+
+  ## Limits we do not state
+
+  - Where a value is not published by the vendor, the page says so instead of carrying a number; nothing is rounded or copied from a sibling model.
+  - Where no model spec exists yet, the reference-image note marks the capability **unverified** and states no limit at all.
+
+  ## Withdrawn figure
+
+  - The previously stated per-file reference-image cap of 50 MB is withdrawn. In the vendor's image guide that figure sits under mask requirements and covers the image being edited together with its mask; it is not a reference-image ceiling. `gpt-image-2.5` therefore carries no per-file size limit.
+
+  ## Documentation
+
+  - Image series model pages: `/en/api-reference/image-series/models/*`
+  - GPT Image generation: `/en/api-reference/image-series/gpt-image/generate`
+
+  ### Links
+
+  - [Image series model pages](/en/api-reference/image-series/models/nano-banana-2)
+  - [GPT Image generation](/en/api-reference/image-series/gpt-image/generate)
+  - [Midjourney image generation](/en/api-reference/image-series/models/midjourney)
+
+</Update>
+
 <a id="2026-09-13-midjourney-two-ids"></a>
 
 <Update label="September 13, 2026" tags={["Breaking", "Image"]} rss={{ title: "Midjourney now uses two version IDs with per-request actions" }}>
