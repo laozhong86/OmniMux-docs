@@ -1166,6 +1166,871 @@
       "permanent": true
     },
     {
+      "source": "/en/api-reference/publishing/posts",
+      "destination": "/en/api-reference/publishing/create-post",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/video-series/models/minimax-h3-t2v-async.md",
+      "destination": "/zh/api-reference/video-series/models/minimax-h3-t2v",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/text-series/models/kimi-k2.7-code",
+      "destination": "/en/api-reference/text-series/kimi/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/guides/authentication",
+      "destination": "/en/faqs/connection-usage",
+      "permanent": true
+    },
+    {
+      "source": "/api-reference/video-kling/kling-文生视频",
+      "destination": "/zh/api-reference/video-series/models/kling-v3",
+      "permanent": true
+    },
+    {
+      "source": "/api-reference/images/编辑图像qwen-image-edit",
+      "destination": "/zh/api-reference/image-series/models/qwen-image-3-0",
+      "permanent": true
+    },
+    {
+      "source": "/cn/guides/base-url",
+      "destination": "/zh/faqs/connection-usage",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/video-series/models/minimax-h3-t2v-async",
+      "destination": "/zh/api-reference/video-series/models/minimax-h3-t2v",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/text-series/models/kimi-k3",
+      "destination": "/en/api-reference/text-series/kimi/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/video-series/models/minimax-h3-fl2va-async",
+      "destination": "/en/api-reference/video-series/models/minimax-h3-fl2va",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/text-series/models/claude-opus-5",
+      "destination": "/en/api-reference/text-series/claude/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/text-series/models/gpt-5.5",
+      "destination": "/en/api-reference/text-series/gpt/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/video-series/models/minimax-h3-flf-async",
+      "destination": "/en/api-reference/video-series/models/minimax-h3-flf",
+      "permanent": true
+    },
+    {
+      "source": "/api-reference/claude/claude-聊天",
+      "destination": "/zh/api-reference/text-series/claude/complete",
+      "permanent": true
+    },
+    {
+      "source": "/api-reference/models/gemini-格式获取",
+      "destination": "/zh/api-reference/text-series/gemini/complete",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/publishing/posts.md",
+      "destination": "/zh/api-reference/publishing/create-post",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/video-series/models/ltx2.3-kj-async",
+      "destination": "/en/api-reference/video-series/models/ltx-2-3-kj",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/video-series/models/minimax-h3-t2v-async",
+      "destination": "/en/api-reference/video-series/models/minimax-h3-t2v",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/video-series/models/minimax-h3-endframe-async",
+      "destination": "/en/api-reference/video-series/models/minimax-h3-endframe",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/image-series/models/zimage-makeup-async",
+      "destination": "/en/api-reference/image-series/models/zimage-makeup",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/publishing/connecting-accounts.md",
+      "destination": "/zh/api-reference/publishing/start-connect",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/tasks/video-content",
+      "destination": "/en/api-reference/tasks/video-task",
+      "permanent": true
+    },
+    {
+      "source": "/cn/guides/models",
+      "destination": "/zh/api-reference/account/pricing",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/publishing/overview",
+      "destination": "/en/api-reference/publishing/start-connect",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/tasks/overview",
+      "destination": "/en/api-reference/tasks/video-task",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/tasks/video-content",
+      "destination": "/zh/api-reference/tasks/video-task",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/text-series/models/gemini-3-flash-preview",
+      "destination": "/en/api-reference/text-series/gemini/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/account/overview",
+      "destination": "/en/api-reference/account/balance",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/text-series/models/gemini-3-flash-preview.md",
+      "destination": "/en/api-reference/text-series/gemini/complete",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/image-series/models/zimage-makeup-async.md",
+      "destination": "/zh/api-reference/image-series/models/zimage-makeup",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/publishing/posts",
+      "destination": "/zh/api-reference/publishing/create-post",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/video-series/models/minimax-h3-flf-async",
+      "destination": "/zh/api-reference/video-series/models/minimax-h3-flf",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/publishing/connecting-accounts",
+      "destination": "/zh/api-reference/publishing/start-connect",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/tasks/overview",
+      "destination": "/zh/api-reference/tasks/video-task",
+      "permanent": true
+    },
+    {
+      "source": "/api-reference/video/获取视频生成任务状态",
+      "destination": "/zh/api-reference/tasks/video-task",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/text-series/models/claude-opus-4-6",
+      "destination": "/zh/api-reference/text-series/claude/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/text-series/models/claude-fable-5",
+      "destination": "/en/api-reference/text-series/claude/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/guides/base-url",
+      "destination": "/en/faqs/connection-usage",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/text-series/models/gemini-3-flash",
+      "destination": "/zh/api-reference/text-series/gemini/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/text-series/models/claude-sonnet-4-6",
+      "destination": "/en/api-reference/text-series/claude/complete",
+      "permanent": true
+    },
+    {
+      "source": "/api-reference/audio/音频转录",
+      "destination": "/zh/api-reference/audio-series/models/whisper-1",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/text-series/models/gemini-2.5-flash-lite",
+      "destination": "/en/api-reference/text-series/gemini/complete",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/text-series/models/minimax-m2.7",
+      "destination": "/zh/api-reference/text-series/minimax/complete",
+      "permanent": true
+    },
+    {
+      "source": "/api-reference/video-kling/kling-图生视频",
+      "destination": "/zh/api-reference/video-series/models/kling-v3",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/video-series/models/ltx2.3-kj-async",
+      "destination": "/zh/api-reference/video-series/models/ltx-2-3-kj",
+      "permanent": true
+    },
+    {
+      "source": "/api-reference/responses/压缩对话-openai-responses-api",
+      "destination": "/zh/api-reference/text-series/gpt/complete",
+      "permanent": true
+    },
+    {
+      "source": "/api-reference/images/生成图像qwen-image",
+      "destination": "/zh/api-reference/image-series/models/qwen-image-3-0",
+      "permanent": true
+    },
+    {
+      "source": "/cn/guides/authentication",
+      "destination": "/zh/faqs/connection-usage",
+      "permanent": true
+    },
+    {
+      "source": "/api-reference/responses/创建响应-openai-responses-api",
+      "destination": "/zh/api-reference/text-series/gpt/complete",
+      "permanent": true
+    },
+    {
+      "source": "/api-reference/audio/文本转语音",
+      "destination": "/zh/api-reference/audio-series/models/gpt-4o-mini-tts",
+      "permanent": true
+    },
+    {
+      "source": "/api-reference/gemini/gemini-嵌入embeddings",
+      "destination": "/zh/api-reference/text-series/gemini/complete",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/publishing/overview",
+      "destination": "/zh/api-reference/publishing/start-connect",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/video-series/models/minimax-h3-fl2va-async",
+      "destination": "/zh/api-reference/video-series/models/minimax-h3-fl2va",
+      "permanent": true
+    },
+    {
+      "source": "/api-reference/video-kling/获取-kling-文生视频任务状态",
+      "destination": "/zh/api-reference/video-series/models/kling-v3",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/video-series/models/minimax-h3-endframe-async",
+      "destination": "/zh/api-reference/video-series/models/minimax-h3-endframe",
+      "permanent": true
+    },
+    {
+      "source": "/api-reference/video-kling/获取-kling-图生视频任务状态",
+      "destination": "/zh/api-reference/video-series/models/kling-v3",
+      "permanent": true
+    },
+    {
+      "source": "/api-reference/gemini/gemini-图片nano-banana",
+      "destination": "/zh/api-reference/image-series/models/nano-banana-2",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/image-series/models/zimage-makeup-async",
+      "destination": "/zh/api-reference/image-series/models/zimage-makeup",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/text-series/models/claude-sonnet-4-6",
+      "destination": "/zh/api-reference/text-series/claude/complete",
+      "permanent": true
+    },
+    {
+      "source": "/api-reference/chat/创建聊天对话",
+      "destination": "/zh/api-reference/text-series/gpt/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/text-series/models/claude-opus-4-6",
+      "destination": "/en/api-reference/text-series/claude/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/guides/base-url.md",
+      "destination": "/en/faqs/connection-usage",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/video-series/models/minimax-h3-fl2va-async.md",
+      "destination": "/en/api-reference/video-series/models/minimax-h3-fl2va",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/text-series/models/claude-opus-4-8",
+      "destination": "/zh/api-reference/text-series/claude/complete",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/account/overview.md",
+      "destination": "/zh/api-reference/account/balance",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/tasks/overview.md",
+      "destination": "/zh/api-reference/tasks/video-task",
+      "permanent": true
+    },
+    {
+      "source": "/api-reference/responses/创建响应-openai-responses-api.md",
+      "destination": "/zh/api-reference/text-series/gpt/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/tasks/overview.md",
+      "destination": "/en/api-reference/tasks/video-task",
+      "permanent": true
+    },
+    {
+      "source": "/api-reference/chat/创建聊天对话.md",
+      "destination": "/zh/api-reference/text-series/gpt/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/tasks/video-content.md",
+      "destination": "/en/api-reference/tasks/video-task",
+      "permanent": true
+    },
+    {
+      "source": "/api-reference/video-kling/获取-kling-文生视频任务状态.md",
+      "destination": "/zh/api-reference/video-series/models/kling-v3",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/account/overview.md",
+      "destination": "/en/api-reference/account/balance",
+      "permanent": true
+    },
+    {
+      "source": "/api-reference/video/获取视频生成任务状态.md",
+      "destination": "/zh/api-reference/tasks/video-task",
+      "permanent": true
+    },
+    {
+      "source": "/api-reference/video-kling/kling-文生视频.md",
+      "destination": "/zh/api-reference/video-series/models/kling-v3",
+      "permanent": true
+    },
+    {
+      "source": "/api-reference/images/生成图像qwen-image.md",
+      "destination": "/zh/api-reference/image-series/models/qwen-image-3-0",
+      "permanent": true
+    },
+    {
+      "source": "/cn/guides/base-url.md",
+      "destination": "/zh/faqs/connection-usage",
+      "permanent": true
+    },
+    {
+      "source": "/api-reference/audio/文本转语音.md",
+      "destination": "/zh/api-reference/audio-series/models/gpt-4o-mini-tts",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/video-series/models/minimax-h3-t2v-async.md",
+      "destination": "/en/api-reference/video-series/models/minimax-h3-t2v",
+      "permanent": true
+    },
+    {
+      "source": "/api-reference/images/编辑图像qwen-image-edit.md",
+      "destination": "/zh/api-reference/image-series/models/qwen-image-3-0",
+      "permanent": true
+    },
+    {
+      "source": "/cn/guides/authentication.md",
+      "destination": "/zh/faqs/connection-usage",
+      "permanent": true
+    },
+    {
+      "source": "/api-reference/gemini/gemini-图片nano-banana.md",
+      "destination": "/zh/api-reference/image-series/models/nano-banana-2",
+      "permanent": true
+    },
+    {
+      "source": "/api-reference/gemini/gemini-嵌入embeddings.md",
+      "destination": "/zh/api-reference/text-series/gemini/complete",
+      "permanent": true
+    },
+    {
+      "source": "/api-reference/responses/压缩对话-openai-responses-api.md",
+      "destination": "/zh/api-reference/text-series/gpt/complete",
+      "permanent": true
+    },
+    {
+      "source": "/api-reference/models/gemini-格式获取.md",
+      "destination": "/zh/api-reference/text-series/gemini/complete",
+      "permanent": true
+    },
+    {
+      "source": "/api-reference/completions/创建文本补全",
+      "destination": "/zh/api-reference/text-series/gpt/complete",
+      "permanent": true
+    },
+    {
+      "source": "/api-reference/claude/claude-聊天.md",
+      "destination": "/zh/api-reference/text-series/claude/complete",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/account/overview",
+      "destination": "/zh/api-reference/account/balance",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/text-series/models/kimi-k2.6",
+      "destination": "/zh/api-reference/text-series/kimi/complete",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/text-series/models/deepseek-v4-pro",
+      "destination": "/zh/api-reference/text-series/deepseek/complete",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/text-series/models/minimax-m2.5",
+      "destination": "/zh/api-reference/text-series/minimax/complete",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/text-series/models/grok-composer-2.5-fast",
+      "destination": "/zh/api-reference/text-series/grok/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/text-series/models/grok-build-0.1",
+      "destination": "/en/api-reference/text-series/grok/complete",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/text-series/models/deepseek-v4-flash",
+      "destination": "/zh/api-reference/text-series/deepseek/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/text-series/models/deepseek-v4-flash",
+      "destination": "/en/api-reference/text-series/deepseek/complete",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/text-series/models/gpt-5.6-sol",
+      "destination": "/zh/api-reference/text-series/gpt/complete",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/text-series/models/claude-fable-5",
+      "destination": "/zh/api-reference/text-series/claude/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/text-series/models/grok-composer-2.5-fast",
+      "destination": "/en/api-reference/text-series/grok/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/text-series/models/deepseek-v4-pro",
+      "destination": "/en/api-reference/text-series/deepseek/complete",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/text-series/models/grok-4.3",
+      "destination": "/zh/api-reference/text-series/grok/complete",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/text-series/models/grok-4.5",
+      "destination": "/zh/api-reference/text-series/grok/complete",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/text-series/models/gemini-3-flash-preview",
+      "destination": "/zh/api-reference/text-series/gemini/complete",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/text-series/models/gpt-5.4-mini",
+      "destination": "/zh/api-reference/text-series/gpt/complete",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/text-series/models/claude-opus-5",
+      "destination": "/zh/api-reference/text-series/claude/complete",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/text-series/models/grok-4.20-multi-agent-0309",
+      "destination": "/zh/api-reference/text-series/grok/complete",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/text-series/models/grok-build-0.1",
+      "destination": "/zh/api-reference/text-series/grok/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/video-series/models/minimax-h3-endframe-async.md",
+      "destination": "/en/api-reference/video-series/models/minimax-h3-endframe",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/video-series/models/minimax-h3-fl2va-async.md",
+      "destination": "/zh/api-reference/video-series/models/minimax-h3-fl2va",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/text-series/models/gemini-3.1-pro-preview",
+      "destination": "/zh/api-reference/text-series/gemini/complete",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/text-series/models/kimi-k3",
+      "destination": "/zh/api-reference/text-series/kimi/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/video-series/models/minimax-h3-flf-async.md",
+      "destination": "/en/api-reference/video-series/models/minimax-h3-flf",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/text-series/models/gemini-2.5-flash",
+      "destination": "/en/api-reference/text-series/gemini/complete",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/text-series/models/glm-5.1",
+      "destination": "/zh/api-reference/text-series/glm/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/text-series/models/gemini-3.6-flash",
+      "destination": "/en/api-reference/text-series/gemini/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/text-series/models/gemini-3.1-flash-lite-preview",
+      "destination": "/en/api-reference/text-series/gemini/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/text-series/models/grok-4.20-multi-agent-0309",
+      "destination": "/en/api-reference/text-series/grok/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/text-series/models/gemini-3-pro-preview",
+      "destination": "/en/api-reference/text-series/gemini/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/text-series/models/grok-4.5",
+      "destination": "/en/api-reference/text-series/grok/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/text-series/models/kimi-k2.6",
+      "destination": "/en/api-reference/text-series/kimi/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/text-series/models/claude-haiku-4-5",
+      "destination": "/en/api-reference/text-series/claude/complete",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/text-series/models/gemini-2.5-pro",
+      "destination": "/zh/api-reference/text-series/gemini/complete",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/text-series/models/gemini-2.5-flash-lite",
+      "destination": "/zh/api-reference/text-series/gemini/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/text-series/models/gpt-5.4",
+      "destination": "/en/api-reference/text-series/gpt/complete",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/text-series/models/gemini-3.1-flash-lite-preview",
+      "destination": "/zh/api-reference/text-series/gemini/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/text-series/models/gpt-5.6-luna",
+      "destination": "/en/api-reference/text-series/gpt/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/text-series/models/gemini-3-flash",
+      "destination": "/en/api-reference/text-series/gemini/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/text-series/models/minimax-m3",
+      "destination": "/en/api-reference/text-series/minimax/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/text-series/models/claude-opus-4-8",
+      "destination": "/en/api-reference/text-series/claude/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/text-series/models/gemini-3-pro",
+      "destination": "/en/api-reference/text-series/gemini/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/text-series/models/gemini-3.5-flash",
+      "destination": "/en/api-reference/text-series/gemini/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/text-series/models/gpt-5.6-terra",
+      "destination": "/en/api-reference/text-series/gpt/complete",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/text-series/models/gemini-3.6-flash",
+      "destination": "/zh/api-reference/text-series/gemini/complete",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/text-series/models/gemini-3-pro",
+      "destination": "/zh/api-reference/text-series/gemini/complete",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/text-series/models/minimax-m3",
+      "destination": "/zh/api-reference/text-series/minimax/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/text-series/models/gemini-2.5-pro",
+      "destination": "/en/api-reference/text-series/gemini/complete",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/text-series/models/gpt-5.5",
+      "destination": "/zh/api-reference/text-series/gpt/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/text-series/models/claude-opus-4-7",
+      "destination": "/en/api-reference/text-series/claude/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/text-series/models/grok-4.20-0309-non-reasoning",
+      "destination": "/en/api-reference/text-series/grok/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/text-series/models/glm-5.2",
+      "destination": "/en/api-reference/text-series/glm/complete",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/text-series/models/grok-4.20-0309-reasoning",
+      "destination": "/zh/api-reference/text-series/grok/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/text-series/models/claude-sonnet-5",
+      "destination": "/en/api-reference/text-series/claude/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/guides/authentication.md",
+      "destination": "/en/faqs/connection-usage",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/text-series/models/glm-5.2",
+      "destination": "/zh/api-reference/text-series/glm/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/text-series/models/minimax-m2.5",
+      "destination": "/en/api-reference/text-series/minimax/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/text-series/models/glm-5.1",
+      "destination": "/en/api-reference/text-series/glm/complete",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/text-series/models/kimi-k2.7-code",
+      "destination": "/zh/api-reference/text-series/kimi/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/text-series/models/minimax-m2.7",
+      "destination": "/en/api-reference/text-series/minimax/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/text-series/models/grok-4.20-0309-reasoning",
+      "destination": "/en/api-reference/text-series/grok/complete",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/text-series/models/claude-opus-4-7",
+      "destination": "/zh/api-reference/text-series/claude/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/text-series/models/gemini-3.1-pro",
+      "destination": "/en/api-reference/text-series/gemini/complete",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/text-series/models/gpt-5.4",
+      "destination": "/zh/api-reference/text-series/gpt/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/text-series/models/grok-4.3",
+      "destination": "/en/api-reference/text-series/grok/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/text-series/models/gemini-3.1-pro-preview",
+      "destination": "/en/api-reference/text-series/gemini/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/text-series/models/gpt-5.6-sol",
+      "destination": "/en/api-reference/text-series/gpt/complete",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/text-series/models/claude-haiku-4-5",
+      "destination": "/zh/api-reference/text-series/claude/complete",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/text-series/models/gpt-5.6-terra",
+      "destination": "/zh/api-reference/text-series/gpt/complete",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/text-series/models/gemini-3.1-flash-lite",
+      "destination": "/zh/api-reference/text-series/gemini/complete",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/text-series/models/gemini-3.1-pro",
+      "destination": "/zh/api-reference/text-series/gemini/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/text-series/models/gemini-3.1-flash-lite",
+      "destination": "/en/api-reference/text-series/gemini/complete",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/text-series/models/gemini-3.5-flash",
+      "destination": "/zh/api-reference/text-series/gemini/complete",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/text-series/models/gemini-3-pro-preview",
+      "destination": "/zh/api-reference/text-series/gemini/complete",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/text-series/models/gpt-5.6-luna",
+      "destination": "/zh/api-reference/text-series/gpt/complete",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/text-series/models/claude-sonnet-5",
+      "destination": "/zh/api-reference/text-series/claude/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/text-series/models/claude-opus-4-6.md",
+      "destination": "/en/api-reference/text-series/claude/complete",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/text-series/models/claude-opus-4-6.md",
+      "destination": "/zh/api-reference/text-series/claude/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/text-series/models/gemini-2.5-flash-lite.md",
+      "destination": "/en/api-reference/text-series/gemini/complete",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/text-series/models/claude-opus-4-8.md",
+      "destination": "/zh/api-reference/text-series/claude/complete",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/text-series/models/minimax-m2.7.md",
+      "destination": "/zh/api-reference/text-series/minimax/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/text-series/models/claude-fable-5.md",
+      "destination": "/en/api-reference/text-series/claude/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/text-series/models/kimi-k2.7-code.md",
+      "destination": "/en/api-reference/text-series/kimi/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/text-series/models/gpt-5.4-mini",
+      "destination": "/en/api-reference/text-series/gpt/complete",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/text-series/models/kimi-k3.md",
+      "destination": "/en/api-reference/text-series/kimi/complete",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/text-series/models/gemini-2.5-flash",
+      "destination": "/zh/api-reference/text-series/gemini/complete",
+      "permanent": true
+    },
+    {
+      "source": "/cn/api-reference/text-series/models/gemini-3-flash.md",
+      "destination": "/zh/api-reference/text-series/gemini/complete",
+      "permanent": true
+    },
+    {
       "source": "/cn/:slug*",
       "destination": "/zh/:slug*",
       "permanent": true
