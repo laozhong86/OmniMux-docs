@@ -2,9 +2,59 @@
   "schema_version": 1,
   "page": 1,
   "page_size": 50,
-  "total": 84,
+  "total": 85,
   "total_pages": 2,
   "items": [
+    {
+      "id": "2026-11-22-pricing-groups-influencer-quota",
+      "published_at": "2026-11-22",
+      "type": "capability",
+      "modality": [
+        "platform"
+      ],
+      "title": {
+        "en": "Pricing group fields and influencer quota prechecks",
+        "zh": "定价分组字段与达人创作余额预检"
+      },
+      "summary": {
+        "en": "`GET /api/pricing` now publishes `pricing_version` plus per-model `default_group` and `group_order`. Influencer character, multiview and video creation check the account balance before enqueue and fail closed when quota is insufficient.",
+        "zh": "`GET /api/pricing` 新增 `pricing_version`、模型级 `default_group` 与 `group_order`。达人角色、多视图与视频创作在入队前校验账户余额，余额不足时直接拦截。"
+      },
+      "models": [],
+      "tags": [
+        "api",
+        "pricing",
+        "influencer",
+        "quota"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "Pricing API reference",
+            "zh": "定价 API 文档"
+          },
+          "href": {
+            "en": "/en/api-reference/account/pricing",
+            "zh": "/zh/api-reference/account/pricing"
+          }
+        },
+        {
+          "label": {
+            "en": "Create character",
+            "zh": "创建角色"
+          },
+          "href": {
+            "en": "/en/api-reference/account/influencer/create-character",
+            "zh": "/zh/api-reference/account/influencer/create-character"
+          }
+        }
+      ],
+      "body": {
+        "en": "## Pricing API display fields\n\n`GET /api/pricing` now returns the top-level `pricing_version` value `\"model-group-display-v1\"`. Every model row also carries `default_group`, the server-selected default group, and `group_order`, the de-duplicated display order covering all of the model's `enable_groups`. Use these fields instead of deriving a default group from `enable_groups` locally.\n\n## Influencer creation quota prechecks\n\n`POST /api/influencer/v1/characters`, `POST /api/influencer/v1/characters/{task_id}/multiview` and `POST /api/influencer/v1/videos` check the account balance before the task enters the queue. Insufficient balance returns `403` with `code: \"insufficient_user_quota\"` and `message: \"Insufficient user quota\"`; no task is created, nothing is charged and no upstream call is made. If the pricing or quote service is unavailable, the response is `503` with `code: \"generation_quote_unavailable\"`. Tasks that run out of balance during execution or settlement expose `fail_reason: \"Insufficient user quota\"`. Recharge in the workbench and retry the same request to continue.",
+        "zh": "## 定价 API 展示字段\n\n`GET /api/pricing` 新增顶层 `pricing_version`，当前值为 `\"model-group-display-v1\"`。每个模型行同时返回服务端下发的默认分组 `default_group` 与去重且覆盖该模型全部 `enable_groups` 的展示顺序 `group_order`；客户端无需自行从 `enable_groups` 推导默认分组。\n\n## 达人创作余额预检\n\n`POST /api/influencer/v1/characters`、`POST /api/influencer/v1/characters/{task_id}/multiview` 和 `POST /api/influencer/v1/videos` 在任务入队前校验账户余额。余额不足返回 `403`，`code: \"insufficient_user_quota\"`、`message: \"Insufficient user quota\"`，不创建任务、不扣费、不发起上游调用。计价/报价服务暂不可用时返回 `503`，`code: \"generation_quote_unavailable\"`。任务在执行或结算阶段因余额不足失败时公开 `fail_reason: \"Insufficient user quota\"`；在工作台充值后可重试同一请求继续。"
+      },
+      "schema_version": 1
+    },
     {
       "id": "2026-11-20-video-mode-capabilities",
       "published_at": "2026-11-20",
@@ -2107,50 +2157,6 @@
       "body": {
         "en": "## Gemini 3.8 Flash\n\nThe `gemini-3.8-flash` model is now supported on OmniMux under the standard Gemini Chat Completions endpoint.\n\n### Model specification\n\n- **Model ID:** `gemini-3.8-flash`\n- **Protocol:** OpenAI-compatible Chat Completions\n- **Endpoint:** `POST /v1/chat/completions`\n- **Authentication:** Bearer token (`sk-...`)\n- **Streaming:** Supported via `\"stream\": true`\n\n### Request example\n\n```json\n{\n  \"model\": \"gemini-3.8-flash\",\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": \"Hello\"\n    }\n  ]\n}\n```\n\nFull parameter schema and status codes are documented in the [Gemini Complete API Reference](/en/api-reference/text-series/gemini/complete).",
         "zh": "## Gemini 3.8 Flash\n\n`gemini-3.8-flash` 模型已接入 OmniMux 标准对话补全服务。\n\n### 接口规范\n\n- **模型标识：** `gemini-3.8-flash`\n- **接口协议：** 兼容 OpenAI 对话补全协议\n- **调用端点：** `POST /v1/chat/completions`\n- **鉴权方式：** Bearer 令牌鉴权（`sk-...`）\n- **流式传输：** 支持通过 `\"stream\": true` 启用\n\n### 请求体示例\n\n```json\n{\n  \"model\": \"gemini-3.8-flash\",\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": \"你好\"\n    }\n  ]\n}\n```\n\n完整参数定义与状态码说明请查阅 [Gemini 完整参数参考文档](/zh/api-reference/text-series/gemini/complete)。"
-      },
-      "schema_version": 1
-    },
-    {
-      "id": "2026-09-18-doubao-seed-evolving",
-      "published_at": "2026-09-18",
-      "type": "model_launch",
-      "modality": [
-        "text"
-      ],
-      "title": {
-        "en": "ByteDance Doubao official direct model seed-evolving is now live",
-        "zh": "字节跳动火山方舟官方直连大模型 seed-evolving 正式上线"
-      },
-      "summary": {
-        "en": "OmniMux adds official direct channel #73 for ByteDance Doubao seed-evolving. Features 1024K context window, 256K max output, deep reasoning, and transparent 1:1 parity pricing with billing expressions, fully verified via local OmniMux CLI.",
-        "zh": "OmniMux 新增字节跳动火山方舟官方直连渠道 #73，正式上线豆包多模态推理大模型 seed-evolving。具备 1024K 上下文窗口、256K 最大输出、深度思考与多模态理解能力，按官方原价 1:1 表达式透明计量，已通过本地 OmniMux CLI 端到端验证可用。"
-      },
-      "models": [
-        "seed-evolving"
-      ],
-      "tags": [
-        "doubao",
-        "seed-evolving",
-        "llm",
-        "bytedance",
-        "volcengine",
-        "cli"
-      ],
-      "links": [
-        {
-          "label": {
-            "en": "Doubao Complete API Reference",
-            "zh": "Doubao 完整参数手册"
-          },
-          "href": {
-            "en": "/en/api-reference/text-series/doubao/complete",
-            "zh": "/zh/api-reference/text-series/doubao/complete"
-          }
-        }
-      ],
-      "body": {
-        "en": "## What is new\n\n- **Official Direct Channel**: Added VolcEngine Ark direct route `#73` for ByteDance Doubao `seed-evolving`.\n- **Full Multimodal Reasoning**: 1024K context window, 256K max output tokens, native deep thinking, tool calling, and structured outputs.\n- **Transparent 1:1 Parity Pricing**: Token billing expressions anchor official list prices ($0.8824/M input, $4.4118/M output, $0.1765/M cache hit; FX 6.8).\n- **Local OmniMux CLI Verification**: Verified live invocation and pricing queries using the local `omnimux` CLI (`omnimux models`, `omnimux pricing`, `omnimux tokens exec`).\n\n## Documentation\n\n- Doubao API Reference: `/en/api-reference/text-series/doubao/complete`",
-        "zh": "## 本次更新\n\n- **官方直连专线**：新增火山方舟官方直连渠道 `#73`，直通字节跳动豆包 `seed-evolving` 模型。\n- **全模态深度思考**：提供 1024K 上下文窗口、256K 最大回答输出、原生深度思考、工具调用与多模态理解能力。\n- **透明官方同价**：计费表达式严格锚定官方刊例原价（输入 6.00 元/M、输出 30.00 元/M、缓存命中 1.20 元/M，按 6.8 汇率透明折算）。\n- **本地 OmniMux CLI 验证通过**：使用官方命令行工具 `omnimux` 完成模型可见性、定价核验与安全令牌端到端对话全流程实测验证。\n\n## 参考文档\n\n- Doubao 完整参数手册：`/zh/api-reference/text-series/doubao/complete`"
       },
       "schema_version": 1
     }

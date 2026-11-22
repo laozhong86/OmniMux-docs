@@ -210,16 +210,27 @@
             }
           },
           "403": {
-            "description": "The explicit creation read/write scope is missing. Old/legacy credentials do not gain access automatically.",
+            "description": "The explicit creation read/write scope is missing, or the submission was blocked by the pre-enqueue balance preflight. A balance rejection creates no task and charges nothing. Old/legacy credentials do not gain access automatically.",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Error"
                 },
-                "example": {
-                  "success": false,
-                  "code": "ACCESS_TOKEN_SCOPE_DENIED",
-                  "message": "The explicit creation read/write scope is missing. Old/legacy credentials do not gain access automatically."
+                "examples": {
+                  "scope_denied": {
+                    "value": {
+                      "success": false,
+                      "code": "ACCESS_TOKEN_SCOPE_DENIED",
+                      "message": "The explicit creation read/write scope is missing. Old/legacy credentials do not gain access automatically."
+                    }
+                  },
+                  "insufficient_user_quota": {
+                    "value": {
+                      "success": false,
+                      "code": "insufficient_user_quota",
+                      "message": "Insufficient user quota"
+                    }
+                  }
                 }
               }
             }
@@ -270,7 +281,7 @@
             }
           },
           "503": {
-            "description": "Creation/read infrastructure is temporarily unavailable; new creation may also be disabled or have no compatible active route.",
+            "description": "Creation/read infrastructure is temporarily unavailable; new creation may also be disabled, have no compatible active route, or have no available pricing quote.",
             "content": {
               "application/json": {
                 "schema": {
@@ -296,6 +307,13 @@
                       "success": false,
                       "code": "generation_queue_unavailable",
                       "message": "creation records are temporarily unavailable"
+                    }
+                  },
+                  "quote_unavailable": {
+                    "value": {
+                      "success": false,
+                      "code": "generation_quote_unavailable",
+                      "message": "The pricing service is temporarily unavailable. Please try again."
                     }
                   }
                 }
@@ -732,16 +750,27 @@
             }
           },
           "403": {
-            "description": "The explicit creation read/write scope is missing. Old/legacy credentials do not gain access automatically.",
+            "description": "The explicit creation read/write scope is missing, or the submission was blocked by the pre-enqueue balance preflight. A balance rejection creates no task and charges nothing. Old/legacy credentials do not gain access automatically.",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Error"
                 },
-                "example": {
-                  "success": false,
-                  "code": "ACCESS_TOKEN_SCOPE_DENIED",
-                  "message": "The explicit creation read/write scope is missing. Old/legacy credentials do not gain access automatically."
+                "examples": {
+                  "scope_denied": {
+                    "value": {
+                      "success": false,
+                      "code": "ACCESS_TOKEN_SCOPE_DENIED",
+                      "message": "The explicit creation read/write scope is missing. Old/legacy credentials do not gain access automatically."
+                    }
+                  },
+                  "insufficient_user_quota": {
+                    "value": {
+                      "success": false,
+                      "code": "insufficient_user_quota",
+                      "message": "Insufficient user quota"
+                    }
+                  }
                 }
               }
             }
@@ -807,7 +836,7 @@
             }
           },
           "503": {
-            "description": "Creation/read infrastructure is temporarily unavailable; new creation may also be disabled or have no compatible active route.",
+            "description": "Creation/read infrastructure is temporarily unavailable; new creation may also be disabled, have no compatible active route, or have no available pricing quote.",
             "content": {
               "application/json": {
                 "schema": {
@@ -833,6 +862,13 @@
                       "success": false,
                       "code": "generation_queue_unavailable",
                       "message": "creation records are temporarily unavailable"
+                    }
+                  },
+                  "quote_unavailable": {
+                    "value": {
+                      "success": false,
+                      "code": "generation_quote_unavailable",
+                      "message": "The pricing service is temporarily unavailable. Please try again."
                     }
                   }
                 }
@@ -958,16 +994,27 @@
             }
           },
           "403": {
-            "description": "The explicit creation read/write scope is missing. Old/legacy credentials do not gain access automatically.",
+            "description": "The explicit creation read/write scope is missing, or the submission was blocked by the pre-enqueue balance preflight. A balance rejection creates no task and charges nothing. Old/legacy credentials do not gain access automatically.",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Error"
                 },
-                "example": {
-                  "success": false,
-                  "code": "ACCESS_TOKEN_SCOPE_DENIED",
-                  "message": "The explicit creation read/write scope is missing. Old/legacy credentials do not gain access automatically."
+                "examples": {
+                  "scope_denied": {
+                    "value": {
+                      "success": false,
+                      "code": "ACCESS_TOKEN_SCOPE_DENIED",
+                      "message": "The explicit creation read/write scope is missing. Old/legacy credentials do not gain access automatically."
+                    }
+                  },
+                  "insufficient_user_quota": {
+                    "value": {
+                      "success": false,
+                      "code": "insufficient_user_quota",
+                      "message": "Insufficient user quota"
+                    }
+                  }
                 }
               }
             }
@@ -1048,7 +1095,7 @@
             }
           },
           "503": {
-            "description": "Creation/read infrastructure is temporarily unavailable; new creation may also be disabled or have no compatible active route.",
+            "description": "Creation/read infrastructure is temporarily unavailable; new creation may also be disabled, have no compatible active route, or have no available pricing quote.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1074,6 +1121,13 @@
                       "success": false,
                       "code": "generation_queue_unavailable",
                       "message": "creation records are temporarily unavailable"
+                    }
+                  },
+                  "quote_unavailable": {
+                    "value": {
+                      "success": false,
+                      "code": "generation_quote_unavailable",
+                      "message": "The pricing service is temporarily unavailable. Please try again."
                     }
                   }
                 }
@@ -2336,7 +2390,7 @@
           },
           "fail_reason": {
             "type": "string",
-            "description": "Public failure reason, when available; inspect with status. Never infer successful refund from a failure message."
+            "description": "Public failure reason, when available; inspect with status. \"Insufficient user quota\" means the task failed because the account balance was insufficient during execution or settlement. Never infer a successful refund from a failure message."
           }
         },
         "required": [
@@ -2449,7 +2503,7 @@
           },
           "fail_reason": {
             "type": "string",
-            "description": "Public failure reason, when available; inspect with status. Never infer successful refund from a failure message."
+            "description": "Public failure reason, when available; inspect with status. \"Insufficient user quota\" means the task failed because the account balance was insufficient during execution or settlement. Never infer a successful refund from a failure message."
           },
           "multiviews": {
             "type": "array",

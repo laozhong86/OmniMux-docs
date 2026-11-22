@@ -210,16 +210,27 @@
             }
           },
           "403": {
-            "description": "缺少明确的创作读取/生成权限；旧凭据不会自动扩权。",
+            "description": "缺少明确的创作读取/生成权限，或提交在入队前被余额预检拦截。余额不足不会创建任务，也不会扣费；旧凭据不会自动扩权。",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Error"
                 },
-                "example": {
-                  "success": false,
-                  "code": "ACCESS_TOKEN_SCOPE_DENIED",
-                  "message": "缺少明确的创作读取/生成权限；旧凭据不会自动扩权。"
+                "examples": {
+                  "scope_denied": {
+                    "value": {
+                      "success": false,
+                      "code": "ACCESS_TOKEN_SCOPE_DENIED",
+                      "message": "缺少明确的创作读取/生成权限；旧凭据不会自动扩权。"
+                    }
+                  },
+                  "insufficient_user_quota": {
+                    "value": {
+                      "success": false,
+                      "code": "insufficient_user_quota",
+                      "message": "Insufficient user quota"
+                    }
+                  }
                 }
               }
             }
@@ -270,7 +281,7 @@
             }
           },
           "503": {
-            "description": "创作或读取暂不可用；也可能是新生成尚未启用或当前没有兼容能力。",
+            "description": "创作或读取暂不可用；也可能是新生成尚未启用、当前没有兼容能力，或计价/报价服务暂时不可用。",
             "content": {
               "application/json": {
                 "schema": {
@@ -296,6 +307,13 @@
                       "success": false,
                       "code": "generation_queue_unavailable",
                       "message": "creation records are temporarily unavailable"
+                    }
+                  },
+                  "quote_unavailable": {
+                    "value": {
+                      "success": false,
+                      "code": "generation_quote_unavailable",
+                      "message": "The pricing service is temporarily unavailable. Please try again."
                     }
                   }
                 }
@@ -732,16 +750,27 @@
             }
           },
           "403": {
-            "description": "缺少明确的创作读取/生成权限；旧凭据不会自动扩权。",
+            "description": "缺少明确的创作读取/生成权限，或提交在入队前被余额预检拦截。余额不足不会创建任务，也不会扣费；旧凭据不会自动扩权。",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Error"
                 },
-                "example": {
-                  "success": false,
-                  "code": "ACCESS_TOKEN_SCOPE_DENIED",
-                  "message": "缺少明确的创作读取/生成权限；旧凭据不会自动扩权。"
+                "examples": {
+                  "scope_denied": {
+                    "value": {
+                      "success": false,
+                      "code": "ACCESS_TOKEN_SCOPE_DENIED",
+                      "message": "缺少明确的创作读取/生成权限；旧凭据不会自动扩权。"
+                    }
+                  },
+                  "insufficient_user_quota": {
+                    "value": {
+                      "success": false,
+                      "code": "insufficient_user_quota",
+                      "message": "Insufficient user quota"
+                    }
+                  }
                 }
               }
             }
@@ -807,7 +836,7 @@
             }
           },
           "503": {
-            "description": "创作或读取暂不可用；也可能是新生成尚未启用或当前没有兼容能力。",
+            "description": "创作或读取暂不可用；也可能是新生成尚未启用、当前没有兼容能力，或计价/报价服务暂时不可用。",
             "content": {
               "application/json": {
                 "schema": {
@@ -833,6 +862,13 @@
                       "success": false,
                       "code": "generation_queue_unavailable",
                       "message": "creation records are temporarily unavailable"
+                    }
+                  },
+                  "quote_unavailable": {
+                    "value": {
+                      "success": false,
+                      "code": "generation_quote_unavailable",
+                      "message": "The pricing service is temporarily unavailable. Please try again."
                     }
                   }
                 }
@@ -958,16 +994,27 @@
             }
           },
           "403": {
-            "description": "缺少明确的创作读取/生成权限；旧凭据不会自动扩权。",
+            "description": "缺少明确的创作读取/生成权限，或提交在入队前被余额预检拦截。余额不足不会创建任务，也不会扣费；旧凭据不会自动扩权。",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Error"
                 },
-                "example": {
-                  "success": false,
-                  "code": "ACCESS_TOKEN_SCOPE_DENIED",
-                  "message": "缺少明确的创作读取/生成权限；旧凭据不会自动扩权。"
+                "examples": {
+                  "scope_denied": {
+                    "value": {
+                      "success": false,
+                      "code": "ACCESS_TOKEN_SCOPE_DENIED",
+                      "message": "缺少明确的创作读取/生成权限；旧凭据不会自动扩权。"
+                    }
+                  },
+                  "insufficient_user_quota": {
+                    "value": {
+                      "success": false,
+                      "code": "insufficient_user_quota",
+                      "message": "Insufficient user quota"
+                    }
+                  }
                 }
               }
             }
@@ -1048,7 +1095,7 @@
             }
           },
           "503": {
-            "description": "创作或读取暂不可用；也可能是新生成尚未启用或当前没有兼容能力。",
+            "description": "创作或读取暂不可用；也可能是新生成尚未启用、当前没有兼容能力，或计价/报价服务暂时不可用。",
             "content": {
               "application/json": {
                 "schema": {
@@ -1074,6 +1121,13 @@
                       "success": false,
                       "code": "generation_queue_unavailable",
                       "message": "creation records are temporarily unavailable"
+                    }
+                  },
+                  "quote_unavailable": {
+                    "value": {
+                      "success": false,
+                      "code": "generation_quote_unavailable",
+                      "message": "The pricing service is temporarily unavailable. Please try again."
                     }
                   }
                 }
@@ -2336,7 +2390,7 @@
           },
           "fail_reason": {
             "type": "string",
-            "description": "可用时返回的公开失败原因，请结合状态判断；失败说明不代表退款已经完成。"
+            "description": "可用时返回的公开失败原因，请结合状态判断。\"Insufficient user quota\" 表示任务在执行或结算阶段因账户余额不足失败；失败说明不代表退款已经完成。"
           }
         },
         "required": [
@@ -2449,7 +2503,7 @@
           },
           "fail_reason": {
             "type": "string",
-            "description": "可用时返回的公开失败原因，请结合状态判断；失败说明不代表退款已经完成。"
+            "description": "可用时返回的公开失败原因，请结合状态判断。\"Insufficient user quota\" 表示任务在执行或结算阶段因账户余额不足失败；失败说明不代表退款已经完成。"
           },
           "multiviews": {
             "type": "array",

@@ -9,6 +9,25 @@ Stay up to date with OmniMux gateway model launches and platform changes. The fu
 
 Pages: **Page 1** · [Page 2](/en/updates/page-2)
 
+<a id="2026-11-22-pricing-groups-influencer-quota"></a>
+
+<Update label="November 22, 2026" tags={["Improvements", "Platform"]} rss={{ title: "Pricing group fields and influencer quota prechecks" }}>
+
+  ## Pricing API display fields
+
+  `GET /api/pricing` now returns the top-level `pricing_version` value `"model-group-display-v1"`. Every model row also carries `default_group`, the server-selected default group, and `group_order`, the de-duplicated display order covering all of the model's `enable_groups`. Use these fields instead of deriving a default group from `enable_groups` locally.
+
+  ## Influencer creation quota prechecks
+
+  `POST /api/influencer/v1/characters`, `POST /api/influencer/v1/characters/{task_id}/multiview` and `POST /api/influencer/v1/videos` check the account balance before the task enters the queue. Insufficient balance returns `403` with `code: "insufficient_user_quota"` and `message: "Insufficient user quota"`; no task is created, nothing is charged and no upstream call is made. If the pricing or quote service is unavailable, the response is `503` with `code: "generation_quote_unavailable"`. Tasks that run out of balance during execution or settlement expose `fail_reason: "Insufficient user quota"`. Recharge in the workbench and retry the same request to continue.
+
+  ### Links
+
+  - [Pricing API reference](/en/api-reference/account/pricing)
+  - [Create character](/en/api-reference/account/influencer/create-character)
+
+</Update>
+
 <a id="2026-11-20-video-mode-capabilities"></a>
 
 <Update label="November 20, 2026" tags={["Improvements", "Video"]} rss={{ title: "Video mode semantics and compatible routing pilot" }}>
@@ -1178,27 +1197,6 @@ Pages: **Page 1** · [Page 2](/en/updates/page-2)
   ### Links
 
   - [Gemini Complete Reference](/en/api-reference/text-series/gemini/complete)
-
-</Update>
-
-<a id="2026-09-18-doubao-seed-evolving"></a>
-
-<Update label="September 18, 2026" tags={["New models", "Text"]} rss={{ title: "ByteDance Doubao official direct model seed-evolving is now live" }}>
-
-  ## What is new
-
-  - **Official Direct Channel**: Added VolcEngine Ark direct route `#73` for ByteDance Doubao `seed-evolving`.
-  - **Full Multimodal Reasoning**: 1024K context window, 256K max output tokens, native deep thinking, tool calling, and structured outputs.
-  - **Transparent 1:1 Parity Pricing**: Token billing expressions anchor official list prices ($0.8824/M input, $4.4118/M output, $0.1765/M cache hit; FX 6.8).
-  - **Local OmniMux CLI Verification**: Verified live invocation and pricing queries using the local `omnimux` CLI (`omnimux models`, `omnimux pricing`, `omnimux tokens exec`).
-
-  ## Documentation
-
-  - Doubao API Reference: `/en/api-reference/text-series/doubao/complete`
-
-  ### Links
-
-  - [Doubao Complete API Reference](/en/api-reference/text-series/doubao/complete)
 
 </Update>
 

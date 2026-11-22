@@ -27,7 +27,14 @@ Base URL：`https://omnimux.ai`
 
 ### 200
 
-`data` 是模型数组。每行包含 `model_name`、`quota_type`、`model_ratio`、`model_price`、`enable_groups` 和 `contract`。
+`data` 是模型数组。每行包含 `model_name`、`quota_type`、`model_ratio`、`model_price`、`enable_groups`、`default_group`、`group_order` 和 `contract`。
+
+顶层 `pricing_version` 标识定价展示契约版本，当前值为 `"model-group-display-v1"`。
+
+| 展示字段 | 含义 |
+| --- | --- |
+| `default_group` | 服务端下发的默认选中分组。非空时保证同时属于该模型的 `enable_groups` 与当前调用者的 `usable_group`；管理员显式配置的默认组对当前调用者不可用时为 `""`；缺显式配置时按「调用者分组 → `default` → `group_order` 首个可用组」回退。 |
+| `group_order` | 模型级线路/分组展示顺序，去重且覆盖该模型全部 `enable_groups`；仅用于展示排序，区别于自动路由候选分组 `auto_groups`。 |
 
 可选的顶层 `defaults` 按操作推荐模型（`chat`、`vision_chat`、`text_to_image`、`text_to_video`、`text_to_music`、`speech_to_text`）。每个值都指向同一响应中 `enable_groups` 非空的模型；没有可用推荐时省略对应键。
 
@@ -88,6 +95,7 @@ curl --request GET \
 ```json 200
 {
   "success": true,
+  "pricing_version": "model-group-display-v1",
   "defaults": {
     "chat": "gemini-3.8-flash",
     "text_to_image": "gpt-image-2.5"
@@ -98,6 +106,8 @@ curl --request GET \
       "quota_type": 1,
       "model_price": 0.013072,
       "enable_groups": ["default"],
+      "default_group": "default",
+      "group_order": ["default"],
       "contract": {
         "model_id": "gpt-image-2.5",
         "schemaVersion": "2.0",
@@ -125,10 +135,13 @@ curl --request GET \
 ```json 200 试点示例
 {
   "success": true,
+  "pricing_version": "model-group-display-v1",
   "data": [
     {
       "model_name": "muse-video",
       "enable_groups": ["example-video"],
+      "default_group": "example-video",
+      "group_order": ["example-video"],
       "contract": {
         "model_id": "muse-video",
         "schemaVersion": "2.0",
