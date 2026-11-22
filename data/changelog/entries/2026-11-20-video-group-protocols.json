@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "id": "2026-11-20-video-group-protocols",
+  "published_at": "2026-11-20",
+  "rank": 1,
+  "type": "capability",
+  "modality": [
+    "video"
+  ],
+  "title": {
+    "en": "Video models publish verified group protocols",
+    "zh": "视频模型发布已验证分组协议"
+  },
+  "summary": {
+    "en": "Video models with verified group rules now publish account-scoped `effective_video` variants. Same-protocol models inherit the model-level `gateway_protocol`; mixed-protocol groups declare their own create and query protocol.",
+    "zh": "具备已核验分组规则的视频模型现在发布账号级 `effective_video` 变体。同协议模型沿用模型级 `gateway_protocol`，混合协议分组在组内声明自己的创建与查询协议。"
+  },
+  "models": [],
+  "links": [
+    {
+      "label": {
+        "en": "Pricing API reference",
+        "zh": "定价 API 文档"
+      },
+      "href": {
+        "en": "/en/api-reference/account/pricing",
+        "zh": "/zh/api-reference/account/pricing"
+      }
+    },
+    {
+      "label": {
+        "en": "Video task query",
+        "zh": "视频任务查询"
+      },
+      "href": {
+        "en": "/en/api-reference/tasks/video-task",
+        "zh": "/zh/api-reference/tasks/video-task"
+      }
+    }
+  ],
+  "tags": [
+    "api",
+    "video",
+    "routing",
+    "protocol"
+  ],
+  "body": {
+    "en": "## Video group capabilities\n\n`GET /api/pricing` model rows and `GET /api/model_contract/:model` responses can now publish an account-scoped `effective_video` view for video models with verified group rules. Each group maps to complete operation variants. Match the whole request against one variant and use `model@group` to select a group explicitly.\n\n## Protocol inheritance\n\nRead the variant's `gateway_protocol`; when absent, inherit the model-level `contract.gateway_protocol`. Same-protocol models keep the model-level protocol on their variants, while mixed-protocol groups declare their own protocol. Use the matching create and query routes: `openai_video` on `POST /v1/videos` / `GET /v1/videos/{task_id}`, and `video_generations` on `POST /v1/video/generations` / `GET /v1/video/generations/{task_id}`. When a model whose default protocol is `openai_video` selects a native variant, send `X-OmniMux-Video-Protocol: video_generations` on `POST /v1/video/generations`.\n\nRetries stay in the selected group, and accepted tasks are queried by their original record and protocol. The existing pilot behavior remains compatible.",
+    "zh": "## 视频分组能力\n\n`GET /api/pricing` 的模型行与 `GET /api/model_contract/:model` 的响应现在可为具备已核验分组规则的视频模型发布账号级 `effective_video` 视图。每个分组映射到完整操作变体；请求必须匹配其中一个完整变体，并可用 `model@group` 显式选择分组。\n\n## 协议继承\n\n读取变体的 `gateway_protocol`；缺省时继承模型级 `contract.gateway_protocol`。同协议模型在变体上沿用模型级协议，混合协议分组则在组内声明各自协议。按对应协议使用创建与查询入口：`openai_video` 使用 `POST /v1/videos` / `GET /v1/videos/{task_id}`，`video_generations` 使用 `POST /v1/video/generations` / `GET /v1/video/generations/{task_id}`。模型默认协议为 `openai_video` 且选择原生变体时，在 `POST /v1/video/generations` 携带 `X-OmniMux-Video-Protocol: video_generations`。\n\n重试保持在所选分组内，已受理任务按原任务记录和协议查询。既有试点行为保持兼容。"
+  }
+}

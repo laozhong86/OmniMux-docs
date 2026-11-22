@@ -28,6 +28,27 @@ Pages: **Page 1** · [Page 2](/en/updates/page-2)
 
 </Update>
 
+<a id="2026-11-20-video-group-protocols"></a>
+
+<Update label="November 20, 2026" tags={["Improvements", "Video"]} rss={{ title: "Video models publish verified group protocols" }}>
+
+  ## Video group capabilities
+
+  `GET /api/pricing` model rows and `GET /api/model_contract/:model` responses can now publish an account-scoped `effective_video` view for video models with verified group rules. Each group maps to complete operation variants. Match the whole request against one variant and use `model@group` to select a group explicitly.
+
+  ## Protocol inheritance
+
+  Read the variant's `gateway_protocol`; when absent, inherit the model-level `contract.gateway_protocol`. Same-protocol models keep the model-level protocol on their variants, while mixed-protocol groups declare their own protocol. Use the matching create and query routes: `openai_video` on `POST /v1/videos` / `GET /v1/videos/{task_id}`, and `video_generations` on `POST /v1/video/generations` / `GET /v1/video/generations/{task_id}`. When a model whose default protocol is `openai_video` selects a native variant, send `X-OmniMux-Video-Protocol: video_generations` on `POST /v1/video/generations`.
+
+  Retries stay in the selected group, and accepted tasks are queried by their original record and protocol. The existing pilot behavior remains compatible.
+
+  ### Links
+
+  - [Pricing API reference](/en/api-reference/account/pricing)
+  - [Video task query](/en/api-reference/tasks/video-task)
+
+</Update>
+
 <a id="2026-11-20-video-mode-capabilities"></a>
 
 <Update label="November 20, 2026" tags={["Improvements", "Video"]} rss={{ title: "Video mode semantics and compatible routing pilot" }}>
@@ -1159,44 +1180,6 @@ Pages: **Page 1** · [Page 2](/en/updates/page-2)
   ### Links
 
   - [Suno API Reference](/en/api-reference/audio-series/models/suno)
-
-</Update>
-
-<a id="2026-09-18-gemini-3-8-flash"></a>
-
-<Update label="September 18, 2026" tags={["New models", "Text"]} rss={{ title: "Gemini 3.8 Flash Available via Chat Completions" }}>
-
-  ## Gemini 3.8 Flash
-
-  The `gemini-3.8-flash` model is now supported on OmniMux under the standard Gemini Chat Completions endpoint.
-
-  ### Model specification
-
-  - **Model ID:** `gemini-3.8-flash`
-  - **Protocol:** OpenAI-compatible Chat Completions
-  - **Endpoint:** `POST /v1/chat/completions`
-  - **Authentication:** Bearer token (`sk-...`)
-  - **Streaming:** Supported via `"stream": true`
-
-  ### Request example
-
-  ```json
-  {
-    "model": "gemini-3.8-flash",
-    "messages": [
-      {
-        "role": "user",
-        "content": "Hello"
-      }
-    ]
-  }
-  ```
-
-  Full parameter schema and status codes are documented in the [Gemini Complete API Reference](/en/api-reference/text-series/gemini/complete).
-
-  ### Links
-
-  - [Gemini Complete Reference](/en/api-reference/text-series/gemini/complete)
 
 </Update>
 
