@@ -5,10 +5,22 @@ description: "GET /v1/video/generations/{task_id} · poll video generation"
 api: "GET https://api.omnimux.ai/v1/video/generations/{task_id}"
 ---
 
-> - Only for `task_id` from **video series** `POST /v1/video/generations`
-> - **Not** OpenAI Videos `/v1/videos/{id}` or `/content` download
-> - Exception: plugin-line (type 65) video models create on `POST /v1/videos` and poll `GET /v1/videos/{task_id}`
+> - Query endpoint for `task_id` values created by `POST /v1/video/generations`, including native `video_generations` variants exposed in an account's `effective_video`
+> - For tasks created by `POST /v1/videos`, use `GET /v1/videos/{task_id}` instead; `/content` download is a separate endpoint
+> - Plugin-line (type 65) video models keep creating on `POST /v1/videos` and polling `GET /v1/videos/{task_id}`
+> - A task keeps the protocol recorded when it was accepted; query it through the route for that protocol even if the catalog or group rules change later
 > - Auth: `Authorization: Bearer sk-...`
+
+## Protocol-specific query routes
+
+For an account-level grouped video capability, read the selected variant's `gateway_protocol` (or inherit the model-level `contract.gateway_protocol`):
+
+| Protocol | Query |
+| --- | --- |
+| `video_generations` | `GET /v1/video/generations/{task_id}` |
+| `openai_video` | `GET /v1/videos/{task_id}` |
+
+A task accepted through `openai_video` must not be polled through `/v1/video/generations/{task_id}`, and vice versa. If a model defaults to `openai_video` but an explicitly selected group exposes a native `video_generations` variant, create the task with `POST /v1/video/generations` and `X-OmniMux-Video-Protocol: video_generations`, then poll it with `GET /v1/video/generations/{task_id}`.
 
 ## Path parameters
 

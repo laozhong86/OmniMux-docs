@@ -9,6 +9,44 @@ Stay up to date with OmniMux gateway model launches and platform changes. The fu
 
 Pages: [Page 1](/en/updates) · **Page 2**
 
+<a id="2026-09-18-gemini-3-8-flash"></a>
+
+<Update label="September 18, 2026" tags={["New models", "Text"]} rss={{ title: "Gemini 3.8 Flash Available via Chat Completions" }}>
+
+  ## Gemini 3.8 Flash
+
+  The `gemini-3.8-flash` model is now supported on OmniMux under the standard Gemini Chat Completions endpoint.
+
+  ### Model specification
+
+  - **Model ID:** `gemini-3.8-flash`
+  - **Protocol:** OpenAI-compatible Chat Completions
+  - **Endpoint:** `POST /v1/chat/completions`
+  - **Authentication:** Bearer token (`sk-...`)
+  - **Streaming:** Supported via `"stream": true`
+
+  ### Request example
+
+  ```json
+  {
+    "model": "gemini-3.8-flash",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Hello"
+      }
+    ]
+  }
+  ```
+
+  Full parameter schema and status codes are documented in the [Gemini Complete API Reference](/en/api-reference/text-series/gemini/complete).
+
+  ### Links
+
+  - [Gemini Complete Reference](/en/api-reference/text-series/gemini/complete)
+
+</Update>
+
 <a id="2026-09-18-doubao-seed-evolving"></a>
 
 <Update label="September 18, 2026" tags={["New models", "Text"]} rss={{ title: "ByteDance Doubao official direct model seed-evolving is now live" }}>

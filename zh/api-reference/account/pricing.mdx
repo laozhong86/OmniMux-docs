@@ -56,28 +56,41 @@ Base URL：`https://omnimux.ai`
 
 `executable: false` 表示厂商文档列出了该操作，但本网关不支持执行；客户端不得提交。
 
-## 视频兼容选线试点
+## 视频分组能力
 
-试点按部署和模型启用。已启用的模型可在定价行的 `contract` 同级返回 `effective_video`。
+`GET /api/pricing` 的模型行与 `GET /api/model_contract/:model` 的响应可在 `contract` 同级返回 `effective_video`，用于声明了 `contract.gateway_protocol: "video_generations"` 或已登记并核验分组规则的视频模型。它是当前账号可选分组的视图：`groups` 将每个分组映射到完整操作变体数组，`version` 随该视图能力内容变化。没有视频能力视图的模型不返回 `effective_video`；旧客户端继续使用模型级 `contract` 和既有调用方式。
 
 | 字段或状态 | 含义 |
 | --- | --- |
-| `effective_video.version` | 当前账号分组能力的内容版本。模型级契约版本取自 `contract.contractVersion`。 |
-| `effective_video.groups` | 按可选分组列出完整的操作变体。 |
-| 省略 `effective_video` | 沿用模型级 `contract` 和既有展示映射。 |
-| `groups` 为空对象或组内为空数组 | 空对象表示当前视角有零个可发布的分组。组内空数组表示该组有零个经核验的变体。 |
+| `effective_video.version` | 当前账号分组能力视图的内容版本。模型级契约版本仍取自 `contract.contractVersion`。 |
+| `effective_video.groups` | 将当前账号可选分组映射到完整操作变体；不在调用者 `usable_group` 内的分组不会返回。 |
+| 省略 `effective_video` | 当前没有账号级分组视图；沿用模型级 `contract` 和既有调用方式。 |
+| `groups` 为空对象或组内为空数组 | 空对象表示当前账号没有可发布的分组；组内空数组表示该组没有经核验的变体，不应回退到其他分组。 |
 
-多个变体可以共用一个操作 `id`。素材槽、数量及参数要同时匹配一个变体。参数带 `required: true` 时要显式传值。Muse 有序图片参考的 `firstItemRole: "first_frame"` 表示第一张用作起始图。
+变体包含 `id`、可选的 `gateway_protocol`、`modeKind`、`inputs`、`parameters` 和 `output`。同一操作 `id` 可以有多个素材上限或参数约束不同的变体。请求的素材槽数量、必填参数等必须同时匹配一个变体；`required: true` 要求调用方显式传值。有序图片参考的 `firstItemRole: "first_frame"` 表示第一张参考图用作起始图。经核验的 profile 可以相对模型级契约收窄 `modeKind` 与实际接受的素材角色。
 
-目录反映查询时账号可用的分组。实际提交与重试按令牌权限和当前渠道状态匹配。可用的已核验候选均拒绝该组合时，返回 HTTP `400 video_capability_mismatch`。当前无经核验的候选可用时，返回 HTTP `503`。
+### 协议继承
 
-Seedance 2.5 试点请求带源视频或参考视频时，`operation` 填 `video_edit`、`video_extend` 或 `video_multi_ref`，网关据此确定上游任务类型。也可传对应的 `omni_reference_task_type` 值 `edit`、`extend` 或 `reference`。试点请求携带 `draft: true` 或非空 `draft_task_id` 时返回 HTTP `400`。
+先读取所选变体的 `gateway_protocol`；缺省时继承模型级 `contract.gateway_protocol`。当所有分组均与模型默认 `contract.gateway_protocol` 一致时，变体省略该字段；混合协议模型（或与模型默认协议不同的变体）会在变体上显式发布 `gateway_protocol`，并以所选分组的变体协议为准。
+
+| 协议 | 创建 | 查询 |
+| --- | --- | --- |
+| `openai_video` | `POST /v1/videos` | `GET /v1/videos/{task_id}` |
+| `video_generations` | `POST /v1/video/generations` | `GET /v1/video/generations/{task_id}` |
+
+模型默认协议为 `openai_video` 且选择原生 `video_generations` 变体时，创建走 `POST /v1/video/generations`，并携带 `X-OmniMux-Video-Protocol: video_generations`；查询该任务走 `GET /v1/video/generations/{task_id}`。`openai_video` 默认仍使用 `POST /v1/videos` 和 `GET /v1/videos/{task_id}`。旧客户端不带请求头访问原生入口时，保留模型原有的默认解码行为。
+
+### 选择与重试
+
+目录反映查询时账号可用的分组。通过请求模型字段中的 `model@group` 显式选择分组；该分组约束本次提交及每次重试，请求必须匹配 `effective_video.groups[group]` 中的一个完整变体。已受理任务按原始任务记录和协议查询，即使后续目录或分组规则变化也不切换。`400 video_capability_mismatch` 表示当前没有已核验候选接受该组合；`503` 表示当前没有可用的已核验候选。
+
+Seedance 2.5 请求带源视频或参考视频时，`operation` 填 `video_edit`、`video_extend` 或 `video_multi_ref`，网关据此确定上游任务类型。也可传对应的 `omni_reference_task_type` 值 `edit`、`extend` 或 `reference`。请求携带 `draft: true` 或非空 `draft_task_id` 时返回 HTTP `400`。
 
 ## 相关接口
 
-`GET /api/model_contract/:model` 返回 `data.contract`，以及整份静态契约文档的版本 `data.version`。已启用试点的模型通过 `data.effective_video` 返回与定价模型行结构相同的账号分组能力。模型没有治理档案时返回 `404`。
+`GET /api/model_contract/:model` 返回 `data.contract`，以及整份静态契约文档的版本 `data.version`。具备视频能力视图的模型通过 `data.effective_video` 返回与定价模型行结构相同的账号分组能力。模型没有治理档案时返回 `404`。
 
-下方是试点响应节选，分组与版本值均为示例。
+下方响应节选使用脱敏固定样例中的合成模型 ID、分组与版本值。
 
 <Panel>
 
@@ -132,42 +145,127 @@ curl --request GET \
 }
 ```
 
-```json 200 试点示例
+```json 200 分组视频示例
 {
   "success": true,
   "pricing_version": "model-group-display-v1",
+  "usable_group": { "auto": "Automatic", "default": "Default", "narrow": "Narrow" },
   "data": [
     {
-      "model_name": "muse-video",
-      "enable_groups": ["example-video"],
-      "default_group": "example-video",
-      "group_order": ["example-video"],
+      "model_name": "example-group-video",
+      "enable_groups": ["default", "fixture-hidden", "narrow"],
+      "default_group": "default",
+      "group_order": ["default", "fixture-hidden", "narrow"],
       "contract": {
-        "model_id": "muse-video",
+        "model_id": "example-group-video",
         "schemaVersion": "2.0",
-        "contractVersion": "1111111111111111"
+        "contractVersion": "d9bff40815cc5e32",
+        "execution_status": "live",
+        "gateway_protocol": "video_generations"
       },
       "effective_video": {
-        "version": "2222222222222222",
+        "version": "e086f5bb6394f409",
         "groups": {
-          "example-video": [
+          "default": [
+            {
+              "id": "first_frame",
+              "modeKind": "first_frame",
+              "executable": true,
+              "inputs": [
+                { "slot": "prompt", "type": "text", "required": true },
+                { "slot": "first_frame", "type": "image", "role": "first_frame", "required": true, "min": 1, "max": 1, "allowedMimes": ["image/png"] }
+              ],
+              "parameters": [
+                { "name": "duration", "type": "integer", "minimum": 4, "maximum": 6, "step": 1, "required": true },
+                { "name": "resolution", "type": "enum", "enum": ["480p", "720p"] }
+              ]
+            },
             {
               "id": "video_multi_ref",
               "modeKind": "image_reference",
               "executable": true,
               "inputs": [
                 { "slot": "prompt", "type": "text", "required": true },
-                {
-                  "slot": "reference_images", "type": "image", "role": "reference",
-                  "firstItemRole": "first_frame", "required": true, "min": 2, "max": 10,
-                  "allowedMimes": ["image/jpeg", "image/png", "image/webp"]
-                }
+                { "slot": "reference_images", "type": "image", "role": "reference", "required": true, "min": 1, "max": 2, "allowedMimes": ["image/png"] }
               ],
               "parameters": [
-                { "name": "duration", "type": "integer", "minimum": 1, "maximum": 60, "step": 1, "default": 5 },
-                { "name": "aspect_ratio", "type": "enum", "enum": ["16:9"], "required": true }
+                { "name": "duration", "type": "integer", "minimum": 4, "maximum": 6, "step": 1, "required": true },
+                { "name": "resolution", "type": "enum", "enum": ["720p"], "required": true }
+              ]
+            }
+          ],
+          "narrow": [
+            {
+              "id": "video_multi_ref",
+              "modeKind": "image_reference",
+              "executable": true,
+              "inputs": [
+                { "slot": "prompt", "type": "text", "required": true },
+                { "slot": "reference_images", "type": "image", "role": "reference", "required": true, "min": 1, "max": 2, "allowedMimes": ["image/png"] }
               ],
-              "output": { "type": "video", "formats": ["mp4"] }
+              "parameters": [
+                { "name": "duration", "type": "integer", "minimum": 4, "maximum": 6, "step": 1, "required": true },
+                { "name": "resolution", "type": "enum", "enum": ["720p"], "required": true }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+```json 200 混合协议示例
+{
+  "success": true,
+  "pricing_version": "model-group-display-v1",
+  "data": [
+    {
+      "model_name": "example-mixed-video",
+      "enable_groups": ["default", "narrow"],
+      "default_group": "default",
+      "group_order": ["default", "narrow"],
+      "contract": {
+        "model_id": "example-mixed-video",
+        "schemaVersion": "2.0",
+        "contractVersion": "ff197cce94cefb75",
+        "execution_status": "live",
+        "gateway_protocol": "openai_video"
+      },
+      "effective_video": {
+        "version": "58cff3fa201d19bf",
+        "groups": {
+          "default": [
+            {
+              "id": "first_frame",
+              "gateway_protocol": "video_generations",
+              "modeKind": "first_frame",
+              "executable": true,
+              "inputs": [
+                { "slot": "prompt", "type": "text", "required": true },
+                { "slot": "first_frame", "type": "image", "role": "first_frame", "required": true, "min": 1, "max": 1, "allowedMimes": ["image/png"] }
+              ],
+              "parameters": [
+                { "name": "duration", "type": "integer", "minimum": 4, "maximum": 6, "step": 1, "required": true },
+                { "name": "aspect_ratio", "type": "enum", "enum": ["adaptive"], "fixed": "adaptive" }
+              ]
+            }
+          ],
+          "narrow": [
+            {
+              "id": "video_multi_ref",
+              "gateway_protocol": "openai_video",
+              "modeKind": "image_reference",
+              "executable": true,
+              "inputs": [
+                { "slot": "prompt", "type": "text", "required": true },
+                { "slot": "reference_images", "type": "image", "role": "reference", "firstItemRole": "first_frame", "required": true, "min": 2, "max": 2, "allowedMimes": ["image/png"] }
+              ],
+              "parameters": [
+                { "name": "duration", "type": "integer", "minimum": 4, "maximum": 6, "step": 1, "default": 5 },
+                { "name": "aspect_ratio", "type": "enum", "enum": ["16:9", "adaptive"] }
+              ]
             }
           ]
         }

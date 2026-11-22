@@ -56,28 +56,41 @@ An operation input carries `slot`, `type`, `role`, `firstItemRole`, `required`, 
 
 `executable: false` means the operation is documented by the vendor but this gateway does not execute it; clients must not submit it.
 
-## Video routing pilot
+## Video group capabilities
 
-The pilot is opt-in. When a deployment enables it for a model, its pricing row may include `effective_video` beside `contract`.
+`GET /api/pricing` model rows and `GET /api/model_contract/:model` responses may include `effective_video` beside `contract` for video models with `contract.gateway_protocol: "video_generations"` or registered verified group rules. It is the account-scoped view of the groups the caller can select: `groups` maps each group to an array of complete operation variants, and `version` changes when that view's capability content changes. A model without a video capability view omits `effective_video`; legacy callers continue to use the model-level `contract` and the existing invocation path.
 
 | Field or state | Meaning |
 | --- | --- |
-| `effective_video.version` | Content version of the account's available group view. Use `contract.contractVersion` for the model-level contract. |
-| `effective_video.groups` | Maps each selectable group to an array of complete operation variants. |
-| `effective_video` omitted | Use the model-level `contract` and existing label mapping. |
-| Empty `groups` object or empty group array | An empty object means zero groups in this view. An empty array means zero verified variants for that group. |
+| `effective_video.version` | Content version of the current account's group view. The model-level contract version remains `contract.contractVersion`. |
+| `effective_video.groups` | Maps each account-selectable group to complete operation variants. Groups outside the caller's `usable_group` are not included. |
+| `effective_video` omitted | No account-scoped group view is published; use the model-level `contract` and the existing call path. |
+| Empty `groups` object or empty group array | An empty object means this account has zero publishable groups. An empty array means the selected group has zero verified variants; do not fall back to another group. |
 
-Variants can share an operation `id`. Match the entire request against one variant, including its media slots, counts, and parameters. A parameter with `required: true` needs an explicit value. For ordered Muse references, `firstItemRole: "first_frame"` assigns the first image as the starting frame.
+A variant contains `id`, optional `gateway_protocol`, `modeKind`, `inputs`, `parameters`, and `output`. The same operation `id` can appear in multiple variants with different media limits or parameter constraints. Match the whole request against one variant, including slot counts and required parameters; `required: true` means the caller must send the value explicitly. For ordered image references, `firstItemRole: "first_frame"` marks the first reference image as the starting frame. A verified profile may narrow `modeKind` and the accepted media roles relative to the model-level contract.
 
-The catalog shows the account's available groups at read time. Submissions and retries use the submitted token's permissions and current channel availability. HTTP `400 video_capability_mismatch` means the available verified candidates reject the combination. If no verified candidate is available, the selection error is HTTP `503`.
+### Protocol inheritance
 
-For Seedance 2.5 pilot requests with a source or reference video, supply `operation` as `video_edit`, `video_extend`, or `video_multi_ref`. The gateway derives the upstream task type. The corresponding `omni_reference_task_type` value, `edit`, `extend`, or `reference`, also works. Pilot requests with `draft: true` or a nonempty `draft_task_id` return HTTP `400`.
+Read the selected variant's `gateway_protocol` first; when absent, inherit the model-level `contract.gateway_protocol`. When all groups use the same protocol as `contract.gateway_protocol`, variants omit this field. Mixed-protocol models (or variants whose protocol differs from the model default) publish `gateway_protocol` on each variant, and the selected group's variant protocol is authoritative.
+
+| Protocol | Create | Query |
+| --- | --- | --- |
+| `openai_video` | `POST /v1/videos` | `GET /v1/videos/{task_id}` |
+| `video_generations` | `POST /v1/video/generations` | `GET /v1/video/generations/{task_id}` |
+
+For a model whose default protocol is `openai_video`, selecting a native `video_generations` variant uses `POST /v1/video/generations` with `X-OmniMux-Video-Protocol: video_generations`; query that task with `GET /v1/video/generations/{task_id}`. The `openai_video` default remains `POST /v1/videos` and `GET /v1/videos/{task_id}`. Native requests without the header keep the existing model default decoding behavior for legacy clients.
+
+### Selection and retries
+
+The catalog shows the groups available to the account at read time. Select a group explicitly with a `model@group` model value; that group constrains the submission and every retry, and the request must match one complete variant in `effective_video.groups[group]`. An accepted task is queried by its original task record and protocol, even if catalog or group rules change later. `400 video_capability_mismatch` means no available verified candidate accepts the combination; `503` means no verified candidate is currently available.
+
+For Seedance 2.5 requests with a source or reference video, supply `operation` as `video_edit`, `video_extend`, or `video_multi_ref`; the gateway derives the upstream task type. The corresponding `omni_reference_task_type` value `edit`, `extend`, or `reference` also works. Requests with `draft: true` or a nonempty `draft_task_id` return HTTP `400`.
 
 ## Related endpoint
 
-`GET /api/model_contract/:model` returns `data.contract` and `data.version`, the version of the whole static contract document. For enrolled models, `data.effective_video` uses the same shape and account scope as the pricing row. A model without a governance spec returns `404`.
+`GET /api/model_contract/:model` returns `data.contract` and `data.version`, the version of the whole static contract document. For video models with a video capability view, `data.effective_video` uses the same structure and account scope as the pricing row. A model without a governance spec returns `404`.
 
-The abridged pilot response uses an illustrative group and version values.
+The abridged examples below use the synthetic model IDs, groups and version values from the sanitized fixed samples.
 
 <Panel>
 
@@ -132,42 +145,127 @@ curl --request GET \
 }
 ```
 
-```json 200 Pilot example
+```json 200 Grouped video example
 {
   "success": true,
   "pricing_version": "model-group-display-v1",
+  "usable_group": { "auto": "Automatic", "default": "Default", "narrow": "Narrow" },
   "data": [
     {
-      "model_name": "muse-video",
-      "enable_groups": ["example-video"],
-      "default_group": "example-video",
-      "group_order": ["example-video"],
+      "model_name": "example-group-video",
+      "enable_groups": ["default", "fixture-hidden", "narrow"],
+      "default_group": "default",
+      "group_order": ["default", "fixture-hidden", "narrow"],
       "contract": {
-        "model_id": "muse-video",
+        "model_id": "example-group-video",
         "schemaVersion": "2.0",
-        "contractVersion": "1111111111111111"
+        "contractVersion": "d9bff40815cc5e32",
+        "execution_status": "live",
+        "gateway_protocol": "video_generations"
       },
       "effective_video": {
-        "version": "2222222222222222",
+        "version": "e086f5bb6394f409",
         "groups": {
-          "example-video": [
+          "default": [
+            {
+              "id": "first_frame",
+              "modeKind": "first_frame",
+              "executable": true,
+              "inputs": [
+                { "slot": "prompt", "type": "text", "required": true },
+                { "slot": "first_frame", "type": "image", "role": "first_frame", "required": true, "min": 1, "max": 1, "allowedMimes": ["image/png"] }
+              ],
+              "parameters": [
+                { "name": "duration", "type": "integer", "minimum": 4, "maximum": 6, "step": 1, "required": true },
+                { "name": "resolution", "type": "enum", "enum": ["480p", "720p"] }
+              ]
+            },
             {
               "id": "video_multi_ref",
               "modeKind": "image_reference",
               "executable": true,
               "inputs": [
                 { "slot": "prompt", "type": "text", "required": true },
-                {
-                  "slot": "reference_images", "type": "image", "role": "reference",
-                  "firstItemRole": "first_frame", "required": true, "min": 2, "max": 10,
-                  "allowedMimes": ["image/jpeg", "image/png", "image/webp"]
-                }
+                { "slot": "reference_images", "type": "image", "role": "reference", "required": true, "min": 1, "max": 2, "allowedMimes": ["image/png"] }
               ],
               "parameters": [
-                { "name": "duration", "type": "integer", "minimum": 1, "maximum": 60, "step": 1, "default": 5 },
-                { "name": "aspect_ratio", "type": "enum", "enum": ["16:9"], "required": true }
+                { "name": "duration", "type": "integer", "minimum": 4, "maximum": 6, "step": 1, "required": true },
+                { "name": "resolution", "type": "enum", "enum": ["720p"], "required": true }
+              ]
+            }
+          ],
+          "narrow": [
+            {
+              "id": "video_multi_ref",
+              "modeKind": "image_reference",
+              "executable": true,
+              "inputs": [
+                { "slot": "prompt", "type": "text", "required": true },
+                { "slot": "reference_images", "type": "image", "role": "reference", "required": true, "min": 1, "max": 2, "allowedMimes": ["image/png"] }
               ],
-              "output": { "type": "video", "formats": ["mp4"] }
+              "parameters": [
+                { "name": "duration", "type": "integer", "minimum": 4, "maximum": 6, "step": 1, "required": true },
+                { "name": "resolution", "type": "enum", "enum": ["720p"], "required": true }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+```json 200 Mixed protocol example
+{
+  "success": true,
+  "pricing_version": "model-group-display-v1",
+  "data": [
+    {
+      "model_name": "example-mixed-video",
+      "enable_groups": ["default", "narrow"],
+      "default_group": "default",
+      "group_order": ["default", "narrow"],
+      "contract": {
+        "model_id": "example-mixed-video",
+        "schemaVersion": "2.0",
+        "contractVersion": "ff197cce94cefb75",
+        "execution_status": "live",
+        "gateway_protocol": "openai_video"
+      },
+      "effective_video": {
+        "version": "58cff3fa201d19bf",
+        "groups": {
+          "default": [
+            {
+              "id": "first_frame",
+              "gateway_protocol": "video_generations",
+              "modeKind": "first_frame",
+              "executable": true,
+              "inputs": [
+                { "slot": "prompt", "type": "text", "required": true },
+                { "slot": "first_frame", "type": "image", "role": "first_frame", "required": true, "min": 1, "max": 1, "allowedMimes": ["image/png"] }
+              ],
+              "parameters": [
+                { "name": "duration", "type": "integer", "minimum": 4, "maximum": 6, "step": 1, "required": true },
+                { "name": "aspect_ratio", "type": "enum", "enum": ["adaptive"], "fixed": "adaptive" }
+              ]
+            }
+          ],
+          "narrow": [
+            {
+              "id": "video_multi_ref",
+              "gateway_protocol": "openai_video",
+              "modeKind": "image_reference",
+              "executable": true,
+              "inputs": [
+                { "slot": "prompt", "type": "text", "required": true },
+                { "slot": "reference_images", "type": "image", "role": "reference", "firstItemRole": "first_frame", "required": true, "min": 2, "max": 2, "allowedMimes": ["image/png"] }
+              ],
+              "parameters": [
+                { "name": "duration", "type": "integer", "minimum": 4, "maximum": 6, "step": 1, "default": 5 },
+                { "name": "aspect_ratio", "type": "enum", "enum": ["16:9", "adaptive"] }
+              ]
             }
           ]
         }

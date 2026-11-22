@@ -28,6 +28,27 @@ rss: true
 
 </Update>
 
+<a id="2026-11-20-video-group-protocols"></a>
+
+<Update label="2026 年 11 月 20 日" tags={["能力更新", "视频"]} rss={{ title: "视频模型发布已验证分组协议" }}>
+
+  ## 视频分组能力
+
+  `GET /api/pricing` 的模型行与 `GET /api/model_contract/:model` 的响应现在可为具备已核验分组规则的视频模型发布账号级 `effective_video` 视图。每个分组映射到完整操作变体；请求必须匹配其中一个完整变体，并可用 `model@group` 显式选择分组。
+
+  ## 协议继承
+
+  读取变体的 `gateway_protocol`；缺省时继承模型级 `contract.gateway_protocol`。同协议模型在变体上沿用模型级协议，混合协议分组则在组内声明各自协议。按对应协议使用创建与查询入口：`openai_video` 使用 `POST /v1/videos` / `GET /v1/videos/{task_id}`，`video_generations` 使用 `POST /v1/video/generations` / `GET /v1/video/generations/{task_id}`。模型默认协议为 `openai_video` 且选择原生变体时，在 `POST /v1/video/generations` 携带 `X-OmniMux-Video-Protocol: video_generations`。
+
+  重试保持在所选分组内，已受理任务按原任务记录和协议查询。既有试点行为保持兼容。
+
+  ### 链接
+
+  - [定价 API 文档](/zh/api-reference/account/pricing)
+  - [视频任务查询](/zh/api-reference/tasks/video-task)
+
+</Update>
+
 <a id="2026-11-20-video-mode-capabilities"></a>
 
 <Update label="2026 年 11 月 20 日" tags={["能力更新", "视频"]} rss={{ title: "视频模式语义与兼容选线试点" }}>
@@ -1159,44 +1180,6 @@ rss: true
   ### 链接
 
   - [Suno 接口文档](/zh/api-reference/audio-series/models/suno)
-
-</Update>
-
-<a id="2026-09-18-gemini-3-8-flash"></a>
-
-<Update label="2026 年 9 月 18 日" tags={["新模型", "文本"]} rss={{ title: "Gemini 3.8 Flash 对话补全接口上线" }}>
-
-  ## Gemini 3.8 Flash
-
-  `gemini-3.8-flash` 模型已接入 OmniMux 标准对话补全服务。
-
-  ### 接口规范
-
-  - **模型标识：** `gemini-3.8-flash`
-  - **接口协议：** 兼容 OpenAI 对话补全协议
-  - **调用端点：** `POST /v1/chat/completions`
-  - **鉴权方式：** Bearer 令牌鉴权（`sk-...`）
-  - **流式传输：** 支持通过 `"stream": true` 启用
-
-  ### 请求体示例
-
-  ```json
-  {
-    "model": "gemini-3.8-flash",
-    "messages": [
-      {
-        "role": "user",
-        "content": "你好"
-      }
-    ]
-  }
-  ```
-
-  完整参数定义与状态码说明请查阅 [Gemini 完整参数参考文档](/zh/api-reference/text-series/gemini/complete)。
-
-  ### 链接
-
-  - [Gemini 完整参数参考](/zh/api-reference/text-series/gemini/complete)
 
 </Update>
 

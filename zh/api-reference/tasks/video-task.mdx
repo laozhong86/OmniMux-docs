@@ -5,10 +5,22 @@ description: "GET /v1/video/generations/{task_id} · 轮询视频生成任务"
 api: "GET https://api.omnimux.ai/v1/video/generations/{task_id}"
 ---
 
-> - 仅用于 **视频系列** 创建接口 `POST /v1/video/generations` 返回的 `task_id`
-> - **不是** OpenAI Videos 的 `/v1/videos/{id}` 或 `/content` 下载路径
-> - 插件型（type 65）视频模型例外：创建走 `POST /v1/videos`，轮询走 `GET /v1/videos/{task_id}`
+> - 用于 `POST /v1/video/generations` 返回的 `task_id`，包括账号级 `effective_video` 中暴露的原生 `video_generations` 变体
+> - 通过 `POST /v1/videos` 创建的任务请改用 `GET /v1/videos/{task_id}`；`/content` 下载是独立接口
+> - 插件型（type 65）视频模型仍创建走 `POST /v1/videos`，轮询走 `GET /v1/videos/{task_id}`
+> - 已受理任务保留受理时的协议；即使目录或分组规则后续变化，也按该协议对应的查询入口轮询
 > - 鉴权：`Authorization: Bearer sk-...`
+
+## 按协议使用查询入口
+
+账号级视频分组能力请读取所选变体的 `gateway_protocol`（缺省时继承模型级 `contract.gateway_protocol`）：
+
+| 协议 | 查询 |
+| --- | --- |
+| `video_generations` | `GET /v1/video/generations/{task_id}` |
+| `openai_video` | `GET /v1/videos/{task_id}` |
+
+通过 `openai_video` 受理的任务不能用 `/v1/video/generations/{task_id}` 轮询，反之亦然。若模型默认协议为 `openai_video`，但显式选择的分组暴露了原生 `video_generations` 变体，创建时使用 `POST /v1/video/generations` 并携带 `X-OmniMux-Video-Protocol: video_generations`，随后用 `GET /v1/video/generations/{task_id}` 轮询。
 
 ## 路径参数
 
