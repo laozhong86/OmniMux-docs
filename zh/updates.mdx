@@ -9,6 +9,25 @@ rss: true
 
 分页：**第 1 页** · [第 2 页](/zh/updates/page-2)
 
+<a id="2026-11-22-pricing-groups-influencer-quota"></a>
+
+<Update label="2026 年 11 月 22 日" tags={["能力更新", "平台"]} rss={{ title: "定价分组字段与达人创作余额预检" }}>
+
+  ## 定价 API 展示字段
+
+  `GET /api/pricing` 新增顶层 `pricing_version`，当前值为 `"model-group-display-v1"`。每个模型行同时返回服务端下发的默认分组 `default_group` 与去重且覆盖该模型全部 `enable_groups` 的展示顺序 `group_order`；客户端无需自行从 `enable_groups` 推导默认分组。
+
+  ## 达人创作余额预检
+
+  `POST /api/influencer/v1/characters`、`POST /api/influencer/v1/characters/{task_id}/multiview` 和 `POST /api/influencer/v1/videos` 在任务入队前校验账户余额。余额不足返回 `403`，`code: "insufficient_user_quota"`、`message: "Insufficient user quota"`，不创建任务、不扣费、不发起上游调用。计价/报价服务暂不可用时返回 `503`，`code: "generation_quote_unavailable"`。任务在执行或结算阶段因余额不足失败时公开 `fail_reason: "Insufficient user quota"`；在工作台充值后可重试同一请求继续。
+
+  ### 链接
+
+  - [定价 API 文档](/zh/api-reference/account/pricing)
+  - [创建角色](/zh/api-reference/account/influencer/create-character)
+
+</Update>
+
 <a id="2026-11-20-video-mode-capabilities"></a>
 
 <Update label="2026 年 11 月 20 日" tags={["能力更新", "视频"]} rss={{ title: "视频模式语义与兼容选线试点" }}>
@@ -1178,27 +1197,6 @@ rss: true
   ### 链接
 
   - [Gemini 完整参数参考](/zh/api-reference/text-series/gemini/complete)
-
-</Update>
-
-<a id="2026-09-18-doubao-seed-evolving"></a>
-
-<Update label="2026 年 9 月 18 日" tags={["新模型", "文本"]} rss={{ title: "字节跳动火山方舟官方直连大模型 seed-evolving 正式上线" }}>
-
-  ## 本次更新
-
-  - **官方直连专线**：新增火山方舟官方直连渠道 `#73`，直通字节跳动豆包 `seed-evolving` 模型。
-  - **全模态深度思考**：提供 1024K 上下文窗口、256K 最大回答输出、原生深度思考、工具调用与多模态理解能力。
-  - **透明官方同价**：计费表达式严格锚定官方刊例原价（输入 6.00 元/M、输出 30.00 元/M、缓存命中 1.20 元/M，按 6.8 汇率透明折算）。
-  - **本地 OmniMux CLI 验证通过**：使用官方命令行工具 `omnimux` 完成模型可见性、定价核验与安全令牌端到端对话全流程实测验证。
-
-  ## 参考文档
-
-  - Doubao 完整参数手册：`/zh/api-reference/text-series/doubao/complete`
-
-  ### 链接
-
-  - [Doubao 完整参数手册](/zh/api-reference/text-series/doubao/complete)
 
 </Update>
 

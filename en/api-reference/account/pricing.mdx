@@ -27,7 +27,14 @@ Base URL: `https://omnimux.ai`
 
 ### 200
 
-`data` is an array of models. Each row includes `model_name`, `quota_type`, `model_ratio`, `model_price`, `enable_groups`, and `contract`.
+`data` is an array of models. Each row includes `model_name`, `quota_type`, `model_ratio`, `model_price`, `enable_groups`, `default_group`, `group_order`, and `contract`.
+
+The top-level `pricing_version` identifies the pricing display contract; the current value is `"model-group-display-v1"`.
+
+| Display field | Meaning |
+| --- | --- |
+| `default_group` | Server-selected default group for this model. When non-empty, it is guaranteed to belong to both the model's `enable_groups` and the caller's `usable_group`. If an administrator-configured default group is unavailable to the caller, this is the empty string `""`. Without explicit configuration, selection falls back in order to the caller's group, `"default"`, then the first available group in `group_order`. |
+| `group_order` | Model-level route/group display order. It is de-duplicated and covers every entry in the model's `enable_groups`. Use it only for display ordering; it is distinct from `auto_groups`, which lists automatic routing candidates. |
 
 The optional top-level `defaults` map recommends a model per operation (`chat`, `vision_chat`, `text_to_image`, `text_to_video`, `text_to_music`, `speech_to_text`). Every value references a model present in the same response with non-empty `enable_groups`; absent recommendations are omitted.
 
@@ -88,6 +95,7 @@ curl --request GET \
 ```json 200
 {
   "success": true,
+  "pricing_version": "model-group-display-v1",
   "defaults": {
     "chat": "gemini-3.8-flash",
     "text_to_image": "gpt-image-2.5"
@@ -98,6 +106,8 @@ curl --request GET \
       "quota_type": 1,
       "model_price": 0.013072,
       "enable_groups": ["default"],
+      "default_group": "default",
+      "group_order": ["default"],
       "contract": {
         "model_id": "gpt-image-2.5",
         "schemaVersion": "2.0",
@@ -125,10 +135,13 @@ curl --request GET \
 ```json 200 Pilot example
 {
   "success": true,
+  "pricing_version": "model-group-display-v1",
   "data": [
     {
       "model_name": "muse-video",
       "enable_groups": ["example-video"],
+      "default_group": "example-video",
+      "group_order": ["example-video"],
       "contract": {
         "model_id": "muse-video",
         "schemaVersion": "2.0",
