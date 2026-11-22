@@ -9,6 +9,22 @@ Stay up to date with OmniMux gateway model launches and platform changes. The fu
 
 Pages: **Page 1** · [Page 2](/en/updates/page-2)
 
+<a id="2026-11-22-pricing-fallback-order"></a>
+
+<Update label="November 22, 2026" tags={["Improvements", "Platform"]} rss={{ title: "Stable model and group ordering in the Pricing API" }}>
+
+  ## Stable pricing catalog order
+
+  `GET /api/pricing` sorts `enable_groups` by group name in ascending lexicographic order. `group_order` follows the configured order when it is valid and uses the order in `enable_groups` when the configured order is missing or invalid.
+
+  The API sorts model rows by update time, creation time, and metadata ID, in descending order for each field. When all three values tie, it sorts by `model_name` in ascending lexicographic order.
+
+  ### Links
+
+  - [Pricing API reference](/en/api-reference/account/pricing)
+
+</Update>
+
 <a id="2026-11-22-pricing-groups-influencer-quota"></a>
 
 <Update label="November 22, 2026" tags={["Improvements", "Platform"]} rss={{ title: "Pricing group fields and influencer quota prechecks" }}>
@@ -1143,43 +1159,6 @@ Pages: **Page 1** · [Page 2](/en/updates/page-2)
   ### Links
 
   - [Index TTS Reference](/en/api-reference/audio-series/models/index-tts)
-
-</Update>
-
-<a id="2026-09-18-suno-sounds"></a>
-
-<Update label="September 18, 2026" tags={["New models", "Audio"]} rss={{ title: "Suno Sound Effects Generation (suno-sounds) Available" }}>
-
-  ## Suno Sound Effects
-
-  The dedicated sound effect generation model `suno-sounds` is now supported on OmniMux.
-
-  ### Model specification
-
-  - **Model ID:** `suno-sounds`
-  - **Endpoint:** `POST /v1/video/generations`
-  - **Polling endpoint:** `GET /v1/video/generations/{task_id}`
-  - **Authentication:** Bearer token (`sk-...`)
-  - **Modality:** Ambient and scene sound effects without vocal lyrics
-
-  ### Request example
-
-  ```bash
-  curl --request POST \
-    --url https://api.omnimux.ai/v1/video/generations \
-    --header 'Authorization: Bearer sk-...' \
-    --header 'Content-Type: application/json' \
-    --data '{
-      "model": "suno-sounds",
-      "prompt": "footsteps on gravel followed by heavy rain and distant thunder"
-    }'
-  ```
-
-  Details are available in the [Suno API Reference](/en/api-reference/audio-series/models/suno).
-
-  ### Links
-
-  - [Suno API Reference](/en/api-reference/audio-series/models/suno)
 
 </Update>
 
