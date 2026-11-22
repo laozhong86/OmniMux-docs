@@ -2,9 +2,47 @@
   "schema_version": 1,
   "page": 1,
   "page_size": 50,
-  "total": 86,
+  "total": 87,
   "total_pages": 2,
   "items": [
+    {
+      "id": "2026-11-22-pricing-fallback-order",
+      "published_at": "2026-11-22",
+      "type": "capability",
+      "modality": [
+        "platform"
+      ],
+      "title": {
+        "en": "Stable model and group ordering in the Pricing API",
+        "zh": "定价接口稳定返回模型与分组顺序"
+      },
+      "summary": {
+        "en": "`GET /api/pricing` returns model rows in a stable order and uses a consistent group order when the configured display order is missing or invalid.",
+        "zh": "`GET /api/pricing` 稳定返回模型行顺序，并在分组展示顺序缺失或失效时按固定顺序回退。"
+      },
+      "models": [],
+      "tags": [
+        "api",
+        "pricing"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "Pricing API reference",
+            "zh": "定价 API 文档"
+          },
+          "href": {
+            "en": "/en/api-reference/account/pricing",
+            "zh": "/zh/api-reference/account/pricing"
+          }
+        }
+      ],
+      "body": {
+        "en": "## Stable pricing catalog order\n\n`GET /api/pricing` sorts `enable_groups` by group name in ascending lexicographic order. `group_order` follows the configured order when it is valid and uses the order in `enable_groups` when the configured order is missing or invalid.\n\nThe API sorts model rows by update time, creation time, and metadata ID, in descending order for each field. When all three values tie, it sorts by `model_name` in ascending lexicographic order.",
+        "zh": "## 定价目录排序\n\n`GET /api/pricing` 按组名字典升序排列 `enable_groups`。配置顺序有效时，`group_order` 按配置返回。配置顺序缺失或失效时，`group_order` 沿用 `enable_groups` 的顺序。\n\n模型行依次按更新时间、创建时间和元数据 ID 倒序排列。三项均相同时，按 `model_name` 字典升序排列。"
+      },
+      "schema_version": 1
+    },
     {
       "id": "2026-11-22-pricing-groups-influencer-quota",
       "published_at": "2026-11-22",
@@ -2125,47 +2163,6 @@
       "body": {
         "en": "## Index TTS 2\n\nThe `indextts-2` voice clone model is now supported on OmniMux.\n\n### Model specification\n\n- **Model ID:** `indextts-2`\n- **Create endpoint:** `POST /v1/tasks/autodl`\n- **Polling endpoint:** `GET /v1/tasks/{task_id}`\n- **Artifact endpoint:** `GET /v1/tasks/{task_id}/artifacts`\n- **Authentication:** Bearer token (`sk-...`)\n\n### Request example\n\n```json\n{\n  \"model\": \"indextts-2\",\n  \"prompt_text\": \"Hello, this is a cloned voice generation test.\",\n  \"prompt_simple\": \"https://example.com/reference_audio.wav\",\n  \"emo_control_method\": \"same_as_reference\"\n}\n```\n\nFull parameter specifications are documented in the [Index TTS Reference](/en/api-reference/audio-series/models/index-tts).",
         "zh": "## Index TTS 2\n\n声音克隆模型 `indextts-2` 现已接入 OmniMux 提供异步调用。\n\n### 接口规范\n\n- **模型标识：** `indextts-2`\n- **任务提交端点：** `POST /v1/tasks/autodl`\n- **任务状态查询：** `GET /v1/tasks/{task_id}`\n- **生成产物获取：** `GET /v1/tasks/{task_id}/artifacts`\n- **鉴权方式：** Bearer 令牌鉴权（`sk-...`）\n\n### 请求示例\n\n```json\n{\n  \"model\": \"indextts-2\",\n  \"prompt_text\": \"你好，这是一段声音克隆合成测试台词。\",\n  \"prompt_simple\": \"https://example.com/reference_audio.wav\",\n  \"emo_control_method\": \"与音色参考音频相同\"\n}\n```\n\n完整参数定义与情绪调节字段详见 [Index TTS 接口参考文档](/zh/api-reference/audio-series/models/index-tts)。"
-      },
-      "schema_version": 1
-    },
-    {
-      "id": "2026-09-18-suno-sounds",
-      "published_at": "2026-09-18",
-      "type": "model_launch",
-      "modality": [
-        "audio"
-      ],
-      "title": {
-        "en": "Suno Sound Effects Generation (suno-sounds) Available",
-        "zh": "Suno 独立音效生成接口 (suno-sounds) 上线"
-      },
-      "summary": {
-        "en": "Dedicated sound effects generation model `suno-sounds` is now available on OmniMux via POST /v1/video/generations.",
-        "zh": "独立音效生成模型 `suno-sounds` 现已接入 OmniMux，支持通过 POST /v1/video/generations 端点生成场景音效。"
-      },
-      "models": [
-        "suno-sounds"
-      ],
-      "tags": [
-        "audio",
-        "sound-effects",
-        "suno"
-      ],
-      "links": [
-        {
-          "label": {
-            "en": "Suno API Reference",
-            "zh": "Suno 接口文档"
-          },
-          "href": {
-            "en": "/en/api-reference/audio-series/models/suno",
-            "zh": "/zh/api-reference/audio-series/models/suno"
-          }
-        }
-      ],
-      "body": {
-        "en": "## Suno Sound Effects\n\nThe dedicated sound effect generation model `suno-sounds` is now supported on OmniMux.\n\n### Model specification\n\n- **Model ID:** `suno-sounds`\n- **Endpoint:** `POST /v1/video/generations`\n- **Polling endpoint:** `GET /v1/video/generations/{task_id}`\n- **Authentication:** Bearer token (`sk-...`)\n- **Modality:** Ambient and scene sound effects without vocal lyrics\n\n### Request example\n\n```bash\ncurl --request POST \\\n  --url https://api.omnimux.ai/v1/video/generations \\\n  --header 'Authorization: Bearer sk-...' \\\n  --header 'Content-Type: application/json' \\\n  --data '{\n    \"model\": \"suno-sounds\",\n    \"prompt\": \"footsteps on gravel followed by heavy rain and distant thunder\"\n  }'\n```\n\nDetails are available in the [Suno API Reference](/en/api-reference/audio-series/models/suno).",
-        "zh": "## Suno 音效生成\n\n独立场景音效生成模型 `suno-sounds` 现已在 OmniMux 提供异步调用支持。\n\n### 接口规范\n\n- **模型标识：** `suno-sounds`\n- **创建端点：** `POST /v1/video/generations`\n- **任务轮询端点：** `GET /v1/video/generations/{task_id}`\n- **鉴权方式：** Bearer 令牌鉴权（`sk-...`）\n- **生成模态：** 纯场景音效与环境音（无声乐伴奏与人声歌词）\n\n### 请求示例\n\n```bash\ncurl --request POST \\\n  --url https://api.omnimux.ai/v1/video/generations \\\n  --header 'Authorization: Bearer sk-...' \\\n  --header 'Content-Type: application/json' \\\n  --data '{\n    \"model\": \"suno-sounds\",\n    \"prompt\": \"碎石路上的脚步声，伴随暴雨和远处的雷声\"\n  }'\n```\n\n完整参数定义与状态说明请参阅 [Suno 接口参考文档](/zh/api-reference/audio-series/models/suno)。"
       },
       "schema_version": 1
     }

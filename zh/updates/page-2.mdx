@@ -9,6 +9,43 @@ rss: true
 
 分页：[第 1 页](/zh/updates) · **第 2 页**
 
+<a id="2026-09-18-suno-sounds"></a>
+
+<Update label="2026 年 9 月 18 日" tags={["新模型", "音频"]} rss={{ title: "Suno 独立音效生成接口 (suno-sounds) 上线" }}>
+
+  ## Suno 音效生成
+
+  独立场景音效生成模型 `suno-sounds` 现已在 OmniMux 提供异步调用支持。
+
+  ### 接口规范
+
+  - **模型标识：** `suno-sounds`
+  - **创建端点：** `POST /v1/video/generations`
+  - **任务轮询端点：** `GET /v1/video/generations/{task_id}`
+  - **鉴权方式：** Bearer 令牌鉴权（`sk-...`）
+  - **生成模态：** 纯场景音效与环境音（无声乐伴奏与人声歌词）
+
+  ### 请求示例
+
+  ```bash
+  curl --request POST \
+    --url https://api.omnimux.ai/v1/video/generations \
+    --header 'Authorization: Bearer sk-...' \
+    --header 'Content-Type: application/json' \
+    --data '{
+      "model": "suno-sounds",
+      "prompt": "碎石路上的脚步声，伴随暴雨和远处的雷声"
+    }'
+  ```
+
+  完整参数定义与状态说明请参阅 [Suno 接口参考文档](/zh/api-reference/audio-series/models/suno)。
+
+  ### 链接
+
+  - [Suno 接口文档](/zh/api-reference/audio-series/models/suno)
+
+</Update>
+
 <a id="2026-09-18-gemini-3-8-flash"></a>
 
 <Update label="2026 年 9 月 18 日" tags={["新模型", "文本"]} rss={{ title: "Gemini 3.8 Flash 对话补全接口上线" }}>

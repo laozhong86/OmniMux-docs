@@ -29,12 +29,15 @@ Base URL：`https://omnimux.ai`
 
 `data` 是模型数组。每行包含 `model_name`、`quota_type`、`model_ratio`、`model_price`、`enable_groups`、`default_group`、`group_order` 和 `contract`。
 
+模型行依次按更新时间、创建时间和元数据 ID 倒序排列。三项均相同时，按 `model_name` 字典升序排列。
+
 顶层 `pricing_version` 标识定价展示契约版本，当前值为 `"model-group-display-v1"`。
 
 | 展示字段 | 含义 |
 | --- | --- |
+| `enable_groups` | 该模型启用的分组，按组名字典升序排列。 |
 | `default_group` | 服务端下发的默认选中分组。非空时保证同时属于该模型的 `enable_groups` 与当前调用者的 `usable_group`；管理员显式配置的默认组对当前调用者不可用时为 `""`；缺显式配置时按「调用者分组 → `default` → `group_order` 首个可用组」回退。 |
-| `group_order` | 模型级线路/分组展示顺序，去重且覆盖该模型全部 `enable_groups`；仅用于展示排序，区别于自动路由候选分组 `auto_groups`。 |
+| `group_order` | 模型分组的展示顺序，`enable_groups` 中的每个分组恰好出现一次。配置顺序有效时按配置返回。配置顺序缺失或失效时，沿用 `enable_groups` 的组名字典升序。`auto_groups` 列出自动路由候选分组。 |
 
 可选的顶层 `defaults` 按操作推荐模型（`chat`、`vision_chat`、`text_to_image`、`text_to_video`、`text_to_music`、`speech_to_text`）。每个值都指向同一响应中 `enable_groups` 非空的模型；没有可用推荐时省略对应键。
 

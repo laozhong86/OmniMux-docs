@@ -9,6 +9,22 @@ rss: true
 
 分页：**第 1 页** · [第 2 页](/zh/updates/page-2)
 
+<a id="2026-11-22-pricing-fallback-order"></a>
+
+<Update label="2026 年 11 月 22 日" tags={["能力更新", "平台"]} rss={{ title: "定价接口稳定返回模型与分组顺序" }}>
+
+  ## 定价目录排序
+
+  `GET /api/pricing` 按组名字典升序排列 `enable_groups`。配置顺序有效时，`group_order` 按配置返回。配置顺序缺失或失效时，`group_order` 沿用 `enable_groups` 的顺序。
+
+  模型行依次按更新时间、创建时间和元数据 ID 倒序排列。三项均相同时，按 `model_name` 字典升序排列。
+
+  ### 链接
+
+  - [定价 API 文档](/zh/api-reference/account/pricing)
+
+</Update>
+
 <a id="2026-11-22-pricing-groups-influencer-quota"></a>
 
 <Update label="2026 年 11 月 22 日" tags={["能力更新", "平台"]} rss={{ title: "定价分组字段与达人创作余额预检" }}>
@@ -1143,43 +1159,6 @@ rss: true
   ### 链接
 
   - [Index TTS 接口参考](/zh/api-reference/audio-series/models/index-tts)
-
-</Update>
-
-<a id="2026-09-18-suno-sounds"></a>
-
-<Update label="2026 年 9 月 18 日" tags={["新模型", "音频"]} rss={{ title: "Suno 独立音效生成接口 (suno-sounds) 上线" }}>
-
-  ## Suno 音效生成
-
-  独立场景音效生成模型 `suno-sounds` 现已在 OmniMux 提供异步调用支持。
-
-  ### 接口规范
-
-  - **模型标识：** `suno-sounds`
-  - **创建端点：** `POST /v1/video/generations`
-  - **任务轮询端点：** `GET /v1/video/generations/{task_id}`
-  - **鉴权方式：** Bearer 令牌鉴权（`sk-...`）
-  - **生成模态：** 纯场景音效与环境音（无声乐伴奏与人声歌词）
-
-  ### 请求示例
-
-  ```bash
-  curl --request POST \
-    --url https://api.omnimux.ai/v1/video/generations \
-    --header 'Authorization: Bearer sk-...' \
-    --header 'Content-Type: application/json' \
-    --data '{
-      "model": "suno-sounds",
-      "prompt": "碎石路上的脚步声，伴随暴雨和远处的雷声"
-    }'
-  ```
-
-  完整参数定义与状态说明请参阅 [Suno 接口参考文档](/zh/api-reference/audio-series/models/suno)。
-
-  ### 链接
-
-  - [Suno 接口文档](/zh/api-reference/audio-series/models/suno)
 
 </Update>
 

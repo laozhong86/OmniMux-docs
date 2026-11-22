@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "id": "2026-11-22-pricing-fallback-order",
+  "published_at": "2026-11-22",
+  "rank": 1,
+  "type": "capability",
+  "modality": [
+    "platform"
+  ],
+  "title": {
+    "en": "Stable model and group ordering in the Pricing API",
+    "zh": "定价接口稳定返回模型与分组顺序"
+  },
+  "summary": {
+    "en": "`GET /api/pricing` returns model rows in a stable order and uses a consistent group order when the configured display order is missing or invalid.",
+    "zh": "`GET /api/pricing` 稳定返回模型行顺序，并在分组展示顺序缺失或失效时按固定顺序回退。"
+  },
+  "models": [],
+  "links": [
+    {
+      "label": {
+        "en": "Pricing API reference",
+        "zh": "定价 API 文档"
+      },
+      "href": {
+        "en": "/en/api-reference/account/pricing",
+        "zh": "/zh/api-reference/account/pricing"
+      }
+    }
+  ],
+  "tags": [
+    "api",
+    "pricing"
+  ],
+  "body": {
+    "en": "## Stable pricing catalog order\n\n`GET /api/pricing` sorts `enable_groups` by group name in ascending lexicographic order. `group_order` follows the configured order when it is valid and uses the order in `enable_groups` when the configured order is missing or invalid.\n\nThe API sorts model rows by update time, creation time, and metadata ID, in descending order for each field. When all three values tie, it sorts by `model_name` in ascending lexicographic order.",
+    "zh": "## 定价目录排序\n\n`GET /api/pricing` 按组名字典升序排列 `enable_groups`。配置顺序有效时，`group_order` 按配置返回。配置顺序缺失或失效时，`group_order` 沿用 `enable_groups` 的顺序。\n\n模型行依次按更新时间、创建时间和元数据 ID 倒序排列。三项均相同时，按 `model_name` 字典升序排列。"
+  }
+}
