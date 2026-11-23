@@ -13,11 +13,20 @@ openapi: "openapi/ops/publishing/create-post.json POST /api/social/v1/posts"
 
 | 账号能力 | 行为 |
 | --- | --- |
-| 仅有 `video.upload`（当前已批准） | **草稿上传**把单条视频送入创作者的 TikTok 收件箱，由用户在 TikTok 内编辑和发布。此模式忽略 `content` 和 `tiktok_options` |
-| 拥有 `video.publish`（需另行审核） | **直接发布**支持视频和图文，按 `tiktok_options` 设置隐私和互动权限。两个 scope 都具备时优先走此模式 |
+| 仅有 `video.upload`（当前已批准） | **草稿上传**同时支持**单条视频**（`/v2/post/publish/inbox/video/init/`）与**图文轮播**（`/v2/post/publish/content/init/`，`post_mode: "MEDIA_UPLOAD"`），送入创作者的 TikTok 收件箱由用户在 TikTok 内编辑和发布。视频草稿忽略 `content` 与 `tiktok_options`；图文草稿支持可选的 `tiktok_options.title`、`tiktok_options.description`（缺省回退 `content`）、`tiktok_options.photo_cover_index`（从 `0` 计数的整数，显式 `0` 保留）与 `tiktok_options.is_aigc`（布尔值，显式 `false` 保留），且不传递仅公开直发生效的隐私、互动与商业披露字段 |
+| 拥有 `video.publish`（需另行审核） | **直接发布**支持单条视频或图文轮播，按 `tiktok_options` 设置隐私、互动与披露权限。两个 scope 都具备时优先走此模式 |
 
-账号缺少这两项发布权限时返回 409 `SOCIAL_TIKTOK_SCOPE_MISSING`。新建帖子的初始状态为 `submitted`。[查询帖子](/zh/api-reference/publishing/get-post)刷新状态时，网关将 TikTok 的 `SEND_TO_USER_INBOX` 映射为 `processing`，将 `PUBLISH_COMPLETE` 映射为 `published`。
+`tiktok_direct` 图文轮播约束：
+- **图片格式**：仅支持 JPEG / WebP（拒绝 PNG、GIF 及未声明格式的图片）。
+- **禁止图文混排**：同一条 `media_items` 不可同时包含图片和视频。
+- **张数上限**：TikTok Photo API 协议支持单帖 1–35 张图片，同时受平台单次请求的媒体条目上限限制（未单独调高时默认最多 10 张）。
+- **已验证域代理拉取**：所有图片 URL 在提交至 TikTok 前均由网关经签名已验证域媒体代理包装。
+- **图文元数据**：推荐在 `tiktok_options` 中传入 `title`、`description`、`photo_cover_index`（0 基索引，不可越界）与 `is_aigc`；兼容顶层同名字段，两者同时提供时以 `tiktok_options` 为准。
+
+发布能力严格按该账号实际获得的 OAuth `scope` 计算（fail-closed）：未授予 `video.upload` 或 `video.publish` 的账号返回 409 `SOCIAL_TIKTOK_SCOPE_MISSING`。新建帖子的初始状态为 `submitted`。[查询帖子](/zh/api-reference/publishing/get-post)刷新状态时，网关将 TikTok 的 `SEND_TO_USER_INBOX` 映射为非终态 `sent_to_inbox`（与传输处理态 `processing` 区分），将 `PUBLISH_COMPLETE` 映射为 `published`。
 
 `provider` 必填，当前唯一取值 `tiktok_direct`。已退役的来源标识返回 410 `provider-retired`，缺失或未知值返回 400 `invalid-provider`。
+
+CLI 使用 `omnimux social post --provider tiktok_direct --accounts <account-id> --media <url> --title "Draft title" --photo-cover-index 0 --is-aigc=false`（同时支持 `--description`、`--tiktok-options '<json>'` 与合规选项）。若传入已退役的 `--provider` 取值，CLI 会在发起网络请求前直接在本地报错并给出迁移指引。
 
 使用 OmniMux 用户 access token 和 `New-Api-User`，不是 `sk-` 密钥。同时检查 HTTP 状态和 `success`；部分上游错误仍返回 HTTP 200、`success:false`。

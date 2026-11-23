@@ -7,8 +7,10 @@ openapi: "openapi/ops/publishing/list-accounts.json GET /api/social/v1/accounts"
 
 Returns only accounts bound under the requested source. It does not create an external tenant or run third-party synchronization. An empty array means the query succeeded with no accounts; a failure is never an empty list.
 
+`capabilities.upload_draft` and `capabilities.publish_direct` are derived strictly from the OAuth scopes actually granted to the account (fail-closed, with no fallback to app-level defaults). If the user declined `video.upload` (for example, granting `user.info.basic` only), `capabilities.upload_draft` is `false` and `POST /api/social/v1/posts` returns 409 `SOCIAL_TIKTOK_SCOPE_MISSING`.
+
 `provider` is required and has one current value, `tiktok_direct`. A retired source identifier returns 410 `provider-retired`; missing or unknown values return 400 `invalid-provider`.
 
-CLI: `omnimux social accounts --provider tiktok_direct`.
+CLI: `omnimux social accounts --provider tiktok_direct` and `omnimux social creator-info <account-id> --provider tiktok_direct`. Passing a retired `--provider` value fails locally in the CLI with migration guidance before any network request.
 
 Use an OmniMux user access token and `New-Api-User`, not an `sk-` key. Inspect `success` as well as HTTP status; some upstream failures return HTTP 200 with `success:false`.

@@ -386,7 +386,7 @@
                   },
                   "content": {
                     "type": "string",
-                    "description": "Optional caption for Direct Post. Draft upload ignores this field."
+                    "description": "Optional caption for Direct Post, or fallback description for photo drafts when tiktok_options.description is omitted. Ignored for video drafts."
                   },
                   "media_items": {
                     "type": "array",
@@ -396,24 +396,45 @@
                         "url": {
                           "type": "string",
                           "format": "uri",
-                          "description": "The public_url returned by Media Presign. Upload the file successfully before submitting the post."
+                          "description": "The public_url returned by Media Presign. Upload the file successfully before submitting the post. Image URLs are wrapped through the gateway's signed verified-domain proxy before calling TikTok."
                         },
                         "type": {
                           "type": "string",
                           "description": "Optional media type, such as video or image."
+                        },
+                        "content_type": {
+                          "type": "string",
+                          "description": "Optional MIME type (for example image/jpeg, image/webp, or video/mp4). Useful when the image URL has no file extension."
                         }
                       },
                       "required": [
                         "url"
                       ]
                     },
-                    "description": "Required TikTok media. Draft upload accepts exactly one video. Direct Post accepts one video or a set of photos.",
+                    "description": "Required TikTok media. Both Draft upload (video.upload) and Direct Post (video.publish) accept either one video or a JPEG/WebP photo carousel (no mixed photo+video). The TikTok Photo API supports 1 to 35 images per post, subject to the platform request media-item limit (default 10 unless raised).",
                     "minItems": 1
                   },
                   "tiktok_options": {
                     "type": "object",
-                    "description": "Privacy, interaction and disclosure settings for accounts with video.publish. Draft upload ignores this object.",
+                    "description": "TikTok metadata and publishing options. Photo draft uploads (video.upload, MEDIA_UPLOAD) accept title, description, photo_cover_index, and is_aigc and never forward Direct Post privacy, interaction, or disclosure fields. Video draft uploads ignore this object. Direct Post (video.publish) uses the privacy, interaction, disclosure, and photo fields.",
                     "properties": {
+                      "title": {
+                        "type": "string",
+                        "description": "Optional photo carousel title (used for photo drafts and photo Direct Posts)."
+                      },
+                      "description": {
+                        "type": "string",
+                        "description": "Optional photo carousel description (falls back to top-level description or content when omitted)."
+                      },
+                      "photo_cover_index": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "description": "Optional 0-based index of the cover image in media_items (explicit 0 is preserved; must be less than the number of photos)."
+                      },
+                      "is_aigc": {
+                        "type": "boolean",
+                        "description": "Optional AI-generated content disclosure flag for photo drafts and photo Direct Posts (explicit false is preserved)."
+                      },
                       "privacy_level": {
                         "type": "string",
                         "enum": [
@@ -423,37 +444,54 @@
                           "SELF_ONLY"
                         ],
                         "default": "SELF_ONLY",
-                        "description": "Select a visibility level available to the TikTok account."
+                        "description": "Direct Post (video.publish) only. Select a visibility level available to the TikTok account; not sent in draft mode."
                       },
                       "allow_comment": {
                         "type": "boolean",
-                        "description": "Allow comments."
+                        "description": "Direct Post (video.publish) only. Allow comments; not sent in draft mode."
                       },
                       "allow_duet": {
                         "type": "boolean",
-                        "description": "Allow Duet on video posts."
+                        "description": "Direct Post (video.publish) only. Allow Duet on video posts; not sent in draft mode."
                       },
                       "allow_stitch": {
                         "type": "boolean",
-                        "description": "Allow Stitch on video posts."
+                        "description": "Direct Post (video.publish) only. Allow Stitch on video posts; not sent in draft mode."
                       },
                       "commercial_content": {
                         "type": "boolean",
-                        "description": "Enable commercial disclosure. When true, also set your_brand or branded_content to true."
+                        "description": "Direct Post (video.publish) only. Enable commercial disclosure. When true, also set your_brand or branded_content to true; not sent in draft mode."
                       },
                       "your_brand": {
                         "type": "boolean",
-                        "description": "Disclose promotion of your own brand."
+                        "description": "Direct Post (video.publish) only. Disclose promotion of your own brand; not sent in draft mode."
                       },
                       "branded_content": {
                         "type": "boolean",
-                        "description": "Disclose promotion of a third-party brand. When true, choose a privacy level other than SELF_ONLY."
+                        "description": "Direct Post (video.publish) only. Disclose promotion of a third-party brand. When true, choose a privacy level other than SELF_ONLY; not sent in draft mode."
                       },
                       "music_usage_confirmed": {
                         "type": "boolean",
-                        "description": "Indicates confirmation of music usage. The gateway rejects an explicit false."
+                        "description": "Direct Post (video.publish) only. Indicates confirmation of music usage. The gateway rejects an explicit false in Direct Post mode; not sent in draft mode."
                       }
                     }
+                  },
+                  "title": {
+                    "type": "string",
+                    "description": "Optional compatibility alias for tiktok_options.title on photo posts."
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Optional compatibility alias for tiktok_options.description on photo posts."
+                  },
+                  "photo_cover_index": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Optional compatibility alias for tiktok_options.photo_cover_index on photo posts."
+                  },
+                  "is_aigc": {
+                    "type": "boolean",
+                    "description": "Optional compatibility alias for tiktok_options.is_aigc on photo posts."
                   }
                 },
                 "required": [

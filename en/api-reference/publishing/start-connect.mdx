@@ -8,9 +8,13 @@ openapi: "openapi/ops/publishing/start-connect.json POST /api/social/v1/connect"
 Starts the platform's official authorization flow. Only TikTok direct (Login Kit + Content Posting API) is available; other platforms are not offered yet and return 400 `SOCIAL_PLATFORM_DENIED`.
 
 <Note>
-  TikTok direct is live (approved on 2026-11-12). The current grant covers `user.info.basic` and `video.upload`: accounts can be connected and videos uploaded as drafts. Public direct posting needs a separate `video.publish` approval.
+  TikTok direct is live (approved on 2026-11-12). The current grant covers `user.info.basic` and `video.upload`: accounts can be connected and videos or photo carousels uploaded as drafts. Public direct posting needs a separate `video.publish` approval.
 </Note>
 
+For `tiktok_direct`, `auth_url` is a short-lived, single-use same-origin launch URL (`/api/social/v1/oauth/tiktok/start?ticket=...`, valid for 3 minutes). Open it in the user's system browser: the gateway consumes the ticket, issues an anti-CSRF browser cookie on the gateway origin, and responds with `302 Found` to TikTok's official authorization page. This keeps desktop, CLI, and web callbacks in the same browser context.
+
 `provider` is required and has one current value, `tiktok_direct`. A retired source identifier returns 410 `provider-retired`; missing or unknown values return 400 `invalid-provider`.
+
+CLI: `omnimux social connect --provider tiktok_direct --platform tiktok`. Passing a retired `--provider` value fails locally in the CLI with migration guidance before any network request.
 
 Use an OmniMux user access token and `New-Api-User`, not an `sk-` key. Inspect `success` as well as HTTP status; some upstream failures return HTTP 200 with `success:false`.

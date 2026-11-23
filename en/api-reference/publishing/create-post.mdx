@@ -13,11 +13,20 @@ After validation, the gateway submits the request to TikTok immediately. It sele
 
 | Account capability | Behavior |
 | --- | --- |
-| `video.upload` only (currently approved) | **Draft upload** sends one video to the creator's TikTok inbox for editing and posting in TikTok. Draft mode ignores `content` and `tiktok_options` |
-| `video.publish` (separate review required) | **Direct Post** takes precedence when both scopes are present. It supports video and photo posts with privacy and interaction settings in `tiktok_options` |
+| `video.upload` only (currently approved) | **Draft upload** sends either **one video** (`/v2/post/publish/inbox/video/init/`) or a **photo carousel** (`/v2/post/publish/content/init/`, `post_mode: "MEDIA_UPLOAD"`) to the creator's TikTok inbox for editing and posting in TikTok. Video drafts ignore `content` and `tiktok_options`. Photo drafts accept optional `tiktok_options.title`, `tiktok_options.description` (falls back to `content`), `tiktok_options.photo_cover_index` (0-based integer, `0` preserved), and `tiktok_options.is_aigc` (boolean, `false` preserved), and never forward Direct Post privacy, interaction, or commercial disclosure fields |
+| `video.publish` (separate review required) | **Direct Post** takes precedence when both scopes are present. It supports one video or a photo carousel with privacy, interaction, and disclosure settings in `tiktok_options` |
 
-An account without either publishing scope returns 409 `SOCIAL_TIKTOK_SCOPE_MISSING`. A newly created post starts as `submitted`. When [Get Post](/en/api-reference/publishing/get-post) refreshes the status, the gateway maps TikTok's `SEND_TO_USER_INBOX` to `processing` and `PUBLISH_COMPLETE` to `published`.
+Photo carousel rules for `tiktok_direct`:
+- **Format:** JPEG or WebP only (PNG, GIF, and undeclared image formats are rejected).
+- **No mixed media:** do not combine photos and videos in the same `media_items` array.
+- **Count limit:** the TikTok Photo API supports 1 to 35 images per post, subject to the platform request media-item limit (default 10 items unless raised).
+- **Verified-domain delivery:** every image URL is wrapped through the gateway's signed verified-domain media proxy before calling TikTok.
+- **Metadata fields:** pass `title`, `description`, `photo_cover_index` (0-based; must be less than the image count), and `is_aigc` inside `tiktok_options` (top-level fields of the same names are also accepted for compatibility, with `tiktok_options` taking precedence).
+
+Capabilities are evaluated strictly from the OAuth scopes actually granted to the account (fail-closed): an account without `video.upload` or `video.publish` returns 409 `SOCIAL_TIKTOK_SCOPE_MISSING`. A newly created post starts as `submitted`. When [Get Post](/en/api-reference/publishing/get-post) refreshes the status, the gateway maps TikTok's `SEND_TO_USER_INBOX` to non-terminal `sent_to_inbox` (keeping `processing` for transfer/encoding states) and `PUBLISH_COMPLETE` to `published`.
 
 `provider` is required and has one current value, `tiktok_direct`. A retired source identifier returns 410 `provider-retired`; missing or unknown values return 400 `invalid-provider`.
+
+CLI: `omnimux social post --provider tiktok_direct --accounts <account-id> --media <url> --title "Draft title" --photo-cover-index 0 --is-aigc=false` (supports `--description`, `--tiktok-options '<json>'`, and compliance flags). Passing a retired `--provider` value fails locally in the CLI before any network request.
 
 Use an OmniMux user access token and `New-Api-User`, not an `sk-` key. Inspect `success` as well as HTTP status; some upstream failures return HTTP 200 with `success:false`.

@@ -93,7 +93,14 @@
                             },
                             "status": {
                               "type": "string",
-                              "description": "Stored or refreshed status. The gateway maps TikTok SEND_TO_USER_INBOX to processing and PUBLISH_COMPLETE to published when it refreshes upstream."
+                              "enum": [
+                                "submitted",
+                                "processing",
+                                "sent_to_inbox",
+                                "published",
+                                "failed"
+                              ],
+                              "description": "Stored or refreshed status. On refresh=1 for tiktok_direct, TikTok PROCESSING_DOWNLOAD/PROCESSING_UPLOAD/PUBLISH_INITIATED map to processing, SEND_TO_USER_INBOX maps to non-terminal sent_to_inbox (refresh=1 keeps polling until published or failed), PUBLISH_COMPLETE maps to published, and FAILED/FAIL map to failed."
                             },
                             "provider_post_id": {
                               "type": "string"
@@ -109,7 +116,9 @@
                               "type": "integer",
                               "format": "int64"
                             },
-                            "result": {}
+                            "result": {
+                              "description": "Latest upstream status snapshot. For tiktok_direct, result.status preserves the raw TikTok status string (for example SEND_TO_USER_INBOX or PUBLISH_COMPLETE) alongside publish_id and fail_reason."
+                            }
                           },
                           "required": [
                             "id",

@@ -8,9 +8,13 @@ openapi: "openapi/ops/publishing/start-connect.json POST /api/social/v1/connect"
 启动平台官方授权流程。目前仅提供 TikTok 官方直连（Login Kit + Content Posting API）；其他平台尚不可用，传入未开放平台返回 400 `SOCIAL_PLATFORM_DENIED`。
 
 <Note>
-  TikTok 官方直连已上线（2026-11-12 审核通过）。当前授权范围包含 `user.info.basic` 与 `video.upload`：可连接账号并做草稿上传；公开直发需平台另行批准 `video.publish`。
+  TikTok 官方直连已上线（2026-11-12 审核通过）。当前授权范围包含 `user.info.basic` 与 `video.upload`：可连接账号并上传视频或图文轮播草稿；公开直发需平台另行批准 `video.publish`。
 </Note>
 
+对于 `tiktok_direct`，返回的 `auth_url` 是短效、一次性的同源启动中转入口（`/api/social/v1/oauth/tiktok/start?ticket=...`，有效期 3 分钟）。在用户系统浏览器中打开该地址后，网关会原子消费该票据、在当前浏览器上下文签发防 CSRF Cookie，再返回 `302 Found` 跳转至 TikTok 官方授权页，确保桌面端、CLI 与 Web 场景的跨浏览器回调均能正常完成。
+
 `provider` 必填，当前唯一取值 `tiktok_direct`。已退役的来源标识返回 410 `provider-retired`，缺失或未知值返回 400 `invalid-provider`。
+
+CLI 使用 `omnimux social connect --provider tiktok_direct --platform tiktok`。若向 CLI 传入已退役的 `--provider` 取值，CLI 会在发起网络请求前直接在本地报错并给出迁移指引。
 
 使用 OmniMux 用户 access token 和 `New-Api-User`，不是 `sk-` 密钥。同时检查 HTTP 状态和 `success`；部分上游错误仍返回 HTTP 200、`success:false`。

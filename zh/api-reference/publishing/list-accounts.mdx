@@ -7,8 +7,10 @@ openapi: "openapi/ops/publishing/list-accounts.json GET /api/social/v1/accounts"
 
 仅返回指定来源下已绑定的账号，不创建外部租户、不执行第三方同步。空数组表示查询成功但无账号，失败不能当作空列表。
 
+`capabilities.upload_draft` 与 `capabilities.publish_direct` 严格按 TikTok 实际授予该账号的 OAuth `scope` 计算（fail-closed，不回退到应用默认配置）。若用户授权时未勾选 `video.upload`（例如仅授予 `user.info.basic`），则 `capabilities.upload_draft` 为 `false`，且调用 `POST /api/social/v1/posts` 返回 409 `SOCIAL_TIKTOK_SCOPE_MISSING`。
+
 `provider` 必填，当前唯一取值 `tiktok_direct`。已退役的来源标识返回 410 `provider-retired`，缺失或未知值返回 400 `invalid-provider`。
 
-CLI 使用 `omnimux social accounts --provider tiktok_direct`。
+CLI 使用 `omnimux social accounts --provider tiktok_direct` 与 `omnimux social creator-info <account-id> --provider tiktok_direct`。若传入已退役的 `--provider` 取值，CLI 会在发起网络请求前直接在本地报错并给出迁移指引。
 
 使用 OmniMux 用户 access token 和 `New-Api-User`，不是 `sk-` 密钥。同时检查 HTTP 状态和 `success`；部分上游错误仍返回 HTTP 200、`success:false`。
