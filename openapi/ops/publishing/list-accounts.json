@@ -85,15 +85,15 @@
                                   },
                                   "capabilities": {
                                     "type": "object",
-                                    "description": "TikTok publishing capabilities available to this account. Direct Post takes precedence when both are true.",
+                                    "description": "TikTok publishing capabilities computed strictly from the OAuth scopes actually granted to this account (fail-closed; no fallback to configured app defaults). Direct Post takes precedence when both are true.",
                                     "properties": {
                                       "upload_draft": {
                                         "type": "boolean",
-                                        "description": "The account can upload a video draft to its TikTok inbox (video.upload)."
+                                        "description": "True only when the account actually granted video.upload. Allows uploading a single video or a JPEG/WebP photo carousel draft to the creator's TikTok inbox."
                                       },
                                       "publish_direct": {
                                         "type": "boolean",
-                                        "description": "The account can submit a TikTok Direct Post (video.publish)."
+                                        "description": "True only when the account actually granted video.publish. Allows submitting a TikTok Direct Post."
                                       }
                                     },
                                     "required": [

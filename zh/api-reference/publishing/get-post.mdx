@@ -7,6 +7,18 @@ openapi: "openapi/ops/publishing/get-post.json GET /api/social/v1/posts/{id}"
 
 即使 `refresh=0` 也校验任务实际来源。跨来源任务返回 409，不返回记录、不刷新上游。`status` 是已存或刷新后的状态，不保证发布成功。
 
+对于 `tiktok_direct`，当 `refresh=1` 刷新 TikTok 上游状态时，`result.status` 保留 TikTok 原始状态字符串，`status` 按下表映射：
+
+| `status` | TikTok 上游 `result.status` | 是否终态 | 含义 |
+| --- | --- | --- | --- |
+| `submitted` | — | 否 | `POST /api/social/v1/posts` 提交成功后的初始状态 |
+| `processing` | `PROCESSING_DOWNLOAD`、`PROCESSING_UPLOAD`、`PUBLISH_INITIATED` | 否 | TikTok 仍在拉取或处理媒体 |
+| `sent_to_inbox` | `SEND_TO_USER_INBOX` | **否** | 草稿已送达创作者 TikTok 收件箱，等待创作者在 TikTok App 内确认发布。该状态为**非终态**，`refresh=1` 会继续轮询上游并在完成后流转至 `published` 或 `failed` |
+| `published` | `PUBLISH_COMPLETE` | 是 | 已在 TikTok 发布完成 |
+| `failed` | `FAILED`、`FAIL` | 是 | 上传或发布失败（上游提供时在 `result.fail_reason` 返回原因） |
+
 `provider` 必填，当前唯一取值 `tiktok_direct`。已退役的来源标识返回 410 `provider-retired`，缺失或未知值返回 400 `invalid-provider`。
+
+CLI 使用 `omnimux social post-status <post-id> --provider tiktok_direct`（加 `--no-refresh` 对应 `refresh=0`）。若传入已退役的 `--provider` 取值，CLI 会在发起网络请求前直接在本地报错并给出迁移指引。
 
 使用 OmniMux 用户 access token 和 `New-Api-User`，不是 `sk-` 密钥。同时检查 HTTP 状态和 `success`；部分上游错误仍返回 HTTP 200、`success:false`。

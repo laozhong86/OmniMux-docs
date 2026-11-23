@@ -9,6 +9,43 @@ Stay up to date with OmniMux gateway model launches and platform changes. The fu
 
 Pages: **Page 1** · [Page 2](/en/updates/page-2)
 
+<a id="2026-11-23-tiktok-direct-oauth-photo-drafts"></a>
+
+<Update label="November 23, 2026" tags={["Improvements", "Publishing"]} rss={{ title: "TikTok direct: photo carousel drafts, sent_to_inbox status, and cross-browser OAuth launch" }}>
+
+  TikTok direct publishing has been updated across OAuth connection reliability, photo draft uploads, inbox status semantics, and CLI commands.
+
+  ### Photo carousel drafts (`video.upload`)
+
+  - `POST /api/social/v1/posts` in draft mode (`video.upload`) now supports both single-video drafts (`/v2/post/publish/inbox/video/init/`) and **photo carousel drafts** (`/v2/post/publish/content/init/` with `post_mode: "MEDIA_UPLOAD"`).
+  - Photo carousels accept **JPEG and WebP only** (no PNG/GIF and no mixed photo+video payloads). Image URLs are wrapped through the gateway's signed verified-domain media proxy. The TikTok Photo API allows up to **35 images** per post, subject to the platform request media-item limit (default 10 items unless raised).
+  - Photo drafts accept optional `tiktok_options.title`, `tiktok_options.description` (falling back to `content`), `tiktok_options.photo_cover_index` (0-based integer, explicit `0` preserved), and `tiktok_options.is_aigc` (boolean, explicit `false` preserved), and never forward Direct Post-only privacy, interaction, or commercial disclosure fields.
+
+  ### Non-terminal `sent_to_inbox` status
+
+  - `GET /api/social/v1/posts/{id}` with `refresh=1` now maps TikTok `SEND_TO_USER_INBOX` to `sent_to_inbox` instead of `processing`, while preserving the original upstream string in `result.status`.
+  - `sent_to_inbox` is **non-terminal**: subsequent `refresh=1` calls continue polling TikTok upstream and transition to `published` (`PUBLISH_COMPLETE`) or `failed` (`FAILED` / `FAIL`) after the creator completes or aborts posting in the TikTok app.
+
+  ### Cross-browser OAuth launch and strict scope enforcement
+
+  - `POST /api/social/v1/connect` for `tiktok_direct` now returns a short-lived, single-use same-origin launch URL (`/api/social/v1/oauth/tiktok/start?ticket=...`, valid for 3 minutes). Opening it in the system browser sets the anti-CSRF cookie on the gateway origin and redirects (`302 Found`) to TikTok's official authorization page, preventing cross-browser callback failures from desktop and CLI clients.
+  - `capabilities.upload_draft` and `capabilities.publish_direct` on `GET /api/social/v1/accounts` are now computed strictly from the OAuth scopes actually returned by TikTok (fail-closed, with no fallback to app defaults). Accounts that declined `video.upload` report `upload_draft: false` and receive `409 SOCIAL_TIKTOK_SCOPE_MISSING` on `POST /api/social/v1/posts`.
+  - Token refresh rotation is now serialized per account to prevent concurrent refresh races.
+
+  ### CLI convergence
+
+  - `omnimux social` commands converge on `--provider tiktok_direct`. Passing the retired `--provider zernio` fails locally with migration guidance before any network call.
+  - Added `omnimux social creator-info <account-id> --provider tiktok_direct` and extended `omnimux social post` with `--title`, `--description`, `--photo-cover-index`, `--is-aigc`, and `--tiktok-options`.
+
+  ### Links
+
+  - [Start Connection](/en/api-reference/publishing/start-connect)
+  - [Create Post](/en/api-reference/publishing/create-post)
+  - [Get Post](/en/api-reference/publishing/get-post)
+  - [List Accounts](/en/api-reference/publishing/list-accounts)
+
+</Update>
+
 <a id="2026-11-22-pricing-fallback-order"></a>
 
 <Update label="November 22, 2026" tags={["Improvements", "Platform"]} rss={{ title: "Stable model and group ordering in the Pricing API" }}>
@@ -1124,41 +1161,6 @@ Pages: **Page 1** · [Page 2](/en/updates/page-2)
   ### Links
 
   - [Seed Audio Reference](/en/api-reference/audio-series/models/seed-audio)
-
-</Update>
-
-<a id="2026-09-18-indextts-2"></a>
-
-<Update label="September 18, 2026" tags={["New models", "Audio"]} rss={{ title: "Index TTS Voice Clone (indextts-2) Available" }}>
-
-  ## Index TTS 2
-
-  The `indextts-2` voice clone model is now supported on OmniMux.
-
-  ### Model specification
-
-  - **Model ID:** `indextts-2`
-  - **Create endpoint:** `POST /v1/tasks/autodl`
-  - **Polling endpoint:** `GET /v1/tasks/{task_id}`
-  - **Artifact endpoint:** `GET /v1/tasks/{task_id}/artifacts`
-  - **Authentication:** Bearer token (`sk-...`)
-
-  ### Request example
-
-  ```json
-  {
-    "model": "indextts-2",
-    "prompt_text": "Hello, this is a cloned voice generation test.",
-    "prompt_simple": "https://example.com/reference_audio.wav",
-    "emo_control_method": "same_as_reference"
-  }
-  ```
-
-  Full parameter specifications are documented in the [Index TTS Reference](/en/api-reference/audio-series/models/index-tts).
-
-  ### Links
-
-  - [Index TTS Reference](/en/api-reference/audio-series/models/index-tts)
 
 </Update>
 

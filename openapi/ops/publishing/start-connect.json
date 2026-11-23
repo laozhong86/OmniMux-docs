@@ -42,7 +42,8 @@
                           "properties": {
                             "auth_url": {
                               "type": "string",
-                              "format": "uri"
+                              "format": "uri",
+                              "description": "Short-lived, single-use same-origin launch URL (/api/social/v1/oauth/tiktok/start?ticket=..., valid for 3 minutes). Opening it in the user's browser sets the anti-CSRF cookie and responds with 302 Found to TikTok's official authorization page, supporting desktop, CLI, and web callbacks."
                             },
                             "platform": {
                               "type": "string"

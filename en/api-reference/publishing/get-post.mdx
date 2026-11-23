@@ -7,6 +7,18 @@ openapi: "openapi/ops/publishing/get-post.json GET /api/social/v1/posts/{id}"
 
 The stored source is verified even when `refresh=0`. A cross-source post returns 409 without returning the record or refreshing upstream. `status` is the stored or refreshed state and does not guarantee that publishing succeeded.
 
+For `tiktok_direct`, when `refresh=1` queries TikTok upstream, `result.status` retains TikTok's original status string and `status` is mapped as follows:
+
+| `status` | TikTok upstream `result.status` | Terminal | Meaning |
+| --- | --- | --- | --- |
+| `submitted` | — | No | Initial state right after `POST /api/social/v1/posts` succeeds |
+| `processing` | `PROCESSING_DOWNLOAD`, `PROCESSING_UPLOAD`, `PUBLISH_INITIATED` | No | TikTok is still pulling or processing the media |
+| `sent_to_inbox` | `SEND_TO_USER_INBOX` | **No** | Draft delivered to the creator's TikTok inbox, waiting for the creator to confirm and post inside TikTok. `refresh=1` continues polling upstream and transitions to `published` or `failed` |
+| `published` | `PUBLISH_COMPLETE` | Yes | Publishing completed on TikTok |
+| `failed` | `FAILED`, `FAIL` | Yes | Upload or publishing failed (`result.fail_reason` holds upstream details when provided) |
+
 `provider` is required and has one current value, `tiktok_direct`. A retired source identifier returns 410 `provider-retired`; missing or unknown values return 400 `invalid-provider`.
+
+CLI: `omnimux social post-status <post-id> --provider tiktok_direct` (pass `--no-refresh` for `refresh=0`). Passing a retired `--provider` value fails locally in the CLI before any network request.
 
 Use an OmniMux user access token and `New-Api-User`, not an `sk-` key. Inspect `success` as well as HTTP status; some upstream failures return HTTP 200 with `success:false`.

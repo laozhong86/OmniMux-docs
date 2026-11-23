@@ -9,6 +9,41 @@ rss: true
 
 分页：[第 1 页](/zh/updates) · **第 2 页**
 
+<a id="2026-09-18-indextts-2"></a>
+
+<Update label="2026 年 9 月 18 日" tags={["新模型", "音频"]} rss={{ title: "Index TTS 声音克隆 (indextts-2) 接口上线" }}>
+
+  ## Index TTS 2
+
+  声音克隆模型 `indextts-2` 现已接入 OmniMux 提供异步调用。
+
+  ### 接口规范
+
+  - **模型标识：** `indextts-2`
+  - **任务提交端点：** `POST /v1/tasks/autodl`
+  - **任务状态查询：** `GET /v1/tasks/{task_id}`
+  - **生成产物获取：** `GET /v1/tasks/{task_id}/artifacts`
+  - **鉴权方式：** Bearer 令牌鉴权（`sk-...`）
+
+  ### 请求示例
+
+  ```json
+  {
+    "model": "indextts-2",
+    "prompt_text": "你好，这是一段声音克隆合成测试台词。",
+    "prompt_simple": "https://example.com/reference_audio.wav",
+    "emo_control_method": "与音色参考音频相同"
+  }
+  ```
+
+  完整参数定义与情绪调节字段详见 [Index TTS 接口参考文档](/zh/api-reference/audio-series/models/index-tts)。
+
+  ### 链接
+
+  - [Index TTS 接口参考](/zh/api-reference/audio-series/models/index-tts)
+
+</Update>
+
 <a id="2026-09-18-suno-sounds"></a>
 
 <Update label="2026 年 9 月 18 日" tags={["新模型", "音频"]} rss={{ title: "Suno 独立音效生成接口 (suno-sounds) 上线" }}>

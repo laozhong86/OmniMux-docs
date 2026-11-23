@@ -9,6 +9,41 @@ Stay up to date with OmniMux gateway model launches and platform changes. The fu
 
 Pages: [Page 1](/en/updates) · **Page 2**
 
+<a id="2026-09-18-indextts-2"></a>
+
+<Update label="September 18, 2026" tags={["New models", "Audio"]} rss={{ title: "Index TTS Voice Clone (indextts-2) Available" }}>
+
+  ## Index TTS 2
+
+  The `indextts-2` voice clone model is now supported on OmniMux.
+
+  ### Model specification
+
+  - **Model ID:** `indextts-2`
+  - **Create endpoint:** `POST /v1/tasks/autodl`
+  - **Polling endpoint:** `GET /v1/tasks/{task_id}`
+  - **Artifact endpoint:** `GET /v1/tasks/{task_id}/artifacts`
+  - **Authentication:** Bearer token (`sk-...`)
+
+  ### Request example
+
+  ```json
+  {
+    "model": "indextts-2",
+    "prompt_text": "Hello, this is a cloned voice generation test.",
+    "prompt_simple": "https://example.com/reference_audio.wav",
+    "emo_control_method": "same_as_reference"
+  }
+  ```
+
+  Full parameter specifications are documented in the [Index TTS Reference](/en/api-reference/audio-series/models/index-tts).
+
+  ### Links
+
+  - [Index TTS Reference](/en/api-reference/audio-series/models/index-tts)
+
+</Update>
+
 <a id="2026-09-18-suno-sounds"></a>
 
 <Update label="September 18, 2026" tags={["New models", "Audio"]} rss={{ title: "Suno Sound Effects Generation (suno-sounds) Available" }}>

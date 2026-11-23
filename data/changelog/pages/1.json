@@ -2,9 +2,80 @@
   "schema_version": 1,
   "page": 1,
   "page_size": 50,
-  "total": 87,
+  "total": 88,
   "total_pages": 2,
   "items": [
+    {
+      "id": "2026-11-23-tiktok-direct-oauth-photo-drafts",
+      "published_at": "2026-11-23",
+      "type": "capability",
+      "modality": [
+        "publishing"
+      ],
+      "title": {
+        "en": "TikTok direct: photo carousel drafts, sent_to_inbox status, and cross-browser OAuth launch",
+        "zh": "TikTok 官方直连升级：图文轮播草稿、sent_to_inbox 状态与跨浏览器 OAuth 启动"
+      },
+      "summary": {
+        "en": "TikTok direct now supports JPEG/WebP photo carousel drafts under video.upload, maps SEND_TO_USER_INBOX to non-terminal sent_to_inbox, routes OAuth through a single-use browser launch ticket with strict scope enforcement, and converges CLI social commands on tiktok_direct.",
+        "zh": "TikTok 官方直连新增 video.upload 图文轮播草稿上传，将 SEND_TO_USER_INBOX 映射为非终态 sent_to_inbox，OAuth 改经一次性同源启动中转入口并严格按实授 scope 判定权限，同时 CLI 社媒命令全面收敛至 tiktok_direct。"
+      },
+      "models": [],
+      "tags": [
+        "publishing",
+        "tiktok",
+        "oauth",
+        "draft",
+        "cli"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "Start Connection",
+            "zh": "发起连接"
+          },
+          "href": {
+            "en": "/en/api-reference/publishing/start-connect",
+            "zh": "/zh/api-reference/publishing/start-connect"
+          }
+        },
+        {
+          "label": {
+            "en": "Create Post",
+            "zh": "创建帖子"
+          },
+          "href": {
+            "en": "/en/api-reference/publishing/create-post",
+            "zh": "/zh/api-reference/publishing/create-post"
+          }
+        },
+        {
+          "label": {
+            "en": "Get Post",
+            "zh": "查询帖子"
+          },
+          "href": {
+            "en": "/en/api-reference/publishing/get-post",
+            "zh": "/zh/api-reference/publishing/get-post"
+          }
+        },
+        {
+          "label": {
+            "en": "List Accounts",
+            "zh": "列出账户"
+          },
+          "href": {
+            "en": "/en/api-reference/publishing/list-accounts",
+            "zh": "/zh/api-reference/publishing/list-accounts"
+          }
+        }
+      ],
+      "body": {
+        "en": "TikTok direct publishing has been updated across OAuth connection reliability, photo draft uploads, inbox status semantics, and CLI commands.\n\n### Photo carousel drafts (`video.upload`)\n\n- `POST /api/social/v1/posts` in draft mode (`video.upload`) now supports both single-video drafts (`/v2/post/publish/inbox/video/init/`) and **photo carousel drafts** (`/v2/post/publish/content/init/` with `post_mode: \"MEDIA_UPLOAD\"`).\n- Photo carousels accept **JPEG and WebP only** (no PNG/GIF and no mixed photo+video payloads). Image URLs are wrapped through the gateway's signed verified-domain media proxy. The TikTok Photo API allows up to **35 images** per post, subject to the platform request media-item limit (default 10 items unless raised).\n- Photo drafts accept optional `tiktok_options.title`, `tiktok_options.description` (falling back to `content`), `tiktok_options.photo_cover_index` (0-based integer, explicit `0` preserved), and `tiktok_options.is_aigc` (boolean, explicit `false` preserved), and never forward Direct Post-only privacy, interaction, or commercial disclosure fields.\n\n### Non-terminal `sent_to_inbox` status\n\n- `GET /api/social/v1/posts/{id}` with `refresh=1` now maps TikTok `SEND_TO_USER_INBOX` to `sent_to_inbox` instead of `processing`, while preserving the original upstream string in `result.status`.\n- `sent_to_inbox` is **non-terminal**: subsequent `refresh=1` calls continue polling TikTok upstream and transition to `published` (`PUBLISH_COMPLETE`) or `failed` (`FAILED` / `FAIL`) after the creator completes or aborts posting in the TikTok app.\n\n### Cross-browser OAuth launch and strict scope enforcement\n\n- `POST /api/social/v1/connect` for `tiktok_direct` now returns a short-lived, single-use same-origin launch URL (`/api/social/v1/oauth/tiktok/start?ticket=...`, valid for 3 minutes). Opening it in the system browser sets the anti-CSRF cookie on the gateway origin and redirects (`302 Found`) to TikTok's official authorization page, preventing cross-browser callback failures from desktop and CLI clients.\n- `capabilities.upload_draft` and `capabilities.publish_direct` on `GET /api/social/v1/accounts` are now computed strictly from the OAuth scopes actually returned by TikTok (fail-closed, with no fallback to app defaults). Accounts that declined `video.upload` report `upload_draft: false` and receive `409 SOCIAL_TIKTOK_SCOPE_MISSING` on `POST /api/social/v1/posts`.\n- Token refresh rotation is now serialized per account to prevent concurrent refresh races.\n\n### CLI convergence\n\n- `omnimux social` commands converge on `--provider tiktok_direct`. Passing the retired `--provider zernio` fails locally with migration guidance before any network call.\n- Added `omnimux social creator-info <account-id> --provider tiktok_direct` and extended `omnimux social post` with `--title`, `--description`, `--photo-cover-index`, `--is-aigc`, and `--tiktok-options`.",
+        "zh": "TikTok 官方直连发布在 OAuth 跨浏览器可靠性、图文轮播草稿上传、收件箱状态语义与 CLI 命令上完成升级。\n\n### 图文轮播草稿上传（`video.upload`）\n\n- 草稿模式（`video.upload`）下的 `POST /api/social/v1/posts` 现同时支持单条视频草稿（`/v2/post/publish/inbox/video/init/`）与**图文轮播草稿**（`/v2/post/publish/content/init/`，`post_mode: \"MEDIA_UPLOAD\"`）。\n- 图文轮播仅支持 **JPEG / WebP**（拒绝 PNG/GIF，禁止图片与视频混排）；所有图片 URL 在提交至 TikTok 前经网关签名已验证域媒体代理包装；协议支持单帖最多 **35 张**图片，同时受平台单次请求的媒体条目上限限制（未单独调高时默认最多 10 张）。\n- 图文草稿支持可选的 `tiktok_options.title`、`tiktok_options.description`（缺省回退 `content`）、`tiktok_options.photo_cover_index`（0 基整数，保留显式 `0`）与 `tiktok_options.is_aigc`（布尔值，保留显式 `false`），且不传递仅公开直发生效的隐私、互动与商业披露字段。\n\n### 非终态 `sent_to_inbox` 状态语义\n\n- `GET /api/social/v1/posts/{id}`（`refresh=1`）将 TikTok 上游 `SEND_TO_USER_INBOX` 映射为 `sent_to_inbox`（不再归入 `processing`），同时在 `result.status` 中保留上游原始状态值。\n- `sent_to_inbox` 为**非终态**：后续 `refresh=1` 会持续轮询 TikTok 上游，并在创作者于 TikTok App 内完成发布后流转至 `published`（`PUBLISH_COMPLETE`）或 `failed`（`FAILED` / `FAIL`）。\n\n### 跨浏览器 OAuth 启动与严格 scope 校验\n\n- `POST /api/social/v1/connect`（`tiktok_direct`）现返回短效一次性同源启动中转入口（`/api/social/v1/oauth/tiktok/start?ticket=...`，有效期 3 分钟）。在系统浏览器打开该地址后由网关签发防 CSRF Cookie 再 `302 Found` 跳转至 TikTok 官方授权页，解决桌面端与 CLI 跨浏览器回调阻断问题。\n- `GET /api/social/v1/accounts` 中的 `capabilities.upload_draft` 与 `capabilities.publish_direct` 严格按 TikTok 实际返回的授权 `scope` 计算（fail-closed，不回退应用默认配置）。未授予 `video.upload` 时 `upload_draft` 为 `false`，发帖返回 `409 SOCIAL_TIKTOK_SCOPE_MISSING`。\n- Token 刷新轮换已按账号维度加锁防并发竞争。\n\n### CLI 收敛\n\n- `omnimux social` 命令统一收敛至 `--provider tiktok_direct`；传入已退役的 `--provider zernio` 会在发起网络请求前于本地报错并给出迁移提示。\n- 新增 `omnimux social creator-info <account-id> --provider tiktok_direct`，并为 `omnimux social post` 补齐 `--title`、`--description`、`--photo-cover-index`、`--is-aigc` 与 `--tiktok-options` 参数。"
+      },
+      "schema_version": 1
+    },
     {
       "id": "2026-11-22-pricing-fallback-order",
       "published_at": "2026-11-22",
@@ -2122,47 +2193,6 @@
       "body": {
         "en": "## Seed Audio 1.0\n\nThe `seed-audio-1.0` model is now supported on OmniMux under standard audio speech endpoints.\n\n### Model specification\n\n- **Model ID:** `seed-audio-1.0`\n- **Protocol:** OpenAI-compatible Audio Speech (`POST /v1/audio/speech`)\n- **Authentication:** Bearer token (`sk-...`)\n- **Output limit:** Up to 120 seconds per generation\n- **Prompt limit:** Up to 3000 characters\n\n### Request example\n\n```bash\ncurl --request POST \\\n  --url https://api.omnimux.ai/v1/audio/speech \\\n  --header 'Authorization: Bearer sk-...' \\\n  --header 'Content-Type: application/json' \\\n  --data '{\n    \"model\": \"seed-audio-1.0\",\n    \"input\": \"Text to synthesize into speech\",\n    \"voice\": \"zh_female_cancan\",\n    \"response_format\": \"mp3\"\n  }' \\\n  --output output.mp3\n```\n\nFull parameter specifications are documented in the [Seed Audio Reference](/en/api-reference/audio-series/models/seed-audio).",
         "zh": "## Seed Audio 1.0\n\n火山引擎 `seed-audio-1.0` 语音生成大模型已接入 OmniMux 标准语音合成端点。\n\n### 接口规范\n\n- **模型标识：** `seed-audio-1.0`\n- **调用协议：** 兼容 OpenAI 语音合成（`POST /v1/audio/speech`）\n- **鉴权方式：** Bearer 令牌鉴权（`sk-...`）\n- **生成上限：** 单次合成最长 120 秒\n- **文本上限：** 提示文本最长 3000 字符\n\n### 请求示例\n\n```bash\ncurl --request POST \\\n  --url https://api.omnimux.ai/v1/audio/speech \\\n  --header 'Authorization: Bearer sk-...' \\\n  --header 'Content-Type: application/json' \\\n  --data '{\n    \"model\": \"seed-audio-1.0\",\n    \"input\": \"要合成的文本内容\",\n    \"voice\": \"zh_female_cancan\",\n    \"response_format\": \"mp3\"\n  }' \\\n  --output output.mp3\n```\n\n完整参数定义与支持格式请参阅 [Seed Audio 接口参考文档](/zh/api-reference/audio-series/models/seed-audio)。"
-      },
-      "schema_version": 1
-    },
-    {
-      "id": "2026-09-18-indextts-2",
-      "published_at": "2026-09-18",
-      "type": "model_launch",
-      "modality": [
-        "audio"
-      ],
-      "title": {
-        "en": "Index TTS Voice Clone (indextts-2) Available",
-        "zh": "Index TTS 声音克隆 (indextts-2) 接口上线"
-      },
-      "summary": {
-        "en": "Dedicated voice clone and emotional TTS model `indextts-2` is now available on OmniMux via POST /v1/tasks/autodl.",
-        "zh": "声音克隆与情绪语音合成模型 `indextts-2` 现已接入 OmniMux，支持通过 POST /v1/tasks/autodl 端点进行异步调用。"
-      },
-      "models": [
-        "indextts-2"
-      ],
-      "tags": [
-        "audio",
-        "voice-clone",
-        "tts"
-      ],
-      "links": [
-        {
-          "label": {
-            "en": "Index TTS Reference",
-            "zh": "Index TTS 接口参考"
-          },
-          "href": {
-            "en": "/en/api-reference/audio-series/models/index-tts",
-            "zh": "/zh/api-reference/audio-series/models/index-tts"
-          }
-        }
-      ],
-      "body": {
-        "en": "## Index TTS 2\n\nThe `indextts-2` voice clone model is now supported on OmniMux.\n\n### Model specification\n\n- **Model ID:** `indextts-2`\n- **Create endpoint:** `POST /v1/tasks/autodl`\n- **Polling endpoint:** `GET /v1/tasks/{task_id}`\n- **Artifact endpoint:** `GET /v1/tasks/{task_id}/artifacts`\n- **Authentication:** Bearer token (`sk-...`)\n\n### Request example\n\n```json\n{\n  \"model\": \"indextts-2\",\n  \"prompt_text\": \"Hello, this is a cloned voice generation test.\",\n  \"prompt_simple\": \"https://example.com/reference_audio.wav\",\n  \"emo_control_method\": \"same_as_reference\"\n}\n```\n\nFull parameter specifications are documented in the [Index TTS Reference](/en/api-reference/audio-series/models/index-tts).",
-        "zh": "## Index TTS 2\n\n声音克隆模型 `indextts-2` 现已接入 OmniMux 提供异步调用。\n\n### 接口规范\n\n- **模型标识：** `indextts-2`\n- **任务提交端点：** `POST /v1/tasks/autodl`\n- **任务状态查询：** `GET /v1/tasks/{task_id}`\n- **生成产物获取：** `GET /v1/tasks/{task_id}/artifacts`\n- **鉴权方式：** Bearer 令牌鉴权（`sk-...`）\n\n### 请求示例\n\n```json\n{\n  \"model\": \"indextts-2\",\n  \"prompt_text\": \"你好，这是一段声音克隆合成测试台词。\",\n  \"prompt_simple\": \"https://example.com/reference_audio.wav\",\n  \"emo_control_method\": \"与音色参考音频相同\"\n}\n```\n\n完整参数定义与情绪调节字段详见 [Index TTS 接口参考文档](/zh/api-reference/audio-series/models/index-tts)。"
       },
       "schema_version": 1
     }
