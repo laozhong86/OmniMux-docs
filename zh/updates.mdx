@@ -18,7 +18,7 @@ rss: true
   ### 图文轮播草稿上传（`video.upload`）
 
   - 草稿模式（`video.upload`）下的 `POST /api/social/v1/posts` 现同时支持单条视频草稿（`/v2/post/publish/inbox/video/init/`）与**图文轮播草稿**（`/v2/post/publish/content/init/`，`post_mode: "MEDIA_UPLOAD"`）。
-  - 图文轮播仅支持 **JPEG / WebP**（拒绝 PNG/GIF，禁止图片与视频混排）；所有图片 URL 在提交至 TikTok 前经网关签名已验证域媒体代理包装；协议支持单帖最多 **35 张**图片，同时受平台单次请求的媒体条目上限限制（未单独调高时默认最多 10 张）。
+  - 图文轮播仅支持 **JPEG / WebP**（拒绝 PNG/GIF，禁止图片与视频混排）；所有图片 URL 在提交至 TikTok 前经网关签名已验证域媒体代理包装；OmniMux 托管环境支持单帖 **1–35 张**图片（与 TikTok Photo API 协议上限一致；自部署环境默认单次最多 10 张，可按需配置最高至 35 张）。
   - 图文草稿支持可选的 `tiktok_options.title`、`tiktok_options.description`（缺省回退 `content`）、`tiktok_options.photo_cover_index`（0 基整数，保留显式 `0`）与 `tiktok_options.is_aigc`（布尔值，保留显式 `false`），且不传递仅公开直发生效的隐私、互动与商业披露字段。
 
   ### 非终态 `sent_to_inbox` 状态语义

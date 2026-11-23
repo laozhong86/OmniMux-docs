@@ -19,7 +19,7 @@ openapi: "openapi/ops/publishing/create-post.json POST /api/social/v1/posts"
 `tiktok_direct` 图文轮播约束：
 - **图片格式**：仅支持 JPEG / WebP（拒绝 PNG、GIF 及未声明格式的图片）。
 - **禁止图文混排**：同一条 `media_items` 不可同时包含图片和视频。
-- **张数上限**：TikTok Photo API 协议支持单帖 1–35 张图片，同时受平台单次请求的媒体条目上限限制（未单独调高时默认最多 10 张）。
+- **张数上限**：OmniMux 托管环境支持单帖 1–35 张图片（与 TikTok Photo API 协议上限一致；自部署环境默认单次最多 10 张，可按需配置最高至 35 张）。
 - **已验证域代理拉取**：所有图片 URL 在提交至 TikTok 前均由网关经签名已验证域媒体代理包装。
 - **图文元数据**：推荐在 `tiktok_options` 中传入 `title`、`description`、`photo_cover_index`（0 基索引，不可越界）与 `is_aigc`；兼容顶层同名字段，两者同时提供时以 `tiktok_options` 为准。
 

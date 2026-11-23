@@ -411,7 +411,7 @@
                         "url"
                       ]
                     },
-                    "description": "Required TikTok media. Both Draft upload (video.upload) and Direct Post (video.publish) accept either one video or a JPEG/WebP photo carousel (no mixed photo+video). The TikTok Photo API supports 1 to 35 images per post, subject to the platform request media-item limit (default 10 unless raised).",
+                    "description": "Required TikTok media. Both Draft upload (video.upload) and Direct Post (video.publish) accept either one video or a JPEG/WebP photo carousel (no mixed photo+video). Hosted OmniMux supports 1 to 35 images per photo post (TikTok Photo API maximum); self-hosted deployments default to 10 items and can be configured up to 35.",
                     "minItems": 1
                   },
                   "tiktok_options": {

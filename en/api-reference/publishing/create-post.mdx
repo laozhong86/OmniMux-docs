@@ -19,7 +19,7 @@ After validation, the gateway submits the request to TikTok immediately. It sele
 Photo carousel rules for `tiktok_direct`:
 - **Format:** JPEG or WebP only (PNG, GIF, and undeclared image formats are rejected).
 - **No mixed media:** do not combine photos and videos in the same `media_items` array.
-- **Count limit:** the TikTok Photo API supports 1 to 35 images per post, subject to the platform request media-item limit (default 10 items unless raised).
+- **Count limit:** 1 to 35 images per post on hosted OmniMux (matching the TikTok Photo API protocol maximum; self-hosted deployments default to 10 items per request and can be configured up to 35).
 - **Verified-domain delivery:** every image URL is wrapped through the gateway's signed verified-domain media proxy before calling TikTok.
 - **Metadata fields:** pass `title`, `description`, `photo_cover_index` (0-based; must be less than the image count), and `is_aigc` inside `tiktok_options` (top-level fields of the same names are also accepted for compatibility, with `tiktok_options` taking precedence).
 
