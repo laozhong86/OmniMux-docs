@@ -18,7 +18,7 @@ Pages: **Page 1** · [Page 2](/en/updates/page-2)
   ### Photo carousel drafts (`video.upload`)
 
   - `POST /api/social/v1/posts` in draft mode (`video.upload`) now supports both single-video drafts (`/v2/post/publish/inbox/video/init/`) and **photo carousel drafts** (`/v2/post/publish/content/init/` with `post_mode: "MEDIA_UPLOAD"`).
-  - Photo carousels accept **JPEG and WebP only** (no PNG/GIF and no mixed photo+video payloads). Image URLs are wrapped through the gateway's signed verified-domain media proxy. The TikTok Photo API allows up to **35 images** per post, subject to the platform request media-item limit (default 10 items unless raised).
+  - Photo carousels accept **JPEG and WebP only** (no PNG/GIF and no mixed photo+video payloads). Image URLs are wrapped through the gateway's signed verified-domain media proxy. Hosted OmniMux supports **1 to 35 images** per photo post (matching the TikTok Photo API protocol maximum; self-hosted deployments default to 10 items and can be configured up to 35).
   - Photo drafts accept optional `tiktok_options.title`, `tiktok_options.description` (falling back to `content`), `tiktok_options.photo_cover_index` (0-based integer, explicit `0` preserved), and `tiktok_options.is_aigc` (boolean, explicit `false` preserved), and never forward Direct Post-only privacy, interaction, or commercial disclosure fields.
 
   ### Non-terminal `sent_to_inbox` status
