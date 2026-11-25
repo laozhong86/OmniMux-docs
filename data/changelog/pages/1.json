@@ -2,9 +2,51 @@
   "schema_version": 1,
   "page": 1,
   "page_size": 50,
-  "total": 88,
+  "total": 89,
   "total_pages": 2,
   "items": [
+    {
+      "id": "2026-11-25-volc-seed-tts-3",
+      "published_at": "2026-11-25",
+      "type": "model_launch",
+      "modality": [
+        "audio"
+      ],
+      "title": {
+        "en": "Doubao TTS 3.0 (seed-tts-3.0) Available and Legacy Seed Audio Retired",
+        "zh": "豆包语音合成模型 3.0（seed-tts-3.0）上线并下架旧版火山 TTS"
+      },
+      "summary": {
+        "en": "ByteDance VolcEngine Doubao TTS 3.0 (seed-tts-3.0) is now live on POST /v1/audio/speech with 68 preset voices, 119 languages and dialects, SSML, word-level alignments, and NDJSON streaming; legacy seed-audio-1.0 is retired.",
+        "zh": "火山引擎豆包语音合成模型 3.0（seed-tts-3.0）现已上线 POST /v1/audio/speech，支持 68 款官方预置音色、119 项语种与方言、SSML、字词级字幕时间戳及 NDJSON 流式输出，同时下架旧版 seed-audio-1.0。"
+      },
+      "models": [
+        "seed-tts-3.0"
+      ],
+      "tags": [
+        "audio",
+        "tts",
+        "volcengine",
+        "bytedance"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "Doubao TTS 3.0 Reference",
+            "zh": "豆包语音合成 3.0 文档"
+          },
+          "href": {
+            "en": "/en/api-reference/audio-series/models/seed-tts-3",
+            "zh": "/zh/api-reference/audio-series/models/seed-tts-3"
+          }
+        }
+      ],
+      "body": {
+        "en": "## Doubao TTS 3.0\n\n**Doubao TTS 3.0 (`seed-tts-3.0`)** is now available on OmniMux via `POST /v1/audio/speech`, replacing legacy `seed-audio-1.0`.\n\n### New model\n\n- **Model ID:** `seed-tts-3.0`\n- **API:** `POST /v1/audio/speech` (OpenAI-compatible Bearer `sk-...`)\n- **Highlights:** 68 official preset voices (`*_v3_uranus_bigtts`), 119 language and dialect codes, plain `input` or `ssml` up to 10,000 billable characters (2 per Han character, 1 per other character), `mp3` / `pcm` / `ogg_opus` output, `speed` / `volume` / `pitch` / `silence_duration` controls, word-level `enable_subtitle` alignments, and optional `Accept: application/x-ndjson` streaming.\n- **Migration:** Legacy `seed-audio-1.0` has been retired from the catalog and gateway. Update callers to `model: \"seed-tts-3.0\"`.",
+        "zh": "## 豆包语音合成模型 3.0\n\n**豆包语音合成模型 3.0（`seed-tts-3.0`）** 现已正式上线 OmniMux `POST /v1/audio/speech`，取代旧版 `seed-audio-1.0`。\n\n### 新模型特性\n\n- **模型标识：** `seed-tts-3.0`\n- **接口路径：** `POST /v1/audio/speech`（Bearer `sk-...` 鉴权）\n- **核心能力：** 支持 68 款官方 3.0 预置音色（`*_v3_uranus_bigtts`）、119 项语种与方言、普通文本 `input` 与 `ssml`（互斥，单次上限 10000 计费字符，汉字计 2 其余计 1）、`mp3` / `pcm` / `ogg_opus` 输出、`speed` / `volume` / `pitch` / `silence_duration` 控制、`enable_subtitle` 字词级字幕时间戳以及 `Accept: application/x-ndjson` 实时事件流。\n- **迁移说明：** 旧版 `seed-audio-1.0` 已同步下架，请调用方迁移至 `model: \"seed-tts-3.0\"`。"
+      },
+      "schema_version": 1
+    },
     {
       "id": "2026-11-23-tiktok-direct-oauth-photo-drafts",
       "published_at": "2026-11-23",
@@ -2151,48 +2193,6 @@
       "body": {
         "en": "## Doubao Speech Recognition\n\nThe `doubao-asr-bigmodel`, `seedasr-auc`, and `bigasr-auc` models are now supported on OmniMux.\n\n### Model specification\n\n- **Model IDs:** `doubao-asr-bigmodel`, `seedasr-auc`, `bigasr-auc`\n- **Protocol:** OpenAI-compatible Audio Transcriptions (`POST /v1/audio/transcriptions`)\n- **Authentication:** Bearer token (`sk-...`)\n- **Input format:** Audio file multipart upload (`wav`, `mp3`, `ogg`, `m4a`)\n\n### Request example\n\n```bash\ncurl --request POST \\\n  --url https://api.omnimux.ai/v1/audio/transcriptions \\\n  --header 'Authorization: Bearer sk-...' \\\n  --header 'Content-Type: multipart/form-data' \\\n  --form 'file=@audio.mp3' \\\n  --form 'model=doubao-asr-bigmodel'\n```\n\nFull parameter specifications are documented in the [Doubao ASR Reference](/en/api-reference/audio-series/models/doubao-asr).",
         "zh": "## 豆包语音识别\n\n`doubao-asr-bigmodel`、`seedasr-auc` 与 `bigasr-auc` 语音转文字模型现已在 OmniMux 正式提供调用。\n\n### 接口规范\n\n- **模型标识：** `doubao-asr-bigmodel`, `seedasr-auc`, `bigasr-auc`\n- **调用协议：** 兼容 OpenAI 语音转文字（`POST /v1/audio/transcriptions`）\n- **鉴权方式：** Bearer 令牌鉴权（`sk-...`）\n- **音频格式：** 支持通过分段上传提交 `wav`, `mp3`, `ogg`, `m4a` 等常见格式\n\n### 请求示例\n\n```bash\ncurl --request POST \\\n  --url https://api.omnimux.ai/v1/audio/transcriptions \\\n  --header 'Authorization: Bearer sk-...' \\\n  --header 'Content-Type: multipart/form-data' \\\n  --form 'file=@audio.mp3' \\\n  --form 'model=doubao-asr-bigmodel'\n```\n\n完整参数定义详见 [豆包语音识别参考文档](/zh/api-reference/audio-series/models/doubao-asr)。"
-      },
-      "schema_version": 1
-    },
-    {
-      "id": "2026-09-18-volc-seed-audio",
-      "published_at": "2026-09-18",
-      "type": "model_launch",
-      "modality": [
-        "audio"
-      ],
-      "title": {
-        "en": "VolcEngine Seed Audio (seed-audio-1.0) Available via TTS Endpoint",
-        "zh": "火山引擎 Seed Audio (seed-audio-1.0) 语音生成接口上线"
-      },
-      "summary": {
-        "en": "VolcEngine / BytePlus audio creation model `seed-audio-1.0` is now available on OmniMux via POST /v1/audio/speech.",
-        "zh": "火山引擎 / BytePlus 音频创作模型 `seed-audio-1.0` 现已接入 OmniMux，支持通过 POST /v1/audio/speech 端点进行语音与音频合成。"
-      },
-      "models": [
-        "seed-audio-1.0"
-      ],
-      "tags": [
-        "audio",
-        "tts",
-        "volcengine",
-        "byteplus"
-      ],
-      "links": [
-        {
-          "label": {
-            "en": "Seed Audio Reference",
-            "zh": "Seed Audio 接口文档"
-          },
-          "href": {
-            "en": "/en/api-reference/audio-series/models/seed-audio",
-            "zh": "/zh/api-reference/audio-series/models/seed-audio"
-          }
-        }
-      ],
-      "body": {
-        "en": "## Seed Audio 1.0\n\nThe `seed-audio-1.0` model is now supported on OmniMux under standard audio speech endpoints.\n\n### Model specification\n\n- **Model ID:** `seed-audio-1.0`\n- **Protocol:** OpenAI-compatible Audio Speech (`POST /v1/audio/speech`)\n- **Authentication:** Bearer token (`sk-...`)\n- **Output limit:** Up to 120 seconds per generation\n- **Prompt limit:** Up to 3000 characters\n\n### Request example\n\n```bash\ncurl --request POST \\\n  --url https://api.omnimux.ai/v1/audio/speech \\\n  --header 'Authorization: Bearer sk-...' \\\n  --header 'Content-Type: application/json' \\\n  --data '{\n    \"model\": \"seed-audio-1.0\",\n    \"input\": \"Text to synthesize into speech\",\n    \"voice\": \"zh_female_cancan\",\n    \"response_format\": \"mp3\"\n  }' \\\n  --output output.mp3\n```\n\nFull parameter specifications are documented in the [Seed Audio Reference](/en/api-reference/audio-series/models/seed-audio).",
-        "zh": "## Seed Audio 1.0\n\n火山引擎 `seed-audio-1.0` 语音生成大模型已接入 OmniMux 标准语音合成端点。\n\n### 接口规范\n\n- **模型标识：** `seed-audio-1.0`\n- **调用协议：** 兼容 OpenAI 语音合成（`POST /v1/audio/speech`）\n- **鉴权方式：** Bearer 令牌鉴权（`sk-...`）\n- **生成上限：** 单次合成最长 120 秒\n- **文本上限：** 提示文本最长 3000 字符\n\n### 请求示例\n\n```bash\ncurl --request POST \\\n  --url https://api.omnimux.ai/v1/audio/speech \\\n  --header 'Authorization: Bearer sk-...' \\\n  --header 'Content-Type: application/json' \\\n  --data '{\n    \"model\": \"seed-audio-1.0\",\n    \"input\": \"要合成的文本内容\",\n    \"voice\": \"zh_female_cancan\",\n    \"response_format\": \"mp3\"\n  }' \\\n  --output output.mp3\n```\n\n完整参数定义与支持格式请参阅 [Seed Audio 接口参考文档](/zh/api-reference/audio-series/models/seed-audio)。"
       },
       "schema_version": 1
     }

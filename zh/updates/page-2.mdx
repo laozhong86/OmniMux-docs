@@ -9,6 +9,46 @@ rss: true
 
 分页：[第 1 页](/zh/updates) · **第 2 页**
 
+<a id="2026-09-18-volc-seed-audio"></a>
+
+<Update label="2026 年 9 月 18 日" tags={["新模型", "音频"]} rss={{ title: "火山引擎 Seed Audio (seed-audio-1.0) 语音生成接口上线" }}>
+
+  ## Seed Audio 1.0
+
+  火山引擎 `seed-audio-1.0` 语音生成大模型已接入 OmniMux 标准语音合成端点。
+
+  ### 接口规范
+
+  - **模型标识：** `seed-audio-1.0`
+  - **调用协议：** 兼容 OpenAI 语音合成（`POST /v1/audio/speech`）
+  - **鉴权方式：** Bearer 令牌鉴权（`sk-...`）
+  - **生成上限：** 单次合成最长 120 秒
+  - **文本上限：** 提示文本最长 3000 字符
+
+  ### 请求示例
+
+  ```bash
+  curl --request POST \
+    --url https://api.omnimux.ai/v1/audio/speech \
+    --header 'Authorization: Bearer sk-...' \
+    --header 'Content-Type: application/json' \
+    --data '{
+      "model": "seed-audio-1.0",
+      "input": "要合成的文本内容",
+      "voice": "zh_female_cancan",
+      "response_format": "mp3"
+    }' \
+    --output output.mp3
+  ```
+
+  完整参数定义与支持格式请参阅 [Seed Audio 接口参考文档](/zh/api-reference/audio-series/models/seed-audio)。
+
+  ### 链接
+
+  - [Seed Audio 接口文档](/zh/api-reference/audio-series/models/seed-audio)
+
+</Update>
+
 <a id="2026-09-18-indextts-2"></a>
 
 <Update label="2026 年 9 月 18 日" tags={["新模型", "音频"]} rss={{ title: "Index TTS 声音克隆 (indextts-2) 接口上线" }}>
