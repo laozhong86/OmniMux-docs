@@ -1,0 +1,110 @@
+---
+title: "Doubao TTS 3.0 语音合成"
+sidebarTitle: "Doubao TTS 3.0 语音合成"
+description: "火山引擎豆包语音合成模型 3.0（model seed-tts-3.0）"
+api: "POST https://api.omnimux.ai/v1/audio/speech"
+---
+
+- 接口：`POST /v1/audio/speech`，`model` 为 `seed-tts-3.0`
+- 协议：兼容 OpenAI 语音合成（TTS）接口，支持二进制音频、结构化 JSON 字幕时间戳与 NDJSON 流式输出
+- 支持 68 款官方预置音色、119 项语种与方言代码、Inline 情感标签与指令遵循，单次请求上限 10000 计费字符（汉字计 2 字符，其余字符计 1 字符）
+- 已取代旧版 `seed-audio-1.0`
+
+## 身份
+
+| 字段 | 值 |
+| --- | --- |
+| 系列 | 音频系列 |
+| 品牌 | 字节跳动（火山引擎） |
+| model | `seed-tts-3.0` |
+
+## 接口
+
+| 方法 | 路径 |
+| --- | --- |
+| `POST` | `/v1/audio/speech` |
+
+Base URL：`https://api.omnimux.ai`
+
+## 鉴权
+
+| 名称 | 位置 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | 是 | `Bearer sk-...`（API Key） |
+
+## 请求体
+
+| 字段 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| `model` | string | 是 | 固定为 `seed-tts-3.0` |
+| `input` | string | 二选一 | 待合成普通文本，与 `ssml` 互斥，单次上限 10000 计费字符 |
+| `ssml` | string | 二选一 | SSML 标记文本，与 `input` 互斥，标签字符计入 10000 字符上限 |
+| `voice` | string | 否 | 68 款 3.0 预置音色 ID（如 `multi_female_vv_xi_v3_uranus_bigtts`）、OpenAI 兼容别名（`alloy` 等）或已注册专属复刻音色 |
+| `output_format` | string \| object | 否 | 输出编码格式，可选 `mp3`、`pcm`、`ogg_opus`（默认 `mp3`），或传入含 `format`、`sample_rate`、`bit_rate` 的对象 |
+| `response_format` | string | 否 | OpenAI 兼容格式字段，设为 `json` 或 `verbose_json` 时返回含 Base64 音频与字词时间戳的 JSON |
+| `speed` | number | 否 | 语速倍率，范围 `[0.5, 2.0]`，默认 `1.0` |
+| `volume` | number | 否 | 音量倍率，范围 `[0.5, 2.0]`，默认 `1.0` |
+| `pitch` | integer | 否 | 音高偏移，范围 `[-12, 12]`，默认 `0` |
+| `silence_duration` | integer | 否 | 句尾静音时长（毫秒），范围 `[0, 30000]`，默认 `0` |
+| `language_code` | string | 否 | 目标语种或方言代码（支持 119 项，如 `zh`、`en`、`ja`、`zh-CN-x-sichuan`） |
+| `instructions` | string | 否 | 语气与风格控制指令，自动映射至 `voice_settings.instructions` |
+| `enable_subtitle` | boolean | 否 | 是否返回字词级字幕时间戳，默认 `false` |
+| `voice_settings` | object | 否 | 完整发声配置（`speed`、`volume`、`pitch`、`instructions`、`similarity_boost`、`dialect_boost`） |
+
+## 响应
+
+### 200
+
+- 默认模式：返回二进制音频流（`audio/mpeg`、`audio/pcm` 或 `audio/ogg`），响应头附带 `X-Audio-Session-Id`。
+- 结构化模式（`Accept: application/json` 或 `response_format` 为 `json` / `verbose_json`）：返回含 `session_id`、`format`、`audio`（Base64）与 `alignments` 字幕数组的 JSON。
+- 流式事件模式（`Accept: application/x-ndjson`）：逐行透传上游 JSONL 事件（`ready`、`audio`、`alignment`、`final`）。
+
+### 402
+
+账户余额或订阅额度不足以完成本次请求。
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url https://api.omnimux.ai/v1/audio/speech \
+  --header 'Authorization: Bearer sk-...' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "model": "seed-tts-3.0",
+    "input": "你好，欢迎体验豆包语音合成模型 3.0。",
+    "voice": "multi_female_vv_xi_v3_uranus_bigtts",
+    "output_format": "mp3",
+    "speed": 1.0,
+    "volume": 1.0,
+    "pitch": 0
+  }' \
+  --output output.mp3
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```http 200 OK
+Content-Type: audio/mpeg
+X-Audio-Session-Id: 587b0894-82e9-4e0f-8987-65ad1087516d
+
+<binary audio data>
+```
+
+```json 402 Payment Required
+{
+  "error": {
+    "message": "insufficient_quota: Account balance or subscription quota is insufficient for this request.",
+    "type": "insufficient_quota",
+    "code": "insufficient_quota"
+  }
+}
+```
+
+</ResponseExample>
+
+</Panel>

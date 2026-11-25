@@ -1,0 +1,110 @@
+---
+title: "Doubao TTS 3.0 Speech Synthesis"
+sidebarTitle: "Doubao TTS 3.0 Speech Synthesis"
+description: "ByteDance VolcEngine Doubao TTS 3.0 speech synthesis (model seed-tts-3.0)"
+api: "POST https://api.omnimux.ai/v1/audio/speech"
+---
+
+- Endpoint: `POST /v1/audio/speech` with `model` `seed-tts-3.0`
+- Protocol: OpenAI-compatible Audio Speech (TTS) endpoint supporting binary audio, structured JSON with word alignments, and NDJSON streaming
+- Supports 68 official preset voices, 119 language and dialect codes, inline emotion tags, and expressive instructions up to 10,000 billable characters per request (2 per Han character, 1 per other character)
+- Replaces retired `seed-audio-1.0`
+
+## Identity
+
+| Field | Value |
+| --- | --- |
+| Series | Audio series |
+| Brand | ByteDance (VolcEngine) |
+| model | `seed-tts-3.0` |
+
+## Endpoint
+
+| Method | Path |
+| --- | --- |
+| `POST` | `/v1/audio/speech` |
+
+Base URL: `https://api.omnimux.ai`
+
+## Authorizations
+
+| Name | In | Type | Required | Description |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | yes | `Bearer sk-...` (API key) |
+
+## Body
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `model` | string | yes | Must be `seed-tts-3.0` |
+| `input` | string | one-of | Plain text to synthesize; mutually exclusive with `ssml`, up to 10,000 billable characters |
+| `ssml` | string | one-of | SSML markup text; mutually exclusive with `input`, tags count toward the 10,000-character limit |
+| `voice` | string | no | Any of 68 TTS 3.0 preset voice IDs (e.g. `multi_female_vv_xi_v3_uranus_bigtts`), OpenAI aliases (`alloy`, etc.), or a registered cloned voice ID |
+| `output_format` | string \| object | no | Output audio encoding (`mp3`, `pcm`, `ogg_opus`, default `mp3`), or an object with `format`, `sample_rate`, and `bit_rate` |
+| `response_format` | string | no | OpenAI-compatible format field; set to `json` or `verbose_json` to receive Base64 audio and word timestamps |
+| `speed` | number | no | Speech speed multiplier in `[0.5, 2.0]`, default `1.0` |
+| `volume` | number | no | Output volume multiplier in `[0.5, 2.0]`, default `1.0` |
+| `pitch` | integer | no | Pitch shift in `[-12, 12]`, default `0` |
+| `silence_duration` | integer | no | Trailing silence in milliseconds in `[0, 30000]`, default `0` |
+| `language_code` | string | no | Target language or dialect code (119 supported, e.g. `zh`, `en`, `ja`, `zh-CN-x-sichuan`) |
+| `instructions` | string | no | Expressive style instruction mapped to `voice_settings.instructions` |
+| `enable_subtitle` | boolean | no | Enable word-level alignment timestamps, default `false` |
+| `voice_settings` | object | no | Full delivery settings (`speed`, `volume`, `pitch`, `instructions`, `similarity_boost`, `dialect_boost`) |
+
+## Response
+
+### 200
+
+- Default mode: binary audio stream (`audio/mpeg`, `audio/pcm`, or `audio/ogg`) with `X-Audio-Session-Id` header.
+- Structured JSON mode (`Accept: application/json` or `response_format` set to `json` / `verbose_json`): returns `session_id`, `format`, Base64 `audio`, and `alignments`.
+- Streaming event mode (`Accept: application/x-ndjson`): streams upstream JSONL events (`ready`, `audio`, `alignment`, `final`).
+
+### 402
+
+Account balance or subscription quota is insufficient for this request.
+
+<Panel>
+
+<RequestExample>
+
+```bash curl
+curl --request POST \
+  --url https://api.omnimux.ai/v1/audio/speech \
+  --header 'Authorization: Bearer sk-...' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "model": "seed-tts-3.0",
+    "input": "Welcome to Doubao TTS 3.0 speech synthesis on OmniMux.",
+    "voice": "multi_female_vv_xi_v3_uranus_bigtts",
+    "output_format": "mp3",
+    "speed": 1.0,
+    "volume": 1.0,
+    "pitch": 0
+  }' \
+  --output output.mp3
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```http 200 OK
+Content-Type: audio/mpeg
+X-Audio-Session-Id: 587b0894-82e9-4e0f-8987-65ad1087516d
+
+<binary audio data>
+```
+
+```json 402 Payment Required
+{
+  "error": {
+    "message": "insufficient_quota: Account balance or subscription quota is insufficient for this request.",
+    "type": "insufficient_quota",
+    "code": "insufficient_quota"
+  }
+}
+```
+
+</ResponseExample>
+
+</Panel>

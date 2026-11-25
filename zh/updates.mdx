@@ -9,6 +9,27 @@ rss: true
 
 分页：**第 1 页** · [第 2 页](/zh/updates/page-2)
 
+<a id="2026-11-25-volc-seed-tts-3"></a>
+
+<Update label="2026 年 11 月 25 日" tags={["新模型", "音频"]} rss={{ title: "豆包语音合成模型 3.0（seed-tts-3.0）上线并下架旧版火山 TTS" }}>
+
+  ## 豆包语音合成模型 3.0
+
+  **豆包语音合成模型 3.0（`seed-tts-3.0`）** 现已正式上线 OmniMux `POST /v1/audio/speech`，取代旧版 `seed-audio-1.0`。
+
+  ### 新模型特性
+
+  - **模型标识：** `seed-tts-3.0`
+  - **接口路径：** `POST /v1/audio/speech`（Bearer `sk-...` 鉴权）
+  - **核心能力：** 支持 68 款官方 3.0 预置音色（`*_v3_uranus_bigtts`）、119 项语种与方言、普通文本 `input` 与 `ssml`（互斥，单次上限 10000 计费字符，汉字计 2 其余计 1）、`mp3` / `pcm` / `ogg_opus` 输出、`speed` / `volume` / `pitch` / `silence_duration` 控制、`enable_subtitle` 字词级字幕时间戳以及 `Accept: application/x-ndjson` 实时事件流。
+  - **迁移说明：** 旧版 `seed-audio-1.0` 已同步下架，请调用方迁移至 `model: "seed-tts-3.0"`。
+
+  ### 链接
+
+  - [豆包语音合成 3.0 文档](/zh/api-reference/audio-series/models/seed-tts-3)
+
+</Update>
+
 <a id="2026-11-23-tiktok-direct-oauth-photo-drafts"></a>
 
 <Update label="2026 年 11 月 23 日" tags={["能力更新", "社媒发布"]} rss={{ title: "TikTok 官方直连升级：图文轮播草稿、sent_to_inbox 状态与跨浏览器 OAuth 启动" }}>
@@ -1121,46 +1142,6 @@ rss: true
   ### 链接
 
   - [豆包语音识别文档](/zh/api-reference/audio-series/models/doubao-asr)
-
-</Update>
-
-<a id="2026-09-18-volc-seed-audio"></a>
-
-<Update label="2026 年 9 月 18 日" tags={["新模型", "音频"]} rss={{ title: "火山引擎 Seed Audio (seed-audio-1.0) 语音生成接口上线" }}>
-
-  ## Seed Audio 1.0
-
-  火山引擎 `seed-audio-1.0` 语音生成大模型已接入 OmniMux 标准语音合成端点。
-
-  ### 接口规范
-
-  - **模型标识：** `seed-audio-1.0`
-  - **调用协议：** 兼容 OpenAI 语音合成（`POST /v1/audio/speech`）
-  - **鉴权方式：** Bearer 令牌鉴权（`sk-...`）
-  - **生成上限：** 单次合成最长 120 秒
-  - **文本上限：** 提示文本最长 3000 字符
-
-  ### 请求示例
-
-  ```bash
-  curl --request POST \
-    --url https://api.omnimux.ai/v1/audio/speech \
-    --header 'Authorization: Bearer sk-...' \
-    --header 'Content-Type: application/json' \
-    --data '{
-      "model": "seed-audio-1.0",
-      "input": "要合成的文本内容",
-      "voice": "zh_female_cancan",
-      "response_format": "mp3"
-    }' \
-    --output output.mp3
-  ```
-
-  完整参数定义与支持格式请参阅 [Seed Audio 接口参考文档](/zh/api-reference/audio-series/models/seed-audio)。
-
-  ### 链接
-
-  - [Seed Audio 接口文档](/zh/api-reference/audio-series/models/seed-audio)
 
 </Update>
 

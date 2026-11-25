@@ -310,9 +310,9 @@
                     "icon": "audio-lines"
                   },
                   {
-                    "group": "VolcEngine Seed Audio",
+                    "group": "Doubao TTS 3.0",
                     "pages": [
-                      "en/api-reference/audio-series/models/seed-audio"
+                      "en/api-reference/audio-series/models/seed-tts-3"
                     ],
                     "icon": "audio-lines"
                   },
@@ -828,9 +828,9 @@
                     "icon": "audio-lines"
                   },
                   {
-                    "group": "火山语音生成",
+                    "group": "豆包语音合成 3.0",
                     "pages": [
-                      "zh/api-reference/audio-series/models/seed-audio"
+                      "zh/api-reference/audio-series/models/seed-tts-3"
                     ],
                     "icon": "audio-lines"
                   },
@@ -2324,6 +2324,16 @@
     {
       "source": "/en/api-reference/publishing/inbox-analytics/volume",
       "destination": "/en/api-reference/publishing/start-connect",
+      "permanent": true
+    },
+    {
+      "source": "/en/api-reference/audio-series/models/seed-audio",
+      "destination": "/en/api-reference/audio-series/models/seed-tts-3",
+      "permanent": true
+    },
+    {
+      "source": "/zh/api-reference/audio-series/models/seed-audio",
+      "destination": "/zh/api-reference/audio-series/models/seed-tts-3",
       "permanent": true
     }
   ],

@@ -9,6 +9,27 @@ Stay up to date with OmniMux gateway model launches and platform changes. The fu
 
 Pages: **Page 1** · [Page 2](/en/updates/page-2)
 
+<a id="2026-11-25-volc-seed-tts-3"></a>
+
+<Update label="November 25, 2026" tags={["New models", "Audio"]} rss={{ title: "Doubao TTS 3.0 (seed-tts-3.0) Available and Legacy Seed Audio Retired" }}>
+
+  ## Doubao TTS 3.0
+
+  **Doubao TTS 3.0 (`seed-tts-3.0`)** is now available on OmniMux via `POST /v1/audio/speech`, replacing legacy `seed-audio-1.0`.
+
+  ### New model
+
+  - **Model ID:** `seed-tts-3.0`
+  - **API:** `POST /v1/audio/speech` (OpenAI-compatible Bearer `sk-...`)
+  - **Highlights:** 68 official preset voices (`*_v3_uranus_bigtts`), 119 language and dialect codes, plain `input` or `ssml` up to 10,000 billable characters (2 per Han character, 1 per other character), `mp3` / `pcm` / `ogg_opus` output, `speed` / `volume` / `pitch` / `silence_duration` controls, word-level `enable_subtitle` alignments, and optional `Accept: application/x-ndjson` streaming.
+  - **Migration:** Legacy `seed-audio-1.0` has been retired from the catalog and gateway. Update callers to `model: "seed-tts-3.0"`.
+
+  ### Links
+
+  - [Doubao TTS 3.0 Reference](/en/api-reference/audio-series/models/seed-tts-3)
+
+</Update>
+
 <a id="2026-11-23-tiktok-direct-oauth-photo-drafts"></a>
 
 <Update label="November 23, 2026" tags={["Improvements", "Publishing"]} rss={{ title: "TikTok direct: photo carousel drafts, sent_to_inbox status, and cross-browser OAuth launch" }}>
@@ -1121,46 +1142,6 @@ Pages: **Page 1** · [Page 2](/en/updates/page-2)
   ### Links
 
   - [Doubao ASR Reference](/en/api-reference/audio-series/models/doubao-asr)
-
-</Update>
-
-<a id="2026-09-18-volc-seed-audio"></a>
-
-<Update label="September 18, 2026" tags={["New models", "Audio"]} rss={{ title: "VolcEngine Seed Audio (seed-audio-1.0) Available via TTS Endpoint" }}>
-
-  ## Seed Audio 1.0
-
-  The `seed-audio-1.0` model is now supported on OmniMux under standard audio speech endpoints.
-
-  ### Model specification
-
-  - **Model ID:** `seed-audio-1.0`
-  - **Protocol:** OpenAI-compatible Audio Speech (`POST /v1/audio/speech`)
-  - **Authentication:** Bearer token (`sk-...`)
-  - **Output limit:** Up to 120 seconds per generation
-  - **Prompt limit:** Up to 3000 characters
-
-  ### Request example
-
-  ```bash
-  curl --request POST \
-    --url https://api.omnimux.ai/v1/audio/speech \
-    --header 'Authorization: Bearer sk-...' \
-    --header 'Content-Type: application/json' \
-    --data '{
-      "model": "seed-audio-1.0",
-      "input": "Text to synthesize into speech",
-      "voice": "zh_female_cancan",
-      "response_format": "mp3"
-    }' \
-    --output output.mp3
-  ```
-
-  Full parameter specifications are documented in the [Seed Audio Reference](/en/api-reference/audio-series/models/seed-audio).
-
-  ### Links
-
-  - [Seed Audio Reference](/en/api-reference/audio-series/models/seed-audio)
 
 </Update>
 

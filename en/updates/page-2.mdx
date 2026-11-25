@@ -9,6 +9,46 @@ Stay up to date with OmniMux gateway model launches and platform changes. The fu
 
 Pages: [Page 1](/en/updates) · **Page 2**
 
+<a id="2026-09-18-volc-seed-audio"></a>
+
+<Update label="September 18, 2026" tags={["New models", "Audio"]} rss={{ title: "VolcEngine Seed Audio (seed-audio-1.0) Available via TTS Endpoint" }}>
+
+  ## Seed Audio 1.0
+
+  The `seed-audio-1.0` model is now supported on OmniMux under standard audio speech endpoints.
+
+  ### Model specification
+
+  - **Model ID:** `seed-audio-1.0`
+  - **Protocol:** OpenAI-compatible Audio Speech (`POST /v1/audio/speech`)
+  - **Authentication:** Bearer token (`sk-...`)
+  - **Output limit:** Up to 120 seconds per generation
+  - **Prompt limit:** Up to 3000 characters
+
+  ### Request example
+
+  ```bash
+  curl --request POST \
+    --url https://api.omnimux.ai/v1/audio/speech \
+    --header 'Authorization: Bearer sk-...' \
+    --header 'Content-Type: application/json' \
+    --data '{
+      "model": "seed-audio-1.0",
+      "input": "Text to synthesize into speech",
+      "voice": "zh_female_cancan",
+      "response_format": "mp3"
+    }' \
+    --output output.mp3
+  ```
+
+  Full parameter specifications are documented in the [Seed Audio Reference](/en/api-reference/audio-series/models/seed-audio).
+
+  ### Links
+
+  - [Seed Audio Reference](/en/api-reference/audio-series/models/seed-audio)
+
+</Update>
+
 <a id="2026-09-18-indextts-2"></a>
 
 <Update label="September 18, 2026" tags={["New models", "Audio"]} rss={{ title: "Index TTS Voice Clone (indextts-2) Available" }}>

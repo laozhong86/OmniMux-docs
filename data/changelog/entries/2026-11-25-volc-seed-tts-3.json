@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "id": "2026-11-25-volc-seed-tts-3",
+  "published_at": "2026-11-25",
+  "rank": 1,
+  "type": "model_launch",
+  "modality": [
+    "audio"
+  ],
+  "title": {
+    "en": "Doubao TTS 3.0 (seed-tts-3.0) Available and Legacy Seed Audio Retired",
+    "zh": "豆包语音合成模型 3.0（seed-tts-3.0）上线并下架旧版火山 TTS"
+  },
+  "summary": {
+    "en": "ByteDance VolcEngine Doubao TTS 3.0 (seed-tts-3.0) is now live on POST /v1/audio/speech with 68 preset voices, 119 languages and dialects, SSML, word-level alignments, and NDJSON streaming; legacy seed-audio-1.0 is retired.",
+    "zh": "火山引擎豆包语音合成模型 3.0（seed-tts-3.0）现已上线 POST /v1/audio/speech，支持 68 款官方预置音色、119 项语种与方言、SSML、字词级字幕时间戳及 NDJSON 流式输出，同时下架旧版 seed-audio-1.0。"
+  },
+  "models": [
+    "seed-tts-3.0"
+  ],
+  "tags": [
+    "audio",
+    "tts",
+    "volcengine",
+    "bytedance"
+  ],
+  "links": [
+    {
+      "label": {
+        "en": "Doubao TTS 3.0 Reference",
+        "zh": "豆包语音合成 3.0 文档"
+      },
+      "href": {
+        "en": "/en/api-reference/audio-series/models/seed-tts-3",
+        "zh": "/zh/api-reference/audio-series/models/seed-tts-3"
+      }
+    }
+  ],
+  "body": {
+    "en": "## Doubao TTS 3.0\n\n**Doubao TTS 3.0 (`seed-tts-3.0`)** is now available on OmniMux via `POST /v1/audio/speech`, replacing legacy `seed-audio-1.0`.\n\n### New model\n\n- **Model ID:** `seed-tts-3.0`\n- **API:** `POST /v1/audio/speech` (OpenAI-compatible Bearer `sk-...`)\n- **Highlights:** 68 official preset voices (`*_v3_uranus_bigtts`), 119 language and dialect codes, plain `input` or `ssml` up to 10,000 billable characters (2 per Han character, 1 per other character), `mp3` / `pcm` / `ogg_opus` output, `speed` / `volume` / `pitch` / `silence_duration` controls, word-level `enable_subtitle` alignments, and optional `Accept: application/x-ndjson` streaming.\n- **Migration:** Legacy `seed-audio-1.0` has been retired from the catalog and gateway. Update callers to `model: \"seed-tts-3.0\"`.",
+    "zh": "## 豆包语音合成模型 3.0\n\n**豆包语音合成模型 3.0（`seed-tts-3.0`）** 现已正式上线 OmniMux `POST /v1/audio/speech`，取代旧版 `seed-audio-1.0`。\n\n### 新模型特性\n\n- **模型标识：** `seed-tts-3.0`\n- **接口路径：** `POST /v1/audio/speech`（Bearer `sk-...` 鉴权）\n- **核心能力：** 支持 68 款官方 3.0 预置音色（`*_v3_uranus_bigtts`）、119 项语种与方言、普通文本 `input` 与 `ssml`（互斥，单次上限 10000 计费字符，汉字计 2 其余计 1）、`mp3` / `pcm` / `ogg_opus` 输出、`speed` / `volume` / `pitch` / `silence_duration` 控制、`enable_subtitle` 字词级字幕时间戳以及 `Accept: application/x-ndjson` 实时事件流。\n- **迁移说明：** 旧版 `seed-audio-1.0` 已同步下架，请调用方迁移至 `model: \"seed-tts-3.0\"`。"
+  }
+}

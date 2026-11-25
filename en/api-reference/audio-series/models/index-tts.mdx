@@ -8,7 +8,7 @@ api: "POST https://api.omnimux.ai/v1/tasks/autodl"
 - Create: `POST /v1/tasks/autodl` with `model` `indextts-2`
 - Poll: `GET /v1/tasks/{task_id}` (fetch output audio through `GET /v1/tasks/{task_id}/artifacts`)
 - Dedicated workflow channel supporting reference voice clone and emotional nuance control
-- Recommended: For 3-second instant generation, prefer official mainstream `seed-audio-1.0` voice clone mode
+- Recommended: For multilingual synthesis across 68 preset voices, use `seed-tts-3.0` on `POST /v1/audio/speech`
 
 ## Identity
 
