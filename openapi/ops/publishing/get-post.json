@@ -98,9 +98,10 @@
                                 "processing",
                                 "sent_to_inbox",
                                 "published",
-                                "failed"
+                                "failed",
+                                "deleted"
                               ],
-                              "description": "Stored or refreshed status. On refresh=1 for tiktok_direct, TikTok PROCESSING_DOWNLOAD/PROCESSING_UPLOAD/PUBLISH_INITIATED map to processing, SEND_TO_USER_INBOX maps to non-terminal sent_to_inbox (refresh=1 keeps polling until published or failed), PUBLISH_COMPLETE maps to published, and FAILED/FAIL map to failed."
+                              "description": "Stored or refreshed status. On refresh=1 for tiktok_direct, TikTok PROCESSING_DOWNLOAD/PROCESSING_UPLOAD/PUBLISH_INITIATED map to processing, SEND_TO_USER_INBOX maps to non-terminal sent_to_inbox (refresh=1 keeps polling without regressing back to processing), PUBLISH_COMPLETE maps to published, and FAILED/FAIL map to failed. Deployments with TikTok Content Posting webhooks enabled can also record absorbing terminal deleted once no publicly available post_ids remain."
                             },
                             "provider_post_id": {
                               "type": "string"
@@ -117,7 +118,7 @@
                               "format": "int64"
                             },
                             "result": {
-                              "description": "Latest upstream status snapshot. For tiktok_direct, result.status preserves the raw TikTok status string (for example SEND_TO_USER_INBOX or PUBLISH_COMPLETE) alongside publish_id and fail_reason."
+                              "description": "Latest upstream status snapshot. For tiktok_direct, result.status preserves the raw TikTok status string (for example SEND_TO_USER_INBOX or PUBLISH_COMPLETE) alongside publish_id, fail_reason, and (when webhook deliveries are enabled) deduplicated post_ids / unavailable_post_ids."
                             }
                           },
                           "required": [

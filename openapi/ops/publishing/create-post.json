@@ -287,7 +287,7 @@
             }
           },
           "409": {
-            "description": "Source or account-set conflict, or the TikTok account lacks both publishing scopes.",
+            "description": "Source or account-set conflict, or a structured TikTok account/policy rejection (scope missing, token invalid, posting banned, or publish restricted).",
             "content": {
               "application/json": {
                 "schema": {
@@ -304,6 +304,14 @@
                     },
                     "code": {
                       "type": "string"
+                    },
+                    "upstream_code": {
+                      "type": "string",
+                      "description": "Sanitized TikTok upstream error code when available."
+                    },
+                    "upstream_log_id": {
+                      "type": "string",
+                      "description": "TikTok upstream log_id for support and debugging when available."
                     }
                   },
                   "required": [
@@ -327,7 +335,121 @@
                       "code": "SOCIAL_TIKTOK_SCOPE_MISSING",
                       "message": "tiktok account has no publishing scope; reconnect after video.upload or video.publish is granted"
                     }
+                  },
+                  "tiktokPublishRestricted": {
+                    "summary": "TikTok rejected posting due to account or app limit",
+                    "value": {
+                      "success": false,
+                      "code": "SOCIAL_TIKTOK_PUBLISH_RESTRICTED",
+                      "message": "TikTok posting limit reached",
+                      "upstream_code": "spam_risk_too_many_posts",
+                      "upstream_log_id": "20261124090000ABCDEF"
+                    }
+                  },
+                  "tiktokPostingBanned": {
+                    "summary": "TikTok account is restricted from posting",
+                    "value": {
+                      "success": false,
+                      "code": "SOCIAL_TIKTOK_POSTING_BANNED",
+                      "message": "TikTok account is restricted from posting",
+                      "upstream_code": "spam_risk_user_banned_from_posting",
+                      "upstream_log_id": "20261124090001ABCDEF"
+                    }
+                  },
+                  "tiktokTokenInvalid": {
+                    "summary": "TikTok OAuth token expired or revoked",
+                    "value": {
+                      "success": false,
+                      "code": "SOCIAL_TIKTOK_TOKEN_INVALID",
+                      "message": "TikTok authorization expired or invalid; please reconnect account",
+                      "upstream_code": "access_token_invalid",
+                      "upstream_log_id": "20261124090002ABCDEF"
+                    }
                   }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TikTok upstream rate limit exceeded; retry with backoff.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "enum": [
+                        false
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "upstream_code": {
+                      "type": "string"
+                    },
+                    "upstream_log_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "success",
+                    "message",
+                    "code"
+                  ]
+                },
+                "example": {
+                  "success": false,
+                  "code": "SOCIAL_TIKTOK_RATE_LIMITED",
+                  "message": "TikTok rate limit reached; please retry later",
+                  "upstream_code": "rate_limit_exceeded",
+                  "upstream_log_id": "20261124090003ABCDEF"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Other TikTok upstream error; structured code and upstream_log_id are passed through when available.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "enum": [
+                        false
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "upstream_code": {
+                      "type": "string"
+                    },
+                    "upstream_log_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "success",
+                    "message",
+                    "code"
+                  ]
+                },
+                "example": {
+                  "success": false,
+                  "code": "SOCIAL_TIKTOK_UPSTREAM_ERROR",
+                  "message": "TikTok upstream request failed",
+                  "upstream_code": "internal_error",
+                  "upstream_log_id": "20261124090004ABCDEF"
                 }
               }
             }

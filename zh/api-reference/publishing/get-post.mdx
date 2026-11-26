@@ -16,6 +16,7 @@ openapi: "openapi/ops/publishing/get-post.json GET /api/social/v1/posts/{id}"
 | `sent_to_inbox` | `SEND_TO_USER_INBOX` | **否** | 草稿已送达创作者 TikTok 收件箱，等待创作者在 TikTok App 内确认发布。该状态为**非终态**，`refresh=1` 会继续轮询上游并在完成后流转至 `published` 或 `failed` |
 | `published` | `PUBLISH_COMPLETE` | 是 | 已在 TikTok 发布完成 |
 | `failed` | `FAILED`、`FAIL` | 是 | 上传或发布失败（上游提供时在 `result.fail_reason` 返回原因） |
+| `deleted` | —（Webhook 下架事件） | 是 | 在启用 TikTok Content Posting Webhooks 的部署中，当已发布内容全部不再公开可见时单向落为吸收终态；轮询不会回退或覆盖 `published`/`failed`/`deleted` 终态，也不会清空 Webhook 记录的 `result.post_ids` 与 `result.unavailable_post_ids` |
 
 `provider` 必填，当前唯一取值 `tiktok_direct`。已退役的来源标识返回 410 `provider-retired`，缺失或未知值返回 400 `invalid-provider`。
 

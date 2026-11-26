@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "id": "2026-11-26-tiktok-structured-errors",
+  "published_at": "2026-11-26",
+  "rank": 1,
+  "type": "capability",
+  "modality": [
+    "publishing"
+  ],
+  "title": {
+    "en": "TikTok direct: structured upstream error codes and log_id passthrough",
+    "zh": "TikTok 官方直连升级：上游错误码结构化映射与 log_id 透传"
+  },
+  "summary": {
+    "en": "TikTok direct publishing endpoints now map upstream business errors and rate limits to structured SOCIAL_TIKTOK_* error codes with HTTP 409/429/502 and sanitized upstream_code and upstream_log_id fields.",
+    "zh": "TikTok 官方直连发帖与创作者信息接口现已统一将上游限流、封禁、配额及授权失效映射为结构化 SOCIAL_TIKTOK_* 错误码与 HTTP 409/429/502，并透传脱敏后的 upstream_code 与 upstream_log_id。"
+  },
+  "models": [],
+  "tags": [
+    "publishing",
+    "tiktok",
+    "errors"
+  ],
+  "links": [
+    {
+      "label": {
+        "en": "Create Post",
+        "zh": "创建帖子"
+      },
+      "href": {
+        "en": "/en/api-reference/publishing/create-post",
+        "zh": "/zh/api-reference/publishing/create-post"
+      }
+    },
+    {
+      "label": {
+        "en": "Get Post",
+        "zh": "查询帖子"
+      },
+      "href": {
+        "en": "/en/api-reference/publishing/get-post",
+        "zh": "/zh/api-reference/publishing/get-post"
+      }
+    }
+  ],
+  "body": {
+    "en": "TikTok direct endpoints now return structured error payloads for TikTok upstream failures instead of generic error text.\n\n### Structured `SOCIAL_TIKTOK_*` error contract\n\n- **Rate limiting (`429`):** `SOCIAL_TIKTOK_RATE_LIMITED` (`rate_limit_exceeded`) instructs callers to retry with backoff.\n- **Account and posting restrictions (`409`):** `SOCIAL_TIKTOK_POSTING_BANNED`, `SOCIAL_TIKTOK_PUBLISH_RESTRICTED`, `SOCIAL_TIKTOK_SCOPE_MISSING`, and `SOCIAL_TIKTOK_TOKEN_INVALID` clearly separate TikTok account/scope/token issues from OmniMux authentication (never returned as HTTP 401 or 403).\n- **Other upstream failures (`502`):** `SOCIAL_TIKTOK_UPSTREAM_ERROR`.\n- **Diagnostic fields:** sanitized `upstream_code` and `upstream_log_id` are included when returned by TikTok, while secrets and misleading quota substrings are filtered out.\n\n### Post state monotonic contract\n\n- `GET /api/social/v1/posts/{id}` preserves monotonic transitions across polling refreshes and optional Content Posting webhook deliveries, adding the absorbing `deleted` terminal state and deduplicated `result.post_ids` / `result.unavailable_post_ids` snapshot fields for deployments that enable TikTok webhooks.",
+    "zh": "TikTok 官方直连接口现已将 TikTok 上游异常统一封装为结构化错误体，便于客户端精确分流重试或引导重新授权。\n\n### 结构化 `SOCIAL_TIKTOK_*` 错误契约\n\n- **上游限流（`429`）：** `SOCIAL_TIKTOK_RATE_LIMITED`（`rate_limit_exceeded`），调用方可按退避策略重试。\n- **账号与权限受限（`409`）：** `SOCIAL_TIKTOK_POSTING_BANNED`、`SOCIAL_TIKTOK_PUBLISH_RESTRICTED`、`SOCIAL_TIKTOK_SCOPE_MISSING` 与 `SOCIAL_TIKTOK_TOKEN_INVALID`，与 OmniMux 自身登录态（401/403）彻底隔离。\n- **其他上游失败（`502`）：** `SOCIAL_TIKTOK_UPSTREAM_ERROR`。\n- **排障字段：** 上游返回时透传脱敏后的 `upstream_code` 与 `upstream_log_id`，并过滤密钥与易引起配额误判的文本。\n\n### 帖子状态单调流转说明\n\n- `GET /api/social/v1/posts/{id}` 明确轮询刷新与可选 Content Posting Webhooks 的单调状态约束，补充 `deleted` 吸收终态以及启用 Webhook 部署下的 `result.post_ids` / `result.unavailable_post_ids` 字段说明。"
+  }
+}

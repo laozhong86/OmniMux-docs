@@ -9,6 +9,40 @@ Stay up to date with OmniMux gateway model launches and platform changes. The fu
 
 Pages: [Page 1](/en/updates) · **Page 2**
 
+<a id="2026-09-18-volc-doubao-asr"></a>
+
+<Update label="September 18, 2026" tags={["New models", "Audio"]} rss={{ title: "Doubao ASR Speech Recognition Series Available" }}>
+
+  ## Doubao Speech Recognition
+
+  The `doubao-asr-bigmodel`, `seedasr-auc`, and `bigasr-auc` models are now supported on OmniMux.
+
+  ### Model specification
+
+  - **Model IDs:** `doubao-asr-bigmodel`, `seedasr-auc`, `bigasr-auc`
+  - **Protocol:** OpenAI-compatible Audio Transcriptions (`POST /v1/audio/transcriptions`)
+  - **Authentication:** Bearer token (`sk-...`)
+  - **Input format:** Audio file multipart upload (`wav`, `mp3`, `ogg`, `m4a`)
+
+  ### Request example
+
+  ```bash
+  curl --request POST \
+    --url https://api.omnimux.ai/v1/audio/transcriptions \
+    --header 'Authorization: Bearer sk-...' \
+    --header 'Content-Type: multipart/form-data' \
+    --form 'file=@audio.mp3' \
+    --form 'model=doubao-asr-bigmodel'
+  ```
+
+  Full parameter specifications are documented in the [Doubao ASR Reference](/en/api-reference/audio-series/models/doubao-asr).
+
+  ### Links
+
+  - [Doubao ASR Reference](/en/api-reference/audio-series/models/doubao-asr)
+
+</Update>
+
 <a id="2026-09-18-volc-seed-audio"></a>
 
 <Update label="September 18, 2026" tags={["New models", "Audio"]} rss={{ title: "VolcEngine Seed Audio (seed-audio-1.0) Available via TTS Endpoint" }}>

@@ -9,6 +9,30 @@ rss: true
 
 分页：**第 1 页** · [第 2 页](/zh/updates/page-2)
 
+<a id="2026-11-26-tiktok-structured-errors"></a>
+
+<Update label="2026 年 11 月 26 日" tags={["能力更新", "社媒发布"]} rss={{ title: "TikTok 官方直连升级：上游错误码结构化映射与 log_id 透传" }}>
+
+  TikTok 官方直连接口现已将 TikTok 上游异常统一封装为结构化错误体，便于客户端精确分流重试或引导重新授权。
+
+  ### 结构化 `SOCIAL_TIKTOK_*` 错误契约
+
+  - **上游限流（`429`）：** `SOCIAL_TIKTOK_RATE_LIMITED`（`rate_limit_exceeded`），调用方可按退避策略重试。
+  - **账号与权限受限（`409`）：** `SOCIAL_TIKTOK_POSTING_BANNED`、`SOCIAL_TIKTOK_PUBLISH_RESTRICTED`、`SOCIAL_TIKTOK_SCOPE_MISSING` 与 `SOCIAL_TIKTOK_TOKEN_INVALID`，与 OmniMux 自身登录态（401/403）彻底隔离。
+  - **其他上游失败（`502`）：** `SOCIAL_TIKTOK_UPSTREAM_ERROR`。
+  - **排障字段：** 上游返回时透传脱敏后的 `upstream_code` 与 `upstream_log_id`，并过滤密钥与易引起配额误判的文本。
+
+  ### 帖子状态单调流转说明
+
+  - `GET /api/social/v1/posts/{id}` 明确轮询刷新与可选 Content Posting Webhooks 的单调状态约束，补充 `deleted` 吸收终态以及启用 Webhook 部署下的 `result.post_ids` / `result.unavailable_post_ids` 字段说明。
+
+  ### 链接
+
+  - [创建帖子](/zh/api-reference/publishing/create-post)
+  - [查询帖子](/zh/api-reference/publishing/get-post)
+
+</Update>
+
 <a id="2026-11-25-volc-seed-tts-3"></a>
 
 <Update label="2026 年 11 月 25 日" tags={["新模型", "音频"]} rss={{ title: "豆包语音合成模型 3.0（seed-tts-3.0）上线并下架旧版火山 TTS" }}>
@@ -1108,40 +1132,6 @@ rss: true
 
   - [Seedance 2.0 接口文档](/zh/api-reference/video-series/models/seedance-2-0)
   - [MiniMax H3 接口文档](/zh/api-reference/video-series/models/minimax-h3)
-
-</Update>
-
-<a id="2026-09-18-volc-doubao-asr"></a>
-
-<Update label="2026 年 9 月 18 日" tags={["新模型", "音频"]} rss={{ title: "豆包语音识别大模型系列接口上线" }}>
-
-  ## 豆包语音识别
-
-  `doubao-asr-bigmodel`、`seedasr-auc` 与 `bigasr-auc` 语音转文字模型现已在 OmniMux 正式提供调用。
-
-  ### 接口规范
-
-  - **模型标识：** `doubao-asr-bigmodel`, `seedasr-auc`, `bigasr-auc`
-  - **调用协议：** 兼容 OpenAI 语音转文字（`POST /v1/audio/transcriptions`）
-  - **鉴权方式：** Bearer 令牌鉴权（`sk-...`）
-  - **音频格式：** 支持通过分段上传提交 `wav`, `mp3`, `ogg`, `m4a` 等常见格式
-
-  ### 请求示例
-
-  ```bash
-  curl --request POST \
-    --url https://api.omnimux.ai/v1/audio/transcriptions \
-    --header 'Authorization: Bearer sk-...' \
-    --header 'Content-Type: multipart/form-data' \
-    --form 'file=@audio.mp3' \
-    --form 'model=doubao-asr-bigmodel'
-  ```
-
-  完整参数定义详见 [豆包语音识别参考文档](/zh/api-reference/audio-series/models/doubao-asr)。
-
-  ### 链接
-
-  - [豆包语音识别文档](/zh/api-reference/audio-series/models/doubao-asr)
 
 </Update>
 
