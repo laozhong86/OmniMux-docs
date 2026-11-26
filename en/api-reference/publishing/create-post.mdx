@@ -27,6 +27,19 @@ Capabilities are evaluated strictly from the OAuth scopes actually granted to th
 
 `provider` is required and has one current value, `tiktok_direct`. A retired source identifier returns 410 `provider-retired`; missing or unknown values return 400 `invalid-provider`.
 
+### Structured TikTok upstream errors
+
+When TikTok returns an upstream business error or rate limit, the gateway returns a structured JSON body (`success: false`, `code`, `message`, plus sanitized `upstream_code` and `upstream_log_id` when supplied by TikTok) with a non-401/403 HTTP status so TikTok token errors are never confused with OmniMux session failures:
+
+| HTTP | `code` | Typical `upstream_code` | Recommended action |
+| --- | --- | --- | --- |
+| `429` | `SOCIAL_TIKTOK_RATE_LIMITED` | `rate_limit_exceeded` | Retry with backoff; do not reconnect |
+| `409` | `SOCIAL_TIKTOK_POSTING_BANNED` | `spam_risk_user_banned_from_posting` | Account is banned from posting on TikTok; stop retrying |
+| `409` | `SOCIAL_TIKTOK_PUBLISH_RESTRICTED` | `spam_risk_too_many_posts`, `reached_active_user_cap`, `spam_risk_too_many_pending_share`, `unaudited_client_can_only_post_to_private_accounts`, `url_ownership_unverified` | Account posting cap, pending inbox cap, or app visibility/domain restriction |
+| `409` | `SOCIAL_TIKTOK_SCOPE_MISSING` | `scope_not_authorized` | Required publishing scope missing; reconnect the account |
+| `409` | `SOCIAL_TIKTOK_TOKEN_INVALID` | `access_token_invalid`, `token_expired`, `token_revoked`, `invalid_grant`, `refresh_token_invalid` | TikTok OAuth token expired or revoked; reconnect the account |
+| `502` | `SOCIAL_TIKTOK_UPSTREAM_ERROR` | Other TikTok upstream error codes | Log `upstream_log_id` and retry later |
+
 CLI: `omnimux social post --provider tiktok_direct --accounts <account-id> --media <url> --title "Draft title" --photo-cover-index 0 --is-aigc=false` (supports `--description`, `--tiktok-options '<json>'`, and compliance flags). Passing a retired `--provider` value fails locally in the CLI before any network request.
 
-Use an OmniMux user access token and `New-Api-User`, not an `sk-` key. Inspect `success` as well as HTTP status; some upstream failures return HTTP 200 with `success:false`.
+Use an OmniMux user access token and `New-Api-User`, not an `sk-` key. Inspect both HTTP status and `success` (structured TikTok upstream errors return 409/429/502, while generic failures may still return HTTP 200 with `success: false`).

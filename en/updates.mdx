@@ -9,6 +9,30 @@ Stay up to date with OmniMux gateway model launches and platform changes. The fu
 
 Pages: **Page 1** · [Page 2](/en/updates/page-2)
 
+<a id="2026-11-26-tiktok-structured-errors"></a>
+
+<Update label="November 26, 2026" tags={["Improvements", "Publishing"]} rss={{ title: "TikTok direct: structured upstream error codes and log_id passthrough" }}>
+
+  TikTok direct endpoints now return structured error payloads for TikTok upstream failures instead of generic error text.
+
+  ### Structured `SOCIAL_TIKTOK_*` error contract
+
+  - **Rate limiting (`429`):** `SOCIAL_TIKTOK_RATE_LIMITED` (`rate_limit_exceeded`) instructs callers to retry with backoff.
+  - **Account and posting restrictions (`409`):** `SOCIAL_TIKTOK_POSTING_BANNED`, `SOCIAL_TIKTOK_PUBLISH_RESTRICTED`, `SOCIAL_TIKTOK_SCOPE_MISSING`, and `SOCIAL_TIKTOK_TOKEN_INVALID` clearly separate TikTok account/scope/token issues from OmniMux authentication (never returned as HTTP 401 or 403).
+  - **Other upstream failures (`502`):** `SOCIAL_TIKTOK_UPSTREAM_ERROR`.
+  - **Diagnostic fields:** sanitized `upstream_code` and `upstream_log_id` are included when returned by TikTok, while secrets and misleading quota substrings are filtered out.
+
+  ### Post state monotonic contract
+
+  - `GET /api/social/v1/posts/{id}` preserves monotonic transitions across polling refreshes and optional Content Posting webhook deliveries, adding the absorbing `deleted` terminal state and deduplicated `result.post_ids` / `result.unavailable_post_ids` snapshot fields for deployments that enable TikTok webhooks.
+
+  ### Links
+
+  - [Create Post](/en/api-reference/publishing/create-post)
+  - [Get Post](/en/api-reference/publishing/get-post)
+
+</Update>
+
 <a id="2026-11-25-volc-seed-tts-3"></a>
 
 <Update label="November 25, 2026" tags={["New models", "Audio"]} rss={{ title: "Doubao TTS 3.0 (seed-tts-3.0) Available and Legacy Seed Audio Retired" }}>
@@ -1108,40 +1132,6 @@ Pages: **Page 1** · [Page 2](/en/updates/page-2)
 
   - [Seedance 2.0 Reference](/en/api-reference/video-series/models/seedance-2-0)
   - [MiniMax H3 Reference](/en/api-reference/video-series/models/minimax-h3)
-
-</Update>
-
-<a id="2026-09-18-volc-doubao-asr"></a>
-
-<Update label="September 18, 2026" tags={["New models", "Audio"]} rss={{ title: "Doubao ASR Speech Recognition Series Available" }}>
-
-  ## Doubao Speech Recognition
-
-  The `doubao-asr-bigmodel`, `seedasr-auc`, and `bigasr-auc` models are now supported on OmniMux.
-
-  ### Model specification
-
-  - **Model IDs:** `doubao-asr-bigmodel`, `seedasr-auc`, `bigasr-auc`
-  - **Protocol:** OpenAI-compatible Audio Transcriptions (`POST /v1/audio/transcriptions`)
-  - **Authentication:** Bearer token (`sk-...`)
-  - **Input format:** Audio file multipart upload (`wav`, `mp3`, `ogg`, `m4a`)
-
-  ### Request example
-
-  ```bash
-  curl --request POST \
-    --url https://api.omnimux.ai/v1/audio/transcriptions \
-    --header 'Authorization: Bearer sk-...' \
-    --header 'Content-Type: multipart/form-data' \
-    --form 'file=@audio.mp3' \
-    --form 'model=doubao-asr-bigmodel'
-  ```
-
-  Full parameter specifications are documented in the [Doubao ASR Reference](/en/api-reference/audio-series/models/doubao-asr).
-
-  ### Links
-
-  - [Doubao ASR Reference](/en/api-reference/audio-series/models/doubao-asr)
 
 </Update>
 

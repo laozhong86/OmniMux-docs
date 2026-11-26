@@ -27,6 +27,19 @@ openapi: "openapi/ops/publishing/create-post.json POST /api/social/v1/posts"
 
 `provider` 必填，当前唯一取值 `tiktok_direct`。已退役的来源标识返回 410 `provider-retired`，缺失或未知值返回 400 `invalid-provider`。
 
+### TikTok 上游结构化错误
+
+当 TikTok 上游返回业务错误或限流时，网关统一按标准 HTTP 状态返回结构化错误体（`success: false`、`code`、`message`，上游提供时附带脱敏后的 `upstream_code` 与 `upstream_log_id`），不会将 TikTok 授权失效映射为 OmniMux 登录失效（401/403）：
+
+| HTTP | `code` | 典型 `upstream_code` | 建议处理 |
+| --- | --- | --- | --- |
+| `429` | `SOCIAL_TIKTOK_RATE_LIMITED` | `rate_limit_exceeded` | 退避后重试，不立即重连 |
+| `409` | `SOCIAL_TIKTOK_POSTING_BANNED` | `spam_risk_user_banned_from_posting` | 账号受 TikTok 发帖封禁限制，勿自动重试 |
+| `409` | `SOCIAL_TIKTOK_PUBLISH_RESTRICTED` | `spam_risk_too_many_posts`、`reached_active_user_cap`、`spam_risk_too_many_pending_share`、`unaudited_client_can_only_post_to_private_accounts`、`url_ownership_unverified` | 命中账号配额、待审草稿上限或应用可见性/域名限制 |
+| `409` | `SOCIAL_TIKTOK_SCOPE_MISSING` | `scope_not_authorized` | 缺少发布所需 OAuth 权限，引导重新授权 |
+| `409` | `SOCIAL_TIKTOK_TOKEN_INVALID` | `access_token_invalid`、`token_expired`、`token_revoked`、`invalid_grant`、`refresh_token_invalid` | TikTok 授权已失效，引导重新连接账号 |
+| `502` | `SOCIAL_TIKTOK_UPSTREAM_ERROR` | 其他 TikTok 上游错误码 | 记录 `upstream_log_id` 后稍后重试或排查 |
+
 CLI 使用 `omnimux social post --provider tiktok_direct --accounts <account-id> --media <url> --title "Draft title" --photo-cover-index 0 --is-aigc=false`（同时支持 `--description`、`--tiktok-options '<json>'` 与合规选项）。若传入已退役的 `--provider` 取值，CLI 会在发起网络请求前直接在本地报错并给出迁移指引。
 
-使用 OmniMux 用户 access token 和 `New-Api-User`，不是 `sk-` 密钥。同时检查 HTTP 状态和 `success`；部分上游错误仍返回 HTTP 200、`success:false`。
+使用 OmniMux 用户 access token 和 `New-Api-User`，不是 `sk-` 密钥。请同时检查 HTTP 状态与 `success`（已知 TikTok 上游错误返回 409/429/502，其余通用错误仍可能返回 HTTP 200、`success: false`）。

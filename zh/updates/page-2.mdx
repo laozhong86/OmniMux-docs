@@ -9,6 +9,40 @@ rss: true
 
 分页：[第 1 页](/zh/updates) · **第 2 页**
 
+<a id="2026-09-18-volc-doubao-asr"></a>
+
+<Update label="2026 年 9 月 18 日" tags={["新模型", "音频"]} rss={{ title: "豆包语音识别大模型系列接口上线" }}>
+
+  ## 豆包语音识别
+
+  `doubao-asr-bigmodel`、`seedasr-auc` 与 `bigasr-auc` 语音转文字模型现已在 OmniMux 正式提供调用。
+
+  ### 接口规范
+
+  - **模型标识：** `doubao-asr-bigmodel`, `seedasr-auc`, `bigasr-auc`
+  - **调用协议：** 兼容 OpenAI 语音转文字（`POST /v1/audio/transcriptions`）
+  - **鉴权方式：** Bearer 令牌鉴权（`sk-...`）
+  - **音频格式：** 支持通过分段上传提交 `wav`, `mp3`, `ogg`, `m4a` 等常见格式
+
+  ### 请求示例
+
+  ```bash
+  curl --request POST \
+    --url https://api.omnimux.ai/v1/audio/transcriptions \
+    --header 'Authorization: Bearer sk-...' \
+    --header 'Content-Type: multipart/form-data' \
+    --form 'file=@audio.mp3' \
+    --form 'model=doubao-asr-bigmodel'
+  ```
+
+  完整参数定义详见 [豆包语音识别参考文档](/zh/api-reference/audio-series/models/doubao-asr)。
+
+  ### 链接
+
+  - [豆包语音识别文档](/zh/api-reference/audio-series/models/doubao-asr)
+
+</Update>
+
 <a id="2026-09-18-volc-seed-audio"></a>
 
 <Update label="2026 年 9 月 18 日" tags={["新模型", "音频"]} rss={{ title: "火山引擎 Seed Audio (seed-audio-1.0) 语音生成接口上线" }}>

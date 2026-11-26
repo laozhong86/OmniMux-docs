@@ -16,6 +16,7 @@ For `tiktok_direct`, when `refresh=1` queries TikTok upstream, `result.status` r
 | `sent_to_inbox` | `SEND_TO_USER_INBOX` | **No** | Draft delivered to the creator's TikTok inbox, waiting for the creator to confirm and post inside TikTok. `refresh=1` continues polling upstream and transitions to `published` or `failed` |
 | `published` | `PUBLISH_COMPLETE` | Yes | Publishing completed on TikTok |
 | `failed` | `FAILED`, `FAIL` | Yes | Upload or publishing failed (`result.fail_reason` holds upstream details when provided) |
+| `deleted` | — (webhook removal event) | Yes | Absorbing terminal state recorded on deployments with TikTok Content Posting webhooks enabled when no publicly available `post_ids` remain. Polling never regresses `sent_to_inbox` back to `processing`, never overwrites terminal states, and never clears webhook-recorded `result.post_ids` or `result.unavailable_post_ids` |
 
 `provider` is required and has one current value, `tiktok_direct`. A retired source identifier returns 410 `provider-retired`; missing or unknown values return 400 `invalid-provider`.
 

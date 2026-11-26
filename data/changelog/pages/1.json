@@ -2,9 +2,58 @@
   "schema_version": 1,
   "page": 1,
   "page_size": 50,
-  "total": 89,
+  "total": 90,
   "total_pages": 2,
   "items": [
+    {
+      "id": "2026-11-26-tiktok-structured-errors",
+      "published_at": "2026-11-26",
+      "type": "capability",
+      "modality": [
+        "publishing"
+      ],
+      "title": {
+        "en": "TikTok direct: structured upstream error codes and log_id passthrough",
+        "zh": "TikTok 官方直连升级：上游错误码结构化映射与 log_id 透传"
+      },
+      "summary": {
+        "en": "TikTok direct publishing endpoints now map upstream business errors and rate limits to structured SOCIAL_TIKTOK_* error codes with HTTP 409/429/502 and sanitized upstream_code and upstream_log_id fields.",
+        "zh": "TikTok 官方直连发帖与创作者信息接口现已统一将上游限流、封禁、配额及授权失效映射为结构化 SOCIAL_TIKTOK_* 错误码与 HTTP 409/429/502，并透传脱敏后的 upstream_code 与 upstream_log_id。"
+      },
+      "models": [],
+      "tags": [
+        "publishing",
+        "tiktok",
+        "errors"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "Create Post",
+            "zh": "创建帖子"
+          },
+          "href": {
+            "en": "/en/api-reference/publishing/create-post",
+            "zh": "/zh/api-reference/publishing/create-post"
+          }
+        },
+        {
+          "label": {
+            "en": "Get Post",
+            "zh": "查询帖子"
+          },
+          "href": {
+            "en": "/en/api-reference/publishing/get-post",
+            "zh": "/zh/api-reference/publishing/get-post"
+          }
+        }
+      ],
+      "body": {
+        "en": "TikTok direct endpoints now return structured error payloads for TikTok upstream failures instead of generic error text.\n\n### Structured `SOCIAL_TIKTOK_*` error contract\n\n- **Rate limiting (`429`):** `SOCIAL_TIKTOK_RATE_LIMITED` (`rate_limit_exceeded`) instructs callers to retry with backoff.\n- **Account and posting restrictions (`409`):** `SOCIAL_TIKTOK_POSTING_BANNED`, `SOCIAL_TIKTOK_PUBLISH_RESTRICTED`, `SOCIAL_TIKTOK_SCOPE_MISSING`, and `SOCIAL_TIKTOK_TOKEN_INVALID` clearly separate TikTok account/scope/token issues from OmniMux authentication (never returned as HTTP 401 or 403).\n- **Other upstream failures (`502`):** `SOCIAL_TIKTOK_UPSTREAM_ERROR`.\n- **Diagnostic fields:** sanitized `upstream_code` and `upstream_log_id` are included when returned by TikTok, while secrets and misleading quota substrings are filtered out.\n\n### Post state monotonic contract\n\n- `GET /api/social/v1/posts/{id}` preserves monotonic transitions across polling refreshes and optional Content Posting webhook deliveries, adding the absorbing `deleted` terminal state and deduplicated `result.post_ids` / `result.unavailable_post_ids` snapshot fields for deployments that enable TikTok webhooks.",
+        "zh": "TikTok 官方直连接口现已将 TikTok 上游异常统一封装为结构化错误体，便于客户端精确分流重试或引导重新授权。\n\n### 结构化 `SOCIAL_TIKTOK_*` 错误契约\n\n- **上游限流（`429`）：** `SOCIAL_TIKTOK_RATE_LIMITED`（`rate_limit_exceeded`），调用方可按退避策略重试。\n- **账号与权限受限（`409`）：** `SOCIAL_TIKTOK_POSTING_BANNED`、`SOCIAL_TIKTOK_PUBLISH_RESTRICTED`、`SOCIAL_TIKTOK_SCOPE_MISSING` 与 `SOCIAL_TIKTOK_TOKEN_INVALID`，与 OmniMux 自身登录态（401/403）彻底隔离。\n- **其他上游失败（`502`）：** `SOCIAL_TIKTOK_UPSTREAM_ERROR`。\n- **排障字段：** 上游返回时透传脱敏后的 `upstream_code` 与 `upstream_log_id`，并过滤密钥与易引起配额误判的文本。\n\n### 帖子状态单调流转说明\n\n- `GET /api/social/v1/posts/{id}` 明确轮询刷新与可选 Content Posting Webhooks 的单调状态约束，补充 `deleted` 吸收终态以及启用 Webhook 部署下的 `result.post_ids` / `result.unavailable_post_ids` 字段说明。"
+      },
+      "schema_version": 1
+    },
     {
       "id": "2026-11-25-volc-seed-tts-3",
       "published_at": "2026-11-25",
@@ -2149,50 +2198,6 @@
       "body": {
         "en": "## Video Task and Variant Models\n\nOmniMux now supports dedicated per-call video task channels and H3 model variants under the standard video endpoint.\n\n### Model specification\n\n- **Endpoint:** `POST /v1/video/generations`\n- **Polling endpoint:** `GET /v1/video/generations/{task_id}`\n- **Per-call models:** `seedance-2-0-task`, `seedance-2-5-task`, `minimax-h3-task` (billed per task call)\n- **H3 variants:** `minimax-h3-turbo` (turbo rendering), `minimax-h3-video` (dedicated video pipeline)\n\n### Request example\n\n```json\n{\n  \"model\": \"seedance-2-0-task\",\n  \"prompt\": \"A cinematic drone shot of coastal mountains at sunset\",\n  \"seconds\": 5\n}\n```\n\nFull parameter definitions are documented in the [Seedance 2.0 Reference](/en/api-reference/video-series/models/seedance-2-0) and [MiniMax H3 Reference](/en/api-reference/video-series/models/minimax-h3).",
         "zh": "## 视频按次任务通道与变体模型\n\nOmniMux 标准视频端点现已支持按次任务计费模型与 H3 系列衍生变体。\n\n### 接口规范\n\n- **创建端点：** `POST /v1/video/generations`\n- **轮询端点：** `GET /v1/video/generations/{task_id}`\n- **按次计费模型：** `seedance-2-0-task`、`seedance-2-5-task`、`minimax-h3-task`（固定单次扣费）\n- **H3 衍生变体：** `minimax-h3-turbo`（极速出片）、`minimax-h3-video`（高画质专线）\n\n### 请求示例\n\n```json\n{\n  \"model\": \"seedance-2-0-task\",\n  \"prompt\": \"海边山脉日落航拍全景镜头\",\n  \"seconds\": 5\n}\n```\n\n完整参数定义请参阅 [Seedance 2.0 接口文档](/zh/api-reference/video-series/models/seedance-2-0) 与 [MiniMax H3 接口文档](/zh/api-reference/video-series/models/minimax-h3)。"
-      },
-      "schema_version": 1
-    },
-    {
-      "id": "2026-09-18-volc-doubao-asr",
-      "published_at": "2026-09-18",
-      "type": "model_launch",
-      "modality": [
-        "audio"
-      ],
-      "title": {
-        "en": "Doubao ASR Speech Recognition Series Available",
-        "zh": "豆包语音识别大模型系列接口上线"
-      },
-      "summary": {
-        "en": "Speech-to-text models `doubao-asr-bigmodel`, `seedasr-auc`, and `bigasr-auc` are now available on OmniMux via POST /v1/audio/transcriptions.",
-        "zh": "语音识别模型 `doubao-asr-bigmodel`、`seedasr-auc` 与 `bigasr-auc` 现已接入 OmniMux，支持通过 POST /v1/audio/transcriptions 端点进行录音转写。"
-      },
-      "models": [
-        "doubao-asr-bigmodel",
-        "seedasr-auc",
-        "bigasr-auc"
-      ],
-      "tags": [
-        "audio",
-        "asr",
-        "doubao",
-        "volcengine"
-      ],
-      "links": [
-        {
-          "label": {
-            "en": "Doubao ASR Reference",
-            "zh": "豆包语音识别文档"
-          },
-          "href": {
-            "en": "/en/api-reference/audio-series/models/doubao-asr",
-            "zh": "/zh/api-reference/audio-series/models/doubao-asr"
-          }
-        }
-      ],
-      "body": {
-        "en": "## Doubao Speech Recognition\n\nThe `doubao-asr-bigmodel`, `seedasr-auc`, and `bigasr-auc` models are now supported on OmniMux.\n\n### Model specification\n\n- **Model IDs:** `doubao-asr-bigmodel`, `seedasr-auc`, `bigasr-auc`\n- **Protocol:** OpenAI-compatible Audio Transcriptions (`POST /v1/audio/transcriptions`)\n- **Authentication:** Bearer token (`sk-...`)\n- **Input format:** Audio file multipart upload (`wav`, `mp3`, `ogg`, `m4a`)\n\n### Request example\n\n```bash\ncurl --request POST \\\n  --url https://api.omnimux.ai/v1/audio/transcriptions \\\n  --header 'Authorization: Bearer sk-...' \\\n  --header 'Content-Type: multipart/form-data' \\\n  --form 'file=@audio.mp3' \\\n  --form 'model=doubao-asr-bigmodel'\n```\n\nFull parameter specifications are documented in the [Doubao ASR Reference](/en/api-reference/audio-series/models/doubao-asr).",
-        "zh": "## 豆包语音识别\n\n`doubao-asr-bigmodel`、`seedasr-auc` 与 `bigasr-auc` 语音转文字模型现已在 OmniMux 正式提供调用。\n\n### 接口规范\n\n- **模型标识：** `doubao-asr-bigmodel`, `seedasr-auc`, `bigasr-auc`\n- **调用协议：** 兼容 OpenAI 语音转文字（`POST /v1/audio/transcriptions`）\n- **鉴权方式：** Bearer 令牌鉴权（`sk-...`）\n- **音频格式：** 支持通过分段上传提交 `wav`, `mp3`, `ogg`, `m4a` 等常见格式\n\n### 请求示例\n\n```bash\ncurl --request POST \\\n  --url https://api.omnimux.ai/v1/audio/transcriptions \\\n  --header 'Authorization: Bearer sk-...' \\\n  --header 'Content-Type: multipart/form-data' \\\n  --form 'file=@audio.mp3' \\\n  --form 'model=doubao-asr-bigmodel'\n```\n\n完整参数定义详见 [豆包语音识别参考文档](/zh/api-reference/audio-series/models/doubao-asr)。"
       },
       "schema_version": 1
     }
