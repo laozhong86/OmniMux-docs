@@ -256,7 +256,15 @@
                       "en/api-reference/video-series/models/seedance-2-0",
                       "en/api-reference/video-series/models/seedance-2-0-fast",
                       "en/api-reference/video-series/models/seedance-2-0-mini",
-                      "en/api-reference/video-series/models/seedance-2-5"
+                      "en/api-reference/video-series/models/seedance-2-5",
+                      "en/api-reference/video-series/models/seedance-2-5-flash"
+                    ],
+                    "icon": "video"
+                  },
+                  {
+                    "group": "Sand AI",
+                    "pages": [
+                      "en/api-reference/video-series/models/magi-2"
                     ],
                     "icon": "video"
                   },
@@ -774,7 +782,15 @@
                       "zh/api-reference/video-series/models/seedance-2-0",
                       "zh/api-reference/video-series/models/seedance-2-0-fast",
                       "zh/api-reference/video-series/models/seedance-2-0-mini",
-                      "zh/api-reference/video-series/models/seedance-2-5"
+                      "zh/api-reference/video-series/models/seedance-2-5",
+                      "zh/api-reference/video-series/models/seedance-2-5-flash"
+                    ],
+                    "icon": "video"
+                  },
+                  {
+                    "group": "Sand AI",
+                    "pages": [
+                      "zh/api-reference/video-series/models/magi-2"
                     ],
                     "icon": "video"
                   },

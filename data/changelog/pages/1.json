@@ -2,9 +2,91 @@
   "schema_version": 1,
   "page": 1,
   "page_size": 50,
-  "total": 90,
+  "total": 92,
   "total_pages": 2,
   "items": [
+    {
+      "id": "2026-11-26-seedance-2-5-flash",
+      "published_at": "2026-11-26",
+      "type": "model_launch",
+      "modality": [
+        "video"
+      ],
+      "title": {
+        "en": "Seedance 2.5 Flash (seedance-2-5-flash) Available with 480p and 720p Tiers",
+        "zh": "Seedance 2.5 Flash（seedance-2-5-flash）上线，提供 480p 与 720p 分档"
+      },
+      "summary": {
+        "en": "ByteDance Seedance 2.5 Flash (seedance-2-5-flash) is now live on POST /v1/video/generations with 480p and 720p resolution tiers, 4–30s durations, synchronized audio, multimodal references, and video edit/extend modes.",
+        "zh": "字节跳动 Seedance 2.5 Flash（seedance-2-5-flash）现已上线 POST /v1/video/generations，提供 480p 与 720p 分辨率经济档与标准分组，支持 4 至 30 秒时长、同步音频、多模态参考以及视频编辑与延长。"
+      },
+      "models": [
+        "seedance-2-5-flash"
+      ],
+      "tags": [
+        "video",
+        "bytedance",
+        "seedance"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "Seedance 2.5 Flash Reference",
+            "zh": "Seedance 2.5 Flash 文档"
+          },
+          "href": {
+            "en": "/en/api-reference/video-series/models/seedance-2-5-flash",
+            "zh": "/zh/api-reference/video-series/models/seedance-2-5-flash"
+          }
+        }
+      ],
+      "body": {
+        "en": "## Seedance 2.5 Flash\n\n**Seedance 2.5 Flash (`seedance-2-5-flash`)** is now available on OmniMux via `POST /v1/video/generations`.\n\n### New model\n\n- **Model ID:** `seedance-2-5-flash`\n- **API:** `POST /v1/video/generations` and `GET /v1/video/generations/{task_id}`\n- **Highlights:** Supports 480p and 720p output, 4–30s durations (with `-1` auto-duration on `default`), synchronized audio, multimodal references (up to 10 images, 5 videos, and 5 audio clips), plus `video_edit` and `video_extend` on the `default` group. Auto-group requests route automatically by `resolution` to `seedance-2-5-flash-480p` or `seedance-2-5-flash-720p` economy tiers.",
+        "zh": "## Seedance 2.5 Flash\n\n**Seedance 2.5 Flash（`seedance-2-5-flash`）** 现已正式上线 OmniMux `POST /v1/video/generations`。\n\n### 新模型特性\n\n- **模型标识：** `seedance-2-5-flash`\n- **接口路径：** `POST /v1/video/generations` 与 `GET /v1/video/generations/{task_id}`\n- **核心能力：** 支持 480p 与 720p 输出、4 至 30 秒时长（`default` 分组支持 `-1` 自动时长）、同步音画与多模态参考（最多 10 张参考图、5 段参考视频与 5 段参考音频），并在 `default` 分组支持 `video_edit` 视频编辑与 `video_extend` 视频延长。使用 `auto` 分组时网关将按 `resolution` 自动分流至 `seedance-2-5-flash-480p` 或 `seedance-2-5-flash-720p` 经济档。"
+      },
+      "schema_version": 1
+    },
+    {
+      "id": "2026-11-26-magi-2",
+      "published_at": "2026-11-26",
+      "type": "model_launch",
+      "modality": [
+        "video"
+      ],
+      "title": {
+        "en": "Sand AI MAGI-2 (magi-2) Multimodal Video Model Available",
+        "zh": "Sand AI MAGI-2（magi-2）多模态视频模型上线"
+      },
+      "summary": {
+        "en": "Sand AI MAGI-2 (magi-2) is now live on POST /v1/video/generations with native 1080p 25fps audio-video synthesis, 4–30s durations, and text, first-frame, first-last-frame, and multimodal reference modes.",
+        "zh": "Sand AI MAGI-2（magi-2）现已上线 POST /v1/video/generations，支持原生 1080p 25fps 同步音画输出、4 至 30 秒时长，以及文生视频、首帧、首尾帧与多模态参考生视频。"
+      },
+      "models": [
+        "magi-2"
+      ],
+      "tags": [
+        "video",
+        "sand-ai",
+        "magi-2"
+      ],
+      "links": [
+        {
+          "label": {
+            "en": "MAGI-2 Video Generation Reference",
+            "zh": "MAGI-2 视频生成文档"
+          },
+          "href": {
+            "en": "/en/api-reference/video-series/models/magi-2",
+            "zh": "/zh/api-reference/video-series/models/magi-2"
+          }
+        }
+      ],
+      "body": {
+        "en": "## MAGI-2\n\n**Sand AI MAGI-2 (`magi-2`)** is now available on OmniMux via `POST /v1/video/generations`.\n\n### New model\n\n- **Model ID:** `magi-2`\n- **API:** `POST /v1/video/generations` and `GET /v1/video/generations/{task_id}`\n- **Highlights:** Native 1080p 25fps video with synchronized audio at no extra charge, integer 4–30s durations, 6 aspect ratios (`16:9`, `9:16`, `1:1`, `4:3`, `3:4`, `21:9`), and `text_to_video`, `first_frame`, `first_last_frame`, and `video_multi_ref` (up to 10 images, 5 videos, and 5 audio references).",
+        "zh": "## MAGI-2\n\n**Sand AI MAGI-2（`magi-2`）** 现已正式上线 OmniMux `POST /v1/video/generations`。\n\n### 新模型特性\n\n- **模型标识：** `magi-2`\n- **接口路径：** `POST /v1/video/generations` 与 `GET /v1/video/generations/{task_id}`\n- **核心能力：** 原生 1080p 25fps 同步音画输出（含音频不加价），支持 4 至 30 秒整数时长、6 种画面比例（`16:9`、`9:16`、`1:1`、`4:3`、`3:4`、`21:9`），覆盖文生视频、首帧、首尾帧及多模态参考（最多 10 张参考图、5 段参考视频与 5 段参考音频）。"
+      },
+      "schema_version": 1
+    },
     {
       "id": "2026-11-26-tiktok-structured-errors",
       "published_at": "2026-11-26",
@@ -2101,103 +2183,6 @@
       "body": {
         "en": "## What is new\n\n- **Official current model id**: OmniMux now lists `deepseek-flash` (DeepSeek-V4.1-Flash). The retired ids `deepseek-v4-flash` and `deepseek-v4-flash-vision-exp` remain accepted upstream but are served by this model.\n- **Long context and vision**: 1M token context window, up to 384K output tokens, image understanding, JSON output, tool calls, and both thinking and non-thinking modes.\n- **Prompt cache billing**: cache hits are priced separately at the official cache rate, so repeated long prompts cost far less.\n- **Priced at 60% of official**: the sell price is the official retail list price scaled by the model-specific group (`deepseek-flash-economy`, 0.6) — off-peak input 0.6 CNY / output 2.4 CNY / cache hit 0.012 CNY per 1M tokens, doubling during Beijing-time peak hours (Mon-Fri 09:00-12:00 and 14:00-18:00), exactly as the official schedule does.\n\n## Usage\n\n```json\n{\n  \"model\": \"deepseek-flash\",\n  \"messages\": [{ \"role\": \"user\", \"content\": \"Hello\" }]\n}\n```\n\n## Documentation\n\n- DeepSeek API Reference: `/en/api-reference/text-series/deepseek/complete`",
         "zh": "## 本次更新\n\n- **官方现网正式编号**：OmniMux 上线 `deepseek-flash`（DeepSeek-V4.1-Flash）。官方已下线的旧编号 `deepseek-v4-flash` 与 `deepseek-v4-flash-vision-exp` 上游仍可受理，但实际由本模型承接。\n- **长上下文与图像理解**：1M 上下文窗口、最大 384K 输出、图像理解、JSON 输出、工具调用，并同时支持思考与非思考模式。\n- **缓存单独计价**：缓存命中按官方缓存价单独计费，长提示词重复调用成本显著更低。\n- **官方 6 折定价**：以官方零售标价为基准，按模型专属分组（`deepseek-flash-economy`，倍率 0.6）折算售价——空闲时段输入 0.6 元、输出 2.4 元、缓存命中 0.012 元每百万词元；北京时间周一至周五 9:00-12:00 与 14:00-18:00 高峰时段按官方规则翻倍。\n\n## 调用方式\n\n```json\n{\n  \"model\": \"deepseek-flash\",\n  \"messages\": [{ \"role\": \"user\", \"content\": \"你好\" }]\n}\n```\n\n## 参考文档\n\n- DeepSeek 完整参数手册：`/zh/api-reference/text-series/deepseek/complete`"
-      },
-      "schema_version": 1
-    },
-    {
-      "id": "2026-09-18-gpt-image-tiers",
-      "published_at": "2026-09-18",
-      "type": "model_launch",
-      "modality": [
-        "image"
-      ],
-      "title": {
-        "en": "GPT Image 2.5 Flare & Sunburst Tier Routes Live",
-        "zh": "GPT Image 2.5 Flare 与 Sunburst 档位路由上线"
-      },
-      "summary": {
-        "en": "Dedicated tier routes `gpt-image-2.5-flare` and `gpt-image-2.5-sunburst` are now available for volume image generation on OmniMux.",
-        "zh": "图像生成特惠档模型 `gpt-image-2.5-flare` 与低价档模型 `gpt-image-2.5-sunburst` 现已接入 OmniMux 提供生图调用。"
-      },
-      "models": [
-        "gpt-image-2.5-flare",
-        "gpt-image-2.5-sunburst"
-      ],
-      "tags": [
-        "image",
-        "openai"
-      ],
-      "links": [
-        {
-          "label": {
-            "en": "GPT Image Reference",
-            "zh": "GPT Image 接口文档"
-          },
-          "href": {
-            "en": "/en/api-reference/image-series/gpt-image/generate",
-            "zh": "/zh/api-reference/image-series/gpt-image/generate"
-          }
-        }
-      ],
-      "body": {
-        "en": "## GPT Image Tiers\n\nOmniMux now supports dedicated tier routing models `gpt-image-2.5-flare` and `gpt-image-2.5-sunburst` under the standard image generation endpoint.\n\n### Model specification\n\n- **Endpoint:** `POST /v1/images/generations`\n- **Authentication:** Bearer token (`sk-...`)\n- **Tier models:** `gpt-image-2.5-flare` (discounted tier), `gpt-image-2.5-sunburst` (economy tier)\n- **Parameters:** Fully compatible with baseline `gpt-image-2.5`\n\n### Request example\n\n```bash\ncurl --request POST \\\n  --url https://api.omnimux.ai/v1/images/generations \\\n  --header 'Authorization: Bearer sk-...' \\\n  --header 'Content-Type: application/json' \\\n  --data '{\n    \"model\": \"gpt-image-2.5-flare\",\n    \"prompt\": \"A clean studio product photograph on white background\",\n    \"n\": 1\n  }'\n```\n\nParameter details are documented in the [GPT Image Reference](/en/api-reference/image-series/gpt-image/generate).",
-        "zh": "## GPT Image 计费档位模型\n\nOmniMux 标准生图端点现已支持专属档位模型 `gpt-image-2.5-flare` 与 `gpt-image-2.5-sunburst`。\n\n### 接口规范\n\n- **调用端点：** `POST /v1/images/generations`\n- **鉴权方式：** Bearer 令牌鉴权（`sk-...`）\n- **档位模型：** `gpt-image-2.5-flare`（特惠档）、`gpt-image-2.5-sunburst`（经济档）\n- **调用参数：** 与基准版 `gpt-image-2.5` 保持完全一致\n\n### 请求示例\n\n```bash\ncurl --request POST \\\n  --url https://api.omnimux.ai/v1/images/generations \\\n  --header 'Authorization: Bearer sk-...' \\\n  --header 'Content-Type: application/json' \\\n  --data '{\n    \"model\": \"gpt-image-2.5-flare\",\n    \"prompt\": \"白底商品棚拍静物摄影图\",\n    \"n\": 1\n  }'\n```\n\n完整参数规范请参阅 [GPT Image 接口文档](/zh/api-reference/image-series/gpt-image/generate)。"
-      },
-      "schema_version": 1
-    },
-    {
-      "id": "2026-09-18-video-task-models",
-      "published_at": "2026-09-18",
-      "type": "model_launch",
-      "modality": [
-        "video"
-      ],
-      "title": {
-        "en": "Video Per-Call Task Channels and H3 Variants Available",
-        "zh": "视频按次生成任务通道与 H3 衍生变体模型上线"
-      },
-      "summary": {
-        "en": "Per-call fixed billing task models `seedance-2-0-task`, `seedance-2-5-task`, `minimax-h3-task`, along with variants `minimax-h3-turbo` and `minimax-h3-video`, are now live on OmniMux.",
-        "zh": "按次计费视频任务模型 `seedance-2-0-task`、`seedance-2-5-task`、`minimax-h3-task` 及 H3 系列变体 `minimax-h3-turbo`、`minimax-h3-video` 现已接入 OmniMux 提供异步调用。"
-      },
-      "models": [
-        "seedance-2-0-task",
-        "seedance-2-5-task",
-        "minimax-h3-task",
-        "minimax-h3-turbo",
-        "minimax-h3-video"
-      ],
-      "tags": [
-        "video",
-        "task",
-        "seedance",
-        "minimax"
-      ],
-      "links": [
-        {
-          "label": {
-            "en": "Seedance 2.0 Reference",
-            "zh": "Seedance 2.0 接口文档"
-          },
-          "href": {
-            "en": "/en/api-reference/video-series/models/seedance-2-0",
-            "zh": "/zh/api-reference/video-series/models/seedance-2-0"
-          }
-        },
-        {
-          "label": {
-            "en": "MiniMax H3 Reference",
-            "zh": "MiniMax H3 接口文档"
-          },
-          "href": {
-            "en": "/en/api-reference/video-series/models/minimax-h3",
-            "zh": "/zh/api-reference/video-series/models/minimax-h3"
-          }
-        }
-      ],
-      "body": {
-        "en": "## Video Task and Variant Models\n\nOmniMux now supports dedicated per-call video task channels and H3 model variants under the standard video endpoint.\n\n### Model specification\n\n- **Endpoint:** `POST /v1/video/generations`\n- **Polling endpoint:** `GET /v1/video/generations/{task_id}`\n- **Per-call models:** `seedance-2-0-task`, `seedance-2-5-task`, `minimax-h3-task` (billed per task call)\n- **H3 variants:** `minimax-h3-turbo` (turbo rendering), `minimax-h3-video` (dedicated video pipeline)\n\n### Request example\n\n```json\n{\n  \"model\": \"seedance-2-0-task\",\n  \"prompt\": \"A cinematic drone shot of coastal mountains at sunset\",\n  \"seconds\": 5\n}\n```\n\nFull parameter definitions are documented in the [Seedance 2.0 Reference](/en/api-reference/video-series/models/seedance-2-0) and [MiniMax H3 Reference](/en/api-reference/video-series/models/minimax-h3).",
-        "zh": "## 视频按次任务通道与变体模型\n\nOmniMux 标准视频端点现已支持按次任务计费模型与 H3 系列衍生变体。\n\n### 接口规范\n\n- **创建端点：** `POST /v1/video/generations`\n- **轮询端点：** `GET /v1/video/generations/{task_id}`\n- **按次计费模型：** `seedance-2-0-task`、`seedance-2-5-task`、`minimax-h3-task`（固定单次扣费）\n- **H3 衍生变体：** `minimax-h3-turbo`（极速出片）、`minimax-h3-video`（高画质专线）\n\n### 请求示例\n\n```json\n{\n  \"model\": \"seedance-2-0-task\",\n  \"prompt\": \"海边山脉日落航拍全景镜头\",\n  \"seconds\": 5\n}\n```\n\n完整参数定义请参阅 [Seedance 2.0 接口文档](/zh/api-reference/video-series/models/seedance-2-0) 与 [MiniMax H3 接口文档](/zh/api-reference/video-series/models/minimax-h3)。"
       },
       "schema_version": 1
     }

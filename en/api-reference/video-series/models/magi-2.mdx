@@ -1,0 +1,132 @@
+---
+title: "MAGI-2 Video Generation"
+sidebarTitle: "MAGI-2 Video Generation"
+description: "Sand AI MAGI-2 multimodal video generation (model `magi-2`, 1080p 25fps native audio-video)"
+api: "POST https://api.omnimux.ai/v1/video/generations"
+---
+
+- Create: `POST /v1/video/generations` with `model` set to `magi-2`
+- Async: poll [Video task](/en/api-reference/tasks/video-task) with the returned `task_id`
+- Native 1080p 25fps output supporting 4–30 second integer durations, synchronized audio, and multimodal references (image, video, audio)
+- Persist result URLs promptly (upstream links may expire)
+
+## Identity
+
+| Field | Value |
+| --- | --- |
+| Series | Video series |
+| Brand | Sand AI |
+| model | `magi-2` |
+
+## Supported Modes
+
+| Mode (`operation`) | Description |
+| --- | --- |
+| `text_to_video` | Text-to-video (`prompt` required) |
+| `first_frame` | First-frame image-to-video (1 reference image, `prompt` optional) |
+| `first_last_frame` | First and last frame interpolation (2 reference images, `prompt` optional) |
+| `video_multi_ref` | Multimodal reference-to-video (up to 10 images, 5 videos, 5 audios) |
+
+## Endpoint
+
+| Method | Path |
+| --- | --- |
+| `POST` | `/v1/video/generations` |
+| `GET` | `/v1/video/generations/{task_id}` |
+
+Base URL: `https://api.omnimux.ai`
+
+## Authorizations
+
+| Name | In | Type | Required | Description |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | yes | `Bearer sk-...` (API key) |
+
+## Body
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `model` | string | yes | Must be `magi-2` |
+| `prompt` | string | conditional | Required for text-to-video; optional for frame/reference modes (up to 15,000 characters) |
+| `duration` | integer | no | Output duration in seconds (integer 4–30, default `5`) |
+| `resolution` | string | no | Resolution, `1080p` only (default `1080p`) |
+| `aspect_ratio` | string | no | Aspect ratio: `16:9`, `9:16`, `1:1`, `4:3`, `3:4`, or `21:9` (default `16:9`) |
+| `generate_audio` | boolean | no | Generate synchronized audio, default `true` (no surcharge) |
+| `image_urls` | array | no | Reference image HTTPS URLs (1 for first frame, 2 for first-last frame, up to 10 for multi-ref) |
+| `video_urls` | array | no | Reference video HTTPS URLs (up to 5 clips, each up to 30s) |
+| `audio_urls` | array | no | Reference audio HTTPS URLs (up to 5 clips, each up to 30s) |
+
+## Response
+
+### 200 (create)
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `task_id` | string | Task id for polling |
+| `status` | string | e.g. `pending` / `processing` / `completed` |
+
+See [Video task](/en/api-reference/tasks/video-task). Errors: right rail and [Error codes](/en/faqs/connection-usage).
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url https://api.omnimux.ai/v1/video/generations \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "model": "magi-2",
+  "prompt": "A sunlit mountain lake with gentle ripples at dawn, cinematic camera pan",
+  "duration": 5,
+  "resolution": "1080p",
+  "aspect_ratio": "16:9",
+  "generate_audio": true
+}'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200
+{
+  "task_id": "task_01HXYZABCDEF",
+  "status": "queued"
+}
+```
+
+```json 400
+{ "error": { "message": "Invalid request", "type": "invalid_request_error", "code": "bad_request" } }
+```
+
+```json 401
+{ "error": { "message": "Invalid token", "type": "authentication_error", "code": "unauthorized" } }
+```
+
+```json 402
+{
+  "error": {
+    "message": "Insufficient quota. Please top up your account.",
+    "type": "insufficient_quota",
+    "code": "insufficient_quota"
+  }
+}
+```
+
+```json 403
+{ "error": { "message": "Forbidden", "type": "permission_error", "code": "forbidden" } }
+```
+
+```json 429
+{ "error": { "message": "Rate limit exceeded", "type": "rate_limit_error", "code": "rate_limit_exceeded" } }
+```
+
+```json 500
+{ "error": { "message": "Internal server error", "type": "server_error", "code": "internal_error" } }
+```
+
+</ResponseExample>
+
+</Panel>

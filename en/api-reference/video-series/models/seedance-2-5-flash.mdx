@@ -1,0 +1,134 @@
+---
+title: "Seedance 2.5 Flash Video Generation"
+sidebarTitle: "Seedance 2.5 Flash Video Generation"
+description: "Seedance 2.5 Flash fast multimodal video generation (model `seedance-2-5-flash`, 480p and 720p)"
+api: "POST https://api.omnimux.ai/v1/video/generations"
+---
+
+- Create: `POST /v1/video/generations` with `model` set to `seedance-2-5-flash`
+- Async: poll [Video task](/en/api-reference/tasks/video-task) with the returned `task_id`
+- Supports 480p and 720p output, 4–30s durations (`-1` auto-duration on `default`), synchronized audio, and multimodal references (image, video, audio)
+- Groups: tokens using `auto` route automatically by `resolution` to `seedance-2-5-flash-480p` or `seedance-2-5-flash-720p` economy tiers; select `default` for `video_edit`, `video_extend`, or `-1` auto-duration
+- Persist result URLs promptly (upstream links may expire)
+
+## Identity
+
+| Field | Value |
+| --- | --- |
+| Series | Video series |
+| Brand | Seedance |
+| model | `seedance-2-5-flash` |
+
+## Supported Modes
+
+| Mode (`operation`) | Description |
+| --- | --- |
+| `text_to_video` | Text-to-video |
+| `first_frame` | First-frame image-to-video |
+| `first_last_frame` | First and last frame interpolation |
+| `video_multi_ref` | Multimodal reference-to-video (up to 10 images, 5 videos, 5 audios) |
+| `video_edit` | Video editing (`default` group only) |
+| `video_extend` | Video extension (`default` group only) |
+
+## Endpoint
+
+| Method | Path |
+| --- | --- |
+| `POST` | `/v1/video/generations` |
+| `GET` | `/v1/video/generations/{task_id}` |
+
+Base URL: `https://api.omnimux.ai`
+
+## Authorizations
+
+| Name | In | Type | Required | Description |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | yes | `Bearer sk-...` (API key) |
+
+## Body
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `model` | string | yes | Must be `seedance-2-5-flash` |
+| `prompt` | string | yes | Video generation prompt |
+| `duration` / `seconds` | integer | no | Output duration in seconds (integer 4–30; `-1` auto-duration on `default`) |
+| `resolution` | string | no | Resolution: `480p` or `720p` (default `720p`) |
+| `aspect_ratio` / `size` | string | no | Aspect ratio: `16:9`, `4:3`, `1:1`, `3:4`, `9:16`, `21:9`, or `adaptive` |
+| `generate_audio` | boolean | no | Generate synchronized audio, default `true` |
+| `image_urls` | array | no | Reference image HTTPS URLs (up to 10) |
+| `video_urls` | array | no | Reference video HTTPS URLs (up to 5) |
+| `audio_urls` | array | no | Reference audio HTTPS URLs (up to 5) |
+
+## Response
+
+### 200 (create)
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `task_id` | string | Task id for polling |
+| `status` | string | e.g. `pending` / `processing` / `completed` |
+
+See [Video task](/en/api-reference/tasks/video-task). Errors: right rail and [Error codes](/en/faqs/connection-usage).
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url https://api.omnimux.ai/v1/video/generations \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "model": "seedance-2-5-flash",
+  "prompt": "Slow pan across a handcrafted ceramic mug on a sunlit wooden table",
+  "duration": 5,
+  "resolution": "720p",
+  "aspect_ratio": "16:9"
+}'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200
+{
+  "task_id": "task_01HXYZABCDEF",
+  "status": "queued"
+}
+```
+
+```json 400
+{ "error": { "message": "Invalid request", "type": "invalid_request_error", "code": "bad_request" } }
+```
+
+```json 401
+{ "error": { "message": "Invalid token", "type": "authentication_error", "code": "unauthorized" } }
+```
+
+```json 402
+{
+  "error": {
+    "message": "Insufficient quota. Please top up your account.",
+    "type": "insufficient_quota",
+    "code": "insufficient_quota"
+  }
+}
+```
+
+```json 403
+{ "error": { "message": "Forbidden", "type": "permission_error", "code": "forbidden" } }
+```
+
+```json 429
+{ "error": { "message": "Rate limit exceeded", "type": "rate_limit_error", "code": "rate_limit_exceeded" } }
+```
+
+```json 500
+{ "error": { "message": "Internal server error", "type": "server_error", "code": "internal_error" } }
+```
+
+</ResponseExample>
+
+</Panel>

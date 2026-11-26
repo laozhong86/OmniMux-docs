@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "2026-11-26-seedance-2-5-flash",
+  "published_at": "2026-11-26",
+  "rank": 3,
+  "type": "model_launch",
+  "modality": [
+    "video"
+  ],
+  "title": {
+    "en": "Seedance 2.5 Flash (seedance-2-5-flash) Available with 480p and 720p Tiers",
+    "zh": "Seedance 2.5 Flash（seedance-2-5-flash）上线，提供 480p 与 720p 分档"
+  },
+  "summary": {
+    "en": "ByteDance Seedance 2.5 Flash (seedance-2-5-flash) is now live on POST /v1/video/generations with 480p and 720p resolution tiers, 4–30s durations, synchronized audio, multimodal references, and video edit/extend modes.",
+    "zh": "字节跳动 Seedance 2.5 Flash（seedance-2-5-flash）现已上线 POST /v1/video/generations，提供 480p 与 720p 分辨率经济档与标准分组，支持 4 至 30 秒时长、同步音频、多模态参考以及视频编辑与延长。"
+  },
+  "models": [
+    "seedance-2-5-flash"
+  ],
+  "tags": [
+    "video",
+    "bytedance",
+    "seedance"
+  ],
+  "links": [
+    {
+      "label": {
+        "en": "Seedance 2.5 Flash Reference",
+        "zh": "Seedance 2.5 Flash 文档"
+      },
+      "href": {
+        "en": "/en/api-reference/video-series/models/seedance-2-5-flash",
+        "zh": "/zh/api-reference/video-series/models/seedance-2-5-flash"
+      }
+    }
+  ],
+  "body": {
+    "en": "## Seedance 2.5 Flash\n\n**Seedance 2.5 Flash (`seedance-2-5-flash`)** is now available on OmniMux via `POST /v1/video/generations`.\n\n### New model\n\n- **Model ID:** `seedance-2-5-flash`\n- **API:** `POST /v1/video/generations` and `GET /v1/video/generations/{task_id}`\n- **Highlights:** Supports 480p and 720p output, 4–30s durations (with `-1` auto-duration on `default`), synchronized audio, multimodal references (up to 10 images, 5 videos, and 5 audio clips), plus `video_edit` and `video_extend` on the `default` group. Auto-group requests route automatically by `resolution` to `seedance-2-5-flash-480p` or `seedance-2-5-flash-720p` economy tiers.",
+    "zh": "## Seedance 2.5 Flash\n\n**Seedance 2.5 Flash（`seedance-2-5-flash`）** 现已正式上线 OmniMux `POST /v1/video/generations`。\n\n### 新模型特性\n\n- **模型标识：** `seedance-2-5-flash`\n- **接口路径：** `POST /v1/video/generations` 与 `GET /v1/video/generations/{task_id}`\n- **核心能力：** 支持 480p 与 720p 输出、4 至 30 秒时长（`default` 分组支持 `-1` 自动时长）、同步音画与多模态参考（最多 10 张参考图、5 段参考视频与 5 段参考音频），并在 `default` 分组支持 `video_edit` 视频编辑与 `video_extend` 视频延长。使用 `auto` 分组时网关将按 `resolution` 自动分流至 `seedance-2-5-flash-480p` 或 `seedance-2-5-flash-720p` 经济档。"
+  }
+}

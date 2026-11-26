@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "2026-11-26-magi-2",
+  "published_at": "2026-11-26",
+  "rank": 2,
+  "type": "model_launch",
+  "modality": [
+    "video"
+  ],
+  "title": {
+    "en": "Sand AI MAGI-2 (magi-2) Multimodal Video Model Available",
+    "zh": "Sand AI MAGI-2（magi-2）多模态视频模型上线"
+  },
+  "summary": {
+    "en": "Sand AI MAGI-2 (magi-2) is now live on POST /v1/video/generations with native 1080p 25fps audio-video synthesis, 4–30s durations, and text, first-frame, first-last-frame, and multimodal reference modes.",
+    "zh": "Sand AI MAGI-2（magi-2）现已上线 POST /v1/video/generations，支持原生 1080p 25fps 同步音画输出、4 至 30 秒时长，以及文生视频、首帧、首尾帧与多模态参考生视频。"
+  },
+  "models": [
+    "magi-2"
+  ],
+  "tags": [
+    "video",
+    "sand-ai",
+    "magi-2"
+  ],
+  "links": [
+    {
+      "label": {
+        "en": "MAGI-2 Video Generation Reference",
+        "zh": "MAGI-2 视频生成文档"
+      },
+      "href": {
+        "en": "/en/api-reference/video-series/models/magi-2",
+        "zh": "/zh/api-reference/video-series/models/magi-2"
+      }
+    }
+  ],
+  "body": {
+    "en": "## MAGI-2\n\n**Sand AI MAGI-2 (`magi-2`)** is now available on OmniMux via `POST /v1/video/generations`.\n\n### New model\n\n- **Model ID:** `magi-2`\n- **API:** `POST /v1/video/generations` and `GET /v1/video/generations/{task_id}`\n- **Highlights:** Native 1080p 25fps video with synchronized audio at no extra charge, integer 4–30s durations, 6 aspect ratios (`16:9`, `9:16`, `1:1`, `4:3`, `3:4`, `21:9`), and `text_to_video`, `first_frame`, `first_last_frame`, and `video_multi_ref` (up to 10 images, 5 videos, and 5 audio references).",
+    "zh": "## MAGI-2\n\n**Sand AI MAGI-2（`magi-2`）** 现已正式上线 OmniMux `POST /v1/video/generations`。\n\n### 新模型特性\n\n- **模型标识：** `magi-2`\n- **接口路径：** `POST /v1/video/generations` 与 `GET /v1/video/generations/{task_id}`\n- **核心能力：** 原生 1080p 25fps 同步音画输出（含音频不加价），支持 4 至 30 秒整数时长、6 种画面比例（`16:9`、`9:16`、`1:1`、`4:3`、`3:4`、`21:9`），覆盖文生视频、首帧、首尾帧及多模态参考（最多 10 张参考图、5 段参考视频与 5 段参考音频）。"
+  }
+}
