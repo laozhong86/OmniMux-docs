@@ -9,6 +9,46 @@ rss: true
 
 分页：**第 1 页** · [第 2 页](/zh/updates/page-2)
 
+<a id="2026-11-26-seedance-2-5-flash"></a>
+
+<Update label="2026 年 11 月 26 日" tags={["新模型", "视频"]} rss={{ title: "Seedance 2.5 Flash（seedance-2-5-flash）上线，提供 480p 与 720p 分档" }}>
+
+  ## Seedance 2.5 Flash
+
+  **Seedance 2.5 Flash（`seedance-2-5-flash`）** 现已正式上线 OmniMux `POST /v1/video/generations`。
+
+  ### 新模型特性
+
+  - **模型标识：** `seedance-2-5-flash`
+  - **接口路径：** `POST /v1/video/generations` 与 `GET /v1/video/generations/{task_id}`
+  - **核心能力：** 支持 480p 与 720p 输出、4 至 30 秒时长（`default` 分组支持 `-1` 自动时长）、同步音画与多模态参考（最多 10 张参考图、5 段参考视频与 5 段参考音频），并在 `default` 分组支持 `video_edit` 视频编辑与 `video_extend` 视频延长。使用 `auto` 分组时网关将按 `resolution` 自动分流至 `seedance-2-5-flash-480p` 或 `seedance-2-5-flash-720p` 经济档。
+
+  ### 链接
+
+  - [Seedance 2.5 Flash 文档](/zh/api-reference/video-series/models/seedance-2-5-flash)
+
+</Update>
+
+<a id="2026-11-26-magi-2"></a>
+
+<Update label="2026 年 11 月 26 日" tags={["新模型", "视频"]} rss={{ title: "Sand AI MAGI-2（magi-2）多模态视频模型上线" }}>
+
+  ## MAGI-2
+
+  **Sand AI MAGI-2（`magi-2`）** 现已正式上线 OmniMux `POST /v1/video/generations`。
+
+  ### 新模型特性
+
+  - **模型标识：** `magi-2`
+  - **接口路径：** `POST /v1/video/generations` 与 `GET /v1/video/generations/{task_id}`
+  - **核心能力：** 原生 1080p 25fps 同步音画输出（含音频不加价），支持 4 至 30 秒整数时长、6 种画面比例（`16:9`、`9:16`、`1:1`、`4:3`、`3:4`、`21:9`），覆盖文生视频、首帧、首尾帧及多模态参考（最多 10 张参考图、5 段参考视频与 5 段参考音频）。
+
+  ### 链接
+
+  - [MAGI-2 视频生成文档](/zh/api-reference/video-series/models/magi-2)
+
+</Update>
+
 <a id="2026-11-26-tiktok-structured-errors"></a>
 
 <Update label="2026 年 11 月 26 日" tags={["能力更新", "社媒发布"]} rss={{ title: "TikTok 官方直连升级：上游错误码结构化映射与 log_id 透传" }}>
@@ -1061,77 +1101,6 @@ rss: true
   ### 链接
 
   - [DeepSeek 完整参数手册](/zh/api-reference/text-series/deepseek/complete)
-
-</Update>
-
-<a id="2026-09-18-gpt-image-tiers"></a>
-
-<Update label="2026 年 9 月 18 日" tags={["新模型", "图像"]} rss={{ title: "GPT Image 2.5 Flare 与 Sunburst 档位路由上线" }}>
-
-  ## GPT Image 计费档位模型
-
-  OmniMux 标准生图端点现已支持专属档位模型 `gpt-image-2.5-flare` 与 `gpt-image-2.5-sunburst`。
-
-  ### 接口规范
-
-  - **调用端点：** `POST /v1/images/generations`
-  - **鉴权方式：** Bearer 令牌鉴权（`sk-...`）
-  - **档位模型：** `gpt-image-2.5-flare`（特惠档）、`gpt-image-2.5-sunburst`（经济档）
-  - **调用参数：** 与基准版 `gpt-image-2.5` 保持完全一致
-
-  ### 请求示例
-
-  ```bash
-  curl --request POST \
-    --url https://api.omnimux.ai/v1/images/generations \
-    --header 'Authorization: Bearer sk-...' \
-    --header 'Content-Type: application/json' \
-    --data '{
-      "model": "gpt-image-2.5-flare",
-      "prompt": "白底商品棚拍静物摄影图",
-      "n": 1
-    }'
-  ```
-
-  完整参数规范请参阅 [GPT Image 接口文档](/zh/api-reference/image-series/gpt-image/generate)。
-
-  ### 链接
-
-  - [GPT Image 接口文档](/zh/api-reference/image-series/gpt-image/generate)
-
-</Update>
-
-<a id="2026-09-18-video-task-models"></a>
-
-<Update label="2026 年 9 月 18 日" tags={["新模型", "视频"]} rss={{ title: "视频按次生成任务通道与 H3 衍生变体模型上线" }}>
-
-  ## 视频按次任务通道与变体模型
-
-  OmniMux 标准视频端点现已支持按次任务计费模型与 H3 系列衍生变体。
-
-  ### 接口规范
-
-  - **创建端点：** `POST /v1/video/generations`
-  - **轮询端点：** `GET /v1/video/generations/{task_id}`
-  - **按次计费模型：** `seedance-2-0-task`、`seedance-2-5-task`、`minimax-h3-task`（固定单次扣费）
-  - **H3 衍生变体：** `minimax-h3-turbo`（极速出片）、`minimax-h3-video`（高画质专线）
-
-  ### 请求示例
-
-  ```json
-  {
-    "model": "seedance-2-0-task",
-    "prompt": "海边山脉日落航拍全景镜头",
-    "seconds": 5
-  }
-  ```
-
-  完整参数定义请参阅 [Seedance 2.0 接口文档](/zh/api-reference/video-series/models/seedance-2-0) 与 [MiniMax H3 接口文档](/zh/api-reference/video-series/models/minimax-h3)。
-
-  ### 链接
-
-  - [Seedance 2.0 接口文档](/zh/api-reference/video-series/models/seedance-2-0)
-  - [MiniMax H3 接口文档](/zh/api-reference/video-series/models/minimax-h3)
 
 </Update>
 

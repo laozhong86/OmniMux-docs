@@ -1,0 +1,144 @@
+---
+title: "Seedance 2.5 Flash 视频生成"
+sidebarTitle: "Seedance 2.5 Flash 视频生成"
+description: "Seedance 2.5 Flash 高速多模态视频生成（model `seedance-2-5-flash`，支持 480p 与 720p）"
+api: "POST https://api.omnimux.ai/v1/video/generations"
+---
+
+- 创建：`POST /v1/video/generations`，`model` 固定为 `seedance-2-5-flash`
+- 异步任务：用返回的 `task_id` 查询 [查询视频任务](/zh/api-reference/tasks/video-task)
+- 支持 480p 与 720p 分辨率、4 至 30 秒时长（标准分组支持 `-1` 自动时长）、同步音画及多模态参考（图片、视频、音频）
+- 分组说明：使用 `auto` 分组时网关按 `resolution` 自动路由至 `seedance-2-5-flash-480p` 或 `seedance-2-5-flash-720p` 经济档；如需视频编辑（`video_edit`）、视频延长（`video_extend`）或 `-1` 自动时长，请使用 `default` 标准分组
+- 产物 URL 请及时落盘（上游链接可能有时效）
+
+## 身份
+
+| 字段 | 值 |
+| --- | --- |
+| 系列 | 视频系列 |
+| 品牌 | Seedance |
+| model | `seedance-2-5-flash` |
+
+## 支持模式
+
+| 模式 (`operation`) | 说明 |
+| --- | --- |
+| `text_to_video` | 文生视频 |
+| `first_frame` | 首帧图生视频 |
+| `first_last_frame` | 首尾帧视频生成 |
+| `video_multi_ref` | 多模态参考生视频（参考图最多 10 张、参考视频最多 5 段、参考音频最多 5 段） |
+| `video_edit` | 视频编辑（仅 `default` 分组） |
+| `video_extend` | 视频延长（仅 `default` 分组） |
+
+## 接口
+
+| 方法 | 路径 |
+| --- | --- |
+| `POST` | `/v1/video/generations` |
+| `GET` | `/v1/video/generations/{task_id}` |
+
+Base URL：`https://api.omnimux.ai`
+
+## 鉴权
+
+| 名称 | 位置 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- | --- |
+| `Authorization` | header | string | 是 | `Bearer sk-...`（API Key） |
+
+## 请求体
+
+| 字段 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| `model` | string | 是 | 固定为 `seedance-2-5-flash` |
+| `prompt` | string | 是 | 视频生成描述提示词 |
+| `duration` / `seconds` | integer | 否 | 视频时长（秒），支持 4 至 30 整数；`default` 分组支持 `-1` 自动时长 |
+| `resolution` | string | 否 | 分辨率，支持 `480p` 或 `720p`（默认 `720p`） |
+| `aspect_ratio` / `size` | string | 否 | 画面比例：`16:9`、`4:3`、`1:1`、`3:4`、`9:16`、`21:9`、`adaptive` |
+| `generate_audio` | boolean | 否 | 是否生成同步音频，默认 `true` |
+| `image_urls` | array | 否 | 参考图片 HTTPS URL 列表（最多 10 张） |
+| `video_urls` | array | 否 | 参考视频 HTTPS URL 列表（最多 5 段） |
+| `audio_urls` | array | 否 | 参考音频 HTTPS URL 列表（最多 5 段） |
+
+## 响应
+
+### 200（创建）
+
+| 字段 | 类型 | 说明 |
+| --- | --- | --- |
+| `task_id` | string | 任务 id，用于轮询 |
+| `status` | string | 如 `pending` / `processing` / `completed` |
+
+轮询字段见 [查询视频任务](/zh/api-reference/tasks/video-task)。错误见右栏与 [错误码](/zh/faqs/connection-usage)。
+
+<Panel>
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url https://api.omnimux.ai/v1/video/generations \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "model": "seedance-2-5-flash",
+  "prompt": "Slow pan across a handcrafted ceramic mug on a sunlit wooden table",
+  "duration": 5,
+  "resolution": "720p",
+  "aspect_ratio": "16:9"
+}'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 200
+{
+  "task_id": "task_01HXYZABCDEF",
+  "status": "queued"
+}
+```
+
+```json 400
+{
+  "error": { "message": "Invalid request", "type": "invalid_request_error", "code": "bad_request" }
+}
+```
+
+```json 401
+{
+  "error": { "message": "Invalid token", "type": "authentication_error", "code": "unauthorized" }
+}
+```
+
+```json 402
+{
+  "error": {
+    "message": "Insufficient quota. Please top up your account.",
+    "type": "insufficient_quota",
+    "code": "insufficient_quota"
+  }
+}
+```
+
+```json 403
+{
+  "error": { "message": "Model not allowed", "type": "permission_error", "code": "forbidden" }
+}
+```
+
+```json 429
+{
+  "error": { "message": "Rate limit exceeded", "type": "rate_limit_error", "code": "rate_limit_exceeded" }
+}
+```
+
+```json 500
+{
+  "error": { "message": "Internal server error", "type": "server_error", "code": "internal_error" }
+}
+```
+
+</ResponseExample>
+
+</Panel>
