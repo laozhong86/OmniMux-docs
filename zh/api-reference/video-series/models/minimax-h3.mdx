@@ -1,12 +1,13 @@
 ---
 title: "MiniMax H3 视频生成"
 sidebarTitle: "MiniMax H3 视频生成"
-description: "MiniMax H3 视频生成 · model `minimax-h3`"
+description: "通过 OmniMux 调用 MiniMax H3 视频生成 API（minimax-h3、minimax-h3-turbo、minimax-h3-task、minimax-h3-video），支持文生视频、首帧/尾帧/首尾帧与多模态参考。"
 api: "POST https://api.omnimux.ai/v1/video/generations"
 ---
 
-- 创建：`POST /v1/video/generations`，`model` 可选 `minimax-h3`（标准）、`minimax-h3-task`（按次任务通道）、`minimax-h3-turbo`（极速版）或 `minimax-h3-video`（[高画质视频专线](/zh/api-reference/video-series/models/minimax-h3-video)）
+- 创建：`POST /v1/video/generations`，`model` 可选 `minimax-h3`（标准）、`minimax-h3-task`（按次任务通道）或 `minimax-h3-turbo`（极速版）；实时在线的 `minimax-h3-video` 插件专线（`1–15s`、`480p–1440p`、多场景分组）请见 [MiniMax H3 视频专线](/zh/api-reference/video-series/models/minimax-h3-video)
 - 异步任务：用返回的 `task_id` 查询 [查询视频任务](/zh/api-reference/tasks/video-task)
+- 所有生成请求均须遵守 OmniMux 可接受使用政策与上游内容安全审核规则
 - 产物 URL 请及时落盘（上游链接可能有时效）
 
 ## 身份
@@ -16,6 +17,27 @@ api: "POST https://api.omnimux.ai/v1/video/generations"
 | 系列 | 视频系列 |
 | 品牌 | MiniMax |
 | model | `minimax-h3`, `minimax-h3-task`, `minimax-h3-turbo`, `minimax-h3-video` |
+
+## 型号对比
+
+| 模型 ID | 接口路径 | 时长与分辨率 | 适用说明 |
+| --- | --- | --- | --- |
+| `minimax-h3` | `POST /v1/video/generations` | `5s` / `10s`；`480P`、`768P`、`1080P` | 标准文生视频、首帧/尾帧/首尾帧及多模态参考 |
+| `minimax-h3-turbo` | `POST /v1/video/generations` | 依上游极速通道 | 更快生成响应 |
+| `minimax-h3-task` | `POST /v1/video/generations` | 按次任务通道 | 固定按次任务计费路径 |
+| `minimax-h3-video` | `POST /v1/videos` | `1–15s`；`480p–1440p` | 在线插件专线，支持首尾帧、数字人、短剧等场景分组；详见 [MiniMax H3 视频专线](/zh/api-reference/video-series/models/minimax-h3-video) |
+| `minimax-h3-endframe` | `POST /v1/video/generations` | 帧引导通道 | 尾帧专用别名；详见 [MiniMax 尾帧](/zh/api-reference/video-series/models/minimax-h3-endframe) |
+| `minimax-h3-fl2va` | `POST /v1/video/generations` | 帧引导通道 | 图生视频 / 首尾帧别名；详见 [MiniMax 图生视频](/zh/api-reference/video-series/models/minimax-h3-fl2va) |
+
+## 支持模式（`minimax-h3`）
+
+| 模式 (`operation`) | 输入要求 | 画面比例 |
+| --- | --- | --- |
+| `text_to_video` | `prompt` | `16:9`、`9:16`、`1:1`、`4:3`、`21:9` |
+| `first_frame` | `prompt` + `image_with_roles`（`role: "first"`） | 固定为 `adaptive` |
+| `end_frame` | `prompt` + `image_with_roles`（`role: "last"`） | 固定为 `adaptive` |
+| `first_last_frame` | `prompt` + `image_with_roles`（`role: "first"` 与 `"last"`） | 固定为 `adaptive` |
+| `video_multi_ref` | `prompt` + `image_urls` / `video_urls` / `audio_urls` | `16:9`、`9:16`、`1:1`、`4:3`、`21:9`、`adaptive` |
 
 ## 接口
 
@@ -36,11 +58,15 @@ Base URL：`https://api.omnimux.ai`
 
 | 字段 | 类型 | 必填 | 说明 |
 | --- | --- | --- | --- |
-| `model` | string | 是 | 固定为 `minimax-h3` |
-| `prompt` | string | 条件 | 文生视频时必填 |
-| `seconds` / `duration` | number | 否 | 时长（秒，受模型与网关上限约束） |
-| `size` / `resolution` | string | 否 | 分辨率（模型相关） |
-| `image` / `images` | string/array | 否 | 图生视频参考图（模型相关） |
+| `model` | string | 是 | `minimax-h3`（或 `minimax-h3-task` / `minimax-h3-turbo`） |
+| `prompt` | string | 是 | 画面与运动描述 |
+| `duration` / `seconds` | integer | 否 | 时长（秒）：`5` 或 `10`（默认 `5`） |
+| `resolution` | string | 否 | 分辨率：`480P`、`768P` 或 `1080P` |
+| `aspect_ratio` / `size` | string | 否 | 画面比例：`16:9`、`9:16`、`1:1`、`4:3`、`21:9`（帧引导模式固定 `adaptive`） |
+| `image_with_roles` | array | 否 | 角色帧图数组（`role: "first"` 或 `"last"`），支持 JPEG/PNG/WebP/BMP/TIFF/GIF/HEIC/HEIF，单图最大 30 MB |
+| `image_urls` | array | 否 | `video_multi_ref` 参考图片 URL（最多 9 张） |
+| `video_urls` | array | 否 | `video_multi_ref` 参考视频 URL（最多 3 段） |
+| `audio_urls` | array | 否 | `video_multi_ref` 参考音频 URL（最多 3 段） |
 
 ## 响应
 
@@ -49,7 +75,7 @@ Base URL：`https://api.omnimux.ai`
 | 字段 | 类型 | 说明 |
 | --- | --- | --- |
 | `task_id` | string | 任务 id，用于轮询 |
-| `status` | string | 如 `pending` / `processing` / `completed` |
+| `status` | string | 如 `queued` / `processing` / `completed` |
 
 轮询字段见 [查询视频任务](/zh/api-reference/tasks/video-task)。错误见右栏与 [错误码](/zh/faqs/connection-usage)。
 
@@ -57,14 +83,34 @@ Base URL：`https://api.omnimux.ai`
 
 <RequestExample>
 
-```bash cURL
+```bash cURL（文生视频）
 curl --request POST \
   --url https://api.omnimux.ai/v1/video/generations \
   --header 'Authorization: Bearer <token>' \
   --header 'Content-Type: application/json' \
   --data '{
   "model": "minimax-h3",
-  "prompt": "slow pan across a product on a table"
+  "prompt": "Warm sunset light moving across a coastal cliffside terrace",
+  "duration": 5,
+  "resolution": "768P",
+  "aspect_ratio": "16:9"
+}'
+```
+
+```bash cURL（首尾帧）
+curl --request POST \
+  --url https://api.omnimux.ai/v1/video/generations \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "model": "minimax-h3",
+  "prompt": "Smooth camera push transitioning from the opening frame to the closing frame",
+  "duration": 5,
+  "resolution": "768P",
+  "image_with_roles": [
+    { "url": "https://example.com/first.jpg", "role": "first" },
+    { "url": "https://example.com/last.jpg", "role": "last" }
+  ]
 }'
 ```
 

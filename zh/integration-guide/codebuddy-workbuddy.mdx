@@ -1,6 +1,7 @@
 ---
-title: "CodeBuddy / WorkBuddy"
-description: "将 CodeBuddy 和 WorkBuddy 连接到 OmniMux"
+title: "CodeBuddy / WorkBuddy 接入自定义 API（models.json 配置教程）"
+sidebarTitle: "CodeBuddy / WorkBuddy"
+description: "通过 ~/.codebuddy/models.json 或 ~/.workbuddy/models.json 为 CodeBuddy 与 WorkBuddy 配置 OmniMux 自定义 OpenAI 兼容接口，接入 Claude、GPT、Gemini 与豆包模型。"
 ---
 
 ## 概述
@@ -39,35 +40,35 @@ CodeBuddy 和 WorkBuddy 使用相同的配置方式，本文档同时适用于�
 
 ```json
 {
-"models": [
-{
-"id": "claude-sonnet-4-5-20250929",
-"name": "OmniMux Gateway (智能路由)",
-"vendor": "OmniMux",
-"apiKey": "sk-your-api-key-here",
-"url": "https://api.omnimux.ai/v1/chat/completions",
-"supportsToolCall": true,
-"supportsImages": true
-},
-{
-"id": "gpt-5.4",
-"name": "OmniMux GPT-5.4",
-"vendor": "OpenAI",
-"apiKey": "sk-your-api-key-here",
-"url": "https://api.omnimux.ai/v1/chat/completions",
-"supportsToolCall": true,
-"supportsImages": true
-},
-{
-"id": "doubao-seed-2.0-mini",
-"name": "OmniMux Doubao Seed 2.0 Mini",
-"vendor": "ByteDance",
-"apiKey": "sk-your-api-key-here",
-"url": "https://api.omnimux.ai/v1/chat/completions",
-"supportsToolCall": true,
-"supportsImages": true
-}
-]
+  "models": [
+    {
+      "id": "claude-sonnet-4-5-20250929",
+      "name": "OmniMux Gateway (智能路由)",
+      "vendor": "OmniMux",
+      "apiKey": "sk-your-api-key-here",
+      "url": "https://api.omnimux.ai/v1/chat/completions",
+      "supportsToolCall": true,
+      "supportsImages": true
+    },
+    {
+      "id": "gpt-5.4",
+      "name": "OmniMux GPT-5.4",
+      "vendor": "OpenAI",
+      "apiKey": "sk-your-api-key-here",
+      "url": "https://api.omnimux.ai/v1/chat/completions",
+      "supportsToolCall": true,
+      "supportsImages": true
+    },
+    {
+      "id": "doubao-seed-2.0-mini",
+      "name": "OmniMux Doubao Seed 2.0 Mini",
+      "vendor": "ByteDance",
+      "apiKey": "sk-your-api-key-here",
+      "url": "https://api.omnimux.ai/v1/chat/completions",
+      "supportsToolCall": true,
+      "supportsImages": true
+    }
+  ]
 }
 ```
 
@@ -131,14 +132,14 @@ OmniMux Gateway 是智能模型路由功能，系统会根据您的请求内容�
 
 ```json
 {
-"models": [
-// ... 模型配置
-],
-"availableModels": [
-"claude-sonnet-4-5-20250929",
-"gpt-5.4",
-"doubao-seed-2.0-mini"
-]
+  "models": [
+    // ... 模型配置
+  ],
+  "availableModels": [
+    "claude-sonnet-4-5-20250929",
+    "gpt-5.4",
+    "doubao-seed-2.0-mini"
+  ]
 }
 ```
 

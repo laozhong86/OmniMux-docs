@@ -1,6 +1,7 @@
 ---
-title: "Codex CLI"
-description: "Connect Codex CLI to OmniMux"
+title: "Configure OpenAI Codex CLI Custom Provider (config.toml)"
+sidebarTitle: "Codex CLI"
+description: "Connect OpenAI Codex CLI to OmniMux via ~/.codex/config.toml with wire_api = responses, custom base_url https://api.omnimux.ai/v1, and OPENAI_API_KEY."
 ---
 
 ## Overview
@@ -26,7 +27,7 @@ Before configuring, make sure you have:
 **First-time installation:**
 
 * Download and install from [Node.js official website](https://nodejs.org/) (recommend LTS version)
-* If you're unfamiliar with the installation process, refer to [Runoob - Node.js Installation Guide](https://www.runoob.com/nodejs/nodejs-install-setup.html)
+* For platform-specific installers and package managers, see the [Node.js download guide](https://nodejs.org/en/download)
 * Recommended: **Node.js v20 or higher**
 * Verify installation:
 
@@ -106,7 +107,7 @@ wire_api = "responses"
 **⚠️ Important:**
 
 * **Copy completely** without missing any symbols
-* Replace `"your-omnimux-api-key"` with actual API Key
+* The API key is read from the `OPENAI_API_KEY` environment variable configured in Step 3 below (do not put your key inside `config.toml`)
 * TOML format is sensitive to indentation and symbols
 
 ```powershell
@@ -160,7 +161,7 @@ Config fields:
 * `env_key`: environment variable name for the API key
 * `wire_api`: must be `responses`
 
-### 2. Configure API Key
+### 3. Configure API Key
 
 **Temporary (current session only)**
 

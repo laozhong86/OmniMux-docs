@@ -1,6 +1,7 @@
 ---
-title: "Hermes Agent"
-description: "将 Hermes Agent 连接到 OmniMux"
+title: "Hermes Agent 接入自定义 OpenAI 兼容 API（config.yaml 配置教程）"
+sidebarTitle: "Hermes Agent"
+description: "通过 ~/.hermes/config.yaml、~/.hermes/.env 或 hermes model 向导将 Hermes Agent 接入 OmniMux OpenAI 兼容接口，统一调用 Claude、GPT 与 Gemini。"
 ---
 
 ## 概述
@@ -194,10 +195,10 @@ OPENAI_BASE_URL=https://api.omnimux.ai/v1
 
 ```yaml
 model:
-provider: custom
-default: claude-opus-5
-base_url: https://api.omnimux.ai/v1
-api_mode: chat_completions
+  provider: custom
+  default: claude-opus-5
+  base_url: https://api.omnimux.ai/v1
+  api_mode: chat_completions
 ```
 
 **⚠️ 重要提示：**
@@ -264,12 +265,12 @@ hermes -c            # 简写形式
 
 ```yaml
 fallback_providers:
-- provider: custom
-model: claude-sonnet-4-6
-base_url: https://api.omnimux.ai/v1
-- provider: custom
-model: claude-haiku-4-5-20251001
-base_url: https://api.omnimux.ai/v1
+  - provider: custom
+    model: claude-sonnet-4-6
+    base_url: https://api.omnimux.ai/v1
+  - provider: custom
+    model: claude-haiku-4-5-20251001
+    base_url: https://api.omnimux.ai/v1
 ```
 
 ### 辅助模型（Auxiliary）
@@ -278,16 +279,16 @@ Hermes 会用"辅助模型"处理一些次要任务（如上下文压缩、会�
 
 ```yaml
 auxiliary:
-title_generation:
-provider: custom
-model: claude-haiku-4-5-20251001
-base_url: https://api.omnimux.ai/v1
-api_key: 你的OmniMux_API_Key
-compression:
-provider: custom
-model: claude-haiku-4-5-20251001
-base_url: https://api.omnimux.ai/v1
-api_key: 你的OmniMux_API_Key
+  title_generation:
+    provider: custom
+    model: claude-haiku-4-5-20251001
+    base_url: https://api.omnimux.ai/v1
+    api_key: 你的OmniMux_API_Key
+  compression:
+    provider: custom
+    model: claude-haiku-4-5-20251001
+    base_url: https://api.omnimux.ai/v1
+    api_key: 你的OmniMux_API_Key
 ```
 
 这样主模型专注于复杂推理，轻量任务交给更便宜的模型处理。

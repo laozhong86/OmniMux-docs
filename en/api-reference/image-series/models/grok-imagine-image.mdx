@@ -1,13 +1,14 @@
 ---
 title: "Grok Imagine Image Generation"
 sidebarTitle: "Grok Imagine Image Generation"
-description: "Grok Imagine Image Generation · model `grok-imagine-image`"
+description: "Call Grok Imagine Image (grok-imagine-image) on OmniMux via POST /v1/images/generations or /v1/images/edits with aspect_ratio, response_format b64_json, and url output."
 api: "POST https://api.omnimux.ai/v1/images/generations"
 ---
 
-- Call `POST /v1/images/generations` with `model` `grok-imagine-image`
-- Body requires at least `model` and `prompt`
-- If async, follow `task_id` in the create response and console usage logs
+- Create or reference-generate via `POST /v1/images/generations` with `model` set to `grok-imagine-image`; edit an existing image via `POST /v1/images/edits`
+- Supports OpenAI-compatible parameters `aspect_ratio` (automatically mapped to `size` when `size` is omitted) and `response_format` (`url` or `b64_json`)
+- Confirm live model availability and pricing in the [OmniMux console](https://omnimux.ai/dashboard) or via `GET /v1/models`; for higher-quality output, see [Grok Imagine Image Quality](/en/api-reference/image-series/models/grok-imagine-image-quality)
+- If the upstream returns an async `task_id` / `id`, track task completion in console usage logs
 
 ## Identity
 
@@ -17,11 +18,20 @@ api: "POST https://api.omnimux.ai/v1/images/generations"
 | Brand | Grok Imagine |
 | model | `grok-imagine-image` |
 
+## Grok Imagine Variants
+
+| Model ID | Tier | Endpoint | Guide |
+| --- | --- | --- | --- |
+| `grok-imagine-image` | Standard | `POST /v1/images/generations` · `/v1/images/edits` | This page |
+| `grok-imagine-image-quality` | Quality tier | `POST /v1/images/generations` · `/v1/images/edits` | [Grok Imagine Image Quality](/en/api-reference/image-series/models/grok-imagine-image-quality) |
+| `grok-imagine-image-2-0` | 2.0 generation | `POST /v1/images/generations` · `/v1/images/edits` | [Grok Imagine Image 2.0](/en/api-reference/image-series/models/grok-imagine-image-2-0) |
+
 ## Endpoint
 
-| Method | Path |
-| --- | --- |
-| `POST` | `/v1/images/generations` |
+| Method | Path | Use |
+| --- | --- | --- |
+| `POST` | `/v1/images/generations` | Text-to-image and optional reference-guided generation |
+| `POST` | `/v1/images/edits` | Image editing (requires at least one reference image) |
 
 Base URL: `https://api.omnimux.ai`
 
@@ -36,15 +46,17 @@ Base URL: `https://api.omnimux.ai`
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `model` | string | yes | Must be `grok-imagine-image` |
-| `prompt` | string | yes | Image description / edit instruction |
+| `prompt` | string | yes | Image description or edit instruction |
 | `n` | integer | no | Number of images (gateway-capped) |
 | `size` | string | no | Size or aspect ratio (model-specific) |
+| `aspect_ratio` | string | no | Aspect ratio; automatically normalized to `size` when `size` is omitted |
+| `response_format` | string | no | Output delivery format: `url` or `b64_json` |
 | `quality` | string | no | Quality tier (model-specific) |
-| `images` | string[] | no | Reference images: image URL or base64. `image`, `image_urls` and `input_reference` are accepted aliases and are normalized to `images` before the upstream call. |
+| `images` | string[] | conditional | Reference images as URL or base64 (`required` on `POST /v1/images/edits`). `image`, `image_urls`, and `input_reference` are accepted aliases and normalized to `images` before forwarding. |
 
 ### Reference image limits
 
-No model spec exists for this model yet, so its reference-image capability and limits are **unverified**: no image count, accepted formats or per-file size ceiling is stated here.
+No formal model spec exists for this model yet, so its exact reference-image count, accepted formats, and per-file size ceiling remain **unverified** here.
 
 ## Response
 
@@ -52,39 +64,61 @@ No model spec exists for this model yet, so its reference-image capability and l
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created` | integer | Creation timestamp when present |
-| `data` | array | Results (`url` or `b64_json`) |
-| `task_id` / `id` | string | Async task id when present |
+| `created` | integer | Creation timestamp when present (sync responses) |
+| `data` | array | Image objects carrying `url` or `b64_json`, and optional `revised_prompt` |
+| `task_id` / `id` | string | Async task id when the upstream submits a background job |
 
-Errors: see right-rail examples. Async: use `task_id` from create response / console logs (no separate public image-query page).
+Errors: see right-rail examples and [Error codes](/en/faqs/connection-usage). Async: use `task_id` from the create response and console usage logs (no separate public image-query endpoint).
 
 <Panel>
 
 <RequestExample>
 
-```bash curl --request POST \
+```bash cURL (Generations with aspect_ratio & b64_json)
+curl --request POST \
   --url https://api.omnimux.ai/v1/images/generations \
   --header 'Authorization: Bearer <token>' \
   --header 'Content-Type: application/json' \
-  --data '{"model":"grok-imagine-image","prompt":"a product photo on white background","n":1}'
+  --data '{
+  "model": "grok-imagine-image",
+  "prompt": "a product photo on white background",
+  "aspect_ratio": "16:9",
+  "response_format": "b64_json",
+  "n": 1
+}'
+```
+
+```bash cURL (Image Edits)
+curl --request POST \
+  --url https://api.omnimux.ai/v1/images/edits \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "model": "grok-imagine-image",
+  "prompt": "change the studio backdrop to warm morning sunlight",
+  "images": ["https://example.com/product.jpg"],
+  "aspect_ratio": "1:1"
+}'
 ```
 
 </RequestExample>
 
-
 <ResponseExample>
 
-```json 200
+```json 200 (URL)
 {
-  "id": "chatcmpl-example",
-  "object": "chat.completion",
-  "model": "grok-imagine-image",
-  "choices": [
-    {
-      "index": 0,
-      "message": { "role": "assistant", "content": "…" },
-      "finish_reason": "stop"
-    }
+  "created": 1741428397,
+  "data": [
+    { "url": "https://example.com/image.png" }
+  ]
+}
+```
+
+```json 200 (b64_json)
+{
+  "created": 1741428397,
+  "data": [
+    { "b64_json": "iVBORw0KGgoAAAANSUhEUg..." }
   ]
 }
 ```

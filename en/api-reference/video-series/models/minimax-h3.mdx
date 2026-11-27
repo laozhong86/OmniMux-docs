@@ -1,12 +1,13 @@
 ---
 title: "MiniMax H3 Video Generation"
 sidebarTitle: "MiniMax H3 Video Generation"
-description: "MiniMax H3 Video Generation · model `minimax-h3`"
+description: "Call MiniMax H3 video generation API (minimax-h3, minimax-h3-turbo, minimax-h3-task, minimax-h3-video) on OmniMux for text, first-frame, end-frame, and multimodal video."
 api: "POST https://api.omnimux.ai/v1/video/generations"
 ---
 
-- Create: `POST /v1/video/generations` with `model` `minimax-h3` (standard), `minimax-h3-task` (fixed per-call task path), `minimax-h3-turbo` (turbo), or `minimax-h3-video` ([dedicated video line](/en/api-reference/video-series/models/minimax-h3-video))
-- Async: poll [Video task](/en/api-reference/tasks/video-task) with returned `task_id`
+- Create: `POST /v1/video/generations` with `model` set to `minimax-h3` (standard), `minimax-h3-task`, or `minimax-h3-turbo`; for the live dedicated video plugin line (`1–15s`, `480p–1440p`, scenario groups), see [MiniMax H3 Video Line](/en/api-reference/video-series/models/minimax-h3-video)
+- Async: poll [Video task](/en/api-reference/tasks/video-task) with the returned `task_id`
+- All requests are subject to OmniMux Acceptable Use Policy and upstream content-safety moderation
 - Persist result URLs promptly (upstream links may expire)
 
 ## Identity
@@ -16,6 +17,27 @@ api: "POST https://api.omnimux.ai/v1/video/generations"
 | Series | Video series |
 | Brand | MiniMax |
 | model | `minimax-h3`, `minimax-h3-task`, `minimax-h3-turbo`, `minimax-h3-video` |
+
+## MiniMax H3 Model Variants
+
+| Model ID | Endpoint | Duration & Resolution | Best For |
+| --- | --- | --- | --- |
+| `minimax-h3` | `POST /v1/video/generations` | `5s` / `10s`; `480P`, `768P`, `1080P` | Standard text-to-video, first/end/first-last frame, and multimodal ref |
+| `minimax-h3-turbo` | `POST /v1/video/generations` | Per upstream fast route | Faster turnaround variant |
+| `minimax-h3-task` | `POST /v1/video/generations` | Per-call task route | Fixed per-call task billing path |
+| `minimax-h3-video` | `POST /v1/videos` | `1–15s`; `480p–1440p` | Live plugin line with scenario groups (first-last-frame, digital human, short drama); see [MiniMax H3 Video Line](/en/api-reference/video-series/models/minimax-h3-video) |
+| `minimax-h3-endframe` | `POST /v1/video/generations` | Frame-guided route | End-frame legacy alias; see [MiniMax End Frame](/en/api-reference/video-series/models/minimax-h3-endframe) |
+| `minimax-h3-fl2va` | `POST /v1/video/generations` | Frame-guided route | Image-to-video / first-last-frame alias; see [MiniMax Image-to-Video](/en/api-reference/video-series/models/minimax-h3-fl2va) |
+
+## Supported Modes (`minimax-h3`)
+
+| Mode (`operation`) | Input Requirements | Aspect Ratio |
+| --- | --- | --- |
+| `text_to_video` | `prompt` | `16:9`, `9:16`, `1:1`, `4:3`, `21:9` |
+| `first_frame` | `prompt` + `image_with_roles` (`role: "first"`) | Fixed `adaptive` |
+| `end_frame` | `prompt` + `image_with_roles` (`role: "last"`) | Fixed `adaptive` |
+| `first_last_frame` | `prompt` + `image_with_roles` (`role: "first"` and `"last"`) | Fixed `adaptive` |
+| `video_multi_ref` | `prompt` + `image_urls` / `video_urls` / `audio_urls` | `16:9`, `9:16`, `1:1`, `4:3`, `21:9`, `adaptive` |
 
 ## Endpoint
 
@@ -36,11 +58,15 @@ Base URL: `https://api.omnimux.ai`
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `model` | string | yes | Must be `minimax-h3` |
-| `prompt` | string | conditional | Required for text-to-video |
-| `seconds` / `duration` | number | no | Duration in seconds (bounded) |
-| `size` / `resolution` | string | no | Resolution (model-specific) |
-| `image` / `images` | string/array | no | Image-to-video references |
+| `model` | string | yes | `minimax-h3` (or `minimax-h3-task` / `minimax-h3-turbo`) |
+| `prompt` | string | yes | Scene and motion description |
+| `duration` / `seconds` | integer | no | `5` or `10` seconds (default `5`) |
+| `resolution` | string | no | `480P`, `768P`, or `1080P` |
+| `aspect_ratio` / `size` | string | no | `16:9`, `9:16`, `1:1`, `4:3`, `21:9` (`adaptive` on frame-guided modes) |
+| `image_with_roles` | array | no | Role-tagged frame images (`role: "first"` or `"last"`), JPEG/PNG/WebP/BMP/TIFF/GIF/HEIC/HEIF up to 30 MB |
+| `image_urls` | array | no | Reference image URLs for `video_multi_ref` (up to 9) |
+| `video_urls` | array | no | Reference video URLs for `video_multi_ref` (up to 3) |
+| `audio_urls` | array | no | Reference audio URLs for `video_multi_ref` (up to 3) |
 
 ## Response
 
@@ -49,7 +75,7 @@ Base URL: `https://api.omnimux.ai`
 | Field | Type | Description |
 | --- | --- | --- |
 | `task_id` | string | Task id for polling |
-| `status` | string | e.g. `pending` / `processing` / `completed` |
+| `status` | string | e.g. `queued` / `processing` / `completed` |
 
 See [Video task](/en/api-reference/tasks/video-task). Errors: right rail and [Error codes](/en/faqs/connection-usage).
 
@@ -57,15 +83,38 @@ See [Video task](/en/api-reference/tasks/video-task). Errors: right rail and [Er
 
 <RequestExample>
 
-```bash curl --request POST \
+```bash cURL (Text-to-Video)
+curl --request POST \
   --url https://api.omnimux.ai/v1/video/generations \
   --header 'Authorization: Bearer <token>' \
   --header 'Content-Type: application/json' \
-  --data '{"model":"minimax-h3","prompt":"slow pan across a product on a table"}'
+  --data '{
+  "model": "minimax-h3",
+  "prompt": "Warm sunset light moving across a coastal cliffside terrace",
+  "duration": 5,
+  "resolution": "768P",
+  "aspect_ratio": "16:9"
+}'
+```
+
+```bash cURL (First-Last Frame)
+curl --request POST \
+  --url https://api.omnimux.ai/v1/video/generations \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "model": "minimax-h3",
+  "prompt": "Smooth camera push transitioning from the opening frame to the closing frame",
+  "duration": 5,
+  "resolution": "768P",
+  "image_with_roles": [
+    { "url": "https://example.com/first.jpg", "role": "first" },
+    { "url": "https://example.com/last.jpg", "role": "last" }
+  ]
+}'
 ```
 
 </RequestExample>
-
 
 <ResponseExample>
 

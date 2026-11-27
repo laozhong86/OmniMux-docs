@@ -1,12 +1,13 @@
 ---
 title: "Kling Avatar 视频生成"
 sidebarTitle: "Kling Avatar 视频生成"
-description: "Kling Avatar 视频生成 · model `kling-avatar`"
+description: "在 OmniMux 上查看 Kling Avatar（kling-avatar）可用状态与调用路径，或直接选用已上线的 LTX 2.3 与 MiniMax H3 数字人口型同步专线。"
 api: "POST https://api.omnimux.ai/v1/video/generations"
 ---
 
-- 创建：`POST /v1/video/generations`，`model` 为 `kling-avatar`
+- 创建：`POST /v1/video/generations`，`model` 设为 `kling-avatar`
 - 异步任务：用返回的 `task_id` 查询 [查询视频任务](/zh/api-reference/tasks/video-task)
+- **实时目录提示**：接入前请在[OmniMux 控制台](https://omnimux.ai/dashboard)或通过 `GET /v1/models` 确认当前账号是否已开通 `kling-avatar`。如需调用当前实时在线的照片+音频口型同步/数字人线路，推荐直接使用 [LTX 数字人](/zh/api-reference/video-series/models/ltx-2-3-kj)（`ltx-2-3-kj`）或 [MiniMax H3 视频专线](/zh/api-reference/video-series/models/minimax-h3-video)（`minimax-h3-video`，使用 `minimax-h3-video-digital-human` 分组）
 - 产物 URL 请及时落盘（上游链接可能有时效）
 
 ## 身份
@@ -16,6 +17,13 @@ api: "POST https://api.omnimux.ai/v1/video/generations"
 | 系列 | 视频系列 |
 | 品牌 | Kling |
 | model | `kling-avatar` |
+
+## 在线数字人与口型同步替代方案
+
+| 模型 ID | 接口路径 | 能力说明 | 文档 |
+| --- | --- | --- | --- |
+| `ltx-2-3-kj` | `POST /v1/video/generations` | 人像图 + 音频对口型（`nodeInfoList`） | [LTX 数字人](/zh/api-reference/video-series/models/ltx-2-3-kj) |
+| `minimax-h3-video` | `POST /v1/videos` | 数字人专线（`minimax-h3-video-digital-human` 分组，人像图 + 语音） | [MiniMax H3 视频专线](/zh/api-reference/video-series/models/minimax-h3-video) |
 
 ## 接口
 
@@ -34,13 +42,15 @@ Base URL：`https://api.omnimux.ai`
 
 ## 请求体
 
+网关暂未为 `kling-avatar` 发布独立模型规格档案；实际字段请以已开通渠道及 `GET /v1/models` 返回为准。
+
 | 字段 | 类型 | 必填 | 说明 |
 | --- | --- | --- | --- |
-| `model` | string | 是 | 固定为 `kling-avatar` |
-| `prompt` | string | 条件 | 文生视频时必填 |
+| `model` | string | 是 | `kling-avatar`（当实时目录可用时） |
+| `prompt` | string | 条件 | 画面或动作描述 |
 | `seconds` / `duration` | number | 否 | 时长（秒，受模型与网关上限约束） |
 | `size` / `resolution` | string | 否 | 分辨率（模型相关） |
-| `image` / `images` | string/array | 否 | 图生视频参考图（模型相关） |
+| `image` / `images` | string/array | 否 | 人像参考图 URL |
 
 ## 响应
 
@@ -49,7 +59,7 @@ Base URL：`https://api.omnimux.ai`
 | 字段 | 类型 | 说明 |
 | --- | --- | --- |
 | `task_id` | string | 任务 id，用于轮询 |
-| `status` | string | 如 `pending` / `processing` / `completed` |
+| `status` | string | 如 `queued` / `processing` / `completed` |
 
 轮询字段见 [查询视频任务](/zh/api-reference/tasks/video-task)。错误见右栏与 [错误码](/zh/faqs/connection-usage)。
 
@@ -64,7 +74,8 @@ curl --request POST \
   --header 'Content-Type: application/json' \
   --data '{
   "model": "kling-avatar",
-  "prompt": "slow pan across a product on a table"
+  "prompt": "Portrait subject speaking calmly to camera under soft studio lighting",
+  "images": ["https://example.com/avatar-portrait.jpg"]
 }'
 ```
 

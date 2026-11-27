@@ -1,13 +1,13 @@
 ---
-title: "豆包语音识别大模型"
+title: "豆包语音识别（Doubao ASR）API"
 sidebarTitle: "豆包语音识别"
-description: "火山引擎 / 豆包语音识别大模型 · model `doubao-asr-bigmodel`, `seedasr-auc`, `bigasr-auc`"
+description: "通过 OmniMux 调用火山引擎豆包语音识别 API（doubao-asr-bigmodel、seedasr-auc、bigasr-auc），支持 URL 音频转写、说话人分离与 SRT/VTT/verbose_json 输出。"
 api: "POST https://api.omnimux.ai/v1/audio/transcriptions"
 ---
 
-- 接口：`POST /v1/audio/transcriptions`
-- 协议：兼容 OpenAI 语音转文字（Audio Transcription）接口协议
-- 支持录音文件识别与快速转写，输出文本转录结果
+- 接口：`POST /v1/audio/transcriptions`（URL 优先模式：通过 `url` 或 `audio_url` 传入可公开访问的音频链接）
+- 模型路由：`doubao-asr-bigmodel` 与 `seedasr-auc` 路由至豆包 ASR 2.0（`volc.seedasr.auc`）；`bigasr-auc` 路由至豆包 ASR 1.0（`volc.bigasr.auc`）
+- 支持逆文本标准化（ITN）、自动标点、顺滑过滤（`enable_ddc`）、说话人分离（`enable_speaker_info`）、情绪检测，以及 `json`、`text`、`verbose_json`、`srt`、`vtt`、`doubao_json` 六种输出格式
 
 ## 身份
 
@@ -16,6 +16,18 @@ api: "POST https://api.omnimux.ai/v1/audio/transcriptions"
 | 系列 | 音频系列 |
 | 品牌 | 火山引擎 / 豆包 |
 | model | `doubao-asr-bigmodel`, `seedasr-auc`, `bigasr-auc` |
+
+## 型号对比
+
+| 模型 ID | 底层版本 | 适用场景 |
+| --- | --- | --- |
+| `doubao-asr-bigmodel` | 豆包 ASR 2.0（`volc.seedasr.auc`） | 推荐默认使用，兼顾中文、英文及多语种识别准确率 |
+| `seedasr-auc` | 豆包 ASR 2.0（`volc.seedasr.auc`） | 2.0 版本显式别名，能力与费率一致 |
+| `bigasr-auc` | 豆包 ASR 1.0（`volc.bigasr.auc`） | 用于存量兼容的 1.0 版本线路 |
+
+## 支持音频格式
+
+按 URL 扩展名自动推断，也可通过 `format` 显式指定（未提供扩展名时默认按 `mp3` 处理）：`wav`、`mp3`、`ogg`（`oga`）、`m4a`、`aac`、`flac`、`mp4`、`pcm`。
 
 ## 接口
 
@@ -31,46 +43,97 @@ Base URL：`https://api.omnimux.ai`
 | --- | --- | --- | --- | --- |
 | `Authorization` | header | string | 是 | `Bearer sk-...`（API Key） |
 
-## 请求体（multipart/form-data）
+## 请求体（URL 优先模式）
+
+支持 `multipart/form-data`、表单字段或查询参数：
 
 | 字段 | 类型 | 必填 | 说明 |
 | --- | --- | --- | --- |
-| `file` | file | 是 | 要转录的音频二进制文件（支持 wav, mp3, ogg, m4a 等） |
-| `model` | string | 是 | 可选 `doubao-asr-bigmodel`、`seedasr-auc`、`bigasr-auc` |
-| `language` | string | 否 | 音频主语言代码（如 `zh`, `en`），缺省自动识别 |
-| `response_format` | string | 否 | 响应格式，可选 `json`, `text`，默认 `json` |
+| `model` | string | 是 | `doubao-asr-bigmodel`、`seedasr-auc` 或 `bigasr-auc` |
+| `url` / `audio_url` | string | 是 | 公网可访问的 HTTPS 音频文件 URL |
+| `format` | string | 否 | 音频封装格式（`wav`、`mp3`、`ogg`、`m4a`、`aac`、`flac`、`mp4`、`pcm`），缺省时从 URL 推断 |
+| `response_format` | string | 否 | 响应格式：`json`（默认）、`text`、`verbose_json`、`srt`、`vtt` 或 `doubao_json` |
+| `enable_itn` | boolean | 否 | 是否开启逆文本标准化（数字、日期规整），默认 `true` |
+| `enable_punc` | boolean | 否 | 是否开启自动标点，默认 `true` |
+| `enable_ddc` | boolean | 否 | 是否开启顺滑过滤，默认 `true` |
+| `enable_speaker_info` | boolean | 否 | 是否开启说话人分离（在 `verbose_json` 中输出 `speaker`），默认 `false` |
+| `ssd_version` | string | 否 | 说话人分离模型版本（开启 `enable_speaker_info` 时默认设为 `"300"`） |
+| `enable_emotion_detection` | boolean | 否 | 是否在 `verbose_json` / `doubao_json` 中返回情绪标签，默认 `false` |
+| `prompt` | string | 否 | 上下文提示/热词，透传至上游语料上下文 |
 
 ## 响应
 
-### 200
+### 200（`json` / `verbose_json`）
 
-```json
-{
-  "text": "这是一段通过豆包大模型语音识别转写的文本内容。"
-}
-```
+- `json`（默认）：`{"text": "..."}`
+- `text`：纯文本字符串（`text/plain; charset=utf-8`）
+- `verbose_json`：兼容 Whisper 详细 JSON，含 `duration`、`text` 与分句数组 `segments`（`start`、`end`、`text`、`speaker`、`emotion`、`speech_rate`、`volume`）
+- `srt` / `vtt`：标准带时间轴的字幕文本
+- `doubao_json`：1:1 透传火山引擎原始识别结果
 
 <Panel>
 
 <RequestExample>
 
-```bash cURL
+```bash cURL（URL 音频转写）
 curl --request POST \
   --url https://api.omnimux.ai/v1/audio/transcriptions \
   --header 'Authorization: Bearer sk-...' \
   --header 'Content-Type: multipart/form-data' \
-  --form 'file=@audio.mp3' \
-  --form 'model=doubao-asr-bigmodel'
+  --form 'model=doubao-asr-bigmodel' \
+  --form 'url=https://example.com/meeting.mp3' \
+  --form 'response_format=verbose_json' \
+  --form 'enable_speaker_info=true'
 ```
 
 </RequestExample>
 
 <ResponseExample>
 
-```json 200 OK
+```json 200 (json)
 {
-  "text": "这是一段通过豆包大模型语音识别转写的文本内容。"
+  "text": "欢迎参加今天的产品评审会议。"
 }
+```
+
+```json 200 (verbose_json)
+{
+  "task": "transcribe",
+  "language": "chinese",
+  "duration": 4.2,
+  "text": "欢迎参加今天的产品评审会议。",
+  "segments": [
+    {
+      "id": 0,
+      "start": 0.0,
+      "end": 4.2,
+      "text": "欢迎参加今天的产品评审会议。",
+      "speaker": "1"
+    }
+  ]
+}
+```
+
+```json 400
+{ "error": { "message": "audio url is required for Auc BigModel ASR: please provide 'url' or 'audio_url' (URL-first mode)", "type": "invalid_request_error", "code": "invalid_request" } }
+```
+
+```json 401
+{ "error": { "message": "Invalid token", "type": "authentication_error", "code": "unauthorized" } }
+```
+
+```json 402
+{
+  "error": {
+    "message": "Insufficient quota. Please top up your account.",
+    "type": "insufficient_quota",
+    "code": "insufficient_quota"
+  }
+}
+```
+
+```json 429
+{ "error": { "message": "Rate limit exceeded", "type": "rate_limit_error", "code": "rate_limit_exceeded" } }
 ```
 
 </ResponseExample>

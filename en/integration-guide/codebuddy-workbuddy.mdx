@@ -1,6 +1,7 @@
 ---
-title: "CodeBuddy / WorkBuddy"
-description: "Connect CodeBuddy and WorkBuddy to OmniMux"
+title: "Configure CodeBuddy & WorkBuddy Custom API (models.json)"
+sidebarTitle: "CodeBuddy / WorkBuddy"
+description: "Connect Tencent Cloud CodeBuddy and WorkBuddy to OmniMux via ~/.codebuddy/models.json or ~/.workbuddy/models.json to use Claude, GPT, Gemini, and Doubao models."
 ---
 
 ## Overview
@@ -39,35 +40,35 @@ Currently only supports OpenAI SDK format API integration.
 
 ```json
 {
-"models": [
-{
-"id": "claude-sonnet-4-5-20250929",
-"name": "OmniMux Gateway (Smart Routing)",
-"vendor": "OmniMux",
-"apiKey": "sk-your-api-key-here",
-"url": "https://api.omnimux.ai/v1/chat/completions",
-"supportsToolCall": true,
-"supportsImages": true
-},
-{
-"id": "gpt-5.4",
-"name": "OmniMux GPT-5.4",
-"vendor": "OpenAI",
-"apiKey": "sk-your-api-key-here",
-"url": "https://api.omnimux.ai/v1/chat/completions",
-"supportsToolCall": true,
-"supportsImages": true
-},
-{
-"id": "doubao-seed-2.0-mini",
-"name": "OmniMux Doubao Seed 2.0 Mini",
-"vendor": "ByteDance",
-"apiKey": "sk-your-api-key-here",
-"url": "https://api.omnimux.ai/v1/chat/completions",
-"supportsToolCall": true,
-"supportsImages": true
-}
-]
+  "models": [
+    {
+      "id": "claude-sonnet-4-5-20250929",
+      "name": "OmniMux Gateway (Smart Routing)",
+      "vendor": "OmniMux",
+      "apiKey": "sk-your-api-key-here",
+      "url": "https://api.omnimux.ai/v1/chat/completions",
+      "supportsToolCall": true,
+      "supportsImages": true
+    },
+    {
+      "id": "gpt-5.4",
+      "name": "OmniMux GPT-5.4",
+      "vendor": "OpenAI",
+      "apiKey": "sk-your-api-key-here",
+      "url": "https://api.omnimux.ai/v1/chat/completions",
+      "supportsToolCall": true,
+      "supportsImages": true
+    },
+    {
+      "id": "doubao-seed-2.0-mini",
+      "name": "OmniMux Doubao Seed 2.0 Mini",
+      "vendor": "ByteDance",
+      "apiKey": "sk-your-api-key-here",
+      "url": "https://api.omnimux.ai/v1/chat/completions",
+      "supportsToolCall": true,
+      "supportsImages": true
+    }
+  ]
 }
 ```
 
@@ -131,14 +132,14 @@ If you only want to display specific models in the dropdown, you can use the `av
 
 ```json
 {
-"models": [
-// ... model configuration
-],
-"availableModels": [
-"claude-sonnet-4-5-20250929",
-"gpt-5.4",
-"doubao-seed-2.0-mini"
-]
+  "models": [
+    // ... model configuration
+  ],
+  "availableModels": [
+    "claude-sonnet-4-5-20250929",
+    "gpt-5.4",
+    "doubao-seed-2.0-mini"
+  ]
 }
 ```
 
@@ -149,20 +150,20 @@ If you only want to display specific models in the dropdown, you can use the `av
 **CodeBuddy:**
 
 * macOS/Linux: `~/.codebuddy/models.json`
-* Windows: `C:\Users\\.codebuddy\models.json`
+* Windows: `C:\Users\<username>\.codebuddy\models.json`
 
 **WorkBuddy:**
 
 * macOS/Linux: `~/.workbuddy/models.json`
-* Windows: `C:\Users\\.workbuddy\models.json`
+* Windows: `C:\Users\<username>\.workbuddy\models.json`
 
 ### 2. Does it support project-level configuration?
 
 Yes. In addition to user-level configuration, you can create configuration files in the project root directory:
 
-**CodeBuddy:** `/.codebuddy/models.json`
+**CodeBuddy:** `<project-root>/.codebuddy/models.json`
 
-**WorkBuddy:** `/.workbuddy/models.json`
+**WorkBuddy:** `<project-root>/.workbuddy/models.json`
 
 Project-level configuration has higher priority than user-level configuration. It is recommended to configure global models at the user level and project-specific models at the project level.
 
@@ -184,4 +185,4 @@ The API Key is stored in the local configuration file and will not be uploaded t
 
 * [OmniMux Console](https://omnimux.ai/dashboard)
 * [CodeBuddy Official Documentation](https://www.codebuddy.cn/docs)
-* [OmniMux API Documentation](/docs/en/api-manual)
+* [OmniMux API Reference](/en/api-reference/text-series/claude/complete)

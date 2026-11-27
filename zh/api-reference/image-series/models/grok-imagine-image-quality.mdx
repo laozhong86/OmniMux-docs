@@ -1,13 +1,14 @@
 ---
 title: "Grok Imagine Image Quality 生图"
 sidebarTitle: "Grok Imagine Image Quality 生图"
-description: "Grok Imagine Image Quality 生图 · model `grok-imagine-image-quality`"
+description: "通过 OmniMux 调用 Grok Imagine Image Quality（grok-imagine-image-quality），支持 POST /v1/images/generations 与 /v1/images/edits，兼容 aspect_ratio 与 b64_json。"
 api: "POST https://api.omnimux.ai/v1/images/generations"
 ---
 
-- 调用 `POST /v1/images/generations`，`model` 为 `grok-imagine-image-quality`
-- 请求体至少包含 `model` 与 `prompt`
-- 同步或异步以线上响应为准；若返回 task id，请用任务查询接口轮询
+- 调用 `POST /v1/images/generations` 生成图像（`model` 设为 `grok-imagine-image-quality`）；图像编辑请调用 `POST /v1/images/edits`
+- 兼容 OpenAI 参数 `aspect_ratio`（未传 `size` 时自动映射为 `size`）以及 `response_format`（`url` 或 `b64_json`）
+- 实时模型状态与定价请以[OmniMux 控制台](https://omnimux.ai/dashboard)或 `GET /v1/models` 为准；标准版请查看 [Grok Imagine 生图](/zh/api-reference/image-series/models/grok-imagine-image)
+- 若上游以异步方式执行，请记录创建响应中的 `task_id` / `id` 并在控制台用量日志中查看结果
 
 ## 身份
 
@@ -17,11 +18,20 @@ api: "POST https://api.omnimux.ai/v1/images/generations"
 | 品牌 | Grok Imagine |
 | model | `grok-imagine-image-quality` |
 
+## 型号对比
+
+| 模型 ID | 定位 | 端点 | 文档 |
+| --- | --- | --- | --- |
+| `grok-imagine-image` | 标准版 | `POST /v1/images/generations` · `/v1/images/edits` | [Grok Imagine 生图](/zh/api-reference/image-series/models/grok-imagine-image) |
+| `grok-imagine-image-quality` | 高质量档位 | `POST /v1/images/generations` · `/v1/images/edits` | 本页 |
+| `grok-imagine-image-2-0` | 2.0 版本 | `POST /v1/images/generations` · `/v1/images/edits` | [Grok Imagine Image 2.0 生图](/zh/api-reference/image-series/models/grok-imagine-image-2-0) |
+
 ## 接口
 
-| 方法 | 路径 |
-| --- | --- |
-| `POST` | `/v1/images/generations` |
+| 方法 | 路径 | 用途 |
+| --- | --- | --- |
+| `POST` | `/v1/images/generations` | 文生图或带参考图生成 |
+| `POST` | `/v1/images/edits` | 图像编辑（必须提供至少一张参考图） |
 
 Base URL：`https://api.omnimux.ai`
 
@@ -36,15 +46,17 @@ Base URL：`https://api.omnimux.ai`
 | 字段 | 类型 | 必填 | 说明 |
 | --- | --- | --- | --- |
 | `model` | string | 是 | 固定为 `grok-imagine-image-quality` |
-| `prompt` | string | 是 | 图像描述 / 编辑说明 |
+| `prompt` | string | 是 | 图像描述或编辑指令 |
 | `n` | integer | 否 | 生成张数（受网关上限约束） |
 | `size` | string | 否 | 尺寸或宽高比（模型相关） |
+| `aspect_ratio` | string | 否 | 宽高比；未显式传入 `size` 时网关自动映射到 `size` |
+| `response_format` | string | 否 | 返回格式：`url` 或 `b64_json` |
 | `quality` | string | 否 | 质量档位（模型相关） |
-| `images` | string[] | 否 | 参考图：图片 URL 或 base64；`image`、`image_urls`、`input_reference` 为可接受的别名，调用上游前统一归一为 `images`。 |
+| `images` | string[] | 条件 | 参考图 URL 或 base64 数组（调用 `POST /v1/images/edits` 时必填）；`image`、`image_urls`、`input_reference` 为可接受别名，转发前统一归一为 `images` |
 
 ### 参考图限制
 
-本模型尚无模型档案，参考图能力与上限**未核验**：此处不声明张数、接受格式与单文件大小上限。
+本模型尚无正式模型规格档案，参考图最大张数、接受格式与单文件大小上限**未核验**：此处不作具体数值承诺。
 
 ## 响应
 
@@ -52,17 +64,17 @@ Base URL：`https://api.omnimux.ai`
 
 | 字段 | 类型 | 说明 |
 | --- | --- | --- |
-| `created` | integer | 创建时间戳（若返回） |
-| `data` | array | 图像结果（`url` 或 `b64_json`） |
-| `task_id` / `id` | string | 异步时的任务 id（若返回） |
+| `created` | integer | 创建时间戳（同步响应时返回） |
+| `data` | array | 图像结果对象（含 `url` 或 `b64_json` 及可选 `revised_prompt`） |
+| `task_id` / `id` | string | 异步任务 id（当上游以异步任务执行时返回） |
 
-错误形态见右栏示例。异步任务以创建响应中的 `task_id` / 控制台日志为准（公开文档不提供独立图像 query 路径）。
+错误形态见右栏示例与[错误码说明](/zh/faqs/connection-usage)。异步任务以创建响应中的 `task_id` / 控制台日志为准（公开文档不提供独立图像查询路径）。
 
 <Panel>
 
 <RequestExample>
 
-```bash cURL
+```bash cURL (文生图 · aspect_ratio 与 b64_json)
 curl --request POST \
   --url https://api.omnimux.ai/v1/images/generations \
   --header 'Authorization: Bearer <token>' \
@@ -70,7 +82,22 @@ curl --request POST \
   --data '{
   "model": "grok-imagine-image-quality",
   "prompt": "a product photo on white background",
+  "aspect_ratio": "16:9",
+  "response_format": "b64_json",
   "n": 1
+}'
+```
+
+```bash cURL (图像编辑 /v1/images/edits)
+curl --request POST \
+  --url https://api.omnimux.ai/v1/images/edits \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "model": "grok-imagine-image-quality",
+  "prompt": "change the studio backdrop to warm morning sunlight",
+  "images": ["https://example.com/product.jpg"],
+  "aspect_ratio": "1:1"
 }'
 ```
 
@@ -78,7 +105,7 @@ curl --request POST \
 
 <ResponseExample>
 
-```json 200
+```json 200 (URL)
 {
   "created": 1741428397,
   "data": [
@@ -87,16 +114,21 @@ curl --request POST \
 }
 ```
 
-```json 400
+```json 200 (b64_json)
 {
-  "error": { "message": "Invalid request", "type": "invalid_request_error", "code": "bad_request" }
+  "created": 1741428397,
+  "data": [
+    { "b64_json": "iVBORw0KGgoAAAANSUhEUg..." }
+  ]
 }
 ```
 
+```json 400
+{ "error": { "message": "Invalid request", "type": "invalid_request_error", "code": "bad_request" } }
+```
+
 ```json 401
-{
-  "error": { "message": "Invalid token", "type": "authentication_error", "code": "unauthorized" }
-}
+{ "error": { "message": "Invalid token", "type": "authentication_error", "code": "unauthorized" } }
 ```
 
 ```json 402
@@ -110,21 +142,15 @@ curl --request POST \
 ```
 
 ```json 403
-{
-  "error": { "message": "Model not allowed", "type": "permission_error", "code": "forbidden" }
-}
+{ "error": { "message": "Model not allowed", "type": "permission_error", "code": "forbidden" } }
 ```
 
 ```json 429
-{
-  "error": { "message": "Rate limit exceeded", "type": "rate_limit_error", "code": "rate_limit_exceeded" }
-}
+{ "error": { "message": "Rate limit exceeded", "type": "rate_limit_error", "code": "rate_limit_exceeded" } }
 ```
 
 ```json 500
-{
-  "error": { "message": "Internal server error", "type": "server_error", "code": "internal_error" }
-}
+{ "error": { "message": "Internal server error", "type": "server_error", "code": "internal_error" } }
 ```
 
 </ResponseExample>

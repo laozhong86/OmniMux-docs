@@ -1,13 +1,14 @@
 ---
 title: "MiniMax 图生视频"
 sidebarTitle: "MiniMax 图生视频"
-description: "MiniMax 图生视频 · model `minimax-h3-fl2va`"
+description: "通过 OmniMux 调用 MiniMax 图生视频接口（minimax-h3-fl2va），或了解 minimax-h3 与 minimax-h3-video 的图生视频和首尾帧调用方式。"
 api: "POST https://api.omnimux.ai/v1/video/generations"
 ---
 
-- 创建：`POST /v1/video/generations`，`model` 为 `minimax-h3-fl2va`
+- 创建：`POST /v1/video/generations`，`model` 设为 `minimax-h3-fl2va`
 - 异步任务：用返回的 `task_id` 查询 [查询视频任务](/zh/api-reference/tasks/video-task)
-- 产物 URL 请及时落盘（上游链接可能有时效）
+- 如需显式通过 `image_with_roles` 指定首帧/尾帧角色，请见 [MiniMax H3 视频生成](/zh/api-reference/video-series/models/minimax-h3)；实时在线插件专线请见 [MiniMax H3 视频专线](/zh/api-reference/video-series/models/minimax-h3-video)
+- 实时可用状态请以[OmniMux 控制台](https://omnimux.ai/dashboard)或 `GET /v1/models` 为准，产物 URL 请及时落盘
 
 ## 身份
 
@@ -37,10 +38,10 @@ Base URL：`https://api.omnimux.ai`
 | 字段 | 类型 | 必填 | 说明 |
 | --- | --- | --- | --- |
 | `model` | string | 是 | 固定为 `minimax-h3-fl2va` |
-| `prompt` | string | 条件 | 文生视频时必填 |
+| `prompt` | string | 条件 | 图生视频或首尾帧运镜描述 |
 | `seconds` / `duration` | number | 否 | 时长（秒，受模型与网关上限约束） |
 | `size` / `resolution` | string | 否 | 分辨率（模型相关） |
-| `image` / `images` | string/array | 否 | 图生视频参考图（模型相关） |
+| `image` / `images` | string/array | 否 | 单张起始参考图或首尾帧图片 URL 数组 |
 
 ## 响应
 
@@ -49,7 +50,7 @@ Base URL：`https://api.omnimux.ai`
 | 字段 | 类型 | 说明 |
 | --- | --- | --- |
 | `task_id` | string | 任务 id，用于轮询 |
-| `status` | string | 如 `pending` / `processing` / `completed` |
+| `status` | string | 如 `queued` / `processing` / `completed` |
 
 轮询字段见 [查询视频任务](/zh/api-reference/tasks/video-task)。错误见右栏与 [错误码](/zh/faqs/connection-usage)。
 
@@ -57,14 +58,16 @@ Base URL：`https://api.omnimux.ai`
 
 <RequestExample>
 
-```bash cURL
+```bash cURL（图生视频）
 curl --request POST \
   --url https://api.omnimux.ai/v1/video/generations \
   --header 'Authorization: Bearer <token>' \
   --header 'Content-Type: application/json' \
   --data '{
   "model": "minimax-h3-fl2va",
-  "prompt": "slow pan across a product on a table"
+  "prompt": "Gentle handheld camera motion around the product in warm daylight",
+  "images": ["https://example.com/first-frame.jpg"],
+  "duration": 5
 }'
 ```
 

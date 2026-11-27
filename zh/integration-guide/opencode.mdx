@@ -1,6 +1,7 @@
 ---
-title: "OpenCode"
-description: "将 OpenCode 连接到 OmniMux"
+title: "OpenCode 接入自定义 API（opencode.json 多模型配置教程）"
+sidebarTitle: "OpenCode"
+description: "通过 ~/.config/opencode/opencode.json 与 opencode auth login 将 OpenCode CLI 接入 OmniMux，统一使用 Claude、GPT 与 Gemini 系列模型。"
 ---
 
 ## 概述
@@ -124,123 +125,123 @@ cd ~/.config/opencode
 
 ```json
 {
-"$schema": "https://opencode.ai/config.json",
-"provider": {
-"omnimux-anthropic": {
-"npm": "@ai-sdk/anthropic",
-"name": "OmniMux Claude",
-"options": {
-"baseURL": "https://api.omnimux.ai/v1",
-"apiKey": "你的 OmniMux API Key"
-},
-"models": {
-"claude-fable-5": {
-"name": "Claude Fable 5",
-"modalities": { "input": ["text", "image"], "output": ["text"] }
-},
-"claude-opus-5": {
-"name": "Claude Opus 5",
-"modalities": { "input": ["text", "image"], "output": ["text"] }
-},
-"claude-opus-4-8": {
-"name": "Claude Opus 4.8",
-"modalities": { "input": ["text", "image"], "output": ["text"] }
-},
-"claude-opus-4-7": {
-"name": "Claude Opus 4.7",
-"modalities": { "input": ["text", "image"], "output": ["text"] }
-},
-"claude-opus-4-6": {
-"name": "Claude Opus 4.6",
-"modalities": { "input": ["text", "image"], "output": ["text"] }
-},
-"claude-sonnet-4-6": {
-"name": "Claude Sonnet 4.6",
-"modalities": { "input": ["text", "image"], "output": ["text"] }
-},
-"claude-sonnet-5": {
-"name": "Claude Sonnet 5",
-"modalities": { "input": ["text", "image"], "output": ["text"] }
-},
-"claude-opus-4-5-20251101": {
-"name": "Claude 4.5 Opus",
-"modalities": { "input": ["text", "image"], "output": ["text"] }
-},
-"claude-sonnet-4-5-20250929": {
-"name": "Claude 4.5 Sonnet",
-"modalities": { "input": ["text", "image"], "output": ["text"] }
-},
-"claude-haiku-4-5-20251001": {
-"name": "Claude 4.5 Haiku",
-"modalities": { "input": ["text", "image"], "output": ["text"] }
-}
-}
-},
-"omnimux-google": {
-"npm": "@ai-sdk/google",
-"name": "OmniMux Gemini",
-"options": {
-"baseURL": "https://api.omnimux.ai/v1beta",
-"apiKey": "你的 OmniMux API Key"
-},
-"models": {
-"gemini-2.5-flash": {
-"name": "Gemini 2.5 Flash",
-"modalities": { "input": ["text", "image"], "output": ["text"] }
-},
-"gemini-2.5-pro": {
-"name": "Gemini 2.5 Pro",
-"modalities": { "input": ["text", "image"], "output": ["text"] }
-},
-"gemini-3-flash-preview": {
-"name": "Gemini 3.0 Flash",
-"modalities": { "input": ["text", "image"], "output": ["text"] }
-},
-"gemini-3-pro-preview": {
-"name": "Gemini 3.0 Pro",
-"modalities": { "input": ["text", "image"], "output": ["text"] }
-},
-"gemini-3.1-flash-lite-preview": {
-"name": "Gemini 3.1 Flash Lite",
-"modalities": { "input": ["text", "image"], "output": ["text"] }
-},
-"gemini-3.1-pro-preview": {
-"name": "Gemini 3.1 Pro",
-"modalities": { "input": ["text", "image"], "output": ["text"] }
-}
-}
-},
-"omnimux-openai": {
-"npm": "@ai-sdk/openai",
-"name": "OmniMux GPT",
-"options": {
-"baseURL": "https://api.omnimux.ai/v1",
-"apiKey": "你的 OmniMux API Key"
-},
-"models": {
-"gpt-5.1": {
-"name": "GPT-5.1",
-"modalities": { "input": ["text", "image"], "output": ["text"] }
-},
-"gpt-5.2": {
-"name": "GPT-5.2",
-"modalities": { "input": ["text", "image"], "output": ["text"] }
-},
-"gpt-5.4": {
-"name": "GPT-5.4",
-"modalities": { "input": ["text", "image"], "output": ["text"] }
-},
-"gpt-5.5": {
-"name": "GPT-5.5",
-"modalities": { "input": ["text", "image"], "output": ["text"] }
-},
-"MiniMax-M2.5": {
-"name": "MiniMax M2.5",
-"modalities": { "input": ["text"], "output": ["text"] }
-}
-}
-}
-}
+  "$schema": "https://opencode.ai/config.json",
+  "provider": {
+    "omnimux-anthropic": {
+      "npm": "@ai-sdk/anthropic",
+      "name": "OmniMux Claude",
+      "options": {
+        "baseURL": "https://api.omnimux.ai/v1",
+        "apiKey": "你的 OmniMux API Key"
+      },
+      "models": {
+        "claude-fable-5": {
+          "name": "Claude Fable 5",
+          "modalities": { "input": ["text", "image"], "output": ["text"] }
+        },
+        "claude-opus-5": {
+          "name": "Claude Opus 5",
+          "modalities": { "input": ["text", "image"], "output": ["text"] }
+        },
+        "claude-opus-4-8": {
+          "name": "Claude Opus 4.8",
+          "modalities": { "input": ["text", "image"], "output": ["text"] }
+        },
+        "claude-opus-4-7": {
+          "name": "Claude Opus 4.7",
+          "modalities": { "input": ["text", "image"], "output": ["text"] }
+        },
+        "claude-opus-4-6": {
+          "name": "Claude Opus 4.6",
+          "modalities": { "input": ["text", "image"], "output": ["text"] }
+        },
+        "claude-sonnet-4-6": {
+          "name": "Claude Sonnet 4.6",
+          "modalities": { "input": ["text", "image"], "output": ["text"] }
+        },
+        "claude-sonnet-5": {
+          "name": "Claude Sonnet 5",
+          "modalities": { "input": ["text", "image"], "output": ["text"] }
+        },
+        "claude-opus-4-5-20251101": {
+          "name": "Claude 4.5 Opus",
+          "modalities": { "input": ["text", "image"], "output": ["text"] }
+        },
+        "claude-sonnet-4-5-20250929": {
+          "name": "Claude 4.5 Sonnet",
+          "modalities": { "input": ["text", "image"], "output": ["text"] }
+        },
+        "claude-haiku-4-5-20251001": {
+          "name": "Claude 4.5 Haiku",
+          "modalities": { "input": ["text", "image"], "output": ["text"] }
+        }
+      }
+    },
+    "omnimux-google": {
+      "npm": "@ai-sdk/google",
+      "name": "OmniMux Gemini",
+      "options": {
+        "baseURL": "https://api.omnimux.ai/v1beta",
+        "apiKey": "你的 OmniMux API Key"
+      },
+      "models": {
+        "gemini-2.5-flash": {
+          "name": "Gemini 2.5 Flash",
+          "modalities": { "input": ["text", "image"], "output": ["text"] }
+        },
+        "gemini-2.5-pro": {
+          "name": "Gemini 2.5 Pro",
+          "modalities": { "input": ["text", "image"], "output": ["text"] }
+        },
+        "gemini-3-flash-preview": {
+          "name": "Gemini 3.0 Flash",
+          "modalities": { "input": ["text", "image"], "output": ["text"] }
+        },
+        "gemini-3-pro-preview": {
+          "name": "Gemini 3.0 Pro",
+          "modalities": { "input": ["text", "image"], "output": ["text"] }
+        },
+        "gemini-3.1-flash-lite-preview": {
+          "name": "Gemini 3.1 Flash Lite",
+          "modalities": { "input": ["text", "image"], "output": ["text"] }
+        },
+        "gemini-3.1-pro-preview": {
+          "name": "Gemini 3.1 Pro",
+          "modalities": { "input": ["text", "image"], "output": ["text"] }
+        }
+      }
+    },
+    "omnimux-openai": {
+      "npm": "@ai-sdk/openai",
+      "name": "OmniMux GPT",
+      "options": {
+        "baseURL": "https://api.omnimux.ai/v1",
+        "apiKey": "你的 OmniMux API Key"
+      },
+      "models": {
+        "gpt-5.1": {
+          "name": "GPT-5.1",
+          "modalities": { "input": ["text", "image"], "output": ["text"] }
+        },
+        "gpt-5.2": {
+          "name": "GPT-5.2",
+          "modalities": { "input": ["text", "image"], "output": ["text"] }
+        },
+        "gpt-5.4": {
+          "name": "GPT-5.4",
+          "modalities": { "input": ["text", "image"], "output": ["text"] }
+        },
+        "gpt-5.5": {
+          "name": "GPT-5.5",
+          "modalities": { "input": ["text", "image"], "output": ["text"] }
+        },
+        "MiniMax-M2.5": {
+          "name": "MiniMax M2.5",
+          "modalities": { "input": ["text"], "output": ["text"] }
+        }
+      }
+    }
+  }
 }
 ```
 

@@ -1,7 +1,7 @@
 ---
 title: "Qwen Image 3.0 Image Generation"
 sidebarTitle: "Qwen Image 3.0 Image Generation"
-description: "Qwen Image 3.0 Image Generation · model `qwen-image-3-0`"
+description: "Generate and edit images with Qwen Image 3.0 (qwen-image-3-0) via POST /v1/images/generations on OmniMux with up to 3 reference images."
 api: "POST https://api.omnimux.ai/v1/images/generations"
 ---
 
@@ -81,15 +81,9 @@ Errors: see right-rail examples. Async: use `task_id` from create response / con
 
 ```json 200
 {
-  "id": "chatcmpl-example",
-  "object": "chat.completion",
-  "model": "qwen-image-3-0",
-  "choices": [
-    {
-      "index": 0,
-      "message": { "role": "assistant", "content": "…" },
-      "finish_reason": "stop"
-    }
+  "created": 1741428397,
+  "data": [
+    { "url": "https://example.com/image.png" }
   ]
 }
 ```

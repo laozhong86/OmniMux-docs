@@ -1,12 +1,13 @@
 ---
 title: "Kling Avatar Video Generation"
 sidebarTitle: "Kling Avatar Video Generation"
-description: "Kling Avatar Video Generation · model `kling-avatar`"
+description: "Check Kling Avatar (kling-avatar) availability on OmniMux via POST /v1/video/generations or explore live lip-sync and digital human alternatives like LTX 2.3 and MiniMax H3."
 api: "POST https://api.omnimux.ai/v1/video/generations"
 ---
 
-- Create: `POST /v1/video/generations` with `model` `kling-avatar`
+- Create: `POST /v1/video/generations` with `model` set to `kling-avatar`
 - Async: poll [Video task](/en/api-reference/tasks/video-task) with returned `task_id`
+- **Live catalog note:** Confirm whether `kling-avatar` is currently active on your token via the [OmniMux console](https://omnimux.ai/dashboard) or `GET /v1/models` before integrating. For live photo + audio lip-sync and digital human workflows, see [LTX digital human](/en/api-reference/video-series/models/ltx-2-3-kj) (`ltx-2-3-kj`) and [MiniMax H3 Video Line](/en/api-reference/video-series/models/minimax-h3-video) (`minimax-h3-video`, group `minimax-h3-video-digital-human`)
 - Persist result URLs promptly (upstream links may expire)
 
 ## Identity
@@ -16,6 +17,13 @@ api: "POST https://api.omnimux.ai/v1/video/generations"
 | Series | Video series |
 | Brand | Kling |
 | model | `kling-avatar` |
+
+## Live Lip-Sync & Digital Human Alternatives
+
+| Model ID | Endpoint | Capabilities | Guide |
+| --- | --- | --- | --- |
+| `ltx-2-3-kj` | `POST /v1/video/generations` | Photo + audio lip-sync (`nodeInfoList`) | [LTX digital human](/en/api-reference/video-series/models/ltx-2-3-kj) |
+| `minimax-h3-video` | `POST /v1/videos` | Digital human (`minimax-h3-video-digital-human` group, portrait + speech audio) | [MiniMax H3 Video Line](/en/api-reference/video-series/models/minimax-h3-video) |
 
 ## Endpoint
 
@@ -34,13 +42,15 @@ Base URL: `https://api.omnimux.ai`
 
 ## Body
 
+No dedicated model contract is published for `kling-avatar` on this gateway; confirm supported parameters with your active channel or `GET /v1/models`.
+
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `model` | string | yes | Must be `kling-avatar` |
-| `prompt` | string | conditional | Required for text-to-video |
+| `model` | string | yes | `kling-avatar` (when enabled in your live catalog) |
+| `prompt` | string | conditional | Scene or motion instruction |
 | `seconds` / `duration` | number | no | Duration in seconds (bounded) |
 | `size` / `resolution` | string | no | Resolution (model-specific) |
-| `image` / `images` | string/array | no | Image-to-video references |
+| `image` / `images` | string/array | no | Reference portrait image URLs |
 
 ## Response
 
@@ -49,7 +59,7 @@ Base URL: `https://api.omnimux.ai`
 | Field | Type | Description |
 | --- | --- | --- |
 | `task_id` | string | Task id for polling |
-| `status` | string | e.g. `pending` / `processing` / `completed` |
+| `status` | string | e.g. `queued` / `processing` / `completed` |
 
 See [Video task](/en/api-reference/tasks/video-task). Errors: right rail and [Error codes](/en/faqs/connection-usage).
 
@@ -57,15 +67,19 @@ See [Video task](/en/api-reference/tasks/video-task). Errors: right rail and [Er
 
 <RequestExample>
 
-```bash curl --request POST \
+```bash cURL
+curl --request POST \
   --url https://api.omnimux.ai/v1/video/generations \
   --header 'Authorization: Bearer <token>' \
   --header 'Content-Type: application/json' \
-  --data '{"model":"kling-avatar","prompt":"slow pan across a product on a table"}'
+  --data '{
+  "model": "kling-avatar",
+  "prompt": "Portrait subject speaking calmly to camera under soft studio lighting",
+  "images": ["https://example.com/avatar-portrait.jpg"]
+}'
 ```
 
 </RequestExample>
-
 
 <ResponseExample>
 

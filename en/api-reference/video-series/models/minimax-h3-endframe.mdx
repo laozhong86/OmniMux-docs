@@ -1,13 +1,14 @@
 ---
 title: "MiniMax End Frame"
 sidebarTitle: "MiniMax End Frame"
-description: "MiniMax End Frame · model `minimax-h3-endframe`"
+description: "Generate MiniMax H3 end-frame videos via POST /v1/video/generations (minimax-h3-endframe) or use minimax-h3 and minimax-h3-video frame-guided modes on OmniMux."
 api: "POST https://api.omnimux.ai/v1/video/generations"
 ---
 
-- Create: `POST /v1/video/generations` with `model` `minimax-h3-endframe`
+- Create: `POST /v1/video/generations` with `model` set to `minimax-h3-endframe`
 - Async: poll [Video task](/en/api-reference/tasks/video-task) with returned `task_id`
-- Persist result URLs promptly (upstream links may expire)
+- For unified frame-role selection (`image_with_roles`), see [MiniMax H3 Video Generation](/en/api-reference/video-series/models/minimax-h3); for the live `minimax-h3-video` first-last-frame scenario group on `POST /v1/videos`, see [MiniMax H3 Video Line](/en/api-reference/video-series/models/minimax-h3-video)
+- Confirm live availability via the [OmniMux console](https://omnimux.ai/dashboard) or `GET /v1/models`, and persist result URLs promptly
 
 ## Identity
 
@@ -37,10 +38,10 @@ Base URL: `https://api.omnimux.ai`
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `model` | string | yes | Must be `minimax-h3-endframe` |
-| `prompt` | string | conditional | Required for text-to-video |
+| `prompt` | string | conditional | Scene and transition prompt guiding motion toward the end frame |
 | `seconds` / `duration` | number | no | Duration in seconds (bounded) |
-| `size` / `resolution` | string | no | Resolution (model-specific) |
-| `image` / `images` | string/array | no | Image-to-video references |
+| `size` / `resolution` | string | no | Output resolution (model-specific) |
+| `image` / `images` | string/array | no | Closing / reference frame image URLs |
 
 ## Response
 
@@ -49,7 +50,7 @@ Base URL: `https://api.omnimux.ai`
 | Field | Type | Description |
 | --- | --- | --- |
 | `task_id` | string | Task id for polling |
-| `status` | string | e.g. `pending` / `processing` / `completed` |
+| `status` | string | e.g. `queued` / `processing` / `completed` |
 
 See [Video task](/en/api-reference/tasks/video-task). Errors: right rail and [Error codes](/en/faqs/connection-usage).
 
@@ -57,15 +58,20 @@ See [Video task](/en/api-reference/tasks/video-task). Errors: right rail and [Er
 
 <RequestExample>
 
-```bash curl --request POST \
+```bash cURL (End-Frame Guided)
+curl --request POST \
   --url https://api.omnimux.ai/v1/video/generations \
   --header 'Authorization: Bearer <token>' \
   --header 'Content-Type: application/json' \
-  --data '{"model":"minimax-h3-endframe","prompt":"slow pan across a product on a table"}'
+  --data '{
+  "model": "minimax-h3-endframe",
+  "prompt": "Camera pulls back smoothly to reveal the product resting on the table",
+  "image": "https://example.com/end-frame.jpg",
+  "duration": 5
+}'
 ```
 
 </RequestExample>
-
 
 <ResponseExample>
 

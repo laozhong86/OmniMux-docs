@@ -1,13 +1,13 @@
 ---
-title: "Doubao Speech Recognition"
+title: "Doubao ASR Speech-to-Text API"
 sidebarTitle: "Doubao ASR"
-description: "VolcEngine / Doubao speech recognition · model `doubao-asr-bigmodel`, `seedasr-auc`, `bigasr-auc`"
+description: "VolcEngine Doubao ASR API on OmniMux (doubao-asr-bigmodel, seedasr-auc, bigasr-auc): URL-first audio transcription, speaker diarization, and SRT/VTT/verbose_json output."
 api: "POST https://api.omnimux.ai/v1/audio/transcriptions"
 ---
 
-- Endpoint: `POST /v1/audio/transcriptions`
-- Protocol: OpenAI-compatible Audio Transcriptions endpoint
-- Supports recorded audio file speech-to-text transcription
+- Endpoint: `POST /v1/audio/transcriptions` (URL-first transcription mode: pass a reachable audio URL via `url` or `audio_url`)
+- Models: `doubao-asr-bigmodel` and `seedasr-auc` route to Doubao ASR 2.0 (`volc.seedasr.auc`); `bigasr-auc` routes to Doubao ASR 1.0 (`volc.bigasr.auc`)
+- Supports ITN, automatic punctuation, disfluency removal (`enable_ddc`), speaker diarization (`enable_speaker_info`), emotion tags, and outputs in `json`, `text`, `verbose_json`, `srt`, `vtt`, or `doubao_json`
 
 ## Identity
 
@@ -16,6 +16,18 @@ api: "POST https://api.omnimux.ai/v1/audio/transcriptions"
 | Series | Audio series |
 | Brand | VolcEngine / Doubao |
 | model | `doubao-asr-bigmodel`, `seedasr-auc`, `bigasr-auc` |
+
+## Model Variants
+
+| Model ID | Backend Version | Use Case |
+| --- | --- | --- |
+| `doubao-asr-bigmodel` | Doubao ASR 2.0 (`volc.seedasr.auc`) | Recommended default for general Chinese, English, and multilingual audio transcription |
+| `seedasr-auc` | Doubao ASR 2.0 (`volc.seedasr.auc`) | Explicit 2.0 alias with identical capabilities and pricing |
+| `bigasr-auc` | Doubao ASR 1.0 (`volc.bigasr.auc`) | Legacy 1.0 model line for compatibility |
+
+## Supported Audio Formats
+
+Inferred automatically from the URL path extension or set explicitly via `format` (defaults to `mp3` if omitted): `wav`, `mp3`, `ogg` (`oga`), `m4a`, `aac`, `flac`, `mp4`, `pcm`.
 
 ## Endpoint
 
@@ -31,46 +43,97 @@ Base URL: `https://api.omnimux.ai`
 | --- | --- | --- | --- | --- |
 | `Authorization` | header | string | yes | `Bearer sk-...` (API key) |
 
-## Body (multipart/form-data)
+## Body
+
+Accepts `multipart/form-data`, form-urlencoded, or query/form fields in URL-first mode:
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `file` | file | yes | The audio file object to transcribe (supports wav, mp3, ogg, m4a, etc.) |
-| `model` | string | yes | One of `doubao-asr-bigmodel`, `seedasr-auc`, `bigasr-auc` |
-| `language` | string | no | The language of the input audio in ISO-639-1 format (e.g. `en`, `zh`) |
-| `response_format` | string | no | Format of output (`json`, `text`). Default `json` |
+| `model` | string | yes | `doubao-asr-bigmodel`, `seedasr-auc`, or `bigasr-auc` |
+| `url` / `audio_url` | string | yes | Publicly reachable HTTPS audio URL |
+| `format` | string | no | Audio container/codec (`wav`, `mp3`, `ogg`, `m4a`, `aac`, `flac`, `mp4`, `pcm`). Inferred from URL if omitted |
+| `response_format` | string | no | Output format: `json` (default), `text`, `verbose_json`, `srt`, `vtt`, or `doubao_json` |
+| `enable_itn` | boolean | no | Inverse text normalization (numbers, dates), default `true` |
+| `enable_punc` | boolean | no | Automatic punctuation, default `true` |
+| `enable_ddc` | boolean | no | Disfluency / filler removal, default `true` |
+| `enable_speaker_info` | boolean | no | Enable speaker diarization (`Speaker` field in `verbose_json`), default `false` |
+| `ssd_version` | string | no | Speaker diarization model version (defaults to `"300"` when `enable_speaker_info` is `true`) |
+| `enable_emotion_detection` | boolean | no | Detect utterance emotion tags in `verbose_json` / `doubao_json`, default `false` |
+| `prompt` | string | no | Context / hotword hint forwarded to upstream corpus context |
 
 ## Response
 
-### 200
+### 200 (`json` / `verbose_json`)
 
-```json
-{
-  "text": "Transcribed text output from Doubao ASR speech recognition model."
-}
-```
+- `json` (default): `{"text": "..."}`
+- `text`: plain text (`text/plain; charset=utf-8`)
+- `verbose_json`: OpenAI Whisper-style JSON with `duration`, `text`, and `segments` (`start`, `end`, `text`, `speaker`, `emotion`, `speech_rate`, `volume`)
+- `srt` / `vtt`: time-aligned subtitle tracks
+- `doubao_json`: raw upstream result object
 
 <Panel>
 
 <RequestExample>
 
-```bash curl
+```bash cURL (URL-first transcription)
 curl --request POST \
   --url https://api.omnimux.ai/v1/audio/transcriptions \
   --header 'Authorization: Bearer sk-...' \
   --header 'Content-Type: multipart/form-data' \
-  --form 'file=@audio.mp3' \
-  --form 'model=doubao-asr-bigmodel'
+  --form 'model=doubao-asr-bigmodel' \
+  --form 'url=https://example.com/meeting.mp3' \
+  --form 'response_format=verbose_json' \
+  --form 'enable_speaker_info=true'
 ```
 
 </RequestExample>
 
 <ResponseExample>
 
-```json 200 OK
+```json 200 (json)
 {
-  "text": "Transcribed text output from Doubao ASR speech recognition model."
+  "text": "Welcome to today's product review meeting."
 }
+```
+
+```json 200 (verbose_json)
+{
+  "task": "transcribe",
+  "language": "chinese",
+  "duration": 4.2,
+  "text": "Welcome to today's product review meeting.",
+  "segments": [
+    {
+      "id": 0,
+      "start": 0.0,
+      "end": 4.2,
+      "text": "Welcome to today's product review meeting.",
+      "speaker": "1"
+    }
+  ]
+}
+```
+
+```json 400
+{ "error": { "message": "audio url is required for Auc BigModel ASR: please provide 'url' or 'audio_url' (URL-first mode)", "type": "invalid_request_error", "code": "invalid_request" } }
+```
+
+```json 401
+{ "error": { "message": "Invalid token", "type": "authentication_error", "code": "unauthorized" } }
+```
+
+```json 402
+{
+  "error": {
+    "message": "Insufficient quota. Please top up your account.",
+    "type": "insufficient_quota",
+    "code": "insufficient_quota"
+  }
+}
+```
+
+```json 429
+{ "error": { "message": "Rate limit exceeded", "type": "rate_limit_error", "code": "rate_limit_exceeded" } }
 ```
 
 </ResponseExample>

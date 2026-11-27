@@ -1,6 +1,7 @@
 ---
-title: "Hermes Agent"
-description: "Connect Hermes Agent to OmniMux"
+title: "Connect Hermes Agent to OpenAI-Compatible API (config.yaml)"
+sidebarTitle: "Hermes Agent"
+description: "Configure Nous Research Hermes Agent with OmniMux OpenAI-compatible API via ~/.hermes/config.yaml, ~/.hermes/.env, or hermes model to run Claude, GPT, and Gemini."
 ---
 
 ## Overview
@@ -77,7 +78,7 @@ Open PowerShell **as an administrator** (the title bar will show "Administrator:
 iex (irm https://hermes-agent.nousresearch.com/install.ps1)
 ```
 
-The script automatically checks for and prepares dependencies such as uv, Python, Git, Node.js, ripgrep, and ffmpeg, and installs Hermes Agent into the `C:\Users\\AppData\Local\hermes\` directory.
+The script automatically checks for and prepares dependencies such as uv, Python, Git, Node.js, ripgrep, and ffmpeg, and installs Hermes Agent into the `C:\Users\<username>\AppData\Local\hermes\` directory.
 
 **If it errors:** If you get an execution policy restriction, make sure PowerShell is opened as an administrator, or run `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` first and then retry.
 
@@ -107,9 +108,9 @@ After you enter them, the wizard automatically validates the endpoint. If you se
 
 At the `Select model [1-N] or type name:` prompt at the bottom of the model list, type the name of the model you want as the default (such as `claude-opus-5`) and press Enter. You can press Enter to accept the defaults for `Context length` and `Display name`.
 
-**Expected result:** After completing the wizard, an **Installation Complete** page is displayed, listing the configuration file locations on Windows (`config.yaml`, `.env`, etc. under `C:\Users\\AppData\Local\hermes\`) and common commands, and prompting you to **Restart your terminal for PATH changes to take effect**.
+**Expected result:** After completing the wizard, an **Installation Complete** page is displayed, listing the configuration file locations on Windows (`config.yaml`, `.env`, etc. under `C:\Users\<username>\AppData\Local\hermes\`) and common commands, and prompting you to **Restart your terminal for PATH changes to take effect**.
 
-On Windows, this guide's configuration files are located in `C:\Users\\AppData\Local\hermes\` (rather than `~/.hermes/` on macOS / Linux). The `~/.hermes/.env` and `~/.hermes/config.yaml` referenced later in this guide correspond to the `.env` and `config.yaml` in that directory on Windows.
+On Windows, this guide's configuration files are located in `C:\Users\<username>\AppData\Local\hermes\` (rather than `~/.hermes/` on macOS / Linux). The `~/.hermes/.env` and `~/.hermes/config.yaml` referenced later in this guide correspond to the `.env` and `config.yaml` in that directory on Windows.
 
 macOS and Windows users can also download the Hermes Desktop installer from the [Hermes website](https://hermes-agent.nousresearch.com) and install it with a double-click.
 
@@ -194,10 +195,10 @@ Open (or create) `~/.hermes/config.yaml` and configure the main model as a custo
 
 ```yaml
 model:
-provider: custom
-default: claude-opus-5
-base_url: https://api.omnimux.ai/v1
-api_mode: chat_completions
+  provider: custom
+  default: claude-opus-5
+  base_url: https://api.omnimux.ai/v1
+  api_mode: chat_completions
 ```
 
 **⚠️ Important notes:**
@@ -264,12 +265,12 @@ When a request to the main model fails, Hermes can automatically switch to a fal
 
 ```yaml
 fallback_providers:
-- provider: custom
-model: claude-sonnet-4-6
-base_url: https://api.omnimux.ai/v1
-- provider: custom
-model: claude-haiku-4-5-20251001
-base_url: https://api.omnimux.ai/v1
+  - provider: custom
+    model: claude-sonnet-4-6
+    base_url: https://api.omnimux.ai/v1
+  - provider: custom
+    model: claude-haiku-4-5-20251001
+    base_url: https://api.omnimux.ai/v1
 ```
 
 ### Auxiliary Models
@@ -278,16 +279,16 @@ Hermes uses "auxiliary models" to handle some secondary tasks (such as context c
 
 ```yaml
 auxiliary:
-title_generation:
-provider: custom
-model: claude-haiku-4-5-20251001
-base_url: https://api.omnimux.ai/v1
-api_key: your_OmniMux_API_Key
-compression:
-provider: custom
-model: claude-haiku-4-5-20251001
-base_url: https://api.omnimux.ai/v1
-api_key: your_OmniMux_API_Key
+  title_generation:
+    provider: custom
+    model: claude-haiku-4-5-20251001
+    base_url: https://api.omnimux.ai/v1
+    api_key: your_OmniMux_API_Key
+  compression:
+    provider: custom
+    model: claude-haiku-4-5-20251001
+    base_url: https://api.omnimux.ai/v1
+    api_key: your_OmniMux_API_Key
 ```
 
 This way the main model focuses on complex reasoning, while lightweight tasks are handled by a cheaper model.
