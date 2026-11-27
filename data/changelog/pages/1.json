@@ -2,9 +2,74 @@
   "schema_version": 1,
   "page": 1,
   "page_size": 50,
-  "total": 92,
+  "total": 93,
   "total_pages": 2,
   "items": [
+    {
+      "id": "2026-11-27-gemini-4-models",
+      "published_at": "2026-11-27",
+      "type": "model_launch",
+      "modality": [
+        "text"
+      ],
+      "title": {
+        "zh": "新增 Gemini 4 Hydrogen、Neon 与 Carbon 多模态文本模型",
+        "en": "Added Gemini 4 Hydrogen, Neon, and Carbon Multimodal Text Models"
+      },
+      "summary": {
+        "zh": "上线 gemini-4-hydrogen、gemini-4-neon 与 gemini-4-carbon，支持 OpenAI Chat 与 Gemini 原生多模态接口及思考档位控制。",
+        "en": "Launched gemini-4-hydrogen, gemini-4-neon, and gemini-4-carbon with OpenAI Chat and Gemini native multimodal endpoints plus configurable thinking effort."
+      },
+      "models": [
+        "gemini-4-hydrogen",
+        "gemini-4-neon",
+        "gemini-4-carbon"
+      ],
+      "tags": [
+        "gemini",
+        "google",
+        "native",
+        "chat",
+        "text"
+      ],
+      "links": [
+        {
+          "label": {
+            "zh": "Gemini Chat 接口文档",
+            "en": "Gemini Chat API Reference"
+          },
+          "href": {
+            "zh": "/zh/api-reference/text-series/gemini/complete",
+            "en": "/en/api-reference/text-series/gemini/complete"
+          }
+        },
+        {
+          "label": {
+            "zh": "原生接口文档",
+            "en": "Native API Reference"
+          },
+          "href": {
+            "zh": "/zh/api-reference/text-series/gemini/native-generate",
+            "en": "/en/api-reference/text-series/gemini/native-generate"
+          }
+        },
+        {
+          "label": {
+            "zh": "原生流式接口文档",
+            "en": "Native Streaming API Reference"
+          },
+          "href": {
+            "zh": "/zh/api-reference/text-series/gemini/native-stream",
+            "en": "/en/api-reference/text-series/gemini/native-stream"
+          }
+        }
+      ],
+      "body": {
+        "zh": "新增上线 `gemini-4-hydrogen`、`gemini-4-neon` 与 `gemini-4-carbon` 三款 Gemini 4 多模态文本模型，同时支持 OpenAI Chat Completions 与 Gemini 原生内容接口。\n\n- **OpenAI Chat Completions**：调用 `POST /v1/chat/completions`，`model` 填 `gemini-4-hydrogen`、`gemini-4-neon` 或 `gemini-4-carbon`；同步调用请显式传 `stream: false`，`stream: true` 返回 SSE 流。\n- **Gemini 原生接口**：同步 `POST /v1beta/models/{model}:generateContent`，流式 `POST /v1beta/models/{model}:streamGenerateContent?alt=sse`；支持文本、图像、视频、音频与 PDF 输入及结构化输出 / 函数调用。\n- **思考档位**：`gemini-4-hydrogen` 与 `gemini-4-neon` 支持 `low` / `medium` / `high` / `xhigh`；`gemini-4-carbon` 支持 `low` / `medium` / `high`。\n- **定价与倍率（每百万 Tokens，USD）**：\n  - `gemini-4-hydrogen`：输入 `$1.50` / 输出含思考 `$7.50` / 缓存读取 `$0.075`。\n  - `gemini-4-neon`：输入 `$3.00` / 输出含思考 `$15.00` / 缓存读取 `$0.15`。\n  - `gemini-4-carbon`：输入 `$4.00` / 输出含思考 `$20.00` / 缓存读取 `$0.20`。\n  - 专属分组 `gemini-4-multimodal` 与会员分组倍率均为 `1.0x`，缓存为输入子集不重复累加。\n\n详见 [Gemini Chat 接口文档](/zh/api-reference/text-series/gemini/complete) 与 [原生接口文档](/zh/api-reference/text-series/gemini/native-generate)。",
+        "en": "Launched three Gemini 4 multimodal text models—`gemini-4-hydrogen`, `gemini-4-neon`, and `gemini-4-carbon`—across both OpenAI Chat Completions and Gemini native endpoints.\n\n- **OpenAI Chat Completions**: Send `POST /v1/chat/completions` with `model` set to `gemini-4-hydrogen`, `gemini-4-neon`, or `gemini-4-carbon`. Pass `stream: false` explicitly for synchronous responses and `stream: true` for SSE.\n- **Gemini Native API**: Send `POST /v1beta/models/{model}:generateContent` for synchronous requests and `POST /v1beta/models/{model}:streamGenerateContent?alt=sse` for streaming, with text, image, video, audio, and PDF inputs, structured outputs, and function calling.\n- **Thinking effort**: `gemini-4-hydrogen` and `gemini-4-neon` support `low`, `medium`, `high`, and `xhigh`; `gemini-4-carbon` supports `low`, `medium`, and `high`.\n- **Pricing (per 1M tokens, USD)**:\n  - `gemini-4-hydrogen`: `$1.50` input / `$7.50` output (incl. thinking) / `$0.075` cached input read.\n  - `gemini-4-neon`: `$3.00` input / `$15.00` output (incl. thinking) / `$0.15` cached input read.\n  - `gemini-4-carbon`: `$4.00` input / `$20.00` output (incl. thinking) / `$0.20` cached input read.\n  - Dedicated group `gemini-4-multimodal` and membership tier multipliers are `1.0x`; cached tokens are an input subset and never double-charged.\n\nSee the [Gemini Chat API Reference](/en/api-reference/text-series/gemini/complete) and [Native API Reference](/en/api-reference/text-series/gemini/native-generate)."
+      },
+      "schema_version": 1
+    },
     {
       "id": "2026-11-26-seedance-2-5-flash",
       "published_at": "2026-11-26",
@@ -2140,49 +2205,6 @@
       "body": {
         "en": "## VolcEngine Image Upscaling\n\n**VolcEngine Image Upscaling** (`volc-image-upscale`) is integrated on OmniMux.\n\n### Model Details\n\n- **Model ID:** `volc-image-upscale`\n- **Endpoint:** `POST /v1/images/edits`\n- **Modality:** image super-resolution (fixed 2x upscaling)\n- **Pricing:** 0.006 CNY / call\n\nSee the model reference page for specifications and parameters.",
         "zh": "## 火山引擎 图片超分\n\n**火山引擎 图片超分**（`volc-image-upscale`）已接入 OmniMux。\n\n### 模型详情\n\n- **模型 ID：** `volc-image-upscale`\n- **接口：** `POST /v1/images/edits`\n- **模态：** 图像超分辨率（固定 2 倍放大）\n- **定价：** 0.006 元/次\n\n请求规格与参数说明见各模型文档页。"
-      },
-      "schema_version": 1
-    },
-    {
-      "id": "2026-09-22-deepseek-flash",
-      "published_at": "2026-09-22",
-      "type": "model_launch",
-      "modality": [
-        "text"
-      ],
-      "title": {
-        "en": "DeepSeek Flash (deepseek-flash) is now live",
-        "zh": "DeepSeek Flash（deepseek-flash）正式上线"
-      },
-      "summary": {
-        "en": "OmniMux lists DeepSeek-V4.1-Flash under its official current id `deepseek-flash`, replacing the retired `deepseek-v4-flash` alias. 1M context, 384K max output, image understanding, tool calling and prompt cache, billed at 60% of the official retail price with matching peak/off-peak rules.",
-        "zh": "OmniMux 以官方现网正式编号 `deepseek-flash` 上线 DeepSeek-V4.1-Flash：1M 上下文、384K 最大输出、图像理解、工具调用与缓存计费；售价为官方零售价的 6 折，并同步官方高峰/空闲峰谷规则。官方已下线的旧编号 deepseek-v4-flash 由本编号承接。"
-      },
-      "models": [
-        "deepseek-flash"
-      ],
-      "tags": [
-        "deepseek",
-        "deepseek-flash",
-        "llm",
-        "text",
-        "peak-off-peak"
-      ],
-      "links": [
-        {
-          "label": {
-            "en": "DeepSeek Complete API Reference",
-            "zh": "DeepSeek 完整参数手册"
-          },
-          "href": {
-            "en": "/en/api-reference/text-series/deepseek/complete",
-            "zh": "/zh/api-reference/text-series/deepseek/complete"
-          }
-        }
-      ],
-      "body": {
-        "en": "## What is new\n\n- **Official current model id**: OmniMux now lists `deepseek-flash` (DeepSeek-V4.1-Flash). The retired ids `deepseek-v4-flash` and `deepseek-v4-flash-vision-exp` remain accepted upstream but are served by this model.\n- **Long context and vision**: 1M token context window, up to 384K output tokens, image understanding, JSON output, tool calls, and both thinking and non-thinking modes.\n- **Prompt cache billing**: cache hits are priced separately at the official cache rate, so repeated long prompts cost far less.\n- **Priced at 60% of official**: the sell price is the official retail list price scaled by the model-specific group (`deepseek-flash-economy`, 0.6) — off-peak input 0.6 CNY / output 2.4 CNY / cache hit 0.012 CNY per 1M tokens, doubling during Beijing-time peak hours (Mon-Fri 09:00-12:00 and 14:00-18:00), exactly as the official schedule does.\n\n## Usage\n\n```json\n{\n  \"model\": \"deepseek-flash\",\n  \"messages\": [{ \"role\": \"user\", \"content\": \"Hello\" }]\n}\n```\n\n## Documentation\n\n- DeepSeek API Reference: `/en/api-reference/text-series/deepseek/complete`",
-        "zh": "## 本次更新\n\n- **官方现网正式编号**：OmniMux 上线 `deepseek-flash`（DeepSeek-V4.1-Flash）。官方已下线的旧编号 `deepseek-v4-flash` 与 `deepseek-v4-flash-vision-exp` 上游仍可受理，但实际由本模型承接。\n- **长上下文与图像理解**：1M 上下文窗口、最大 384K 输出、图像理解、JSON 输出、工具调用，并同时支持思考与非思考模式。\n- **缓存单独计价**：缓存命中按官方缓存价单独计费，长提示词重复调用成本显著更低。\n- **官方 6 折定价**：以官方零售标价为基准，按模型专属分组（`deepseek-flash-economy`，倍率 0.6）折算售价——空闲时段输入 0.6 元、输出 2.4 元、缓存命中 0.012 元每百万词元；北京时间周一至周五 9:00-12:00 与 14:00-18:00 高峰时段按官方规则翻倍。\n\n## 调用方式\n\n```json\n{\n  \"model\": \"deepseek-flash\",\n  \"messages\": [{ \"role\": \"user\", \"content\": \"你好\" }]\n}\n```\n\n## 参考文档\n\n- DeepSeek 完整参数手册：`/zh/api-reference/text-series/deepseek/complete`"
       },
       "schema_version": 1
     }

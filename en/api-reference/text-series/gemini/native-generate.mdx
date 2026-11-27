@@ -15,12 +15,15 @@ openapi: "openapi/ops/gemini/native.json POST /v1beta/models/{model}:generateCon
 | Model ID |
 | --- |
 | `gemini-4-argon` |
+| `gemini-4-hydrogen` |
+| `gemini-4-neon` |
+| `gemini-4-carbon` |
 
 ## Media and results
 
 Send PNG, MP4 or PDF through `parts[].inlineData`. Match `mimeType` to the actual file and encode the complete file in `data` without a data-URL prefix. Confirm unlisted formats, media sizes and long-media limits before integrating; request examples do not establish service limits.
 
-Set `generationConfig.thinkingConfig.thinkingLevel: low` for low thinking effort. `maxOutputTokens` covers both thinking and visible output; the example value does not establish a maximum output limit.
+Set `generationConfig.thinkingConfig.thinkingLevel` to choose thinking effort: `gemini-4-hydrogen` and `gemini-4-neon` support `low`, `medium`, `high`, and `xhigh`; `gemini-4-carbon` supports `low`, `medium`, and `high`; `gemini-4-argon` examples use `low`. `maxOutputTokens` covers both thinking and visible output; the example value does not establish a maximum output limit.
 
 For structured results, combine `generationConfig.responseMimeType: application/json` with native `responseSchema`. These structured-output parameters are forwarded in the native request. The returned content may still contain code fences or field types that do not match the schema, such as an object where an array was requested. Validate the actual content and field types before processing it.
 

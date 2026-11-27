@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "id": "2026-11-27-gemini-4-models",
+  "published_at": "2026-11-27",
+  "rank": 0,
+  "type": "model_launch",
+  "modality": [
+    "text"
+  ],
+  "models": [
+    "gemini-4-hydrogen",
+    "gemini-4-neon",
+    "gemini-4-carbon"
+  ],
+  "links": [
+    {
+      "label": {
+        "zh": "Gemini Chat 接口文档",
+        "en": "Gemini Chat API Reference"
+      },
+      "href": {
+        "zh": "/zh/api-reference/text-series/gemini/complete",
+        "en": "/en/api-reference/text-series/gemini/complete"
+      }
+    },
+    {
+      "label": {
+        "zh": "原生接口文档",
+        "en": "Native API Reference"
+      },
+      "href": {
+        "zh": "/zh/api-reference/text-series/gemini/native-generate",
+        "en": "/en/api-reference/text-series/gemini/native-generate"
+      }
+    },
+    {
+      "label": {
+        "zh": "原生流式接口文档",
+        "en": "Native Streaming API Reference"
+      },
+      "href": {
+        "zh": "/zh/api-reference/text-series/gemini/native-stream",
+        "en": "/en/api-reference/text-series/gemini/native-stream"
+      }
+    }
+  ],
+  "body": {
+    "zh": "新增上线 `gemini-4-hydrogen`、`gemini-4-neon` 与 `gemini-4-carbon` 三款 Gemini 4 多模态文本模型，同时支持 OpenAI Chat Completions 与 Gemini 原生内容接口。\n\n- **OpenAI Chat Completions**：调用 `POST /v1/chat/completions`，`model` 填 `gemini-4-hydrogen`、`gemini-4-neon` 或 `gemini-4-carbon`；同步调用请显式传 `stream: false`，`stream: true` 返回 SSE 流。\n- **Gemini 原生接口**：同步 `POST /v1beta/models/{model}:generateContent`，流式 `POST /v1beta/models/{model}:streamGenerateContent?alt=sse`；支持文本、图像、视频、音频与 PDF 输入及结构化输出 / 函数调用。\n- **思考档位**：`gemini-4-hydrogen` 与 `gemini-4-neon` 支持 `low` / `medium` / `high` / `xhigh`；`gemini-4-carbon` 支持 `low` / `medium` / `high`。\n- **定价与倍率（每百万 Tokens，USD）**：\n  - `gemini-4-hydrogen`：输入 `$1.50` / 输出含思考 `$7.50` / 缓存读取 `$0.075`。\n  - `gemini-4-neon`：输入 `$3.00` / 输出含思考 `$15.00` / 缓存读取 `$0.15`。\n  - `gemini-4-carbon`：输入 `$4.00` / 输出含思考 `$20.00` / 缓存读取 `$0.20`。\n  - 专属分组 `gemini-4-multimodal` 与会员分组倍率均为 `1.0x`，缓存为输入子集不重复累加。\n\n详见 [Gemini Chat 接口文档](/zh/api-reference/text-series/gemini/complete) 与 [原生接口文档](/zh/api-reference/text-series/gemini/native-generate)。",
+    "en": "Launched three Gemini 4 multimodal text models—`gemini-4-hydrogen`, `gemini-4-neon`, and `gemini-4-carbon`—across both OpenAI Chat Completions and Gemini native endpoints.\n\n- **OpenAI Chat Completions**: Send `POST /v1/chat/completions` with `model` set to `gemini-4-hydrogen`, `gemini-4-neon`, or `gemini-4-carbon`. Pass `stream: false` explicitly for synchronous responses and `stream: true` for SSE.\n- **Gemini Native API**: Send `POST /v1beta/models/{model}:generateContent` for synchronous requests and `POST /v1beta/models/{model}:streamGenerateContent?alt=sse` for streaming, with text, image, video, audio, and PDF inputs, structured outputs, and function calling.\n- **Thinking effort**: `gemini-4-hydrogen` and `gemini-4-neon` support `low`, `medium`, `high`, and `xhigh`; `gemini-4-carbon` supports `low`, `medium`, and `high`.\n- **Pricing (per 1M tokens, USD)**:\n  - `gemini-4-hydrogen`: `$1.50` input / `$7.50` output (incl. thinking) / `$0.075` cached input read.\n  - `gemini-4-neon`: `$3.00` input / `$15.00` output (incl. thinking) / `$0.15` cached input read.\n  - `gemini-4-carbon`: `$4.00` input / `$20.00` output (incl. thinking) / `$0.20` cached input read.\n  - Dedicated group `gemini-4-multimodal` and membership tier multipliers are `1.0x`; cached tokens are an input subset and never double-charged.\n\nSee the [Gemini Chat API Reference](/en/api-reference/text-series/gemini/complete) and [Native API Reference](/en/api-reference/text-series/gemini/native-generate)."
+  },
+  "title": {
+    "zh": "新增 Gemini 4 Hydrogen、Neon 与 Carbon 多模态文本模型",
+    "en": "Added Gemini 4 Hydrogen, Neon, and Carbon Multimodal Text Models"
+  },
+  "summary": {
+    "zh": "上线 gemini-4-hydrogen、gemini-4-neon 与 gemini-4-carbon，支持 OpenAI Chat 与 Gemini 原生多模态接口及思考档位控制。",
+    "en": "Launched gemini-4-hydrogen, gemini-4-neon, and gemini-4-carbon with OpenAI Chat and Gemini native multimodal endpoints plus configurable thinking effort."
+  },
+  "tags": [
+    "gemini",
+    "google",
+    "native",
+    "chat",
+    "text"
+  ]
+}

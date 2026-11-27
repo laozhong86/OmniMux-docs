@@ -7,7 +7,7 @@ openapi: "openapi/ops/chat/gemini.json POST /v1/chat/completions"
 
 > - 协议：OpenAI Chat Completions（`POST /v1/chat/completions`）
 > - 本页为 **Gemini 共用合同**；换模型只改 body 的 `model`
-> - 默认同步；`stream: true` 流式
+> - 同步调用请显式传 `stream: false`；`stream: true` 为流式（部分上游通道在省略 `stream` 时会返回 SSE）
 
 ## 可用 model
 
@@ -28,6 +28,9 @@ openapi: "openapi/ops/chat/gemini.json POST /v1/chat/completions"
 | `gemini-3.6-flash` |
 | `gemini-3.7-flash` |
 | `gemini-3.8-flash` |
+| `gemini-4-hydrogen` |
+| `gemini-4-neon` |
+| `gemini-4-carbon` |
 
 
 Base URL：`https://api.omnimux.ai`

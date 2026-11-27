@@ -29,7 +29,10 @@
             "schema": {
               "type": "string",
               "enum": [
-                "gemini-4-argon"
+                "gemini-4-argon",
+                "gemini-4-hydrogen",
+                "gemini-4-neon",
+                "gemini-4-carbon"
               ]
             }
           }
@@ -98,7 +101,10 @@
             "schema": {
               "type": "string",
               "enum": [
-                "gemini-4-argon"
+                "gemini-4-argon",
+                "gemini-4-hydrogen",
+                "gemini-4-neon",
+                "gemini-4-carbon"
               ]
             }
           },
@@ -282,9 +288,12 @@
                   "thinkingLevel": {
                     "type": "string",
                     "enum": [
-                      "low"
+                      "low",
+                      "medium",
+                      "high",
+                      "xhigh"
                     ],
-                    "description": "This reference documents low thinking effort."
+                    "description": "Thinking effort level: hydrogen and neon support low/medium/high/xhigh; carbon supports low/medium/high; argon reference documents low."
                   }
                 }
               },
