@@ -9,6 +9,36 @@ rss: true
 
 分页：[第 1 页](/zh/updates) · **第 2 页**
 
+<a id="2026-09-22-deepseek-flash"></a>
+
+<Update label="2026 年 9 月 22 日" tags={["新模型", "文本"]} rss={{ title: "DeepSeek Flash（deepseek-flash）正式上线" }}>
+
+  ## 本次更新
+
+  - **官方现网正式编号**：OmniMux 上线 `deepseek-flash`（DeepSeek-V4.1-Flash）。官方已下线的旧编号 `deepseek-v4-flash` 与 `deepseek-v4-flash-vision-exp` 上游仍可受理，但实际由本模型承接。
+  - **长上下文与图像理解**：1M 上下文窗口、最大 384K 输出、图像理解、JSON 输出、工具调用，并同时支持思考与非思考模式。
+  - **缓存单独计价**：缓存命中按官方缓存价单独计费，长提示词重复调用成本显著更低。
+  - **官方 6 折定价**：以官方零售标价为基准，按模型专属分组（`deepseek-flash-economy`，倍率 0.6）折算售价——空闲时段输入 0.6 元、输出 2.4 元、缓存命中 0.012 元每百万词元；北京时间周一至周五 9:00-12:00 与 14:00-18:00 高峰时段按官方规则翻倍。
+
+  ## 调用方式
+
+  ```json
+  {
+    "model": "deepseek-flash",
+    "messages": [{ "role": "user", "content": "你好" }]
+  }
+  ```
+
+  ## 参考文档
+
+  - DeepSeek 完整参数手册：`/zh/api-reference/text-series/deepseek/complete`
+
+  ### 链接
+
+  - [DeepSeek 完整参数手册](/zh/api-reference/text-series/deepseek/complete)
+
+</Update>
+
 <a id="2026-09-18-gpt-image-tiers"></a>
 
 <Update label="2026 年 9 月 18 日" tags={["新模型", "图像"]} rss={{ title: "GPT Image 2.5 Flare 与 Sunburst 档位路由上线" }}>

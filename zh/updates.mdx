@@ -9,6 +9,31 @@ rss: true
 
 分页：**第 1 页** · [第 2 页](/zh/updates/page-2)
 
+<a id="2026-11-27-gemini-4-models"></a>
+
+<Update label="2026 年 11 月 27 日" tags={["新模型", "文本"]} rss={{ title: "新增 Gemini 4 Hydrogen、Neon 与 Carbon 多模态文本模型" }}>
+
+  新增上线 `gemini-4-hydrogen`、`gemini-4-neon` 与 `gemini-4-carbon` 三款 Gemini 4 多模态文本模型，同时支持 OpenAI Chat Completions 与 Gemini 原生内容接口。
+
+  - **OpenAI Chat Completions**：调用 `POST /v1/chat/completions`，`model` 填 `gemini-4-hydrogen`、`gemini-4-neon` 或 `gemini-4-carbon`；同步调用请显式传 `stream: false`，`stream: true` 返回 SSE 流。
+  - **Gemini 原生接口**：同步 `POST /v1beta/models/{model}:generateContent`，流式 `POST /v1beta/models/{model}:streamGenerateContent?alt=sse`；支持文本、图像、视频、音频与 PDF 输入及结构化输出 / 函数调用。
+  - **思考档位**：`gemini-4-hydrogen` 与 `gemini-4-neon` 支持 `low` / `medium` / `high` / `xhigh`；`gemini-4-carbon` 支持 `low` / `medium` / `high`。
+  - **定价与倍率（每百万 Tokens，USD）**：
+    - `gemini-4-hydrogen`：输入 `$1.50` / 输出含思考 `$7.50` / 缓存读取 `$0.075`。
+    - `gemini-4-neon`：输入 `$3.00` / 输出含思考 `$15.00` / 缓存读取 `$0.15`。
+    - `gemini-4-carbon`：输入 `$4.00` / 输出含思考 `$20.00` / 缓存读取 `$0.20`。
+    - 专属分组 `gemini-4-multimodal` 与会员分组倍率均为 `1.0x`，缓存为输入子集不重复累加。
+
+  详见 [Gemini Chat 接口文档](/zh/api-reference/text-series/gemini/complete) 与 [原生接口文档](/zh/api-reference/text-series/gemini/native-generate)。
+
+  ### 链接
+
+  - [Gemini Chat 接口文档](/zh/api-reference/text-series/gemini/complete)
+  - [原生接口文档](/zh/api-reference/text-series/gemini/native-generate)
+  - [原生流式接口文档](/zh/api-reference/text-series/gemini/native-stream)
+
+</Update>
+
 <a id="2026-11-26-seedance-2-5-flash"></a>
 
 <Update label="2026 年 11 月 26 日" tags={["新模型", "视频"]} rss={{ title: "Seedance 2.5 Flash（seedance-2-5-flash）上线，提供 480p 与 720p 分档" }}>
@@ -1071,36 +1096,6 @@ rss: true
   ### 链接
 
   - [火山引擎 图片超分](/zh/api-reference/image-series/models/volc-image-upscale)
-
-</Update>
-
-<a id="2026-09-22-deepseek-flash"></a>
-
-<Update label="2026 年 9 月 22 日" tags={["新模型", "文本"]} rss={{ title: "DeepSeek Flash（deepseek-flash）正式上线" }}>
-
-  ## 本次更新
-
-  - **官方现网正式编号**：OmniMux 上线 `deepseek-flash`（DeepSeek-V4.1-Flash）。官方已下线的旧编号 `deepseek-v4-flash` 与 `deepseek-v4-flash-vision-exp` 上游仍可受理，但实际由本模型承接。
-  - **长上下文与图像理解**：1M 上下文窗口、最大 384K 输出、图像理解、JSON 输出、工具调用，并同时支持思考与非思考模式。
-  - **缓存单独计价**：缓存命中按官方缓存价单独计费，长提示词重复调用成本显著更低。
-  - **官方 6 折定价**：以官方零售标价为基准，按模型专属分组（`deepseek-flash-economy`，倍率 0.6）折算售价——空闲时段输入 0.6 元、输出 2.4 元、缓存命中 0.012 元每百万词元；北京时间周一至周五 9:00-12:00 与 14:00-18:00 高峰时段按官方规则翻倍。
-
-  ## 调用方式
-
-  ```json
-  {
-    "model": "deepseek-flash",
-    "messages": [{ "role": "user", "content": "你好" }]
-  }
-  ```
-
-  ## 参考文档
-
-  - DeepSeek 完整参数手册：`/zh/api-reference/text-series/deepseek/complete`
-
-  ### 链接
-
-  - [DeepSeek 完整参数手册](/zh/api-reference/text-series/deepseek/complete)
 
 </Update>
 

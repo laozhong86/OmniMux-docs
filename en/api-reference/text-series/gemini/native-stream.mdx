@@ -5,7 +5,7 @@ description: "Consume native response events and inspect final completion and us
 openapi: "openapi/ops/gemini/native.json POST /v1beta/models/{model}:streamGenerateContent"
 ---
 
-- Model: `gemini-4-argon`; include `alt=sse` in the URL.
+- Models: `gemini-4-argon`, `gemini-4-hydrogen`, `gemini-4-neon`, `gemini-4-carbon`; include `alt=sse` in the URL.
 - Use the same body as [Native Multimodal Understanding](/en/api-reference/text-series/gemini/native-generate).
 - Read native response chunks from `data:` events, wait for normal termination, and inspect `finishReason` and the final available `usageMetadata`.
 - Partial text does not establish complete success. Reconcile the result and charge after an interruption before submitting again.

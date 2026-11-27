@@ -15,12 +15,15 @@ openapi: "openapi/ops/gemini/native.json POST /v1beta/models/{model}:generateCon
 | 模型标识 |
 | --- |
 | `gemini-4-argon` |
+| `gemini-4-hydrogen` |
+| `gemini-4-neon` |
+| `gemini-4-carbon` |
 
 ## 素材与结果
 
 通过 `parts[].inlineData` 提交 PNG、MP4 或 PDF；`mimeType` 与实际文件一致，`data` 为不含数据网址前缀的完整文件编码。本页未列出的格式、素材容量和长素材限制，请在接入前确认，勿将请求示例当作服务上限。
 
-使用低思考档时，设置 `generationConfig.thinkingConfig.thinkingLevel: low`。`maxOutputTokens` 同时覆盖思考与可见输出，示例值不代表最大输出上限。
+通过 `generationConfig.thinkingConfig.thinkingLevel` 指定思考档位：`gemini-4-hydrogen` 与 `gemini-4-neon` 支持 `low`、`medium`、`high`、`xhigh`；`gemini-4-carbon` 支持 `low`、`medium`、`high`；`gemini-4-argon` 文档以 `low` 为例。`maxOutputTokens` 同时覆盖思考与可见输出，示例值不代表最大输出上限。
 
 需要结构化结果时，使用 `generationConfig.responseMimeType: application/json` 与原生 `responseSchema`。这些结构化输出参数会按原生请求转发，但返回内容仍可能带有代码围栏，或出现不符合结构要求的字段类型，例如预期数组的字段返回为对象。调用方须校验实际返回内容和字段类型，再用于后续处理。
 

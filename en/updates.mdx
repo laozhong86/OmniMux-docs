@@ -9,6 +9,31 @@ Stay up to date with OmniMux gateway model launches and platform changes. The fu
 
 Pages: **Page 1** · [Page 2](/en/updates/page-2)
 
+<a id="2026-11-27-gemini-4-models"></a>
+
+<Update label="November 27, 2026" tags={["New models", "Text"]} rss={{ title: "Added Gemini 4 Hydrogen, Neon, and Carbon Multimodal Text Models" }}>
+
+  Launched three Gemini 4 multimodal text models—`gemini-4-hydrogen`, `gemini-4-neon`, and `gemini-4-carbon`—across both OpenAI Chat Completions and Gemini native endpoints.
+
+  - **OpenAI Chat Completions**: Send `POST /v1/chat/completions` with `model` set to `gemini-4-hydrogen`, `gemini-4-neon`, or `gemini-4-carbon`. Pass `stream: false` explicitly for synchronous responses and `stream: true` for SSE.
+  - **Gemini Native API**: Send `POST /v1beta/models/{model}:generateContent` for synchronous requests and `POST /v1beta/models/{model}:streamGenerateContent?alt=sse` for streaming, with text, image, video, audio, and PDF inputs, structured outputs, and function calling.
+  - **Thinking effort**: `gemini-4-hydrogen` and `gemini-4-neon` support `low`, `medium`, `high`, and `xhigh`; `gemini-4-carbon` supports `low`, `medium`, and `high`.
+  - **Pricing (per 1M tokens, USD)**:
+    - `gemini-4-hydrogen`: `$1.50` input / `$7.50` output (incl. thinking) / `$0.075` cached input read.
+    - `gemini-4-neon`: `$3.00` input / `$15.00` output (incl. thinking) / `$0.15` cached input read.
+    - `gemini-4-carbon`: `$4.00` input / `$20.00` output (incl. thinking) / `$0.20` cached input read.
+    - Dedicated group `gemini-4-multimodal` and membership tier multipliers are `1.0x`; cached tokens are an input subset and never double-charged.
+
+  See the [Gemini Chat API Reference](/en/api-reference/text-series/gemini/complete) and [Native API Reference](/en/api-reference/text-series/gemini/native-generate).
+
+  ### Links
+
+  - [Gemini Chat API Reference](/en/api-reference/text-series/gemini/complete)
+  - [Native API Reference](/en/api-reference/text-series/gemini/native-generate)
+  - [Native Streaming API Reference](/en/api-reference/text-series/gemini/native-stream)
+
+</Update>
+
 <a id="2026-11-26-seedance-2-5-flash"></a>
 
 <Update label="November 26, 2026" tags={["New models", "Video"]} rss={{ title: "Seedance 2.5 Flash (seedance-2-5-flash) Available with 480p and 720p Tiers" }}>
@@ -1071,36 +1096,6 @@ Pages: **Page 1** · [Page 2](/en/updates/page-2)
   ### Links
 
   - [VolcEngine Image Upscaling](/en/api-reference/image-series/models/volc-image-upscale)
-
-</Update>
-
-<a id="2026-09-22-deepseek-flash"></a>
-
-<Update label="September 22, 2026" tags={["New models", "Text"]} rss={{ title: "DeepSeek Flash (deepseek-flash) is now live" }}>
-
-  ## What is new
-
-  - **Official current model id**: OmniMux now lists `deepseek-flash` (DeepSeek-V4.1-Flash). The retired ids `deepseek-v4-flash` and `deepseek-v4-flash-vision-exp` remain accepted upstream but are served by this model.
-  - **Long context and vision**: 1M token context window, up to 384K output tokens, image understanding, JSON output, tool calls, and both thinking and non-thinking modes.
-  - **Prompt cache billing**: cache hits are priced separately at the official cache rate, so repeated long prompts cost far less.
-  - **Priced at 60% of official**: the sell price is the official retail list price scaled by the model-specific group (`deepseek-flash-economy`, 0.6) — off-peak input 0.6 CNY / output 2.4 CNY / cache hit 0.012 CNY per 1M tokens, doubling during Beijing-time peak hours (Mon-Fri 09:00-12:00 and 14:00-18:00), exactly as the official schedule does.
-
-  ## Usage
-
-  ```json
-  {
-    "model": "deepseek-flash",
-    "messages": [{ "role": "user", "content": "Hello" }]
-  }
-  ```
-
-  ## Documentation
-
-  - DeepSeek API Reference: `/en/api-reference/text-series/deepseek/complete`
-
-  ### Links
-
-  - [DeepSeek Complete API Reference](/en/api-reference/text-series/deepseek/complete)
 
 </Update>
 

@@ -7,7 +7,7 @@ openapi: "openapi/ops/chat/gemini.json POST /v1/chat/completions"
 
 > - Protocol: OpenAI Chat Completions (`POST /v1/chat/completions`)
 > - **Shared contract** for all Gemini ids below; only body `model` changes
-> - Synchronous by default; `stream: true` for SSE
+> - Pass `stream: false` explicitly for synchronous responses and `stream: true` for SSE (omitting `stream` may return SSE on some upstream routes)
 
 ## Available models
 
@@ -28,6 +28,9 @@ openapi: "openapi/ops/chat/gemini.json POST /v1/chat/completions"
 | `gemini-3.6-flash` |
 | `gemini-3.7-flash` |
 | `gemini-3.8-flash` |
+| `gemini-4-hydrogen` |
+| `gemini-4-neon` |
+| `gemini-4-carbon` |
 
 
 Base URL: `https://api.omnimux.ai`
