@@ -1,0 +1,37 @@
+---
+title: "TypeSafe System One"
+sidebarTitle: "TypeSafe System One"
+description: "通过 TypeSafe Jev 模型执行 choice、score、noul 与 box 结构化判定。"
+openapi: "openapi/ops/typesafe/systemone.json POST /v1/systemone"
+---
+
+- 官方 TypeSafe System One 结构化判断接口，同时开放 `POST /v1/systemone`（兼容官方 SDK 的厂商路径）与 `POST /typesafe/v1/systemone`。
+- 使用网关 API Key（`Authorization: Bearer sk-...`）请求 `https://api.omnimux.ai`。
+- 接口为同步返回，不在任务查询端点保留历史结果快照。
+
+## 模型
+
+| 模型标识 | 说明 |
+| --- | --- |
+| `jev` | OmniMux 兼容别名，映射至 `jev-latest` |
+| `jev-latest` | 最新稳定版 Jev |
+| `jev-1.14.0` | Jev 1.14 固定版本 |
+| `jev-1.13.0` | Jev 1.13 固定版本 |
+| `jev-preview` | Jev 预览版本 |
+
+## 请求约束与键序保留
+
+JSON 请求体（或 `multipart/form-data` 中的 `request` 字段）仅允许四个顶层字段：`model`、`state`（非空字符串、对象或数组）、`questions`（非空对象）以及可选的 `assets`，其余顶层字段将被拒绝。
+
+- 网关在转发前原样保留 `state` 的 JSON 成员顺序，避免影响 Jev 的结构化判定结果。
+- `questions` 中每道题须声明 `type`（`choice`、`score`、`noul` 或 `box`）及对应的 `criteria`（`choice` 需 1 至 255 个选项；`score` 需 1 至 10 个非空分档；`noul` 可选 `true`/`false` 说明；`box` 不传 `criteria`）。
+
+## 图片与 Multipart 上传
+
+可在 `assets` 中直接传入 base64 图片，或使用 `multipart/form-data` 上传：须将序列化后的 JSON 放在名为 `request` 的首个表单字段中，并由 `assets` 中的字段名对应其余二进制图片部分。当请求包含 `assets` 或 `box` 题型时，网关会自动向上游附加 `TypeSafe-Danger-Zone-Images: true`。
+
+## 上下文档位与计费规则
+
+- 默认支持 64Ki 输入上下文（计及 256 token 请求前缀上限为 65,792 input tokens）；携带请求头 `TypeSafe-Danger-Zone-Long-Context: true` 可开启 256Ki 上下文（上限 262,400 input tokens）。
+- 仅按输入 Token 计费（`$0.042` / 百万输入 token），输出 Token 免费。请求前按对应上限预扣，完成后按上游 `usage.input_tokens` 差额结算；余额不足返回 `402`。
+- 上游返回 `422` 校验错误时保留原生 `detail` 字段并退还预扣额度。通用状态码说明见[连接与使用](/zh/faqs/connection-usage)。

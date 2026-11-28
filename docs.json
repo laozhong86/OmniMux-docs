@@ -104,6 +104,12 @@
                     "pages": [
                       "en/api-reference/text-series/doubao/complete"
                     ]
+                  },
+                  {
+                    "group": "TypeSafe",
+                    "pages": [
+                      "en/api-reference/text-series/typesafe/systemone"
+                    ]
                   }
                 ],
                 "icon": "message-square"
@@ -629,6 +635,12 @@
                     "group": "Doubao",
                     "pages": [
                       "zh/api-reference/text-series/doubao/complete"
+                    ]
+                  },
+                  {
+                    "group": "TypeSafe",
+                    "pages": [
+                      "zh/api-reference/text-series/typesafe/systemone"
                     ]
                   }
                 ],
