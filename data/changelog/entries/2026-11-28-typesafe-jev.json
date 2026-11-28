@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "id": "2026-11-28-typesafe-jev",
+  "published_at": "2026-11-28",
+  "rank": 0,
+  "type": "model_launch",
+  "modality": [
+    "text"
+  ],
+  "title": {
+    "en": "TypeSafe Jev System One API Available",
+    "zh": "TypeSafe Jev System One 结构化判断接口上线"
+  },
+  "summary": {
+    "en": "TypeSafe Jev (jev, jev-1.14.0, jev-1.13.0, jev-latest, jev-preview) is now live on POST /v1/systemone and POST /typesafe/v1/systemone with $0.042 per 1M input tokens and free output tokens.",
+    "zh": "TypeSafe Jev（jev、jev-1.14.0、jev-1.13.0、jev-latest、jev-preview）现已上线 POST /v1/systemone 与 POST /typesafe/v1/systemone，按输入 $0.042 / 百万 token 计费，输出免费。"
+  },
+  "models": [
+    "jev",
+    "jev-1.14.0",
+    "jev-1.13.0",
+    "jev-latest",
+    "jev-preview"
+  ],
+  "tags": [
+    "text",
+    "typesafe",
+    "jev"
+  ],
+  "links": [
+    {
+      "label": {
+        "en": "TypeSafe System One API Reference",
+        "zh": "TypeSafe System One 接口文档"
+      },
+      "href": {
+        "en": "/en/api-reference/text-series/typesafe/systemone",
+        "zh": "/zh/api-reference/text-series/typesafe/systemone"
+      }
+    }
+  ],
+  "body": {
+    "en": "## TypeSafe Jev (System One)\n\n**TypeSafe Jev** structured judgment models are now available on OmniMux.\n\n### New models\n\n- **Model IDs:** `jev` (compatibility alias mapped to `jev-latest`), `jev-1.14.0`, `jev-1.13.0`, `jev-latest`, `jev-preview`\n- **API:** `POST /v1/systemone` and `POST /typesafe/v1/systemone`\n- **Highlights:** Synchronous `choice`, `score`, `noul`, and `box` typed decisions with JSON member-order preservation in `state`, JSON and multipart image upload (`request` first), optional 256Ki context via `TypeSafe-Danger-Zone-Long-Context: true`, and input-only token billing (`$0.042` per 1M input tokens, output tokens free).",
+    "zh": "## TypeSafe Jev（System One）\n\n**TypeSafe Jev** 结构化判断模型现已正式上线 OmniMux。\n\n### 新增模型\n\n- **模型标识：** `jev`（兼容别名，映射至 `jev-latest`）、`jev-1.14.0`、`jev-1.13.0`、`jev-latest`、`jev-preview`\n- **接口路径：** `POST /v1/systemone` 与 `POST /typesafe/v1/systemone`\n- **核心能力：** 同步执行 `choice`、`score`、`noul` 与 `box` 结构化判定，原样保留 `state` JSON 键序，支持 JSON 与 `multipart/form-data`（`request` 字段置首）图片上传及 `TypeSafe-Danger-Zone-Long-Context: true` 256Ki 长上下文，仅按输入 Token 计费（`$0.042` / 百万输入 token，输出免费）。"
+  }
+}
