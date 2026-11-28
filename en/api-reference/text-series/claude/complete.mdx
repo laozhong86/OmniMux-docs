@@ -1,26 +1,26 @@
 ---
 title: "Claude · Complete API Reference"
 sidebarTitle: "Claude · Complete API Reference"
-description: "Claude · Chat Completions complete API reference (shared contract, model enum)"
+description: "Claude Chat Completions API reference on OmniMux (POST /v1/chat/completions): claude-opus-5, claude-sonnet-5, claude-sonnet-4-6, claude-haiku-4-5, and SSE streaming."
 openapi: "openapi/ops/chat/claude.json POST /v1/chat/completions"
 ---
 
 > - Protocol: OpenAI Chat Completions (`POST /v1/chat/completions`)
-> - **Shared contract** for all Claude ids below; only body `model` changes
-> - Synchronous by default; `stream: true` for SSE
+> - **Shared contract** for all Claude IDs below; switch models simply by changing `model` in the request body
+> - Synchronous by default; set `stream: true` for Server-Sent Events (SSE) streaming
+> - Confirm live model availability and pricing in the [OmniMux console](https://omnimux.ai/dashboard) or via `GET /v1/models`
 
 ## Available models
 
-| model id |
-| --- |
-| `claude-fable-5` |
-| `claude-haiku-4-5` |
-| `claude-opus-4-6` |
-| `claude-opus-4-7` |
-| `claude-opus-4-8` |
-| `claude-opus-5` |
-| `claude-sonnet-4-6` |
-| `claude-sonnet-5` |
+| model id | Typical Use |
+| --- | --- |
+| `claude-fable-5` | Complex architecture, planning, and deep reasoning |
+| `claude-opus-5` | Flagship coding, multi-step agents, and heavy analysis |
+| `claude-opus-4-8` | High-capability Opus generation |
+| `claude-opus-4-7` | Balanced flagship Opus variant |
+| `claude-opus-4-6` | Previous-generation Opus compatibility |
+| `claude-sonnet-5` | Fast everyday coding, tool calls, and production agents |
+| `claude-sonnet-4-6` | High-throughput Sonnet variant |
+| `claude-haiku-4-5` | Low-latency classification, summaries, and lightweight tasks |
 
-
-Base URL: `https://api.omnimux.ai`
+Base URL: `https://api.omnimux.ai` (OpenAI SDK clients typically set `base_url` to `https://api.omnimux.ai/v1`).

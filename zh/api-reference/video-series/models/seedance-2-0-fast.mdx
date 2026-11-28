@@ -1,12 +1,14 @@
 ---
 title: "Seedance 2.0 Fast 视频生成"
 sidebarTitle: "Seedance 2.0 Fast 视频生成"
-description: "Seedance 2.0 Fast 视频生成 · model `seedance-2-0-fast`"
+description: "通过 OmniMux 调用 Seedance 2.0 Fast（seedance-2-0-fast）快速视频生成 API，支持 480p/720p、4–15 秒文生视频、首尾帧及多模态参考生成。"
 api: "POST https://api.omnimux.ai/v1/video/generations"
 ---
 
-- 创建：`POST /v1/video/generations`，`model` 为 `seedance-2-0-fast`
+- 创建：`POST /v1/video/generations`，`model` 设为 `seedance-2-0-fast`
 - 异步任务：用返回的 `task_id` 查询 [查询视频任务](/zh/api-reference/tasks/video-task)
+- 支持 `480p` 与 `720p` 输出、`4–15` 秒时长、可选同步音频、首帧/首尾帧及多模态参考生视频
+- 实时可用状态请以[OmniMux 控制台](https://omnimux.ai/dashboard)或 `GET /v1/models` 为准；另见 [Seedance 2.0](/zh/api-reference/video-series/models/seedance-2-0) 与 [Seedance 2.5 Flash](/zh/api-reference/video-series/models/seedance-2-5-flash)
 - 产物 URL 请及时落盘（上游链接可能有时效）
 
 ## 身份
@@ -16,6 +18,15 @@ api: "POST https://api.omnimux.ai/v1/video/generations"
 | 系列 | 视频系列 |
 | 品牌 | Seedance |
 | model | `seedance-2-0-fast` |
+
+## 支持模式
+
+| 模式 (`operation`) | 输入要求 | 画面比例 |
+| --- | --- | --- |
+| `text_to_video` | `prompt` | `16:9`、`4:3`、`1:1`、`3:4`、`9:16`、`21:9`、`adaptive` |
+| `first_frame` | `prompt` + `image_with_roles`（`role: "first"`） | 固定为 `adaptive` |
+| `first_last_frame` | `prompt` + `image_with_roles`（`role: "first"` 与 `"last"`） | 固定为 `adaptive` |
+| `video_multi_ref` | `prompt` + `image_urls` / `video_urls` / `audio_urls` | `16:9`、`4:3`、`1:1`、`3:4`、`9:16`、`21:9`、`adaptive` |
 
 ## 接口
 
@@ -37,10 +48,15 @@ Base URL：`https://api.omnimux.ai`
 | 字段 | 类型 | 必填 | 说明 |
 | --- | --- | --- | --- |
 | `model` | string | 是 | 固定为 `seedance-2-0-fast` |
-| `prompt` | string | 条件 | 文生视频时必填 |
-| `seconds` / `duration` | number | 否 | 时长（秒，受模型与网关上限约束） |
-| `size` / `resolution` | string | 否 | 分辨率（模型相关） |
-| `image` / `images` | string/array | 否 | 图生视频参考图（模型相关） |
+| `prompt` | string | 是 | 视频生成描述提示词 |
+| `duration` / `seconds` | integer | 否 | 视频时长（秒，支持 `4` 至 `15`） |
+| `resolution` | string | 否 | 分辨率：`480p` 或 `720p` |
+| `aspect_ratio` / `size` | string | 否 | 画面比例：`16:9`、`4:3`、`1:1`、`3:4`、`9:16`、`21:9` 或 `adaptive`（帧引导模式固定 `adaptive`） |
+| `generate_audio` | boolean | 否 | 是否生成同步音频，默认 `false` |
+| `image_with_roles` | array | 否 | 首帧/首尾帧角色图数组（单图最大 30 MB） |
+| `image_urls` | array | 否 | 多模态参考图片 URL（最多 9 张，单图最大 30 MB） |
+| `video_urls` | array | 否 | 多模态参考视频 URL（最多 3 段，单段最大 200 MB） |
+| `audio_urls` | array | 否 | 多模态参考音频 URL（最多 3 段，单段最大 15 MB） |
 
 ## 响应
 
@@ -49,7 +65,7 @@ Base URL：`https://api.omnimux.ai`
 | 字段 | 类型 | 说明 |
 | --- | --- | --- |
 | `task_id` | string | 任务 id，用于轮询 |
-| `status` | string | 如 `pending` / `processing` / `completed` |
+| `status` | string | 如 `queued` / `processing` / `completed` |
 
 轮询字段见 [查询视频任务](/zh/api-reference/tasks/video-task)。错误见右栏与 [错误码](/zh/faqs/connection-usage)。
 
@@ -57,14 +73,18 @@ Base URL：`https://api.omnimux.ai`
 
 <RequestExample>
 
-```bash cURL
+```bash cURL（文生视频）
 curl --request POST \
   --url https://api.omnimux.ai/v1/video/generations \
   --header 'Authorization: Bearer <token>' \
   --header 'Content-Type: application/json' \
   --data '{
   "model": "seedance-2-0-fast",
-  "prompt": "slow pan across a product on a table"
+  "prompt": "Fast studio tracking shot around a wireless headphone set",
+  "duration": 5,
+  "resolution": "720p",
+  "aspect_ratio": "16:9",
+  "generate_audio": false
 }'
 ```
 

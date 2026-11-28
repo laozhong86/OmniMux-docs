@@ -1,28 +1,33 @@
 ---
-title: "ChatBox"
+title: "ChatBox 接入自定义 OpenAI 兼容 API 配置教程"
 sidebarTitle: "ChatBox"
-description: "在 ChatBox 中配置 OmniMux"
+description: "在 ChatBox 桌面端或网页端配置 OmniMux 自定义 OpenAI 兼容接口（https://api.omnimux.ai/v1）与 sk- API Key，一站使用 Claude、GPT 与 Gemini。"
 ---
+
 <Note>
-Base URL：`https://api.omnimux.ai`（OpenAI 兼容客户端通常填 `https://api.omnimux.ai/v1`）。在 [控制台](https://omnimux.ai/dashboard) 创建 `sk-` API Key。模型 ID 以控制台或 `GET /v1/models` 为准。
+OmniMux 网关统一使用 Base URL：`https://api.omnimux.ai`（ChatBox 等 OpenAI 兼容客户端填写 `https://api.omnimux.ai/v1`）。请在 [OmniMux 控制台](https://omnimux.ai/dashboard) 创建 `sk-` 密钥，实际可用模型 ID 以控制台或 `GET /v1/models` 为准。
 </Note>
 
+ChatBox 是一款支持自定义 OpenAI 兼容接口的跨平台 AI 客户端。将 ChatBox 接入 **OmniMux API** 后，即可用一个 `sk-` 密钥在桌面端或网页端切换使用 **GPT**、**Claude** 与 **Gemini** 系列模型。
 
-## 准备
+## 使用前准备
 
-1. 安装 [ChatBox](https://chatboxai.app/)
-2. 获取 OmniMux API Key
+1. 下载并安装 [ChatBox](https://chatboxai.app/)（支持 macOS、Windows、Linux 与网页版）。
+2. 登录 [OmniMux 控制台](https://omnimux.ai/dashboard)，进入 **API Keys** 创建并复制以 `sk-` 开头的密钥。
 
-## 配置
+## 配置步骤
 
-1. 打开 ChatBox → **设置**（或首次向导选「使用自己的 API Key」）
-2. AI 提供商选 **OpenAI API**（或兼容 OpenAI 的自定义项）
-3. 填写：
-   - **API Key**：`sk-...`
-   - **API Host / Base URL**：`https://api.omnimux.ai/v1`
-4. 添加/选择模型 ID（如 `gpt-5.4`、`claude-opus-5`）后开始对话
+1. 打开 ChatBox，进入 **设置（Settings）**（首次启动可选择「使用自己的 API Key」）。
+2. 将 **AI 模型提供方（Model Provider）** 选择为 **OpenAI API**（或 **自定义 OpenAI 兼容提供方**，视客户端版本名称而定）。
+3. 填写以下连接信息：
+   - **API 密钥（API Key）**：粘贴您的 OmniMux `sk-...` 密钥
+   - **API 域名 / Base URL**：`https://api.omnimux.ai/v1`（当客户端要求填 API Host/Base URL 时，切勿重复拼接 `/chat/completions`）
+4. 在模型列表中添加或选择实时可用的模型 ID（如 `gpt-5.4`、`claude-sonnet-5`、`gemini-3-flash-preview`），保存配置。
 
-## 验证
+## 验证与常见排查
 
-发送一条短消息；若 401 检查 Key，若连不上检查 Base URL 是否含 `/v1`。
+新建对话窗口并发送一条短消息测试连通性：
 
+- **401 Unauthorized**：检查 `sk-` 密钥是否复制完整、未包含多余空格且在控制台处于启用状态。
+- **404 或无法连接**：核对 API Host / Base URL 是否为 `https://api.omnimux.ai/v1`（漏写 `/v1` 或误填重复路径 `/v1/v1` 都会导致路径错误）。
+- **403 或模型不可用**：对照 [OmniMux 控制台](https://omnimux.ai/dashboard) 或 `GET /v1/models` 核对模型 ID 与令牌权限；更多状态码详见 [连接与使用](/zh/faqs/connection-usage)。

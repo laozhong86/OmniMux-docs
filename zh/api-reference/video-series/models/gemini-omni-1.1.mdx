@@ -1,12 +1,13 @@
 ---
 title: "Omni 1.1 视频生成"
 sidebarTitle: "Omni 1.1 视频生成"
-description: "Omni 1.1 视频生成 · model `gemini-omni-1.1`"
+description: "在 OmniMux 查看 Omni 1.1 视频生成接口（gemini-omni-1.1）的调用方式与实时状态，或选用在线的 Seedance 2.5 Flash 与 MiniMax H3 视频专线。"
 api: "POST https://api.omnimux.ai/v1/video/generations"
 ---
 
-- 创建：`POST /v1/video/generations`，`model` 为 `gemini-omni-1.1`
+- 创建：`POST /v1/video/generations`，`model` 设为 `gemini-omni-1.1`
 - 异步任务：用返回的 `task_id` 查询 [查询视频任务](/zh/api-reference/tasks/video-task)
+- 接入前请在[OmniMux 控制台](https://omnimux.ai/dashboard)或通过 `GET /v1/models` 核对当前在线状态。如需使用当前已上线的视频生成线路，请查看 [Seedance 2.5 Flash 视频生成](/zh/api-reference/video-series/models/seedance-2-5-flash) 与 [MiniMax H3 视频专线](/zh/api-reference/video-series/models/minimax-h3-video)
 - 产物 URL 请及时落盘（上游链接可能有时效）
 
 ## 身份

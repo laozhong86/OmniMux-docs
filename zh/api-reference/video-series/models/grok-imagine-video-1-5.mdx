@@ -1,12 +1,14 @@
 ---
 title: "Grok Imagine Video 1.5 视频生成"
 sidebarTitle: "Grok Imagine Video 1.5 视频生成"
-description: "Grok Imagine Video 1.5 视频生成 · model `grok-imagine-video-1-5`"
+description: "通过 OmniMux 调用 Grok Imagine Video 1.5（grok-imagine-video-1-5）视频生成 API，支持 480p 至 1080p 分辨率、1–15 秒文生视频及多模态参考生成。"
 api: "POST https://api.omnimux.ai/v1/video/generations"
 ---
 
-- 创建：`POST /v1/video/generations`，`model` 为 `grok-imagine-video-1-5`
+- 创建：`POST /v1/video/generations`，`model` 设为 `grok-imagine-video-1-5`
 - 异步任务：用返回的 `task_id` 查询 [查询视频任务](/zh/api-reference/tasks/video-task)
+- 支持 `480p`、`720p` 与 `1080p` 分辨率、`1–15` 秒时长（默认 `8` 秒）、可选 `generate_audio`（默认 `false`）以及 `image_urls` 参考生视频（支持音频参考的上游路由另可传最多 3 段 `<= 15` 秒 `audio_urls`；不支持 `video_urls` 参考视频）
+- 最新定价请以[OmniMux 控制台](https://omnimux.ai/dashboard)或 `GET /v1/models` 为准
 - 产物 URL 请及时落盘（上游链接可能有时效）
 
 ## 身份
@@ -14,8 +16,15 @@ api: "POST https://api.omnimux.ai/v1/video/generations"
 | 字段 | 值 |
 | --- | --- |
 | 系列 | 视频系列 |
-| 品牌 | Grok Imagine |
+| 品牌 | xAI |
 | model | `grok-imagine-video-1-5` |
+
+## 支持模式
+
+| 模式 (`operation`) | 输入要求 | 画面比例与约束 |
+| --- | --- | --- |
+| `text_to_video` | `prompt` | `1:1`、`16:9`、`9:16`、`4:3`、`3:4`、`3:2`、`2:3` |
+| `video_multi_ref` | `prompt` + `image_urls`（支持音频参考的路由可附带 `audio_urls`） | `image_urls` 支持 JPEG/PNG/WebP URL（APIMart 渠道要求公开 `https://`）；`audio_urls` 最多 3 段且单段 `<= 15` 秒（仅图片参考渠道不接收音频）；不支持 `video_urls` |
 
 ## 接口
 
@@ -37,10 +46,13 @@ Base URL：`https://api.omnimux.ai`
 | 字段 | 类型 | 必填 | 说明 |
 | --- | --- | --- | --- |
 | `model` | string | 是 | 固定为 `grok-imagine-video-1-5` |
-| `prompt` | string | 条件 | 文生视频时必填 |
-| `seconds` / `duration` | number | 否 | 时长（秒，受模型与网关上限约束） |
-| `size` / `resolution` | string | 否 | 分辨率（模型相关） |
-| `image` / `images` | string/array | 否 | 图生视频参考图（模型相关） |
+| `prompt` | string | 是 | 视频生成描述提示词 |
+| `duration` / `seconds` | integer | 否 | 视频时长（秒，支持 `1` 至 `15`，默认 `8`） |
+| `resolution` | string | 否 | 分辨率：`480p`、`720p` 或 `1080p` |
+| `aspect_ratio` / `size` | string | 否 | 画面比例：`1:1`、`16:9`、`9:16`、`4:3`、`3:4`、`3:2` 或 `2:3` |
+| `generate_audio` | boolean | 否 | 是否生成同步音频，默认 `false` |
+| `image_urls` | array | 否 | 参考图片 URL 数组（支持 `image/jpeg`、`image/png`、`image/webp`） |
+| `audio_urls` | array | 否 | 可选参考音频 URL 数组（最多 3 段、单段 `<= 15` 秒；按路由支持情况启用） |
 
 ## 响应
 
@@ -49,7 +61,7 @@ Base URL：`https://api.omnimux.ai`
 | 字段 | 类型 | 说明 |
 | --- | --- | --- |
 | `task_id` | string | 任务 id，用于轮询 |
-| `status` | string | 如 `pending` / `processing` / `completed` |
+| `status` | string | 如 `queued` / `processing` / `completed` |
 
 轮询字段见 [查询视频任务](/zh/api-reference/tasks/video-task)。错误见右栏与 [错误码](/zh/faqs/connection-usage)。
 
@@ -57,14 +69,18 @@ Base URL：`https://api.omnimux.ai`
 
 <RequestExample>
 
-```bash cURL
+```bash cURL（文生视频）
 curl --request POST \
   --url https://api.omnimux.ai/v1/video/generations \
   --header 'Authorization: Bearer <token>' \
   --header 'Content-Type: application/json' \
   --data '{
   "model": "grok-imagine-video-1-5",
-  "prompt": "slow pan across a product on a table"
+  "prompt": "Neon rain reflecting across a wet Tokyo crosswalk as a cyclist passes through light trails",
+  "duration": 8,
+  "resolution": "720p",
+  "aspect_ratio": "16:9",
+  "generate_audio": false
 }'
 ```
 
