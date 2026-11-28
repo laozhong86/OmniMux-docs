@@ -9,6 +9,26 @@ Stay up to date with OmniMux gateway model launches and platform changes. The fu
 
 Pages: **Page 1** · [Page 2](/en/updates/page-2)
 
+<a id="2026-11-28-typesafe-jev"></a>
+
+<Update label="November 28, 2026" tags={["New models", "Text"]} rss={{ title: "TypeSafe Jev System One API Available" }}>
+
+  ## TypeSafe Jev (System One)
+
+  **TypeSafe Jev** structured judgment models are now available on OmniMux.
+
+  ### New models
+
+  - **Model IDs:** `jev` (compatibility alias mapped to `jev-latest`), `jev-1.14.0`, `jev-1.13.0`, `jev-latest`, `jev-preview`
+  - **API:** `POST /v1/systemone` and `POST /typesafe/v1/systemone`
+  - **Highlights:** Synchronous `choice`, `score`, `noul`, and `box` typed decisions with JSON member-order preservation in `state`, JSON and multipart image upload (`request` first), optional 256Ki context via `TypeSafe-Danger-Zone-Long-Context: true`, and input-only token billing (`$0.042` per 1M input tokens, output tokens free).
+
+  ### Links
+
+  - [TypeSafe System One API Reference](/en/api-reference/text-series/typesafe/systemone)
+
+</Update>
+
 <a id="2026-11-27-gemini-4-models"></a>
 
 <Update label="November 27, 2026" tags={["New models", "Text"]} rss={{ title: "Added Gemini 4 Hydrogen, Neon, and Carbon Multimodal Text Models" }}>
@@ -1073,29 +1093,6 @@ Pages: **Page 1** · [Page 2](/en/updates/page-2)
 
   - [Cost optimization](/en/faqs/cost-optimization)
   - [Connection and usage](/en/faqs/connection-usage)
-
-</Update>
-
-<a id="2026-10-01-volc-image-upscale"></a>
-
-<Update label="October 1, 2026" tags={["New models", "Image"]} rss={{ title: "VolcEngine Image Upscaling" }}>
-
-  ## VolcEngine Image Upscaling
-
-  **VolcEngine Image Upscaling** (`volc-image-upscale`) is integrated on OmniMux.
-
-  ### Model Details
-
-  - **Model ID:** `volc-image-upscale`
-  - **Endpoint:** `POST /v1/images/edits`
-  - **Modality:** image super-resolution (fixed 2x upscaling)
-  - **Pricing:** 0.006 CNY / call
-
-  See the model reference page for specifications and parameters.
-
-  ### Links
-
-  - [VolcEngine Image Upscaling](/en/api-reference/image-series/models/volc-image-upscale)
 
 </Update>
 
