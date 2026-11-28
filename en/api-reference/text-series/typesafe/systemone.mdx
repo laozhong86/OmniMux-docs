@@ -1,0 +1,37 @@
+---
+title: "TypeSafe System One"
+sidebarTitle: "TypeSafe System One"
+description: "Submit structured choice, score, noul, and box decisions to TypeSafe Jev models."
+openapi: "openapi/ops/typesafe/systemone.json POST /v1/systemone"
+---
+
+- Official TypeSafe System One judgment API, exposed synchronously on both `POST /v1/systemone` (vendor path for TypeSafe SDKs) and `POST /typesafe/v1/systemone`.
+- Authenticate with a Gateway API key (`Authorization: Bearer sk-...`) against `https://api.omnimux.ai`.
+- Execution is synchronous and does not retain task snapshots on retrieval endpoints.
+
+## Models
+
+| Model ID | Notes |
+| --- | --- |
+| `jev` | OmniMux compatibility alias routed to `jev-latest` |
+| `jev-latest` | Latest stable Jev release |
+| `jev-1.14.0` | Pinned Jev 1.14 release |
+| `jev-1.13.0` | Pinned Jev 1.13 release |
+| `jev-preview` | Preview Jev release |
+
+## Request contract and JSON order
+
+Only four top-level fields are accepted in a JSON payload or the `request` multipart field: `model`, `state` (non-null string, object, or array), `questions` (non-empty object), and optional `assets`. Any other top-level member is rejected.
+
+- `state` JSON member order is preserved verbatim before upstream serialization because Jev output depends on field ordering.
+- Each entry in `questions` requires `type` (`choice`, `score`, `noul`, or `box`) and type-matching `criteria` (`choice`: 1 to 255 options; `score`: 1 to 10 non-null levels; `noul`: optional `true`/`false` descriptions; `box`: omit criteria).
+
+## Images and multipart uploads
+
+Pass images inside `assets` as base64 strings, or upload binary PNG/JPEG parts via `multipart/form-data` with the serialized JSON request placed in the first field named `request` and each asset value matching its part name. Whenever `assets` or a `box` question is present, the gateway automatically forwards `TypeSafe-Danger-Zone-Images: true` upstream.
+
+## Context budget and billing
+
+- Standard context budget allows 64Ki input tokens (up to 65,792 billed input tokens including TypeSafe's 256-token request prefix). Send header `TypeSafe-Danger-Zone-Long-Context: true` to enable the 256Ki budget (up to 262,400 billed input tokens).
+- Input tokens are billed at `$0.042` per 1M input tokens and output tokens are free. Each request reserves the selected context budget (`65,792` or `262,400` input tokens) up front and settles to actual `usage.input_tokens` on completion, returning `402` when balance is insufficient.
+- Upstream `422` validation errors preserve the native `detail` payload and refund the reserved quota. For common gateway status codes, see [Connection and usage](/en/faqs/connection-usage).

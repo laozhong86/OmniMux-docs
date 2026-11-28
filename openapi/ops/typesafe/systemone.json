@@ -1,0 +1,361 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "TypeSafe System One",
+    "version": "1.0.0",
+    "description": "Structured judgment decisions via TypeSafe Jev models on OmniMux (POST /v1/systemone and POST /typesafe/v1/systemone)."
+  },
+  "servers": [
+    {
+      "url": "https://api.omnimux.ai"
+    }
+  ],
+  "security": [
+    {
+      "BearerAuth": []
+    }
+  ],
+  "paths": {
+    "/v1/systemone": {
+      "post": {
+        "operationId": "submitTypeSafeSystemOne",
+        "summary": "Submit TypeSafe System One judgment",
+        "description": "Synchronously evaluates structured questions (choice, score, noul, or box) against state. Also served at POST /typesafe/v1/systemone. Preserves JSON member order in state when JSON order preservation is active.",
+        "parameters": [
+          {
+            "name": "TypeSafe-Danger-Zone-Long-Context",
+            "in": "header",
+            "required": false,
+            "description": "Set to \"true\" to enable the 256Ki input context budget (up to 262,400 billed input tokens). Increases the pre-request balance reserve accordingly.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "true"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SystemOneRequest"
+              },
+              "example": {
+                "model": "jev-latest",
+                "state": {
+                  "ticket_id": "T-1042",
+                  "message": "Customer requests a full refund after missing delivery."
+                },
+                "questions": {
+                  "needs_escalation": {
+                    "type": "noul",
+                    "instructions": "Return true if this ticket requires human escalation."
+                  },
+                  "priority": {
+                    "type": "choice",
+                    "criteria": {
+                      "high": "Financial dispute or missed SLA",
+                      "normal": "General inquiry"
+                    }
+                  }
+                }
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "request"
+                ],
+                "properties": {
+                  "request": {
+                    "type": "string",
+                    "description": "Serialized JSON string matching SystemOneRequest. Must be sent as the first multipart field, with images in assets referencing the remaining binary file part names."
+                  }
+                },
+                "additionalProperties": {
+                  "type": "string",
+                  "format": "binary",
+                  "description": "Image file parts (PNG/JPEG) referenced by part name inside request.assets."
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Synchronous judgment answers and input token usage",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SystemOneResponse"
+                },
+                "example": {
+                  "model": "jev-1.14.0",
+                  "answers": {
+                    "needs_escalation": {
+                      "type": "noul",
+                      "answer": true
+                    },
+                    "priority": {
+                      "type": "choice",
+                      "answer": "high"
+                    }
+                  },
+                  "usage": {
+                    "input_tokens": 312,
+                    "output_tokens": 0
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "402": {
+            "$ref": "#/components/responses/InsufficientQuota"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "502": {
+            "$ref": "#/components/responses/UpstreamError"
+          },
+          "503": {
+            "$ref": "#/components/responses/Unavailable"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "API Key"
+      }
+    },
+    "schemas": {
+      "SystemOneRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "model",
+          "state",
+          "questions"
+        ],
+        "properties": {
+          "model": {
+            "type": "string",
+            "enum": [
+              "jev",
+              "jev-1.14.0",
+              "jev-1.13.0",
+              "jev-latest",
+              "jev-preview"
+            ],
+            "description": "Jev model ID or OmniMux compatibility alias jev (mapped to jev-latest)."
+          },
+          "state": {
+            "description": "Non-null context payload as a string, JSON object, or array. Object key order is preserved verbatim."
+          },
+          "questions": {
+            "type": "object",
+            "minProperties": 1,
+            "description": "Map of question IDs to typed question definitions.",
+            "additionalProperties": {
+              "type": "object",
+              "required": [
+                "type"
+              ],
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "choice",
+                    "score",
+                    "noul",
+                    "box"
+                  ]
+                },
+                "instructions": {
+                  "description": "Optional text, object, array, or null instructions for the question."
+                },
+                "criteria": {
+                  "description": "Type-specific criteria: object of 1-255 option descriptions for choice; array of 1-10 non-null levels for score; optional {true, false} descriptions for noul; omitted for box."
+                }
+              }
+            }
+          },
+          "assets": {
+            "type": "object",
+            "description": "Optional map of asset keys referenced inside state/questions to base64 image strings or multipart part names."
+          }
+        }
+      },
+      "SystemOneResponse": {
+        "type": "object",
+        "required": [
+          "model",
+          "answers"
+        ],
+        "properties": {
+          "model": {
+            "type": "string"
+          },
+          "answers": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "required": [
+                "type",
+                "answer"
+              ],
+              "properties": {
+                "type": {
+                  "type": "string"
+                },
+                "answer": {}
+              }
+            }
+          },
+          "usage": {
+            "type": "object",
+            "properties": {
+              "input_tokens": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "output_tokens": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string"
+              },
+              "code": {
+                "oneOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "integer"
+                  }
+                ]
+              }
+            }
+          },
+          "detail": {}
+        }
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "Invalid request structure or disallowed top-level field",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "Missing or invalid OmniMux API token",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "InsufficientQuota": {
+        "description": "Insufficient balance to reserve the maximum context budget (standard 65,792 or long-context 262,400 input tokens)",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "UnprocessableEntity": {
+        "description": "Upstream TypeSafe validation error (preserves upstream detail payload; reserved quota is refunded)",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "RateLimited": {
+        "description": "Rate limit reached",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "InternalError": {
+        "description": "Gateway error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "UpstreamError": {
+        "description": "Upstream error or incomplete usage payload",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Unavailable": {
+        "description": "No available TypeSafe channel",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    }
+  }
+}
