@@ -1,6 +1,7 @@
 ---
-title: "Claude Code CLI"
-description: "将 Claude Code CLI 连接到 OmniMux"
+title: "Claude Code CLI 接入自定义 API（ANTHROPIC_BASE_URL 配置教程）"
+sidebarTitle: "Claude Code CLI"
+description: "通过 ANTHROPIC_BASE_URL（https://api.omnimux.ai）、ANTHROPIC_AUTH_TOKEN 与 settings.json 将 Claude Code CLI 接入 OmniMux，调用 Claude Opus 与 Sonnet 模型。"
 ---
 
 ## 概述
@@ -134,15 +135,15 @@ CC Switch 还支持系统托盘快捷切换、MCP 服务器管理、云端配置
 
 ```json
 {
-"env": {
-"ANTHROPIC_AUTH_TOKEN": "你的 OmniMux API Key",
-"ANTHROPIC_BASE_URL": "https://api.omnimux.ai",
-"CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1"
-},
-"permissions": {
-"allow": [],
-"deny": []
-}
+  "env": {
+    "ANTHROPIC_AUTH_TOKEN": "你的 OmniMux API Key",
+    "ANTHROPIC_BASE_URL": "https://api.omnimux.ai",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1"
+  },
+  "permissions": {
+    "allow": [],
+    "deny": []
+  }
 }
 ```
 

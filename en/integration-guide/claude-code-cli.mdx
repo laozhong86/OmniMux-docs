@@ -1,6 +1,7 @@
 ---
-title: "Claude Code CLI"
-description: "Connect Claude Code CLI to OmniMux"
+title: "Configure Claude Code CLI with Custom API Base URL (ANTHROPIC_BASE_URL)"
+sidebarTitle: "Claude Code CLI"
+description: "Configure Claude Code CLI with OmniMux via ANTHROPIC_BASE_URL (https://api.omnimux.ai), ANTHROPIC_AUTH_TOKEN, and settings.json to use Claude Opus and Sonnet models."
 ---
 
 ## Overview
@@ -134,15 +135,15 @@ In the opened folder, if `settings.json` doesn't exist, right-click in empty spa
 
 ```json
 {
-"env": {
-"ANTHROPIC_AUTH_TOKEN": "your-omnimux-api-key",
-"ANTHROPIC_BASE_URL": "https://api.omnimux.ai",
-"CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1"
-},
-"permissions": {
-"allow": [],
-"deny": []
-}
+  "env": {
+    "ANTHROPIC_AUTH_TOKEN": "your-omnimux-api-key",
+    "ANTHROPIC_BASE_URL": "https://api.omnimux.ai",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1"
+  },
+  "permissions": {
+    "allow": [],
+    "deny": []
+  }
 }
 ```
 

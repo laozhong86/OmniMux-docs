@@ -1,26 +1,26 @@
 ---
 title: "Claude · 完整参数"
 sidebarTitle: "Claude · 完整参数"
-description: "Claude · Chat Completions 完整参数（同合同，model 枚举）"
+description: "OmniMux Claude Chat Completions API 完整参数（POST /v1/chat/completions），支持 claude-opus-5、claude-sonnet-5、claude-sonnet-4-6、claude-haiku-4-5 与 SSE 流式响应。"
 openapi: "openapi/ops/chat/claude.json POST /v1/chat/completions"
 ---
 
 > - 协议：OpenAI Chat Completions（`POST /v1/chat/completions`）
-> - 本页为 **Claude 共用合同**；换模型只改 body 的 `model`
-> - 默认同步；`stream: true` 流式
+> - 本页为 **Claude 共用合同**：换模型只需修改请求体里的 `model` 字段
+> - 默认同步返回；传入 `stream: true` 即可启用 SSE 流式输出
+> - 实时可用状态与定价请以[OmniMux 控制台](https://omnimux.ai/dashboard)或 `GET /v1/models` 为准
 
 ## 可用 model
 
-| model id |
-| --- |
-| `claude-fable-5` |
-| `claude-haiku-4-5` |
-| `claude-opus-4-6` |
-| `claude-opus-4-7` |
-| `claude-opus-4-8` |
-| `claude-opus-5` |
-| `claude-sonnet-4-6` |
-| `claude-sonnet-5` |
+| model id | 适用场景 |
+| --- | --- |
+| `claude-fable-5` | 复杂架构设计、长链路规划与深度推理 |
+| `claude-opus-5` | 旗舰编程、多步 Agent 与高难度分析 |
+| `claude-opus-4-8` | 高能力 Opus 档位 |
+| `claude-opus-4-7` | 均衡旗舰 Opus 版本 |
+| `claude-opus-4-6` | 兼容旧工作流的 Opus 4.6 |
+| `claude-sonnet-5` | 日常高频编码、工具调用与生产 Agent 首选 |
+| `claude-sonnet-4-6` | 高吞吐 Sonnet 版本 |
+| `claude-haiku-4-5` | 低延迟分类、摘要与轻量级批处理 |
 
-
-Base URL：`https://api.omnimux.ai`
+Base URL：`https://api.omnimux.ai`（使用 OpenAI SDK 时通常将 `base_url` 设为 `https://api.omnimux.ai/v1`）。

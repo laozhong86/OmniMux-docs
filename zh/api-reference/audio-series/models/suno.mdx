@@ -1,13 +1,13 @@
 ---
 title: "Suno 音乐生成"
 sidebarTitle: "Suno 音乐生成"
-description: "Suno 音乐生成 · model `suno`"
+description: "通过 OmniMux 调用 Suno AI 音乐生成（suno）与音效生成（suno-sounds）接口，基于 POST /v1/video/generations 支持歌词、曲风标签与纯音乐模式。"
 api: "POST https://api.omnimux.ai/v1/video/generations"
 ---
 
-- 创建：`POST /v1/video/generations`，`model` 为 `suno`（音乐生成）或 `suno-sounds`（独立音效生成）
+- 创建：`POST /v1/video/generations`，`model` 可选 `suno`（完整歌曲/音乐生成）或 `suno-sounds`（独立音效生成）
 - 异步任务：用返回的 `task_id` 查询 [查询视频任务](/zh/api-reference/tasks/video-task)
-- 音乐与音效生成任务共用统一媒体任务端点与轮询约定
+- 音乐与音效生成共用统一媒体任务端点与轮询约定；接入前请在[OmniMux 控制台](https://omnimux.ai/dashboard)或 `GET /v1/models` 确认实时可用状态
 
 ## 身份
 
@@ -16,6 +16,13 @@ api: "POST https://api.omnimux.ai/v1/video/generations"
 | 系列 | 音频系列 |
 | 品牌 | Suno |
 | model | `suno`, `suno-sounds` |
+
+## 型号区别
+
+| 模型 ID | 生成类型 | 典型提示词输入 |
+| --- | --- | --- |
+| `suno` | 完整歌曲、人声演唱或纯音乐配乐 | 歌词段落、曲风流派、情绪与乐器标签 |
+| `suno-sounds` | 独立音效与环境氛围声 | 拟音动作、环境声或短音效描述 |
 
 ## 接口
 

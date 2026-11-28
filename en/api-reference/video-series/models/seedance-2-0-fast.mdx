@@ -1,12 +1,14 @@
 ---
 title: "Seedance 2.0 Fast Video Generation"
 sidebarTitle: "Seedance 2.0 Fast Video Generation"
-description: "Seedance 2.0 Fast Video Generation · model `seedance-2-0-fast`"
+description: "Call Seedance 2.0 Fast (seedance-2-0-fast) via POST /v1/video/generations on OmniMux for 480p/720p, 4-15s text-to-video, frame-guided, and multimodal video."
 api: "POST https://api.omnimux.ai/v1/video/generations"
 ---
 
-- Create: `POST /v1/video/generations` with `model` `seedance-2-0-fast`
+- Create: `POST /v1/video/generations` with `model` set to `seedance-2-0-fast`
 - Async: poll [Video task](/en/api-reference/tasks/video-task) with returned `task_id`
+- Supports `480p` and `720p` output, `4–15s` durations, optional audio generation, frame-guided modes, and multimodal reference inputs
+- Confirm live availability via the [OmniMux console](https://omnimux.ai/dashboard) or `GET /v1/models`; see also [Seedance 2.0](/en/api-reference/video-series/models/seedance-2-0) and [Seedance 2.5 Flash](/en/api-reference/video-series/models/seedance-2-5-flash)
 - Persist result URLs promptly (upstream links may expire)
 
 ## Identity
@@ -16,6 +18,15 @@ api: "POST https://api.omnimux.ai/v1/video/generations"
 | Series | Video series |
 | Brand | Seedance |
 | model | `seedance-2-0-fast` |
+
+## Supported Modes
+
+| Mode (`operation`) | Input Requirements | Aspect Ratio |
+| --- | --- | --- |
+| `text_to_video` | `prompt` | `16:9`, `4:3`, `1:1`, `3:4`, `9:16`, `21:9`, `adaptive` |
+| `first_frame` | `prompt` + `image_with_roles` (`role: "first"`) | Fixed `adaptive` |
+| `first_last_frame` | `prompt` + `image_with_roles` (`role: "first"` and `"last"`) | Fixed `adaptive` |
+| `video_multi_ref` | `prompt` + `image_urls` / `video_urls` / `audio_urls` | `16:9`, `4:3`, `1:1`, `3:4`, `9:16`, `21:9`, `adaptive` |
 
 ## Endpoint
 
@@ -37,10 +48,15 @@ Base URL: `https://api.omnimux.ai`
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `model` | string | yes | Must be `seedance-2-0-fast` |
-| `prompt` | string | conditional | Required for text-to-video |
-| `seconds` / `duration` | number | no | Duration in seconds (bounded) |
-| `size` / `resolution` | string | no | Resolution (model-specific) |
-| `image` / `images` | string/array | no | Image-to-video references |
+| `prompt` | string | yes | Video generation prompt |
+| `duration` / `seconds` | integer | no | Output duration in seconds (`4` to `15`) |
+| `resolution` | string | no | `480p` or `720p` |
+| `aspect_ratio` / `size` | string | no | `16:9`, `4:3`, `1:1`, `3:4`, `9:16`, `21:9`, or `adaptive` (fixed `adaptive` for frame-guided modes) |
+| `generate_audio` | boolean | no | Generate synchronized audio, default `false` |
+| `image_with_roles` | array | no | Role-tagged images for `first_frame` / `first_last_frame` (up to 30 MB per image) |
+| `image_urls` | array | no | Multimodal reference image URLs (up to 9, max 30 MB each) |
+| `video_urls` | array | no | Multimodal reference video URLs (up to 3, max 200 MB each) |
+| `audio_urls` | array | no | Multimodal reference audio URLs (up to 3, max 15 MB each) |
 
 ## Response
 
@@ -49,7 +65,7 @@ Base URL: `https://api.omnimux.ai`
 | Field | Type | Description |
 | --- | --- | --- |
 | `task_id` | string | Task id for polling |
-| `status` | string | e.g. `pending` / `processing` / `completed` |
+| `status` | string | e.g. `queued` / `processing` / `completed` |
 
 See [Video task](/en/api-reference/tasks/video-task). Errors: right rail and [Error codes](/en/faqs/connection-usage).
 
@@ -57,15 +73,22 @@ See [Video task](/en/api-reference/tasks/video-task). Errors: right rail and [Er
 
 <RequestExample>
 
-```bash curl --request POST \
+```bash cURL (Text-to-Video)
+curl --request POST \
   --url https://api.omnimux.ai/v1/video/generations \
   --header 'Authorization: Bearer <token>' \
   --header 'Content-Type: application/json' \
-  --data '{"model":"seedance-2-0-fast","prompt":"slow pan across a product on a table"}'
+  --data '{
+  "model": "seedance-2-0-fast",
+  "prompt": "Fast studio tracking shot around a wireless headphone set",
+  "duration": 5,
+  "resolution": "720p",
+  "aspect_ratio": "16:9",
+  "generate_audio": false
+}'
 ```
 
 </RequestExample>
-
 
 <ResponseExample>
 

@@ -1,13 +1,13 @@
 ---
 title: "Suno Music Generation"
 sidebarTitle: "Suno Music Generation"
-description: "Suno Music Generation · model `suno`"
+description: "Generate AI songs with Suno (suno) or sound effects (suno-sounds) via POST /v1/video/generations on OmniMux with custom tags, title, and instrumental mode."
 api: "POST https://api.omnimux.ai/v1/video/generations"
 ---
 
-- Create: `POST /v1/video/generations` with `model` `suno` (music generation) or `suno-sounds` (sound effects generation)
+- Create: `POST /v1/video/generations` with `model` set to `suno` (full song / music generation) or `suno-sounds` (sound effects generation)
 - Async: poll [Video task](/en/api-reference/tasks/video-task) with returned `task_id`
-- Music and sound effect generations share the unified media task endpoint and task polling contract
+- Music and sound effect generations share the unified media task endpoint and task polling contract; confirm live availability in the [OmniMux console](https://omnimux.ai/dashboard) or `GET /v1/models`
 
 ## Identity
 
@@ -16,6 +16,13 @@ api: "POST https://api.omnimux.ai/v1/video/generations"
 | Series | Audio series |
 | Brand | Suno |
 | model | `suno`, `suno-sounds` |
+
+## Suno Models
+
+| Model ID | Output Type | Typical Prompt |
+| --- | --- | --- |
+| `suno` | Full music tracks / vocals or instrumental | Lyrics, genre, tempo, and mood tags |
+| `suno-sounds` | Standalone sound effects and ambience | Foley, SFX, or short ambient descriptions |
 
 ## Endpoint
 
